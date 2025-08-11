@@ -1,24 +1,27 @@
-
 #!/usr/bin/env python3
-import os, sys, json, math, csv, pathlib, datetime, random
-import requests
+import os, sys, json, math, pathlib, datetime, random
 import pandas as pd
+import requests
+
+# charts
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 # ---- Config (env) ----
-TIINGO_TOKEN = os.getenv("TIINGO_TOKEN")
+DATA_PROVIDER = os.getenv("DATA_PROVIDER", "yfinance").lower()  # yfinance | tiingo
+TIINGO_TOKEN = os.getenv("TIINGO_TOKEN")  # tiingo時のみ使用
 UNIVERSE_CSV = os.getenv("UNIVERSE_CSV", "data/universe.csv")
 OUT_DIR = os.getenv("OUT_DIR", "site")
 DATE = os.getenv("REPORT_DATE") or datetime.date.today().isoformat()
-MOCK_MODE = os.getenv("MOCK_MODE", "true").lower() == "true"  # default true so it runs immediately
+MOCK_MODE = os.getenv("MOCK_MODE", "false").lower() == "true"  # ← 実データ化ではfalse
 
-# Budget guard (hard cutoff)
+# ---- Budget Guard (hard cutoff) ----
 BUDGET_JPY_MAX = float(os.getenv("BUDGET_JPY_MAX", "10000"))
 SPEND_FILE = os.getenv("SPEND_FILE", f"{OUT_DIR}/data/spend.json")
 MANUAL_DAILY_COST_JPY = float(os.getenv("MANUAL_DAILY_COST_JPY", "0"))
-TIINGO_MONTHLY_JPY = float(os.getenv("TIINGO_MONTHLY_JPY", "1600"))
+# 固定費はプロバイダごとに分ける（yfinance=0, tiingo=1600円想定）
+PROVIDER_FIXED_JPY = 0.0 if DATA_PROVIDER == "yfinance" else float(os.getenv("TIINGO_MONTHLY_JPY", "1600"))
 
 def month_key(date_iso: str):
     d = datetime.date.fromisoformat(date_iso)
@@ -27,15 +30,12 @@ def month_key(date_iso: str):
 def load_spend():
     p = pathlib.Path(SPEND_FILE)
     if p.exists():
-        try:
-            return json.loads(p.read_text())
-        except Exception:
-            return {}
+        try: return json.loads(p.read_text())
+        except Exception: return {}
     return {}
 
 def save_spend(data):
-    p = pathlib.Path(SPEND_FILE)
-    p.parent.mkdir(parents=True, exist_ok=True)
+    p = pathlib.Path(SPEND_FILE); p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(data, indent=2))
 
 def month_spend_total(spend, mkey):
@@ -57,76 +57,127 @@ def budget_check():
     return True, spend
 
 def mark_fixed_costs(spend):
+    # yfinanceは0円なので何もしない。将来有料APIに切替えたら固定費を1度だけ計上
+    if PROVIDER_FIXED_JPY <= 0:
+        return save_spend(spend)
     mkey = month_key(DATE)
     month = spend.setdefault(mkey, {"items": [], "total_jpy": 0})
-    if not month.get("tiingo_month_mark"):
-        add_spend(spend, mkey, DATE, TIINGO_MONTHLY_JPY, "Tiingo monthly flat")
-        month["tiingo_month_mark"] = True
+    if not month.get("provider_month_mark"):
+        add_spend(spend, mkey, DATE, PROVIDER_FIXED_JPY, f"{DATA_PROVIDER} monthly flat")
+        month["provider_month_mark"] = True
     if MANUAL_DAILY_COST_JPY > 0:
         add_spend(spend, mkey, DATE, MANUAL_DAILY_COST_JPY, "Variable API usage (manual)")
     save_spend(spend)
 
-def tiingo_eod(symbol, start, end):
+# ---------- Data Providers ----------
+def tiingo_eod_range(symbol, start, end):
     url = f"https://api.tiingo.com/tiingo/daily/{symbol}/prices"
-    params = {"token": TIINGO_TOKEN, "startDate": start, "endDate": end, "resampleFreq":"daily"}
-    r = requests.get(url, params=params, timeout=30)
-    r.raise_for_status()
-    return r.json()
+    params = {"token": TIINGO_TOKEN, "startDate": start, "endDate": end, "resampleFreq": "daily"}
+    r = requests.get(url, params=params, timeout=30); r.raise_for_status()
+    df = pd.DataFrame(r.json())
+    # Tiingo: columns include 'adjClose' あり。無い場合は 'close'
+    if "adjClose" in df.columns:
+        df = df.rename(columns={"adjClose":"close"})
+    return df
 
+def yfi_eod_range(symbol, start, end):
+    import yfinance as yf
+    # yfinanceはタイムゾーン絡みがあるので1日バッファ
+    start_dt = datetime.date.fromisoformat(start) - datetime.timedelta(days=2)
+    end_dt = datetime.date.fromisoformat(end) + datetime.timedelta(days=1)
+    df = yf.download(symbol, start=start_dt.isoformat(), end=end_dt.isoformat(), progress=False, auto_adjust=True)
+    if df is None or df.empty:
+        return pd.DataFrame()
+    df = df.reset_index().rename(columns={
+        "Date":"date","Open":"open","High":"high","Low":"low","Close":"close","Volume":"volume"
+    })
+    # date を文字列へ（後工程と揃える）
+    df["date"] = pd.to_datetime(df["date"]).dt.strftime("%Y-%m-%d")
+    return df[["date","open","high","low","close","volume"]]
+
+def get_eod_range(symbol, start, end):
+    if MOCK_MODE:
+        # 120日分のダミーを作る
+        dates = pd.date_range(start=start, end=end, freq="B")
+        base = 100.0 + random.Random(symbol).random()*20
+        rows = []
+        for d in dates:
+            base *= (1.0 + random.uniform(-0.02, 0.02))
+            vol = random.randint(100000, 5000000)
+            rows.append({"date": d.strftime("%Y-%m-%d"), "open": base*0.99, "high": base*1.01, "low": base*0.98, "close": base, "volume": vol})
+        return pd.DataFrame(rows)
+    if DATA_PROVIDER == "tiingo":
+        if not TIINGO_TOKEN:
+            raise RuntimeError("TIINGO_TOKEN is required for tiingo provider")
+        return tiingo_eod_range(symbol, start, end)
+    # default: yfinance
+    return yfi_eod_range(symbol, start, end)
+
+# ---------- Metrics & Charts ----------
 def compute_metrics(df):
-    df = pd.DataFrame(df)
-    if df.empty:
+    if df is None or len(df)==0:
         return None
-    df["volume"] = df["volume"].fillna(0)
-    df["close"] = df["close"].fillna(method="ffill")
-    df["vol_sma20"] = df["volume"].rolling(20).mean()
-    today = df.iloc[-1]
-    prev = df.iloc[-2] if len(df) >= 2 else None
-    pct_change = (today["close"] - prev["close"]) / prev["close"] if prev is not None and prev["close"] else 0.0
+    d = df.copy()
+    d["volume"] = d["volume"].fillna(0)
+    d["close"] = d["close"].fillna(method="ffill")
+    d["vol_sma20"] = d["volume"].rolling(20).mean()
+    if len(d) < 2:
+        return 0.0, 1.0
+    today = d.iloc[-1]; prev = d.iloc[-2]
+    pct_change = (today["close"] - prev["close"]) / prev["close"] if prev["close"] else 0.0
     vol_ratio = (today["volume"] / today["vol_sma20"]) if today["vol_sma20"] and not math.isnan(today["vol_sma20"]) else 1.0
     return float(pct_change), float(vol_ratio)
 
-def mock_metrics():
-    rnd = random.Random(DATE)
-    pct = rnd.uniform(-0.05, 0.08)
-    vol = rnd.uniform(0.5, 6.0)
-    return pct, vol
+def save_chart_png(symbol, df, out_dir, date_iso):
+    if df is None or df.empty:
+        return
+    charts_dir = pathlib.Path(out_dir) / "charts" / date_iso
+    charts_dir.mkdir(parents=True, exist_ok=True)
+
+    d = df.copy()
+    d["date"] = pd.to_datetime(d["date"])
+    d = d.sort_values("date")
+    d["ma20"] = d["close"].rolling(20).mean()
+    d["ma50"] = d["close"].rolling(50).mean()
+    d["ma200"] = d["close"].rolling(200).mean()
+
+    plt.figure(figsize=(9, 4.8), dpi=120)
+    plt.plot(d["date"], d["close"], linewidth=1.2)
+    plt.plot(d["date"], d["ma20"], linewidth=0.9)
+    plt.plot(d["date"], d["ma50"], linewidth=0.9)
+    plt.plot(d["date"], d["ma200"], linewidth=0.9)
+    plt.title(f"{symbol} — 3Y Daily")
+    plt.tight_layout()
+    out = charts_dir / f"{symbol}.png"
+    plt.savefig(out); plt.close()
 
 def main():
     ok, spend = budget_check()
-    if not ok:
-        return
+    if not ok: return
+
     uni = pd.read_csv(UNIVERSE_CSV)
     rows = []
     end = DATE
-    start = (datetime.date.fromisoformat(DATE) - datetime.timedelta(days=120)).isoformat()
+    # 4ヶ月分（SMA20用）を最低取得、その後チャート用に3年を別取得
+    start_short = (datetime.date.fromisoformat(DATE) - datetime.timedelta(days=120)).isoformat()
 
     for _, t in uni.iterrows():
         symbol = t["symbol"]
         try:
-            if MOCK_MODE or not TIINGO_TOKEN:
-                pct_change, vol_ratio = mock_metrics()
-            else:
-                data = tiingo_eod(symbol, start, end)
-                metrics = compute_metrics(data)
-                if not metrics:
-                    pct_change, vol_ratio = 0.0, 1.0
-                else:
-                    pct_change, vol_ratio = metrics
+            df = get_eod_range(symbol, start_short, end)
+            metrics = compute_metrics(df)
+            if not metrics: pct_change, vol_ratio = 0.0, 1.0
+            else: pct_change, vol_ratio = metrics
             rows.append({
-                "symbol": symbol,
-                "name": t["name"],
-                "theme": t["theme"],
-                "pct_change": pct_change,
-                "news_count": 0,
-                "vol_ratio": vol_ratio,
-                "tech_note": "Auto tech note TBD",
-                "ir_note": "IR/News summary TBD",
+                "symbol": symbol, "name": t["name"], "theme": t["theme"],
+                "pct_change": pct_change, "news_count": 0, "vol_ratio": vol_ratio,
+                "tech_note": "Auto tech note TBD", "ir_note": "IR/News summary TBD",
             })
         except Exception as e:
             print(f"[WARN] {symbol}: {e}", file=sys.stderr)
             continue
 
+    # スコアリング
     def norm(vals):
         mn, mx = min(vals), max(vals)
         return [(v - mn) / (mx - mn) if mx > mn else 0.0 for v in vals]
@@ -137,61 +188,25 @@ def main():
     rows.sort(key=lambda x: x["score"], reverse=True)
     top10 = rows[:10]
 
-    # ▼チャート保存（実データ時のみ／MOCKではスキップ）
-    if not MOCK_MODE and TIINGO_TOKEN:
+    # チャート生成（実データ時のみ）
+    if not MOCK_MODE:
         start3y = (datetime.date.fromisoformat(DATE) - datetime.timedelta(days=365*3+30)).isoformat()
         for r in top10:
             try:
-                hist = tiingo_eod_range(r["symbol"], start3y, DATE)
-                if "adjClose" in hist.columns:
-                    hist["close"] = hist["adjClose"]
+                hist = get_eod_range(r["symbol"], start3y, end)
                 save_chart_png(r["symbol"], hist, OUT_DIR, DATE)
             except Exception as e:
                 print(f"[WARN] chart {r['symbol']}: {e}", file=sys.stderr)
 
-    
+    # 出力
     out_json_dir = pathlib.Path(OUT_DIR) / "data" / DATE
     out_json_dir.mkdir(parents=True, exist_ok=True)
     with open(out_json_dir / "top10.json", "w") as f:
         json.dump(top10, f, indent=2)
 
+    # 無料なので固定費計上はしない（将来有料APIに替える場合に有効化）
     mark_fixed_costs(spend)
     print(f"Generated top10 for {DATE}: {len(top10)} symbols")
-
-def tiingo_eod_range(symbol, start, end):
-    url = f"https://api.tiingo.com/tiingo/daily/{symbol}/prices"
-    params = {"token": TIINGO_TOKEN, "startDate": start, "endDate": end, "resampleFreq": "daily"}
-    r = requests.get(url, params=params, timeout=30)
-    r.raise_for_status()
-    return pd.DataFrame(r.json())
-
-def save_chart_png(symbol, df, out_dir, date_iso):
-    # df: columns expect date/close/volume etc.
-    if df.empty:
-        return
-    charts_dir = pathlib.Path(out_dir) / "charts" / date_iso
-    charts_dir.mkdir(parents=True, exist_ok=True)
-
-    # 整形
-    d = df.copy()
-    d["date"] = pd.to_datetime(d["date"])
-    d = d.sort_values("date")
-    d["ma20"] = d["close"].rolling(20).mean()
-    d["ma50"] = d["close"].rolling(50).mean()
-    d["ma200"] = d["close"].rolling(200).mean()
-
-    # 価格チャート（デフォ色／凡例なしでスッキリ）
-    plt.figure(figsize=(9, 4.8), dpi=120)
-    plt.plot(d["date"], d["close"], linewidth=1.2)
-    plt.plot(d["date"], d["ma20"], linewidth=0.9)
-    plt.plot(d["date"], d["ma50"], linewidth=0.9)
-    plt.plot(d["date"], d["ma200"], linewidth=0.9)
-    plt.title(f"{symbol} — 3Y Daily")
-    plt.tight_layout()
-    out = charts_dir / f"{symbol}.png"
-    plt.savefig(out)
-    plt.close()
-
 
 if __name__ == "__main__":
     main()
