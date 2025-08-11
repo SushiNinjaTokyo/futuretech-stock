@@ -1,5 +1,16 @@
 {
   "month": "2025-08",
   "total_jpy": 0,
-  "details": []
+  "details": [],
+  "2025-08": {
+    "items": [
+      {
+        "date": "2025-08-11",
+        "amount_jpy": 1600.0,
+        "memo": "Tiingo monthly flat"
+      }
+    ],
+    "total_jpy": 1600.0,
+    "tiingo_month_mark": true
+  }
 }
