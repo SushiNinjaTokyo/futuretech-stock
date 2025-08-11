@@ -188,34 +188,34 @@ def compute_metrics(df):
     import numpy as np
     import pandas as pd
 
-    if df is None or len(df) == 0:
+    if df is None or df.empty:
         return None
 
-    d = df.copy()
+    # 必須列がなければスキップ
+    for col in ("close", "volume"):
+        if col not in df.columns:
+            return None
 
-    # 数値化＆欠損処理（明示的に！）
-    d["volume"] = pd.to_numeric(d.get("volume"), errors="coerce").fillna(0)
-    d["close"]  = pd.to_numeric(d.get("close"),  errors="coerce").ffill()
+    d = df.copy()
+    d["close"]  = pd.to_numeric(d["close"],  errors="coerce").ffill()
+    d["volume"] = pd.to_numeric(d["volume"], errors="coerce").fillna(0)
 
     if len(d) < 2:
         return 0.0, 1.0
 
-    # 直近と前日の終値を「スカラー」で取得
-    today_close = float(d["close"].iloc[-1]) if not pd.isna(d["close"].iloc[-1]) else np.nan
-    prev_close  = float(d["close"].iloc[-2]) if not pd.isna(d["close"].iloc[-2]) else np.nan
-
-    # pct_change（0割＆NaN回避）
-    if pd.isna(today_close) or pd.isna(prev_close) or prev_close == 0:
+    today_close = d["close"].iloc[-1]
+    prev_close  = d["close"].iloc[-2]
+    if pd.isna(today_close) or pd.isna(prev_close) or float(prev_close) == 0.0:
         pct_change = 0.0
     else:
-        pct_change = (today_close - prev_close) / prev_close
+        pct_change = (float(today_close) - float(prev_close)) / float(prev_close)
 
-    # 異常出来高比（20日平均の明示計算）
-    vol_sma20_series = d["volume"].rolling(20).mean()
-    vol_sma20 = float(vol_sma20_series.iloc[-1]) if not pd.isna(vol_sma20_series.iloc[-1]) else np.nan
-    today_vol = float(d["volume"].iloc[-1]) if not pd.isna(d["volume"].iloc[-1]) else 0.0
-
-    vol_ratio = 1.0 if (pd.isna(vol_sma20) or vol_sma20 == 0) else (today_vol / vol_sma20)
+    vol_sma20 = d["volume"].rolling(20).mean().iloc[-1]
+    today_vol = d["volume"].iloc[-1]
+    if pd.isna(vol_sma20) or float(vol_sma20) == 0.0:
+        vol_ratio = 1.0
+    else:
+        vol_ratio = float(today_vol) / float(vol_sma20)
 
     return float(pct_change), float(vol_ratio)
 
