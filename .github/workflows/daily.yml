@@ -35,7 +35,7 @@ jobs:
       - name: Render HTML
         run: |
           python scripts/render.py
-
+          
       - name: Verify outputs
         run: |
           echo "REPORT_DATE=${{ vars.REPORT_DATE }}"
@@ -45,6 +45,7 @@ jobs:
             DATE_TO_CHECK=$(python - <<'PY'
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
+
 def usa_market_date_now():
     now_et = datetime.now(ZoneInfo("America/New_York"))
     d = now_et.date()
@@ -53,6 +54,7 @@ def usa_market_date_now():
     while d.weekday() >= 5:
         d = d - timedelta(days=1)
     return d
+
 print(usa_market_date_now().isoformat())
 PY
 )
