@@ -48,29 +48,12 @@ jobs:
 
           DATE_TO_CHECK="${{ vars.REPORT_DATE }}"
           if [ -z "$DATE_TO_CHECK" ]; then
-            DATE_TO_CHECK=$(python - <<'PY'
-from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
-
-def usa_market_date_now():
-    now_et = datetime.now(ZoneInfo("America/New_York"))
-    d = now_et.date()
-    # 引け後18:00(ET)より前なら前営業日に倒す
-    if now_et.hour < 18:
-        d = d - timedelta(days=1)
-    # 週末は直近の金曜へ
-    while d.weekday() >= 5:  # Sat=5, Sun=6
-        d = d - timedelta(days=1)
-    return d
-
-print(usa_market_date_now().isoformat())
-PY
-)
+            DATE_TO_CHECK=$(python scripts/et_market_date.py)
           fi
 
           echo "Checking file: site/daily/${DATE_TO_CHECK}.html"
           test -f "site/daily/${DATE_TO_CHECK}.html" || (echo "Expected file missing: site/daily/${DATE_TO_CHECK}.html" && exit 1)
-
+          
       - name: Commit & Push
         run: |
           git config user.name "github-actions"
