@@ -2,6 +2,22 @@
 import os, json, pathlib, datetime
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+# 日付ET化
+import datetime
+from zoneinfo import ZoneInfo
+
+def usa_market_date_now():
+    now_et = datetime.datetime.now(ZoneInfo("America/New_York"))
+    d = now_et.date()
+    if now_et.hour < 18:
+        d = d - datetime.timedelta(days=1)
+    while d.weekday() >= 5:
+        d = d - datetime.timedelta(days=1)
+    return d
+
+DATE = os.getenv("REPORT_DATE") or usa_market_date_now().isoformat()
+
+
 OUT_DIR = os.getenv("OUT_DIR", "site")
 DATE = os.getenv("REPORT_DATE") or datetime.date.today().isoformat()
 
