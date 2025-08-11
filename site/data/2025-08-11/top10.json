@@ -1,1 +1,112 @@
-[]
+[
+  {
+    "symbol": "NVDA",
+    "name": "NVIDIA Corporation",
+    "theme": "AI",
+    "pct_change": 0.0,
+    "news_count": 0,
+    "vol_ratio": 1.0,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.0
+  },
+  {
+    "symbol": "MSFT",
+    "name": "Microsoft Corporation",
+    "theme": "AI",
+    "pct_change": 0.0,
+    "news_count": 0,
+    "vol_ratio": 1.0,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.0
+  },
+  {
+    "symbol": "PLTR",
+    "name": "Palantir Technologies Inc.",
+    "theme": "AI",
+    "pct_change": 0.0,
+    "news_count": 0,
+    "vol_ratio": 1.0,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.0
+  },
+  {
+    "symbol": "AI",
+    "name": "C3.ai, Inc.",
+    "theme": "AI",
+    "pct_change": 0.0,
+    "news_count": 0,
+    "vol_ratio": 1.0,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.0
+  },
+  {
+    "symbol": "ISRG",
+    "name": "Intuitive Surgical, Inc.",
+    "theme": "Robotics",
+    "pct_change": 0.0,
+    "news_count": 0,
+    "vol_ratio": 1.0,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.0
+  },
+  {
+    "symbol": "TER",
+    "name": "Teradyne, Inc.",
+    "theme": "Robotics",
+    "pct_change": 0.0,
+    "news_count": 0,
+    "vol_ratio": 1.0,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.0
+  },
+  {
+    "symbol": "SYM",
+    "name": "Symbotic Inc.",
+    "theme": "Robotics",
+    "pct_change": 0.0,
+    "news_count": 0,
+    "vol_ratio": 1.0,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.0
+  },
+  {
+    "symbol": "RKLB",
+    "name": "Rocket Lab USA, Inc.",
+    "theme": "Space",
+    "pct_change": 0.0,
+    "news_count": 0,
+    "vol_ratio": 1.0,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.0
+  },
+  {
+    "symbol": "IRDM",
+    "name": "Iridium Communications Inc.",
+    "theme": "Space",
+    "pct_change": 0.0,
+    "news_count": 0,
+    "vol_ratio": 1.0,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.0
+  },
+  {
+    "symbol": "VSAT",
+    "name": "Viasat, Inc.",
+    "theme": "Space",
+    "pct_change": 0.0,
+    "news_count": 0,
+    "vol_ratio": 1.0,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.0
+  }
+]
