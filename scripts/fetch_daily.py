@@ -97,16 +97,40 @@ def tiingo_eod_range(symbol, start, end):
 
 def yfi_eod_range(symbol, start, end):
     import yfinance as yf
-    # yfinanceはタイムゾーン絡みがあるので1日バッファ
+    # 1日バッファ（タイムゾーンずれ対策）
     start_dt = datetime.date.fromisoformat(start) - datetime.timedelta(days=2)
     end_dt = datetime.date.fromisoformat(end) + datetime.timedelta(days=1)
-    df = yf.download(symbol, start=start_dt.isoformat(), end=end_dt.isoformat(), progress=False, auto_adjust=True)
+
+    # ★ threads=False / interval='1d' を明示。emptyならリトライ。
+    for attempt in range(2):
+        df = yf.download(
+            symbol,
+            start=start_dt.isoformat(),
+            end=end_dt.isoformat(),
+            interval="1d",
+            auto_adjust=True,
+            progress=False,
+            threads=False,   # ← 重要：Runnerでの不安定さ回避
+        )
+        if df is not None and not df.empty:
+            break
+
     if df is None or df.empty:
-        return pd.DataFrame()
+        # 最後の砦：Ticker().history() で再取得
+        tkr = yf.Ticker(symbol)
+        hist = tkr.history(
+            start=start_dt.isoformat(),
+            end=end_dt.isoformat(),
+            interval="1d",
+            auto_adjust=True,
+        )
+        if hist is None or hist.empty:
+            return pd.DataFrame()
+        df = hist
+
     df = df.reset_index().rename(columns={
         "Date":"date","Open":"open","High":"high","Low":"low","Close":"close","Volume":"volume"
     })
-    # date を文字列へ（後工程と揃える）
     df["date"] = pd.to_datetime(df["date"]).dt.strftime("%Y-%m-%d")
     return df[["date","open","high","low","close","volume"]]
 
