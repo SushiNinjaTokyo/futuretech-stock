@@ -40,13 +40,20 @@ jobs:
         run: |
           echo "REPORT_DATE=${{ vars.REPORT_DATE }}"
           ls -la site/daily || true
-          # REPORT_DATE が未設定なら JST 今日の日付を使って検証
           DATE_TO_CHECK="${{ vars.REPORT_DATE }}"
           if [ -z "$DATE_TO_CHECK" ]; then
             DATE_TO_CHECK=$(python - <<'PY'
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
-print(datetime.now(ZoneInfo("Asia/Tokyo")).date().isoformat())
+def usa_market_date_now():
+    now_et = datetime.now(ZoneInfo("America/New_York"))
+    d = now_et.date()
+    if now_et.hour < 18:
+        d = d - timedelta(days=1)
+    while d.weekday() >= 5:
+        d = d - timedelta(days=1)
+    return d
+print(usa_market_date_now().isoformat())
 PY
 )
           fi
