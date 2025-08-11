@@ -35,6 +35,24 @@ jobs:
       - name: Render HTML
         run: |
           python scripts/render.py
+
+      - name: Verify outputs
+        run: |
+          echo "REPORT_DATE=${{ vars.REPORT_DATE }}"
+          ls -la site/daily || true
+          # REPORT_DATE が未設定なら JST 今日の日付を使って検証
+          DATE_TO_CHECK="${{ vars.REPORT_DATE }}"
+          if [ -z "$DATE_TO_CHECK" ]; then
+            DATE_TO_CHECK=$(python - <<'PY'
+from datetime import datetime
+from zoneinfo import ZoneInfo
+print(datetime.now(ZoneInfo("Asia/Tokyo")).date().isoformat())
+PY
+)
+          fi
+          echo "Checking file: site/daily/${DATE_TO_CHECK}.html"
+          test -f "site/daily/${DATE_TO_CHECK}.html" || (echo "Expected file missing: site/daily/${DATE_TO_CHECK}.html" && exit 1)
+
       - name: Commit & Push
         run: |
           git config user.name "github-actions"
