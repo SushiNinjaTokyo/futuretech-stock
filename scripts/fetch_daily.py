@@ -145,5 +145,56 @@ def main():
     mark_fixed_costs(spend)
     print(f"Generated top10 for {DATE}: {len(top10)} symbols")
 
+def tiingo_eod_range(symbol, start, end):
+    url = f"https://api.tiingo.com/tiingo/daily/{symbol}/prices"
+    params = {"token": TIINGO_TOKEN, "startDate": start, "endDate": end, "resampleFreq": "daily"}
+    r = requests.get(url, params=params, timeout=30)
+    r.raise_for_status()
+    return pd.DataFrame(r.json())
+
+def save_chart_png(symbol, df, out_dir, date_iso):
+    # df: columns expect date/close/volume etc.
+    if df.empty:
+        return
+    charts_dir = pathlib.Path(out_dir) / "charts" / date_iso
+    charts_dir.mkdir(parents=True, exist_ok=True)
+
+    # 整形
+    d = df.copy()
+    d["date"] = pd.to_datetime(d["date"])
+    d = d.sort_values("date")
+    d["ma20"] = d["close"].rolling(20).mean()
+    d["ma50"] = d["close"].rolling(50).mean()
+    d["ma200"] = d["close"].rolling(200).mean()
+
+    # 価格チャート（デフォ色／凡例なしでスッキリ）
+    plt.figure(figsize=(9, 4.8), dpi=120)
+    plt.plot(d["date"], d["close"], linewidth=1.2)
+    plt.plot(d["date"], d["ma20"], linewidth=0.9)
+    plt.plot(d["date"], d["ma50"], linewidth=0.9)
+    plt.plot(d["date"], d["ma200"], linewidth=0.9)
+    plt.title(f"{symbol} — 3Y Daily")
+    plt.tight_layout()
+    out = charts_dir / f"{symbol}.png"
+    plt.savefig(out)
+    plt.close()
+
+# rows.sort(...) の少し後にある top10 作成の直後あたり
+top10 = rows[:10]
+
+# チャート保存（実データ時のみ）
+if not MOCK_MODE and TIINGO_TOKEN:
+    start3y = (datetime.date.fromisoformat(DATE) - datetime.timedelta(days=365*3+30)).isoformat()
+    for r in top10:
+        try:
+            hist = tiingo_eod_range(r["symbol"], start3y, DATE)
+            # Tiingoは 'adjClose' あり。なければ 'close' を使う
+            if "adjClose" in hist.columns:
+                hist["close"] = hist["adjClose"]
+            save_chart_png(r["symbol"], hist, OUT_DIR, DATE)
+        except Exception as e:
+            print(f"[WARN] chart {r['symbol']}: {e}", file=sys.stderr)
+
+
 if __name__ == "__main__":
     main()
