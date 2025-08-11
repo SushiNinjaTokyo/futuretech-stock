@@ -1,7 +1,4 @@
 pandas
 requests
 jinja2
-pandas
-requests
-jinja2
-+matplotlib
+matplotlib
