@@ -137,6 +137,19 @@ def main():
     rows.sort(key=lambda x: x["score"], reverse=True)
     top10 = rows[:10]
 
+    # ▼チャート保存（実データ時のみ／MOCKではスキップ）
+    if not MOCK_MODE and TIINGO_TOKEN:
+        start3y = (datetime.date.fromisoformat(DATE) - datetime.timedelta(days=365*3+30)).isoformat()
+        for r in top10:
+            try:
+                hist = tiingo_eod_range(r["symbol"], start3y, DATE)
+                if "adjClose" in hist.columns:
+                    hist["close"] = hist["adjClose"]
+                save_chart_png(r["symbol"], hist, OUT_DIR, DATE)
+            except Exception as e:
+                print(f"[WARN] chart {r['symbol']}: {e}", file=sys.stderr)
+
+    
     out_json_dir = pathlib.Path(OUT_DIR) / "data" / DATE
     out_json_dir.mkdir(parents=True, exist_ok=True)
     with open(out_json_dir / "top10.json", "w") as f:
@@ -178,22 +191,6 @@ def save_chart_png(symbol, df, out_dir, date_iso):
     out = charts_dir / f"{symbol}.png"
     plt.savefig(out)
     plt.close()
-
-# rows.sort(...) の少し後にある top10 作成の直後あたり
-top10 = rows[:10]
-
-# チャート保存（実データ時のみ）
-if not MOCK_MODE and TIINGO_TOKEN:
-    start3y = (datetime.date.fromisoformat(DATE) - datetime.timedelta(days=365*3+30)).isoformat()
-    for r in top10:
-        try:
-            hist = tiingo_eod_range(r["symbol"], start3y, DATE)
-            # Tiingoは 'adjClose' あり。なければ 'close' を使う
-            if "adjClose" in hist.columns:
-                hist["close"] = hist["adjClose"]
-            save_chart_png(r["symbol"], hist, OUT_DIR, DATE)
-        except Exception as e:
-            print(f"[WARN] chart {r['symbol']}: {e}", file=sys.stderr)
 
 
 if __name__ == "__main__":
