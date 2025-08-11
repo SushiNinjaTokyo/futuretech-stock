@@ -8,6 +8,23 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+# 先頭のDATE定義を置き換え
+import datetime
+from zoneinfo import ZoneInfo
+
+def usa_market_date_now():
+    now_et = datetime.datetime.now(ZoneInfo("America/New_York"))
+    d = now_et.date()
+    # 引け後18:00未満なら、まだ当日速報は不完全 → 前営業日にする
+    if now_et.hour < 18:
+        d = d - datetime.timedelta(days=1)
+    # 週末処理（土=5, 日=6 → 直近の金曜へ）
+    while d.weekday() >= 5:
+        d = d - datetime.timedelta(days=1)
+    return d
+
+DATE = os.getenv("REPORT_DATE") or usa_market_date_now().isoformat()
+
 # ---- Config (env) ----
 DATA_PROVIDER = os.getenv("DATA_PROVIDER", "yfinance").lower()  # yfinance | tiingo
 TIINGO_TOKEN = os.getenv("TIINGO_TOKEN")  # tiingo時のみ使用
