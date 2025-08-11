@@ -2,7 +2,7 @@ name: daily-report
 
 on:
   schedule:
-    - cron: '10 22 * * *'  # 07:10 JST daily
+    - cron: '10 22 * * *'  # 18:10 ET / 07:10 JST 相当
   workflow_dispatch:
 
 jobs:
@@ -13,33 +13,39 @@ jobs:
     concurrency:
       group: daily-report
       cancel-in-progress: false
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
       - name: Generate Top10 JSON
         env:
           TIINGO_TOKEN: ${{ secrets.TIINGO_TOKEN }}
           REPORT_DATE: ${{ vars.REPORT_DATE }}
-          MOCK_MODE: ${{ vars.MOCK_MODE || 'true' }}   # ← 初期はtrueでOK
+          MOCK_MODE: ${{ vars.MOCK_MODE || 'true' }}
           BUDGET_JPY_MAX: ${{ vars.BUDGET_JPY_MAX || '10000' }}
           MANUAL_DAILY_COST_JPY: ${{ vars.MANUAL_DAILY_COST_JPY || '0' }}
           TIINGO_MONTHLY_JPY: ${{ vars.TIINGO_MONTHLY_JPY || '1600' }}
-        run: |
-          python scripts/fetch_daily.py
+          DATA_PROVIDER: ${{ vars.DATA_PROVIDER || 'yfinance' }}
+        run: python scripts/fetch_daily.py
+
       - name: Render HTML
-        run: |
-          python scripts/render.py
-          
-      - name: Verify outputs
+        run: python scripts/render.py
+
+      - name: Verify outputs (ET market date)
+        shell: bash
         run: |
           echo "REPORT_DATE=${{ vars.REPORT_DATE }}"
           ls -la site/daily || true
+
           DATE_TO_CHECK="${{ vars.REPORT_DATE }}"
           if [ -z "$DATE_TO_CHECK" ]; then
             DATE_TO_CHECK=$(python - <<'PY'
@@ -49,9 +55,11 @@ from zoneinfo import ZoneInfo
 def usa_market_date_now():
     now_et = datetime.now(ZoneInfo("America/New_York"))
     d = now_et.date()
+    # 引け後18:00(ET)より前なら前営業日に倒す
     if now_et.hour < 18:
         d = d - timedelta(days=1)
-    while d.weekday() >= 5:
+    # 週末は直近の金曜へ
+    while d.weekday() >= 5:  # Sat=5, Sun=6
         d = d - timedelta(days=1)
     return d
 
@@ -59,6 +67,7 @@ print(usa_market_date_now().isoformat())
 PY
 )
           fi
+
           echo "Checking file: site/daily/${DATE_TO_CHECK}.html"
           test -f "site/daily/${DATE_TO_CHECK}.html" || (echo "Expected file missing: site/daily/${DATE_TO_CHECK}.html" && exit 1)
 
