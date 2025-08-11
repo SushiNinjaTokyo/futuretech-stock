@@ -3,6 +3,9 @@
 import os, sys, json, math, csv, pathlib, datetime, random
 import requests
 import pandas as pd
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 
 # ---- Config (env) ----
 TIINGO_TOKEN = os.getenv("TIINGO_TOKEN")
