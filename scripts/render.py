@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os, json, pathlib, datetime
+import os, json, pathlib
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 # 日付ET化
@@ -17,9 +17,7 @@ def usa_market_date_now():
 
 DATE = os.getenv("REPORT_DATE") or usa_market_date_now().isoformat()
 
-
 OUT_DIR = os.getenv("OUT_DIR", "site")
-DATE = os.getenv("REPORT_DATE") or datetime.date.today().isoformat()
 
 def main():
     env = Environment(loader=FileSystemLoader("templates"), autoescape=select_autoescape())
