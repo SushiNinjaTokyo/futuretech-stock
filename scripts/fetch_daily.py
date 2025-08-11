@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import os, sys, json, math, pathlib, datetime, random
+import os, sys, json, math, pathlib, random
 import pandas as pd
 import requests
 
@@ -23,14 +23,12 @@ def usa_market_date_now():
         d = d - datetime.timedelta(days=1)
     return d
 
-DATE = os.getenv("REPORT_DATE") or usa_market_date_now().isoformat()
-
 # ---- Config (env) ----
 DATA_PROVIDER = os.getenv("DATA_PROVIDER", "yfinance").lower()  # yfinance | tiingo
 TIINGO_TOKEN = os.getenv("TIINGO_TOKEN")  # tiingo時のみ使用
 UNIVERSE_CSV = os.getenv("UNIVERSE_CSV", "data/universe.csv")
 OUT_DIR = os.getenv("OUT_DIR", "site")
-DATE = os.getenv("REPORT_DATE") or datetime.date.today().isoformat()
+DATE = os.getenv("REPORT_DATE") or usa_market_date_now().isoformat()
 MOCK_MODE = os.getenv("MOCK_MODE", "false").lower() == "true"  # ← 実データ化ではfalse
 
 # ---- Budget Guard (hard cutoff) ----
