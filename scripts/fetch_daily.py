@@ -97,42 +97,73 @@ def tiingo_eod_range(symbol, start, end):
 
 def yfi_eod_range(symbol, start, end):
     import yfinance as yf
-    # 1日バッファ（タイムゾーンずれ対策）
+    # タイムゾーンずれ対策で1〜2日バッファ
     start_dt = datetime.date.fromisoformat(start) - datetime.timedelta(days=2)
-    end_dt = datetime.date.fromisoformat(end) + datetime.timedelta(days=1)
+    end_dt   = datetime.date.fromisoformat(end)   + datetime.timedelta(days=1)
 
-    # ★ threads=False / interval='1d' を明示。emptyならリトライ。
+    df = None
     for attempt in range(2):
-        df = yf.download(
+        tmp = yf.download(
             symbol,
             start=start_dt.isoformat(),
             end=end_dt.isoformat(),
             interval="1d",
             auto_adjust=True,
             progress=False,
-            threads=False,   # ← 重要：Runnerでの不安定さ回避
+            threads=False,   # CIでの不安定回避
         )
-        if df is not None and not df.empty:
+        if tmp is not None and not tmp.empty:
+            df = tmp
             break
 
     if df is None or df.empty:
-        # 最後の砦：Ticker().history() で再取得
         tkr = yf.Ticker(symbol)
-        hist = tkr.history(
+        tmp = tkr.history(
             start=start_dt.isoformat(),
             end=end_dt.isoformat(),
             interval="1d",
             auto_adjust=True,
         )
-        if hist is None or hist.empty:
+        if tmp is None or tmp.empty:
             return pd.DataFrame()
-        df = hist
+        df = tmp
 
-    df = df.reset_index().rename(columns={
-        "Date":"date","Open":"open","High":"high","Low":"low","Close":"close","Volume":"volume"
+    df = df.reset_index()
+
+    # すべて小文字に統一しておく（これ超大事）
+    df.columns = [str(c).strip().lower() for c in df.columns]
+
+    # 列の別名を吸収
+    name_map = {
+        "date": "date",
+        "open": "open",
+        "high": "high",
+        "low": "low",
+        "close": "close",
+        "adj close": "close",   # ← adj close を close として扱う
+        "adjclose": "close",
+        "volume": "volume",
+    }
+    out = {}
+    for col in df.columns:
+        if col in name_map and name_map[col] not in out:
+            out[name_map[col]] = df[col]
+
+    # 必須列チェック（close/volume が無ければ空で返す）
+    if "date" not in out or "close" not in out or "volume" not in out:
+        return pd.DataFrame()
+
+    result = pd.DataFrame({
+        "date":   pd.to_datetime(out["date"]).dt.strftime("%Y-%m-%d"),
+        "open":   pd.to_numeric(out.get("open",   pd.Series(dtype="float64")), errors="coerce"),
+        "high":   pd.to_numeric(out.get("high",   pd.Series(dtype="float64")), errors="coerce"),
+        "low":    pd.to_numeric(out.get("low",    pd.Series(dtype="float64")), errors="coerce"),
+        "close":  pd.to_numeric(out.get("close",  pd.Series(dtype="float64")), errors="coerce"),
+        "volume": pd.to_numeric(out.get("volume", pd.Series(dtype="float64")), errors="coerce").fillna(0),
     })
-    df["date"] = pd.to_datetime(df["date"]).dt.strftime("%Y-%m-%d")
-    return df[["date","open","high","low","close","volume"]]
+
+    return result[["date", "open", "high", "low", "close", "volume"]]
+
 
 def get_eod_range(symbol, start, end):
     if MOCK_MODE:
