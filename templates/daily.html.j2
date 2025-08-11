@@ -25,7 +25,7 @@
     <ol>
     {% for row in top10 %}
       <li>
-        <h2>{{ row.symbol }} — {{ row.name }} <small>({{ row.theme }})</small></h2>
+        <h2>{{ row.symbol }} — {{ row.name }}<span class="badge">{{ row.theme }}</span></h2>
         <p>Price Δ: {{ "%.2f"|format(row.pct_change*100) }}% · News: {{ row.news_count }} · Volume x{{ "%.1f"|format(row.vol_ratio) }}</p>
         <div><img src="/charts/{{ date }}/{{ row.symbol }}.png" alt="Chart {{ row.symbol }}" width="640" onerror="this.style.display='none'"></div>
         <details><summary>Technical snapshot</summary><pre>{{ row.tech_note }}</pre></details>
