@@ -261,6 +261,18 @@ def main():
         symbol = t["symbol"]
         try:
             df = get_eod_range(symbol, start_short, end)
+            # ▼ 列名を小文字化＆Adj Closeをcloseとして扱う（必須）
+            if df is not None and not df.empty:
+                df = df.rename(columns=lambda c: str(c).strip().lower())
+                if "adj close" in df.columns and "close" not in df.columns:
+                    df["close"] = df["adj close"]
+                # indexに日時が乗っていて 'date' 列が無いケースに対応
+                if "date" not in df.columns and hasattr(df.index, "dtype"):
+                    try:
+                        df = df.reset_index().rename(columns={"index": "date"})
+                    except Exception:
+                        pass
+
             recent_map[symbol] = df
             metrics = compute_metrics(df)
             if not metrics:
