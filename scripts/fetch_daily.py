@@ -249,24 +249,27 @@ def main():
     uni = pd.read_csv(UNIVERSE_CSV)
     rows = []
     end = DATE
-    # 4ヶ月分（SMA20用）を最低取得、その後チャート用に3年を別取得
-    start_short = (datetime.date.fromisoformat(DATE) - datetime.timedelta(days=120)).isoformat()
+    start_short = (datetime.date.fromisoformat(DATE) - datetime.timedelta(days=90)).isoformat()
+
+    recent_map = {}  # ① ここで作る
 
     for _, t in uni.iterrows():
         symbol = t["symbol"]
         try:
             df = get_eod_range(symbol, start_short, end)
+            recent_map[symbol] = df  # ② 保存
             metrics = compute_metrics(df)
-            if not metrics: pct_change, vol_ratio = 0.0, 1.0
-            else: pct_change, vol_ratio = metrics
-            rows.append({
-                "symbol": symbol, "name": t["name"], "theme": t["theme"],
-                "pct_change": pct_change, "news_count": 0, "vol_ratio": vol_ratio,
-                "tech_note": "Auto tech note TBD", "ir_note": "IR/News summary TBD",
-            })
+            ...
         except Exception as e:
-            print(f"[WARN] {symbol}: {e}", file=sys.stderr)
-            continue
+            ...
+
+    # チャート生成
+    if not MOCK_MODE:
+        for r in top10:
+            hist = recent_map.get(r["symbol"])  # ③ 再利用
+            if hist is None or hist.empty:
+                continue
+            save_chart_png_weekly_3m(r["symbol"], hist, OUT_DIR, DATE)
 
     # スコアリング
     def norm(vals):
