@@ -270,35 +270,49 @@ def main():
             if hist is None or hist.empty:
                 continue
             save_chart_png_weekly_3m(r["symbol"], hist, OUT_DIR, DATE)
+    # rows が空でも安全に出力して終了できるようにする
+    if not rows:
+        top10 = []
+        out_json_dir = pathlib.Path(OUT_DIR) / "data" / DATE
+        out_json_dir.mkdir(parents=True, exist_ok=True)
+        with open(out_json_dir / "top10.json", "w") as f:
+            json.dump(top10, f, indent=2)
+        mark_fixed_costs(spend)
+        print(f"Generated top10 for {DATE}: 0 symbols (no rows)")
+        return  # ← チャート生成をスキップして正常終了
 
     # スコアリング
     def norm(vals):
         mn, mx = min(vals), max(vals)
         return [(v - mn) / (mx - mn) if mx > mn else 0.0 for v in vals]
-    price_norm = norm([r["pct_change"] for r in rows]) if rows else []
-    vol_norm   = norm([r["vol_ratio"] for r in rows]) if rows else []
+
+    price_norm = norm([r["pct_change"] for r in rows])
+    vol_norm   = norm([r["vol_ratio"] for r in rows])
+
     for i, r in enumerate(rows):
         r["score"] = 0.6*price_norm[i] + 0.4*vol_norm[i]
+
     rows.sort(key=lambda x: x["score"], reverse=True)
-    top10 = rows[:10]
+    top10 = rows[:10]   # ← ここで必ず top10 を定義
 
-    # チャート生成（実データ時のみ）
-    if not MOCK_MODE:
-        start3y = (datetime.date.fromisoformat(DATE) - datetime.timedelta(days=365*3+30)).isoformat()
-        for r in top10:
-            try:
-                hist = get_eod_range(r["symbol"], start3y, end)
-                save_chart_png(r["symbol"], hist, OUT_DIR, DATE)
-            except Exception as e:
-                print(f"[WARN] chart {r['symbol']}: {e}", file=sys.stderr)
-
-    # 出力
+    # 出力（先にJSONを書き出しておく）
     out_json_dir = pathlib.Path(OUT_DIR) / "data" / DATE
     out_json_dir.mkdir(parents=True, exist_ok=True)
     with open(out_json_dir / "top10.json", "w") as f:
         json.dump(top10, f, indent=2)
 
-    # 無料なので固定費計上はしない（将来有料APIに替える場合に有効化）
+    # 週足3ヶ月チャート（recent_map を使って再取得なし）
+    if not MOCK_MODE and top10:
+        for r in top10:
+            try:
+                hist = recent_map.get(r["symbol"])
+                if hist is None or hist.empty:
+                    print(f"[WARN] no data for weekly chart {r['symbol']}", file=sys.stderr)
+                    continue
+                save_chart_png_weekly_3m(r["symbol"], hist, OUT_DIR, DATE)
+            except Exception as e:
+                print(f"[WARN] chart {r['symbol']}: {e}", file=sys.stderr)
+
     mark_fixed_costs(spend)
     print(f"Generated top10 for {DATE}: {len(top10)} symbols")
 
