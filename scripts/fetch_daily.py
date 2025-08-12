@@ -248,40 +248,46 @@ def main():
 
     uni = pd.read_csv(UNIVERSE_CSV)
     rows = []
+    top10 = []  # ← 先に空で定義しておく（これで未定義は起きない）
+
     end = DATE
+    # 3か月（90日）のみ取得
     start_short = (datetime.date.fromisoformat(DATE) - datetime.timedelta(days=90)).isoformat()
 
-    recent_map = {}  # ① ここで作る
+    recent_map = {}  # 90日データをチャートで再利用するために保存
 
+    # ----- データ取得 → 指標算出 -----
     for _, t in uni.iterrows():
         symbol = t["symbol"]
         try:
             df = get_eod_range(symbol, start_short, end)
-            recent_map[symbol] = df  # ② 保存
+            recent_map[symbol] = df
             metrics = compute_metrics(df)
-            ...
-        except Exception as e:
-            ...
-
-    # チャート生成
-    if not MOCK_MODE:
-        for r in top10:
-            hist = recent_map.get(r["symbol"])  # ③ 再利用
-            if hist is None or hist.empty:
+            if not metrics:
+                # 取れなければスキップ（ここで rows へは入れない）
+                print(f"[WARN] skip (no metrics) {symbol}", file=sys.stderr)
                 continue
-            save_chart_png_weekly_3m(r["symbol"], hist, OUT_DIR, DATE)
-    # rows が空でも安全に出力して終了できるようにする
+            pct_change, vol_ratio = metrics
+            rows.append({
+                "symbol": symbol, "name": t["name"], "theme": t["theme"],
+                "pct_change": pct_change, "news_count": 0, "vol_ratio": vol_ratio,
+                "tech_note": "Auto tech note TBD", "ir_note": "IR/News summary TBD",
+            })
+        except Exception as e:
+            print(f"[WARN] {symbol}: {e}", file=sys.stderr)
+            continue
+
+    # ----- rowsが空なら、空のtop10を書いて正常終了 -----
     if not rows:
-        top10 = []
         out_json_dir = pathlib.Path(OUT_DIR) / "data" / DATE
         out_json_dir.mkdir(parents=True, exist_ok=True)
         with open(out_json_dir / "top10.json", "w") as f:
-            json.dump(top10, f, indent=2)
+            json.dump(top10, f, indent=2)  # 空リストを書き出す
         mark_fixed_costs(spend)
         print(f"Generated top10 for {DATE}: 0 symbols (no rows)")
-        return  # ← チャート生成をスキップして正常終了
+        return  # ← ここで終了。下のチャート処理に進まない
 
-    # スコアリング
+    # ----- スコアリング → Top10確定 -----
     def norm(vals):
         mn, mx = min(vals), max(vals)
         return [(v - mn) / (mx - mn) if mx > mn else 0.0 for v in vals]
@@ -290,18 +296,18 @@ def main():
     vol_norm   = norm([r["vol_ratio"] for r in rows])
 
     for i, r in enumerate(rows):
-        r["score"] = 0.6*price_norm[i] + 0.4*vol_norm[i]
+        r["score"] = 0.6 * price_norm[i] + 0.4 * vol_norm[i]
 
     rows.sort(key=lambda x: x["score"], reverse=True)
-    top10 = rows[:10]   # ← ここで必ず top10 を定義
+    top10 = rows[:10]  # ← ここで必ず代入される
 
-    # 出力（先にJSONを書き出しておく）
+    # ----- JSON出力（先に書いておく）-----
     out_json_dir = pathlib.Path(OUT_DIR) / "data" / DATE
     out_json_dir.mkdir(parents=True, exist_ok=True)
     with open(out_json_dir / "top10.json", "w") as f:
         json.dump(top10, f, indent=2)
 
-    # 週足3ヶ月チャート（recent_map を使って再取得なし）
+    # ----- 週足3ヶ月チャート生成（MOCK時はスキップ／再取得なし）-----
     if not MOCK_MODE and top10:
         for r in top10:
             try:
@@ -315,6 +321,7 @@ def main():
 
     mark_fixed_costs(spend)
     print(f"Generated top10 for {DATE}: {len(top10)} symbols")
+
 
 if __name__ == "__main__":
     main()
