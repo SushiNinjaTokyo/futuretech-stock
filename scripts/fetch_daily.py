@@ -46,20 +46,24 @@ PROVIDER_FIXED_JPY = 0.0 if DATA_PROVIDER == "yfinance" else float(os.getenv("TI
 # 予算ユーティリティ
 # =========================
 def month_key(date_iso: str):
-    d = datetime.date.fromisoformat(date_iso); return f"{d.year}-{d.month:02d}"
+    d = datetime.date.fromisoformat(date_iso)
+    return f"{d.year}-{d.month:02d}"
 
 def load_spend():
     p = pathlib.Path(SPEND_FILE)
     if p.exists():
-        try: return json.loads(p.read_text())
-        except Exception: return {}
+        try:
+            return json.loads(p.read_text())
+        except Exception:
+            return {}
     return {}
 
 def save_spend(data):
     p = pathlib.Path(SPEND_FILE); p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(data, indent=2))
 
-def month_spend_total(spend, mkey): return float(spend.get(mkey, {}).get("total_jpy", 0))
+def month_spend_total(spend, mkey):
+    return float(spend.get(mkey, {}).get("total_jpy", 0))
 
 def add_spend(spend, mkey, date_iso, amount_jpy, memo):
     month = spend.setdefault(mkey, {"items": [], "total_jpy": 0})
@@ -246,11 +250,10 @@ def compute_volume_anomaly_light(df, close_col="close", vol_col="volume"):
 def compose_final_score(components: dict, weights: dict) -> float:
     """
     components: {"vol_anomaly": 0..1, "news": 0..1, ...}
-    weights:    {"vol_anomaly": 0.7,  "news": 0.3, ...}  ※合計1.0推奨（超えても正規化）
+    weights:    {"vol_anomaly": 0.7,  "news": 0.3, ...}
     return: final score in 0..1
     """
     if not components: return 0.0
-    # 重みを合計1.0に正規化
     w_sum = sum(max(0.0, float(w)) for w in weights.values()) or 1.0
     score = 0.0
     for key, val in components.items():
@@ -295,27 +298,6 @@ def save_chart_png_weekly_3m(symbol: str, df_daily: pd.DataFrame, out_dir: str, 
     plt.close()
 
 
-# （参考）日足3年チャート
-def save_chart_png(symbol, df, out_dir, date_iso):
-    if df is None or df.empty: return
-    charts_dir = pathlib.Path(out_dir) / "charts" / date_iso
-    charts_dir.mkdir(parents=True, exist_ok=True)
-    d = df.copy()
-    d["date"] = pd.to_datetime(d["date"]); d = d.sort_values("date")
-    d["ma20"]  = d["close"].rolling(20).mean()
-    d["ma50"]  = d["close"].rolling(50).mean()
-    d["ma200"] = d["close"].rolling(200).mean()
-    plt.figure(figsize=(9, 4.8), dpi=120)
-    plt.plot(d["date"], d["close"], linewidth=1.2)
-    plt.plot(d["date"], d["ma20"], linewidth=0.9)
-    plt.plot(d["date"], d["ma50"], linewidth=0.9)
-    plt.plot(d["date"], d["ma200"], linewidth=0.9)
-    plt.title(f"{symbol} — 3Y Daily")
-    plt.tight_layout()
-    plt.savefig(charts_dir / f"{symbol}.png")
-    plt.close()
-
-
 # =========================
 # メイン
 # =========================
@@ -347,23 +329,21 @@ def main():
                 print(f"[WARN] skip (no metrics) {symbol}", file=sys.stderr); continue
             pct_change, vol_ratio = base_metrics
 
-            # --- 異常出来高（現状はこれだけ採点に反映） ---
+            # --- 異常出来高（現状はこれのみ採点に使用） ---
             anom = compute_volume_anomaly_light(df)
             if not anom:
-                vol_component = 0.0; eligible = False
-                vol_detail = {}
+                vol_component = 0.0; eligible = False; vol_detail = {}
             else:
-                vol_component = anom["score_0_1"]; eligible = anom["eligible"]
-                vol_detail = anom
+                vol_component = anom["score_0_1"]; eligible = anom["eligible"]; vol_detail = anom
 
-            # --- 将来拡張用: コンポーネント辞書 & 重み ---
+            # --- 将来拡張用: コンポーネント & 重み ---
             score_components = {
                 "vol_anomaly": float(vol_component),
                 # "news": 0.0,
                 # "inst_delta": 0.0,
             }
             score_weights = {
-                "vol_anomaly": 1.0,  # 現状は出来高のみ（将来ここを調整）
+                "vol_anomaly": 1.0,  # 現状は出来高のみ
                 # "news": 0.0,
                 # "inst_delta": 0.0,
             }
@@ -387,9 +367,7 @@ def main():
                 "chart_url": f"/charts/{DATE}/{symbol}.png",
                 "tech_note": "Auto tech note TBD",
                 "ir_note":   "IR/News summary TBD",
-                "detail": {
-                    "vol_anomaly": vol_detail,         # 内訳を必要に応じてUIで表示
-                }
+                "detail": {"vol_anomaly": vol_detail}
             })
         except Exception as e:
             print(f"[WARN] {symbol}: {e}", file=sys.stderr)
@@ -412,7 +390,7 @@ def main():
     target.sort(key=lambda x: x.get("final_score_0_1", 0.0), reverse=True)
     top10 = target[:10]
 
-    # rank 付与（1..10）— フロントで強調表示に使用
+    # rank 付与（1..10）
     for i, r in enumerate(top10, start=1):
         r["rank"] = i
 
