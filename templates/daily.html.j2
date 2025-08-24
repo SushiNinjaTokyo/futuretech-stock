@@ -1,39 +1,193 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ date }} — Top 10 | FutureTech Markets</title>
-  <meta name="description" content="Top 10 movers for {{ date }} across AI, Space, and Robotics">
-  <link rel="canonical" href="https://your-domain.com/daily/{{ date }}.html">
-  <script type="application/ld+json">{{ schema_json | safe }}</script>
-  <link rel="preload" as="style" href="/assets/styles.css">
-  <link rel="stylesheet" href="/assets/styles.css">
-  <meta property="og:title" content="Top 10 — {{ date }} | FutureTech Markets">
-  <meta property="og:description" content="AI × Space × Robotics — price, news count, and abnormal volume.">
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://your-domain.com/daily/{{ date }}.html">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta charset="utf-8" />
+  <title>futuretech-stock — Daily Top 10 ({{ date }})</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0f172a;
+      --muted: #64748b;
+      --border: #e5e7eb;
+      --badge: #111827;
+      --gold: #f59e0b;   /* 1位 */
+      --silver: #111827; /* 2位 */
+      --bronze: #fb923c; /* 3位 */
+    }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: var(--bg); color: var(--fg);}
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
+    header { margin-bottom: 16px; }
+    h1 { font-size: 22px; margin: 0 0 6px 0; }
+    .sub { color: var(--muted); font-size: 12px; }
+
+    .grid { display: grid; grid-template-columns: repeat(1,minmax(0,1fr)); gap: 12px; }
+    @media (min-width: 900px) { .grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+
+    .card { border: 1px solid var(--border); border-radius: 16px; padding: 16px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+    .row { display:flex; align-items:center; justify-content:space-between; }
+    .sym { display:flex; align-items:center; gap:10px; }
+    .rank { width: 36px; height: 36px; border-radius: 999px; display:flex; align-items:center; justify-content:center; font-weight: 800; font-size: 13px; }
+    .rank.gold   { background: var(--gold); color: #fff; }
+    .rank.silver { background: var(--silver); color: #fff; }
+    .rank.bronze { background: var(--bronze); color: #fff; }
+    .rank.other  { background: #f3f4f6; color: #111827; }
+
+    .symbol { font-size: 20px; font-weight: 700; }
+    .name { font-size:12px; color: var(--muted); }
+
+    .score { text-align:right; }
+    .score .num { font-size: 34px; font-weight: 900; line-height: 1; letter-spacing: -0.5px; }
+    .score .den { font-size: 11px; color: var(--muted); }
+
+    .tabs { margin-top:12px; }
+    .tab-buttons { display:flex; gap:8px; margin-bottom:8px; }
+    .tab-btn { border:1px solid var(--border); border-radius:999px; padding:6px 10px; font-size:12px; background:#fff; cursor:pointer; }
+    .tab-btn.active { background:#000; color:#fff; border-color:#000; }
+    .tab { display:none; }
+    .tab.active { display:block; }
+
+    .badges { display:flex; flex-wrap:wrap; gap:8px; }
+    .badge { border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; }
+    .badge strong { margin-right:6px; color: var(--muted); font-weight: 500; }
+
+    .chart { width: 100%; border:1px solid var(--border); border-radius: 10px; }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Top 10 — {{ date }}</h1>
-    <p>Scored by price change, news count, and abnormal volume.</p>
-    <nav><a href="/">Home</a> · <a href="/daily/index.html">All Reports</a></nav>
-  </header>
-  <main>
-    <ol>
-    {% for row in top10 %}
-      <li>
-        <h2>{{ row.symbol }} — {{ row.name }}<span class="badge">{{ row.theme }}</span></h2>
-        <p>Price Δ: {{ "%.2f"|format(row.pct_change*100) }}% · News: {{ row.news_count }} · Volume x{{ "%.1f"|format(row.vol_ratio) }}</p>
-        <div><img src="/charts/{{ date }}/{{ row.symbol }}.png" alt="Chart {{ row.symbol }}" width="640" onerror="this.style.display='none'"></div>
-        <details><summary>Technical snapshot</summary><pre>{{ row.tech_note }}</pre></details>
-        <details><summary>IR/News summary</summary><pre>{{ row.ir_note }}</pre></details>
-      </li>
-    {% endfor %}
-    </ol>
-  </main>
-  <footer><small>© FutureTech Markets</small></footer>
+  <div class="wrap">
+    <header>
+      <h1>futuretech-stock — Daily Top 10</h1>
+      <div class="sub">Date: {{ date }} / Scoring: 1000 pts (currently volume anomaly only)</div>
+    </header>
+
+    <!-- サーバで top10 が渡っている場合：Jinjaで描画 -->
+    {% if top10 is defined %}
+    <div class="grid">
+      {% for item in top10 %}
+        {% set rank = item.rank or loop.index %}
+        {% set chart_url = item.chart_url or ('/charts/' ~ date ~ '/' ~ item.symbol ~ '.png') %}
+        {% set pts = item.score_pts or ( ((item.final_score_0_1 or item.vol_anomaly_score or 0) * 1000) | round(0, 'common') ) %}
+        {% set vol = item.vol_anomaly_score or item.final_score_0_1 or 0 %}
+        {% set tier = 'other' %}
+        {% if rank == 1 %}{% set tier = 'gold' %}
+        {% elif rank == 2 %}{% set tier = 'silver' %}
+        {% elif rank == 3 %}{% set tier = 'bronze' %}{% endif %}
+
+        <div class="card" id="card-{{ loop.index }}">
+          <div class="row">
+            <div class="sym">
+              <div class="rank {{ tier }}">{{ rank }}</div>
+              <div>
+                <div class="symbol">{{ item.symbol }}</div>
+                {% if item.name %}<div class="name">{{ item.name }}</div>{% endif %}
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">{{ pts | int }}</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-target="#ov-{{ loop.index }}">Overview</button>
+              <button class="tab-btn" data-target="#tech-{{ loop.index }}">Technical snapshot</button>
+            </div>
+            <div id="ov-{{ loop.index }}" class="tab active">
+              <p class="name">現在は異常出来高のみで採点。今後、ニュース/機関保有などを合算予定。</p>
+              <div class="badges">
+                <div class="badge"><strong>Score</strong>{{ pts | int }}/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>{{ "%.2f"|format(vol) }}</div>
+              </div>
+            </div>
+            <div id="tech-{{ loop.index }}" class="tab">
+              <img src="{{ chart_url }}" alt="{{ item.symbol }} weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% else %}
+    <!-- クライアントで JSON をフェッチして描画（フォールバック） -->
+    <div id="cards" class="grid"></div>
+    <script>
+      (async function(){
+        const date = "{{ date }}";
+        const res = await fetch(`/data/${date}/top10.json`, {cache: "no-store"});
+        const data = await res.json();
+        const el = document.getElementById("cards");
+        el.innerHTML = data.map((item, i) => {
+          const rank = item.rank ?? (i+1);
+          const pts = (typeof item.score_pts === "number")
+            ? item.score_pts
+            : Math.round(((item.final_score_0_1 ?? item.vol_anomaly_score ?? 0) * 1000));
+          const vol = item.vol_anomaly_score ?? item.final_score_0_1 ?? 0;
+          const chart = item.chart_url ?? `/charts/${date}/${item.symbol}.png`;
+          const tier = rank === 1 ? "gold" : rank === 2 ? "silver" : rank === 3 ? "bronze" : "other";
+          const idx = i+1;
+          return `
+            <div class="card" id="card-${idx}">
+              <div class="row">
+                <div class="sym">
+                  <div class="rank ${tier}">${rank}</div>
+                  <div>
+                    <div class="symbol">${item.symbol}</div>
+                    ${item.name ? `<div class="name">${item.name}</div>` : ""}
+                  </div>
+                </div>
+                <div class="score">
+                  <div class="num">${pts}</div>
+                  <div class="den">/ 1000</div>
+                </div>
+              </div>
+
+              <div class="tabs">
+                <div class="tab-buttons">
+                  <button class="tab-btn active" data-target="#ov-${idx}">Overview</button>
+                  <button class="tab-btn" data-target="#tech-${idx}">Technical snapshot</button>
+                </div>
+                <div id="ov-${idx}" class="tab active">
+                  <p class="name">現在は異常出来高のみで採点。今後、ニュース/機関保有などを合算予定。</p>
+                  <div class="badges">
+                    <div class="badge"><strong>Score</strong>${pts}/1000</div>
+                    <div class="badge"><strong>Volume anomaly</strong>${vol.toFixed(2)}</div>
+                  </div>
+                </div>
+                <div id="tech-${idx}" class="tab">
+                  <img src="${chart}" alt="${item.symbol} weekly chart" class="chart" loading="lazy" />
+                </div>
+              </div>
+            </div>
+          `;
+        }).join("");
+        bindTabs();
+      })();
+    </script>
+    {% endif %}
+
+  </div>
+
+  <script>
+    function bindTabs(scope = document) {
+      scope.querySelectorAll(".tab-buttons").forEach(btns => {
+        btns.querySelectorAll(".tab-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const card = btn.closest(".card");
+            // ボタン切替
+            btns.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            // パネル切替
+            card.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+            const target = card.querySelector(btn.getAttribute("data-target"));
+            if (target) target.classList.add("active");
+          });
+        });
+      });
+    }
+    // SSR時のタブ動作
+    bindTabs(document);
+  </script>
 </body>
 </html>
