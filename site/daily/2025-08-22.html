@@ -1,111 +1,497 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>2025-08-22 — Top 10 | FutureTech Markets</title>
-  <meta name="description" content="Top 10 movers for 2025-08-22 across AI, Space, and Robotics">
-  <link rel="canonical" href="https://your-domain.com/daily/2025-08-22.html">
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "NewsArticle", "headline": "Top 10 \u2014 2025-08-22", "datePublished": "2025-08-22", "about": ["stocks", "AI", "robotics", "space"]}</script>
-  <link rel="preload" as="style" href="/assets/styles.css">
-  <link rel="stylesheet" href="/assets/styles.css">
-  <meta property="og:title" content="Top 10 — 2025-08-22 | FutureTech Markets">
-  <meta property="og:description" content="AI × Space × Robotics — price, news count, and abnormal volume.">
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://your-domain.com/daily/2025-08-22.html">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta charset="utf-8" />
+  <title>futuretech-stock — Daily Top 10 (2025-08-22)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0f172a;
+      --muted: #64748b;
+      --border: #e5e7eb;
+      --badge: #111827;
+      --gold: #f59e0b;   /* 1位 */
+      --silver: #111827; /* 2位 */
+      --bronze: #fb923c; /* 3位 */
+    }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: var(--bg); color: var(--fg);}
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
+    header { margin-bottom: 16px; }
+    h1 { font-size: 22px; margin: 0 0 6px 0; }
+    .sub { color: var(--muted); font-size: 12px; }
+
+    .grid { display: grid; grid-template-columns: repeat(1,minmax(0,1fr)); gap: 12px; }
+    @media (min-width: 900px) { .grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+
+    .card { border: 1px solid var(--border); border-radius: 16px; padding: 16px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+    .row { display:flex; align-items:center; justify-content:space-between; }
+    .sym { display:flex; align-items:center; gap:10px; }
+    .rank { width: 36px; height: 36px; border-radius: 999px; display:flex; align-items:center; justify-content:center; font-weight: 800; font-size: 13px; }
+    .rank.gold   { background: var(--gold); color: #fff; }
+    .rank.silver { background: var(--silver); color: #fff; }
+    .rank.bronze { background: var(--bronze); color: #fff; }
+    .rank.other  { background: #f3f4f6; color: #111827; }
+
+    .symbol { font-size: 20px; font-weight: 700; }
+    .name { font-size:12px; color: var(--muted); }
+
+    .score { text-align:right; }
+    .score .num { font-size: 34px; font-weight: 900; line-height: 1; letter-spacing: -0.5px; }
+    .score .den { font-size: 11px; color: var(--muted); }
+
+    .tabs { margin-top:12px; }
+    .tab-buttons { display:flex; gap:8px; margin-bottom:8px; }
+    .tab-btn { border:1px solid var(--border); border-radius:999px; padding:6px 10px; font-size:12px; background:#fff; cursor:pointer; }
+    .tab-btn.active { background:#000; color:#fff; border-color:#000; }
+    .tab { display:none; }
+    .tab.active { display:block; }
+
+    .badges { display:flex; flex-wrap:wrap; gap:8px; }
+    .badge { border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; }
+    .badge strong { margin-right:6px; color: var(--muted); font-weight: 500; }
+
+    .chart { width: 100%; border:1px solid var(--border); border-radius: 10px; }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Top 10 — 2025-08-22</h1>
-    <p>Scored by price change, news count, and abnormal volume.</p>
-    <nav><a href="/">Home</a> · <a href="/daily/index.html">All Reports</a></nav>
-  </header>
-  <main>
-    <ol>
+  <div class="wrap">
+    <header>
+      <h1>futuretech-stock — Daily Top 10</h1>
+      <div class="sub">Date: 2025-08-22 / Scoring: 1000 pts (currently volume anomaly only)</div>
+    </header>
+
+    <!-- サーバで top10 が渡っている場合：Jinjaで描画 -->
     
-      <li>
-        <h2>PLTR — Palantir Technologies Inc.<span class="badge">AI</span></h2>
-        <p>Price Δ: 1.64% · News: 0 · Volume x1.3</p>
-        <div><img src="/charts/2025-08-22/PLTR.png" alt="Chart PLTR" width="640" onerror="this.style.display='none'"></div>
-        <details><summary>Technical snapshot</summary><pre>Auto tech note TBD</pre></details>
-        <details><summary>IR/News summary</summary><pre>IR/News summary TBD</pre></details>
-      </li>
+    <div class="grid">
+      
+        
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-1">
+          <div class="row">
+            <div class="sym">
+              <div class="rank gold">1</div>
+              <div>
+                <div class="symbol">PLTR</div>
+                <div class="name">Palantir Technologies Inc.</div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">573</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-target="#ov-1">Overview</button>
+              <button class="tab-btn" data-target="#tech-1">Technical snapshot</button>
+            </div>
+            <div id="ov-1" class="tab active">
+              <p class="name">現在は異常出来高のみで採点。今後、ニュース/機関保有などを合算予定。</p>
+              <div class="badges">
+                <div class="badge"><strong>Score</strong>573/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.57</div>
+              </div>
+            </div>
+            <div id="tech-1" class="tab">
+              <img src="/charts/2025-08-22/PLTR.png" alt="PLTR weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-2">
+          <div class="row">
+            <div class="sym">
+              <div class="rank silver">2</div>
+              <div>
+                <div class="symbol">MSFT</div>
+                <div class="name">Microsoft Corporation</div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">559</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-target="#ov-2">Overview</button>
+              <button class="tab-btn" data-target="#tech-2">Technical snapshot</button>
+            </div>
+            <div id="ov-2" class="tab active">
+              <p class="name">現在は異常出来高のみで採点。今後、ニュース/機関保有などを合算予定。</p>
+              <div class="badges">
+                <div class="badge"><strong>Score</strong>559/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.56</div>
+              </div>
+            </div>
+            <div id="tech-2" class="tab">
+              <img src="/charts/2025-08-22/MSFT.png" alt="MSFT weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-3">
+          <div class="row">
+            <div class="sym">
+              <div class="rank bronze">3</div>
+              <div>
+                <div class="symbol">VSAT</div>
+                <div class="name">Viasat, Inc.</div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">533</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-target="#ov-3">Overview</button>
+              <button class="tab-btn" data-target="#tech-3">Technical snapshot</button>
+            </div>
+            <div id="ov-3" class="tab active">
+              <p class="name">現在は異常出来高のみで採点。今後、ニュース/機関保有などを合算予定。</p>
+              <div class="badges">
+                <div class="badge"><strong>Score</strong>533/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.53</div>
+              </div>
+            </div>
+            <div id="tech-3" class="tab">
+              <img src="/charts/2025-08-22/VSAT.png" alt="VSAT weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-4">
+          <div class="row">
+            <div class="sym">
+              <div class="rank other">4</div>
+              <div>
+                <div class="symbol">SOUN</div>
+                <div class="name">SoundHound AI, Inc.</div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">527</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-target="#ov-4">Overview</button>
+              <button class="tab-btn" data-target="#tech-4">Technical snapshot</button>
+            </div>
+            <div id="ov-4" class="tab active">
+              <p class="name">現在は異常出来高のみで採点。今後、ニュース/機関保有などを合算予定。</p>
+              <div class="badges">
+                <div class="badge"><strong>Score</strong>527/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.53</div>
+              </div>
+            </div>
+            <div id="tech-4" class="tab">
+              <img src="/charts/2025-08-22/SOUN.png" alt="SOUN weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-5">
+          <div class="row">
+            <div class="sym">
+              <div class="rank other">5</div>
+              <div>
+                <div class="symbol">IRDM</div>
+                <div class="name">Iridium Communications Inc.</div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">518</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-target="#ov-5">Overview</button>
+              <button class="tab-btn" data-target="#tech-5">Technical snapshot</button>
+            </div>
+            <div id="ov-5" class="tab active">
+              <p class="name">現在は異常出来高のみで採点。今後、ニュース/機関保有などを合算予定。</p>
+              <div class="badges">
+                <div class="badge"><strong>Score</strong>518/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.52</div>
+              </div>
+            </div>
+            <div id="tech-5" class="tab">
+              <img src="/charts/2025-08-22/IRDM.png" alt="IRDM weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-6">
+          <div class="row">
+            <div class="sym">
+              <div class="rank other">6</div>
+              <div>
+                <div class="symbol">ISRG</div>
+                <div class="name">Intuitive Surgical, Inc.</div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">511</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-target="#ov-6">Overview</button>
+              <button class="tab-btn" data-target="#tech-6">Technical snapshot</button>
+            </div>
+            <div id="ov-6" class="tab active">
+              <p class="name">現在は異常出来高のみで採点。今後、ニュース/機関保有などを合算予定。</p>
+              <div class="badges">
+                <div class="badge"><strong>Score</strong>511/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.51</div>
+              </div>
+            </div>
+            <div id="tech-6" class="tab">
+              <img src="/charts/2025-08-22/ISRG.png" alt="ISRG weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-7">
+          <div class="row">
+            <div class="sym">
+              <div class="rank other">7</div>
+              <div>
+                <div class="symbol">TER</div>
+                <div class="name">Teradyne, Inc.</div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">502</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-target="#ov-7">Overview</button>
+              <button class="tab-btn" data-target="#tech-7">Technical snapshot</button>
+            </div>
+            <div id="ov-7" class="tab active">
+              <p class="name">現在は異常出来高のみで採点。今後、ニュース/機関保有などを合算予定。</p>
+              <div class="badges">
+                <div class="badge"><strong>Score</strong>502/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.50</div>
+              </div>
+            </div>
+            <div id="tech-7" class="tab">
+              <img src="/charts/2025-08-22/TER.png" alt="TER weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-8">
+          <div class="row">
+            <div class="sym">
+              <div class="rank other">8</div>
+              <div>
+                <div class="symbol">MNDY</div>
+                <div class="name">Monday.com Ltd.</div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">477</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-target="#ov-8">Overview</button>
+              <button class="tab-btn" data-target="#tech-8">Technical snapshot</button>
+            </div>
+            <div id="ov-8" class="tab active">
+              <p class="name">現在は異常出来高のみで採点。今後、ニュース/機関保有などを合算予定。</p>
+              <div class="badges">
+                <div class="badge"><strong>Score</strong>477/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.48</div>
+              </div>
+            </div>
+            <div id="tech-8" class="tab">
+              <img src="/charts/2025-08-22/MNDY.png" alt="MNDY weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-9">
+          <div class="row">
+            <div class="sym">
+              <div class="rank other">9</div>
+              <div>
+                <div class="symbol">SYM</div>
+                <div class="name">Symbotic Inc.</div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">470</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-target="#ov-9">Overview</button>
+              <button class="tab-btn" data-target="#tech-9">Technical snapshot</button>
+            </div>
+            <div id="ov-9" class="tab active">
+              <p class="name">現在は異常出来高のみで採点。今後、ニュース/機関保有などを合算予定。</p>
+              <div class="badges">
+                <div class="badge"><strong>Score</strong>470/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.47</div>
+              </div>
+            </div>
+            <div id="tech-9" class="tab">
+              <img src="/charts/2025-08-22/SYM.png" alt="SYM weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-10">
+          <div class="row">
+            <div class="sym">
+              <div class="rank other">10</div>
+              <div>
+                <div class="symbol">RKLB</div>
+                <div class="name">Rocket Lab USA, Inc.</div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">455</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-target="#ov-10">Overview</button>
+              <button class="tab-btn" data-target="#tech-10">Technical snapshot</button>
+            </div>
+            <div id="ov-10" class="tab active">
+              <p class="name">現在は異常出来高のみで採点。今後、ニュース/機関保有などを合算予定。</p>
+              <div class="badges">
+                <div class="badge"><strong>Score</strong>455/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.46</div>
+              </div>
+            </div>
+            <div id="tech-10" class="tab">
+              <img src="/charts/2025-08-22/RKLB.png" alt="RKLB weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      
+    </div>
+
     
-      <li>
-        <h2>MSFT — Microsoft Corporation<span class="badge">AI</span></h2>
-        <p>Price Δ: 0.59% · News: 0 · Volume x1.1</p>
-        <div><img src="/charts/2025-08-22/MSFT.png" alt="Chart MSFT" width="640" onerror="this.style.display='none'"></div>
-        <details><summary>Technical snapshot</summary><pre>Auto tech note TBD</pre></details>
-        <details><summary>IR/News summary</summary><pre>IR/News summary TBD</pre></details>
-      </li>
-    
-      <li>
-        <h2>VSAT — Viasat, Inc.<span class="badge">Space</span></h2>
-        <p>Price Δ: 4.92% · News: 0 · Volume x1.0</p>
-        <div><img src="/charts/2025-08-22/VSAT.png" alt="Chart VSAT" width="640" onerror="this.style.display='none'"></div>
-        <details><summary>Technical snapshot</summary><pre>Auto tech note TBD</pre></details>
-        <details><summary>IR/News summary</summary><pre>IR/News summary TBD</pre></details>
-      </li>
-    
-      <li>
-        <h2>SOUN — SoundHound AI, Inc.<span class="badge">AI</span></h2>
-        <p>Price Δ: 2.70% · News: 0 · Volume x1.0</p>
-        <div><img src="/charts/2025-08-22/SOUN.png" alt="Chart SOUN" width="640" onerror="this.style.display='none'"></div>
-        <details><summary>Technical snapshot</summary><pre>Auto tech note TBD</pre></details>
-        <details><summary>IR/News summary</summary><pre>IR/News summary TBD</pre></details>
-      </li>
-    
-      <li>
-        <h2>IRDM — Iridium Communications Inc.<span class="badge">Space</span></h2>
-        <p>Price Δ: 3.48% · News: 0 · Volume x1.1</p>
-        <div><img src="/charts/2025-08-22/IRDM.png" alt="Chart IRDM" width="640" onerror="this.style.display='none'"></div>
-        <details><summary>Technical snapshot</summary><pre>Auto tech note TBD</pre></details>
-        <details><summary>IR/News summary</summary><pre>IR/News summary TBD</pre></details>
-      </li>
-    
-      <li>
-        <h2>ISRG — Intuitive Surgical, Inc.<span class="badge">Robotics</span></h2>
-        <p>Price Δ: 1.34% · News: 0 · Volume x1.0</p>
-        <div><img src="/charts/2025-08-22/ISRG.png" alt="Chart ISRG" width="640" onerror="this.style.display='none'"></div>
-        <details><summary>Technical snapshot</summary><pre>Auto tech note TBD</pre></details>
-        <details><summary>IR/News summary</summary><pre>IR/News summary TBD</pre></details>
-      </li>
-    
-      <li>
-        <h2>TER — Teradyne, Inc.<span class="badge">Robotics</span></h2>
-        <p>Price Δ: 5.49% · News: 0 · Volume x0.8</p>
-        <div><img src="/charts/2025-08-22/TER.png" alt="Chart TER" width="640" onerror="this.style.display='none'"></div>
-        <details><summary>Technical snapshot</summary><pre>Auto tech note TBD</pre></details>
-        <details><summary>IR/News summary</summary><pre>IR/News summary TBD</pre></details>
-      </li>
-    
-      <li>
-        <h2>MNDY — Monday.com Ltd.<span class="badge">AI</span></h2>
-        <p>Price Δ: 3.75% · News: 0 · Volume x0.6</p>
-        <div><img src="/charts/2025-08-22/MNDY.png" alt="Chart MNDY" width="640" onerror="this.style.display='none'"></div>
-        <details><summary>Technical snapshot</summary><pre>Auto tech note TBD</pre></details>
-        <details><summary>IR/News summary</summary><pre>IR/News summary TBD</pre></details>
-      </li>
-    
-      <li>
-        <h2>SYM — Symbotic Inc.<span class="badge">Robotics</span></h2>
-        <p>Price Δ: 5.31% · News: 0 · Volume x0.9</p>
-        <div><img src="/charts/2025-08-22/SYM.png" alt="Chart SYM" width="640" onerror="this.style.display='none'"></div>
-        <details><summary>Technical snapshot</summary><pre>Auto tech note TBD</pre></details>
-        <details><summary>IR/News summary</summary><pre>IR/News summary TBD</pre></details>
-      </li>
-    
-      <li>
-        <h2>RKLB — Rocket Lab USA, Inc.<span class="badge">Space</span></h2>
-        <p>Price Δ: 6.86% · News: 0 · Volume x1.0</p>
-        <div><img src="/charts/2025-08-22/RKLB.png" alt="Chart RKLB" width="640" onerror="this.style.display='none'"></div>
-        <details><summary>Technical snapshot</summary><pre>Auto tech note TBD</pre></details>
-        <details><summary>IR/News summary</summary><pre>IR/News summary TBD</pre></details>
-      </li>
-    
-    </ol>
-  </main>
-  <footer><small>© FutureTech Markets</small></footer>
+
+  </div>
+
+  <script>
+    function bindTabs(scope = document) {
+      scope.querySelectorAll(".tab-buttons").forEach(btns => {
+        btns.querySelectorAll(".tab-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const card = btn.closest(".card");
+            // ボタン切替
+            btns.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            // パネル切替
+            card.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+            const target = card.querySelector(btn.getAttribute("data-target"));
+            if (target) target.classList.add("active");
+          });
+        });
+      });
+    }
+    // SSR時のタブ動作
+    bindTabs(document);
+  </script>
 </body>
 </html>

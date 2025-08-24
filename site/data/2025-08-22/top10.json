@@ -6,11 +6,35 @@
     "pct_change": 0.016391426158517117,
     "vol_ratio": 1.2837198476763687,
     "news_count": 0,
-    "vol_anomaly_score": 0.573203620546779,
     "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.573203620546779
+    },
+    "score_weights": {
+      "vol_anomaly": 1.0
+    },
+    "final_score_0_1": 0.573203620546779,
+    "score_pts": 573,
+    "vol_anomaly_score": 0.573203620546779,
+    "chart_url": "/charts/2025-08-22/PLTR.png",
     "tech_note": "Auto tech note TBD",
     "ir_note": "IR/News summary TBD",
-    "score": 0.573203620546779
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.573203620546779,
+        "rvol20": 1.2837198476763687,
+        "z60": 0.696632715582841,
+        "pct_rank_90": 0.8,
+        "z_norm": 0.5696632715582841,
+        "rvol_norm": 0.4279066158921229,
+        "dollar_vol": 16162161281.288147,
+        "eligible": true,
+        "today_volume": 101815300.0,
+        "sma20_volume": 79312710.0,
+        "close": 158.74000549316406
+      }
+    },
+    "rank": 1
   },
   {
     "symbol": "MSFT",
@@ -19,11 +43,35 @@
     "pct_change": 0.005929757278004345,
     "vol_ratio": 1.0687223590842236,
     "news_count": 0,
-    "vol_anomaly_score": 0.5589228785492719,
     "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.5589228785492719
+    },
+    "score_weights": {
+      "vol_anomaly": 1.0
+    },
+    "final_score_0_1": 0.5589228785492719,
+    "score_pts": 559,
+    "vol_anomaly_score": 0.5589228785492719,
+    "chart_url": "/charts/2025-08-22/MSFT.png",
     "tech_note": "Auto tech note TBD",
     "ir_note": "IR/News summary TBD",
-    "score": 0.5589228785492719
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.5589228785492719,
+        "rvol20": 1.0687223590842236,
+        "z60": 0.6632350750392138,
+        "pct_rank_90": 0.8444444444444444,
+        "z_norm": 0.5663235075039214,
+        "rvol_norm": 0.3562407863614079,
+        "dollar_vol": 12330305060.067749,
+        "eligible": true,
+        "today_volume": 24309100.0,
+        "sma20_volume": 22745945.0,
+        "close": 507.2300109863281
+      }
+    },
+    "rank": 2
   },
   {
     "symbol": "VSAT",
@@ -32,11 +80,35 @@
     "pct_change": 0.049211097845333805,
     "vol_ratio": 1.0383925247013435,
     "news_count": 0,
-    "vol_anomaly_score": 0.5327339314172785,
     "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.5327339314172785
+    },
+    "score_weights": {
+      "vol_anomaly": 1.0
+    },
+    "final_score_0_1": 0.5327339314172785,
+    "score_pts": 533,
+    "vol_anomaly_score": 0.5327339314172785,
+    "chart_url": "/charts/2025-08-22/VSAT.png",
     "tech_note": "Auto tech note TBD",
     "ir_note": "IR/News summary TBD",
-    "score": 0.5327339314172785
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.5327339314172785,
+        "rvol20": 1.0383925247013435,
+        "z60": 0.2890046900539961,
+        "pct_rank_90": 0.8222222222222222,
+        "z_norm": 0.5289004690053996,
+        "rvol_norm": 0.3461308415671145,
+        "dollar_vol": 137870860.5064392,
+        "eligible": true,
+        "today_volume": 4936300.0,
+        "sma20_volume": 4753790.0,
+        "close": 27.93000030517578
+      }
+    },
+    "rank": 3
   },
   {
     "symbol": "SOUN",
@@ -45,11 +117,35 @@
     "pct_change": 0.026982901858721448,
     "vol_ratio": 0.9915905424008662,
     "news_count": 0,
-    "vol_anomaly_score": 0.5268938927891393,
     "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.5268938927891393
+    },
+    "score_weights": {
+      "vol_anomaly": 1.0
+    },
+    "final_score_0_1": 0.5268938927891393,
+    "score_pts": 527,
+    "vol_anomaly_score": 0.5268938927891393,
+    "chart_url": "/charts/2025-08-22/SOUN.png",
     "tech_note": "Auto tech note TBD",
     "ir_note": "IR/News summary TBD",
-    "score": 0.5268938927891393
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.5268938927891393,
+        "rvol20": 0.9915905424008662,
+        "z60": 0.2658078820921651,
+        "pct_rank_90": 0.8222222222222222,
+        "z_norm": 0.5265807882092165,
+        "rvol_norm": 0.33053018080028873,
+        "dollar_vol": 636406429.2616844,
+        "eligible": true,
+        "today_volume": 50669300.0,
+        "sma20_volume": 51099015.0,
+        "close": 12.5600004196167
+      }
+    },
+    "rank": 4
   },
   {
     "symbol": "IRDM",
@@ -58,11 +154,35 @@
     "pct_change": 0.034797024599267146,
     "vol_ratio": 1.0723387446163255,
     "news_count": 0,
-    "vol_anomaly_score": 0.5180496668005149,
     "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.5180496668005149
+    },
+    "score_weights": {
+      "vol_anomaly": 1.0
+    },
+    "final_score_0_1": 0.5180496668005149,
+    "score_pts": 518,
+    "vol_anomaly_score": 0.5180496668005149,
+    "chart_url": "/charts/2025-08-22/IRDM.png",
     "tech_note": "Auto tech note TBD",
     "ir_note": "IR/News summary TBD",
-    "score": 0.5180496668005149
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.5180496668005149,
+        "rvol20": 1.0723387446163255,
+        "z60": 0.10520473566653496,
+        "pct_rank_90": 0.7777777777777778,
+        "z_norm": 0.5105204735666535,
+        "rvol_norm": 0.35744624820544185,
+        "dollar_vol": 42043837.229537964,
+        "eligible": true,
+        "today_volume": 1683100.0,
+        "sma20_volume": 1569560.0,
+        "close": 24.979999542236328
+      }
+    },
+    "rank": 5
   },
   {
     "symbol": "ISRG",
@@ -71,11 +191,35 @@
     "pct_change": 0.01336511176052937,
     "vol_ratio": 1.0218749605543844,
     "news_count": 0,
-    "vol_anomaly_score": 0.5107817144095866,
     "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.5107817144095866
+    },
+    "score_weights": {
+      "vol_anomaly": 1.0
+    },
+    "final_score_0_1": 0.5107817144095866,
+    "score_pts": 511,
+    "vol_anomaly_score": 0.5107817144095866,
+    "chart_url": "/charts/2025-08-22/ISRG.png",
     "tech_note": "Auto tech note TBD",
     "ir_note": "IR/News summary TBD",
-    "score": 0.5107817144095866
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.5107817144095866,
+        "rvol20": 1.0218749605543844,
+        "z60": 0.19410658930518634,
+        "pct_rank_90": 0.7444444444444445,
+        "z_norm": 0.5194106589305186,
+        "rvol_norm": 0.3406249868514615,
+        "dollar_vol": 963700231.4117432,
+        "eligible": true,
+        "today_volume": 2023900.0,
+        "sma20_volume": 1980575.0,
+        "close": 476.1600036621094
+      }
+    },
+    "rank": 6
   },
   {
     "symbol": "TER",
@@ -84,11 +228,35 @@
     "pct_change": 0.05489478346271195,
     "vol_ratio": 0.8431635101660363,
     "news_count": 0,
-    "vol_anomaly_score": 0.5021134196877147,
     "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.5021134196877147
+    },
+    "score_weights": {
+      "vol_anomaly": 1.0
+    },
+    "final_score_0_1": 0.5021134196877147,
+    "score_pts": 502,
+    "vol_anomaly_score": 0.5021134196877147,
+    "chart_url": "/charts/2025-08-22/TER.png",
     "tech_note": "Auto tech note TBD",
     "ir_note": "IR/News summary TBD",
-    "score": 0.5021134196877147
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.5021134196877147,
+        "rvol20": 0.8431635101660363,
+        "z60": 0.11149692897777803,
+        "pct_rank_90": 0.8111111111111111,
+        "z_norm": 0.5111496928977778,
+        "rvol_norm": 0.28105450338867877,
+        "dollar_vol": 476638682.6156616,
+        "eligible": true,
+        "today_volume": 4133900.0,
+        "sma20_volume": 4902845.0,
+        "close": 115.30000305175781
+      }
+    },
+    "rank": 7
   },
   {
     "symbol": "MNDY",
@@ -97,11 +265,35 @@
     "pct_change": 0.03750141388079866,
     "vol_ratio": 0.5694230080295647,
     "news_count": 0,
-    "vol_anomaly_score": 0.4769331449554529,
     "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.4769331449554529
+    },
+    "score_weights": {
+      "vol_anomaly": 1.0
+    },
+    "final_score_0_1": 0.4769331449554529,
+    "score_pts": 477,
+    "vol_anomaly_score": 0.4769331449554529,
+    "chart_url": "/charts/2025-08-22/MNDY.png",
     "tech_note": "Auto tech note TBD",
     "ir_note": "IR/News summary TBD",
-    "score": 0.4769331449554529
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.4769331449554529,
+        "rvol20": 0.5694230080295647,
+        "z60": 0.11092799416103943,
+        "pct_rank_90": 0.8222222222222222,
+        "z_norm": 0.511092799416104,
+        "rvol_norm": 0.18980766934318824,
+        "dollar_vol": 188029729.3548584,
+        "eligible": true,
+        "today_volume": 1057000.0,
+        "sma20_volume": 1856265.0,
+        "close": 177.88999938964844
+      }
+    },
+    "rank": 8
   },
   {
     "symbol": "SYM",
@@ -110,11 +302,35 @@
     "pct_change": 0.05307512381255604,
     "vol_ratio": 0.9307950972940549,
     "news_count": 0,
-    "vol_anomaly_score": 0.47019850622441983,
     "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.47019850622441983
+    },
+    "score_weights": {
+      "vol_anomaly": 1.0
+    },
+    "final_score_0_1": 0.47019850622441983,
+    "score_pts": 470,
+    "vol_anomaly_score": 0.47019850622441983,
+    "chart_url": "/charts/2025-08-22/SYM.png",
     "tech_note": "Auto tech note TBD",
     "ir_note": "IR/News summary TBD",
-    "score": 0.47019850622441983
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.47019850622441983,
+        "rvol20": 0.9307950972940549,
+        "z60": -0.035397847877492304,
+        "pct_rank_90": 0.6444444444444445,
+        "z_norm": 0.49646021521225076,
+        "rvol_norm": 0.3102650324313516,
+        "dollar_vol": 110115235.90965271,
+        "eligible": true,
+        "today_volume": 2381900.0,
+        "sma20_volume": 2558995.0,
+        "close": 46.22999954223633
+      }
+    },
+    "rank": 9
   },
   {
     "symbol": "RKLB",
@@ -123,10 +339,34 @@
     "pct_change": 0.06862514742569928,
     "vol_ratio": 1.0247777587272888,
     "news_count": 0,
-    "vol_anomaly_score": 0.45516967058370683,
     "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.45516967058370683
+    },
+    "score_weights": {
+      "vol_anomaly": 1.0
+    },
+    "final_score_0_1": 0.45516967058370683,
+    "score_pts": 455,
+    "vol_anomaly_score": 0.45516967058370683,
+    "chart_url": "/charts/2025-08-22/RKLB.png",
     "tech_note": "Auto tech note TBD",
     "ir_note": "IR/News summary TBD",
-    "score": 0.45516967058370683
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.45516967058370683,
+        "rvol20": 1.0247777587272888,
+        "z60": -0.3461621057804414,
+        "pct_rank_90": 0.6,
+        "z_norm": 0.46538378942195585,
+        "rvol_norm": 0.3415925862424296,
+        "dollar_vol": 831583584.0141296,
+        "eligible": true,
+        "today_volume": 18737800.0,
+        "sma20_volume": 18284745.0,
+        "close": 44.380001068115234
+      }
+    },
+    "rank": 10
   }
 ]
