@@ -1,5 +1,42 @@
 [
   {
+    "symbol": "TEM",
+    "name": "Tempus",
+    "theme": "AI",
+    "pct_change": 0.04966754796070588,
+    "vol_ratio": 1.5363789628151807,
+    "news_count": 0,
+    "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.6299475140457116
+    },
+    "score_weights": {
+      "vol_anomaly": 1.0
+    },
+    "final_score_0_1": 0.6299475140457116,
+    "score_pts": 630,
+    "vol_anomaly_score": 0.6299475140457116,
+    "chart_url": "/charts/2025-08-22/TEM.png",
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.6299475140457116,
+        "rvol20": 1.5363789628151807,
+        "z60": 0.9706367997283143,
+        "pct_rank_90": 0.8888888888888888,
+        "z_norm": 0.5970636799728315,
+        "rvol_norm": 0.5121263209383936,
+        "dollar_vol": 1500586761.4395142,
+        "eligible": true,
+        "today_volume": 18636200.0,
+        "sma20_volume": 12129950.0,
+        "close": 80.5199966430664
+      }
+    },
+    "rank": 1
+  },
+  {
     "symbol": "PLTR",
     "name": "Palantir Technologies Inc.",
     "theme": "AI",
@@ -34,7 +71,7 @@
         "close": 158.74000549316406
       }
     },
-    "rank": 1
+    "rank": 2
   },
   {
     "symbol": "MSFT",
@@ -71,7 +108,7 @@
         "close": 507.2300109863281
       }
     },
-    "rank": 2
+    "rank": 3
   },
   {
     "symbol": "VSAT",
@@ -108,7 +145,81 @@
         "close": 27.93000030517578
       }
     },
-    "rank": 3
+    "rank": 4
+  },
+  {
+    "symbol": "U",
+    "name": "Unity",
+    "theme": "AI",
+    "pct_change": 0.07938261204569562,
+    "vol_ratio": 1.1116901043194551,
+    "news_count": 0,
+    "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.5296725961440338
+    },
+    "score_weights": {
+      "vol_anomaly": 1.0
+    },
+    "final_score_0_1": 0.5296725961440338,
+    "score_pts": 530,
+    "vol_anomaly_score": 0.5296725961440338,
+    "chart_url": "/charts/2025-08-22/U.png",
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.5296725961440338,
+        "rvol20": 1.1116901043194551,
+        "z60": 0.08118282535287714,
+        "pct_rank_90": 0.8222222222222222,
+        "z_norm": 0.5081182825352877,
+        "rvol_norm": 0.37056336810648505,
+        "dollar_vol": 626990757.5569153,
+        "eligible": true,
+        "today_volume": 16011000.0,
+        "sma20_volume": 14402395.0,
+        "close": 39.15999984741211
+      }
+    },
+    "rank": 5
+  },
+  {
+    "symbol": "GDRX",
+    "name": "GoodRx Holdings Inc",
+    "theme": "AI",
+    "pct_change": 0.015590239472093448,
+    "vol_ratio": 0.7860374349689657,
+    "news_count": 0,
+    "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.5270355348349215
+    },
+    "score_weights": {
+      "vol_anomaly": 1.0
+    },
+    "final_score_0_1": 0.5270355348349215,
+    "score_pts": 527,
+    "vol_anomaly_score": 0.5270355348349215,
+    "chart_url": "/charts/2025-08-22/GDRX.png",
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.5270355348349215,
+        "rvol20": 0.7860374349689657,
+        "z60": 0.23530249342716394,
+        "pct_rank_90": 0.9333333333333333,
+        "z_norm": 0.5235302493427164,
+        "rvol_norm": 0.2620124783229886,
+        "dollar_vol": 20341703.744745255,
+        "eligible": true,
+        "today_volume": 4460900.0,
+        "sma20_volume": 5675175.0,
+        "close": 4.559999942779541
+      }
+    },
+    "rank": 6
   },
   {
     "symbol": "SOUN",
@@ -145,7 +256,7 @@
         "close": 12.5600004196167
       }
     },
-    "rank": 4
+    "rank": 7
   },
   {
     "symbol": "IRDM",
@@ -182,7 +293,7 @@
         "close": 24.979999542236328
       }
     },
-    "rank": 5
+    "rank": 8
   },
   {
     "symbol": "ISRG",
@@ -219,7 +330,7 @@
         "close": 476.1600036621094
       }
     },
-    "rank": 6
+    "rank": 9
   },
   {
     "symbol": "TER",
@@ -254,117 +365,6 @@
         "today_volume": 4133900.0,
         "sma20_volume": 4902845.0,
         "close": 115.30000305175781
-      }
-    },
-    "rank": 7
-  },
-  {
-    "symbol": "MNDY",
-    "name": "Monday.com Ltd.",
-    "theme": "AI",
-    "pct_change": 0.03750141388079866,
-    "vol_ratio": 0.5694230080295647,
-    "news_count": 0,
-    "eligible_liquidity": true,
-    "score_components": {
-      "vol_anomaly": 0.4769331449554529
-    },
-    "score_weights": {
-      "vol_anomaly": 1.0
-    },
-    "final_score_0_1": 0.4769331449554529,
-    "score_pts": 477,
-    "vol_anomaly_score": 0.4769331449554529,
-    "chart_url": "/charts/2025-08-22/MNDY.png",
-    "tech_note": "Auto tech note TBD",
-    "ir_note": "IR/News summary TBD",
-    "detail": {
-      "vol_anomaly": {
-        "score_0_1": 0.4769331449554529,
-        "rvol20": 0.5694230080295647,
-        "z60": 0.11092799416103943,
-        "pct_rank_90": 0.8222222222222222,
-        "z_norm": 0.511092799416104,
-        "rvol_norm": 0.18980766934318824,
-        "dollar_vol": 188029729.3548584,
-        "eligible": true,
-        "today_volume": 1057000.0,
-        "sma20_volume": 1856265.0,
-        "close": 177.88999938964844
-      }
-    },
-    "rank": 8
-  },
-  {
-    "symbol": "SYM",
-    "name": "Symbotic Inc.",
-    "theme": "Robotics",
-    "pct_change": 0.05307512381255604,
-    "vol_ratio": 0.9307950972940549,
-    "news_count": 0,
-    "eligible_liquidity": true,
-    "score_components": {
-      "vol_anomaly": 0.47019850622441983
-    },
-    "score_weights": {
-      "vol_anomaly": 1.0
-    },
-    "final_score_0_1": 0.47019850622441983,
-    "score_pts": 470,
-    "vol_anomaly_score": 0.47019850622441983,
-    "chart_url": "/charts/2025-08-22/SYM.png",
-    "tech_note": "Auto tech note TBD",
-    "ir_note": "IR/News summary TBD",
-    "detail": {
-      "vol_anomaly": {
-        "score_0_1": 0.47019850622441983,
-        "rvol20": 0.9307950972940549,
-        "z60": -0.035397847877492304,
-        "pct_rank_90": 0.6444444444444445,
-        "z_norm": 0.49646021521225076,
-        "rvol_norm": 0.3102650324313516,
-        "dollar_vol": 110115235.90965271,
-        "eligible": true,
-        "today_volume": 2381900.0,
-        "sma20_volume": 2558995.0,
-        "close": 46.22999954223633
-      }
-    },
-    "rank": 9
-  },
-  {
-    "symbol": "RKLB",
-    "name": "Rocket Lab USA, Inc.",
-    "theme": "Space",
-    "pct_change": 0.06862514742569928,
-    "vol_ratio": 1.0247777587272888,
-    "news_count": 0,
-    "eligible_liquidity": true,
-    "score_components": {
-      "vol_anomaly": 0.45516967058370683
-    },
-    "score_weights": {
-      "vol_anomaly": 1.0
-    },
-    "final_score_0_1": 0.45516967058370683,
-    "score_pts": 455,
-    "vol_anomaly_score": 0.45516967058370683,
-    "chart_url": "/charts/2025-08-22/RKLB.png",
-    "tech_note": "Auto tech note TBD",
-    "ir_note": "IR/News summary TBD",
-    "detail": {
-      "vol_anomaly": {
-        "score_0_1": 0.45516967058370683,
-        "rvol20": 1.0247777587272888,
-        "z60": -0.3461621057804414,
-        "pct_rank_90": 0.6,
-        "z_norm": 0.46538378942195585,
-        "rvol_norm": 0.3415925862424296,
-        "dollar_vol": 831583584.0141296,
-        "eligible": true,
-        "today_volume": 18737800.0,
-        "sma20_volume": 18284745.0,
-        "close": 44.380001068115234
       }
     },
     "rank": 10
