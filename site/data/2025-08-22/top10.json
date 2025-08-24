@@ -1,1 +1,112 @@
-[]
+[
+  {
+    "symbol": "RKLB",
+    "name": "Rocket Lab USA, Inc.",
+    "theme": "Space",
+    "pct_change": 0.06862514742569928,
+    "news_count": 0,
+    "vol_ratio": 1.0247777587272888,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.8571651832319402
+  },
+  {
+    "symbol": "VSAT",
+    "name": "Viasat, Inc.",
+    "theme": "Space",
+    "pct_change": 0.049211097845333805,
+    "news_count": 0,
+    "vol_ratio": 1.0383925247013435,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.678881173478117
+  },
+  {
+    "symbol": "SYM",
+    "name": "Symbotic Inc.",
+    "theme": "Robotics",
+    "pct_change": 0.05307512381255604,
+    "news_count": 0,
+    "vol_ratio": 0.9307950972940549,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.6565084954991924
+  },
+  {
+    "symbol": "TER",
+    "name": "Teradyne, Inc.",
+    "theme": "Robotics",
+    "pct_change": 0.05489478346271195,
+    "news_count": 0,
+    "vol_ratio": 0.8431635101660363,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.6255844045401705
+  },
+  {
+    "symbol": "IRDM",
+    "name": "Iridium Communications Inc.",
+    "theme": "Space",
+    "pct_change": 0.034797024599267146,
+    "news_count": 0,
+    "vol_ratio": 1.0723387446163255,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.5596623606033155
+  },
+  {
+    "symbol": "PLTR",
+    "name": "Palantir Technologies Inc.",
+    "theme": "AI",
+    "pct_change": 0.016391426158517117,
+    "news_count": 0,
+    "vol_ratio": 1.2837198476763687,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.5001190249158765
+  },
+  {
+    "symbol": "SOUN",
+    "name": "SoundHound AI, Inc.",
+    "theme": "AI",
+    "pct_change": 0.026982901858721448,
+    "news_count": 0,
+    "vol_ratio": 0.9915905424008662,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.44033912386234975
+  },
+  {
+    "symbol": "NVDA",
+    "name": "NVIDIA Corporation",
+    "theme": "AI",
+    "pct_change": 0.01720202216893341,
+    "news_count": 0,
+    "vol_ratio": 1.074982791524978,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.39273523187445897
+  },
+  {
+    "symbol": "AVAV",
+    "name": "AeroVironment, Inc.",
+    "theme": "Robotics",
+    "pct_change": 0.02029178059748345,
+    "news_count": 0,
+    "vol_ratio": 1.0154119403173083,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.3894446476056683
+  },
+  {
+    "symbol": "AI",
+    "name": "C3.ai, Inc.",
+    "theme": "AI",
+    "pct_change": 0.037959630277563335,
+    "news_count": 0,
+    "vol_ratio": 0.6216469477388804,
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "score": 0.34132305138797314
+  }
+]
