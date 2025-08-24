@@ -214,9 +214,10 @@ def get_eod_range(symbol, start, end):
 
 
 # =========================
-# Metrics & Charts
+# Metrics
 # =========================
 def compute_metrics(df: pd.DataFrame):
+    """従来の最小メトリクス（前日比・出来高比）※互換用"""
     if df is None or df.empty:
         return None
 
@@ -249,6 +250,89 @@ def compute_metrics(df: pd.DataFrame):
     return float(pct_change), float(vol_ratio)
 
 
+def compute_volume_anomaly_light(df, close_col="close", vol_col="volume"):
+    """
+    120日以内の手持ちデータだけで「異常出来高スコア」を算出（軽量版）。
+    - RVOL20（出来高/20日平均）
+    - z60（60日平均・標準偏差に対する当日出来高のZ値）
+    - PctRank90（直近最大90日に対する百分位、データ不足時は未使用）
+    正規化:
+      z_norm   = clip(0.5 + 0.1*z60, 0, 1)
+      rvol_norm= clip(RVOL20/3, 0, 1)
+      pct_norm = PctRank90
+    合成:
+      十分な履歴あり: 0.5*z + 0.3*rvol + 0.2*pct
+      不足時         : 0.65*z + 0.35*rvol
+    低流動フィルタ（緩め）:
+      volume >= 200k かつ DollarVol >= 5M
+    """
+    import numpy as np
+    if df is None or df.empty or close_col not in df.columns or vol_col not in df.columns:
+        return None
+
+    d = df.copy()
+    d[vol_col] = pd.to_numeric(d[vol_col], errors="coerce").fillna(0)
+    d[close_col] = pd.to_numeric(d[close_col], errors="coerce").ffill()
+    d = d.tail(120)  # 手持ちのうち最大120本
+
+    if len(d) < 25:  # 最低限
+        return None
+
+    v = d[vol_col].values
+    vt = float(v[-1])
+
+    # RVOL20
+    sma20 = pd.Series(v).rolling(20).mean().iloc[-1]
+    rvol20 = float(vt / sma20) if pd.notna(sma20) and sma20 > 0 else 0.0
+
+    # z60（当日を除いた直近win本で統計）
+    win = min(60, len(v) - 1)
+    if win >= 20:
+        base = v[-(win + 1):-1]
+        mu = float(np.mean(base))
+        sd = float(np.std(base, ddof=0))
+        z60 = float((vt - mu) / sd) if sd > 0 else 0.0
+    else:
+        z60 = 0.0
+
+    # 百分位（最大90日）
+    pr_win = min(90, len(v) - 1)
+    if pr_win >= 20:
+        hist = v[-pr_win:]
+        pct_rank_90 = float((hist <= vt).sum() / len(hist))
+    else:
+        pct_rank_90 = None
+
+    # 正規化
+    z_norm = max(0.0, min(1.0, 0.5 + 0.1 * z60))
+    rvol_norm = max(0.0, min(1.0, rvol20 / 3.0))
+    if pct_rank_90 is None:
+        score = 0.65 * z_norm + 0.35 * rvol_norm
+    else:
+        score = 0.5 * z_norm + 0.3 * rvol_norm + 0.2 * pct_rank_90
+
+    # 低流動フィルタ（テスト段階は緩め）
+    dollar_vol = vt * float(d[close_col].iloc[-1])
+    eligible = (vt >= 200_000) and (dollar_vol >= 5_000_000)
+
+    return {
+        "rvol20": rvol20,
+        "z60": z60,
+        "pct_rank_90": pct_rank_90,
+        "z_norm": z_norm,
+        "rvol_norm": rvol_norm,
+        "score": float(score),
+        "dollar_vol": float(dollar_vol),
+        "eligible": bool(eligible),
+        "today_volume": float(vt),
+        "sma20_volume": float(sma20) if pd.notna(sma20) else None,
+        "close": float(d[close_col].iloc[-1]),
+    }
+
+
+# =========================
+# Charts
+# =========================
 def save_chart_png_weekly_3m(symbol: str, df_daily: pd.DataFrame, out_dir: str, date_iso: str):
     """直近3ヶ月相当を週足化してPNG出力"""
     if df_daily is None or df_daily.empty:
@@ -256,7 +340,6 @@ def save_chart_png_weekly_3m(symbol: str, df_daily: pd.DataFrame, out_dir: str, 
         return
 
     d = df_daily.copy()
-    # date -> datetime, ソート
     d["date"] = pd.to_datetime(d["date"])
     d = d.sort_values("date")
 
@@ -292,7 +375,7 @@ def save_chart_png_weekly_3m(symbol: str, df_daily: pd.DataFrame, out_dir: str, 
     plt.close()
 
 
-# （必要なら残せる：日足3年チャート）
+# （残す：日足3年チャート）
 def save_chart_png(symbol, df, out_dir, date_iso):
     if df is None or df.empty:
         return
@@ -331,8 +414,8 @@ def main():
     top10 = []
 
     end = DATE
-    # 3か月（90日）取得（バッファは関数側で実施）
-    start_short = (datetime.date.fromisoformat(DATE) - datetime.timedelta(days=90)).isoformat()
+    # ★ 取得期間を 90 → 120 日に拡張（API増やさず、軽量スコアが成立）
+    start_short = (datetime.date.fromisoformat(DATE) - datetime.timedelta(days=120)).isoformat()
 
     recent_map = {}
 
@@ -342,10 +425,9 @@ def main():
         try:
             df = get_eod_range(symbol, start_short, end)
 
-            # 列名を小文字化＆Adj Close吸収は各プロバイダで済ませる想定
+            # 列名を小文字化＆index→dateの保険
             if df is not None and not df.empty:
                 df = df.rename(columns=lambda c: str(c).strip().lower())
-                # indexがdateで列に無いケースの最後の保険
                 if "date" not in df.columns and hasattr(df.index, "dtype"):
                     try:
                         df = df.reset_index().rename(columns={"index": "date"})
@@ -353,19 +435,34 @@ def main():
                         pass
 
             recent_map[symbol] = df
+
+            # 既存の最小メトリクス（互換）
             metrics = compute_metrics(df)
             if not metrics:
                 print(f"[WARN] skip (no metrics) {symbol}", file=sys.stderr)
                 continue
             pct_change, vol_ratio = metrics
+
+            # ★ 異常出来高スコア（軽量版）
+            anom = compute_volume_anomaly_light(df)
+            if not anom:
+                # データ不足など
+                vol_anom_score = 0.0
+                vol_anom_eligible = False
+            else:
+                vol_anom_score = anom["score"]
+                vol_anom_eligible = anom["eligible"]
+
             rows.append({
                 "symbol": symbol,
                 "name":   t.get("name", ""),
                 "theme":  t.get("theme", ""),
                 "pct_change": pct_change,
-                "news_count": 0,
                 "vol_ratio":  vol_ratio,
-                "tech_note": "Auto tech note TBD",
+                "news_count": 0,  # 将来マージ
+                "vol_anomaly_score": vol_anom_score,
+                "eligible_liquidity": vol_anom_eligible,
+                "tech_note": "Auto tech note TBD",   # 使わない方針でもフィールドは残しておく
                 "ir_note":   "IR/News summary TBD",
             })
         except Exception as e:
@@ -383,19 +480,20 @@ def main():
         print(f"Generated top10 for {DATE}: 0 symbols (no rows)")
         return
 
-    # ----- スコアリング → Top10確定 -----
-    def norm(vals):
-        mn, mx = min(vals), max(vals)
-        return [(v - mn) / (mx - mn) if mx > mn else 0.0 for v in vals]
+    # ----- ランキング（異常出来高スコアを主軸） -----
+    # 1) 低流動は原則除外
+    eligible_rows = [r for r in rows if r.get("eligible_liquidity", False)]
+    target = eligible_rows if eligible_rows else rows  # すべて不可の場合は全体でフォールバック
 
-    price_norm = norm([r["pct_change"] for r in rows])
-    vol_norm   = norm([r["vol_ratio"]  for r in rows])
+    # 2) スコア = vol_anomaly_score（既に0〜1相当）
+    for r in target:
+        base = float(r.get("vol_anomaly_score", 0.0))
+        # 念のためクリップ
+        r["score"] = max(0.0, min(1.0, base))
 
-    for i, r in enumerate(rows):
-        r["score"] = 0.6 * price_norm[i] + 0.4 * vol_norm[i]
-
-    rows.sort(key=lambda x: x["score"], reverse=True)
-    top10 = rows[:10]
+    # 3) ソート＆Top10
+    target.sort(key=lambda x: x.get("score", 0.0), reverse=True)
+    top10 = target[:10]
 
     # ----- JSON出力 -----
     with open(out_json_dir / "top10.json", "w") as f:
