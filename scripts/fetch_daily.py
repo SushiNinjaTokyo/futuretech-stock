@@ -11,10 +11,6 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-
-# =========================
-# US 市場日付（引け基準）
-# =========================
 def usa_market_date_now():
     now_et = datetime.datetime.now(ZoneInfo("America/New_York"))
     d = now_et.date()
@@ -24,46 +20,38 @@ def usa_market_date_now():
         d = d - datetime.timedelta(days=1)
     return d
 
-
-# =========================
-# 環境変数
-# =========================
-DATA_PROVIDER = os.getenv("DATA_PROVIDER", "yfinance").lower()  # yfinance | tiingo
+DATA_PROVIDER = os.getenv("DATA_PROVIDER", "yfinance").lower()
 TIINGO_TOKEN = os.getenv("TIINGO_TOKEN")
 UNIVERSE_CSV = os.getenv("UNIVERSE_CSV", "data/universe.csv")
 OUT_DIR = os.getenv("OUT_DIR", "site")
 DATE = os.getenv("REPORT_DATE") or usa_market_date_now().isoformat()
 MOCK_MODE = os.getenv("MOCK_MODE", "false").lower() == "true"
 
-# 予算管理
+# New: Form4 取り込み設定
+FORM4_JSON = os.getenv("FORM4_JSON", f"{OUT_DIR}/data/insider/form4_latest.json")
+WEIGHT_VOL = float(os.getenv("WEIGHT_VOL_ANOM", "0.60"))
+WEIGHT_FORM4 = float(os.getenv("WEIGHT_FORM4", "0.40"))
+
 BUDGET_JPY_MAX = float(os.getenv("BUDGET_JPY_MAX", "10000"))
 SPEND_FILE = os.getenv("SPEND_FILE", f"{OUT_DIR}/data/spend.json")
 MANUAL_DAILY_COST_JPY = float(os.getenv("MANUAL_DAILY_COST_JPY", "0"))
 PROVIDER_FIXED_JPY = 0.0 if DATA_PROVIDER == "yfinance" else float(os.getenv("TIINGO_MONTHLY_JPY", "1600"))
 
-
-# =========================
-# 予算ユーティリティ
-# =========================
 def month_key(date_iso: str):
-    d = datetime.date.fromisoformat(date_iso)
-    return f"{d.year}-{d.month:02d}"
+    d = datetime.date.fromisoformat(date_iso); return f"{d.year}-{d.month:02d}"
 
 def load_spend():
     p = pathlib.Path(SPEND_FILE)
     if p.exists():
-        try:
-            return json.loads(p.read_text())
-        except Exception:
-            return {}
+        try: return json.loads(p.read_text())
+        except Exception: return {}
     return {}
 
 def save_spend(data):
     p = pathlib.Path(SPEND_FILE); p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(data, indent=2))
 
-def month_spend_total(spend, mkey):
-    return float(spend.get(mkey, {}).get("total_jpy", 0))
+def month_spend_total(spend, mkey): return float(spend.get(mkey, {}).get("total_jpy", 0))
 
 def add_spend(spend, mkey, date_iso, amount_jpy, memo):
     month = spend.setdefault(mkey, {"items": [], "total_jpy": 0})
@@ -72,10 +60,8 @@ def add_spend(spend, mkey, date_iso, amount_jpy, memo):
 
 def budget_check():
     spend = load_spend(); mkey = month_key(DATE)
-    month_used = month_spend_total(spend, mkey)
-    if month_used + MANUAL_DAILY_COST_JPY > BUDGET_JPY_MAX:
-        print(f"[BUDGET] Cap reached ({month_used:.0f} + {MANUAL_DAILY_COST_JPY:.0f} > {BUDGET_JPY_MAX:.0f}). Skipping run.")
-        return False, spend
+    if month_spend_total(spend, mkey) + MANUAL_DAILY_COST_JPY > BUDGET_JPY_MAX:
+        print(f"[BUDGET] Cap reached. Skipping run."); return False, spend
     return True, spend
 
 def mark_fixed_costs(spend):
@@ -88,17 +74,14 @@ def mark_fixed_costs(spend):
         add_spend(spend, mkey, DATE, MANUAL_DAILY_COST_JPY, "Variable API usage (manual)")
     save_spend(spend)
 
-
-# =========================
-# Data Providers
-# =========================
+# ---------- Providers ----------
 def tiingo_eod_range(symbol, start, end):
     url = f"https://api.tiingo.com/tiingo/daily/{symbol}/prices"
     params = {"token": TIINGO_TOKEN, "startDate": start, "endDate": end, "resampleFreq": "daily"}
     r = requests.get(url, params=params, timeout=30); r.raise_for_status()
-    df = pd.DataFrame(r.json())
+    df = pd.DataFrame(r.json()); 
     if df.empty: return df
-    if "adjClose" in df.columns: df = df.rename(columns={"adjClose": "close"})
+    if "adjClose" in df.columns: df = df.rename(columns={"adjClose":"close"})
     cols = {c.lower(): c for c in df.columns}
     out = pd.DataFrame({
         "date":   pd.to_datetime(df[cols.get("date","date")]).dt.tz_localize(None).dt.strftime("%Y-%m-%d"),
@@ -111,7 +94,7 @@ def tiingo_eod_range(symbol, start, end):
     return out[["date","open","high","low","close","volume"]]
 
 def yfi_eod_range(symbol, start, end):
-    import yfinance as yf, time
+    import yfinance as yf, time as _t
     start_dt = datetime.date.fromisoformat(start) - datetime.timedelta(days=2)
     end_dt   = datetime.date.fromisoformat(end)   + datetime.timedelta(days=1)
 
@@ -141,11 +124,9 @@ def yfi_eod_range(symbol, start, end):
                          interval="1d", auto_adjust=True, progress=False, threads=False)
         df = _normalize(df)
         if not df.empty: return df
-        time.sleep(0.8*(attempt+1))
-
+        _t.sleep(0.8*(attempt+1))
     df = _normalize(yf.Ticker(symbol).history(period="6mo", interval="1d", auto_adjust=True))
     if not df.empty: return df
-
     df = _normalize(yf.download(symbol, period="6mo", interval="1d", auto_adjust=True, progress=False, threads=False))
     return df
 
@@ -165,10 +146,7 @@ def get_eod_range(symbol, start, end):
         return tiingo_eod_range(symbol, start, end)
     return yfi_eod_range(symbol, start, end)
 
-
-# =========================
-# 既存の軽量メトリクス（互換用）
-# =========================
+# ---------- Basic metrics ----------
 def compute_metrics(df: pd.DataFrame):
     if df is None or df.empty: return None
     for col in ("close","volume"):
@@ -183,18 +161,8 @@ def compute_metrics(df: pd.DataFrame):
     vol_ratio = 1.0 if pd.isna(vol_sma20) or float(vol_sma20)==0 else float(today_vol)/float(vol_sma20)
     return float(pct_change), float(vol_ratio)
 
-
-# =========================
-# 異常出来高（軽量版：120日で算出）
-# =========================
+# ---------- Volume anomaly (0..1) ----------
 def compute_volume_anomaly_light(df, close_col="close", vol_col="volume"):
-    """
-    0..1 スコア:
-      RVOL20 -> rvol_norm, Z60 -> z_norm, PctRank90 -> pct_norm
-      十分な履歴: 0.5*z + 0.3*rvol + 0.2*pct / 不足: 0.65*z + 0.35*rvol
-    低流動フィルタ:
-      volume >= 200k かつ DollarVol >= 5M
-    """
     import numpy as np
     if df is None or df.empty or close_col not in df.columns or vol_col not in df.columns: return None
     d = df.copy()
@@ -202,11 +170,9 @@ def compute_volume_anomaly_light(df, close_col="close", vol_col="volume"):
     d[close_col] = pd.to_numeric(d[close_col], errors="coerce").ffill()
     d = d.tail(120)
     if len(d) < 25: return None
-
     v = d[vol_col].values; vt = float(v[-1])
     sma20 = pd.Series(v).rolling(20).mean().iloc[-1]
     rvol20 = float(vt / sma20) if pd.notna(sma20) and sma20 > 0 else 0.0
-
     win = min(60, len(v)-1)
     if win >= 20:
         base = v[-(win+1):-1]
@@ -214,21 +180,17 @@ def compute_volume_anomaly_light(df, close_col="close", vol_col="volume"):
         z60 = float((vt - mu) / sd) if sd > 0 else 0.0
     else:
         z60 = 0.0
-
     pr_win = min(90, len(v)-1)
     if pr_win >= 20:
         hist = v[-pr_win:]
         pct_rank_90 = float((hist <= vt).sum() / len(hist))
     else:
         pct_rank_90 = None
-
     z_norm = max(0.0, min(1.0, 0.5 + 0.1*z60))
     rvol_norm = max(0.0, min(1.0, rvol20/3.0))
     score_0_1 = (0.65*z_norm + 0.35*rvol_norm) if pct_rank_90 is None else (0.5*z_norm + 0.3*rvol_norm + 0.2*pct_rank_90)
-
     dollar_vol = vt * float(d[close_col].iloc[-1])
     eligible = (vt >= 200_000) and (dollar_vol >= 5_000_000)
-
     return {
         "score_0_1": float(score_0_1),
         "rvol20": float(rvol20),
@@ -243,32 +205,27 @@ def compute_volume_anomaly_light(df, close_col="close", vol_col="volume"):
         "close": float(d[close_col].iloc[-1]),
     }
 
-
-# =========================
-# スコア合成エンジン（将来拡張用）
-# =========================
+# ---------- Scoring engine ----------
 def compose_final_score(components: dict, weights: dict) -> float:
     """
-    components: {"vol_anomaly": 0..1, "news": 0..1, ...}
-    weights:    {"vol_anomaly": 0.7,  "news": 0.3, ...}
-    return: final score in 0..1
+    components: 存在する要素のみ考慮（欠損は無視）
+    weights:    それらのキーに対する重み。合計は自動で1.0に正規化。
     """
     if not components: return 0.0
-    w_sum = sum(max(0.0, float(w)) for w in weights.values()) or 1.0
+    valid_keys = [k for k, v in components.items() if v is not None]
+    if not valid_keys: return 0.0
+    w_sum = sum(max(0.0, float(weights.get(k, 0.0))) for k in valid_keys) or 1.0
     score = 0.0
-    for key, val in components.items():
-        w = float(weights.get(key, 0.0)) / w_sum
-        v = max(0.0, min(1.0, float(val)))
+    for k in valid_keys:
+        w = max(0.0, float(weights.get(k, 0.0))) / w_sum
+        v = max(0.0, min(1.0, float(components[k])))
         score += w * v
     return max(0.0, min(1.0, score))
 
 def to_points(score_0_1: float) -> int:
     return int(round(max(0.0, min(1.0, float(score_0_1))) * 1000))
 
-
-# =========================
-# Charts
-# =========================
+# ---------- Charts ----------
 def save_chart_png_weekly_3m(symbol: str, df_daily: pd.DataFrame, out_dir: str, date_iso: str):
     if df_daily is None or df_daily.empty:
         print(f"[WARN] weekly chart skipped (empty) {symbol}", file=sys.stderr); return
@@ -297,23 +254,27 @@ def save_chart_png_weekly_3m(symbol: str, df_daily: pd.DataFrame, out_dir: str, 
     plt.savefig(charts_dir / f"{symbol}.png")
     plt.close()
 
-
-# =========================
-# メイン
-# =========================
+# ---------- Main ----------
 def main():
     ok, spend = budget_check()
     if not ok: return
 
+    form4_map = {}
+    p_form4 = pathlib.Path(FORM4_JSON)
+    if p_form4.exists():
+        try:
+            form4_map = json.loads(p_form4.read_text()).get("items", {})
+        except Exception as e:
+            print(f"[WARN] FORM4_JSON parse failed: {e}", file=sys.stderr)
+
     uni = pd.read_csv(UNIVERSE_CSV)
     rows, top10 = [], []
-
     end = DATE
     start_short = (datetime.date.fromisoformat(DATE) - datetime.timedelta(days=120)).isoformat()
     recent_map = {}
 
     for _, t in uni.iterrows():
-        symbol = str(t["symbol"]).strip()
+        symbol = str(t["symbol"]).strip().upper()
         try:
             df = get_eod_range(symbol, start_short, end)
             if df is not None and not df.empty:
@@ -321,7 +282,6 @@ def main():
                 if "date" not in df.columns and hasattr(df.index, "dtype"):
                     try: df = df.reset_index().rename(columns={"index":"date"})
                     except Exception: pass
-
             recent_map[symbol] = df
 
             base_metrics = compute_metrics(df)
@@ -329,23 +289,24 @@ def main():
                 print(f"[WARN] skip (no metrics) {symbol}", file=sys.stderr); continue
             pct_change, vol_ratio = base_metrics
 
-            # --- 異常出来高（現状はこれのみ採点に使用） ---
+            # Volume anomaly
             anom = compute_volume_anomaly_light(df)
             if not anom:
                 vol_component = 0.0; eligible = False; vol_detail = {}
             else:
                 vol_component = anom["score_0_1"]; eligible = anom["eligible"]; vol_detail = anom
 
-            # --- 将来拡張用: コンポーネント & 重み ---
+            # Form 4 insider momo
+            insider_rec = form4_map.get(symbol, {})
+            insider_component = insider_rec.get("insider_momo", None)  # Noneなら合成から除外
+
             score_components = {
                 "vol_anomaly": float(vol_component),
-                # "news": 0.0,
-                # "inst_delta": 0.0,
+                "insider_momo": None if insider_component is None else float(insider_component),
             }
             score_weights = {
-                "vol_anomaly": 1.0,  # 現状は出来高のみ
-                # "news": 0.0,
-                # "inst_delta": 0.0,
+                "vol_anomaly": WEIGHT_VOL,
+                "insider_momo": WEIGHT_FORM4,
             }
 
             final_0_1 = compose_final_score(score_components, score_weights)
@@ -362,8 +323,9 @@ def main():
                 "score_components": score_components,
                 "score_weights": score_weights,
                 "final_score_0_1": final_0_1,
-                "score_pts": score_pts,                 # 0..1000
-                "vol_anomaly_score": vol_component,     # 0..1（参考）
+                "score_pts": score_pts,
+                "vol_anomaly_score": vol_component,
+                "insider_momo": insider_component,
                 "chart_url": f"/charts/{DATE}/{symbol}.png",
                 "tech_note": "Auto tech note TBD",
                 "ir_note":   "IR/News summary TBD",
@@ -382,23 +344,14 @@ def main():
         print(f"Generated top10 for {DATE}: 0 symbols (no rows)")
         return
 
-    # 低流動を除外（全滅時はフォールバック）
     eligible_rows = [r for r in rows if r.get("eligible_liquidity", False)]
     target = eligible_rows if eligible_rows else rows
-
-    # スコアでソート
     target.sort(key=lambda x: x.get("final_score_0_1", 0.0), reverse=True)
     top10 = target[:10]
+    for i, r in enumerate(top10, start=1): r["rank"] = i
 
-    # rank 付与（1..10）
-    for i, r in enumerate(top10, start=1):
-        r["rank"] = i
+    with open(out_json_dir / "top10.json", "w") as f: json.dump(top10, f, indent=2)
 
-    # JSON出力
-    with open(out_json_dir / "top10.json", "w") as f:
-        json.dump(top10, f, indent=2)
-
-    # チャート（Technical タブ用）
     if not MOCK_MODE and top10:
         for r in top10:
             try:
@@ -411,7 +364,6 @@ def main():
 
     mark_fixed_costs(spend)
     print(f"Generated top10 for {DATE}: {len(top10)} symbols")
-
 
 if __name__ == "__main__":
     main()
