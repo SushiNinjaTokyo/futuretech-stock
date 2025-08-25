@@ -1,0 +1,402 @@
+[
+  {
+    "symbol": "RKLB",
+    "name": "Rocket Lab USA, Inc.",
+    "theme": "Space",
+    "pct_change": 0.06399279144290705,
+    "vol_ratio": 1.6022320793515676,
+    "news_count": 0,
+    "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.6080118193614783,
+      "insider_momo": null
+    },
+    "score_weights": {
+      "vol_anomaly": 0.6,
+      "insider_momo": 0.4
+    },
+    "final_score_0_1": 0.6080118193614783,
+    "score_pts": 608,
+    "vol_anomaly_score": 0.6080118193614783,
+    "insider_momo": null,
+    "chart_url": "/charts/2025-08-25/RKLB.png",
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.6080118193614783,
+        "rvol20": 1.6022320793515676,
+        "z60": 0.577994450748654,
+        "pct_rank_90": 0.8444444444444444,
+        "z_norm": 0.5577994450748653,
+        "rvol_norm": 0.5340773597838558,
+        "dollar_vol": 1417786911.3517761,
+        "eligible": true,
+        "today_volume": 30025135.0,
+        "sma20_volume": 18739566.75,
+        "close": 47.220001220703125
+      }
+    },
+    "rank": 1
+  },
+  {
+    "symbol": "SOUN",
+    "name": "SoundHound AI, Inc.",
+    "theme": "AI",
+    "pct_change": -0.03582808502431452,
+    "vol_ratio": 0.9865649882184334,
+    "news_count": 0,
+    "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.527538573845485,
+      "insider_momo": null
+    },
+    "score_weights": {
+      "vol_anomaly": 0.6,
+      "insider_momo": 0.4
+    },
+    "final_score_0_1": 0.527538573845485,
+    "score_pts": 528,
+    "vol_anomaly_score": 0.527538573845485,
+    "insider_momo": null,
+    "chart_url": "/charts/2025-08-25/SOUN.png",
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.527538573845485,
+        "rvol20": 0.9865649882184334,
+        "z60": 0.28875261158394383,
+        "pct_rank_90": 0.8222222222222222,
+        "z_norm": 0.5288752611583943,
+        "rvol_norm": 0.32885499607281116,
+        "dollar_vol": 624684995.4799604,
+        "eligible": true,
+        "today_volume": 51584229.0,
+        "sma20_volume": 52286701.45,
+        "close": 12.109999656677246
+      }
+    },
+    "rank": 2
+  },
+  {
+    "symbol": "GDRX",
+    "name": "GoodRx Holdings Inc",
+    "theme": "AI",
+    "pct_change": -0.06798244444507186,
+    "vol_ratio": 0.6870381694847376,
+    "news_count": 0,
+    "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.5090975582501697,
+      "insider_momo": null
+    },
+    "score_weights": {
+      "vol_anomaly": 0.6,
+      "insider_momo": 0.4
+    },
+    "final_score_0_1": 0.5090975582501697,
+    "score_pts": 509,
+    "vol_anomaly_score": 0.5090975582501697,
+    "insider_momo": null,
+    "chart_url": "/charts/2025-08-25/GDRX.png",
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.5090975582501697,
+        "rvol20": 0.6870381694847376,
+        "z60": 0.1634303815894729,
+        "pct_rank_90": 0.9111111111111111,
+        "z_norm": 0.5163430381589473,
+        "rvol_norm": 0.2290127231615792,
+        "dollar_vol": 17069538.5,
+        "eligible": true,
+        "today_volume": 4016362.0,
+        "sma20_volume": 5845908.1,
+        "close": 4.25
+      }
+    },
+    "rank": 3
+  },
+  {
+    "symbol": "MSFT",
+    "name": "Microsoft Corporation",
+    "theme": "AI",
+    "pct_change": -0.005855334180498989,
+    "vol_ratio": 0.9326695057432908,
+    "news_count": 0,
+    "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.49763402786126665,
+      "insider_momo": null
+    },
+    "score_weights": {
+      "vol_anomaly": 0.6,
+      "insider_momo": 0.4
+    },
+    "final_score_0_1": 0.49763402786126665,
+    "score_pts": 498,
+    "vol_anomaly_score": 0.49763402786126665,
+    "insider_momo": null,
+    "chart_url": "/charts/2025-08-25/MSFT.png",
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.49763402786126665,
+        "rvol20": 0.9326695057432908,
+        "z60": 0.2428971012943054,
+        "pct_rank_90": 0.7111111111111111,
+        "z_norm": 0.5242897101294306,
+        "rvol_norm": 0.3108898352477636,
+        "dollar_vol": 10867950401.971436,
+        "eligible": true,
+        "today_volume": 21552275.0,
+        "sma20_volume": 23108158.75,
+        "close": 504.260009765625
+      }
+    },
+    "rank": 4
+  },
+  {
+    "symbol": "PLTR",
+    "name": "Palantir Technologies Inc.",
+    "theme": "AI",
+    "pct_change": -0.009890432593479785,
+    "vol_ratio": 1.0629699466472673,
+    "news_count": 0,
+    "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.4920244841571684,
+      "insider_momo": null
+    },
+    "score_weights": {
+      "vol_anomaly": 0.6,
+      "insider_momo": 0.4
+    },
+    "final_score_0_1": 0.4920244841571684,
+    "score_pts": 492,
+    "vol_anomaly_score": 0.4920244841571684,
+    "insider_momo": null,
+    "chart_url": "/charts/2025-08-25/PLTR.png",
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.4920244841571684,
+        "rvol20": 1.0629699466472673,
+        "z60": 0.22566090095994273,
+        "pct_rank_90": 0.6222222222222222,
+        "z_norm": 0.5225660900959943,
+        "rvol_norm": 0.3543233155490891,
+        "dollar_vol": 13430686517.350433,
+        "eligible": true,
+        "today_volume": 85453246.0,
+        "sma20_volume": 80391027.3,
+        "close": 157.1699981689453
+      }
+    },
+    "rank": 5
+  },
+  {
+    "symbol": "U",
+    "name": "Unity",
+    "theme": "AI",
+    "pct_change": 0.017109345920665403,
+    "vol_ratio": 0.8803194751979813,
+    "news_count": 0,
+    "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.45887153185270574,
+      "insider_momo": null
+    },
+    "score_weights": {
+      "vol_anomaly": 0.6,
+      "insider_momo": 0.4
+    },
+    "final_score_0_1": 0.45887153185270574,
+    "score_pts": 459,
+    "vol_anomaly_score": 0.45887153185270574,
+    "insider_momo": null,
+    "chart_url": "/charts/2025-08-25/U.png",
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.45887153185270574,
+        "rvol20": 0.8803194751979813,
+        "z60": -0.20543053556407045,
+        "pct_rank_90": 0.6555555555555556,
+        "z_norm": 0.47945694644359294,
+        "rvol_norm": 0.29343982506599375,
+        "dollar_vol": 511779636.69740295,
+        "eligible": true,
+        "today_volume": 12849099.0,
+        "sma20_volume": 14595949.95,
+        "close": 39.83000183105469
+      }
+    },
+    "rank": 6
+  },
+  {
+    "symbol": "MNDY",
+    "name": "Monday.com Ltd.",
+    "theme": "AI",
+    "pct_change": -0.014053628695135502,
+    "vol_ratio": 0.44521393831505174,
+    "news_count": 0,
+    "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.44679899752583074,
+      "insider_momo": null
+    },
+    "score_weights": {
+      "vol_anomaly": 0.6,
+      "insider_momo": 0.4
+    },
+    "final_score_0_1": 0.44679899752583074,
+    "score_pts": 447,
+    "vol_anomaly_score": 0.44679899752583074,
+    "insider_momo": null,
+    "chart_url": "/charts/2025-08-25/MNDY.png",
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.44679899752583074,
+        "rvol20": 0.44521393831505174,
+        "z60": -0.06555903722459976,
+        "pct_rank_90": 0.7777777777777778,
+        "z_norm": 0.49344409627754005,
+        "rvol_norm": 0.14840464610501725,
+        "dollar_vol": 146641298.419693,
+        "eligible": true,
+        "today_volume": 836087.0,
+        "sma20_volume": 1877944.35,
+        "close": 175.38999938964844
+      }
+    },
+    "rank": 7
+  },
+  {
+    "symbol": "TER",
+    "name": "Teradyne, Inc.",
+    "theme": "Robotics",
+    "pct_change": 0.015351228067807251,
+    "vol_ratio": 0.713626377785701,
+    "news_count": 0,
+    "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.43833731848350344,
+      "insider_momo": null
+    },
+    "score_weights": {
+      "vol_anomaly": 0.6,
+      "insider_momo": 0.4
+    },
+    "final_score_0_1": 0.43833731848350344,
+    "score_pts": 438,
+    "vol_anomaly_score": 0.43833731848350344,
+    "insider_momo": null,
+    "chart_url": "/charts/2025-08-25/TER.png",
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.43833731848350344,
+        "rvol20": 0.713626377785701,
+        "z60": -0.1493952747902224,
+        "pct_rank_90": 0.6222222222222222,
+        "z_norm": 0.4850604725209778,
+        "rvol_norm": 0.23787545926190035,
+        "dollar_vol": 408783151.8143921,
+        "eligible": true,
+        "today_volume": 3491784.0,
+        "sma20_volume": 4893014.2,
+        "close": 117.06999969482422
+      }
+    },
+    "rank": 8
+  },
+  {
+    "symbol": "VSAT",
+    "name": "Viasat, Inc.",
+    "theme": "Space",
+    "pct_change": 0.010025018841299034,
+    "vol_ratio": 0.7024617971655746,
+    "news_count": 0,
+    "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.43751881594405795,
+      "insider_momo": null
+    },
+    "score_weights": {
+      "vol_anomaly": 0.6,
+      "insider_momo": 0.4
+    },
+    "final_score_0_1": 0.43751881594405795,
+    "score_pts": 438,
+    "vol_anomaly_score": 0.43751881594405795,
+    "insider_momo": null,
+    "chart_url": "/charts/2025-08-25/VSAT.png",
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.43751881594405795,
+        "rvol20": 0.7024617971655746,
+        "z60": -0.23232505322776945,
+        "pct_rank_90": 0.6444444444444445,
+        "z_norm": 0.47676749467722307,
+        "rvol_norm": 0.23415393238852486,
+        "dollar_vol": 96083313.30171204,
+        "eligible": true,
+        "today_volume": 3406002.0,
+        "sma20_volume": 4848665.1,
+        "close": 28.209999084472656
+      }
+    },
+    "rank": 9
+  },
+  {
+    "symbol": "ISRG",
+    "name": "Intuitive Surgical, Inc.",
+    "theme": "Robotics",
+    "pct_change": -0.016213040073356014,
+    "vol_ratio": 0.8496790197507506,
+    "news_count": 0,
+    "eligible_liquidity": true,
+    "score_components": {
+      "vol_anomaly": 0.41769013241173236,
+      "insider_momo": null
+    },
+    "score_weights": {
+      "vol_anomaly": 0.6,
+      "insider_momo": 0.4
+    },
+    "final_score_0_1": 0.41769013241173236,
+    "score_pts": 418,
+    "vol_anomaly_score": 0.41769013241173236,
+    "insider_momo": null,
+    "chart_url": "/charts/2025-08-25/ISRG.png",
+    "tech_note": "Auto tech note TBD",
+    "ir_note": "IR/News summary TBD",
+    "detail": {
+      "vol_anomaly": {
+        "score_0_1": 0.41769013241173236,
+        "rvol20": 0.8496790197507506,
+        "z60": -0.3455553912668528,
+        "pct_rank_90": 0.5,
+        "z_norm": 0.4654444608733147,
+        "rvol_norm": 0.28322633991691687,
+        "dollar_vol": 771878572.1828613,
+        "eligible": true,
+        "today_volume": 1647764.0,
+        "sma20_volume": 1939278.2,
+        "close": 468.44000244140625
+      }
+    },
+    "rank": 10
+  }
+]
