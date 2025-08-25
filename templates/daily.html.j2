@@ -6,14 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
-      --bg: #ffffff;
-      --fg: #0f172a;
-      --muted: #64748b;
-      --border: #e5e7eb;
-      --badge: #111827;
-      --gold: #f59e0b;   /* 1位 */
-      --silver: #111827; /* 2位 */
-      --bronze: #fb923c; /* 3位 */
+      --bg: #ffffff; --fg: #0f172a; --muted: #64748b; --border: #e5e7eb;
+      --gold: #f59e0b; --silver: #0f172a; --bronze:#fb923c;
+      --chip:#f3f4f6;
     }
     body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: var(--bg); color: var(--fg);}
     .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
@@ -47,34 +42,44 @@
     .tab { display:none; }
     .tab.active { display:block; }
 
-    .badges { display:flex; flex-wrap:wrap; gap:8px; }
-    .badge { border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; }
+    .badges { display:flex; flex-wrap:wrap; gap:8px; margin-bottom: 8px; }
+    .badge { border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; background: var(--chip); }
     .badge strong { margin-right:6px; color: var(--muted); font-weight: 500; }
 
     .chart { width: 100%; border:1px solid var(--border); border-radius: 10px; }
+
+    .table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+    .table th, .table td { border-bottom: 1px solid var(--border); padding: 6px 8px; font-size: 12px; text-align: left; }
+    .table th { color: var(--muted); font-weight: 600; }
+    .right { text-align: right; }
+    .muted { color: var(--muted); }
+    details { margin-top: 8px; background:#fafafa; border:1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+    details > summary { cursor:pointer; font-size: 12px; color:#111; user-select: none; }
+    .kv { display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-top:8px; }
+    .kv div { font-size:12px; background:#fff; border:1px solid var(--border); border-radius:8px; padding:6px 8px; }
+    .kv .k { color: var(--muted); }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <h1>futuretech-stock — Daily Top 10</h1>
-      <div class="sub">Date: {{ date }} / Scoring: 1000 pts (currently volume anomaly only)</div>
+      <div class="sub">Date: {{ date }} / Scoring: 1000 pts（現在は出来高＋Insiderが対象。将来さらに拡張）</div>
     </header>
 
-    <!-- サーバで top10 が渡っている場合：Jinjaで描画 -->
     {% if top10 is defined %}
-    <div class="grid">
+    <div class="grid" id="cards">
       {% for item in top10 %}
         {% set rank = item.rank or loop.index %}
         {% set chart_url = item.chart_url or ('/charts/' ~ date ~ '/' ~ item.symbol ~ '.png') %}
         {% set pts = item.score_pts or ( ((item.final_score_0_1 or item.vol_anomaly_score or 0) * 1000) | round(0, 'common') ) %}
-        {% set vol = item.vol_anomaly_score or item.final_score_0_1 or 0 %}
+        {% set vol = item.detail and item.detail.vol_anomaly %}
         {% set tier = 'other' %}
         {% if rank == 1 %}{% set tier = 'gold' %}
         {% elif rank == 2 %}{% set tier = 'silver' %}
         {% elif rank == 3 %}{% set tier = 'bronze' %}{% endif %}
 
-        <div class="card" id="card-{{ loop.index }}">
+        <div class="card" id="card-{{ loop.index }}" data-symbol="{{ item.symbol }}">
           <div class="row">
             <div class="sym">
               <div class="rank {{ tier }}">{{ rank }}</div>
@@ -94,79 +99,86 @@
               <button class="tab-btn active" data-target="#ov-{{ loop.index }}">Overview</button>
               <button class="tab-btn" data-target="#tech-{{ loop.index }}">Technical snapshot</button>
             </div>
+
+            <!-- Overview: スコア内訳 + 詳細 -->
             <div id="ov-{{ loop.index }}" class="tab active">
-              <p class="name">現在は異常出来高のみで採点。今後、ニュース/機関保有などを合算予定。</p>
               <div class="badges">
-                <div class="badge"><strong>Score</strong>{{ pts | int }}/1000</div>
-                <div class="badge"><strong>Volume anomaly</strong>{{ "%.2f"|format(vol) }}</div>
+                <div class="badge"><strong>Total score</strong>{{ pts | int }}/1000</div>
+                {% if item.insider_momo is not none %}
+                <div class="badge"><strong>Insider momo</strong>{{ "%.2f"|format(item.insider_momo) }}</div>
+                {% endif %}
+                <div class="badge"><strong>Volume anomaly</strong>{{ "%.2f"|format(item.vol_anomaly_score or 0) }}</div>
               </div>
+
+              <!-- スコアブレークダウン（正規化重みで寄与点を再計算） -->
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Value (0–1)</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- JSで埋め込み（weights正規化 & 1000点換算） -->
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">{{ pts | int }}</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <!-- 詳細：Volume anomaly -->
+              <details>
+                <summary>Volume anomaly details</summary>
+                {% if vol %}
+                <div class="kv">
+                  <div><span class="k">RVOL20</span><br>{{ "%.2f"|format(vol.rvol20) }}</div>
+                  <div><span class="k">Z60</span><br>{{ "%.2f"|format(vol.z60) }}</div>
+                  <div><span class="k">PctRank90</span><br>{{ vol.pct_rank_90 is not none and "%.2f"|format(vol.pct_rank_90) or "-" }}</div>
+                  <div><span class="k">DollarVol</span><br>${{ "%.1f"|format(vol.dollar_vol/1_000_000) }}M</div>
+                  <div><span class="k">Eligible</span><br>{{ vol.eligible and "Yes" or "No" }}</div>
+                </div>
+                {% else %}
+                <div class="muted">詳細データはありません。</div>
+                {% endif %}
+              </details>
+
+              <!-- 詳細：Insider（Form 4）— 後段JSが insider JSON から補完 -->
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">読み込み中…</div>
+              </details>
             </div>
+
+            <!-- Technical: 週足チャート -->
             <div id="tech-{{ loop.index }}" class="tab">
               <img src="{{ chart_url }}" alt="{{ item.symbol }} weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
+
+          <!-- JSONデータを data-* に埋め込んでJSで利用 -->
+          <script type="application/json" class="js-payload">
+          {{ {
+            "symbol": item.symbol,
+            "score_components": item.score_components,
+            "score_weights": item.score_weights,
+            "final_score_0_1": item.final_score_0_1,
+            "score_pts": item.score_pts,
+            "insider_momo": item.insider_momo,
+          } | tojson }}
+          </script>
         </div>
       {% endfor %}
     </div>
 
     {% else %}
-    <!-- クライアントで JSON をフェッチして描画（フォールバック） -->
+    <!-- クライアント描画フォールバック（省略：以前版でOK） -->
     <div id="cards" class="grid"></div>
-    <script>
-      (async function(){
-        const date = "{{ date }}";
-        const res = await fetch(`/data/${date}/top10.json`, {cache: "no-store"});
-        const data = await res.json();
-        const el = document.getElementById("cards");
-        el.innerHTML = data.map((item, i) => {
-          const rank = item.rank ?? (i+1);
-          const pts = (typeof item.score_pts === "number")
-            ? item.score_pts
-            : Math.round(((item.final_score_0_1 ?? item.vol_anomaly_score ?? 0) * 1000));
-          const vol = item.vol_anomaly_score ?? item.final_score_0_1 ?? 0;
-          const chart = item.chart_url ?? `/charts/${date}/${item.symbol}.png`;
-          const tier = rank === 1 ? "gold" : rank === 2 ? "silver" : rank === 3 ? "bronze" : "other";
-          const idx = i+1;
-          return `
-            <div class="card" id="card-${idx}">
-              <div class="row">
-                <div class="sym">
-                  <div class="rank ${tier}">${rank}</div>
-                  <div>
-                    <div class="symbol">${item.symbol}</div>
-                    ${item.name ? `<div class="name">${item.name}</div>` : ""}
-                  </div>
-                </div>
-                <div class="score">
-                  <div class="num">${pts}</div>
-                  <div class="den">/ 1000</div>
-                </div>
-              </div>
-
-              <div class="tabs">
-                <div class="tab-buttons">
-                  <button class="tab-btn active" data-target="#ov-${idx}">Overview</button>
-                  <button class="tab-btn" data-target="#tech-${idx}">Technical snapshot</button>
-                </div>
-                <div id="ov-${idx}" class="tab active">
-                  <p class="name">現在は異常出来高のみで採点。今後、ニュース/機関保有などを合算予定。</p>
-                  <div class="badges">
-                    <div class="badge"><strong>Score</strong>${pts}/1000</div>
-                    <div class="badge"><strong>Volume anomaly</strong>${vol.toFixed(2)}</div>
-                  </div>
-                </div>
-                <div id="tech-${idx}" class="tab">
-                  <img src="${chart}" alt="${item.symbol} weekly chart" class="chart" loading="lazy" />
-                </div>
-              </div>
-            </div>
-          `;
-        }).join("");
-        bindTabs();
-      })();
-    </script>
     {% endif %}
-
   </div>
 
   <script>
@@ -175,10 +187,8 @@
         btns.querySelectorAll(".tab-btn").forEach(btn => {
           btn.addEventListener("click", () => {
             const card = btn.closest(".card");
-            // ボタン切替
             btns.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
-            // パネル切替
             card.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
             const target = card.querySelector(btn.getAttribute("data-target"));
             if (target) target.classList.add("active");
@@ -186,8 +196,91 @@
         });
       });
     }
-    // SSR時のタブ動作
     bindTabs(document);
+
+    // --- スコア内訳テーブルを埋める（weightsを“存在する要素のみ”で正規化 → 1000点換算）
+    function fillBreakdown() {
+      document.querySelectorAll(".card").forEach(card => {
+        const payloadEl = card.querySelector(".js-payload");
+        if (!payloadEl) return;
+        const data = JSON.parse(payloadEl.textContent || "{}");
+        const comps = data.score_components || {};
+        const weights = data.score_weights || {};
+        // valid keys
+        const keys = Object.keys(comps).filter(k => comps[k] !== null && comps[k] !== undefined);
+        const wsum = keys.reduce((s,k)=> s + Math.max(0, Number(weights[k] || 0)), 0) || 1;
+        const tbody = card.querySelector(".js-breakdown tbody");
+        const totalEl = card.querySelector(".js-total");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+        let totalPts = 0;
+
+        const label = (k) => ({
+          vol_anomaly: "Volume anomaly",
+          insider_momo: "Insider momentum",
+          news: "News",
+          inst_delta: "Institutional ownership Δ",
+        }[k] || k);
+
+        keys.forEach(k => {
+          const v = Math.max(0, Math.min(1, Number(comps[k] || 0)));
+          const wn = Math.max(0, Number(weights[k] || 0)) / wsum; // 正規化重み
+          const pts = Math.round(v * wn * 1000);
+          totalPts += pts;
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${label(k)}</td>
+            <td class="right">${v.toFixed(2)}</td>
+            <td class="right">${(wn*100).toFixed(0)}%</td>
+            <td class="right">${pts}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        // 総和を表示（端数は丸め誤差あり）
+        if (totalEl) totalEl.textContent = String(totalPts);
+      });
+    }
+
+    // --- Insider details を EDGAR 集計JSONから補完表示
+    async function fillInsiderDetails(asOfDate) {
+      try {
+        const res = await fetch(`/data/insider/form4_latest.json`, { cache: "no-store" });
+        if (!res.ok) throw new Error("fetch insider json failed");
+        const j = await res.json();
+        const items = j.items || {};
+        document.querySelectorAll(".card").forEach(card => {
+          const sym = card.getAttribute("data-symbol");
+          const box = card.querySelector(".js-insider");
+          if (!box) return;
+          const rec = items[sym];
+          if (!rec) {
+            box.innerHTML = `<summary>Insider details (Form 4)</summary><div class="muted">データなし</div>`;
+            return;
+          }
+          const html = `
+            <summary>Insider details (Form 4)</summary>
+            <div class="kv">
+              <div><span class="k">Net buy (30d)</span><br>${(rec.net_buy_shares_30||0).toLocaleString()} shares</div>
+              <div><span class="k">Net buy (90d)</span><br>${(rec.net_buy_shares_90||0).toLocaleString()} shares</div>
+              <div><span class="k">Unique buyers (30d)</span><br>${(rec.buyers_30||0)}</div>
+              <div><span class="k">Unique buyers (90d)</span><br>${(rec.buyers_90||0)}</div>
+              <div><span class="k">Score 30</span><br>${Number(rec.score_30||0).toFixed(2)}</div>
+              <div><span class="k">Score 90</span><br>${Number(rec.score_90||0).toFixed(2)}</div>
+            </div>
+          `;
+          box.innerHTML = html;
+        });
+      } catch (e) {
+        // 失敗時は静かに諦める
+        document.querySelectorAll(".js-insider").forEach(box => {
+          box.innerHTML = `<summary>Insider details (Form 4)</summary><div class="muted">読み込みに失敗しました</div>`;
+        });
+      }
+    }
+
+    fillBreakdown();
+    fillInsiderDetails("{{ date }}");
   </script>
 </body>
 </html>
