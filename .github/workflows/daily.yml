@@ -67,7 +67,11 @@ jobs:
           UNIVERSE_CSV: data/universe.csv
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}   # 既存のやり方に合わせてください
           SEC_USER_AGENT: "futuretech-stock/1.0 (sachiohiro777@gmail.com)"
-          FORM4_MAX_FILINGS: "25"
+          FORM4_MAX_FILINGS: "10"         # 大企業でも十分
+          FORM4_MAX_AGE_DAYS: "95"        # ここより古い提出は打ち切り
+          SEC_SLEEP: "0.7"                # 会社ごとの小休止
+          SEC_XML_SLEEP: "0.25"           # XML 取得の小休止
+          SEC_RETRY: "3"
         run: |
           python scripts/fetch_form4.py
 
