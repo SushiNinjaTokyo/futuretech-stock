@@ -61,3 +61,25 @@ jobs:
           git add -A
           git commit -m "chore: publish daily report" || echo "no changes"
           git push
+      - name: Fetch Form 4 (insider momentum)
+        env:
+          OUT_DIR: site
+          UNIVERSE_CSV: data/universe.csv
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}   # 既存のやり方に合わせてください
+          SEC_USER_AGENT: "futuretech-stock/1.0 (sachiohiro777@gmail.com)"
+          FORM4_MAX_FILINGS: "25"
+        run: |
+          python scripts/fetch_form4.py
+
+      - name: Generate daily ranking
+        env:
+          DATA_PROVIDER: yfinance
+          MOCK_MODE: "false"
+          OUT_DIR: site
+          UNIVERSE_CSV: data/universe.csv
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+          WEIGHT_VOL_ANOM: "0.60"
+          WEIGHT_FORM4: "0.40"               # ← 重み調整はここで
+          FORM4_JSON: site/data/insider/form4_latest.json
+        run: |
+          python scripts/fetch_daily.py
