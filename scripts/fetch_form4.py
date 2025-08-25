@@ -3,7 +3,7 @@
 
 import os, sys, re, json, time, math, pathlib, datetime
 from zoneinfo import ZoneInfo
-from urllib.parse import urljoin
+from urllib.parse import urljoin, quote_plus
 import xml.etree.ElementTree as ET
 import pandas as pd
 import requests
@@ -12,7 +12,7 @@ OUT_DIR = os.getenv("OUT_DIR", "site")
 UNIVERSE_CSV = os.getenv("UNIVERSE_CSV", "data/universe.csv")
 DATE = os.getenv("REPORT_DATE") or datetime.datetime.now(ZoneInfo("America/New_York")).date().isoformat()
 SEC_UA = os.getenv("SEC_USER_AGENT", "futuretech-stock/1.0 (contact@example.com)")
-MAX_FILINGS_PER_SYMBOL = int(os.getenv("FORM4_MAX_FILINGS", "25"))   # 会社ごとに処理する最大件数
+MAX_FILINGS_PER_SYMBOL = int(os.getenv("FORM4_MAX_FILINGS", "25"))   # 会社ごと最大処理件数
 WINDOW_SHORT = 30
 WINDOW_LONG = 90
 
@@ -22,25 +22,22 @@ CIK_CACHE = CACHE_DIR / "cik_map.json"
 SECTICKERS_CACHE = CACHE_DIR / "sec_company_tickers.json"
 
 def sec_headers():
+    # ※ Host は付けない（ドメインごとに変わるため）
     return {
         "User-Agent": SEC_UA,
         "Accept-Encoding": "gzip, deflate",
-        "Host": "data.sec.gov",
+        "Connection": "keep-alive",
     }
 
 def load_universe_symbols():
     df = pd.read_csv(UNIVERSE_CSV)
-    syms = [str(s).strip().upper() for s in df["symbol"].tolist()]
-    return syms
+    return [str(s).strip().upper() for s in df["symbol"].tolist()]
 
 def normalize_symbol(sym: str) -> list[str]:
-    """SECのティッカー表記差異（- と .）を両方試す"""
     s = sym.upper().strip()
     alts = {s}
-    if "." in s:
-        alts.add(s.replace(".", "-"))
-    if "-" in s:
-        alts.add(s.replace("-", "."))
+    if "." in s: alts.add(s.replace(".", "-"))
+    if "-" in s: alts.add(s.replace("-", "."))
     return list(alts)
 
 def load_json(path: pathlib.Path):
@@ -53,56 +50,99 @@ def save_json(path: pathlib.Path, obj):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(obj, indent=2))
 
-def build_cik_map_from_sec():
-    # https://www.sec.gov/files/company_tickers.json
+# ----------------------------
+# CIK 解決（堅牢化）
+# ----------------------------
+def build_cik_map_from_sec(max_retry=3, backoff=0.8):
+    """
+    https://www.sec.gov/files/company_tickers.json から {ticker: cik} を取得
+    """
     url = "https://www.sec.gov/files/company_tickers.json"
-    r = requests.get(url, headers=sec_headers(), timeout=30)
-    r.raise_for_status()
-    data = r.json()  # { "0": { "cik_str": 320193, "ticker": "AAPL", "title": "Apple Inc." }, ... }
-    mapping = {}
-    for _, rec in data.items():
-        t = str(rec.get("ticker", "")).upper().strip()
-        cik = int(rec.get("cik_str", 0))
-        if t and cik:
-            mapping[t] = cik
-    save_json(SECTICKERS_CACHE, mapping)
-    return mapping
+    last_err = None
+    for i in range(max_retry):
+        try:
+            r = requests.get(url, headers=sec_headers(), timeout=30)
+            r.raise_for_status()
+            data = r.json()  # {"0": {"cik_str": 320193, "ticker": "AAPL", "title": "Apple Inc."}, ...}
+            mapping = {}
+            for _, rec in data.items():
+                t = str(rec.get("ticker", "")).upper().strip()
+                cik = int(rec.get("cik_str", 0))
+                if t and cik:
+                    mapping[t] = cik
+            save_json(SECTICKERS_CACHE, mapping)
+            return mapping
+        except Exception as e:
+            last_err = e
+            time.sleep(backoff * (i + 1))
+    raise last_err
 
 def get_cik_map():
-    # 優先：ローカルキャッシュ → SEC公式JSON → 空
     cache = load_json(SECTICKERS_CACHE)
     if cache: return cache
     try:
         return build_cik_map_from_sec()
     except Exception as e:
-        print(f"[WARN] SEC company_tickers fetch failed: {e}", file=sys.stderr)
+        print(f"[WARN] SEC company_tickers fetch failed (fallback to search): {e}", file=sys.stderr)
         return {}
 
+def search_cik_by_ticker_via_html(sym: str) -> str | None:
+    """
+    EDGAR の会社検索 HTML から CIK=XXXXXXXXXX を抜く
+    例: https://www.sec.gov/cgi-bin/browse-edgar?CIK=NVDA&owner=exclude&action=getcompany
+    """
+    url = f"https://www.sec.gov/cgi-bin/browse-edgar?CIK={quote_plus(sym)}&owner=exclude&action=getcompany"
+    try:
+        r = requests.get(url, headers=sec_headers(), timeout=30)
+        r.raise_for_status()
+        html = r.text
+        # CIK=0000320193 のような10桁ゼロパディング
+        m = re.search(r"CIK=0*([0-9]{1,10})", html, flags=re.IGNORECASE)
+        if m:
+            cik_int = int(m.group(1))
+            return str(cik_int).zfill(10)
+    except Exception:
+        pass
+    return None
+
 def resolve_cik_for_symbol(sym: str) -> str | None:
-    # 既存キャッシュ
+    # 1) ローカルキャッシュ
     cik_map = load_json(CIK_CACHE)
     if sym in cik_map:
         return str(cik_map[sym]).zfill(10)
-    # SEC公式マップから探す（表記ゆれも試す）
+
+    # 2) 公式 JSON マップ
     secmap = get_cik_map()
     for alt in normalize_symbol(sym):
         if alt in secmap:
             cik_map[sym] = int(secmap[alt])
             save_json(CIK_CACHE, cik_map)
             return str(secmap[alt]).zfill(10)
-    # yfinance フォールバック（なくてもOK）
+
+    # 3) EDGAR 検索 HTML から抽出
+    cik = search_cik_by_ticker_via_html(sym)
+    if cik:
+        cik_map[sym] = int(cik)
+        save_json(CIK_CACHE, cik_map)
+        return cik
+
+    # 4) yfinance フォールバック
     try:
         import yfinance as yf
         info = yf.Ticker(sym).get_info()
-        cik = info.get("cik")
-        if cik:
-            cik_map[sym] = int(cik)
+        cik2 = info.get("cik")
+        if cik2:
+            cik_map[sym] = int(cik2)
             save_json(CIK_CACHE, cik_map)
-            return str(cik).zfill(10)
+            return str(cik2).zfill(10)
     except Exception:
         pass
+
     return None
 
+# ----------------------------
+# Form 4 取得・解析
+# ----------------------------
 def fetch_atom_entries_for_cik(cik: str):
     url = f"https://data.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={cik}&type=4&owner=only&count=100&output=atom"
     r = requests.get(url, headers=sec_headers(), timeout=30)
@@ -123,15 +163,11 @@ def extract_first_xml_url_from_index(index_html_url: str) -> str | None:
     r = requests.get(index_html_url, headers=sec_headers(), timeout=30)
     r.raise_for_status()
     html = r.text
-    # index ページ内の .xml リンク（Form 4のXML）
-    # よくあるパターン: .../xslF345X03/XXXX.xml など
     m = re.findall(r'href="([^"]+\.xml)"', html, flags=re.IGNORECASE)
     if not m:
-        # -index.htm → .xml トライ
         if index_html_url.endswith("-index.htm"):
             return index_html_url.replace("-index.htm", ".xml")
         return None
-    # 相対→絶対
     for href in m:
         url = urljoin(index_html_url, href)
         if re.search(r'(form4|f345|xslf345)', url, flags=re.IGNORECASE):
@@ -139,7 +175,6 @@ def extract_first_xml_url_from_index(index_html_url: str) -> str | None:
     return urljoin(index_html_url, m[0])
 
 def _find_text(elem: ET.Element, qname: str):
-    # 名前空間無視でローカル名一致を探す
     for x in elem.iter():
         tag = x.tag.split("}")[-1]
         if tag.lower() == qname.lower():
@@ -148,16 +183,9 @@ def _find_text(elem: ET.Element, qname: str):
     return None
 
 def parse_form4_xml(xml_text: str):
-    """
-    戻り値: dict(date, buy_shares, sell_shares, buyers) — buyersは文書内の報告者名セット
-    """
     root = ET.fromstring(xml_text)
-    # 取引日
     date = _find_text(root, "transactionDate") or _find_text(root, "periodOfReport")
-    # 取引テーブル（非デリバ/デリバ両方）
-    buys = 0.0
-    sells = 0.0
-    # すべての transaction 要素を探索
+    buys = 0.0; sells = 0.0
     for tx in root.iter():
         tag = tx.tag.split("}")[-1].lower()
         if tag not in ("nonderivativetransaction", "derivativetransaction"):
@@ -168,14 +196,13 @@ def parse_form4_xml(xml_text: str):
             shares = float(shares_txt.replace(",", "")) if shares_txt else 0.0
         except Exception:
             shares = 0.0
-        if code.upper() == "P":  # open market purchase
+        if code.upper() == "P":
             buys += shares
-        elif code.upper() == "S":  # sale
+        elif code.upper() == "S":
             sells += shares
 
     buyers = set()
-    has_buy = buys > 0
-    if has_buy:
+    if buys > 0:
         for ro in root.iter():
             if ro.tag.split("}")[-1] == "rptOwnerName":
                 if ro.text and ro.text.strip():
@@ -198,12 +225,15 @@ def percentile_rank_among_positives(values: list[float], x: float) -> float:
     k = bisect.bisect_right(pos, x)
     return k / len(pos)
 
+# ----------------------------
+# メイン
+# ----------------------------
 def main():
     symbols = load_universe_symbols()
     ref_date = datetime.date.fromisoformat(DATE)
 
     per_symbol = {}
-    for sym in symbols:
+    for idx, sym in enumerate(symbols, start=1):
         cik = resolve_cik_for_symbol(sym)
         if not cik:
             print(f"[WARN] no CIK for {sym}", file=sys.stderr)
@@ -221,16 +251,14 @@ def main():
 
         for ent in entries:
             href = ent.get("href")
-            if not href:
-                continue
-            # index → XML
+            if not href: continue
             try:
                 xml_url = extract_first_xml_url_from_index(href)
             except Exception as e:
                 print(f"[WARN] index fetch failed {sym}: {e}", file=sys.stderr)
                 continue
-            if not xml_url:
-                continue
+            if not xml_url: continue
+
             time.sleep(0.4)
             try:
                 xr = requests.get(xml_url, headers=sec_headers(), timeout=30)
@@ -241,15 +269,12 @@ def main():
                 continue
 
             dt = parsed.get("date")
-            if not dt:
-                continue
+            if not dt: continue
             net = float(parsed["buy_shares"]) - float(parsed["sell_shares"])
             if within_days(dt, WINDOW_LONG, ref_date):
-                net90 += net
-                buyers90.update(parsed.get("buyers", []))
+                net90 += net; buyers90.update(parsed.get("buyers", []))
             if within_days(dt, WINDOW_SHORT, ref_date):
-                net30 += net
-                buyers30.update(parsed.get("buyers", []))
+                net30 += net; buyers30.update(parsed.get("buyers", []))
 
         per_symbol[sym] = {
             "cik": cik,
@@ -270,11 +295,9 @@ def main():
         net90_pct = percentile_rank_among_positives(nets90, rec["net_buy_shares_90"])
         b30_pct = percentile_rank_among_positives(b30, rec["buyers_30"])
         b90_pct = percentile_rank_among_positives(b90, rec["buyers_90"])
-
         score30 = 0.7 * net30_pct + 0.3 * b30_pct
         score90 = 0.7 * net90_pct + 0.3 * b90_pct
         insider_momo = max(score30, 0.9 * score90)
-
         rec.update({
             "score_30": round(score30, 6),
             "score_90": round(score90, 6),
