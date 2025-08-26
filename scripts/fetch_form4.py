@@ -14,11 +14,12 @@ UNIVERSE_CSV = os.getenv("UNIVERSE_CSV", "data/universe.csv")
 DATE = os.getenv("REPORT_DATE") or datetime.datetime.now(ZoneInfo("America/New_York")).date().isoformat()
 SEC_UA = os.getenv("SEC_USER_AGENT", "futuretech-stock/1.0 (contact@example.com)")
 
-MAX_FILINGS_PER_SYMBOL = int(os.getenv("FORM4_MAX_FILINGS", "12"))      # 1社あたり最大処理件数（既定を控えめに）
-MAX_AGE_DAYS = int(os.getenv("FORM4_MAX_AGE_DAYS", "95"))                # これより古い提出は打ち切り
-SEC_SLEEP = float(os.getenv("SEC_SLEEP", "0.7"))                          # 提出一覧の取得間隔
-SEC_XML_SLEEP = float(os.getenv("SEC_XML_SLEEP", "0.25"))                 # XML 取得間隔
-RETRY = int(os.getenv("SEC_RETRY", "3"))                                  # XMLリトライ回数
+MAX_FILINGS_PER_SYMBOL = int(os.getenv("FORM4_MAX_FILINGS", "12"))
+MAX_AGE_DAYS = int(os.getenv("FORM4_MAX_AGE_DAYS", "95"))
+SEC_SLEEP = float(os.getenv("SEC_SLEEP", "0.7"))
+SEC_XML_SLEEP = float(os.getenv("SEC_XML_SLEEP", "0.25"))
+RETRY = int(os.getenv("SEC_RETRY", "3"))
+DEBUG_DUMP = os.getenv("FORM4_DEBUG_DUMP", "0") == "1"
 
 WINDOW_SHORT = 30
 WINDOW_LONG = 90
@@ -28,9 +29,9 @@ CACHE_DIR = pathlib.Path(OUT_DIR) / "cache"
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 CIK_CACHE = CACHE_DIR / "cik_map.json"
 SECTICKERS_CACHE = CACHE_DIR / "sec_company_tickers.json"
+DUMP_DIR = CACHE_DIR / "form4_dumps"
 
 def headers():
-    # Host は付けない。UA は必須（SECのお作法）
     return {"User-Agent": SEC_UA, "Accept-Encoding": "gzip, deflate", "Connection": "keep-alive"}
 
 # -------------- Utils --------------
@@ -97,21 +98,17 @@ def search_cik_by_ticker_via_html(sym: str) -> str|None:
     return None
 
 def resolve_cik_for_symbol(sym: str) -> str|None:
-    # 1) local cache
     cmap = load_json(CIK_CACHE)
     if sym in cmap: return str(cmap[sym]).zfill(10)
-    # 2) official map
     secmap = get_cik_map()
     for alt in normalize_symbol(sym):
         if alt in secmap:
             cmap[sym] = int(secmap[alt]); save_json(CIK_CACHE, cmap)
             return str(secmap[alt]).zfill(10)
-    # 3) HTML search
     cik = search_cik_by_ticker_via_html(sym)
     if cik:
         cmap[sym] = int(cik); save_json(CIK_CACHE, cmap)
         return cik
-    # 4) yfinance fallback
     try:
         import yfinance as yf
         info = yf.Ticker(sym).get_info()
@@ -131,22 +128,14 @@ def get_recent_submissions(cik10: str):
     return r.json()
 
 def pick_xml_from_dir(base_url: str, primary_doc: str|None) -> list[str]:
-    """
-    ディレクトリ直下の XML 候補を列挙（優先順）
-      1) index.json があれば .xml 一覧を取得し、'form4'/'ownership'/'primary' を優先
-      2) -index.html を開いて .xml を拾う
-      3) primary_doc が .xml ならそれを採用
-    """
     cands: list[str] = []
-
-    # 1) index.json
+    # index.json 優先
     try:
         jr = requests.get(f"{base_url}/index.json", headers=headers(), timeout=20)
         if jr.ok:
             j = jr.json()
             items = j.get("directory", {}).get("item", [])
             xmls = [it["name"] for it in items if str(it.get("name","")).lower().endswith(".xml")]
-            # 優先: form4/ownership/primary
             xmls.sort(key=lambda nm: (
                 0 if "form4" in nm.lower() else
                 1 if "ownership" in nm.lower() else
@@ -155,40 +144,30 @@ def pick_xml_from_dir(base_url: str, primary_doc: str|None) -> list[str]:
             cands.extend([f"{base_url}/{nm}" for nm in xmls])
     except Exception:
         pass
-
-    # 2) -index.html
+    # -index.html or {acc}-index.html
     try:
         ir = requests.get(f"{base_url}/-index.html", headers=headers(), timeout=20)
         if not ir.ok:
-            # 旧形式: {acc}-index.html（ハイフン付き）
-            # base_url = .../{acc_nodash}
-            # acc は base_url の末尾名を使って組む
             acc_nodash = base_url.rstrip("/").split("/")[-1]
             acc = f"{acc_nodash[:10]}-{acc_nodash[10:12]}-{acc_nodash[12:]}"
             ir = requests.get(f"{base_url}/{acc}-index.html", headers=headers(), timeout=20)
         if ir.ok:
             ms = re.findall(r'href="([^"]+\.xml)"', ir.text, flags=re.IGNORECASE)
             for m in ms:
-                if m.startswith("http"):
-                    cands.append(m)
-                else:
-                    cands.append(f"{base_url}/{m}")
+                cands.append(m if m.startswith("http") else f"{base_url}/{m}")
     except Exception:
         pass
-
-    # 3) primary_doc
+    # primary が .xml
     if primary_doc and str(primary_doc).lower().endswith(".xml"):
         cands.append(f"{base_url}/{primary_doc}")
-
-    # 重複排除
-    uniq = []
-    seen = set()
+    # uniq
+    uniq, seen = [], set()
     for u in cands:
         if u not in seen:
             uniq.append(u); seen.add(u)
     return uniq
 
-def fetch_text_with_retry(url: str, expect_xml: bool = False) -> str|None:
+def fetch_text_with_retry(url: str, expect_xml: bool = False, dump_path: pathlib.Path|None = None) -> str|None:
     last = None
     for i in range(RETRY):
         try:
@@ -197,11 +176,13 @@ def fetch_text_with_retry(url: str, expect_xml: bool = False) -> str|None:
                 last = Exception(f"HTTP {r.status_code}")
                 time.sleep(SEC_XML_SLEEP*(i+1)); continue
             txt = r.text
-            # SECが返すHTMLをXMLと誤認しないようガード
             if expect_xml:
                 ctype = r.headers.get("Content-Type","").lower()
                 if ("xml" not in ctype) and ("text/xml" not in ctype) and not re.search(r"<ownershipDocument", txt, re.IGNORECASE):
-                    last = Exception("not-xml")
+                    last = Exception("not-xml"); 
+                    if DEBUG_DUMP and dump_path:
+                        dump_path.parent.mkdir(parents=True, exist_ok=True)
+                        dump_path.write_text(txt[:2000])
                     time.sleep(SEC_XML_SLEEP*(i+1)); continue
             return txt
         except Exception as e:
@@ -230,7 +211,6 @@ def to_float(x):
     except Exception: return 0.0
 
 def parse_form4_xml(xml_text: str):
-    # XML でないものは事前に弾く
     if not is_form4_xml(xml_text):
         raise ET.ParseError("not a Form4 XML")
     root = ET.fromstring(xml_text)
@@ -243,13 +223,11 @@ def parse_form4_xml(xml_text: str):
         shares = to_float(find_text_in(tx, "transactionShares") or find_text_in(tx, "shares"))
         if code == "P": buys += shares
         elif code == "S": sells += shares
-
     buyers = set()
     if buys > 0:
         for ro in root.iter():
             if ro.tag.split("}")[-1] == "rptOwnerName":
                 if ro.text and ro.text.strip(): buyers.add(ro.text.strip())
-
     return {"date": tx_date, "buy_shares": buys, "sell_shares": sells, "buyers": sorted(list(buyers))}
 
 def within_days(date_iso: str, days: int, ref_date: datetime.date) -> bool:
@@ -274,13 +252,19 @@ def main():
     for sym in syms:
         cik10 = resolve_cik_for_symbol(sym)
         if not cik10:
-            print(f"[WARN] no CIK for {sym}", file=sys.stderr); continue
+            print(f"[WARN] no CIK for {sym}", file=sys.stderr); 
+            per_symbol[sym] = {"cik": None, "net_buy_shares_30":0.0,"net_buy_shares_90":0.0,"buyers_30":0,"buyers_90":0,
+                               "debug":{"skipped_old":0,"bad_xml":0,"taken":0}}
+            continue
 
-        time.sleep(SEC_SLEEP)  # 優しく
+        time.sleep(SEC_SLEEP)
         try:
             subs = get_recent_submissions(cik10)
         except Exception as e:
-            print(f"[WARN] submissions fetch failed {sym}: {e}", file=sys.stderr); continue
+            print(f"[WARN] submissions fetch failed {sym}: {e}", file=sys.stderr)
+            per_symbol[sym] = {"cik": cik10, "net_buy_shares_30":0.0,"net_buy_shares_90":0.0,"buyers_30":0,"buyers_90":0,
+                               "debug":{"skipped_old":0,"bad_xml":0,"taken":0}}
+            continue
 
         recent = subs.get("filings", {}).get("recent", {})
         forms = recent.get("form", [])
@@ -294,20 +278,16 @@ def main():
         for form, acc, prim, fdate in zip(forms, accs, prims, fdates):
             if str(form).strip().upper() != "4":
                 continue
-            # 古い提出は打ち切り
             try:
                 fd = datetime.date.fromisoformat(str(fdate))
                 if (ref_date - fd).days > MAX_AGE_DAYS:
                     skipped_old += 1
-                    # 直近→古いの順に並んでいるため、ここで break できる
                     break
             except Exception:
                 pass
 
             acc_nodash = str(acc).replace("-", "")
             base = f"https://www.sec.gov/Archives/edgar/data/{int(cik10)}/{acc_nodash}"
-
-            # ディレクトリから XML 候補を収集
             xml_candidates = pick_xml_from_dir(base, prim)
             if not xml_candidates:
                 bad_xml += 1
@@ -316,14 +296,18 @@ def main():
             parsed_one = False
             for xml_url in xml_candidates:
                 time.sleep(SEC_XML_SLEEP)
-                txt = fetch_text_with_retry(xml_url, expect_xml=True)
+                dump_path = None
+                if DEBUG_DUMP:
+                    dump_path = DUMP_DIR / sym / f"{acc_nodash}.txt"
+                txt = fetch_text_with_retry(xml_url, expect_xml=True, dump_path=dump_path)
                 if not txt:
                     continue
-                # ここで XML 以外（HTML等）は弾かれている
                 try:
                     parsed = parse_form4_xml(txt)
                 except Exception:
-                    # 別候補を試す
+                    if DEBUG_DUMP and dump_path and not dump_path.exists():
+                        dump_path.parent.mkdir(parents=True, exist_ok=True)
+                        dump_path.write_text(txt[:2000])
                     continue
 
                 total_xml += 1
@@ -335,7 +319,7 @@ def main():
                         net90 += net; buyers90.update(parsed.get("buyers", []))
                     if within_days(dt, WINDOW_SHORT, ref_date):
                         net30 += net; buyers30.update(parsed.get("buyers", []))
-                break  # この提出については1本処理できれば十分
+                break
 
             if not parsed_one:
                 bad_xml += 1
@@ -353,7 +337,7 @@ def main():
             "debug": {"skipped_old": skipped_old, "bad_xml": bad_xml, "taken": taken}
         }
 
-    # 正規化（宇宙内パーセンタイル）
+    # 正規化
     nets30 = [v["net_buy_shares_30"] for v in per_symbol.values()]
     nets90 = [v["net_buy_shares_90"] for v in per_symbol.values()]
     b30 =   [v["buyers_30"]          for v in per_symbol.values()]
@@ -373,14 +357,24 @@ def main():
             "insider_momo": round(insider_momo, 6),
         })
 
-    out_latest = pathlib.Path(OUT_DIR) / "data" / "insider" / "form4_latest.json"
-    out_today  = pathlib.Path(OUT_DIR) / "data" / DATE / "insider.json"
+    out_latest = (pathlib.Path(OUT_DIR) / "data" / "insider" / "form4_latest.json").resolve()
+    out_today  = (pathlib.Path(OUT_DIR) / "data" / DATE / "insider.json").resolve()
     payload = {"as_of": DATE, "window_days": {"short": WINDOW_SHORT, "long": WINDOW_LONG}, "items": per_symbol}
-    save_json(out_latest, payload); save_json(out_today, payload)
-    print(f"Form4 saved: {out_latest} & {out_today} ({len(per_symbol)} symbols)")
-    # 進捗サマリ（トラブルシュートに便利）
+    out_latest.parent.mkdir(parents=True, exist_ok=True)
+    out_today.parent.mkdir(parents=True, exist_ok=True)
+    save_json(out_latest, payload)
+    save_json(out_today, payload)
+
+    # サマリ
     sym_ok = sum(1 for v in per_symbol.values() if (v["net_buy_shares_30"]>0 or v["net_buy_shares_90"]>0 or v["buyers_30"]>0 or v["buyers_90"]>0))
-    print(f"[INFO] symbols with any Form4 activity in window: {sym_ok}/{len(per_symbol)}")
+    print(f"Form4 saved:")
+    print(f"  latest: {out_latest}")
+    print(f"  today : {out_today}")
+    print(f"[INFO] symbols processed: {len(per_symbol)}, with any activity: {sym_ok}")
+    # 代表例のデバッグ
+    for s, rec in list(per_symbol.items())[:5]:
+        dbg = rec.get('debug', {})
+        print(f"[DEBUG] {s} -> taken={dbg.get('taken')} bad_xml={dbg.get('bad_xml')} skipped_old={dbg.get('skipped_old')}")
 
 if __name__ == "__main__":
     main()
