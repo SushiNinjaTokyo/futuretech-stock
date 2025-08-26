@@ -3,3 +3,4 @@ requests
 jinja2
 matplotlib
 yfinance
+pytrends==4.9.2
