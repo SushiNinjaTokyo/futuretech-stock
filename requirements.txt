@@ -4,3 +4,4 @@ jinja2
 matplotlib
 yfinance
 pytrends==4.9.2
+urllib3==1.26.18
