@@ -2,7 +2,7 @@ name: daily-report
 
 on:
   schedule:
-    - cron: '10 22 * * *'  # 18:10 ET / 07:10 JST 相当
+    - cron: '10 22 * * *'  # 18:10 ET / 07:10 JST
   workflow_dispatch:
 
 jobs:
@@ -26,6 +26,28 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # ← ここでET市場日付を一意に決める
+      - name: Set ET market date
+        id: set_date
+        run: |
+          echo "REPORT_DATE=$(python scripts/et_market_date.py)" >> "$GITHUB_OUTPUT"
+          echo "REPORT_DATE=$REPORT_DATE"
+
+      # まずインサイダーとTrendsを取得（Top10に反映させるため）
+      - name: Fetch Form 4 (insider momentum)
+        env:
+          OUT_DIR: site
+          UNIVERSE_CSV: data/universe.csv
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+          SEC_USER_AGENT: "futuretech-stock/1.0 (sachiohiro777@gmail.com)"
+          FORM4_MAX_FILINGS: "10"
+          FORM4_MAX_AGE_DAYS: "95"
+          SEC_SLEEP: "0.7"
+          SEC_XML_SLEEP: "0.25"
+          SEC_RETRY: "3"
+        run: |
+          python scripts/fetch_form4.py
+
       - name: Google Trends breakout
         env:
           OUT_DIR: site
@@ -33,39 +55,46 @@ jobs:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
           TRENDS_GEO: "US"
           TRENDS_TIMEFRAME: "today 3-m"
-          TRENDS_BATCH: "5"
-          TRENDS_SLEEP: "3.0"
+          TRENDS_BATCH: "3"            # 安全第一
+          TRENDS_SLEEP: "4.0"
+          TRENDS_JITTER: "1.5"
+          TRENDS_COOLDOWN_BASE: "45"
+          TRENDS_COOLDOWN_MAX: "180"
+          TRENDS_BATCH_RETRIES: "4"
         run: |
           python scripts/fetch_trends.py
 
+      # ここで全スコアを合算して Top10 を生成（1回だけ）
       - name: Generate Top10 JSON
         env:
-          TIINGO_TOKEN: ${{ secrets.TIINGO_TOKEN }}
-          REPORT_DATE: ${{ vars.REPORT_DATE }}
-          MOCK_MODE: ${{ vars.MOCK_MODE || 'true' }}
+          OUT_DIR: site
+          UNIVERSE_CSV: data/universe.csv
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+          DATA_PROVIDER: ${{ vars.DATA_PROVIDER || 'yfinance' }}
+          MOCK_MODE: ${{ vars.MOCK_MODE || 'false' }}
           BUDGET_JPY_MAX: ${{ vars.BUDGET_JPY_MAX || '10000' }}
           MANUAL_DAILY_COST_JPY: ${{ vars.MANUAL_DAILY_COST_JPY || '0' }}
           TIINGO_MONTHLY_JPY: ${{ vars.TIINGO_MONTHLY_JPY || '1600' }}
-          DATA_PROVIDER: ${{ vars.DATA_PROVIDER || 'yfinance' }}
-        run: python scripts/fetch_daily.py
+          TIINGO_TOKEN: ${{ secrets.TIINGO_TOKEN }}
+        run: |
+          python scripts/fetch_daily.py
 
       - name: Render HTML
-        run: python scripts/render.py
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          python scripts/render.py
 
       - name: Verify outputs (ET market date)
         shell: bash
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
-          echo "REPORT_DATE=${{ vars.REPORT_DATE }}"
+          echo "REPORT_DATE=$REPORT_DATE"
           ls -la site/daily || true
+          echo "Checking file: site/daily/${REPORT_DATE}.html"
+          test -f "site/daily/${REPORT_DATE}.html" || (echo "Expected file missing: site/daily/${REPORT_DATE}.html" && exit 1)
 
-          DATE_TO_CHECK="${{ vars.REPORT_DATE }}"
-          if [ -z "$DATE_TO_CHECK" ]; then
-            DATE_TO_CHECK=$(python scripts/et_market_date.py)
-          fi
-
-          echo "Checking file: site/daily/${DATE_TO_CHECK}.html"
-          test -f "site/daily/${DATE_TO_CHECK}.html" || (echo "Expected file missing: site/daily/${DATE_TO_CHECK}.html" && exit 1)
-          
       - name: Commit & Push
         run: |
           git config user.name "github-actions"
@@ -73,29 +102,3 @@ jobs:
           git add -A
           git commit -m "chore: publish daily report" || echo "no changes"
           git push
-      - name: Fetch Form 4 (insider momentum)
-        env:
-          OUT_DIR: site
-          UNIVERSE_CSV: data/universe.csv
-          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}   # 既存のやり方に合わせてください
-          SEC_USER_AGENT: "futuretech-stock/1.0 (sachiohiro777@gmail.com)"
-          FORM4_MAX_FILINGS: "10"         # 大企業でも十分
-          FORM4_MAX_AGE_DAYS: "95"        # ここより古い提出は打ち切り
-          SEC_SLEEP: "0.7"                # 会社ごとの小休止
-          SEC_XML_SLEEP: "0.25"           # XML 取得の小休止
-          SEC_RETRY: "3"
-        run: |
-          python scripts/fetch_form4.py
-
-      - name: Generate daily ranking
-        env:
-          DATA_PROVIDER: yfinance
-          MOCK_MODE: "false"
-          OUT_DIR: site
-          UNIVERSE_CSV: data/universe.csv
-          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-          WEIGHT_VOL_ANOM: "0.60"
-          WEIGHT_FORM4: "0.40"               # ← 重み調整はここで
-          FORM4_JSON: site/data/insider/form4_latest.json
-        run: |
-          python scripts/fetch_daily.py
