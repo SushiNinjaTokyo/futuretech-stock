@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""
+Daily scorer & exporter
+- 価格/出来高 (yfinance) から "Volume anomaly" を 0..1 に算出
+- Google Trends (site/data/trends/latest.json) の breakout を 0..1 で反映
+- Insider momentum (site/data/insider/form4_latest.json) を 0..1 で反映
+- 重みは環境変数で指定し、"存在するコンポーネントだけ" 正規化して 1000点に換算
+- テンプレートが読む JSON に必須キーを必ず出力
+"""
 
 import os, sys, json, math, pathlib, random, datetime
 from zoneinfo import ZoneInfo
 import pandas as pd
-import numpy as np
 
 # charts
 import matplotlib
@@ -15,117 +22,72 @@ import matplotlib.pyplot as plt
 def usa_market_date_now():
     now_et = datetime.datetime.now(ZoneInfo("America/New_York"))
     d = now_et.date()
-    # 引け後18:00未満なら当日は不完全 → 前営業日にする
     if now_et.hour < 18:
         d = d - datetime.timedelta(days=1)
-    # 土日補正（土=5, 日=6 → 直近金曜）
     while d.weekday() >= 5:
         d = d - datetime.timedelta(days=1)
     return d
 
-# ---------------- Env ----------------
-DATA_PROVIDER = os.getenv("DATA_PROVIDER", "yfinance").lower()  # yfinance | tiingo
-TIINGO_TOKEN = os.getenv("TIINGO_TOKEN")
+# ---------------- Config ----------------
+DATA_PROVIDER = os.getenv("DATA_PROVIDER", "yfinance").lower()
 UNIVERSE_CSV = os.getenv("UNIVERSE_CSV", "data/universe.csv")
 OUT_DIR = os.getenv("OUT_DIR", "site")
 DATE = os.getenv("REPORT_DATE") or usa_market_date_now().isoformat()
 MOCK_MODE = os.getenv("MOCK_MODE", "false").lower() == "true"
 
-# Budget guard（据え置き）
-BUDGET_JPY_MAX = float(os.getenv("BUDGET_JPY_MAX", "10000"))
-SPEND_FILE = os.getenv("SPEND_FILE", f"{OUT_DIR}/data/spend.json")
-MANUAL_DAILY_COST_JPY = float(os.getenv("MANUAL_DAILY_COST_JPY", "0"))
-PROVIDER_FIXED_JPY = 0.0 if DATA_PROVIDER == "yfinance" else float(os.getenv("TIINGO_MONTHLY_JPY", "1600"))
+# Weights (raw). Only-present components will be normalized.
+W_VOL   = float(os.getenv("WEIGHT_VOL_ANOM", "0.60"))
+W_FORM4 = float(os.getenv("WEIGHT_FORM4",   "0.20"))
+W_TRENDS= float(os.getenv("WEIGHT_TRENDS",  "0.20"))
 
-def month_key(date_iso: str):
-    d = datetime.date.fromisoformat(date_iso)
-    return f"{d.year}-{d.month:02d}"
+FORM4_JSON   = os.getenv("FORM4_JSON",   f"{OUT_DIR}/data/insider/form4_latest.json")
+TRENDS_JSON  = os.getenv("TRENDS_JSON",  f"{OUT_DIR}/data/trends/latest.json")
 
-def load_spend():
-    p = pathlib.Path(SPEND_FILE)
-    if p.exists():
-        try: return json.loads(p.read_text())
-        except Exception: return {}
-    return {}
-
-def save_spend(data):
-    p = pathlib.Path(SPEND_FILE); p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(data, indent=2))
-
-def month_spend_total(spend, mkey):
-    return float(spend.get(mkey, {}).get("total_jpy", 0))
-
-def add_spend(spend, mkey, date_iso, amount_jpy, memo):
-    month = spend.setdefault(mkey, {"items": [], "total_jpy": 0})
-    month["items"].append({"date": date_iso, "amount_jpy": amount_jpy, "memo": memo})
-    month["total_jpy"] = round(float(month["total_jpy"]) + amount_jpy, 2)
-
-def budget_check():
-    spend = load_spend()
-    mkey = month_key(DATE)
-    month_used = month_spend_total(spend, mkey)
-    today_cost = MANUAL_DAILY_COST_JPY
-    if month_used + today_cost > BUDGET_JPY_MAX:
-        print(f"[BUDGET] Cap reached ({month_used:.0f} + {today_cost:.0f} > {BUDGET_JPY_MAX:.0f}). Skipping run.")
-        return False, spend
-    return True, spend
-
-def mark_fixed_costs(spend):
-    if PROVIDER_FIXED_JPY <= 0:
-        return save_spend(spend)
-    mkey = month_key(DATE)
-    month = spend.setdefault(mkey, {"items": [], "total_jpy": 0})
-    if not month.get("provider_month_mark"):
-        add_spend(spend, mkey, DATE, PROVIDER_FIXED_JPY, f"{DATA_PROVIDER} monthly flat")
-        month["provider_month_mark"] = True
-    if MANUAL_DAILY_COST_JPY > 0:
-        add_spend(spend, mkey, DATE, MANUAL_DAILY_COST_JPY, "Variable API usage (manual)")
-    save_spend(spend)
-
-# ---------------- Data Providers ----------------
-def tiingo_eod_range(symbol, start, end):
-    import requests
-    url = f"https://api.tiingo.com/tiingo/daily/{symbol}/prices"
-    params = {"token": TIINGO_TOKEN, "startDate": start, "endDate": end, "resampleFreq": "daily"}
-    r = requests.get(url, params=params, timeout=30); r.raise_for_status()
-    df = pd.DataFrame(r.json())
-    if "adjClose" in df.columns:
-        df = df.rename(columns={"adjClose":"close"})
-    return df
-
+# ---------------- Data providers ----------------
 def yfi_eod_range(symbol, start, end):
+    if MOCK_MODE:
+        dates = pd.date_range(start=start, end=end, freq="B")
+        base = 100.0 + random.Random(symbol).random()*20
+        rows = []
+        for d in dates:
+            base *= (1.0 + random.uniform(-0.02, 0.02))
+            vol = random.randint(1_000_00, 10_000_000)
+            rows.append({"date": d.strftime("%Y-%m-%d"),
+                         "open": base*0.99, "high": base*1.01, "low": base*0.98,
+                         "close": base, "volume": vol})
+        return pd.DataFrame(rows)
+
     import yfinance as yf
     start_dt = datetime.date.fromisoformat(start) - datetime.timedelta(days=2)
     end_dt   = datetime.date.fromisoformat(end)   + datetime.timedelta(days=1)
 
     df = None
-    for attempt in range(2):
-        tmp = yf.download(
-            symbol, start=start_dt.isoformat(), end=end_dt.isoformat(),
-            interval="1d", auto_adjust=True, progress=False, threads=False
-        )
+    for _ in range(2):
+        tmp = yf.download(symbol, start=start_dt.isoformat(), end=end_dt.isoformat(),
+                          interval="1d", auto_adjust=True, progress=False, threads=False)
         if tmp is not None and not tmp.empty:
             df = tmp; break
-
     if df is None or df.empty:
         tkr = yf.Ticker(symbol)
-        tmp = tkr.history(start=start_dt.isoformat(), end=end_dt.isoformat(), interval="1d", auto_adjust=True)
-        if tmp is None or tmp.empty: return pd.DataFrame()
+        tmp = tkr.history(start=start_dt.isoformat(), end=end_dt.isoformat(),
+                          interval="1d", auto_adjust=True)
+        if tmp is None or tmp.empty:
+            return pd.DataFrame()
         df = tmp
 
     df = df.reset_index()
     df.columns = [str(c).strip().lower() for c in df.columns]
-    name_map = {
-        "date":"date","open":"open","high":"high","low":"low",
-        "close":"close","adj close":"close","adjclose":"close","volume":"volume",
-    }
+    name_map = {"date":"date","open":"open","high":"high","low":"low",
+                "close":"close","adj close":"close","adjclose":"close","volume":"volume"}
     out = {}
-    for col in df.columns:
-        if col in name_map and name_map[col] not in out:
-            out[name_map[col]] = df[col]
+    for c in df.columns:
+        if c in name_map and name_map[c] not in out:
+            out[name_map[c]] = df[c]
+
     if "date" not in out or "close" not in out or "volume" not in out:
         return pd.DataFrame()
-    result = pd.DataFrame({
+
+    res = pd.DataFrame({
         "date":   pd.to_datetime(out["date"]).dt.strftime("%Y-%m-%d"),
         "open":   pd.to_numeric(out.get("open",   pd.Series(dtype="float64")), errors="coerce"),
         "high":   pd.to_numeric(out.get("high",   pd.Series(dtype="float64")), errors="coerce"),
@@ -133,252 +95,196 @@ def yfi_eod_range(symbol, start, end):
         "close":  pd.to_numeric(out.get("close",  pd.Series(dtype="float64")), errors="coerce"),
         "volume": pd.to_numeric(out.get("volume", pd.Series(dtype="float64")), errors="coerce").fillna(0),
     })
-    return result[["date","open","high","low","close","volume"]]
+    return res[["date","open","high","low","close","volume"]]
 
-def get_eod_range(symbol, start, end):
-    if MOCK_MODE:
-        dates = pd.date_range(start=start, end=end, freq="B")
-        base = 100.0 + random.Random(symbol).random()*20
-        rows = []
-        for d in dates:
-            base *= (1.0 + random.uniform(-0.02, 0.02))
-            vol = random.randint(100000, 5000000)
-            rows.append({"date": d.strftime("%Y-%m-%d"), "open": base*0.99, "high": base*1.01, "low": base*0.98, "close": base, "volume": vol})
-        return pd.DataFrame(rows)
-    if DATA_PROVIDER == "tiingo":
-        if not TIINGO_TOKEN:
-            raise RuntimeError("TIINGO_TOKEN is required for tiingo provider")
-        return tiingo_eod_range(symbol, start, end)
-    return yfi_eod_range(symbol, start, end)
-
-# ---------------- Metrics & Charts ----------------
-def compute_volume_anomaly(df) -> float:
-    """
-    出来高アノマリーの素点（比率）:
-      today_volume / SMA20_volume
-    ※ 後で宇宙内で 0–1 正規化してスコア化
-    """
-    if df is None or df.empty or "volume" not in df.columns:
-        return None
-    d = df.copy()
-    d["volume"] = pd.to_numeric(d["volume"], errors="coerce").fillna(0)
-    if len(d) < 21:
-        return None
-    vol_sma20 = d["volume"].rolling(20).mean().iloc[-1]
-    today_vol = d["volume"].iloc[-1]
-    if vol_sma20 is None or vol_sma20 <= 0:
-        return None
-    return float(today_vol) / float(vol_sma20)
-
-def save_chart_png_weekly_3m(symbol, df, out_dir, date_iso):
-    """
-    週足（終値ベース）3ヶ月の簡易チャート
-    """
-    if df is None or df.empty: return
-    charts_dir = pathlib.Path(out_dir) / "charts" / date_iso
-    charts_dir.mkdir(parents=True, exist_ok=True)
+# ---------------- Metrics ----------------
+def compute_volume_anomaly(df: pd.DataFrame):
+    """Return dict with 0..1 score and details. If not enough data, score=0."""
+    if df is None or df.empty or "volume" not in df.columns or "close" not in df.columns:
+        return {"score": 0.0, "eligible": False}
 
     d = df.copy()
     d["date"] = pd.to_datetime(d["date"])
     d = d.sort_values("date")
-    d = d.set_index("date")
-    # 週足 OHLC を作る（終値中心で）
-    w_close = d["close"].resample("W-FRI").last()
-    w_ma5 = w_close.rolling(5).mean()
-    w_ma12 = w_close.rolling(12).mean()
+    d["volume"] = pd.to_numeric(d["volume"], errors="coerce").fillna(0)
+    if len(d) < 45:  # 少なくとも約2か月分は欲しい
+        return {"score": 0.0, "eligible": False}
 
-    plt.figure(figsize=(9, 4.8), dpi=120)
-    plt.plot(w_close.index, w_close.values, linewidth=1.2, label="Close (W)")
-    plt.plot(w_ma5.index, w_ma5.values, linewidth=0.9, label="MA5")
-    plt.plot(w_ma12.index, w_ma12.values, linewidth=0.9, label="MA12")
+    # 直近日
+    v_today = float(d["volume"].iloc[-1])
+
+    # RVOL20
+    v_sma20 = float(d["volume"].rolling(20).mean().iloc[-1])
+    rvol20 = v_today / v_sma20 if v_sma20 > 0 else 0.0
+
+    # RVOL (過去60日) の z-score
+    rvol_series = d["volume"] / d["volume"].rolling(20).mean()
+    rvol_60 = rvol_series.tail(60).dropna()
+    if len(rvol_60) < 20:
+        z60 = 0.0
+    else:
+        mu, sd = float(rvol_60.mean()), float(rvol_60.std(ddof=0))
+        z60 = (rvol20 - mu) / sd if sd > 1e-9 else 0.0
+    # 0..1 に圧縮（3σ=1 としてクリップ）
+    z60_u = max(0.0, min(1.0, z60 / 3.0))
+
+    # PctRank(90d) by dollar volume
+    d["dollar_vol"] = d["close"] * d["volume"]
+    last_dv = float(d["dollar_vol"].iloc[-1])
+    tail = d["dollar_vol"].tail(90).dropna()
+    if len(tail) >= 5:
+        pct_rank_90 = float((tail <= last_dv).mean())
+    else:
+        pct_rank_90 = 0.0
+
+    # 大型株バイアスを防ぐ → “比率”中心。寄与 60%:RVOL, 40%:z
+    vol_score = 0.6 * max(0.0, min(1.0, rvol20 / 5.0)) + 0.4 * z60_u
+    vol_score = max(0.0, min(1.0, vol_score))
+
+    return {
+        "score": vol_score,
+        "eligible": True,
+        "rvol20": rvol20,
+        "z60": z60,
+        "pct_rank_90": pct_rank_90,
+        "dollar_vol": last_dv,
+    }
+
+# ---------------- IO helpers ----------------
+def load_json_safe(path, default):
+    try:
+        p = pathlib.Path(path)
+        if p.exists():
+            return json.loads(p.read_text())
+    except Exception:
+        pass
+    return default
+
+def ensure_dirs():
+    (pathlib.Path(OUT_DIR)/"data"/DATE).mkdir(parents=True, exist_ok=True)
+    (pathlib.Path(OUT_DIR)/"charts"/DATE).mkdir(parents=True, exist_ok=True)
+
+# ---------------- Charts ----------------
+def save_chart_png_weekly_3m(symbol, df, out_dir, date_iso):
+    # 週足化（終値は週末、出来高は合計）
+    if df is None or df.empty: return
+    d = df.copy()
+    d["date"] = pd.to_datetime(d["date"])
+    d = d.set_index("date").sort_index()
+    w = pd.DataFrame({
+        "close": d["close"].resample("W-FRI").last(),
+        "volume": d["volume"].resample("W-FRI").sum(),
+    }).dropna()
+    w = w.tail(13)  # 約3か月
+
+    plt.figure(figsize=(9, 4.6), dpi=120)
+    plt.plot(w.index, w["close"], linewidth=1.3)
     plt.title(f"{symbol} — 3M Weekly")
-    plt.legend(loc="upper left", fontsize=8)
     plt.tight_layout()
-    out = charts_dir / f"{symbol}.png"
-    plt.savefig(out); plt.close()
-
-# ---------------- External scores (Insider / Trends) ----------------
-def load_insider_map(date_iso: str) -> dict:
-    """
-    insider_momo を {symbol: 0–1} で返す
-    """
-    base = pathlib.Path(OUT_DIR) / "data"
-    p_latest = base / "insider" / "form4_latest.json"
-    p_dated  = base / date_iso / "insider.json"
-    data = None
-    for p in (p_latest, p_dated):
-        if p.exists():
-            try:
-                data = json.loads(p.read_text()); break
-            except Exception:
-                pass
-    if not data: return {}
-    items = data.get("items", {})
-    out = {}
-    for sym, rec in items.items():
-        v = rec.get("insider_momo")
-        try: out[sym.upper()] = float(v) if v is not None else 0.0
-        except Exception: out[sym.upper()] = 0.0
-    return out
-
-def load_trends_scores(date_iso: str) -> dict:
-    """
-    Google Trends の 0–1 スコアを {symbol: 0–1} で返す
-    """
-    base = pathlib.Path(OUT_DIR) / "data"
-    p_latest = base / "trends" / "latest.json"
-    p_dated  = base / date_iso / "trends.json"
-    data = None
-    for p in (p_latest, p_dated):
-        if p.exists():
-            try:
-                data = json.loads(p.read_text()); break
-            except Exception:
-                pass
-    if not data: return {}
-    items = data.get("items", {})
-    out = {}
-    for sym, rec in items.items():
-        v = rec.get("score_0_1", 0.0)
-        try: out[sym.upper()] = float(v) if v is not None else 0.0
-        except Exception: out[sym.upper()] = 0.0
-    return out
-
-# ---------------- Scoring helpers ----------------
-def minmax_norm(arr):
-    vals = [v for v in arr if v is not None and not np.isnan(v)]
-    if not vals: return lambda x: 0.0
-    mn, mx = min(vals), max(vals)
-    if mx <= mn: return lambda x: 0.0
-    return lambda x: (float(x) - mn) / (mx - mn) if x is not None else 0.0
-
-def combine_to_1000(components: dict, weights: dict) -> float:
-    """
-    components: {name: value in 0..1}
-    weights:    {name: weight float}
-    → weighted average * 1000
-    存在する要素だけで重みを再正規化
-    """
-    num = 0.0; den = 0.0
-    for k, w in weights.items():
-        if k in components and components[k] is not None:
-            num += float(components[k]) * float(w)
-            den += float(w)
-    if den <= 0: return 0.0
-    return float(num / den) * 1000.0
+    out = pathlib.Path(out_dir)/"charts"/date_iso/f"{symbol}.png"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(out)
+    plt.close()
 
 # ---------------- Main ----------------
 def main():
-    ok, spend = budget_check()
-    if not ok:
-        return
+    ensure_dirs()
 
+    # 入力の読み込み
     uni = pd.read_csv(UNIVERSE_CSV)
-    symbols = [str(s).strip().upper() for s in uni["symbol"].tolist()]
+    symbols = [str(s).strip() for s in uni["symbol"].tolist()]
 
-    end = DATE
-    start_short = (datetime.date.fromisoformat(DATE) - datetime.timedelta(days=90)).isoformat()
+    trends = load_json_safe(TRENDS_JSON, {"items": {}})
+    trends_items = trends.get("items", {})
 
+    form4 = load_json_safe(FORM4_JSON, {"items": {}})
+    form4_items = form4.get("items", {})
+
+    # 取得期間（120営業日くらい確保しておくと安全）
+    end = datetime.date.fromisoformat(DATE)
+    start = (end - datetime.timedelta(days=180)).isoformat()
+    end_s = end.isoformat()
+
+    records = []
     recent_map = {}
-    rows = []
 
-    # まず Insider と Trends を事前ロード
-    insider_map = load_insider_map(DATE)   # {SYM: 0..1}
-    trends_map  = load_trends_scores(DATE) # {SYM: 0..1}
-
-    # --- データ取得 & 出来高アノマリー素点 ---
-    vol_ratio_raw = {}
     for sym in symbols:
+        # 価格/出来高
         try:
-            df = get_eod_range(sym, start_short, end)
-            if df is not None and not df.empty:
-                df = df.rename(columns=lambda c: str(c).strip().lower())
-                if "adj close" in df.columns and "close" not in df.columns:
-                    df["close"] = df["adj close"]
-                if "date" not in df.columns and hasattr(df.index, "dtype"):
-                    try:
-                        df = df.reset_index().rename(columns={"index":"date"})
-                    except Exception:
-                        pass
-            recent_map[sym] = df
-            vr = compute_volume_anomaly(df)  # 素点（>1で多い）
-            vol_ratio_raw[sym] = vr
+            df = yfi_eod_range(sym, start, end_s)
         except Exception as e:
-            print(f"[WARN] {sym}: {e}", file=sys.stderr)
-            recent_map[sym] = pd.DataFrame()
-            vol_ratio_raw[sym] = None
+            print(f"[WARN] yfi failed {sym}: {e}", file=sys.stderr)
+            df = pd.DataFrame()
 
-    # --- 出来高アノマリーの 0–1 化 ---
-    norm_fn = minmax_norm([v for v in vol_ratio_raw.values() if v is not None])
-    vol_score = {sym: float(np.clip(norm_fn(vol_ratio_raw.get(sym)), 0.0, 1.0)) for sym in symbols}
+        recent_map[sym] = df
 
-    # --- 行生成（スコア合成用に拡張性を持たせる） ---
-    # 重みは後で変えやすいよう dict で持つ
-    default_weights = {
-        "volume_anomaly": 0.5,
-        "insider_momo":   0.3,
-        "trends_breakout":0.2,
-    }
+        vol = compute_volume_anomaly(df)
+        vol_score = float(vol.get("score", 0.0))
 
-    for idx, t in uni.iterrows():
-        sym = str(t["symbol"]).strip().upper()
-        name = str(t.get("name","")).strip()
-        theme = str(t.get("theme","")).strip()
+        # Trends breakout 0..1
+        tr = trends_items.get(sym) or {}
+        trends_breakout = float(tr.get("breakout_score", 0.0))
 
+        # Insider momentum 0..1
+        f4 = form4_items.get(sym) or {}
+        insider_momo = float(f4.get("score_30", 0.0))  # 30日側を採用（好みで 90 に変更可）
+
+        # --- weights normalization (only-present) ---
         comps = {
-            "volume_anomaly": vol_score.get(sym, 0.0),     # 0..1
-            "insider_momo":   insider_map.get(sym, 0.0),   # 0..1
-            "trends_breakout":trends_map.get(sym, 0.0),    # 0..1
+            "volume_anomaly": vol_score,
+            "insider_momo": insider_momo,
+            "trends_breakout": trends_breakout,
         }
-        weights = default_weights.copy()
+        raw_w = {
+            "volume_anomaly": W_VOL,
+            "insider_momo": W_FORM4,
+            "trends_breakout": W_TRENDS,
+        }
+        present_keys = [k for k,v in comps.items() if v is not None]
+        wsum = sum(max(0.0, raw_w.get(k,0.0)) for k in present_keys) or 1.0
+        norm_w = {k: (max(0.0, raw_w.get(k,0.0))/wsum) for k in present_keys}
 
-        total_pts = combine_to_1000(comps, weights)
+        final_0_1 = sum( (comps.get(k,0.0) * norm_w.get(k,0.0)) for k in present_keys )
+        score_pts = int(round(final_0_1 * 1000))
 
-        rows.append({
+        rec = {
             "symbol": sym,
-            "name": name,
-            "theme": theme,
+            "name": uni.loc[uni["symbol"]==sym, "name"].values[0] if "name" in uni.columns else "",
+            "theme": uni.loc[uni["symbol"]==sym, "theme"].values[0] if "theme" in uni.columns else "",
+            "final_score_0_1": final_0_1,
+            "score_pts": score_pts,
+            "vol_anomaly_score": vol_score,
+            "insider_momo": insider_momo,
+            "trends_breakout": trends_breakout,
             "score_components": comps,
-            "score_weights": weights,
-            "total_score": round(total_pts, 2),
-            # 個別に見せるためにも残す
-            "vol_anomaly_score": comps["volume_anomaly"],
-            "insider_momo": comps["insider_momo"],
-            "trends_breakout": comps["trends_breakout"],
-        })
+            "score_weights": raw_w,  # JS 側で present-only 正規化
+            "detail": {"vol_anomaly": vol},
+            "chart_url": f"/charts/{DATE}/{sym}.png",
+        }
+        records.append(rec)
 
-    if not rows:
-        out_json_dir = pathlib.Path(OUT_DIR) / "data" / DATE
-        out_json_dir.mkdir(parents=True, exist_ok=True)
-        with open(out_json_dir / "top10.json", "w") as f:
-            json.dump([], f, indent=2)
-        mark_fixed_costs(spend)
-        print(f"Generated top10 for {DATE}: 0 symbols (no rows)")
-        return
+    # ランキング
+    records.sort(key=lambda r: r.get("score_pts", 0), reverse=True)
+    for i, r in enumerate(records, 1):
+        r["rank"] = i
 
-    # --- Top10 抽出 ---
-    rows.sort(key=lambda x: x["total_score"], reverse=True)
-    top10 = rows[:10]
-
-    # --- JSON 出力 ---
-    out_json_dir = pathlib.Path(OUT_DIR) / "data" / DATE
+    # JSON 出力
+    out_json_dir = pathlib.Path(OUT_DIR)/"data"/DATE
     out_json_dir.mkdir(parents=True, exist_ok=True)
-    with open(out_json_dir / "top10.json", "w") as f:
-        json.dump(top10, f, indent=2)
+    top10 = records[:10]
+    (out_json_dir/"top10.json").write_text(json.dumps(top10, indent=2))
 
-    # --- 週足3ヶ月チャート生成（MOCK時はスキップ） ---
-    if not MOCK_MODE and top10:
-        for r in top10:
-            try:
-                hist = recent_map.get(r["symbol"])
-                if hist is None or hist.empty:
-                    print(f"[WARN] no data for weekly chart {r['symbol']}", file=sys.stderr)
-                    continue
-                save_chart_png_weekly_3m(r["symbol"], hist, OUT_DIR, DATE)
-            except Exception as e:
-                print(f"[WARN] chart {r['symbol']}: {e}", file=sys.stderr)
+    # チャート（存在する df のみ）
+    for r in top10:
+        df = recent_map.get(r["symbol"])
+        try:
+            if df is not None and not df.empty:
+                save_chart_png_weekly_3m(r["symbol"], df, OUT_DIR, DATE)
+            else:
+                print(f"[WARN] no data for weekly chart {r['symbol']}", file=sys.stderr)
+        except Exception as e:
+            print(f"[WARN] chart {r['symbol']}: {e}", file=sys.stderr)
 
-    mark_fixed_costs(spend)
     print(f"Generated top10 for {DATE}: {len(top10)} symbols")
 
 if __name__ == "__main__":
