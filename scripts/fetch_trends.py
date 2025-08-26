@@ -142,13 +142,12 @@ def main():
 
     # TrendReq: ヘッダを明示、控えめな内部リトライ
     py = TrendReq(
-        hl="en-US", tz=360, retries=1, backoff_factor=0.2,
+        hl="en-US", tz=360, retries=1, backoff_factor=0.2, timeout=30,
         requests_args={
             "headers": {
                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
                               "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
             },
-            "timeout": 30,
         },
     )
 
