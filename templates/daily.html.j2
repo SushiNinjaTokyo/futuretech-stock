@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8" />
-  <title>futuretech-stock — Daily Top 10 ({{ date }})</title>
+  <title>futuretech-stock — Daily Top 10 ({{ date | default('', true) }})</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
@@ -70,35 +70,37 @@
       font-style: italic;
       text-align: center;
     }
-    
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <h1>futuretech-stock — Daily Top 10</h1>
-      <div class="sub">Date: {{ date }} / Scoring: 1000 pts（現在は出来高＋Insiderが対象。将来さらに拡張）</div>
+      <div class="sub">Date: {{ date | default('', true) }} / Scoring: 1000 pts（現在は出来高＋Insider＋Trends。将来さらに拡張）</div>
     </header>
 
     {% if top10 is defined %}
     <div class="grid" id="cards">
       {% for item in top10 %}
-        {% set rank = item.rank or loop.index %}
-        {% set chart_url = item.chart_url or ('/charts/' ~ date ~ '/' ~ item.symbol ~ '.png') %}
-        {% set pts = item.score_pts or ( ((item.final_score_0_1 or item.vol_anomaly_score or 0) * 1000) | round(0, 'common') ) %}
-        {% set vol = item.detail and item.detail.vol_anomaly %}
+        {% set _sym  = item.symbol | default('', true) %}
+        {% set _name = item.name   | default('', true) %}
+        {% set rank = (item.rank | default(loop.index, true)) %}
+        {% set chart_url = (item.chart_url | default('/charts/' ~ (date | default('', true)) ~ '/' ~ _sym ~ '.png', true)) %}
+        {% set base0_1 = item.final_score_0_1 | default(item.vol_anomaly_score | default(0, true), true) %}
+        {% set pts = item.score_pts | default((base0_1 * 1000) | round(0, 'common'), true) %}
+        {% set vol = (item.detail.vol_anomaly if (item.detail is defined and item.detail and item.detail.vol_anomaly is defined) else none) %}
         {% set tier = 'other' %}
         {% if rank == 1 %}{% set tier = 'gold' %}
         {% elif rank == 2 %}{% set tier = 'silver' %}
         {% elif rank == 3 %}{% set tier = 'bronze' %}{% endif %}
 
-        <div class="card" id="card-{{ loop.index }}" data-symbol="{{ item.symbol }}">
+        <div class="card" id="card-{{ loop.index }}" data-symbol="{{ _sym }}">
           <div class="row">
             <div class="sym">
               <div class="rank {{ tier }}">{{ rank }}</div>
               <div>
-                <div class="symbol">{{ item.symbol }}</div>
-                {% if item.name %}<div class="name">{{ item.name }}</div>{% endif %}
+                <div class="symbol">{{ _sym }}</div>
+                {% if _name %}<div class="name">{{ _name }}</div>{% endif %}
               </div>
             </div>
             <div class="score">
@@ -117,14 +119,14 @@
             <div id="ov-{{ loop.index }}" class="tab active">
               <div class="badges">
                 <div class="badge"><strong>Total score</strong>{{ pts | int }}/1000</div>
-                <div class="badge"><strong>Volume anomaly</strong>{{ "%.2f"|format(item.vol_anomaly_score or 0) }}</div>
-                {% if item.insider_momo and item.insider_momo > 0 %}
-                  <div class="badge"><strong>Insider momo</strong>{{ "%.2f"|format(item.insider_momo) }}</div>
+                <div class="badge"><strong>Volume anomaly</strong>{{ "%.2f"|format(item.vol_anomaly_score | default(0, true)) }}</div>
+                {% if (item.insider_momo | default(0, true)) > 0 %}
+                  <div class="badge"><strong>Insider momo</strong>{{ "%.2f"|format(item.insider_momo | default(0, true)) }}</div>
                 {% else %}
-                {% if item.trends_breakout is not none %}
-                  <div class="badge"><strong>Trends breakout</strong>{{ "%.2f"|format(item.trends_breakout) }}</div>
-                {% endif %}
                   <div class="no-insider">✦ No recent insider buying detected</div>
+                {% endif %}
+                {% if (item.trends_breakout | default(0, true)) > 0 %}
+                  <div class="badge"><strong>Trends breakout</strong>{{ "%.2f"|format(item.trends_breakout | default(0, true)) }}</div>
                 {% endif %}
               </div>
 
@@ -139,7 +141,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- JSで埋め込み（weights正規化 & 1000点換算） -->
+                  <!-- JSで埋め込み -->
                 </tbody>
                 <tfoot>
                   <tr>
@@ -154,11 +156,11 @@
                 <summary>Volume anomaly details</summary>
                 {% if vol %}
                 <div class="kv">
-                  <div><span class="k">RVOL20</span><br>{{ "%.2f"|format(vol.rvol20) }}</div>
-                  <div><span class="k">Z60</span><br>{{ "%.2f"|format(vol.z60) }}</div>
-                  <div><span class="k">PctRank90</span><br>{{ vol.pct_rank_90 is not none and "%.2f"|format(vol.pct_rank_90) or "-" }}</div>
-                  <div><span class="k">DollarVol</span><br>${{ "%.1f"|format(vol.dollar_vol/1_000_000) }}M</div>
-                  <div><span class="k">Eligible</span><br>{{ vol.eligible and "Yes" or "No" }}</div>
+                  <div><span class="k">RVOL20</span><br>{{ "%.2f"|format(vol.rvol20 | default(0, true)) }}</div>
+                  <div><span class="k">Z60</span><br>{{ "%.2f"|format(vol.z60 | default(0, true)) }}</div>
+                  <div><span class="k">PctRank90</span><br>{{ (vol.pct_rank_90 is not none) and "%.2f"|format(vol.pct_rank_90) or "-" }}</div>
+                  <div><span class="k">DollarVol</span><br>${{ "%.1f"|format((vol.dollar_vol | default(0, true))/1_000_000) }}M</div>
+                  <div><span class="k">Eligible</span><br>{{ (vol.eligible | default(false, true)) and "Yes" or "No" }}</div>
                 </div>
                 {% else %}
                 <div class="muted">詳細データはありません。</div>
@@ -174,19 +176,21 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-{{ loop.index }}" class="tab">
-              <img src="{{ chart_url }}" alt="{{ item.symbol }} weekly chart" class="chart" loading="lazy" />
+              <img src="{{ chart_url }}" alt="{{ _sym }} weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
-          <!-- JSONデータを data-* に埋め込んでJSで利用 -->
+          <!-- JSONデータを JS が読む（Undefined/Noneを安全化） -->
           <script type="application/json" class="js-payload">
           {{ {
-            "symbol": item.symbol,
-            "score_components": item.score_components,
-            "score_weights": item.score_weights,
-            "final_score_0_1": item.final_score_0_1,
-            "score_pts": item.score_pts,
-            "insider_momo": item.insider_momo,
+            "symbol": _sym,
+            "score_components": (item.score_components if item.score_components is defined else {}),
+            "score_weights": (item.score_weights if item.score_weights is defined else {}),
+            "final_score_0_1": item.final_score_0_1 | default(0, true),
+            "score_pts": pts | int,
+            "insider_momo": item.insider_momo | default(0, true),
+            "trends_breakout": item.trends_breakout | default(0, true),
+            "vol_anomaly_score": item.vol_anomaly_score | default(0, true)
           } | tojson }}
           </script>
         </div>
@@ -194,7 +198,7 @@
     </div>
 
     {% else %}
-    <!-- クライアント描画フォールバック（省略：以前版でOK） -->
+    <!-- クライアント描画フォールバック（必要ならJSでカードを描画） -->
     <div id="cards" class="grid"></div>
     {% endif %}
   </div>
@@ -216,15 +220,15 @@
     }
     bindTabs(document);
 
-    // --- スコア内訳テーブルを埋める（weightsを“存在する要素のみ”で正規化 → 1000点換算）
+    // --- スコア内訳テーブル：存在する要素のみ重み正規化 → 1000点換算
     function fillBreakdown() {
       document.querySelectorAll(".card").forEach(card => {
         const payloadEl = card.querySelector(".js-payload");
         if (!payloadEl) return;
-        const data = JSON.parse(payloadEl.textContent || "{}");
+        let data = {};
+        try { data = JSON.parse(payloadEl.textContent || "{}"); } catch (_) { data = {}; }
         const comps = data.score_components || {};
         const weights = data.score_weights || {};
-        // valid keys
         const keys = Object.keys(comps).filter(k => comps[k] !== null && comps[k] !== undefined);
         const wsum = keys.reduce((s,k)=> s + Math.max(0, Number(weights[k] || 0)), 0) || 1;
         const tbody = card.querySelector(".js-breakdown tbody");
@@ -234,15 +238,16 @@
         let totalPts = 0;
 
         const label = (k) => ({
-          vol_anomaly: "Volume anomaly",
+          volume_anomaly: "Volume anomaly",
           insider_momo: "Insider momentum",
+          trends_breakout: "Trends breakout",
           news: "News",
           inst_delta: "Institutional ownership Δ",
         }[k] || k);
 
         keys.forEach(k => {
           const v = Math.max(0, Math.min(1, Number(comps[k] || 0)));
-          const wn = Math.max(0, Number(weights[k] || 0)) / wsum; // 正規化重み
+          const wn = Math.max(0, Number(weights[k] || 0)) / wsum;
           const pts = Math.round(v * wn * 1000);
           totalPts += pts;
           const tr = document.createElement("tr");
@@ -255,7 +260,6 @@
           tbody.appendChild(tr);
         });
 
-        // 総和を表示（端数は丸め誤差あり）
         if (totalEl) totalEl.textContent = String(totalPts);
       });
     }
@@ -290,7 +294,6 @@
           box.innerHTML = html;
         });
       } catch (e) {
-        // 失敗時は静かに諦める
         document.querySelectorAll(".js-insider").forEach(box => {
           box.innerHTML = `<summary>Insider details (Form 4)</summary><div class="muted">読み込みに失敗しました</div>`;
         });
@@ -298,7 +301,7 @@
     }
 
     fillBreakdown();
-    fillInsiderDetails("{{ date }}");
+    fillInsiderDetails("{{ date | default('', true) }}");
   </script>
 </body>
 </html>
