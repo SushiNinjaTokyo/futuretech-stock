@@ -26,6 +26,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Google Trends breakout
+        env:
+          OUT_DIR: site
+          UNIVERSE_CSV: data/universe.csv
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+          TRENDS_GEO: "US"
+          TRENDS_TIMEFRAME: "today 3-m"
+          TRENDS_BATCH: "5"
+          TRENDS_SLEEP: "3.0"
+        run: |
+          python scripts/fetch_trends.py
+
       - name: Generate Top10 JSON
         env:
           TIINGO_TOKEN: ${{ secrets.TIINGO_TOKEN }}
