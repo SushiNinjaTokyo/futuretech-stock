@@ -86,7 +86,7 @@
         {% set _name = item.name   | default('', true) %}
         {% set rank = (item.rank | default(loop.index, true)) %}
         {% set chart_url = (item.chart_url | default('/charts/' ~ (date | default('', true)) ~ '/' ~ _sym ~ '.png', true)) %}
-        {% set base0_1 = item.final_score_0_1 | default(item.vol_anomaly_score | default(0, true), true) %}
+        {% set base0_1 = item.final_score_0_1 | default(item._anomaly_score | default(0, true), true) %}
         {% set pts = item.score_pts | default((base0_1 * 1000) | round(0, 'common'), true) %}
         {% set vol = (item.detail.vol_anomaly if (item.detail is defined and item.detail and item.detail.vol_anomaly is defined) else none) %}
         {% set tier = 'other' %}
@@ -155,13 +155,21 @@
               <details>
                 <summary>Volume anomaly details</summary>
                 {% if vol %}
-                <div class="kv">
-                  <div><span class="k">RVOL20</span><br>{{ "%.2f"|format(vol.rvol20 | default(0, true)) }}</div>
-                  <div><span class="k">Z60</span><br>{{ "%.2f"|format(vol.z60 | default(0, true)) }}</div>
-                  <div><span class="k">PctRank90</span><br>{{ (vol.pct_rank_90 is not none) and "%.2f"|format(vol.pct_rank_90) or "-" }}</div>
-                  <div><span class="k">DollarVol</span><br>${{ "%.1f"|format((vol.dollar_vol | default(0, true))/1_000_000) }}M</div>
-                  <div><span class="k">Eligible</span><br>{{ (vol.eligible | default(false, true)) and "Yes" or "No" }}</div>
-                </div>
+                  {% set rvol20 = vol.get('rvol20') %}
+                  {% set z60 = vol.get('z60') %}
+                  {% set pr90 = vol.get('pct_rank_90') %}
+                  {% set dv = vol.get('dollar_vol') %}
+                  {% set eligible = vol.get('eligible') %}
+                
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>{{ rvol20 is not none and "%.2f"|format(rvol20) or "-" }}</div>
+                    <div><span class="k">Z60</span><br>{{ z60 is not none and "%.2f"|format(z60) or "-" }}</div>
+                    <div><span class="k">PctRank90</span><br>{{ pr90 is not none and "%.2f"|format(pr90) or "-" }}</div>
+                    <div><span class="k">DollarVol</span><br>
+                      {% if dv is not none %}${{ "%.1f"|format(dv/1_000_000) }}M{% else %}-{% endif %}
+                    </div>
+                    <div><span class="k">Eligible</span><br>{{ eligible and "Yes" or "No" }}</div>
+                  </div>
                 {% else %}
                 <div class="muted">詳細データはありません。</div>
                 {% endif %}
