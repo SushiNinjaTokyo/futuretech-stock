@@ -1,192 +1,282 @@
 [
   {
-    "symbol": "PLTR",
-    "name": "Palantir Technologies Inc.",
-    "theme": "AI",
-    "score_components": {
-      "volume_anomaly": 0.0,
-      "insider_momo": 0.0,
-      "trends_breakout": 1.0
-    },
-    "score_weights": {
-      "volume_anomaly": 0.5,
-      "insider_momo": 0.3,
-      "trends_breakout": 0.2
-    },
-    "total_score": 200.0,
-    "vol_anomaly_score": 0.0,
-    "insider_momo": 0.0,
-    "trends_breakout": 1.0
-  },
-  {
     "symbol": "NVDA",
     "name": "NVIDIA Corporation",
     "theme": "AI",
+    "final_score_0_1": 0.0,
+    "score_pts": 0,
+    "vol_anomaly_score": 0.0,
+    "insider_momo": 0.0,
+    "trends_breakout": 0.0,
     "score_components": {
       "volume_anomaly": 0.0,
       "insider_momo": 0.0,
-      "trends_breakout": 0.9090909090909091
+      "trends_breakout": 0.0
     },
     "score_weights": {
-      "volume_anomaly": 0.5,
-      "insider_momo": 0.3,
+      "volume_anomaly": 0.6,
+      "insider_momo": 0.2,
       "trends_breakout": 0.2
     },
-    "total_score": 181.82,
-    "vol_anomaly_score": 0.0,
-    "insider_momo": 0.0,
-    "trends_breakout": 0.9090909090909091
+    "detail": {
+      "vol_anomaly": {
+        "score": 0.0,
+        "eligible": false
+      }
+    },
+    "chart_url": "/charts/2025-08-25/NVDA.png",
+    "rank": 1
   },
   {
     "symbol": "MSFT",
     "name": "Microsoft Corporation",
     "theme": "AI",
+    "final_score_0_1": 0.0,
+    "score_pts": 0,
+    "vol_anomaly_score": 0.0,
+    "insider_momo": 0.0,
+    "trends_breakout": 0.0,
     "score_components": {
       "volume_anomaly": 0.0,
       "insider_momo": 0.0,
-      "trends_breakout": 0.8181818181818182
+      "trends_breakout": 0.0
     },
     "score_weights": {
-      "volume_anomaly": 0.5,
-      "insider_momo": 0.3,
+      "volume_anomaly": 0.6,
+      "insider_momo": 0.2,
       "trends_breakout": 0.2
     },
-    "total_score": 163.64,
+    "detail": {
+      "vol_anomaly": {
+        "score": 0.0,
+        "eligible": false
+      }
+    },
+    "chart_url": "/charts/2025-08-25/MSFT.png",
+    "rank": 2
+  },
+  {
+    "symbol": "PLTR",
+    "name": "Palantir Technologies Inc.",
+    "theme": "AI",
+    "final_score_0_1": 0.0,
+    "score_pts": 0,
     "vol_anomaly_score": 0.0,
     "insider_momo": 0.0,
-    "trends_breakout": 0.8181818181818182
+    "trends_breakout": 0.0,
+    "score_components": {
+      "volume_anomaly": 0.0,
+      "insider_momo": 0.0,
+      "trends_breakout": 0.0
+    },
+    "score_weights": {
+      "volume_anomaly": 0.6,
+      "insider_momo": 0.2,
+      "trends_breakout": 0.2
+    },
+    "detail": {
+      "vol_anomaly": {
+        "score": 0.0,
+        "eligible": false
+      }
+    },
+    "chart_url": "/charts/2025-08-25/PLTR.png",
+    "rank": 3
+  },
+  {
+    "symbol": "AI",
+    "name": "C3.ai, Inc.",
+    "theme": "AI",
+    "final_score_0_1": 0.0,
+    "score_pts": 0,
+    "vol_anomaly_score": 0.0,
+    "insider_momo": 0.0,
+    "trends_breakout": 0.0,
+    "score_components": {
+      "volume_anomaly": 0.0,
+      "insider_momo": 0.0,
+      "trends_breakout": 0.0
+    },
+    "score_weights": {
+      "volume_anomaly": 0.6,
+      "insider_momo": 0.2,
+      "trends_breakout": 0.2
+    },
+    "detail": {
+      "vol_anomaly": {
+        "score": 0.0,
+        "eligible": false
+      }
+    },
+    "chart_url": "/charts/2025-08-25/AI.png",
+    "rank": 4
+  },
+  {
+    "symbol": "ISRG",
+    "name": "Intuitive Surgical, Inc.",
+    "theme": "Robotics",
+    "final_score_0_1": 0.0,
+    "score_pts": 0,
+    "vol_anomaly_score": 0.0,
+    "insider_momo": 0.0,
+    "trends_breakout": 0.0,
+    "score_components": {
+      "volume_anomaly": 0.0,
+      "insider_momo": 0.0,
+      "trends_breakout": 0.0
+    },
+    "score_weights": {
+      "volume_anomaly": 0.6,
+      "insider_momo": 0.2,
+      "trends_breakout": 0.2
+    },
+    "detail": {
+      "vol_anomaly": {
+        "score": 0.0,
+        "eligible": false
+      }
+    },
+    "chart_url": "/charts/2025-08-25/ISRG.png",
+    "rank": 5
+  },
+  {
+    "symbol": "TER",
+    "name": "Teradyne, Inc.",
+    "theme": "Robotics",
+    "final_score_0_1": 0.0,
+    "score_pts": 0,
+    "vol_anomaly_score": 0.0,
+    "insider_momo": 0.0,
+    "trends_breakout": 0.0,
+    "score_components": {
+      "volume_anomaly": 0.0,
+      "insider_momo": 0.0,
+      "trends_breakout": 0.0
+    },
+    "score_weights": {
+      "volume_anomaly": 0.6,
+      "insider_momo": 0.2,
+      "trends_breakout": 0.2
+    },
+    "detail": {
+      "vol_anomaly": {
+        "score": 0.0,
+        "eligible": false
+      }
+    },
+    "chart_url": "/charts/2025-08-25/TER.png",
+    "rank": 6
+  },
+  {
+    "symbol": "SYM",
+    "name": "Symbotic Inc.",
+    "theme": "Robotics",
+    "final_score_0_1": 0.0,
+    "score_pts": 0,
+    "vol_anomaly_score": 0.0,
+    "insider_momo": 0.0,
+    "trends_breakout": 0.0,
+    "score_components": {
+      "volume_anomaly": 0.0,
+      "insider_momo": 0.0,
+      "trends_breakout": 0.0
+    },
+    "score_weights": {
+      "volume_anomaly": 0.6,
+      "insider_momo": 0.2,
+      "trends_breakout": 0.2
+    },
+    "detail": {
+      "vol_anomaly": {
+        "score": 0.0,
+        "eligible": false
+      }
+    },
+    "chart_url": "/charts/2025-08-25/SYM.png",
+    "rank": 7
+  },
+  {
+    "symbol": "RKLB",
+    "name": "Rocket Lab USA, Inc.",
+    "theme": "Space",
+    "final_score_0_1": 0.0,
+    "score_pts": 0,
+    "vol_anomaly_score": 0.0,
+    "insider_momo": 0.0,
+    "trends_breakout": 0.0,
+    "score_components": {
+      "volume_anomaly": 0.0,
+      "insider_momo": 0.0,
+      "trends_breakout": 0.0
+    },
+    "score_weights": {
+      "volume_anomaly": 0.6,
+      "insider_momo": 0.2,
+      "trends_breakout": 0.2
+    },
+    "detail": {
+      "vol_anomaly": {
+        "score": 0.0,
+        "eligible": false
+      }
+    },
+    "chart_url": "/charts/2025-08-25/RKLB.png",
+    "rank": 8
+  },
+  {
+    "symbol": "IRDM",
+    "name": "Iridium Communications Inc.",
+    "theme": "Space",
+    "final_score_0_1": 0.0,
+    "score_pts": 0,
+    "vol_anomaly_score": 0.0,
+    "insider_momo": 0.0,
+    "trends_breakout": 0.0,
+    "score_components": {
+      "volume_anomaly": 0.0,
+      "insider_momo": 0.0,
+      "trends_breakout": 0.0
+    },
+    "score_weights": {
+      "volume_anomaly": 0.6,
+      "insider_momo": 0.2,
+      "trends_breakout": 0.2
+    },
+    "detail": {
+      "vol_anomaly": {
+        "score": 0.0,
+        "eligible": false
+      }
+    },
+    "chart_url": "/charts/2025-08-25/IRDM.png",
+    "rank": 9
   },
   {
     "symbol": "VSAT",
     "name": "Viasat, Inc.",
     "theme": "Space",
+    "final_score_0_1": 0.0,
+    "score_pts": 0,
+    "vol_anomaly_score": 0.0,
+    "insider_momo": 0.0,
+    "trends_breakout": 0.0,
     "score_components": {
       "volume_anomaly": 0.0,
       "insider_momo": 0.0,
-      "trends_breakout": 0.7272727272727273
+      "trends_breakout": 0.0
     },
     "score_weights": {
-      "volume_anomaly": 0.5,
-      "insider_momo": 0.3,
+      "volume_anomaly": 0.6,
+      "insider_momo": 0.2,
       "trends_breakout": 0.2
     },
-    "total_score": 145.45,
-    "vol_anomaly_score": 0.0,
-    "insider_momo": 0.0,
-    "trends_breakout": 0.7272727272727273
-  },
-  {
-    "symbol": "INOD",
-    "name": "Innodata Inc.",
-    "theme": "AI",
-    "score_components": {
-      "volume_anomaly": 0.0,
-      "insider_momo": 0.0,
-      "trends_breakout": 0.7272727272727273
+    "detail": {
+      "vol_anomaly": {
+        "score": 0.0,
+        "eligible": false
+      }
     },
-    "score_weights": {
-      "volume_anomaly": 0.5,
-      "insider_momo": 0.3,
-      "trends_breakout": 0.2
-    },
-    "total_score": 145.45,
-    "vol_anomaly_score": 0.0,
-    "insider_momo": 0.0,
-    "trends_breakout": 0.7272727272727273
-  },
-  {
-    "symbol": "SOUN",
-    "name": "SoundHound AI, Inc.",
-    "theme": "AI",
-    "score_components": {
-      "volume_anomaly": 0.0,
-      "insider_momo": 0.0,
-      "trends_breakout": 0.7272727272727273
-    },
-    "score_weights": {
-      "volume_anomaly": 0.5,
-      "insider_momo": 0.3,
-      "trends_breakout": 0.2
-    },
-    "total_score": 145.45,
-    "vol_anomaly_score": 0.0,
-    "insider_momo": 0.0,
-    "trends_breakout": 0.7272727272727273
-  },
-  {
-    "symbol": "MNDY",
-    "name": "Monday.com Ltd.",
-    "theme": "AI",
-    "score_components": {
-      "volume_anomaly": 0.0,
-      "insider_momo": 0.0,
-      "trends_breakout": 0.7272727272727273
-    },
-    "score_weights": {
-      "volume_anomaly": 0.5,
-      "insider_momo": 0.3,
-      "trends_breakout": 0.2
-    },
-    "total_score": 145.45,
-    "vol_anomaly_score": 0.0,
-    "insider_momo": 0.0,
-    "trends_breakout": 0.7272727272727273
-  },
-  {
-    "symbol": "AVAV",
-    "name": "AeroVironment, Inc.",
-    "theme": "Robotics",
-    "score_components": {
-      "volume_anomaly": 0.0,
-      "insider_momo": 0.0,
-      "trends_breakout": 0.7272727272727273
-    },
-    "score_weights": {
-      "volume_anomaly": 0.5,
-      "insider_momo": 0.3,
-      "trends_breakout": 0.2
-    },
-    "total_score": 145.45,
-    "vol_anomaly_score": 0.0,
-    "insider_momo": 0.0,
-    "trends_breakout": 0.7272727272727273
-  },
-  {
-    "symbol": "PERF",
-    "name": "Perfect Corp.",
-    "theme": "AI",
-    "score_components": {
-      "volume_anomaly": 0.0,
-      "insider_momo": 0.0,
-      "trends_breakout": 0.7272727272727273
-    },
-    "score_weights": {
-      "volume_anomaly": 0.5,
-      "insider_momo": 0.3,
-      "trends_breakout": 0.2
-    },
-    "total_score": 145.45,
-    "vol_anomaly_score": 0.0,
-    "insider_momo": 0.0,
-    "trends_breakout": 0.7272727272727273
-  },
-  {
-    "symbol": "TEM",
-    "name": "Tempus AI, Inc.",
-    "theme": "AI",
-    "score_components": {
-      "volume_anomaly": 0.0,
-      "insider_momo": 0.0,
-      "trends_breakout": 0.7272727272727273
-    },
-    "score_weights": {
-      "volume_anomaly": 0.5,
-      "insider_momo": 0.3,
-      "trends_breakout": 0.2
-    },
-    "total_score": 145.45,
-    "vol_anomaly_score": 0.0,
-    "insider_momo": 0.0,
-    "trends_breakout": 0.7272727272727273
+    "chart_url": "/charts/2025-08-25/VSAT.png",
+    "rank": 10
   }
 ]
