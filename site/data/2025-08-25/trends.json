@@ -1,0 +1,107 @@
+{
+  "as_of": "2025-08-25",
+  "geo": "US",
+  "timeframe": "today 3-m",
+  "items": {
+    "NVDA": {
+      "query": "NVIDIA Corporation",
+      "raw_breakout": 0.8721804511278196,
+      "score_0_1": 0.9090909090909091
+    },
+    "MSFT": {
+      "query": "Microsoft Corporation",
+      "raw_breakout": 0.4723809523809524,
+      "score_0_1": 0.8181818181818182
+    },
+    "PLTR": {
+      "query": "Palantir Technologies Inc.",
+      "raw_breakout": 857142857.1428571,
+      "score_0_1": 1.0
+    },
+    "AI": {
+      "query": "C3.ai, Inc.",
+      "raw_breakout": null,
+      "score_0_1": 0.0
+    },
+    "ISRG": {
+      "query": "Intuitive Surgical, Inc.",
+      "raw_breakout": null,
+      "score_0_1": 0.0
+    },
+    "TER": {
+      "query": "Teradyne, Inc.",
+      "raw_breakout": null,
+      "score_0_1": 0.0
+    },
+    "SYM": {
+      "query": "Symbotic Inc.",
+      "raw_breakout": null,
+      "score_0_1": 0.0
+    },
+    "RKLB": {
+      "query": "Rocket Lab USA, Inc.",
+      "raw_breakout": null,
+      "score_0_1": 0.0
+    },
+    "IRDM": {
+      "query": "Iridium Communications Inc.",
+      "raw_breakout": null,
+      "score_0_1": 0.0
+    },
+    "VSAT": {
+      "query": "Viasat, Inc.",
+      "raw_breakout": 0.0,
+      "score_0_1": 0.7272727272727273
+    },
+    "INOD": {
+      "query": "Innodata Inc.",
+      "raw_breakout": 0.0,
+      "score_0_1": 0.7272727272727273
+    },
+    "SOUN": {
+      "query": "SoundHound AI, Inc.",
+      "raw_breakout": 0.0,
+      "score_0_1": 0.7272727272727273
+    },
+    "MNDY": {
+      "query": "Monday.com Ltd.",
+      "raw_breakout": 0.0,
+      "score_0_1": 0.7272727272727273
+    },
+    "AVAV": {
+      "query": "AeroVironment, Inc.",
+      "raw_breakout": 0.0,
+      "score_0_1": 0.7272727272727273
+    },
+    "PERF": {
+      "query": "Perfect Corp.",
+      "raw_breakout": 0.0,
+      "score_0_1": 0.7272727272727273
+    },
+    "GDRX": {
+      "query": "GoodRx Holdings, Inc.",
+      "raw_breakout": null,
+      "score_0_1": 0.0
+    },
+    "ABCL": {
+      "query": "AbCellera Biologics Inc.",
+      "raw_breakout": null,
+      "score_0_1": 0.0
+    },
+    "U": {
+      "query": "Unity Software Inc.",
+      "raw_breakout": null,
+      "score_0_1": 0.0
+    },
+    "TEM": {
+      "query": "Tempus AI, Inc.",
+      "raw_breakout": 0.0,
+      "score_0_1": 0.7272727272727273
+    },
+    "VRT": {
+      "query": "Vertiv Holdings Co",
+      "raw_breakout": 0.0,
+      "score_0_1": 0.7272727272727273
+    }
+  }
+}

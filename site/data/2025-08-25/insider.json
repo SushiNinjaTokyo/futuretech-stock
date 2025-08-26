@@ -1,0 +1,309 @@
+{
+  "as_of": "2025-08-25",
+  "window_days": {
+    "short": 30,
+    "long": 90
+  },
+  "items": {
+    "NVDA": {
+      "cik": "0001045810",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "MSFT": {
+      "cik": "0000789019",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "PLTR": {
+      "cik": "0001321655",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "AI": {
+      "cik": "0001577526",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "ISRG": {
+      "cik": "0001035267",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 1,
+        "bad_xml": 0,
+        "taken": 7
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "TER": {
+      "cik": "0000097210",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "SYM": {
+      "cik": "0001837240",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "RKLB": {
+      "cik": "0001819994",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "IRDM": {
+      "cik": "0001418819",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "VSAT": {
+      "cik": "0000797721",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "INOD": {
+      "cik": "0000903651",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 1,
+        "bad_xml": 0,
+        "taken": 3
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "SOUN": {
+      "cik": "0001840856",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "MNDY": {
+      "cik": "0001845338",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 0
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "AVAV": {
+      "cik": "0001368622",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "PERF": {
+      "cik": "0001899830",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 0
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "GDRX": {
+      "cik": "0001809519",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "ABCL": {
+      "cik": "0001703057",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 1,
+        "bad_xml": 0,
+        "taken": 3
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "U": {
+      "cik": "0001810806",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "TEM": {
+      "cik": "0001717115",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    },
+    "VRT": {
+      "cik": "0001674101",
+      "net_buy_shares_30": 0.0,
+      "net_buy_shares_90": 0.0,
+      "buyers_30": 0,
+      "buyers_90": 0,
+      "debug": {
+        "skipped_old": 0,
+        "bad_xml": 0,
+        "taken": 10
+      },
+      "score_30": 0.0,
+      "score_90": 0.0,
+      "insider_momo": 0.0
+    }
+  }
+}
