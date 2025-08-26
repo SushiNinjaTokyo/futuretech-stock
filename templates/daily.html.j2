@@ -121,6 +121,9 @@
                 {% if item.insider_momo and item.insider_momo > 0 %}
                   <div class="badge"><strong>Insider momo</strong>{{ "%.2f"|format(item.insider_momo) }}</div>
                 {% else %}
+                {% if item.trends_breakout is not none %}
+                  <div class="badge"><strong>Trends breakout</strong>{{ "%.2f"|format(item.trends_breakout) }}</div>
+                {% endif %}
                   <div class="no-insider">✦ No recent insider buying detected</div>
                 {% endif %}
               </div>
