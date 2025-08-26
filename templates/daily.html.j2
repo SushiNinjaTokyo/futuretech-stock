@@ -104,10 +104,12 @@
             <div id="ov-{{ loop.index }}" class="tab active">
               <div class="badges">
                 <div class="badge"><strong>Total score</strong>{{ pts | int }}/1000</div>
-                {% if item.insider_momo is not none %}
-                <div class="badge"><strong>Insider momo</strong>{{ "%.2f"|format(item.insider_momo) }}</div>
-                {% endif %}
                 <div class="badge"><strong>Volume anomaly</strong>{{ "%.2f"|format(item.vol_anomaly_score or 0) }}</div>
+                {% if item.insider_momo and item.insider_momo > 0 %}
+                  <div class="badge"><strong>Insider momo</strong>{{ "%.2f"|format(item.insider_momo) }}</div>
+                {% else %}
+                  <div class="no-insider">✦ No recent insider buying detected</div>
+                {% endif %}
               </div>
 
               <!-- スコアブレークダウン（正規化重みで寄与点を再計算） -->
