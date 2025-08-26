@@ -58,6 +58,19 @@
     .kv { display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-top:8px; }
     .kv div { font-size:12px; background:#fff; border:1px solid var(--border); border-radius:8px; padding:6px 8px; }
     .kv .k { color: var(--muted); }
+    
+    .no-insider {
+      flex: 1;
+      background: #f9fafb;
+      border: 1px dashed #d1d5db;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 13px;
+      color: #6b7280;
+      font-style: italic;
+      text-align: center;
+    }
+    
   </style>
 </head>
 <body>
@@ -78,17 +91,17 @@
         
         
 
-        <div class="card" id="card-1" data-symbol="RKLB">
+        <div class="card" id="card-1" data-symbol="AI">
           <div class="row">
             <div class="sym">
               <div class="rank gold">1</div>
               <div>
-                <div class="symbol">RKLB</div>
-                <div class="name">Rocket Lab USA, Inc.</div>
+                <div class="symbol">AI</div>
+                <div class="name">C3.ai, Inc.</div>
               </div>
             </div>
             <div class="score">
-              <div class="num">608</div>
+              <div class="num">212</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -102,9 +115,11 @@
             <!-- Overview: スコア内訳 + 詳細 -->
             <div id="ov-1" class="tab active">
               <div class="badges">
-                <div class="badge"><strong>Total score</strong>608/1000</div>
+                <div class="badge"><strong>Total score</strong>212/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.21</div>
                 
-                <div class="badge"><strong>Volume anomaly</strong>0.61</div>
+                  <div class="no-insider">✦ No recent insider buying detected</div>
+                
               </div>
 
               <!-- スコアブレークダウン（正規化重みで寄与点を再計算） -->
@@ -123,7 +138,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">608</span></th>
+                    <th class="right"><span class="js-total">212</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -133,10 +148,10 @@
                 <summary>Volume anomaly details</summary>
                 
                 <div class="kv">
-                  <div><span class="k">RVOL20</span><br>1.60</div>
-                  <div><span class="k">Z60</span><br>0.58</div>
-                  <div><span class="k">PctRank90</span><br>0.84</div>
-                  <div><span class="k">DollarVol</span><br>$1420.0M</div>
+                  <div><span class="k">RVOL20</span><br>0.04</div>
+                  <div><span class="k">Z60</span><br>-0.89</div>
+                  <div><span class="k">PctRank90</span><br>0.01</div>
+                  <div><span class="k">DollarVol</span><br>$8.3M</div>
                   <div><span class="k">Eligible</span><br>Yes</div>
                 </div>
                 
@@ -151,13 +166,13 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-1" class="tab">
-              <img src="/charts/2025-08-25/RKLB.png" alt="RKLB weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-25/AI.png" alt="AI weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSONデータを data-* に埋め込んでJSで利用 -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.6083890449701868, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.6083890449701868}, "score_pts": 608, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "RKLB"}
+          {"final_score_0_1": 0.21232000532036716, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.21232000532036716}, "score_pts": 212, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "AI"}
           </script>
         </div>
       
@@ -169,17 +184,17 @@
         
         
 
-        <div class="card" id="card-2" data-symbol="SOUN">
+        <div class="card" id="card-2" data-symbol="VSAT">
           <div class="row">
             <div class="sym">
               <div class="rank silver">2</div>
               <div>
-                <div class="symbol">SOUN</div>
-                <div class="name">SoundHound AI, Inc.</div>
+                <div class="symbol">VSAT</div>
+                <div class="name">Viasat, Inc.</div>
               </div>
             </div>
             <div class="score">
-              <div class="num">529</div>
+              <div class="num">208</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -193,9 +208,11 @@
             <!-- Overview: スコア内訳 + 詳細 -->
             <div id="ov-2" class="tab active">
               <div class="badges">
-                <div class="badge"><strong>Total score</strong>529/1000</div>
+                <div class="badge"><strong>Total score</strong>208/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.21</div>
                 
-                <div class="badge"><strong>Volume anomaly</strong>0.53</div>
+                  <div class="no-insider">✦ No recent insider buying detected</div>
+                
               </div>
 
               <!-- スコアブレークダウン（正規化重みで寄与点を再計算） -->
@@ -214,7 +231,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">529</span></th>
+                    <th class="right"><span class="js-total">208</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -224,10 +241,10 @@
                 <summary>Volume anomaly details</summary>
                 
                 <div class="kv">
-                  <div><span class="k">RVOL20</span><br>0.99</div>
-                  <div><span class="k">Z60</span><br>0.30</div>
-                  <div><span class="k">PctRank90</span><br>0.82</div>
-                  <div><span class="k">DollarVol</span><br>$628.3M</div>
+                  <div><span class="k">RVOL20</span><br>0.13</div>
+                  <div><span class="k">Z60</span><br>-1.15</div>
+                  <div><span class="k">PctRank90</span><br>0.01</div>
+                  <div><span class="k">DollarVol</span><br>$18.0M</div>
                   <div><span class="k">Eligible</span><br>Yes</div>
                 </div>
                 
@@ -242,13 +259,13 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-2" class="tab">
-              <img src="/charts/2025-08-25/SOUN.png" alt="SOUN weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-25/VSAT.png" alt="VSAT weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSONデータを data-* に埋め込んでJSで利用 -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.5285671834765144, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.5285671834765144}, "score_pts": 529, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "SOUN"}
+          {"final_score_0_1": 0.20752213923272034, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.20752213923272034}, "score_pts": 208, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "VSAT"}
           </script>
         </div>
       
@@ -259,17 +276,17 @@
         
         
 
-        <div class="card" id="card-3" data-symbol="GDRX">
+        <div class="card" id="card-3" data-symbol="SOUN">
           <div class="row">
             <div class="sym">
               <div class="rank bronze">3</div>
               <div>
-                <div class="symbol">GDRX</div>
-                <div class="name">GoodRx Holdings Inc</div>
+                <div class="symbol">SOUN</div>
+                <div class="name">SoundHound AI, Inc.</div>
               </div>
             </div>
             <div class="score">
-              <div class="num">510</div>
+              <div class="num">193</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -283,9 +300,11 @@
             <!-- Overview: スコア内訳 + 詳細 -->
             <div id="ov-3" class="tab active">
               <div class="badges">
-                <div class="badge"><strong>Total score</strong>510/1000</div>
+                <div class="badge"><strong>Total score</strong>193/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.19</div>
                 
-                <div class="badge"><strong>Volume anomaly</strong>0.51</div>
+                  <div class="no-insider">✦ No recent insider buying detected</div>
+                
               </div>
 
               <!-- スコアブレークダウン（正規化重みで寄与点を再計算） -->
@@ -304,7 +323,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">510</span></th>
+                    <th class="right"><span class="js-total">193</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -314,10 +333,10 @@
                 <summary>Volume anomaly details</summary>
                 
                 <div class="kv">
-                  <div><span class="k">RVOL20</span><br>0.70</div>
-                  <div><span class="k">Z60</span><br>0.17</div>
-                  <div><span class="k">PctRank90</span><br>0.91</div>
-                  <div><span class="k">DollarVol</span><br>$17.3M</div>
+                  <div><span class="k">RVOL20</span><br>0.09</div>
+                  <div><span class="k">Z60</span><br>-1.35</div>
+                  <div><span class="k">PctRank90</span><br>0.01</div>
+                  <div><span class="k">DollarVol</span><br>$55.2M</div>
                   <div><span class="k">Eligible</span><br>Yes</div>
                 </div>
                 
@@ -332,13 +351,13 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-3" class="tab">
-              <img src="/charts/2025-08-25/GDRX.png" alt="GDRX weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-25/SOUN.png" alt="SOUN weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSONデータを data-* に埋め込んでJSで利用 -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.5103686953157722, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.5103686953157722}, "score_pts": 510, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "GDRX"}
+          {"final_score_0_1": 0.19319880893138802, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.19319880893138802}, "score_pts": 193, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "SOUN"}
           </script>
         </div>
       
@@ -349,17 +368,17 @@
         
         
 
-        <div class="card" id="card-4" data-symbol="MSFT">
+        <div class="card" id="card-4" data-symbol="RKLB">
           <div class="row">
             <div class="sym">
               <div class="rank other">4</div>
               <div>
-                <div class="symbol">MSFT</div>
-                <div class="name">Microsoft Corporation</div>
+                <div class="symbol">RKLB</div>
+                <div class="name">Rocket Lab USA, Inc.</div>
               </div>
             </div>
             <div class="score">
-              <div class="num">501</div>
+              <div class="num">191</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -373,9 +392,11 @@
             <!-- Overview: スコア内訳 + 詳細 -->
             <div id="ov-4" class="tab active">
               <div class="badges">
-                <div class="badge"><strong>Total score</strong>501/1000</div>
+                <div class="badge"><strong>Total score</strong>191/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.19</div>
                 
-                <div class="badge"><strong>Volume anomaly</strong>0.50</div>
+                  <div class="no-insider">✦ No recent insider buying detected</div>
+                
               </div>
 
               <!-- スコアブレークダウン（正規化重みで寄与点を再計算） -->
@@ -394,7 +415,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">501</span></th>
+                    <th class="right"><span class="js-total">191</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -404,10 +425,10 @@
                 <summary>Volume anomaly details</summary>
                 
                 <div class="kv">
-                  <div><span class="k">RVOL20</span><br>0.94</div>
-                  <div><span class="k">Z60</span><br>0.25</div>
-                  <div><span class="k">PctRank90</span><br>0.72</div>
-                  <div><span class="k">DollarVol</span><br>$10903.0M</div>
+                  <div><span class="k">RVOL20</span><br>0.18</div>
+                  <div><span class="k">Z60</span><br>-1.59</div>
+                  <div><span class="k">PctRank90</span><br>0.01</div>
+                  <div><span class="k">DollarVol</span><br>$159.7M</div>
                   <div><span class="k">Eligible</span><br>Yes</div>
                 </div>
                 
@@ -422,13 +443,13 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-4" class="tab">
-              <img src="/charts/2025-08-25/MSFT.png" alt="MSFT weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-25/RKLB.png" alt="RKLB weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSONデータを data-* に埋め込んでJSで利用 -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.500642781868429, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.500642781868429}, "score_pts": 501, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "MSFT"}
+          {"final_score_0_1": 0.19071907566360086, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.19071907566360086}, "score_pts": 191, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "RKLB"}
           </script>
         </div>
       
@@ -439,17 +460,17 @@
         
         
 
-        <div class="card" id="card-5" data-symbol="PLTR">
+        <div class="card" id="card-5" data-symbol="U">
           <div class="row">
             <div class="sym">
               <div class="rank other">5</div>
               <div>
-                <div class="symbol">PLTR</div>
-                <div class="name">Palantir Technologies Inc.</div>
+                <div class="symbol">U</div>
+                <div class="name">Unity</div>
               </div>
             </div>
             <div class="score">
-              <div class="num">497</div>
+              <div class="num">189</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -463,9 +484,11 @@
             <!-- Overview: スコア内訳 + 詳細 -->
             <div id="ov-5" class="tab active">
               <div class="badges">
-                <div class="badge"><strong>Total score</strong>497/1000</div>
+                <div class="badge"><strong>Total score</strong>189/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.19</div>
                 
-                <div class="badge"><strong>Volume anomaly</strong>0.50</div>
+                  <div class="no-insider">✦ No recent insider buying detected</div>
+                
               </div>
 
               <!-- スコアブレークダウン（正規化重みで寄与点を再計算） -->
@@ -484,7 +507,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">497</span></th>
+                    <th class="right"><span class="js-total">189</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -494,10 +517,10 @@
                 <summary>Volume anomaly details</summary>
                 
                 <div class="kv">
-                  <div><span class="k">RVOL20</span><br>1.08</div>
-                  <div><span class="k">Z60</span><br>0.26</div>
-                  <div><span class="k">PctRank90</span><br>0.63</div>
-                  <div><span class="k">DollarVol</span><br>$13612.4M</div>
+                  <div><span class="k">RVOL20</span><br>0.08</div>
+                  <div><span class="k">Z60</span><br>-1.42</div>
+                  <div><span class="k">PctRank90</span><br>0.01</div>
+                  <div><span class="k">DollarVol</span><br>$48.2M</div>
                   <div><span class="k">Eligible</span><br>Yes</div>
                 </div>
                 
@@ -512,13 +535,13 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-5" class="tab">
-              <img src="/charts/2025-08-25/PLTR.png" alt="PLTR weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-25/U.png" alt="U weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSONデータを data-* に埋め込んでJSで利用 -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.49717779461004197, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.49717779461004197}, "score_pts": 497, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "PLTR"}
+          {"final_score_0_1": 0.1894729056017172, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.1894729056017172}, "score_pts": 189, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "U"}
           </script>
         </div>
       
@@ -529,17 +552,17 @@
         
         
 
-        <div class="card" id="card-6" data-symbol="U">
+        <div class="card" id="card-6" data-symbol="PLTR">
           <div class="row">
             <div class="sym">
               <div class="rank other">6</div>
               <div>
-                <div class="symbol">U</div>
-                <div class="name">Unity</div>
+                <div class="symbol">PLTR</div>
+                <div class="name">Palantir Technologies Inc.</div>
               </div>
             </div>
             <div class="score">
-              <div class="num">459</div>
+              <div class="num">165</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -553,9 +576,11 @@
             <!-- Overview: スコア内訳 + 詳細 -->
             <div id="ov-6" class="tab active">
               <div class="badges">
-                <div class="badge"><strong>Total score</strong>459/1000</div>
+                <div class="badge"><strong>Total score</strong>165/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.17</div>
                 
-                <div class="badge"><strong>Volume anomaly</strong>0.46</div>
+                  <div class="no-insider">✦ No recent insider buying detected</div>
+                
               </div>
 
               <!-- スコアブレークダウン（正規化重みで寄与点を再計算） -->
@@ -574,7 +599,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">459</span></th>
+                    <th class="right"><span class="js-total">165</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -584,10 +609,10 @@
                 <summary>Volume anomaly details</summary>
                 
                 <div class="kv">
-                  <div><span class="k">RVOL20</span><br>0.88</div>
-                  <div><span class="k">Z60</span><br>-0.20</div>
-                  <div><span class="k">PctRank90</span><br>0.66</div>
-                  <div><span class="k">DollarVol</span><br>$513.6M</div>
+                  <div><span class="k">RVOL20</span><br>0.10</div>
+                  <div><span class="k">Z60</span><br>-1.94</div>
+                  <div><span class="k">PctRank90</span><br>0.01</div>
+                  <div><span class="k">DollarVol</span><br>$1194.5M</div>
                   <div><span class="k">Eligible</span><br>Yes</div>
                 </div>
                 
@@ -602,13 +627,13 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-6" class="tab">
-              <img src="/charts/2025-08-25/U.png" alt="U weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-25/PLTR.png" alt="PLTR weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSONデータを data-* に埋め込んでJSで利用 -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.4594090524907923, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.4594090524907923}, "score_pts": 459, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "U"}
+          {"final_score_0_1": 0.165094683071213, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.165094683071213}, "score_pts": 165, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "PLTR"}
           </script>
         </div>
       
@@ -619,17 +644,17 @@
         
         
 
-        <div class="card" id="card-7" data-symbol="MNDY">
+        <div class="card" id="card-7" data-symbol="VRT">
           <div class="row">
             <div class="sym">
               <div class="rank other">7</div>
               <div>
-                <div class="symbol">MNDY</div>
-                <div class="name">Monday.com Ltd.</div>
+                <div class="symbol">VRT</div>
+                <div class="name">Vertiv Holdings Co</div>
               </div>
             </div>
             <div class="score">
-              <div class="num">447</div>
+              <div class="num">159</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -643,9 +668,11 @@
             <!-- Overview: スコア内訳 + 詳細 -->
             <div id="ov-7" class="tab active">
               <div class="badges">
-                <div class="badge"><strong>Total score</strong>447/1000</div>
+                <div class="badge"><strong>Total score</strong>159/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.16</div>
                 
-                <div class="badge"><strong>Volume anomaly</strong>0.45</div>
+                  <div class="no-insider">✦ No recent insider buying detected</div>
+                
               </div>
 
               <!-- スコアブレークダウン（正規化重みで寄与点を再計算） -->
@@ -664,7 +691,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">447</span></th>
+                    <th class="right"><span class="js-total">159</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -674,10 +701,10 @@
                 <summary>Volume anomaly details</summary>
                 
                 <div class="kv">
-                  <div><span class="k">RVOL20</span><br>0.45</div>
-                  <div><span class="k">Z60</span><br>-0.07</div>
-                  <div><span class="k">PctRank90</span><br>0.78</div>
-                  <div><span class="k">DollarVol</span><br>$146.7M</div>
+                  <div><span class="k">RVOL20</span><br>0.04</div>
+                  <div><span class="k">Z60</span><br>-1.95</div>
+                  <div><span class="k">PctRank90</span><br>0.01</div>
+                  <div><span class="k">DollarVol</span><br>$35.1M</div>
                   <div><span class="k">Eligible</span><br>Yes</div>
                 </div>
                 
@@ -692,13 +719,13 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-7" class="tab">
-              <img src="/charts/2025-08-25/MNDY.png" alt="MNDY weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-25/VRT.png" alt="VRT weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSONデータを data-* に埋め込んでJSで利用 -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.4468253773245975, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.4468253773245975}, "score_pts": 447, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "MNDY"}
+          {"final_score_0_1": 0.15888433352777614, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.15888433352777614}, "score_pts": 159, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "VRT"}
           </script>
         </div>
       
@@ -709,17 +736,17 @@
         
         
 
-        <div class="card" id="card-8" data-symbol="TER">
+        <div class="card" id="card-8" data-symbol="TEM">
           <div class="row">
             <div class="sym">
               <div class="rank other">8</div>
               <div>
-                <div class="symbol">TER</div>
-                <div class="name">Teradyne, Inc.</div>
+                <div class="symbol">TEM</div>
+                <div class="name">Tempus</div>
               </div>
             </div>
             <div class="score">
-              <div class="num">444</div>
+              <div class="num">157</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -733,9 +760,11 @@
             <!-- Overview: スコア内訳 + 詳細 -->
             <div id="ov-8" class="tab active">
               <div class="badges">
-                <div class="badge"><strong>Total score</strong>444/1000</div>
+                <div class="badge"><strong>Total score</strong>157/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.16</div>
                 
-                <div class="badge"><strong>Volume anomaly</strong>0.44</div>
+                  <div class="no-insider">✦ No recent insider buying detected</div>
+                
               </div>
 
               <!-- スコアブレークダウン（正規化重みで寄与点を再計算） -->
@@ -754,7 +783,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">444</span></th>
+                    <th class="right"><span class="js-total">157</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -764,10 +793,10 @@
                 <summary>Volume anomaly details</summary>
                 
                 <div class="kv">
-                  <div><span class="k">RVOL20</span><br>0.73</div>
-                  <div><span class="k">Z60</span><br>-0.12</div>
-                  <div><span class="k">PctRank90</span><br>0.63</div>
-                  <div><span class="k">DollarVol</span><br>$418.0M</div>
+                  <div><span class="k">RVOL20</span><br>0.10</div>
+                  <div><span class="k">Z60</span><br>-2.10</div>
+                  <div><span class="k">PctRank90</span><br>0.01</div>
+                  <div><span class="k">DollarVol</span><br>$89.7M</div>
                   <div><span class="k">Eligible</span><br>Yes</div>
                 </div>
                 
@@ -782,13 +811,13 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-8" class="tab">
-              <img src="/charts/2025-08-25/TER.png" alt="TER weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-25/TEM.png" alt="TEM weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSONデータを data-* に埋め込んでJSで利用 -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.4436410724796698, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.4436410724796698}, "score_pts": 444, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "TER"}
+          {"final_score_0_1": 0.1571124095186044, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.1571124095186044}, "score_pts": 157, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "TEM"}
           </script>
         </div>
       
@@ -799,17 +828,17 @@
         
         
 
-        <div class="card" id="card-9" data-symbol="VSAT">
+        <div class="card" id="card-9" data-symbol="MSFT">
           <div class="row">
             <div class="sym">
               <div class="rank other">9</div>
               <div>
-                <div class="symbol">VSAT</div>
-                <div class="name">Viasat, Inc.</div>
+                <div class="symbol">MSFT</div>
+                <div class="name">Microsoft Corporation</div>
               </div>
             </div>
             <div class="score">
-              <div class="num">438</div>
+              <div class="num">122</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -823,9 +852,11 @@
             <!-- Overview: スコア内訳 + 詳細 -->
             <div id="ov-9" class="tab active">
               <div class="badges">
-                <div class="badge"><strong>Total score</strong>438/1000</div>
+                <div class="badge"><strong>Total score</strong>122/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.12</div>
                 
-                <div class="badge"><strong>Volume anomaly</strong>0.44</div>
+                  <div class="no-insider">✦ No recent insider buying detected</div>
+                
               </div>
 
               <!-- スコアブレークダウン（正規化重みで寄与点を再計算） -->
@@ -844,7 +875,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">438</span></th>
+                    <th class="right"><span class="js-total">122</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -854,10 +885,10 @@
                 <summary>Volume anomaly details</summary>
                 
                 <div class="kv">
-                  <div><span class="k">RVOL20</span><br>0.70</div>
-                  <div><span class="k">Z60</span><br>-0.23</div>
-                  <div><span class="k">PctRank90</span><br>0.64</div>
-                  <div><span class="k">DollarVol</span><br>$96.1M</div>
+                  <div><span class="k">RVOL20</span><br>0.06</div>
+                  <div><span class="k">Z60</span><br>-2.72</div>
+                  <div><span class="k">PctRank90</span><br>0.01</div>
+                  <div><span class="k">DollarVol</span><br>$712.7M</div>
                   <div><span class="k">Eligible</span><br>Yes</div>
                 </div>
                 
@@ -872,13 +903,13 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-9" class="tab">
-              <img src="/charts/2025-08-25/VSAT.png" alt="VSAT weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-25/MSFT.png" alt="MSFT weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSONデータを data-* に埋め込んでJSで利用 -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.43756332592046954, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.43756332592046954}, "score_pts": 438, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "VSAT"}
+          {"final_score_0_1": 0.12239952781850921, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.12239952781850921}, "score_pts": 122, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "MSFT"}
           </script>
         </div>
       
@@ -889,17 +920,17 @@
         
         
 
-        <div class="card" id="card-10" data-symbol="AVAV">
+        <div class="card" id="card-10" data-symbol="NVDA">
           <div class="row">
             <div class="sym">
               <div class="rank other">10</div>
               <div>
-                <div class="symbol">AVAV</div>
-                <div class="name">AeroVironment, Inc.</div>
+                <div class="symbol">NVDA</div>
+                <div class="name">NVIDIA Corporation</div>
               </div>
             </div>
             <div class="score">
-              <div class="num">429</div>
+              <div class="num">69</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -913,9 +944,11 @@
             <!-- Overview: スコア内訳 + 詳細 -->
             <div id="ov-10" class="tab active">
               <div class="badges">
-                <div class="badge"><strong>Total score</strong>429/1000</div>
+                <div class="badge"><strong>Total score</strong>69/1000</div>
+                <div class="badge"><strong>Volume anomaly</strong>0.07</div>
                 
-                <div class="badge"><strong>Volume anomaly</strong>0.43</div>
+                  <div class="no-insider">✦ No recent insider buying detected</div>
+                
               </div>
 
               <!-- スコアブレークダウン（正規化重みで寄与点を再計算） -->
@@ -934,7 +967,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">429</span></th>
+                    <th class="right"><span class="js-total">69</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -944,10 +977,10 @@
                 <summary>Volume anomaly details</summary>
                 
                 <div class="kv">
-                  <div><span class="k">RVOL20</span><br>0.95</div>
-                  <div><span class="k">Z60</span><br>-0.54</div>
-                  <div><span class="k">PctRank90</span><br>0.56</div>
-                  <div><span class="k">DollarVol</span><br>$178.4M</div>
+                  <div><span class="k">RVOL20</span><br>0.12</div>
+                  <div><span class="k">Z60</span><br>-3.89</div>
+                  <div><span class="k">PctRank90</span><br>0.01</div>
+                  <div><span class="k">DollarVol</span><br>$3214.1M</div>
                   <div><span class="k">Eligible</span><br>Yes</div>
                 </div>
                 
@@ -962,13 +995,13 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-10" class="tab">
-              <img src="/charts/2025-08-25/AVAV.png" alt="AVAV weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-25/NVDA.png" alt="NVDA weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSONデータを data-* に埋め込んでJSで利用 -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.4290710433602601, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.4290710433602601}, "score_pts": 429, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "AVAV"}
+          {"final_score_0_1": 0.06927878321742832, "insider_momo": null, "score_components": {"insider_momo": null, "vol_anomaly": 0.06927878321742832}, "score_pts": 69, "score_weights": {"insider_momo": 0.4, "vol_anomaly": 0.6}, "symbol": "NVDA"}
           </script>
         </div>
       
