@@ -5,7 +5,11 @@
   <title>futuretech-stock — Daily Top 10 ({{ date | default('', true) }})</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root { --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb; --gold:#f59e0b; --silver:#0f172a; --bronze:#fb923c; --chip:#f3f4f6; }
+    :root {
+      --bg: #ffffff; --fg: #0f172a; --muted: #64748b; --border: #e5e7eb;
+      --gold: #f59e0b; --silver: #0f172a; --bronze:#fb923c;
+      --chip:#f3f4f6; --ok:#065f46; --ink:#111827;
+    }
     body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: var(--bg); color: var(--fg);}
     .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
     header { margin-bottom: 16px; }
@@ -16,13 +20,13 @@
     @media (min-width: 900px) { .grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 
     .card { border: 1px solid var(--border); border-radius: 16px; padding: 16px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
-    .row { display:flex; align-items:center; justify-content:space-between; }
+    .row { display:flex; align-items:center; justify-content:space-between; gap: 12px; }
     .sym { display:flex; align-items:center; gap:10px; }
     .rank { width: 36px; height: 36px; border-radius: 999px; display:flex; align-items:center; justify-content:center; font-weight: 800; font-size: 13px; }
-    .rank.gold { background: var(--gold); color: #fff; }
+    .rank.gold   { background: var(--gold); color: #fff; }
     .rank.silver { background: var(--silver); color: #fff; }
     .rank.bronze { background: var(--bronze); color: #fff; }
-    .rank.other { background: #f3f4f6; color: #111827; }
+    .rank.other  { background: #f3f4f6; color: #111827; }
 
     .symbol { font-size: 20px; font-weight: 700; }
     .name { font-size:12px; color: var(--muted); }
@@ -31,16 +35,21 @@
     .score .num { font-size: 34px; font-weight: 900; line-height: 1; letter-spacing: -0.5px; }
     .score .den { font-size: 11px; color: var(--muted); }
 
-    .badges { display:flex; flex-wrap:wrap; gap:8px; margin-top: 10px; }
-    .badge { border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; background: var(--chip); }
-    .badge strong { margin-right:6px; color: var(--muted); font-weight: 500; }
+    .chips { margin-top:8px; display:flex; flex-wrap:wrap; gap:6px; }
+    .chip  { border:1px solid var(--border); background:var(--chip); border-radius:999px; padding:4px 10px; font-size:12px; color: var(--ink); }
+    .chip strong { color: var(--muted); margin-right:6px; font-weight:500; }
+    .chip .explain { color: var(--muted); margin-left:6px; }
 
     .tabs { margin-top:12px; }
-    .tab-buttons { display:flex; gap:8px; margin-bottom:8px; }
-    .tab-btn { border:1px solid var(--border); border-radius:999px; padding:6px 10px; font-size:12px; background:#fff; cursor:pointer; }
-    .tab-btn.active { background:#000; color:#fff; border-color:#000; }
-    .tab { display:none; }
+    .tab-toggle { display:flex; gap:8px; }
+    .toggle-btn { border:1px solid var(--border); border-radius:999px; padding:6px 10px; font-size:12px; background:#fff; cursor:pointer; }
+    .toggle-btn.active { background:#000; color:#fff; border-color:#000; }
+    .tab { display:none; margin-top:8px; }
     .tab.active { display:block; }
+
+    .badges { display:flex; flex-wrap:wrap; gap:8px; margin-bottom: 8px; }
+    .badge { border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; background: var(--chip); }
+    .badge strong { margin-right:6px; color: var(--muted); font-weight: 500; }
 
     .chart { width: 100%; border:1px solid var(--border); border-radius: 10px; }
 
@@ -49,7 +58,6 @@
     .table th { color: var(--muted); font-weight: 600; }
     .right { text-align: right; }
     .muted { color: var(--muted); }
-
     details { margin-top: 8px; background:#fafafa; border:1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
     details > summary { cursor:pointer; font-size: 12px; color:#111; user-select: none; }
     .kv { display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-top:8px; }
@@ -57,8 +65,15 @@
     .kv .k { color: var(--muted); }
 
     .no-insider {
-      flex: 1; background: #f9fafb; border: 1px dashed #d1d5db; border-radius: 12px;
-      padding: 10px 12px; font-size: 13px; color: #6b7280; font-style: italic; text-align: center;
+      flex: 1;
+      background: #f9fafb;
+      border: 1px dashed #d1d5db;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 13px;
+      color: #6b7280;
+      font-style: italic;
+      text-align: center;
     }
   </style>
 </head>
@@ -66,7 +81,7 @@
   <div class="wrap">
     <header>
       <h1>futuretech-stock — Daily Top 10</h1>
-      <div class="sub">Date: {{ date | default('', true) }} / Scoring: 1000 pts（現在は出来高＋Insider＋Trends）</div>
+      <div class="sub">Date: {{ date | default('', true) }} / Scoring: 1000 pts（Volume + Insider + Trends + News）</div>
     </header>
 
     {% if top10 is defined %}
@@ -76,16 +91,18 @@
         {% set _name = item.name   | default('', true) %}
         {% set rank = (item.rank | default(loop.index, true)) %}
         {% set chart_url = (item.chart_url | default('/charts/' ~ (date | default('', true)) ~ '/' ~ _sym ~ '.png', true)) %}
-        {% set pts = item.score_pts | default(( (item.final_score_0_1 | default(0, true)) * 1000 ) | round(0, 'common'), true) %}
+        {% set base0_1 = item.final_score_0_1 | default(0, true) %}
+        {% set pts = item.score_pts | default((base0_1 * 1000) | round(0, 'common'), true) %}
         {% set vol = (item.detail.vol_anomaly if (item.detail is defined and item.detail and item.detail.vol_anomaly is defined) else none) %}
         {% set tier = 'other' %}
         {% if rank == 1 %}{% set tier = 'gold' %}
         {% elif rank == 2 %}{% set tier = 'silver' %}
         {% elif rank == 3 %}{% set tier = 'bronze' %}{% endif %}
 
-        {% set trends_raw  = item.trends_raw  | default(none, true) %}
-        {% set trends_rank = item.trends_rank | default(none, true) %}
-        {% set universe_n  = top10|length %}
+        {% set tr_mult = item.trends_multiplier | default(none, true) %}
+        {% set tr_rank = item.trends_rank | default(none, true) %}
+        {% set nw_rank = item.news_rank | default(none, true) %}
+        {% set news_s  = item.news_score | default(0, true) %}
 
         <div class="card" id="card-{{ loop.index }}" data-symbol="{{ _sym }}">
           <div class="row">
@@ -102,84 +119,108 @@
             </div>
           </div>
 
-          <!-- 常時表示のコンパクトバッジ -->
-          <div class="badges">
-            <div class="badge"><strong>Total</strong>{{ pts | int }}/1000</div>
-            {% if trends_raw is not none and trends_raw > 0 %}
-              <div class="badge">
-                <strong>Trends</strong>
-                {{ "%.2f"|format(trends_raw) }}× vs baseline
-                (Rank {{ trends_rank or "-" }}/{{ symbols|length if symbols is defined else 20 }})
-              </div>
-            {% else %}
-              <div class="badge"><strong>Trends</strong>–</div>
-            {% endif %}
-
-            {% if item.news_buzz_mult is defined and item.news_buzz_mult is not none %}
-              <div class="badge">
-                <strong>News</strong>
-                {{ "%.2f"|format(item.news_buzz_mult | default(0, true)) }}× buzz
-                (Rank {{ item.news_buzz_rank | default("-", true) }}/{{ symbols|length if symbols is defined else 20 }})
-                {% if item.news_sent is defined %}
-                  · Sentiment {{ "%+.2f"|format(item.news_sent | default(0, true)) }}
-                {% endif %}
-              </div>
-            {% else %}
-              <div class="badge"><strong>News</strong>–</div>
-            {% endif %}
+          <!-- compact chips (always visible) -->
+          <div class="chips">
+            <div class="chip">
+              <strong>Trends</strong>
+              {% if tr_mult is not none and tr_rank is not none %}
+                {{ "%.2f"|format(tr_mult) }}× <span class="explain">(Rank {{ tr_rank }})</span>
+              {% elif tr_mult is none and (item.trends_breakout | default(0,true)) > 0 %}
+                score {{ "%.2f"|format(item.trends_breakout) }} <span class="explain">(percentile)</span>
+              {% else %}
+                — <span class="explain">(no signal)</span>
+              {% endif %}
+            </div>
+            <div class="chip">
+              <strong>News</strong>
+              {% if nw_rank is not none and news_s > 0 %}
+                score {{ "%.2f"|format(news_s) }} <span class="explain">(Rank {{ nw_rank }})</span>
+              {% elif news_s > 0 %}
+                score {{ "%.2f"|format(news_s) }} <span class="explain">(percentile)</span>
+              {% else %}
+                — <span class="explain">(no signal)</span>
+              {% endif %}
+            </div>
           </div>
-          
+
           <div class="tabs">
-            <div class="tab-buttons">
-              <button class="tab-btn" data-target="#ov-{{ loop.index }}">Overview</button>
-              <button class="tab-btn" data-target="#tech-{{ loop.index }}">Technical snapshot</button>
+            <div class="tab-toggle">
+              <button class="toggle-btn" data-target="#ov-{{ loop.index }}">Overview</button>
+              <button class="toggle-btn" data-target="#tech-{{ loop.index }}">Technical snapshot</button>
             </div>
 
-            <!-- Overview: デフォルト非表示 -->
+            <!-- Overview: click to open/close -->
             <div id="ov-{{ loop.index }}" class="tab">
               <div class="badges">
+                <div class="badge"><strong>Total score</strong>{{ pts | int }}/1000</div>
                 <div class="badge"><strong>Volume anomaly</strong>{{ "%.2f"|format(item.vol_anomaly_score | default(0, true)) }}</div>
                 {% if (item.insider_momo | default(0, true)) > 0 %}
                   <div class="badge"><strong>Insider momo</strong>{{ "%.2f"|format(item.insider_momo | default(0, true)) }}</div>
                 {% else %}
                   <div class="no-insider">✦ No recent insider buying detected</div>
                 {% endif %}
+                {% if (item.trends_breakout | default(0, true)) > 0 %}
+                  <div class="badge"><strong>Trends breakout</strong>{{ "%.2f"|format(item.trends_breakout | default(0, true)) }}</div>
+                {% endif %}
+                {% if (item.news_score | default(0, true)) > 0 %}
+                  <div class="badge"><strong>News</strong>{{ "%.2f"|format(item.news_score | default(0, true)) }}</div>
+                {% endif %}
               </div>
 
+              <!-- スコアブレークダウン -->
               <table class="table js-breakdown">
-                <thead><tr><th>Component</th><th class="right">Value (0–1)</th><th class="right">Weight</th><th class="right">Contribution (pts)</th></tr></thead>
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Value (0–1)</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
                 <tbody></tbody>
-                <tfoot><tr><th colspan="3" class="right">Total</th><th class="right"><span class="js-total">{{ pts | int }}</span></th></tr></tfoot>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">{{ pts | int }}</span></th>
+                  </tr>
+                </tfoot>
               </table>
 
+              <!-- 詳細：Volume anomaly -->
               <details>
                 <summary>Volume anomaly details</summary>
                 {% if vol %}
+                  {% set rvol20 = vol.get('rvol20') %}
+                  {% set z60 = vol.get('z60') %}
+                  {% set pr90 = vol.get('pct_rank_90') %}
+                  {% set dv = vol.get('dollar_vol') %}
+                  {% set eligible = vol.get('eligible') %}
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>{{ vol.get('rvol20') is not none and "%.2f"|format(vol.get('rvol20')) or "-" }}</div>
-                    <div><span class="k">Z60</span><br>{{ vol.get('z60') is not none and "%.2f"|format(vol.get('z60')) or "-" }}</div>
-                    <div><span class="k">PctRank90</span><br>{{ vol.get('pct_rank_90') is not none and "%.2f"|format(vol.get('pct_rank_90')) or "-" }}</div>
-                    <div><span class="k">DollarVol</span><br>{% if vol.get('dollar_vol') is not none %}${{ "%.1f"|format(vol.get('dollar_vol')/1_000_000) }}M{% else %}-{% endif %}</div>
-                    <div><span class="k">Eligible</span><br>{{ vol.get('eligible') and "Yes" or "No" }}</div>
+                    <div><span class="k">RVOL20</span><br>{{ rvol20 is not none and "%.2f"|format(rvol20) or "-" }}</div>
+                    <div><span class="k">Z60</span><br>{{ z60 is not none and "%.2f"|format(z60) or "-" }}</div>
+                    <div><span class="k">PctRank90</span><br>{{ pr90 is not none and "%.2f"|format(pr90) or "-" }}</div>
+                    <div><span class="k">DollarVol</span><br>{% if dv is not none %}${{ "%.1f"|format(dv/1_000_000) }}M{% else %}-{% endif %}</div>
+                    <div><span class="k">Eligible</span><br>{{ eligible and "Yes" or "No" }}</div>
                   </div>
                 {% else %}
-                  <div class="muted">詳細データはありません。</div>
+                  <div class="muted">No details.</div>
                 {% endif %}
               </details>
 
+              <!-- Insider details (Form 4) -->
               <details class="js-insider">
                 <summary>Insider details (Form 4)</summary>
-                <div class="muted">読み込み中…</div>
+                <div class="muted">Loading…</div>
               </details>
             </div>
 
-            <!-- Technical -->
+            <!-- Technical: 週足チャート -->
             <div id="tech-{{ loop.index }}" class="tab">
               <img src="{{ chart_url }}" alt="{{ _sym }} weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
-          <!-- JSON payload for JS -->
+          <!-- Payload for JS -->
           <script type="application/json" class="js-payload">
           {{ {
             "symbol": _sym,
@@ -189,8 +230,10 @@
             "score_pts": pts | int,
             "insider_momo": item.insider_momo | default(0, true),
             "trends_breakout": item.trends_breakout | default(0, true),
-            "trends_raw": trends_raw,
-            "trends_rank": trends_rank,
+            "trends_multiplier": tr_mult,
+            "trends_rank": tr_rank,
+            "news_score": item.news_score | default(0, true),
+            "news_rank": nw_rank,
             "vol_anomaly_score": item.vol_anomaly_score | default(0, true)
           } | tojson }}
           </script>
@@ -203,30 +246,29 @@
   </div>
 
   <script>
-    function bindTabs(scope = document) {
-      scope.querySelectorAll(".tab-buttons").forEach(btns => {
-        btns.querySelectorAll(".tab-btn").forEach(btn => {
+    // Overview: click again to close
+    function bindToggles(scope = document) {
+      scope.querySelectorAll(".tab-toggle").forEach(group => {
+        group.querySelectorAll(".toggle-btn").forEach(btn => {
           btn.addEventListener("click", () => {
             const card = btn.closest(".card");
-            const targetSel = btn.getAttribute("data-target");
-            const target = card.querySelector(targetSel);
-            const isActive = btn.classList.contains("active");
-
-            // 全部閉じる
-            btns.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+            const target = card.querySelector(btn.getAttribute("data-target"));
+            const isActive = target.classList.contains("active");
+            // deactivate all
+            group.querySelectorAll(".toggle-btn").forEach(b => b.classList.remove("active"));
             card.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-
-            if (!isActive && target) {
+            // toggle clicked
+            if (!isActive) {
               btn.classList.add("active");
               target.classList.add("active");
             }
-            // isActive なら閉じたまま
           });
         });
       });
     }
-    bindTabs(document);
+    bindToggles(document);
 
+    // Score breakdown (normalize weights over present components)
     function fillBreakdown() {
       document.querySelectorAll(".card").forEach(card => {
         const payloadEl = card.querySelector(".js-payload");
@@ -242,24 +284,34 @@
         if (!tbody) return;
         tbody.innerHTML = "";
         let totalPts = 0;
+
         const label = (k) => ({
           volume_anomaly: "Volume anomaly",
           insider_momo: "Insider momentum",
-          trends_breakout: "Trends breakout"
+          trends_breakout: "Trends breakout",
+          news: "News",
         }[k] || k);
+
         keys.forEach(k => {
           const v = Math.max(0, Math.min(1, Number(comps[k] || 0)));
           const wn = Math.max(0, Number(weights[k] || 0)) / wsum;
           const pts = Math.round(v * wn * 1000);
           totalPts += pts;
           const tr = document.createElement("tr");
-          tr.innerHTML = `<td>${label(k)}</td><td class="right">${v.toFixed(2)}</td><td class="right">${(wn*100).toFixed(0)}%</td><td class="right">${pts}</td>`;
+          tr.innerHTML = `
+            <td>${label(k)}</td>
+            <td class="right">${v.toFixed(2)}</td>
+            <td class="right">${(wn*100).toFixed(0)}%</td>
+            <td class="right">${pts}</td>
+          `;
           tbody.appendChild(tr);
         });
+
         if (totalEl) totalEl.textContent = String(totalPts);
       });
     }
 
+    // Insider details from JSON
     async function fillInsiderDetails() {
       try {
         const res = await fetch(`/data/insider/form4_latest.json`, { cache: "no-store" });
@@ -288,7 +340,7 @@
           `;
           box.innerHTML = html;
         });
-      } catch (e) {
+      } catch {
         document.querySelectorAll(".js-insider").forEach(box => {
           box.innerHTML = `<summary>Insider details (Form 4)</summary><div class="muted">Load failed</div>`;
         });
