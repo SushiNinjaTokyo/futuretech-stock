@@ -76,8 +76,7 @@
         {% set _name = item.name   | default('', true) %}
         {% set rank = (item.rank | default(loop.index, true)) %}
         {% set chart_url = (item.chart_url | default('/charts/' ~ (date | default('', true)) ~ '/' ~ _sym ~ '.png', true)) %}
-        {% set base0_1 = item.final_score_0_1 | default(item._anomaly_score | default(0, true), true) %}
-        {% set pts = item.score_pts | default((base0_1 * 1000) | round(0, 'common'), true) %}
+        {% set pts = item.score_pts | default(( (item.final_score_0_1 | default(0, true)) * 1000 ) | round(0, 'common'), true) %}
         {% set vol = (item.detail.vol_anomaly if (item.detail is defined and item.detail and item.detail.vol_anomaly is defined) else none) %}
         {% set tier = 'other' %}
         {% if rank == 1 %}{% set tier = 'gold' %}
@@ -86,7 +85,7 @@
 
         {% set trends_raw  = item.trends_raw  | default(none, true) %}
         {% set trends_rank = item.trends_rank | default(none, true) %}
-        {% set trends_s01  = item.trends_breakout | default(0, true) %}
+        {% set universe_n  = top10|length %}
 
         <div class="card" id="card-{{ loop.index }}" data-symbol="{{ _sym }}">
           <div class="row">
@@ -103,24 +102,27 @@
             </div>
           </div>
 
-          <!-- 常時表示のコンパクトなバッジ（Trends: 倍率 × (Rank) など） -->
+          <!-- 常時表示のコンパクトバッジ -->
           <div class="badges">
             <div class="badge"><strong>Total</strong>{{ pts | int }}/1000</div>
             {% if trends_raw is not none and trends_raw > 0 %}
               <div class="badge">
-                <strong>Trends</strong>{{ "%.2f"|format(trends_raw) }}× ({{ trends_rank or "-" }})
+                <strong>Trends</strong>
+                {{ "%.2f"|format(trends_raw) }}× vs baseline
+                (Rank {{ trends_rank or "-" }}/{{ symbols|length if symbols is defined else 20 }})
               </div>
+            {% else %}
+              <div class="badge"><strong>Trends</strong>–</div>
             {% endif %}
           </div>
 
           <div class="tabs">
             <div class="tab-buttons">
-              <!-- どちらもデフォルトでは active にしない（選択したら開く） -->
               <button class="tab-btn" data-target="#ov-{{ loop.index }}">Overview</button>
               <button class="tab-btn" data-target="#tech-{{ loop.index }}">Technical snapshot</button>
             </div>
 
-            <!-- Overview: スコア内訳 + 詳細（デフォルト非表示） -->
+            <!-- Overview: デフォルト非表示 -->
             <div id="ov-{{ loop.index }}" class="tab">
               <div class="badges">
                 <div class="badge"><strong>Volume anomaly</strong>{{ "%.2f"|format(item.vol_anomaly_score | default(0, true)) }}</div>
@@ -129,44 +131,23 @@
                 {% else %}
                   <div class="no-insider">✦ No recent insider buying detected</div>
                 {% endif %}
-                {% if trends_s01 > 0 %}
-                  <div class="badge"><strong>Trends breakout (pct)</strong>{{ "%.2f"|format(trends_s01) }}</div>
-                {% endif %}
               </div>
 
               <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Value (0–1)</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
+                <thead><tr><th>Component</th><th class="right">Value (0–1)</th><th class="right">Weight</th><th class="right">Contribution (pts)</th></tr></thead>
                 <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">{{ pts | int }}</span></th>
-                  </tr>
-                </tfoot>
+                <tfoot><tr><th colspan="3" class="right">Total</th><th class="right"><span class="js-total">{{ pts | int }}</span></th></tr></tfoot>
               </table>
 
               <details>
                 <summary>Volume anomaly details</summary>
                 {% if vol %}
-                  {% set rvol20 = vol.get('rvol20') %}
-                  {% set z60 = vol.get('z60') %}
-                  {% set pr90 = vol.get('pct_rank_90') %}
-                  {% set dv = vol.get('dollar_vol') %}
-                  {% set eligible = vol.get('eligible') %}
-                
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>{{ rvol20 is not none and "%.2f"|format(rvol20) or "-" }}</div>
-                    <div><span class="k">Z60</span><br>{{ z60 is not none and "%.2f"|format(z60) or "-" }}</div>
-                    <div><span class="k">PctRank90</span><br>{{ pr90 is not none and "%.2f"|format(pr90) or "-" }}</div>
-                    <div><span class="k">DollarVol</span><br>{% if dv is not none %}${{ "%.1f"|format(dv/1_000_000) }}M{% else %}-{% endif %}</div>
-                    <div><span class="k">Eligible</span><br>{{ eligible and "Yes" or "No" }}</div>
+                    <div><span class="k">RVOL20</span><br>{{ vol.get('rvol20') is not none and "%.2f"|format(vol.get('rvol20')) or "-" }}</div>
+                    <div><span class="k">Z60</span><br>{{ vol.get('z60') is not none and "%.2f"|format(vol.get('z60')) or "-" }}</div>
+                    <div><span class="k">PctRank90</span><br>{{ vol.get('pct_rank_90') is not none and "%.2f"|format(vol.get('pct_rank_90')) or "-" }}</div>
+                    <div><span class="k">DollarVol</span><br>{% if vol.get('dollar_vol') is not none %}${{ "%.1f"|format(vol.get('dollar_vol')/1_000_000) }}M{% else %}-{% endif %}</div>
+                    <div><span class="k">Eligible</span><br>{{ vol.get('eligible') and "Yes" or "No" }}</div>
                   </div>
                 {% else %}
                   <div class="muted">詳細データはありません。</div>
@@ -179,7 +160,7 @@
               </details>
             </div>
 
-            <!-- Technical: 週足チャート（デフォルト非表示） -->
+            <!-- Technical -->
             <div id="tech-{{ loop.index }}" class="tab">
               <img src="{{ chart_url }}" alt="{{ _sym }} weekly chart" class="chart" loading="lazy" />
             </div>
@@ -194,7 +175,7 @@
             "final_score_0_1": item.final_score_0_1 | default(0, true),
             "score_pts": pts | int,
             "insider_momo": item.insider_momo | default(0, true),
-            "trends_breakout": trends_s01,
+            "trends_breakout": item.trends_breakout | default(0, true),
             "trends_raw": trends_raw,
             "trends_rank": trends_rank,
             "vol_anomaly_score": item.vol_anomaly_score | default(0, true)
@@ -214,11 +195,19 @@
         btns.querySelectorAll(".tab-btn").forEach(btn => {
           btn.addEventListener("click", () => {
             const card = btn.closest(".card");
+            const targetSel = btn.getAttribute("data-target");
+            const target = card.querySelector(targetSel);
+            const isActive = btn.classList.contains("active");
+
+            // 全部閉じる
             btns.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
             card.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-            const target = card.querySelector(btn.getAttribute("data-target"));
-            if (target) target.classList.add("active");
+
+            if (!isActive && target) {
+              btn.classList.add("active");
+              target.classList.add("active");
+            }
+            // isActive なら閉じたまま
           });
         });
       });
@@ -240,25 +229,18 @@
         if (!tbody) return;
         tbody.innerHTML = "";
         let totalPts = 0;
-
         const label = (k) => ({
           volume_anomaly: "Volume anomaly",
           insider_momo: "Insider momentum",
-          trends_breakout: "Trends breakout",
+          trends_breakout: "Trends breakout"
         }[k] || k);
-
         keys.forEach(k => {
           const v = Math.max(0, Math.min(1, Number(comps[k] || 0)));
           const wn = Math.max(0, Number(weights[k] || 0)) / wsum;
           const pts = Math.round(v * wn * 1000);
           totalPts += pts;
           const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${label(k)}</td>
-            <td class="right">${v.toFixed(2)}</td>
-            <td class="right">${(wn*100).toFixed(0)}%</td>
-            <td class="right">${pts}</td>
-          `;
+          tr.innerHTML = `<td>${label(k)}</td><td class="right">${v.toFixed(2)}</td><td class="right">${(wn*100).toFixed(0)}%</td><td class="right">${pts}</td>`;
           tbody.appendChild(tr);
         });
         if (totalEl) totalEl.textContent = String(totalPts);
@@ -277,7 +259,7 @@
           if (!box) return;
           const rec = items[sym];
           if (!rec) {
-            box.innerHTML = `<summary>Insider details (Form 4)</summary><div class="muted">データなし</div>`;
+            box.innerHTML = `<summary>Insider details (Form 4)</summary><div class="muted">No data</div>`;
             return;
           }
           const html = `
@@ -295,7 +277,7 @@
         });
       } catch (e) {
         document.querySelectorAll(".js-insider").forEach(box => {
-          box.innerHTML = `<summary>Insider details (Form 4)</summary><div class="muted">読み込みに失敗しました</div>`;
+          box.innerHTML = `<summary>Insider details (Form 4)</summary><div class="muted">Load failed</div>`;
         });
       }
     }
