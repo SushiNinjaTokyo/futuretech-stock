@@ -11,15 +11,15 @@
     },
     "MSFT": {
       "query": "Microsoft Corporation",
-      "raw_breakout": 0.505175983436853,
+      "raw_breakout": 0.5093167701863355,
       "score_0_1": 0.7272727272727273,
       "rank": 4
     },
     "PLTR": {
       "query": "Palantir Technologies Inc.",
       "raw_breakout": 714285714.2857143,
-      "score_0_1": 1.0,
-      "rank": 1
+      "score_0_1": 0.9090909090909091,
+      "rank": 2
     },
     "AI": {
       "query": "C3.ai, Inc.",
@@ -119,9 +119,9 @@
     },
     "VRT": {
       "query": "Vertiv Holdings Co",
-      "raw_breakout": 714285714.2857143,
+      "raw_breakout": 1571428571.4285712,
       "score_0_1": 1.0,
-      "rank": 2
+      "rank": 1
     }
   }
 }

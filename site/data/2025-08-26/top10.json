@@ -1,14 +1,14 @@
 [
   {
-    "symbol": "PLTR",
-    "name": "Palantir Technologies Inc.",
+    "symbol": "VRT",
+    "name": "Vertiv Holdings Co",
     "theme": "AI",
     "final_score_0_1": 0.2,
     "score_pts": 200,
     "vol_anomaly_score": 0.0,
     "insider_momo": 0.0,
     "trends_breakout": 1.0,
-    "trends_raw": 714285714.2857143,
+    "trends_raw": 1571428571.4285712,
     "trends_rank": 1,
     "score_components": {
       "volume_anomaly": 0.0,
@@ -26,24 +26,24 @@
         "eligible": false
       }
     },
-    "chart_url": "/charts/2025-08-26/PLTR.png",
+    "chart_url": "/charts/2025-08-26/VRT.png",
     "rank": 1
   },
   {
-    "symbol": "VRT",
-    "name": "Vertiv Holdings Co",
+    "symbol": "PLTR",
+    "name": "Palantir Technologies Inc.",
     "theme": "AI",
-    "final_score_0_1": 0.2,
-    "score_pts": 200,
+    "final_score_0_1": 0.18181818181818182,
+    "score_pts": 182,
     "vol_anomaly_score": 0.0,
     "insider_momo": 0.0,
-    "trends_breakout": 1.0,
+    "trends_breakout": 0.9090909090909091,
     "trends_raw": 714285714.2857143,
     "trends_rank": 2,
     "score_components": {
       "volume_anomaly": 0.0,
       "insider_momo": 0.0,
-      "trends_breakout": 1.0
+      "trends_breakout": 0.9090909090909091
     },
     "score_weights": {
       "volume_anomaly": 0.6,
@@ -56,7 +56,7 @@
         "eligible": false
       }
     },
-    "chart_url": "/charts/2025-08-26/VRT.png",
+    "chart_url": "/charts/2025-08-26/PLTR.png",
     "rank": 2
   },
   {
@@ -98,7 +98,7 @@
     "vol_anomaly_score": 0.0,
     "insider_momo": 0.0,
     "trends_breakout": 0.7272727272727273,
-    "trends_raw": 0.505175983436853,
+    "trends_raw": 0.5093167701863355,
     "trends_rank": 4,
     "score_components": {
       "volume_anomaly": 0.0,
