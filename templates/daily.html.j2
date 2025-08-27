@@ -5,11 +5,7 @@
   <title>futuretech-stock — Daily Top 10 ({{ date | default('', true) }})</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      --bg: #ffffff; --fg: #0f172a; --muted: #64748b; --border: #e5e7eb;
-      --gold: #f59e0b; --silver: #0f172a; --bronze:#fb923c;
-      --chip:#f3f4f6;
-    }
+    :root { --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb; --gold:#f59e0b; --silver:#0f172a; --bronze:#fb923c; --chip:#f3f4f6; }
     body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: var(--bg); color: var(--fg);}
     .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
     header { margin-bottom: 16px; }
@@ -23,10 +19,10 @@
     .row { display:flex; align-items:center; justify-content:space-between; }
     .sym { display:flex; align-items:center; gap:10px; }
     .rank { width: 36px; height: 36px; border-radius: 999px; display:flex; align-items:center; justify-content:center; font-weight: 800; font-size: 13px; }
-    .rank.gold   { background: var(--gold); color: #fff; }
+    .rank.gold { background: var(--gold); color: #fff; }
     .rank.silver { background: var(--silver); color: #fff; }
     .rank.bronze { background: var(--bronze); color: #fff; }
-    .rank.other  { background: #f3f4f6; color: #111827; }
+    .rank.other { background: #f3f4f6; color: #111827; }
 
     .symbol { font-size: 20px; font-weight: 700; }
     .name { font-size:12px; color: var(--muted); }
@@ -35,16 +31,16 @@
     .score .num { font-size: 34px; font-weight: 900; line-height: 1; letter-spacing: -0.5px; }
     .score .den { font-size: 11px; color: var(--muted); }
 
+    .badges { display:flex; flex-wrap:wrap; gap:8px; margin-top: 10px; }
+    .badge { border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; background: var(--chip); }
+    .badge strong { margin-right:6px; color: var(--muted); font-weight: 500; }
+
     .tabs { margin-top:12px; }
     .tab-buttons { display:flex; gap:8px; margin-bottom:8px; }
     .tab-btn { border:1px solid var(--border); border-radius:999px; padding:6px 10px; font-size:12px; background:#fff; cursor:pointer; }
     .tab-btn.active { background:#000; color:#fff; border-color:#000; }
     .tab { display:none; }
     .tab.active { display:block; }
-
-    .badges { display:flex; flex-wrap:wrap; gap:8px; margin-bottom: 8px; }
-    .badge { border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; background: var(--chip); }
-    .badge strong { margin-right:6px; color: var(--muted); font-weight: 500; }
 
     .chart { width: 100%; border:1px solid var(--border); border-radius: 10px; }
 
@@ -53,22 +49,16 @@
     .table th { color: var(--muted); font-weight: 600; }
     .right { text-align: right; }
     .muted { color: var(--muted); }
+
     details { margin-top: 8px; background:#fafafa; border:1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
     details > summary { cursor:pointer; font-size: 12px; color:#111; user-select: none; }
     .kv { display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-top:8px; }
     .kv div { font-size:12px; background:#fff; border:1px solid var(--border); border-radius:8px; padding:6px 8px; }
     .kv .k { color: var(--muted); }
-    
+
     .no-insider {
-      flex: 1;
-      background: #f9fafb;
-      border: 1px dashed #d1d5db;
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 13px;
-      color: #6b7280;
-      font-style: italic;
-      text-align: center;
+      flex: 1; background: #f9fafb; border: 1px dashed #d1d5db; border-radius: 12px;
+      padding: 10px 12px; font-size: 13px; color: #6b7280; font-style: italic; text-align: center;
     }
   </style>
 </head>
@@ -76,7 +66,7 @@
   <div class="wrap">
     <header>
       <h1>futuretech-stock — Daily Top 10</h1>
-      <div class="sub">Date: {{ date | default('', true) }} / Scoring: 1000 pts（現在は出来高＋Insider＋Trends。将来さらに拡張）</div>
+      <div class="sub">Date: {{ date | default('', true) }} / Scoring: 1000 pts（現在は出来高＋Insider＋Trends）</div>
     </header>
 
     {% if top10 is defined %}
@@ -94,6 +84,10 @@
         {% elif rank == 2 %}{% set tier = 'silver' %}
         {% elif rank == 3 %}{% set tier = 'bronze' %}{% endif %}
 
+        {% set trends_raw  = item.trends_raw  | default(none, true) %}
+        {% set trends_rank = item.trends_rank | default(none, true) %}
+        {% set trends_s01  = item.trends_breakout | default(0, true) %}
+
         <div class="card" id="card-{{ loop.index }}" data-symbol="{{ _sym }}">
           <div class="row">
             <div class="sym">
@@ -109,28 +103,37 @@
             </div>
           </div>
 
+          <!-- 常時表示のコンパクトなバッジ（Trends: 倍率 × (Rank) など） -->
+          <div class="badges">
+            <div class="badge"><strong>Total</strong>{{ pts | int }}/1000</div>
+            {% if trends_raw is not none and trends_raw > 0 %}
+              <div class="badge">
+                <strong>Trends</strong>{{ "%.2f"|format(trends_raw) }}× ({{ trends_rank or "-" }})
+              </div>
+            {% endif %}
+          </div>
+
           <div class="tabs">
             <div class="tab-buttons">
-              <button class="tab-btn active" data-target="#ov-{{ loop.index }}">Overview</button>
+              <!-- どちらもデフォルトでは active にしない（選択したら開く） -->
+              <button class="tab-btn" data-target="#ov-{{ loop.index }}">Overview</button>
               <button class="tab-btn" data-target="#tech-{{ loop.index }}">Technical snapshot</button>
             </div>
 
-            <!-- Overview: スコア内訳 + 詳細 -->
-            <div id="ov-{{ loop.index }}" class="tab active">
+            <!-- Overview: スコア内訳 + 詳細（デフォルト非表示） -->
+            <div id="ov-{{ loop.index }}" class="tab">
               <div class="badges">
-                <div class="badge"><strong>Total score</strong>{{ pts | int }}/1000</div>
                 <div class="badge"><strong>Volume anomaly</strong>{{ "%.2f"|format(item.vol_anomaly_score | default(0, true)) }}</div>
                 {% if (item.insider_momo | default(0, true)) > 0 %}
                   <div class="badge"><strong>Insider momo</strong>{{ "%.2f"|format(item.insider_momo | default(0, true)) }}</div>
                 {% else %}
                   <div class="no-insider">✦ No recent insider buying detected</div>
                 {% endif %}
-                {% if (item.trends_breakout | default(0, true)) > 0 %}
-                  <div class="badge"><strong>Trends breakout</strong>{{ "%.2f"|format(item.trends_breakout | default(0, true)) }}</div>
+                {% if trends_s01 > 0 %}
+                  <div class="badge"><strong>Trends breakout (pct)</strong>{{ "%.2f"|format(trends_s01) }}</div>
                 {% endif %}
               </div>
 
-              <!-- スコアブレークダウン（正規化重みで寄与点を再計算） -->
               <table class="table js-breakdown">
                 <thead>
                   <tr>
@@ -140,9 +143,7 @@
                     <th class="right">Contribution (pts)</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <!-- JSで埋め込み -->
-                </tbody>
+                <tbody></tbody>
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
@@ -151,7 +152,6 @@
                 </tfoot>
               </table>
 
-              <!-- 詳細：Volume anomaly -->
               <details>
                 <summary>Volume anomaly details</summary>
                 {% if vol %}
@@ -165,30 +165,27 @@
                     <div><span class="k">RVOL20</span><br>{{ rvol20 is not none and "%.2f"|format(rvol20) or "-" }}</div>
                     <div><span class="k">Z60</span><br>{{ z60 is not none and "%.2f"|format(z60) or "-" }}</div>
                     <div><span class="k">PctRank90</span><br>{{ pr90 is not none and "%.2f"|format(pr90) or "-" }}</div>
-                    <div><span class="k">DollarVol</span><br>
-                      {% if dv is not none %}${{ "%.1f"|format(dv/1_000_000) }}M{% else %}-{% endif %}
-                    </div>
+                    <div><span class="k">DollarVol</span><br>{% if dv is not none %}${{ "%.1f"|format(dv/1_000_000) }}M{% else %}-{% endif %}</div>
                     <div><span class="k">Eligible</span><br>{{ eligible and "Yes" or "No" }}</div>
                   </div>
                 {% else %}
-                <div class="muted">詳細データはありません。</div>
+                  <div class="muted">詳細データはありません。</div>
                 {% endif %}
               </details>
 
-              <!-- 詳細：Insider（Form 4）— 後段JSが insider JSON から補完 -->
               <details class="js-insider">
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">読み込み中…</div>
               </details>
             </div>
 
-            <!-- Technical: 週足チャート -->
+            <!-- Technical: 週足チャート（デフォルト非表示） -->
             <div id="tech-{{ loop.index }}" class="tab">
               <img src="{{ chart_url }}" alt="{{ _sym }} weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
-          <!-- JSONデータを JS が読む（Undefined/Noneを安全化） -->
+          <!-- JSON payload for JS -->
           <script type="application/json" class="js-payload">
           {{ {
             "symbol": _sym,
@@ -197,17 +194,17 @@
             "final_score_0_1": item.final_score_0_1 | default(0, true),
             "score_pts": pts | int,
             "insider_momo": item.insider_momo | default(0, true),
-            "trends_breakout": item.trends_breakout | default(0, true),
+            "trends_breakout": trends_s01,
+            "trends_raw": trends_raw,
+            "trends_rank": trends_rank,
             "vol_anomaly_score": item.vol_anomaly_score | default(0, true)
           } | tojson }}
           </script>
         </div>
       {% endfor %}
     </div>
-
     {% else %}
-    <!-- クライアント描画フォールバック（必要ならJSでカードを描画） -->
-    <div id="cards" class="grid"></div>
+      <div id="cards" class="grid"></div>
     {% endif %}
   </div>
 
@@ -228,7 +225,6 @@
     }
     bindTabs(document);
 
-    // --- スコア内訳テーブル：存在する要素のみ重み正規化 → 1000点換算
     function fillBreakdown() {
       document.querySelectorAll(".card").forEach(card => {
         const payloadEl = card.querySelector(".js-payload");
@@ -249,8 +245,6 @@
           volume_anomaly: "Volume anomaly",
           insider_momo: "Insider momentum",
           trends_breakout: "Trends breakout",
-          news: "News",
-          inst_delta: "Institutional ownership Δ",
         }[k] || k);
 
         keys.forEach(k => {
@@ -267,13 +261,11 @@
           `;
           tbody.appendChild(tr);
         });
-
         if (totalEl) totalEl.textContent = String(totalPts);
       });
     }
 
-    // --- Insider details を EDGAR 集計JSONから補完表示
-    async function fillInsiderDetails(asOfDate) {
+    async function fillInsiderDetails() {
       try {
         const res = await fetch(`/data/insider/form4_latest.json`, { cache: "no-store" });
         if (!res.ok) throw new Error("fetch insider json failed");
@@ -309,7 +301,7 @@
     }
 
     fillBreakdown();
-    fillInsiderDetails("{{ date | default('', true) }}");
+    fillInsiderDetails();
   </script>
 </body>
 </html>
