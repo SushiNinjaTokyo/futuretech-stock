@@ -256,10 +256,10 @@ def main():
         vol = compute_volume_anomaly(df)
         vol_score = float(vol.get("score") or 0.0)
 
-        # Trends 0..1
+        # Trends breakout 0..1  （fetch_trends.py が出すキーは score_0_1）
         tr = trends_items.get(sym) or {}
-        # fetch_trends.py の出力キーに合わせる（score_0_1 or score）
-        trends_breakout = float(tr.get("score_0_1", tr.get("score", 0.0)) or 0.0)
+        trends_breakout = float(tr.get("score_0_1") or 0.0)
+
 
         # Insider momentum 0..1（30 日スコアを採用）
         f4 = form4_items.get(sym) or {}
