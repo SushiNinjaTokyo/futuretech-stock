@@ -114,8 +114,21 @@
             {% else %}
               <div class="badge"><strong>Trends</strong>–</div>
             {% endif %}
-          </div>
 
+            {% if item.news_buzz_mult is defined and item.news_buzz_mult is not none %}
+              <div class="badge">
+                <strong>News</strong>
+                {{ "%.2f"|format(item.news_buzz_mult | default(0, true)) }}× buzz
+                (Rank {{ item.news_buzz_rank | default("-", true) }}/{{ symbols|length if symbols is defined else 20 }})
+                {% if item.news_sent is defined %}
+                  · Sentiment {{ "%+.2f"|format(item.news_sent | default(0, true)) }}
+                {% endif %}
+              </div>
+            {% else %}
+              <div class="badge"><strong>News</strong>–</div>
+            {% endif %}
+          </div>
+          
           <div class="tabs">
             <div class="tab-buttons">
               <button class="tab-btn" data-target="#ov-{{ loop.index }}">Overview</button>
