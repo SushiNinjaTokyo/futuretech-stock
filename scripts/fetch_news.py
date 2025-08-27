@@ -1,257 +1,307 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-News fetcher (Google News RSS) + light sentiment
-- No API key required (RSS)
-- Safe rate limiting & robust parsing
-- Outputs:
-  site/data/news/latest.json
-  site/data/<REPORT_DATE>/news.json
-Schema (per symbol):
-  {
-    "query": "...",
-    "articles": N (recent window),
-    "recent7": <int>,
-    "prior28": <int>,
-    "breakout_ratio": <float or null>,
-    "avg_compound": <float>,   # [-1..1] VADER compound mean (title+summary)
-    "pos_share": <float>,      # [0..1]
-    "neg_share": <float>,      # [0..1]
-    "raw_signal": <float or null>,  # breakout_ratio * max(avg_compound, 0)
-    "score_0_1": <float>,      # percentile within universe
-    "rank": <int>
-  }
+News fetcher (idempotent + lightweight)
+- Source: Google News RSS (free)
+- Per symbol: query by 'Company Name' or 'SYMBOL stock'
+- Scoring:
+   * Buzz (multiplier): recent 3d count / prior 28d average per 3d
+   * Sentiment (very lightweight lexicon) with freshness decay (7d half-life)
+- Normalization across universe: percentile ranks to 0..1
+- Idempotent: de-dup by (link/title) hash; keep a rolling window
+
+Outputs:
+- site/data/news/latest.json
+- site/data/{DATE}/news.json
+- site/cache/news_seen.json  (dedup set)
 """
-import os, time, json, math, pathlib, datetime, random, re
+
+import os, re, json, time, math, pathlib, datetime, hashlib, random
+from typing import Dict, List, Tuple
 from zoneinfo import ZoneInfo
-from urllib.parse import quote_plus
-import requests
-import feedparser
+
 import pandas as pd
-from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+import feedparser
+import requests
 
 # ---------------- Config ----------------
 OUT_DIR = os.getenv("OUT_DIR", "site")
 UNIVERSE_CSV = os.getenv("UNIVERSE_CSV", "data/universe.csv")
-DATE = os.getenv("REPORT_DATE") or datetime.datetime.now(ZoneInfo("America/New_York")).date().isoformat()
 
-# Google News params
-NEWS_LANG = os.getenv("NEWS_LANG", "en")
-NEWS_REGION = os.getenv("NEWS_REGION", "US")    # ceid=US:en / gl=US / hl=en
-NEWS_HL = f"{NEWS_LANG}-{NEWS_REGION}"
-NEWS_CEID = f"{NEWS_REGION}:{NEWS_LANG}"
-NEWS_GL = NEWS_REGION
+DATE = os.getenv("REPORT_DATE")
+if not DATE:
+    # Align to ET market date (after 18:00, use the same day; earlier, use previous bus. day)
+    now_et = datetime.datetime.now(ZoneInfo("America/New_York"))
+    dt = now_et.date()
+    if now_et.hour < 18:
+        dt = dt - datetime.timedelta(days=1)
+    while dt.weekday() >= 5:
+        dt = dt - datetime.timedelta(days=1)
+    DATE = dt.isoformat()
 
-# Window config
-RECENT_DAYS = int(os.getenv("NEWS_RECENT_DAYS", "7"))       # signal window
-PRIOR_DAYS  = int(os.getenv("NEWS_PRIOR_DAYS", "28"))       # baseline window
-LOOKBACK_DAYS = int(os.getenv("NEWS_LOOKBACK_DAYS", "35"))  # fetch range
-MAX_PER_QUERY = int(os.getenv("NEWS_MAX_PER_QUERY", "60"))  # just a safeguard
-SLEEP_BETWEEN = float(os.getenv("NEWS_SLEEP", "1.2"))
-JITTER = float(os.getenv("NEWS_JITTER", "0.6"))
+USER_AGENT = os.getenv("NEWS_USER_AGENT", "futuretech-stock/1.0 (+contact@example.com)")
+NEWS_SLEEP = float(os.getenv("NEWS_SLEEP", "1.2"))     # polite pause between queries
+NEWS_JITTER = float(os.getenv("NEWS_JITTER", "0.8"))   # random jitter
+NEWS_DAYS_KEEP = int(os.getenv("NEWS_DAYS_KEEP", "45"))  # keep window
+RECENT_DAYS = int(os.getenv("NEWS_RECENT_DAYS", "3"))     # 3d for buzz numerator
+LOOKBACK_DAYS = int(os.getenv("NEWS_LOOKBACK_DAYS", "31")) # 31d history for buzz denom
+MAX_PER_SYMBOL = int(os.getenv("NEWS_MAX_PER_SYMBOL", "60")) # cap loaded items per symbol per run
 
-# Query shaping
-QUERY_MODE = os.getenv("NEWS_QUERY_MODE", "name_or_symbol") # name_or_symbol | name_only | symbol_stock
-SITE_FILTER = os.getenv("NEWS_SITE_FILTER", "").strip()     # e.g. "site:bloomberg.com OR site:reuters.com"
+# Fallback positive/negative lexicon (tiny, lightweight)
+POS_WORDS = set(w.lower() for w in """
+beat beats beating bullish surge surges soaring soar record upgrade upgrades raised raises raise
+optimistic positive outperform outperforms outperformed strong stronger strongest rally rallies
+wins win winning growth expand expanding expansion breakthrough partnership partnerships
+""".split())
+NEG_WORDS = set(w.lower() for w in """
+miss misses missed bearish slump slumps plunges plunge collapse downgrade downgrades cut cuts cutting
+pessimistic negative underperform underperforms underperformed weak weaker weakest tumble tumbles
+lawsuit lawsuits probe probes investigation investigations recall recalls halt halts
+""".split())
 
-HDRS = {
-    "User-Agent": "Mozilla/5.0 (compatible; futuretech-stock/1.0; +https://example.com)"
-}
+HEADERS = {"User-Agent": USER_AGENT, "Accept": "text/html,application/rss+xml"}
 
-analyzer = SentimentIntensityAnalyzer()
+CACHE_DIR = pathlib.Path(OUT_DIR) / "cache"
+CACHE_DIR.mkdir(parents=True, exist_ok=True)
+SEEN_PATH = CACHE_DIR / "news_seen.json"
 
-def load_universe():
+def load_seen() -> set:
+    if SEEN_PATH.exists():
+        try:
+            return set(json.loads(SEEN_PATH.read_text()))
+        except Exception:
+            return set()
+    return set()
+
+def save_seen(seen: set):
+    try:
+        SEEN_PATH.write_text(json.dumps(sorted(list(seen))))
+    except Exception:
+        pass
+
+def load_universe() -> pd.DataFrame:
     df = pd.read_csv(UNIVERSE_CSV)
-    df["symbol"] = df["symbol"].astype(str).str.strip().str.upper()
-    df["name"] = df.get("name", pd.Series([""]*len(df))).fillna("").astype(str).str.strip()
-    return df[["symbol","name"]]
+    df["query"] = df.apply(lambda r: build_query(r), axis=1)
+    return df[["symbol","name","query"]]
 
-def build_query(sym: str, name: str) -> str:
-    """
-    Make a Google News query term. Keep it simple & conservative to avoid false positives.
-    """
-    q_base = ""
-    if QUERY_MODE == "name_only" and name:
-        q_base = f"\"{name}\""
-    elif QUERY_MODE == "symbol_stock" or (not name):
-        q_base = f"\"{sym}\" stock"
-    else:
-        # default
-        q_base = f"\"{name}\" OR (\"{sym}\" stock)"
-    if SITE_FILTER:
-        q_base = f"({q_base}) {SITE_FILTER}"
-    return q_base
+def build_query(row) -> str:
+    name = str(row.get("name","") or "").strip()
+    sym = str(row.get("symbol","") or "").strip().upper()
+    if name and name.lower() not in ("nan","none"):
+        # Google News検索は社名で十分ヒット
+        return f"{name}"
+    return f"{sym} stock"
 
-def gnews_rss_url(query: str) -> str:
-    q = quote_plus(query)
-    # Example:
-    # https://news.google.com/rss/search?q=QUERY&hl=en-US&gl=US&ceid=US:en
-    return f"https://news.google.com/rss/search?q={q}&hl={NEWS_HL}&gl={NEWS_GL}&ceid={NEWS_CEID}"
+def sleep_politely():
+    t = NEWS_SLEEP + random.uniform(0, NEWS_JITTER)
+    time.sleep(t)
 
-def fetch_feed(query: str):
-    url = gnews_rss_url(query)
-    try:
-        r = requests.get(url, headers=HDRS, timeout=30)
-        r.raise_for_status()
-        return feedparser.parse(r.text)
-    except Exception as e:
-        print(f"[WARN] feed fetch failed: {e}")
-        return {"entries": []}
+def fetch_rss(query: str) -> feedparser.FeedParserDict:
+    # Google News RSS 検索
+    # q= はURLエンコード不要でも動くが、念のためrequestsでpre-flight
+    base = "https://news.google.com/rss/search"
+    params = {"q": query, "hl":"en-US", "gl":"US", "ceid":"US:en"}
+    url = requests.Request("GET", base, params=params).prepare().url
+    return feedparser.parse(url, request_headers=HEADERS)
 
-def normalize_date(published):
-    # feedparser may already parse. Try published_parsed first.
-    try:
-        if hasattr(published, "tm_year"):
-            dt = datetime.datetime(*published[:6], tzinfo=datetime.timezone.utc).date()
-            return dt
-    except Exception:
-        pass
-    try:
-        # 'Tue, 27 Aug 2024 12:34:56 GMT' like
-        dt = feedparser.parse(f"Date: {published}").feed.get("updated_parsed")
-        if dt and hasattr(dt, "tm_year"):
-            return datetime.datetime(*dt[:6], tzinfo=datetime.timezone.utc).date()
-    except Exception:
-        pass
+def hash_id(title: str, link: str) -> str:
+    h = hashlib.sha1()
+    h.update((title or "").encode("utf-8"))
+    h.update((link or "").encode("utf-8"))
+    return h.hexdigest()
+
+def parse_datetime(entry) -> datetime.datetime|None:
+    # feedparser は published_parsed 等を持つことが多い
+    for key in ("published_parsed","updated_parsed"):
+        t = entry.get(key)
+        if t:
+            try:
+                return datetime.datetime(*t[:6], tzinfo=datetime.timezone.utc)
+            except Exception:
+                pass
+    # fallback: now
     return None
 
-def dedup_entries(entries):
-    seen = set()
-    out = []
-    for e in entries:
-        title = (e.get("title") or "").strip()
-        link = (e.get("link") or "").strip()
-        key = (title[:120].lower(), re.sub(r"[?#].*$","",link.lower()))
-        if key in seen: 
-            continue
-        seen.add(key)
-        out.append(e)
-    return out
-
-def series_counts_by_day(entries, start_date, end_date):
-    # Initialize day index
-    dates = pd.date_range(start=start_date, end=end_date, freq="D")
-    s = pd.Series(0, index=dates)
-    for e in entries:
-        dt = normalize_date(e.get("published_parsed") or e.get("published") or "")
-        if dt is None:
-            continue
-        if dt < start_date or dt > end_date:
-            continue
-        s.loc[pd.Timestamp(dt)] += 1
+def clean_text(s: str) -> str:
+    s = s or ""
+    s = re.sub(r"<[^>]+>", " ", s)
+    s = re.sub(r"\s+", " ", s).strip()
     return s
 
-def clean_text(x: str) -> str:
-    x = (x or "").strip()
-    x = re.sub(r"\s+", " ", x)
-    return x
+def simple_sentiment(text: str) -> float:
+    """ very light lexicon: (#pos - #neg)/sqrt(len_words); clip [-1,1] """
+    if not text:
+        return 0.0
+    toks = re.findall(r"[A-Za-z']+", text.lower())
+    if not toks:
+        return 0.0
+    pos = sum(1 for t in toks if t in POS_WORDS)
+    neg = sum(1 for t in toks if t in NEG_WORDS)
+    score = (pos - neg) / max(1.0, math.sqrt(len(toks)))
+    return max(-1.0, min(1.0, score))
 
-def sentiment_on_entry(e):
-    text = clean_text(e.get("title","")) + " " + clean_text(e.get("summary",""))
-    sc = analyzer.polarity_scores(text)
-    return sc.get("compound", 0.0)
+def et_date(dt_utc: datetime.datetime|None) -> datetime.date:
+    if not dt_utc:
+        # assume now UTC
+        dt_utc = datetime.datetime.now(datetime.timezone.utc)
+    # convert to ET
+    et = dt_utc.astimezone(ZoneInfo("America/New_York"))
+    return et.date()
 
-def pct_rank(vals, x):
-    arr = sorted([v for v in vals if isinstance(v,(int,float)) and not (isinstance(v,float) and math.isnan(v))])
-    if not arr or x is None or (isinstance(x,float) and math.isnan(x)):
+def pct_rank(vals: List[float], x: float|None) -> float:
+    arr = sorted([v for v in vals if isinstance(v, (int,float)) and not math.isnan(v)])
+    if not arr or x is None or (isinstance(x, float) and math.isnan(x)):
         return 0.0
     import bisect
     k = bisect.bisect_right(arr, x)
-    return k/len(arr)
+    return k / len(arr)
+
+def ensure_dirs(date_iso: str):
+    (pathlib.Path(OUT_DIR)/"data"/"news").mkdir(parents=True, exist_ok=True)
+    (pathlib.Path(OUT_DIR)/"data"/date_iso).mkdir(parents=True, exist_ok=True)
+
+def decay_weight(age_days: float, half_life_days: float = 7.0) -> float:
+    if age_days <= 0:
+        return 1.0
+    lam = math.log(2.0) / max(1e-6, half_life_days)
+    return math.exp(-lam * age_days)
 
 def main():
+    ensure_dirs(DATE)
     uni = load_universe()
-    # Define window
-    end = datetime.date.fromisoformat(DATE)
-    start = end - datetime.timedelta(days=LOOKBACK_DAYS)
-    recent_start = end - datetime.timedelta(days=RECENT_DAYS-1)  # inclusive
-    prior_start  = recent_start - datetime.timedelta(days=PRIOR_DAYS)
+    seen = load_seen()
 
-    results = {}
-    all_raw_signals = []
+    # 既存の latest を読み込み（ロールアップ & 冪等性のため）
+    latest_path = pathlib.Path(OUT_DIR)/"data"/"news"/"latest.json"
+    if latest_path.exists():
+        try:
+            existed = json.loads(latest_path.read_text())
+        except Exception:
+            existed = {"items":{}, "as_of": DATE}
+    else:
+        existed = {"items":{}, "as_of": DATE}
 
-    for i, row in uni.iterrows():
-        sym, name = row["symbol"], row["name"]
-        query = build_query(sym, name)
-        print(f"[NEWS] {sym}: {query}")
-        feed = fetch_feed(query)
-        entries = dedup_entries(feed.get("entries", [])[:MAX_PER_QUERY])
+    # 作業用：すべての記事を保持（rolling window）
+    all_articles: Dict[str, List[Dict]] = existed.get("articles", {})
 
-        # sentiment per entry (only within lookback window)
-        sentiments = []
-        in_window = []
-        for e in entries:
-            dt = normalize_date(e.get("published_parsed") or e.get("published") or "")
-            if dt and start <= dt <= end:
-                in_window.append(e)
-                sentiments.append(sentiment_on_entry(e))
-        avg_compound = float(pd.Series(sentiments).mean()) if sentiments else 0.0
-        pos_share = float((pd.Series(sentiments)> 0.05).mean()) if sentiments else 0.0
-        neg_share = float((pd.Series(sentiments)<-0.05).mean()) if sentiments else 0.0
+    # 今回取得
+    for _, row in uni.iterrows():
+        sym = str(row["symbol"]).upper()
+        q = str(row["query"])
+        try:
+            f = fetch_rss(q)
+        except Exception as e:
+            print(f"[WARN] RSS fetch failed for {sym}: {e}")
+            sleep_politely()
+            continue
 
-        # daily counts
-        s = series_counts_by_day(in_window, start, end)
-        recent_cnt = int(s.loc[pd.Timestamp(recent_start):pd.Timestamp(end)].sum())
-        prior_cnt  = int(s.loc[pd.Timestamp(prior_start):pd.Timestamp(recent_start - datetime.timedelta(days=1))].sum())
+        articles = all_articles.get(sym, [])
+        added = 0
 
-        # Breakout ratio (recent avg per day / prior median per day)
-        recent_mean = (recent_cnt / RECENT_DAYS) if RECENT_DAYS > 0 else 0.0
-        prior_window = s.loc[pd.Timestamp(prior_start):pd.Timestamp(recent_start - datetime.timedelta(days=1))]
-        prior_med = float(prior_window.replace(0, pd.NA).median(skipna=True)) if len(prior_window)>0 else 0.0
-        if not prior_med or math.isnan(prior_med) or prior_med <= 0:
-            prior_med = 1e-9
-        breakout_ratio = float(recent_mean / prior_med) if prior_med>0 else None
+        for entry in f.entries[:MAX_PER_SYMBOL]:
+            title = clean_text(entry.get("title", ""))
+            link = entry.get("link", "")
+            summary = clean_text(entry.get("summary", "") or entry.get("description",""))
+            uid = hash_id(title, link)
+            if uid in seen:
+                continue
 
-        # Raw signal = breakout * max(avg_compound, 0)
-        raw_signal = None
-        if breakout_ratio is not None:
-            raw_signal = breakout_ratio * max(0.0, avg_compound)
+            dt = parse_datetime(entry)
+            if not dt:
+                # fallback: treat as now
+                dt = datetime.datetime.now(datetime.timezone.utc)
 
-        results[sym] = {
-            "query": query,
-            "articles": int(len(in_window)),
-            "recent7": recent_cnt,
-            "prior28": prior_cnt,
-            "breakout_ratio": None if breakout_ratio is None or math.isinf(breakout_ratio) or math.isnan(breakout_ratio) else breakout_ratio,
-            "avg_compound": avg_compound,
-            "pos_share": pos_share,
-            "neg_share": neg_share,
-            "raw_signal": None if raw_signal is None or math.isinf(raw_signal) or math.isnan(raw_signal) else raw_signal,
-            "score_0_1": 0.0,  # set later
-            "rank": None,
+            rec = {
+                "id": uid,
+                "title": title,
+                "link": link,
+                "summary": summary,
+                "published_utc": dt.isoformat(),
+                "published_date": et_date(dt).isoformat(),
+                "sentiment": simple_sentiment(f"{title}. {summary}"),
+                "source": clean_text(entry.get("source", "") or entry.get("author","") or f"GoogleNews:{q}")
+            }
+            articles.append(rec)
+            seen.add(uid)
+            added += 1
+
+        # 古い記事を落とす（KEEP）
+        cutoff = datetime.date.fromisoformat(DATE) - datetime.timedelta(days=NEWS_DAYS_KEEP)
+        articles = [a for a in articles if datetime.date.fromisoformat(a["published_date"]) >= cutoff]
+        all_articles[sym] = articles
+        print(f"[INFO] {sym}: +{added} (total {len(articles)})")
+        sleep_politely()
+
+    # ---- 集計（buzz & sentiment）----
+    ref_day = datetime.date.fromisoformat(DATE)
+    def count_in(sym, days: int) -> int:
+        from_day = ref_day - datetime.timedelta(days=days-1)
+        return sum(1 for a in all_articles.get(sym, []) if from_day <= datetime.date.fromisoformat(a["published_date"]) <= ref_day)
+
+    def weighted_sent(sym) -> float:
+        arr = []
+        for a in all_articles.get(sym, []):
+            age = (ref_day - datetime.date.fromisoformat(a["published_date"])).days
+            w = decay_weight(age, 7.0)
+            arr.append(a["sentiment"] * w)
+        if not arr:
+            return 0.0
+        return sum(arr)/sum(decay_weight((ref_day - datetime.date.fromisoformat(a["published_date"])).days, 7.0) for a in all_articles.get(sym, []))
+
+    stats: Dict[str, Dict] = {}
+    for sym in uni["symbol"]:
+        sym = str(sym).upper()
+        c3 = count_in(sym, RECENT_DAYS)                  # last 3d
+        c_all = count_in(sym, LOOKBACK_DAYS)             # last ~1m
+        prior_days = max(1, LOOKBACK_DAYS - RECENT_DAYS)
+        prior_3d_avg = (c_all - c3) / (prior_days/RECENT_DAYS) if c_all > 0 else 0.0
+        buzz_mult = (c3 / max(1.0, prior_3d_avg)) if prior_3d_avg > 0 else (1.0 if c3>0 else 0.0)
+
+        sent = weighted_sent(sym)
+
+        stats[sym] = {
+            "count_3d": c3,
+            "count_31d": c_all,
+            "buzz_multiplier": round(buzz_mult, 6),
+            "sentiment_weighted": round(sent, 6),
         }
-        if results[sym]["raw_signal"] is not None:
-            all_raw_signals.append(results[sym]["raw_signal"])
 
-        # polite pacing
-        time.sleep(SLEEP_BETWEEN + random.uniform(0, JITTER))
+    # 正規化 0..1
+    buzz_vals = [v["buzz_multiplier"] for v in stats.values()]
+    sent_vals = [v["sentiment_weighted"] for v in stats.values()]
 
-    # Rank / percentile
-    for sym, rec in results.items():
-        rs = rec.get("raw_signal")
-        rec["score_0_1"] = pct_rank(all_raw_signals, rs) if rs is not None else 0.0
+    # ranks (descending for both)
+    sorted_buzz = sorted([(sym, stats[sym]["buzz_multiplier"]) for sym in stats], key=lambda x: x[1], reverse=True)
+    rank_buzz = {sym: i+1 for i,(sym,_) in enumerate(sorted_buzz)}
 
-    # rank: highest first
-    order = sorted(results.items(), key=lambda kv: (kv[1].get("score_0_1", 0.0)), reverse=True)
-    for idx, (sym, rec) in enumerate(order, 1):
-        rec["rank"] = idx
+    sorted_sent = sorted([(sym, stats[sym]["sentiment_weighted"]) for sym in stats], key=lambda x: x[1], reverse=True)
+    rank_sent = {sym: i+1 for i,(sym,_) in enumerate(sorted_sent)}
 
-    out_latest = pathlib.Path(OUT_DIR) / "data" / "news" / "latest.json"
-    out_today  = pathlib.Path(OUT_DIR) / "data" / DATE / "news.json"
+    for sym, rec in stats.items():
+        rec["buzz_score_0_1"] = pct_rank(buzz_vals, rec["buzz_multiplier"])
+        rec["sent_score_0_1"] = pct_rank(sent_vals, rec["sentiment_weighted"])
+        rec["buzz_rank"] = rank_buzz.get(sym)
+        rec["sent_rank"] = rank_sent.get(sym)
+
+    # 出力
     payload = {
         "as_of": DATE,
-        "window": {"recent_days": RECENT_DAYS, "prior_days": PRIOR_DAYS},
-        "items": results
+        "window": {"recent_days": RECENT_DAYS, "lookback_days": LOOKBACK_DAYS, "keep_days": NEWS_DAYS_KEEP},
+        "items": stats,
+        "articles": all_articles,  # 詳細リンク保持（UI の details で使える）
     }
-    out_latest.parent.mkdir(parents=True, exist_ok=True)
-    out_today.parent.mkdir(parents=True, exist_ok=True)
-    out_latest.write_text(json.dumps(payload, indent=2))
-    out_today.write_text(json.dumps(payload, indent=2))
-    print(f"[NEWS] saved: {out_latest} and {out_today} ({len(results)} symbols)")
-    # quick debug
-    top3 = sorted(results.items(), key=lambda kv: kv[1]["score_0_1"], reverse=True)[:3]
-    for sym, rec in top3:
-        print(f"[NEWS][TOP] {sym}: raw={rec['raw_signal']}, score={rec['score_0_1']}, rank={rec['rank']}")
-    
+
+    latest = pathlib.Path(OUT_DIR)/"data"/"news"/"latest.json"
+    todays = pathlib.Path(OUT_DIR)/"data"/DATE/"news.json"
+    latest.parent.mkdir(parents=True, exist_ok=True)
+    todays.parent.mkdir(parents=True, exist_ok=True)
+
+    latest.write_text(json.dumps(payload, indent=2))
+    todays.write_text(json.dumps(payload, indent=2))
+    save_seen(seen)
+
+    print(f"[NEWS] saved: {latest} and {todays} (symbols={len(stats)})")
+
+
 if __name__ == "__main__":
     main()
