@@ -5,6 +5,8 @@ Google Trends fetcher with robust 429 handling and urllib3 v2 shim.
 - Batch size is configurable (default 3).
 - Sleeps between batches with jitter.
 - Detects 429 and performs exponential cool-down retries per batch.
+- Outputs for each symbol:
+    query, raw_breakout (倍率), score_0_1 (全体パーセンタイル), rank (倍率の降順)
 """
 
 import os, time, json, pathlib, math, datetime, itertools, random
@@ -40,12 +42,12 @@ DATE = os.getenv("REPORT_DATE") or datetime.datetime.now(ZoneInfo("America/New_Y
 
 TRENDS_GEO = os.getenv("TRENDS_GEO", "US")
 TRENDS_TIMEFRAME = os.getenv("TRENDS_TIMEFRAME", "today 3-m")
-TRENDS_BATCH = int(os.getenv("TRENDS_BATCH", "3"))     # 安全第一なら 3 を推奨（<=5）
-TRENDS_SLEEP = float(os.getenv("TRENDS_SLEEP", "4.0")) # バッチ間スリープ（秒）
-TRENDS_JITTER = float(os.getenv("TRENDS_JITTER", "1.5"))  # 追加ジッタ（0〜この秒数）
-TRENDS_COOLDOWN_BASE = float(os.getenv("TRENDS_COOLDOWN_BASE", "45"))  # 429 時の初回クールダウン（秒）
-TRENDS_COOLDOWN_MAX  = float(os.getenv("TRENDS_COOLDOWN_MAX",  "180")) # 429 時の最大クールダウン（秒）
-TRENDS_BATCH_RETRIES = int(os.getenv("TRENDS_BATCH_RETRIES", "4"))     # 429/エラー時のバッチ再試行回数
+TRENDS_BATCH = int(os.getenv("TRENDS_BATCH", "3"))
+TRENDS_SLEEP = float(os.getenv("TRENDS_SLEEP", "4.0"))
+TRENDS_JITTER = float(os.getenv("TRENDS_JITTER", "1.5"))
+TRENDS_COOLDOWN_BASE = float(os.getenv("TRENDS_COOLDOWN_BASE", "45"))
+TRENDS_COOLDOWN_MAX  = float(os.getenv("TRENDS_COOLDOWN_MAX",  "180"))
+TRENDS_BATCH_RETRIES = int(os.getenv("TRENDS_BATCH_RETRIES", "4"))
 
 def load_universe():
     df = pd.read_csv(UNIVERSE_CSV)
@@ -71,7 +73,7 @@ def compute_breakout_score(series: pd.Series):
     """ recent 7d mean / prior 8w median """
     if series is None or series.empty: return None
     s = series.dropna().astype(float)
-    if len(s) < 40:  # 保険
+    if len(s) < 40:
         return None
     recent = s.tail(7).mean()
     prior = s.iloc[:-7]
@@ -92,10 +94,9 @@ def is_429_error(err: Exception) -> bool:
     return ("429" in txt) or ("Too Many Requests" in txt) or ("too many 429" in txt)
 
 def cooldown_sleep(attempt: int):
-    # 指数バックオフ + 上限 + ジッタ
     sec = min(TRENDS_COOLDOWN_BASE * (2 ** max(0, attempt-1)), TRENDS_COOLDOWN_MAX)
     sec = sec + random.uniform(0, TRENDS_JITTER)
-    sec = max(sec, TRENDS_COOLDOWN_BASE)  # 念のため
+    sec = max(sec, TRENDS_COOLDOWN_BASE)
     print(f"[TRENDS] 429 cooldown sleeping {sec:.1f}s ...", flush=True)
     time.sleep(sec)
 
@@ -105,9 +106,6 @@ def between_batches_sleep():
     time.sleep(sec)
 
 def fetch_batch(py: TrendReq, kw_list: List[str]):
-    """
-    1バッチを安全第一で取得。429 やネットエラーは数回までクールダウンして再試行。
-    """
     last_err = None
     for attempt in range(1, TRENDS_BATCH_RETRIES+1):
         try:
@@ -117,7 +115,6 @@ def fetch_batch(py: TrendReq, kw_list: List[str]):
                 if "isPartial" in df.columns:
                     df = df.drop(columns=["isPartial"])
                 return df
-            # 空返りは軽い待機でリトライ
             print(f"[WARN] Trends returned empty frame for {kw_list} (attempt {attempt})", flush=True)
         except (RetryError, urllib3.exceptions.MaxRetryError) as e:
             last_err = e
@@ -133,14 +130,12 @@ def fetch_batch(py: TrendReq, kw_list: List[str]):
             else:
                 print(f"[WARN] Trends fetch failed (attempt {attempt}): {e}", flush=True)
                 time.sleep(2 + attempt)
-
     print(f"[ERROR] Trends batch failed after retries: {kw_list} :: {last_err}", flush=True)
     return None
 
 def main():
     uni = load_universe()
 
-    # TrendReq: ヘッダを明示、控えめな内部リトライ
     py = TrendReq(
         hl="en-US", tz=360, retries=1, backoff_factor=0.2, timeout=30,
         requests_args={
@@ -163,18 +158,21 @@ def main():
                 score = compute_breakout_score(series) if series is not None else None
                 results[sym] = {"query": q, "raw_breakout": score}
         else:
-            # 取得失敗バッチ：エントリだけ作る（0 扱い）
             for r in batch:
                 sym = r["symbol"]; q = r["query"]
                 results[sym] = {"query": q, "raw_breakout": None}
-
         between_batches_sleep()
 
-    # 0–1 正規化
-    raws = [v.get("raw_breakout") for v in results.values() if v.get("raw_breakout") is not None]
+    # 0–1 正規化 & rank（raw_breakout 降順）
+    raws = [(s, v.get("raw_breakout")) for s, v in results.items() if v.get("raw_breakout") is not None]
+    raws_sorted = sorted(raws, key=lambda t: t[1], reverse=True)
+    rank_map = {sym: i+1 for i, (sym, _) in enumerate(raws_sorted)}
+    raw_vals = [v for _, v in raws_sorted]
+
     for sym, rec in results.items():
         rb = rec.get("raw_breakout")
-        rec["score_0_1"] = pct_rank(raws, rb) if rb is not None else 0.0
+        rec["score_0_1"] = pct_rank(raw_vals, rb) if rb is not None else 0.0
+        rec["rank"] = rank_map.get(sym)
 
     # 保存
     out_latest = pathlib.Path(OUT_DIR) / "data" / "trends" / "latest.json"
