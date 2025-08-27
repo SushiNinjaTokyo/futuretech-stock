@@ -1,307 +1,324 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-News fetcher (idempotent + lightweight)
-- Source: Google News RSS (free)
-- Per symbol: query by 'Company Name' or 'SYMBOL stock'
-- Scoring:
-   * Buzz (multiplier): recent 3d count / prior 28d average per 3d
-   * Sentiment (very lightweight lexicon) with freshness decay (7d half-life)
-- Normalization across universe: percentile ranks to 0..1
-- Idempotent: de-dup by (link/title) hash; keep a rolling window
+Lightweight News fetcher (Google News RSS) with safe parsing and rate-limit friendly sleeps.
 
-Outputs:
-- site/data/news/latest.json
-- site/data/{DATE}/news.json
-- site/cache/news_seen.json  (dedup set)
+- Per symbol, queries Google News RSS (company name or "<SYMBOL> stock") within lookback window.
+- Aggregates "recent" (NEWS_RECENT_DAYS) vs baseline (older part of NEWS_LOOKBACK_DAYS) to compute:
+    * recent_count, baseline_daily_rate, recent_daily_rate, buzz_multiplier (recent/base)
+- Also assigns a 0..1 buzz_score across the universe using percentile rank of recent_count.
+- Saves to:
+    site/data/news/latest.json
+    site/data/YYYY-MM-DD/news.json
+- Robust to odd RSS fields (e.g., entry['source'] being a dict), empty feeds, and network hiccups.
+- Sleep + jitter between requests to avoid rate limiting; retries with small backoff.
+
+Env:
+  OUT_DIR                 default "site"
+  UNIVERSE_CSV            default "data/universe.csv"
+  REPORT_DATE             default ET market date (today ET)
+  NEWS_USER_AGENT         default "futuretech-stock/1.0 (news-fetcher)"
+  NEWS_SLEEP              default "1.2"   (seconds between symbols)
+  NEWS_JITTER             default "0.8"   (random[0..jitter] added)
+  NEWS_DAYS_KEEP          default "45"    (not used here for pruning files; kept for future)
+  NEWS_RECENT_DAYS        default "3"
+  NEWS_LOOKBACK_DAYS      default "31"
+  NEWS_MAX_PER_SYMBOL     default "60"    (max articles to retain per symbol in payload)
+  NEWS_RETRIES            default "3"     (per-symbol fetch retries)
+  NEWS_TIMEOUT            default "15"    (requests timeout)
 """
 
-import os, re, json, time, math, pathlib, datetime, hashlib, random
-from typing import Dict, List, Tuple
+import os, sys, json, time, math, random, pathlib, datetime, re
 from zoneinfo import ZoneInfo
+from typing import List, Dict, Any, Tuple
+from urllib.parse import quote_plus
 
 import pandas as pd
-import feedparser
 import requests
+import feedparser
 
-# ---------------- Config ----------------
+# ---------------- Env ----------------
 OUT_DIR = os.getenv("OUT_DIR", "site")
 UNIVERSE_CSV = os.getenv("UNIVERSE_CSV", "data/universe.csv")
+REPORT_DATE = os.getenv("REPORT_DATE")  # may be None; use ET date if so
 
-DATE = os.getenv("REPORT_DATE")
-if not DATE:
-    # Align to ET market date (after 18:00, use the same day; earlier, use previous bus. day)
+NEWS_USER_AGENT = os.getenv("NEWS_USER_AGENT", "futuretech-stock/1.0 (news-fetcher)")
+NEWS_SLEEP = float(os.getenv("NEWS_SLEEP", "1.2"))
+NEWS_JITTER = float(os.getenv("NEWS_JITTER", "0.8"))
+NEWS_DAYS_KEEP = int(os.getenv("NEWS_DAYS_KEEP", "45"))
+NEWS_RECENT_DAYS = int(os.getenv("NEWS_RECENT_DAYS", "3"))
+NEWS_LOOKBACK_DAYS = int(os.getenv("NEWS_LOOKBACK_DAYS", "31"))
+NEWS_MAX_PER_SYMBOL = int(os.getenv("NEWS_MAX_PER_SYMBOL", "60"))
+NEWS_RETRIES = int(os.getenv("NEWS_RETRIES", "3"))
+NEWS_TIMEOUT = int(os.getenv("NEWS_TIMEOUT", "15"))
+
+HEADERS = {
+    "User-Agent": NEWS_USER_AGENT,
+    "Accept": "application/rss+xml, application/xml, text/xml, */*;q=0.8",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+}
+
+# ---------------- Helpers ----------------
+def et_market_date() -> str:
+    if REPORT_DATE:
+        return REPORT_DATE
     now_et = datetime.datetime.now(ZoneInfo("America/New_York"))
-    dt = now_et.date()
-    if now_et.hour < 18:
-        dt = dt - datetime.timedelta(days=1)
-    while dt.weekday() >= 5:
-        dt = dt - datetime.timedelta(days=1)
-    DATE = dt.isoformat()
+    d = now_et.date()
+    # after-hours partial guard is not critical for news; keep simple
+    while d.weekday() >= 5:
+        d = d - datetime.timedelta(days=1)
+    return d.isoformat()
 
-USER_AGENT = os.getenv("NEWS_USER_AGENT", "futuretech-stock/1.0 (+contact@example.com)")
-NEWS_SLEEP = float(os.getenv("NEWS_SLEEP", "1.2"))     # polite pause between queries
-NEWS_JITTER = float(os.getenv("NEWS_JITTER", "0.8"))   # random jitter
-NEWS_DAYS_KEEP = int(os.getenv("NEWS_DAYS_KEEP", "45"))  # keep window
-RECENT_DAYS = int(os.getenv("NEWS_RECENT_DAYS", "3"))     # 3d for buzz numerator
-LOOKBACK_DAYS = int(os.getenv("NEWS_LOOKBACK_DAYS", "31")) # 31d history for buzz denom
-MAX_PER_SYMBOL = int(os.getenv("NEWS_MAX_PER_SYMBOL", "60")) # cap loaded items per symbol per run
-
-# Fallback positive/negative lexicon (tiny, lightweight)
-POS_WORDS = set(w.lower() for w in """
-beat beats beating bullish surge surges soaring soar record upgrade upgrades raised raises raise
-optimistic positive outperform outperforms outperformed strong stronger strongest rally rallies
-wins win winning growth expand expanding expansion breakthrough partnership partnerships
-""".split())
-NEG_WORDS = set(w.lower() for w in """
-miss misses missed bearish slump slumps plunges plunge collapse downgrade downgrades cut cuts cutting
-pessimistic negative underperform underperforms underperformed weak weaker weakest tumble tumbles
-lawsuit lawsuits probe probes investigation investigations recall recalls halt halts
-""".split())
-
-HEADERS = {"User-Agent": USER_AGENT, "Accept": "text/html,application/rss+xml"}
-
-CACHE_DIR = pathlib.Path(OUT_DIR) / "cache"
-CACHE_DIR.mkdir(parents=True, exist_ok=True)
-SEEN_PATH = CACHE_DIR / "news_seen.json"
-
-def load_seen() -> set:
-    if SEEN_PATH.exists():
-        try:
-            return set(json.loads(SEEN_PATH.read_text()))
-        except Exception:
-            return set()
-    return set()
-
-def save_seen(seen: set):
-    try:
-        SEEN_PATH.write_text(json.dumps(sorted(list(seen))))
-    except Exception:
-        pass
+DATE = et_market_date()
 
 def load_universe() -> pd.DataFrame:
     df = pd.read_csv(UNIVERSE_CSV)
-    df["query"] = df.apply(lambda r: build_query(r), axis=1)
-    return df[["symbol","name","query"]]
+    # normalize
+    df["symbol"] = df["symbol"].astype(str).str.strip().str.upper()
+    if "name" not in df.columns:
+        df["name"] = ""
+    return df[["symbol","name"]]
 
-def build_query(row) -> str:
-    name = str(row.get("name","") or "").strip()
-    sym = str(row.get("symbol","") or "").strip().upper()
+def build_query(symbol: str, name: str) -> str:
+    name = (name or "").strip()
+    sym = (symbol or "").strip().upper()
     if name and name.lower() not in ("nan","none"):
-        # Google News検索は社名で十分ヒット
-        return f"{name}"
-    return f"{sym} stock"
+        # favor company name, fall back to symbol stock
+        q = f"\"{name}\" OR {sym} stock"
+    else:
+        q = f"{sym} stock"
+    # limit by time window
+    q = f"{q} when:{NEWS_LOOKBACK_DAYS}d"
+    return q
 
-def sleep_politely():
-    t = NEWS_SLEEP + random.uniform(0, NEWS_JITTER)
-    time.sleep(t)
-
-def fetch_rss(query: str) -> feedparser.FeedParserDict:
-    # Google News RSS 検索
-    # q= はURLエンコード不要でも動くが、念のためrequestsでpre-flight
+def google_news_rss_url(q: str) -> str:
     base = "https://news.google.com/rss/search"
-    params = {"q": query, "hl":"en-US", "gl":"US", "ceid":"US:en"}
-    url = requests.Request("GET", base, params=params).prepare().url
-    return feedparser.parse(url, request_headers=HEADERS)
+    # US/English to keep it consistent
+    return f"{base}?q={quote_plus(q)}&hl=en-US&gl=US&ceid=US:en"
 
-def hash_id(title: str, link: str) -> str:
-    h = hashlib.sha1()
-    h.update((title or "").encode("utf-8"))
-    h.update((link or "").encode("utf-8"))
-    return h.hexdigest()
+def sleep_between_symbols():
+    sec = NEWS_SLEEP + random.uniform(0, NEWS_JITTER)
+    time.sleep(sec)
 
-def parse_datetime(entry) -> datetime.datetime|None:
-    # feedparser は published_parsed 等を持つことが多い
-    for key in ("published_parsed","updated_parsed"):
-        t = entry.get(key)
-        if t:
-            try:
-                return datetime.datetime(*t[:6], tzinfo=datetime.timezone.utc)
-            except Exception:
-                pass
-    # fallback: now
-    return None
+def pct_rank(vals: List[float], x: float) -> float:
+    arr = sorted([float(v) for v in vals if isinstance(v, (int,float))])
+    if not arr:
+        return 0.0
+    # clamp x if None
+    try:
+        xv = float(x)
+    except Exception:
+        return 0.0
+    import bisect
+    k = bisect.bisect_right(arr, xv)
+    return k / len(arr)
 
-def clean_text(s: str) -> str:
-    s = s or ""
+def clean_text(s: Any) -> str:
+    """Make a safe single-line string from possibly dict/None/FeedParserDict."""
+    if isinstance(s, dict):
+        # Google News source often like {'title': 'Reuters', ...}
+        s = s.get("title") or s.get("name") or ""
+    elif hasattr(s, "get"):  # FeedParserDict
+        try:
+            t = s.get("title")
+            if t:
+                s = t
+            else:
+                s = ""
+        except Exception:
+            s = ""
+    elif s is None:
+        s = ""
+    else:
+        s = str(s)
     s = re.sub(r"<[^>]+>", " ", s)
     s = re.sub(r"\s+", " ", s).strip()
     return s
 
-def simple_sentiment(text: str) -> float:
-    """ very light lexicon: (#pos - #neg)/sqrt(len_words); clip [-1,1] """
-    if not text:
-        return 0.0
-    toks = re.findall(r"[A-Za-z']+", text.lower())
-    if not toks:
-        return 0.0
-    pos = sum(1 for t in toks if t in POS_WORDS)
-    neg = sum(1 for t in toks if t in NEG_WORDS)
-    score = (pos - neg) / max(1.0, math.sqrt(len(toks)))
-    return max(-1.0, min(1.0, score))
+def to_iso(dt_struct) -> str:
+    """Convert feedparser time.struct_time or string to ISO date."""
+    if dt_struct is None:
+        return ""
+    try:
+        if isinstance(dt_struct, str):
+            # crude fallback: keep YYYY-MM-DD if present
+            m = re.search(r"(\d{4}-\d{2}-\d{2})", dt_struct)
+            if m:
+                return m.group(1)
+            # try RFC-2822-like date
+            from email.utils import parsedate_to_datetime
+            return parsedate_to_datetime(dt_struct).date().isoformat()
+        import time as _time
+        # struct_time -> datetime
+        dt = datetime.datetime(*dt_struct[:6], tzinfo=datetime.timezone.utc).date().isoformat()
+        return dt
+    except Exception:
+        return ""
 
-def et_date(dt_utc: datetime.datetime|None) -> datetime.date:
-    if not dt_utc:
-        # assume now UTC
-        dt_utc = datetime.datetime.now(datetime.timezone.utc)
-    # convert to ET
-    et = dt_utc.astimezone(ZoneInfo("America/New_York"))
-    return et.date()
+def within_days(date_iso: str, days: int, ref_date: datetime.date) -> bool:
+    try:
+        d = datetime.date.fromisoformat(date_iso)
+    except Exception:
+        return False
+    return 0 <= (ref_date - d).days <= days
 
-def pct_rank(vals: List[float], x: float|None) -> float:
-    arr = sorted([v for v in vals if isinstance(v, (int,float)) and not math.isnan(v)])
-    if not arr or x is None or (isinstance(x, float) and math.isnan(x)):
-        return 0.0
-    import bisect
-    k = bisect.bisect_right(arr, x)
-    return k / len(arr)
-
-def ensure_dirs(date_iso: str):
-    (pathlib.Path(OUT_DIR)/"data"/"news").mkdir(parents=True, exist_ok=True)
-    (pathlib.Path(OUT_DIR)/"data"/date_iso).mkdir(parents=True, exist_ok=True)
-
-def decay_weight(age_days: float, half_life_days: float = 7.0) -> float:
-    if age_days <= 0:
-        return 1.0
-    lam = math.log(2.0) / max(1e-6, half_life_days)
-    return math.exp(-lam * age_days)
-
-def main():
-    ensure_dirs(DATE)
-    uni = load_universe()
-    seen = load_seen()
-
-    # 既存の latest を読み込み（ロールアップ & 冪等性のため）
-    latest_path = pathlib.Path(OUT_DIR)/"data"/"news"/"latest.json"
-    if latest_path.exists():
+def fetch_feed(url: str) -> feedparser.FeedParserDict | None:
+    """Fetch RSS via requests to control UA/timeout, then parse with feedparser."""
+    last_err = None
+    for attempt in range(1, NEWS_RETRIES+1):
         try:
-            existed = json.loads(latest_path.read_text())
-        except Exception:
-            existed = {"items":{}, "as_of": DATE}
-    else:
-        existed = {"items":{}, "as_of": DATE}
-
-    # 作業用：すべての記事を保持（rolling window）
-    all_articles: Dict[str, List[Dict]] = existed.get("articles", {})
-
-    # 今回取得
-    for _, row in uni.iterrows():
-        sym = str(row["symbol"]).upper()
-        q = str(row["query"])
-        try:
-            f = fetch_rss(q)
-        except Exception as e:
-            print(f"[WARN] RSS fetch failed for {sym}: {e}")
-            sleep_politely()
-            continue
-
-        articles = all_articles.get(sym, [])
-        added = 0
-
-        for entry in f.entries[:MAX_PER_SYMBOL]:
-            title = clean_text(entry.get("title", ""))
-            link = entry.get("link", "")
-            summary = clean_text(entry.get("summary", "") or entry.get("description",""))
-            uid = hash_id(title, link)
-            if uid in seen:
+            resp = requests.get(url, headers=HEADERS, timeout=NEWS_TIMEOUT)
+            if resp.status_code == 429:
+                # cool down a bit on 429
+                sl = min(30 * attempt, 120)
+                print(f"[NEWS] 429 Too Many Requests, sleeping {sl}s ...", flush=True)
+                time.sleep(sl)
                 continue
+            if not resp.ok:
+                last_err = Exception(f"HTTP {resp.status_code}")
+                time.sleep(1.0 * attempt)
+                continue
+            fp = feedparser.parse(resp.content)
+            # some feeds may parse but be empty; treat as ok
+            return fp
+        except Exception as e:
+            last_err = e
+            time.sleep(1.0 * attempt)
+    if last_err:
+        print(f"[WARN] fetch_feed failed: {last_err}", file=sys.stderr)
+    return None
 
-            dt = parse_datetime(entry)
-            if not dt:
-                # fallback: treat as now
-                dt = datetime.datetime.now(datetime.timezone.utc)
+def compute_buzz_metrics(dates: List[str], ref: datetime.date) -> Dict[str, float]:
+    """
+    dates: list of ISO dates (YYYY-MM-DD) for fetched articles within lookback.
+    Return recent_count, rates and multiplier.
+    """
+    cutoff_recent = ref - datetime.timedelta(days=NEWS_RECENT_DAYS)
+    cutoff_start  = ref - datetime.timedelta(days=NEWS_LOOKBACK_DAYS)
 
-            rec = {
-                "id": uid,
-                "title": title,
-                "link": link,
-                "summary": summary,
-                "published_utc": dt.isoformat(),
-                "published_date": et_date(dt).isoformat(),
-                "sentiment": simple_sentiment(f"{title}. {summary}"),
-                "source": clean_text(entry.get("source", "") or entry.get("author","") or f"GoogleNews:{q}")
-            }
-            articles.append(rec)
-            seen.add(uid)
-            added += 1
+    recent = sum(1 for d in dates if within_days(d, NEWS_RECENT_DAYS, ref))
+    old    = sum(1 for d in dates if (d >= cutoff_start.isoformat() and d < cutoff_recent.isoformat()))
 
-        # 古い記事を落とす（KEEP）
-        cutoff = datetime.date.fromisoformat(DATE) - datetime.timedelta(days=NEWS_DAYS_KEEP)
-        articles = [a for a in articles if datetime.date.fromisoformat(a["published_date"]) >= cutoff]
-        all_articles[sym] = articles
-        print(f"[INFO] {sym}: +{added} (total {len(articles)})")
-        sleep_politely()
+    recent_days = max(1, NEWS_RECENT_DAYS)
+    old_days = max(1, NEWS_LOOKBACK_DAYS - NEWS_RECENT_DAYS)
 
-    # ---- 集計（buzz & sentiment）----
-    ref_day = datetime.date.fromisoformat(DATE)
-    def count_in(sym, days: int) -> int:
-        from_day = ref_day - datetime.timedelta(days=days-1)
-        return sum(1 for a in all_articles.get(sym, []) if from_day <= datetime.date.fromisoformat(a["published_date"]) <= ref_day)
-
-    def weighted_sent(sym) -> float:
-        arr = []
-        for a in all_articles.get(sym, []):
-            age = (ref_day - datetime.date.fromisoformat(a["published_date"])).days
-            w = decay_weight(age, 7.0)
-            arr.append(a["sentiment"] * w)
-        if not arr:
-            return 0.0
-        return sum(arr)/sum(decay_weight((ref_day - datetime.date.fromisoformat(a["published_date"])).days, 7.0) for a in all_articles.get(sym, []))
-
-    stats: Dict[str, Dict] = {}
-    for sym in uni["symbol"]:
-        sym = str(sym).upper()
-        c3 = count_in(sym, RECENT_DAYS)                  # last 3d
-        c_all = count_in(sym, LOOKBACK_DAYS)             # last ~1m
-        prior_days = max(1, LOOKBACK_DAYS - RECENT_DAYS)
-        prior_3d_avg = (c_all - c3) / (prior_days/RECENT_DAYS) if c_all > 0 else 0.0
-        buzz_mult = (c3 / max(1.0, prior_3d_avg)) if prior_3d_avg > 0 else (1.0 if c3>0 else 0.0)
-
-        sent = weighted_sent(sym)
-
-        stats[sym] = {
-            "count_3d": c3,
-            "count_31d": c_all,
-            "buzz_multiplier": round(buzz_mult, 6),
-            "sentiment_weighted": round(sent, 6),
-        }
-
-    # 正規化 0..1
-    buzz_vals = [v["buzz_multiplier"] for v in stats.values()]
-    sent_vals = [v["sentiment_weighted"] for v in stats.values()]
-
-    # ranks (descending for both)
-    sorted_buzz = sorted([(sym, stats[sym]["buzz_multiplier"]) for sym in stats], key=lambda x: x[1], reverse=True)
-    rank_buzz = {sym: i+1 for i,(sym,_) in enumerate(sorted_buzz)}
-
-    sorted_sent = sorted([(sym, stats[sym]["sentiment_weighted"]) for sym in stats], key=lambda x: x[1], reverse=True)
-    rank_sent = {sym: i+1 for i,(sym,_) in enumerate(sorted_sent)}
-
-    for sym, rec in stats.items():
-        rec["buzz_score_0_1"] = pct_rank(buzz_vals, rec["buzz_multiplier"])
-        rec["sent_score_0_1"] = pct_rank(sent_vals, rec["sentiment_weighted"])
-        rec["buzz_rank"] = rank_buzz.get(sym)
-        rec["sent_rank"] = rank_sent.get(sym)
-
-    # 出力
-    payload = {
-        "as_of": DATE,
-        "window": {"recent_days": RECENT_DAYS, "lookback_days": LOOKBACK_DAYS, "keep_days": NEWS_DAYS_KEEP},
-        "items": stats,
-        "articles": all_articles,  # 詳細リンク保持（UI の details で使える）
+    recent_rate = recent / recent_days
+    old_rate = old / old_days if old_days > 0 else 0.0
+    base = old_rate if old_rate > 0 else 1e-6
+    mult = recent_rate / base
+    # tame extremes
+    mult = max(0.25, min(8.0, mult))
+    return {
+        "recent_count": float(recent),
+        "recent_daily_rate": float(recent_rate),
+        "baseline_daily_rate": float(old_rate),
+        "buzz_multiplier": float(mult),
     }
 
-    latest = pathlib.Path(OUT_DIR)/"data"/"news"/"latest.json"
-    todays = pathlib.Path(OUT_DIR)/"data"/DATE/"news.json"
-    latest.parent.mkdir(parents=True, exist_ok=True)
-    todays.parent.mkdir(parents=True, exist_ok=True)
+# ---------------- Main ----------------
+def main():
+    out_dir = pathlib.Path(OUT_DIR)
+    (out_dir / "data" / DATE).mkdir(parents=True, exist_ok=True)
+    (out_dir / "data" / "news").mkdir(parents=True, exist_ok=True)
 
-    latest.write_text(json.dumps(payload, indent=2))
-    todays.write_text(json.dumps(payload, indent=2))
-    save_seen(seen)
+    uni = load_universe()
+    ref_date = datetime.date.fromisoformat(DATE)
 
-    print(f"[NEWS] saved: {latest} and {todays} (symbols={len(stats)})")
+    per_symbol: Dict[str, Dict[str, Any]] = {}
+    all_recent_counts: List[float] = []
+    all_multipliers: List[float] = []
 
+    for _, row in uni.iterrows():
+        sym = str(row["symbol"]).upper()
+        name = str(row["name"]) if not pd.isna(row["name"]) else ""
+        q = build_query(sym, name)
+        url = google_news_rss_url(q)
+
+        fp = fetch_feed(url)
+        sleep_between_symbols()
+
+        entries = (fp.entries if fp and hasattr(fp, "entries") else []) or []
+        articles = []
+        dates = []
+
+        for e in entries[:NEWS_MAX_PER_SYMBOL]:
+            # dates
+            dt_iso = (
+                to_iso(getattr(e, "published_parsed", None) or e.get("published"))
+                or to_iso(getattr(e, "updated_parsed", None) or e.get("updated"))
+            )
+            if not dt_iso:
+                continue
+
+            # keep only within LOOKBACK
+            if not within_days(dt_iso, NEWS_LOOKBACK_DAYS, ref_date):
+                continue
+
+            title = clean_text(e.get("title"))
+            summary = clean_text(e.get("summary"))
+            link = ""
+            if "link" in e and e.get("link"):
+                link = str(e.get("link"))
+            elif hasattr(e, "links") and e.links:
+                try:
+                    link = e.links[0].get("href") or ""
+                except Exception:
+                    link = ""
+
+            source = clean_text(e.get("source") or e.get("author") or "")
+            if not source and hasattr(e, "source"):
+                # some versions: e.source.title
+                try:
+                    source = clean_text(getattr(e.source, "title", "") or "")
+                except Exception:
+                    pass
+
+            articles.append({
+                "title": title[:280] if title else "",
+                "summary": summary[:400] if summary else "",
+                "url": link,
+                "published": dt_iso,
+                "source": source[:80] if source else "",
+            })
+            dates.append(dt_iso)
+
+        metrics = compute_buzz_metrics(dates, ref_date)
+        all_recent_counts.append(metrics["recent_count"])
+        all_multipliers.append(metrics["buzz_multiplier"])
+
+        per_symbol[sym] = {
+            "query": q,
+            "articles": articles,         # trimmed to NEWS_MAX_PER_SYMBOL in-loop
+            **metrics,                    # recent_count, rates, multiplier
+        }
+
+    # Universe-level ranks/scores
+    for sym, rec in per_symbol.items():
+        rc = rec.get("recent_count", 0.0)
+        mult = rec.get("buzz_multiplier", 0.0)
+
+        rec["buzz_score_0_1"] = round(pct_rank(all_recent_counts, rc), 6)
+        rec["mult_rank_0_1"]  = round(pct_rank(all_multipliers, mult), 6)
+
+    # Save
+    payload = {
+        "as_of": DATE,
+        "recent_days": NEWS_RECENT_DAYS,
+        "lookback_days": NEWS_LOOKBACK_DAYS,
+        "items": per_symbol,
+    }
+
+    out_latest = (out_dir / "data" / "news" / "latest.json")
+    out_today  = (out_dir / "data" / DATE / "news.json")
+    out_latest.parent.mkdir(parents=True, exist_ok=True)
+    out_today.parent.mkdir(parents=True, exist_ok=True)
+    out_latest.write_text(json.dumps(payload, indent=2))
+    out_today.write_text(json.dumps(payload, indent=2))
+
+    # Small summary
+    with_items = sum(1 for v in per_symbol.values() if v.get("articles"))
+    print(f"[NEWS] saved: {out_latest} and {out_today} ({len(per_symbol)} symbols; non-empty: {with_items})")
 
 if __name__ == "__main__":
     main()
