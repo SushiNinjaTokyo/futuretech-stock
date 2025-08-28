@@ -1,38 +1,52 @@
 name: fetch-news
 
 on:
-  schedule:
-    - cron: "*/30 * * * *"   # 30分ごと（必要なら変更）
   workflow_dispatch:
+  schedule:
+    - cron: '5 22 * * *'   # 18:05 ET / 07:05 JST 相当（dailyより先行/後行はお好みで）
 
 jobs:
-  news:
+  fetch-news:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    concurrency:
+      group: fetch-news
+      cancel-in-progress: false
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
-      - name: Install deps
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Fetch news (idempotent)
+      # ET市場日付を固定（いつ実行しても同じ基準日で保存）
+      - name: Set ET market date
+        id: set_date
+        env:
+          MARKET_CUTOFF_HOUR_ET: "20"  # 20:00 ET より前は「前営業日」
+        run: |
+          echo "REPORT_DATE=$(python scripts/et_market_date.py)" >> "$GITHUB_OUTPUT"
+          echo "REPORT_DATE=$REPORT_DATE"
+
+      - name: Fetch News
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
           NEWS_USER_AGENT: "futuretech-stock/1.0 (news-fetcher)"
-          NEWS_SLEEP: "1.2"
-          NEWS_JITTER: "0.8"
-          NEWS_DAYS_KEEP: "45"
-          NEWS_RECENT_DAYS: "3"
-          NEWS_LOOKBACK_DAYS: "31"
-          NEWS_MAX_PER_SYMBOL: "60"
+          NEWS_SLEEP: "1.5"          # リクエスト間スリープ
+          NEWS_JITTER: "0.7"         # ジッタ
+          NEWS_DAYS_KEEP: "60"       # latest のローリング保持（任意）
+          NEWS_RECENT_DAYS: "3"      # スコア対象の「直近N日」(REPORT_DATE基準)
+          NEWS_LOOKBACK_DAYS: "31"   # 取得の最大過去範囲（キャッシュ/冪等性を想定）
+          NEWS_MAX_PER_SYMBOL: "60"  # シンボル毎の最大取り込み数（負荷制御）
         run: |
           python scripts/fetch_news.py
 
@@ -41,5 +55,5 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
           git add -A
-          git commit -m "chore: update news cache" || echo "no changes"
+          git commit -m "news: update for ${{ steps.set_date.outputs.REPORT_DATE }}" || echo "no changes"
           git push
