@@ -44,7 +44,7 @@ jobs:
           NEWS_SLEEP: "1.5"          # リクエスト間スリープ
           NEWS_JITTER: "0.7"         # ジッタ
           NEWS_DAYS_KEEP: "60"       # latest のローリング保持（任意）
-          NEWS_RECENT_DAYS: "3"      # スコア対象の「直近N日」(REPORT_DATE基準)
+          NEWS_RECENT_DAYS: "7"      # スコア対象の「直近N日」(REPORT_DATE基準)
           NEWS_LOOKBACK_DAYS: "31"   # 取得の最大過去範囲（キャッシュ/冪等性を想定）
           NEWS_MAX_PER_SYMBOL: "60"  # シンボル毎の最大取り込み数（負荷制御）
         run: |
