@@ -154,16 +154,23 @@
               <div class="badges">
                 <div class="badge"><strong>Total score</strong>{{ pts | int }}/1000</div>
                 <div class="badge"><strong>Volume anomaly</strong>{{ "%.2f"|format(item.vol_anomaly_score | default(0, true)) }}</div>
+              
                 {% if (item.insider_momo | default(0, true)) > 0 %}
                   <div class="badge"><strong>Insider momo</strong>{{ "%.2f"|format(item.insider_momo | default(0, true)) }}</div>
                 {% else %}
                   <div class="no-insider">✦ No recent insider buying detected</div>
                 {% endif %}
+              
                 {% if (item.trends_breakout | default(0, true)) > 0 %}
                   <div class="badge"><strong>Trends breakout</strong>{{ "%.2f"|format(item.trends_breakout | default(0, true)) }}</div>
                 {% endif %}
-                {% if (item.news_score | default(0, true)) > 0 %}
-                  <div class="badge"><strong>News</strong>{{ "%.2f"|format(item.news_score | default(0, true)) }}</div>
+              
+                {# ★ これを追加（0 のときは “No news signal” を表示） #}
+                {% set _news = item.news_score | default(0, true) %}
+                {% if _news > 0 %}
+                  <div class="badge"><strong>News signal</strong>{{ "%.2f"|format(_news) }}</div>
+                {% else %}
+                  <div class="badge"><strong>News</strong>No news signal</div>
                 {% endif %}
               </div>
 
