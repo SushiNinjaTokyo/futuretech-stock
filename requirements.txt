@@ -1,4 +1,5 @@
 pandas
+pandas-datareader==0.10.0
 requests
 jinja2
 matplotlib
