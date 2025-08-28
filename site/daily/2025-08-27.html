@@ -6,50 +6,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
-      --bg: #ffffff; --fg: #0f172a; --muted: #64748b; --border: #e5e7eb;
-      --gold: #f59e0b; --silver: #0f172a; --bronze:#fb923c;
-      --chip:#f3f4f6; --ok:#065f46; --ink:#111827;
+      --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
+      --gold:#f59e0b; --silver:#0f172a; --bronze:#fb923c;
+      --chip:#f8fafc; --chip-fg:#0f172a; --accent:#111827;
+      --ok:#10b981; --warn:#f59e0b; --bad:#ef4444; --soft:#eef2f7;
     }
+    * { box-sizing: border-box; }
     body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: var(--bg); color: var(--fg);}
     .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
     header { margin-bottom: 16px; }
-    h1 { font-size: 22px; margin: 0 0 6px 0; }
+    h1 { font-size: 22px; margin: 0 0 6px 0; letter-spacing:-0.2px;}
     .sub { color: var(--muted); font-size: 12px; }
 
     .grid { display: grid; grid-template-columns: repeat(1,minmax(0,1fr)); gap: 12px; }
     @media (min-width: 900px) { .grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 
-    .card { border: 1px solid var(--border); border-radius: 16px; padding: 16px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
-    .row { display:flex; align-items:center; justify-content:space-between; gap: 12px; }
+    .card { border: 1px solid var(--border); border-radius: 16px; padding: 14px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
+    .row { display:flex; align-items:center; justify-content:space-between; gap:12px;}
     .sym { display:flex; align-items:center; gap:10px; }
-    .rank { width: 36px; height: 36px; border-radius: 999px; display:flex; align-items:center; justify-content:center; font-weight: 800; font-size: 13px; }
+    .rank { width: 34px; height: 34px; border-radius: 999px; display:flex; align-items:center; justify-content:center; font-weight: 800; font-size: 12px; letter-spacing:0.2px;}
     .rank.gold   { background: var(--gold); color: #fff; }
     .rank.silver { background: var(--silver); color: #fff; }
     .rank.bronze { background: var(--bronze); color: #fff; }
     .rank.other  { background: #f3f4f6; color: #111827; }
 
-    .symbol { font-size: 20px; font-weight: 700; }
+    .symbol { font-size: 18px; font-weight: 800; letter-spacing:0.2px;}
     .name { font-size:12px; color: var(--muted); }
 
-    .score { text-align:right; }
-    .score .num { font-size: 34px; font-weight: 900; line-height: 1; letter-spacing: -0.5px; }
-    .score .den { font-size: 11px; color: var(--muted); }
+    .score { text-align:right; display:flex; flex-direction:column; align-items:flex-end; line-height:1.05; }
+    .score .num { font-size: 28px; font-weight: 900; letter-spacing: -0.4px; }
+    .score .den { font-size: 11px; color: var(--muted); margin-top:2px; }
 
-    .chips { margin-top:8px; display:flex; flex-wrap:wrap; gap:6px; }
-    .chip  { border:1px solid var(--border); background:var(--chip); border-radius:999px; padding:4px 10px; font-size:12px; color: var(--ink); }
-    .chip strong { color: var(--muted); margin-right:6px; font-weight:500; }
-    .chip .explain { color: var(--muted); margin-left:6px; }
-
-    .tabs { margin-top:12px; }
-    .tab-toggle { display:flex; gap:8px; }
-    .toggle-btn { border:1px solid var(--border); border-radius:999px; padding:6px 10px; font-size:12px; background:#fff; cursor:pointer; }
-    .toggle-btn.active { background:#000; color:#fff; border-color:#000; }
-    .tab { display:none; margin-top:8px; }
+    .tabs { margin-top:10px; }
+    .tab-buttons { display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap;}
+    .tab-btn { border:1px solid var(--border); border-radius:999px; padding:6px 10px; font-size:12px; background:#fff; cursor:pointer; line-height:1; }
+    .tab-btn.active { background:#000; color:#fff; border-color:#000; }
+    .tab { display:none; }
     .tab.active { display:block; }
 
-    .badges { display:flex; flex-wrap:wrap; gap:8px; margin-bottom: 8px; }
-    .badge { border:1px solid var(--border); border-radius:999px; padding:4px 10px; font-size:12px; background: var(--chip); }
-    .badge strong { margin-right:6px; color: var(--muted); font-weight: 500; }
+    .badges { display:flex; flex-wrap:wrap; gap:6px; margin: 6px 0 10px; }
+    .badge { display:inline-flex; align-items:center; gap:6px; border:1px solid var(--border); background:var(--chip); color:var(--chip-fg); border-radius:10px; padding:6px 10px; font-size:12px; line-height:1.1; white-space:nowrap;}
+    .badge .hint { color: var(--muted); font-weight: 500; margin-right:2px; }
+    .badge.emph { border-color:#0f172a; box-shadow: 0 0 0 2px #0f172a10 inset; }
+    .badge.top5 { border-color: var(--ok); box-shadow: 0 0 0 2px #10b98122 inset; }
+    .badge .pill { font-weight:700; letter-spacing:0.1px; }
+
+    .chipbar { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;}
+    .chip { font-size:11px; border:1px solid var(--border); background:var(--soft); color:#111; padding:4px 8px; border-radius:999px; }
+    .chip.star { border-color: var(--ok); background:#ecfdf5; }
 
     .chart { width: 100%; border:1px solid var(--border); border-radius: 10px; }
 
@@ -58,30 +62,20 @@
     .table th { color: var(--muted); font-weight: 600; }
     .right { text-align: right; }
     .muted { color: var(--muted); }
-    details { margin-top: 8px; background:#fafafa; border:1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+    details { margin-top: 6px; background:#fafafa; border:1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
     details > summary { cursor:pointer; font-size: 12px; color:#111; user-select: none; }
     .kv { display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-top:8px; }
     .kv div { font-size:12px; background:#fff; border:1px solid var(--border); border-radius:8px; padding:6px 8px; }
     .kv .k { color: var(--muted); }
 
-    .no-insider {
-      flex: 1;
-      background: #f9fafb;
-      border: 1px dashed #d1d5db;
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 13px;
-      color: #6b7280;
-      font-style: italic;
-      text-align: center;
-    }
+    .no-insider { flex: 1; background: #f9fafb; border: 1px dashed #d1d5db; border-radius: 12px; padding: 8px 10px; font-size: 12px; color: #6b7280; font-style: italic; text-align: center; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <h1>futuretech-stock — Daily Top 10</h1>
-      <div class="sub">Date: 2025-08-27 / Scoring: 1000 pts（Volume + Insider + Trends + News）</div>
+      <div class="sub">Date: 2025-08-27 / Scoring: 1000 pts（volume + insider + trends + news）</div>
     </header>
 
     
@@ -98,11 +92,6 @@
         
         
 
-        
-        
-        
-        
-
         <div class="card" id="card-1" data-symbol="NVDA">
           <div class="row">
             <div class="sym">
@@ -113,581 +102,63 @@
               </div>
             </div>
             <div class="score">
-              <div class="num">496</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <!-- compact chips (always visible) -->
-          <div class="chips">
-            <div class="chip">
-              <strong>Trends</strong>
-              
-                score 1.00 <span class="explain">(percentile)</span>
-              
-            </div>
-            <div class="chip">
-              <strong>News</strong>
-              
-                score 1.00 <span class="explain">(percentile)</span>
-              
-            </div>
-          </div>
-
-          <div class="tabs">
-            <div class="tab-toggle">
-              <button class="toggle-btn" data-target="#ov-1">Overview</button>
-              <button class="toggle-btn" data-target="#tech-1">Technical snapshot</button>
-            </div>
-
-            <!-- Overview: click to open/close -->
-            <div id="ov-1" class="tab">
-              <div class="badges">
-                <div class="badge"><strong>Total score</strong>496/1000</div>
-                <div class="badge"><strong>Volume anomaly</strong>0.49</div>
-              
-                
-                  <div class="no-insider">✦ No recent insider buying detected</div>
-                
-              
-                
-                  <div class="badge"><strong>Trends breakout</strong>1.00</div>
-                
-              
-                
-                
-                
-                  <div class="badge"><strong>News signal</strong>1.00</div>
-                
-              </div>
-
-              <!-- スコアブレークダウン -->
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Value (0–1)</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">496</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <!-- 詳細：Volume anomaly -->
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  
-                  
-                  
-                  
-                  
-                  <div class="kv">
-                    <div><span class="k">RVOL20</span><br>1.40</div>
-                    <div><span class="k">Z60</span><br>2.43</div>
-                    <div><span class="k">PctRank90</span><br>0.97</div>
-                    <div><span class="k">DollarVol</span><br>$42118.8M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
-                  </div>
-                
-              </details>
-
-              <!-- Insider details (Form 4) -->
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-            </div>
-
-            <!-- Technical: 週足チャート -->
-            <div id="tech-1" class="tab">
-              <img src="/charts/2025-08-27/NVDA.png" alt="NVDA weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <!-- Payload for JS -->
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.49559641792210657, "insider_momo": 0, "news_rank": null, "news_score": 1.0, "score_components": {"insider_momo": 0.0, "news": 1.0, "trends_breakout": 1.0, "volume_anomaly": 0.4926606965368444}, "score_pts": 496, "score_weights": {"insider_momo": 0.2, "news": 0.05, "trends_breakout": 0.15, "volume_anomaly": 0.6}, "symbol": "NVDA", "trends_breakout": 1.0, "trends_multiplier": null, "trends_rank": null, "vol_anomaly_score": 0.4926606965368444}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-        
-
-        <div class="card" id="card-2" data-symbol="VSAT">
-          <div class="row">
-            <div class="sym">
-              <div class="rank silver">2</div>
-              <div>
-                <div class="symbol">VSAT</div>
-                <div class="name">Viasat, Inc.</div>
-              </div>
-            </div>
-            <div class="score">
-              <div class="num">338</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <!-- compact chips (always visible) -->
-          <div class="chips">
-            <div class="chip">
-              <strong>Trends</strong>
-              
-                score 0.58 <span class="explain">(percentile)</span>
-              
-            </div>
-            <div class="chip">
-              <strong>News</strong>
-              
-                score 0.45 <span class="explain">(percentile)</span>
-              
-            </div>
-          </div>
-
-          <div class="tabs">
-            <div class="tab-toggle">
-              <button class="toggle-btn" data-target="#ov-2">Overview</button>
-              <button class="toggle-btn" data-target="#tech-2">Technical snapshot</button>
-            </div>
-
-            <!-- Overview: click to open/close -->
-            <div id="ov-2" class="tab">
-              <div class="badges">
-                <div class="badge"><strong>Total score</strong>338/1000</div>
-                <div class="badge"><strong>Volume anomaly</strong>0.38</div>
-              
-                
-                  <div class="no-insider">✦ No recent insider buying detected</div>
-                
-              
-                
-                  <div class="badge"><strong>Trends breakout</strong>0.58</div>
-                
-              
-                
-                
-                
-                  <div class="badge"><strong>News signal</strong>0.45</div>
-                
-              </div>
-
-              <!-- スコアブレークダウン -->
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Value (0–1)</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">338</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <!-- 詳細：Volume anomaly -->
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  
-                  
-                  
-                  
-                  
-                  <div class="kv">
-                    <div><span class="k">RVOL20</span><br>1.98</div>
-                    <div><span class="k">Z60</span><br>1.06</div>
-                    <div><span class="k">PctRank90</span><br>0.99</div>
-                    <div><span class="k">DollarVol</span><br>$347.7M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
-                  </div>
-                
-              </details>
-
-              <!-- Insider details (Form 4) -->
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-            </div>
-
-            <!-- Technical: 週足チャート -->
-            <div id="tech-2" class="tab">
-              <img src="/charts/2025-08-27/VSAT.png" alt="VSAT weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <!-- Payload for JS -->
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.3379758990488855, "insider_momo": 0, "news_rank": null, "news_score": 0.45, "score_components": {"insider_momo": 0.0, "news": 0.45, "trends_breakout": 0.5833333333333334, "volume_anomaly": 0.37995983174814246}, "score_pts": 338, "score_weights": {"insider_momo": 0.2, "news": 0.05, "trends_breakout": 0.15, "volume_anomaly": 0.6}, "symbol": "VSAT", "trends_breakout": 0.5833333333333334, "trends_multiplier": null, "trends_rank": null, "vol_anomaly_score": 0.37995983174814246}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-        
-
-        <div class="card" id="card-3" data-symbol="AVAV">
-          <div class="row">
-            <div class="sym">
-              <div class="rank bronze">3</div>
-              <div>
-                <div class="symbol">AVAV</div>
-                <div class="name">AeroVironment, Inc.</div>
-              </div>
-            </div>
-            <div class="score">
-              <div class="num">223</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <!-- compact chips (always visible) -->
-          <div class="chips">
-            <div class="chip">
-              <strong>Trends</strong>
-              
-                score 0.83 <span class="explain">(percentile)</span>
-              
-            </div>
-            <div class="chip">
-              <strong>News</strong>
-              
-                score 0.80 <span class="explain">(percentile)</span>
-              
-            </div>
-          </div>
-
-          <div class="tabs">
-            <div class="tab-toggle">
-              <button class="toggle-btn" data-target="#ov-3">Overview</button>
-              <button class="toggle-btn" data-target="#tech-3">Technical snapshot</button>
-            </div>
-
-            <!-- Overview: click to open/close -->
-            <div id="ov-3" class="tab">
-              <div class="badges">
-                <div class="badge"><strong>Total score</strong>223/1000</div>
-                <div class="badge"><strong>Volume anomaly</strong>0.10</div>
-              
-                
-                  <div class="no-insider">✦ No recent insider buying detected</div>
-                
-              
-                
-                  <div class="badge"><strong>Trends breakout</strong>0.83</div>
-                
-              
-                
-                
-                
-                  <div class="badge"><strong>News signal</strong>0.80</div>
-                
-              </div>
-
-              <!-- スコアブレークダウン -->
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Value (0–1)</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">223</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <!-- 詳細：Volume anomaly -->
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  
-                  
-                  
-                  
-                  
-                  <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.81</div>
-                    <div><span class="k">Z60</span><br>-0.36</div>
-                    <div><span class="k">PctRank90</span><br>0.48</div>
-                    <div><span class="k">DollarVol</span><br>$154.8M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
-                  </div>
-                
-              </details>
-
-              <!-- Insider details (Form 4) -->
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-            </div>
-
-            <!-- Technical: 週足チャート -->
-            <div id="tech-3" class="tab">
-              <img src="/charts/2025-08-27/AVAV.png" alt="AVAV weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <!-- Payload for JS -->
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.22345415017197742, "insider_momo": 0, "news_rank": null, "news_score": 0.8, "score_components": {"insider_momo": 0.0, "news": 0.8, "trends_breakout": 0.8333333333333334, "volume_anomaly": 0.09742358361996235}, "score_pts": 223, "score_weights": {"insider_momo": 0.2, "news": 0.05, "trends_breakout": 0.15, "volume_anomaly": 0.6}, "symbol": "AVAV", "trends_breakout": 0.8333333333333334, "trends_multiplier": null, "trends_rank": null, "vol_anomaly_score": 0.09742358361996235}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-        
-
-        <div class="card" id="card-4" data-symbol="RKLB">
-          <div class="row">
-            <div class="sym">
-              <div class="rank other">4</div>
-              <div>
-                <div class="symbol">RKLB</div>
-                <div class="name">Rocket Lab USA, Inc.</div>
-              </div>
-            </div>
-            <div class="score">
-              <div class="num">209</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <!-- compact chips (always visible) -->
-          <div class="chips">
-            <div class="chip">
-              <strong>Trends</strong>
-              
-                score 0.92 <span class="explain">(percentile)</span>
-              
-            </div>
-            <div class="chip">
-              <strong>News</strong>
-              
-                score 0.25 <span class="explain">(percentile)</span>
-              
-            </div>
-          </div>
-
-          <div class="tabs">
-            <div class="tab-toggle">
-              <button class="toggle-btn" data-target="#ov-4">Overview</button>
-              <button class="toggle-btn" data-target="#tech-4">Technical snapshot</button>
-            </div>
-
-            <!-- Overview: click to open/close -->
-            <div id="ov-4" class="tab">
-              <div class="badges">
-                <div class="badge"><strong>Total score</strong>209/1000</div>
-                <div class="badge"><strong>Volume anomaly</strong>0.10</div>
-              
-                
-                  <div class="no-insider">✦ No recent insider buying detected</div>
-                
-              
-                
-                  <div class="badge"><strong>Trends breakout</strong>0.92</div>
-                
-              
-                
-                
-                
-                  <div class="badge"><strong>News signal</strong>0.25</div>
-                
-              </div>
-
-              <!-- スコアブレークダウン -->
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Value (0–1)</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">209</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <!-- 詳細：Volume anomaly -->
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  
-                  
-                  
-                  
-                  
-                  <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.82</div>
-                    <div><span class="k">Z60</span><br>-0.40</div>
-                    <div><span class="k">PctRank90</span><br>0.62</div>
-                    <div><span class="k">DollarVol</span><br>$774.1M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
-                  </div>
-                
-              </details>
-
-              <!-- Insider details (Form 4) -->
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-            </div>
-
-            <!-- Technical: 週足チャート -->
-            <div id="tech-4" class="tab">
-              <img src="/charts/2025-08-27/RKLB.png" alt="RKLB weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <!-- Payload for JS -->
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.2090931188780326, "insider_momo": 0, "news_rank": null, "news_score": 0.25, "score_components": {"insider_momo": 0.0, "news": 0.25, "trends_breakout": 0.9166666666666666, "volume_anomaly": 0.09848853146338772}, "score_pts": 209, "score_weights": {"insider_momo": 0.2, "news": 0.05, "trends_breakout": 0.15, "volume_anomaly": 0.6}, "symbol": "RKLB", "trends_breakout": 0.9166666666666666, "trends_multiplier": null, "trends_rank": null, "vol_anomaly_score": 0.09848853146338772}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-        
-
-        <div class="card" id="card-5" data-symbol="IRDM">
-          <div class="row">
-            <div class="sym">
-              <div class="rank other">5</div>
-              <div>
-                <div class="symbol">IRDM</div>
-                <div class="name">Iridium Communications Inc.</div>
-              </div>
-            </div>
-            <div class="score">
               <div class="num">200</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
-          <!-- compact chips (always visible) -->
-          <div class="chips">
-            <div class="chip">
-              <strong>Trends</strong>
-              
-                score 0.58 <span class="explain">(percentile)</span>
-              
+          <div class="badges">
+            <!-- Total score -->
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">200</span></div>
+
+            <!-- Volume anomaly: intuitive wording -->
+            <div class="badge">
+              <span class="hint">Volume</span>
+              <span class="pill">
+                
+                No signal
+              </span>
             </div>
-            <div class="chip">
-              <strong>News</strong>
-              
-                score 0.55 <span class="explain">(percentile)</span>
-              
+
+            <!-- Trends tier + TOP5 -->
+            
+            
+            <div class="badge top5">
+              <span class="hint">Trends</span>
+              <span class="pill">
+                Breakout today
+                
+              </span>
+              <span class="muted">#1</span>
+            </div>
+
+            <!-- News tier + TOP5 + count -->
+            
+            
+            <div class="badge top5">
+              <span class="hint">News</span>
+              <span class="pill">
+                Top coverage today
+                
+              </span>
+              <span class="muted">(0 articles)</span>
+              <span class="muted">#1</span>
             </div>
           </div>
 
           <div class="tabs">
-            <div class="tab-toggle">
-              <button class="toggle-btn" data-target="#ov-5">Overview</button>
-              <button class="toggle-btn" data-target="#tech-5">Technical snapshot</button>
+            <div class="tab-buttons">
+              <button class="tab-btn" data-target="#ov-1">Overview</button>
+              <button class="tab-btn" data-target="#tech-1">Technical snapshot</button>
             </div>
 
-            <!-- Overview: click to open/close -->
-            <div id="ov-5" class="tab">
-              <div class="badges">
-                <div class="badge"><strong>Total score</strong>200/1000</div>
-                <div class="badge"><strong>Volume anomaly</strong>0.14</div>
-              
-                
-                  <div class="no-insider">✦ No recent insider buying detected</div>
-                
-              
-                
-                  <div class="badge"><strong>Trends breakout</strong>0.58</div>
-                
-              
-                
-                
-                
-                  <div class="badge"><strong>News signal</strong>0.55</div>
-                
-              </div>
-
-              <!-- スコアブレークダウン -->
+            <!-- Overview（トグルで開閉） -->
+            <div id="ov-1" class="tab">
               <table class="table js-breakdown">
                 <thead>
                   <tr>
                     <th>Component</th>
-                    <th class="right">Value (0–1)</th>
+                    <th class="right">Normalized</th>
                     <th class="right">Weight</th>
                     <th class="right">Contribution (pts)</th>
                   </tr>
@@ -701,7 +172,6 @@
                 </tfoot>
               </table>
 
-              <!-- 詳細：Volume anomaly -->
               <details>
                 <summary>Volume anomaly details</summary>
                 
@@ -711,16 +181,520 @@
                   
                   
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>1.11</div>
-                    <div><span class="k">Z60</span><br>0.07</div>
-                    <div><span class="k">PctRank90</span><br>0.70</div>
-                    <div><span class="k">DollarVol</span><br>$41.5M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
+                    <div><span class="k">RVOL20</span><br>-</div>
+                    <div><span class="k">Z60</span><br>-</div>
+                    <div><span class="k">PctRank90</span><br>-</div>
+                    <div><span class="k">DollarVol</span><br>-</div>
+                    <div><span class="k">Eligible</span><br>No</div>
                   </div>
                 
               </details>
 
-              <!-- Insider details (Form 4) -->
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <!-- Technical: 週足チャート -->
+            <div id="tech-1" class="tab">
+              <img src="/charts/2025-08-27/NVDA.png" alt="NVDA weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.2, "insider_momo": 0, "news_score": 1.0, "score_components": {"insider_momo": 0.0, "news": 1.0, "trends_breakout": 1.0, "volume_anomaly": 0.0}, "score_pts": 200, "score_weights": {"insider_momo": 0.2, "news": 0.1, "trends_breakout": 0.1, "volume_anomaly": 0.6}, "symbol": "NVDA", "trends_breakout": 1.0, "vol_anomaly_score": 0}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-2" data-symbol="PERF">
+          <div class="row">
+            <div class="sym">
+              <div class="rank silver">2</div>
+              <div>
+                <div class="symbol">PERF</div>
+                <div class="name">Perfect Corp.</div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">181</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="badges">
+            <!-- Total score -->
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">181</span></div>
+
+            <!-- Volume anomaly: intuitive wording -->
+            <div class="badge">
+              <span class="hint">Volume</span>
+              <span class="pill">
+                
+                No signal
+              </span>
+            </div>
+
+            <!-- Trends tier + TOP5 -->
+            
+            
+            <div class="badge top5">
+              <span class="hint">Trends</span>
+              <span class="pill">
+                Breakout today
+                
+              </span>
+              <span class="muted">#3</span>
+            </div>
+
+            <!-- News tier + TOP5 + count -->
+            
+            
+            <div class="badge top5">
+              <span class="hint">News</span>
+              <span class="pill">
+                Top coverage today
+                
+              </span>
+              <span class="muted">(0 articles)</span>
+              <span class="muted">#2</span>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn" data-target="#ov-2">Overview</button>
+              <button class="tab-btn" data-target="#tech-2">Technical snapshot</button>
+            </div>
+
+            <!-- Overview（トグルで開閉） -->
+            <div id="ov-2" class="tab">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">181</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>-</div>
+                    <div><span class="k">Z60</span><br>-</div>
+                    <div><span class="k">PctRank90</span><br>-</div>
+                    <div><span class="k">DollarVol</span><br>-</div>
+                    <div><span class="k">Eligible</span><br>No</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <!-- Technical: 週足チャート -->
+            <div id="tech-2" class="tab">
+              <img src="/charts/2025-08-27/PERF.png" alt="PERF weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.18071428571428572, "insider_momo": 0, "news_score": 0.95, "score_components": {"insider_momo": 0.0, "news": 0.95, "trends_breakout": 0.8571428571428571, "volume_anomaly": 0.0}, "score_pts": 181, "score_weights": {"insider_momo": 0.2, "news": 0.1, "trends_breakout": 0.1, "volume_anomaly": 0.6}, "symbol": "PERF", "trends_breakout": 0.8571428571428571, "vol_anomaly_score": 0}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-3" data-symbol="MSFT">
+          <div class="row">
+            <div class="sym">
+              <div class="rank bronze">3</div>
+              <div>
+                <div class="symbol">MSFT</div>
+                <div class="name">Microsoft Corporation</div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">156</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="badges">
+            <!-- Total score -->
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">156</span></div>
+
+            <!-- Volume anomaly: intuitive wording -->
+            <div class="badge">
+              <span class="hint">Volume</span>
+              <span class="pill">
+                
+                No signal
+              </span>
+            </div>
+
+            <!-- Trends tier + TOP5 -->
+            
+            
+            <div class="badge top5">
+              <span class="hint">Trends</span>
+              <span class="pill">
+                Strong uptick
+                
+              </span>
+              <span class="muted">#5</span>
+            </div>
+
+            <!-- News tier + TOP5 + count -->
+            
+            
+            <div class="badge top5">
+              <span class="hint">News</span>
+              <span class="pill">
+                Top coverage today
+                
+              </span>
+              <span class="muted">(0 articles)</span>
+              <span class="muted">#4</span>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn" data-target="#ov-3">Overview</button>
+              <button class="tab-btn" data-target="#tech-3">Technical snapshot</button>
+            </div>
+
+            <!-- Overview（トグルで開閉） -->
+            <div id="ov-3" class="tab">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">156</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>-</div>
+                    <div><span class="k">Z60</span><br>-</div>
+                    <div><span class="k">PctRank90</span><br>-</div>
+                    <div><span class="k">DollarVol</span><br>-</div>
+                    <div><span class="k">Eligible</span><br>No</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <!-- Technical: 週足チャート -->
+            <div id="tech-3" class="tab">
+              <img src="/charts/2025-08-27/MSFT.png" alt="MSFT weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.15642857142857144, "insider_momo": 0, "news_score": 0.85, "score_components": {"insider_momo": 0.0, "news": 0.85, "trends_breakout": 0.7142857142857143, "volume_anomaly": 0.0}, "score_pts": 156, "score_weights": {"insider_momo": 0.2, "news": 0.1, "trends_breakout": 0.1, "volume_anomaly": 0.6}, "symbol": "MSFT", "trends_breakout": 0.7142857142857143, "vol_anomaly_score": 0}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-4" data-symbol="VRT">
+          <div class="row">
+            <div class="sym">
+              <div class="rank other">4</div>
+              <div>
+                <div class="symbol">VRT</div>
+                <div class="name">Vertiv Holdings Co</div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">154</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="badges">
+            <!-- Total score -->
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">154</span></div>
+
+            <!-- Volume anomaly: intuitive wording -->
+            <div class="badge">
+              <span class="hint">Volume</span>
+              <span class="pill">
+                
+                No signal
+              </span>
+            </div>
+
+            <!-- Trends tier + TOP5 -->
+            
+            
+            <div class="badge ">
+              <span class="hint">Trends</span>
+              <span class="pill">
+                Mild uptick
+                
+              </span>
+              <span class="muted">#14</span>
+            </div>
+
+            <!-- News tier + TOP5 + count -->
+            
+            
+            <div class="badge top5">
+              <span class="hint">News</span>
+              <span class="pill">
+                Top coverage today
+                
+              </span>
+              <span class="muted">(0 articles)</span>
+              <span class="muted">#3</span>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn" data-target="#ov-4">Overview</button>
+              <button class="tab-btn" data-target="#tech-4">Technical snapshot</button>
+            </div>
+
+            <!-- Overview（トグルで開閉） -->
+            <div id="ov-4" class="tab">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">154</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>-</div>
+                    <div><span class="k">Z60</span><br>-</div>
+                    <div><span class="k">PctRank90</span><br>-</div>
+                    <div><span class="k">DollarVol</span><br>-</div>
+                    <div><span class="k">Eligible</span><br>No</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <!-- Technical: 週足チャート -->
+            <div id="tech-4" class="tab">
+              <img src="/charts/2025-08-27/VRT.png" alt="VRT weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.1542857142857143, "insider_momo": 0, "news_score": 0.9, "score_components": {"insider_momo": 0.0, "news": 0.9, "trends_breakout": 0.6428571428571429, "volume_anomaly": 0.0}, "score_pts": 154, "score_weights": {"insider_momo": 0.2, "news": 0.1, "trends_breakout": 0.1, "volume_anomaly": 0.6}, "symbol": "VRT", "trends_breakout": 0.6428571428571429, "vol_anomaly_score": 0}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-5" data-symbol="AVAV">
+          <div class="row">
+            <div class="sym">
+              <div class="rank other">5</div>
+              <div>
+                <div class="symbol">AVAV</div>
+                <div class="name">AeroVironment, Inc.</div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">144</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="badges">
+            <!-- Total score -->
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">144</span></div>
+
+            <!-- Volume anomaly: intuitive wording -->
+            <div class="badge">
+              <span class="hint">Volume</span>
+              <span class="pill">
+                
+                No signal
+              </span>
+            </div>
+
+            <!-- Trends tier + TOP5 -->
+            
+            
+            <div class="badge ">
+              <span class="hint">Trends</span>
+              <span class="pill">
+                Mild uptick
+                
+              </span>
+              <span class="muted">#12</span>
+            </div>
+
+            <!-- News tier + TOP5 + count -->
+            
+            
+            <div class="badge top5">
+              <span class="hint">News</span>
+              <span class="pill">
+                High coverage
+                
+              </span>
+              <span class="muted">(0 articles)</span>
+              <span class="muted">#5</span>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn" data-target="#ov-5">Overview</button>
+              <button class="tab-btn" data-target="#tech-5">Technical snapshot</button>
+            </div>
+
+            <!-- Overview（トグルで開閉） -->
+            <div id="ov-5" class="tab">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">144</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>-</div>
+                    <div><span class="k">Z60</span><br>-</div>
+                    <div><span class="k">PctRank90</span><br>-</div>
+                    <div><span class="k">DollarVol</span><br>-</div>
+                    <div><span class="k">Eligible</span><br>No</div>
+                  </div>
+                
+              </details>
+
               <details class="js-insider">
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
@@ -729,13 +703,13 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-5" class="tab">
-              <img src="/charts/2025-08-27/IRDM.png" alt="IRDM weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-27/AVAV.png" alt="AVAV weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
-          <!-- Payload for JS -->
+          <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.199963405912688, "insider_momo": 0, "news_rank": null, "news_score": 0.55, "score_components": {"insider_momo": 0.0, "news": 0.55, "trends_breakout": 0.5833333333333334, "volume_anomaly": 0.14160567652114667}, "score_pts": 200, "score_weights": {"insider_momo": 0.2, "news": 0.05, "trends_breakout": 0.15, "volume_anomaly": 0.6}, "symbol": "IRDM", "trends_breakout": 0.5833333333333334, "trends_multiplier": null, "trends_rank": null, "vol_anomaly_score": 0.14160567652114667}
+          {"final_score_0_1": 0.1442857142857143, "insider_momo": 0, "news_score": 0.8, "score_components": {"insider_momo": 0.0, "news": 0.8, "trends_breakout": 0.6428571428571429, "volume_anomaly": 0.0}, "score_pts": 144, "score_weights": {"insider_momo": 0.2, "news": 0.1, "trends_breakout": 0.1, "volume_anomaly": 0.6}, "symbol": "AVAV", "trends_breakout": 0.6428571428571429, "vol_anomaly_score": 0}
           </script>
         </div>
       
@@ -749,75 +723,73 @@
         
         
 
-        
-        
-        
-        
-
-        <div class="card" id="card-6" data-symbol="MSFT">
+        <div class="card" id="card-6" data-symbol="INOD">
           <div class="row">
             <div class="sym">
               <div class="rank other">6</div>
               <div>
-                <div class="symbol">MSFT</div>
-                <div class="name">Microsoft Corporation</div>
+                <div class="symbol">INOD</div>
+                <div class="name">Innodata Inc.</div>
               </div>
             </div>
             <div class="score">
-              <div class="num">196</div>
+              <div class="num">139</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
-          <!-- compact chips (always visible) -->
-          <div class="chips">
-            <div class="chip">
-              <strong>Trends</strong>
-              
-                score 0.67 <span class="explain">(percentile)</span>
-              
+          <div class="badges">
+            <!-- Total score -->
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">139</span></div>
+
+            <!-- Volume anomaly: intuitive wording -->
+            <div class="badge">
+              <span class="hint">Volume</span>
+              <span class="pill">
+                
+                No signal
+              </span>
             </div>
-            <div class="chip">
-              <strong>News</strong>
-              
-                score 0.85 <span class="explain">(percentile)</span>
-              
+
+            <!-- Trends tier + TOP5 -->
+            
+            
+            <div class="badge ">
+              <span class="hint">Trends</span>
+              <span class="pill">
+                Mild uptick
+                
+              </span>
+              <span class="muted">#9</span>
+            </div>
+
+            <!-- News tier + TOP5 + count -->
+            
+            
+            <div class="badge ">
+              <span class="hint">News</span>
+              <span class="pill">
+                High coverage
+                
+              </span>
+              <span class="muted">(0 articles)</span>
+              <span class="muted">#6</span>
             </div>
           </div>
 
           <div class="tabs">
-            <div class="tab-toggle">
-              <button class="toggle-btn" data-target="#ov-6">Overview</button>
-              <button class="toggle-btn" data-target="#tech-6">Technical snapshot</button>
+            <div class="tab-buttons">
+              <button class="tab-btn" data-target="#ov-6">Overview</button>
+              <button class="tab-btn" data-target="#tech-6">Technical snapshot</button>
             </div>
 
-            <!-- Overview: click to open/close -->
+            <!-- Overview（トグルで開閉） -->
             <div id="ov-6" class="tab">
-              <div class="badges">
-                <div class="badge"><strong>Total score</strong>196/1000</div>
-                <div class="badge"><strong>Volume anomaly</strong>0.09</div>
-              
-                
-                  <div class="no-insider">✦ No recent insider buying detected</div>
-                
-              
-                
-                  <div class="badge"><strong>Trends breakout</strong>0.67</div>
-                
-              
-                
-                
-                
-                  <div class="badge"><strong>News signal</strong>0.85</div>
-                
-              </div>
-
-              <!-- スコアブレークダウン -->
               <table class="table js-breakdown">
                 <thead>
                   <tr>
                     <th>Component</th>
-                    <th class="right">Value (0–1)</th>
+                    <th class="right">Normalized</th>
                     <th class="right">Weight</th>
                     <th class="right">Contribution (pts)</th>
                   </tr>
@@ -826,12 +798,11 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">196</span></th>
+                    <th class="right"><span class="js-total">139</span></th>
                   </tr>
                 </tfoot>
               </table>
 
-              <!-- 詳細：Volume anomaly -->
               <details>
                 <summary>Volume anomaly details</summary>
                 
@@ -841,16 +812,15 @@
                   
                   
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.74</div>
-                    <div><span class="k">Z60</span><br>-0.79</div>
-                    <div><span class="k">PctRank90</span><br>0.50</div>
-                    <div><span class="k">DollarVol</span><br>$8744.9M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
+                    <div><span class="k">RVOL20</span><br>-</div>
+                    <div><span class="k">Z60</span><br>-</div>
+                    <div><span class="k">PctRank90</span><br>-</div>
+                    <div><span class="k">DollarVol</span><br>-</div>
+                    <div><span class="k">Eligible</span><br>No</div>
                   </div>
                 
               </details>
 
-              <!-- Insider details (Form 4) -->
               <details class="js-insider">
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
@@ -859,13 +829,13 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-6" class="tab">
-              <img src="/charts/2025-08-27/MSFT.png" alt="MSFT weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-27/INOD.png" alt="INOD weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
-          <!-- Payload for JS -->
+          <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.19565496914597594, "insider_momo": 0, "news_rank": null, "news_score": 0.85, "score_components": {"insider_momo": 0.0, "news": 0.85, "trends_breakout": 0.6666666666666666, "volume_anomaly": 0.08859161524329322}, "score_pts": 196, "score_weights": {"insider_momo": 0.2, "news": 0.05, "trends_breakout": 0.15, "volume_anomaly": 0.6}, "symbol": "MSFT", "trends_breakout": 0.6666666666666666, "trends_multiplier": null, "trends_rank": null, "vol_anomaly_score": 0.08859161524329322}
+          {"final_score_0_1": 0.1392857142857143, "insider_momo": 0, "news_score": 0.75, "score_components": {"insider_momo": 0.0, "news": 0.75, "trends_breakout": 0.6428571428571429, "volume_anomaly": 0.0}, "score_pts": 139, "score_weights": {"insider_momo": 0.2, "news": 0.1, "trends_breakout": 0.1, "volume_anomaly": 0.6}, "symbol": "INOD", "trends_breakout": 0.6428571428571429, "vol_anomaly_score": 0}
           </script>
         </div>
       
@@ -879,75 +849,73 @@
         
         
 
-        
-        
-        
-        
-
-        <div class="card" id="card-7" data-symbol="PERF">
+        <div class="card" id="card-7" data-symbol="VSAT">
           <div class="row">
             <div class="sym">
               <div class="rank other">7</div>
               <div>
-                <div class="symbol">PERF</div>
-                <div class="name">Perfect Corp.</div>
+                <div class="symbol">VSAT</div>
+                <div class="name">Viasat, Inc.</div>
               </div>
             </div>
             <div class="score">
-              <div class="num">195</div>
+              <div class="num">138</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
-          <!-- compact chips (always visible) -->
-          <div class="chips">
-            <div class="chip">
-              <strong>Trends</strong>
-              
-                score 0.58 <span class="explain">(percentile)</span>
-              
+          <div class="badges">
+            <!-- Total score -->
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">138</span></div>
+
+            <!-- Volume anomaly: intuitive wording -->
+            <div class="badge">
+              <span class="hint">Volume</span>
+              <span class="pill">
+                
+                No signal
+              </span>
             </div>
-            <div class="chip">
-              <strong>News</strong>
-              
-                score 0.95 <span class="explain">(percentile)</span>
-              
+
+            <!-- Trends tier + TOP5 -->
+            
+            
+            <div class="badge top5">
+              <span class="hint">Trends</span>
+              <span class="pill">
+                Breakout today
+                
+              </span>
+              <span class="muted">#2</span>
+            </div>
+
+            <!-- News tier + TOP5 + count -->
+            
+            
+            <div class="badge ">
+              <span class="hint">News</span>
+              <span class="pill">
+                Moderate
+                
+              </span>
+              <span class="muted">(0 articles)</span>
+              <span class="muted">#12</span>
             </div>
           </div>
 
           <div class="tabs">
-            <div class="tab-toggle">
-              <button class="toggle-btn" data-target="#ov-7">Overview</button>
-              <button class="toggle-btn" data-target="#tech-7">Technical snapshot</button>
+            <div class="tab-buttons">
+              <button class="tab-btn" data-target="#ov-7">Overview</button>
+              <button class="tab-btn" data-target="#tech-7">Technical snapshot</button>
             </div>
 
-            <!-- Overview: click to open/close -->
+            <!-- Overview（トグルで開閉） -->
             <div id="ov-7" class="tab">
-              <div class="badges">
-                <div class="badge"><strong>Total score</strong>195/1000</div>
-                <div class="badge"><strong>Volume anomaly</strong>0.10</div>
-              
-                
-                  <div class="no-insider">✦ No recent insider buying detected</div>
-                
-              
-                
-                  <div class="badge"><strong>Trends breakout</strong>0.58</div>
-                
-              
-                
-                
-                
-                  <div class="badge"><strong>News signal</strong>0.95</div>
-                
-              </div>
-
-              <!-- スコアブレークダウン -->
               <table class="table js-breakdown">
                 <thead>
                   <tr>
                     <th>Component</th>
-                    <th class="right">Value (0–1)</th>
+                    <th class="right">Normalized</th>
                     <th class="right">Weight</th>
                     <th class="right">Contribution (pts)</th>
                   </tr>
@@ -956,12 +924,11 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">195</span></th>
+                    <th class="right"><span class="js-total">138</span></th>
                   </tr>
                 </tfoot>
               </table>
 
-              <!-- 詳細：Volume anomaly -->
               <details>
                 <summary>Volume anomaly details</summary>
                 
@@ -971,16 +938,15 @@
                   
                   
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.83</div>
-                    <div><span class="k">Z60</span><br>-0.30</div>
-                    <div><span class="k">PctRank90</span><br>0.49</div>
-                    <div><span class="k">DollarVol</span><br>$0.3M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
+                    <div><span class="k">RVOL20</span><br>-</div>
+                    <div><span class="k">Z60</span><br>-</div>
+                    <div><span class="k">PctRank90</span><br>-</div>
+                    <div><span class="k">DollarVol</span><br>-</div>
+                    <div><span class="k">Eligible</span><br>No</div>
                   </div>
                 
               </details>
 
-              <!-- Insider details (Form 4) -->
               <details class="js-insider">
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
@@ -989,13 +955,13 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-7" class="tab">
-              <img src="/charts/2025-08-27/PERF.png" alt="PERF weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-27/VSAT.png" alt="VSAT weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
-          <!-- Payload for JS -->
+          <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.19488834048062142, "insider_momo": 0, "news_rank": null, "news_score": 0.95, "score_components": {"insider_momo": 0.0, "news": 0.95, "trends_breakout": 0.5833333333333334, "volume_anomaly": 0.09981390080103568}, "score_pts": 195, "score_weights": {"insider_momo": 0.2, "news": 0.05, "trends_breakout": 0.15, "volume_anomaly": 0.6}, "symbol": "PERF", "trends_breakout": 0.5833333333333334, "trends_multiplier": null, "trends_rank": null, "vol_anomaly_score": 0.09981390080103568}
+          {"final_score_0_1": 0.13785714285714287, "insider_momo": 0, "news_score": 0.45, "score_components": {"insider_momo": 0.0, "news": 0.45, "trends_breakout": 0.9285714285714286, "volume_anomaly": 0.0}, "score_pts": 138, "score_weights": {"insider_momo": 0.2, "news": 0.1, "trends_breakout": 0.1, "volume_anomaly": 0.6}, "symbol": "VSAT", "trends_breakout": 0.9285714285714286, "vol_anomaly_score": 0}
           </script>
         </div>
       
@@ -1009,75 +975,73 @@
         
         
 
-        
-        
-        
-        
-
-        <div class="card" id="card-8" data-symbol="PLTR">
+        <div class="card" id="card-8" data-symbol="TEM">
           <div class="row">
             <div class="sym">
               <div class="rank other">8</div>
               <div>
-                <div class="symbol">PLTR</div>
-                <div class="name">Palantir Technologies Inc.</div>
+                <div class="symbol">TEM</div>
+                <div class="name">Tempus AI, Inc.</div>
               </div>
             </div>
             <div class="score">
-              <div class="num">191</div>
+              <div class="num">129</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
-          <!-- compact chips (always visible) -->
-          <div class="chips">
-            <div class="chip">
-              <strong>Trends</strong>
-              
-                score 0.75 <span class="explain">(percentile)</span>
-              
+          <div class="badges">
+            <!-- Total score -->
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">129</span></div>
+
+            <!-- Volume anomaly: intuitive wording -->
+            <div class="badge">
+              <span class="hint">Volume</span>
+              <span class="pill">
+                
+                No signal
+              </span>
             </div>
-            <div class="chip">
-              <strong>News</strong>
-              
-                score 0.35 <span class="explain">(percentile)</span>
-              
+
+            <!-- Trends tier + TOP5 -->
+            
+            
+            <div class="badge ">
+              <span class="hint">Trends</span>
+              <span class="pill">
+                Mild uptick
+                
+              </span>
+              <span class="muted">#13</span>
+            </div>
+
+            <!-- News tier + TOP5 + count -->
+            
+            
+            <div class="badge ">
+              <span class="hint">News</span>
+              <span class="pill">
+                High coverage
+                
+              </span>
+              <span class="muted">(0 articles)</span>
+              <span class="muted">#8</span>
             </div>
           </div>
 
           <div class="tabs">
-            <div class="tab-toggle">
-              <button class="toggle-btn" data-target="#ov-8">Overview</button>
-              <button class="toggle-btn" data-target="#tech-8">Technical snapshot</button>
+            <div class="tab-buttons">
+              <button class="tab-btn" data-target="#ov-8">Overview</button>
+              <button class="tab-btn" data-target="#tech-8">Technical snapshot</button>
             </div>
 
-            <!-- Overview: click to open/close -->
+            <!-- Overview（トグルで開閉） -->
             <div id="ov-8" class="tab">
-              <div class="badges">
-                <div class="badge"><strong>Total score</strong>191/1000</div>
-                <div class="badge"><strong>Volume anomaly</strong>0.10</div>
-              
-                
-                  <div class="no-insider">✦ No recent insider buying detected</div>
-                
-              
-                
-                  <div class="badge"><strong>Trends breakout</strong>0.75</div>
-                
-              
-                
-                
-                
-                  <div class="badge"><strong>News signal</strong>0.35</div>
-                
-              </div>
-
-              <!-- スコアブレークダウン -->
               <table class="table js-breakdown">
                 <thead>
                   <tr>
                     <th>Component</th>
-                    <th class="right">Value (0–1)</th>
+                    <th class="right">Normalized</th>
                     <th class="right">Weight</th>
                     <th class="right">Contribution (pts)</th>
                   </tr>
@@ -1086,12 +1050,11 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">191</span></th>
+                    <th class="right"><span class="js-total">129</span></th>
                   </tr>
                 </tfoot>
               </table>
 
-              <!-- 詳細：Volume anomaly -->
               <details>
                 <summary>Volume anomaly details</summary>
                 
@@ -1101,16 +1064,15 @@
                   
                   
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.84</div>
-                    <div><span class="k">Z60</span><br>-0.39</div>
-                    <div><span class="k">PctRank90</span><br>0.59</div>
-                    <div><span class="k">DollarVol</span><br>$11109.0M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
+                    <div><span class="k">RVOL20</span><br>-</div>
+                    <div><span class="k">Z60</span><br>-</div>
+                    <div><span class="k">PctRank90</span><br>-</div>
+                    <div><span class="k">DollarVol</span><br>-</div>
+                    <div><span class="k">Eligible</span><br>No</div>
                   </div>
                 
               </details>
 
-              <!-- Insider details (Form 4) -->
               <details class="js-insider">
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
@@ -1119,13 +1081,13 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-8" class="tab">
-              <img src="/charts/2025-08-27/PLTR.png" alt="PLTR weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-27/TEM.png" alt="TEM weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
-          <!-- Payload for JS -->
+          <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.190603099067126, "insider_momo": 0, "news_rank": null, "news_score": 0.35, "score_components": {"insider_momo": 0.0, "news": 0.35, "trends_breakout": 0.75, "volume_anomaly": 0.1010051651118767}, "score_pts": 191, "score_weights": {"insider_momo": 0.2, "news": 0.05, "trends_breakout": 0.15, "volume_anomaly": 0.6}, "symbol": "PLTR", "trends_breakout": 0.75, "trends_multiplier": null, "trends_rank": null, "vol_anomaly_score": 0.1010051651118767}
+          {"final_score_0_1": 0.12928571428571428, "insider_momo": 0, "news_score": 0.65, "score_components": {"insider_momo": 0.0, "news": 0.65, "trends_breakout": 0.6428571428571429, "volume_anomaly": 0.0}, "score_pts": 129, "score_weights": {"insider_momo": 0.2, "news": 0.1, "trends_breakout": 0.1, "volume_anomaly": 0.6}, "symbol": "TEM", "trends_breakout": 0.6428571428571429, "vol_anomaly_score": 0}
           </script>
         </div>
       
@@ -1134,11 +1096,6 @@
         
         
         
-        
-        
-        
-        
-
         
         
         
@@ -1154,60 +1111,63 @@
               </div>
             </div>
             <div class="score">
-              <div class="num">184</div>
+              <div class="num">124</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
-          <!-- compact chips (always visible) -->
-          <div class="chips">
-            <div class="chip">
-              <strong>Trends</strong>
-              
-                score 0.58 <span class="explain">(percentile)</span>
-              
+          <div class="badges">
+            <!-- Total score -->
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">124</span></div>
+
+            <!-- Volume anomaly: intuitive wording -->
+            <div class="badge">
+              <span class="hint">Volume</span>
+              <span class="pill">
+                
+                No signal
+              </span>
             </div>
-            <div class="chip">
-              <strong>News</strong>
-              
-                score 0.60 <span class="explain">(percentile)</span>
-              
+
+            <!-- Trends tier + TOP5 -->
+            
+            
+            <div class="badge ">
+              <span class="hint">Trends</span>
+              <span class="pill">
+                Mild uptick
+                
+              </span>
+              <span class="muted">#10</span>
+            </div>
+
+            <!-- News tier + TOP5 + count -->
+            
+            
+            <div class="badge ">
+              <span class="hint">News</span>
+              <span class="pill">
+                Moderate
+                
+              </span>
+              <span class="muted">(0 articles)</span>
+              <span class="muted">#9</span>
             </div>
           </div>
 
           <div class="tabs">
-            <div class="tab-toggle">
-              <button class="toggle-btn" data-target="#ov-9">Overview</button>
-              <button class="toggle-btn" data-target="#tech-9">Technical snapshot</button>
+            <div class="tab-buttons">
+              <button class="tab-btn" data-target="#ov-9">Overview</button>
+              <button class="tab-btn" data-target="#tech-9">Technical snapshot</button>
             </div>
 
-            <!-- Overview: click to open/close -->
+            <!-- Overview（トグルで開閉） -->
             <div id="ov-9" class="tab">
-              <div class="badges">
-                <div class="badge"><strong>Total score</strong>184/1000</div>
-                <div class="badge"><strong>Volume anomaly</strong>0.11</div>
-              
-                
-                  <div class="no-insider">✦ No recent insider buying detected</div>
-                
-              
-                
-                  <div class="badge"><strong>Trends breakout</strong>0.58</div>
-                
-              
-                
-                
-                
-                  <div class="badge"><strong>News signal</strong>0.60</div>
-                
-              </div>
-
-              <!-- スコアブレークダウン -->
               <table class="table js-breakdown">
                 <thead>
                   <tr>
                     <th>Component</th>
-                    <th class="right">Value (0–1)</th>
+                    <th class="right">Normalized</th>
                     <th class="right">Weight</th>
                     <th class="right">Contribution (pts)</th>
                   </tr>
@@ -1216,12 +1176,11 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">184</span></th>
+                    <th class="right"><span class="js-total">124</span></th>
                   </tr>
                 </tfoot>
               </table>
 
-              <!-- 詳細：Volume anomaly -->
               <details>
                 <summary>Volume anomaly details</summary>
                 
@@ -1231,16 +1190,15 @@
                   
                   
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.92</div>
-                    <div><span class="k">Z60</span><br>-0.25</div>
-                    <div><span class="k">PctRank90</span><br>0.78</div>
-                    <div><span class="k">DollarVol</span><br>$614.5M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
+                    <div><span class="k">RVOL20</span><br>-</div>
+                    <div><span class="k">Z60</span><br>-</div>
+                    <div><span class="k">PctRank90</span><br>-</div>
+                    <div><span class="k">DollarVol</span><br>-</div>
+                    <div><span class="k">Eligible</span><br>No</div>
                   </div>
                 
               </details>
 
-              <!-- Insider details (Form 4) -->
               <details class="js-insider">
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
@@ -1253,9 +1211,9 @@
             </div>
           </div>
 
-          <!-- Payload for JS -->
+          <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.18380100788563178, "insider_momo": 0, "news_rank": null, "news_score": 0.6, "score_components": {"insider_momo": 0.0, "news": 0.6, "trends_breakout": 0.5833333333333334, "volume_anomaly": 0.11050167980938631}, "score_pts": 184, "score_weights": {"insider_momo": 0.2, "news": 0.05, "trends_breakout": 0.15, "volume_anomaly": 0.6}, "symbol": "SOUN", "trends_breakout": 0.5833333333333334, "trends_multiplier": null, "trends_rank": null, "vol_anomaly_score": 0.11050167980938631}
+          {"final_score_0_1": 0.12428571428571429, "insider_momo": 0, "news_score": 0.6, "score_components": {"insider_momo": 0.0, "news": 0.6, "trends_breakout": 0.6428571428571429, "volume_anomaly": 0.0}, "score_pts": 124, "score_weights": {"insider_momo": 0.2, "news": 0.1, "trends_breakout": 0.1, "volume_anomaly": 0.6}, "symbol": "SOUN", "trends_breakout": 0.6428571428571429, "vol_anomaly_score": 0}
           </script>
         </div>
       
@@ -1269,75 +1227,73 @@
         
         
 
-        
-        
-        
-        
-
-        <div class="card" id="card-10" data-symbol="INOD">
+        <div class="card" id="card-10" data-symbol="IRDM">
           <div class="row">
             <div class="sym">
               <div class="rank other">10</div>
               <div>
-                <div class="symbol">INOD</div>
-                <div class="name">Innodata Inc.</div>
+                <div class="symbol">IRDM</div>
+                <div class="name">Iridium Communications Inc.</div>
               </div>
             </div>
             <div class="score">
-              <div class="num">153</div>
+              <div class="num">119</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
-          <!-- compact chips (always visible) -->
-          <div class="chips">
-            <div class="chip">
-              <strong>Trends</strong>
-              
-                score 0.58 <span class="explain">(percentile)</span>
-              
+          <div class="badges">
+            <!-- Total score -->
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">119</span></div>
+
+            <!-- Volume anomaly: intuitive wording -->
+            <div class="badge">
+              <span class="hint">Volume</span>
+              <span class="pill">
+                
+                No signal
+              </span>
             </div>
-            <div class="chip">
-              <strong>News</strong>
-              
-                score 0.75 <span class="explain">(percentile)</span>
-              
+
+            <!-- Trends tier + TOP5 -->
+            
+            
+            <div class="badge ">
+              <span class="hint">Trends</span>
+              <span class="pill">
+                Mild uptick
+                
+              </span>
+              <span class="muted">#8</span>
+            </div>
+
+            <!-- News tier + TOP5 + count -->
+            
+            
+            <div class="badge ">
+              <span class="hint">News</span>
+              <span class="pill">
+                Moderate
+                
+              </span>
+              <span class="muted">(0 articles)</span>
+              <span class="muted">#10</span>
             </div>
           </div>
 
           <div class="tabs">
-            <div class="tab-toggle">
-              <button class="toggle-btn" data-target="#ov-10">Overview</button>
-              <button class="toggle-btn" data-target="#tech-10">Technical snapshot</button>
+            <div class="tab-buttons">
+              <button class="tab-btn" data-target="#ov-10">Overview</button>
+              <button class="tab-btn" data-target="#tech-10">Technical snapshot</button>
             </div>
 
-            <!-- Overview: click to open/close -->
+            <!-- Overview（トグルで開閉） -->
             <div id="ov-10" class="tab">
-              <div class="badges">
-                <div class="badge"><strong>Total score</strong>153/1000</div>
-                <div class="badge"><strong>Volume anomaly</strong>0.05</div>
-              
-                
-                  <div class="no-insider">✦ No recent insider buying detected</div>
-                
-              
-                
-                  <div class="badge"><strong>Trends breakout</strong>0.58</div>
-                
-              
-                
-                
-                
-                  <div class="badge"><strong>News signal</strong>0.75</div>
-                
-              </div>
-
-              <!-- スコアブレークダウン -->
               <table class="table js-breakdown">
                 <thead>
                   <tr>
                     <th>Component</th>
-                    <th class="right">Value (0–1)</th>
+                    <th class="right">Normalized</th>
                     <th class="right">Weight</th>
                     <th class="right">Contribution (pts)</th>
                   </tr>
@@ -1346,12 +1302,11 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">153</span></th>
+                    <th class="right"><span class="js-total">119</span></th>
                   </tr>
                 </tfoot>
               </table>
 
-              <!-- 詳細：Volume anomaly -->
               <details>
                 <summary>Volume anomaly details</summary>
                 
@@ -1361,16 +1316,15 @@
                   
                   
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.39</div>
-                    <div><span class="k">Z60</span><br>-1.07</div>
-                    <div><span class="k">PctRank90</span><br>0.10</div>
-                    <div><span class="k">DollarVol</span><br>$39.9M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
+                    <div><span class="k">RVOL20</span><br>-</div>
+                    <div><span class="k">Z60</span><br>-</div>
+                    <div><span class="k">PctRank90</span><br>-</div>
+                    <div><span class="k">DollarVol</span><br>-</div>
+                    <div><span class="k">Eligible</span><br>No</div>
                   </div>
                 
               </details>
 
-              <!-- Insider details (Form 4) -->
               <details class="js-insider">
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
@@ -1379,33 +1333,35 @@
 
             <!-- Technical: 週足チャート -->
             <div id="tech-10" class="tab">
-              <img src="/charts/2025-08-27/INOD.png" alt="INOD weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-27/IRDM.png" alt="IRDM weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
-          <!-- Payload for JS -->
+          <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.15320118724402929, "insider_momo": 0, "news_rank": null, "news_score": 0.75, "score_components": {"insider_momo": 0.0, "news": 0.75, "trends_breakout": 0.5833333333333334, "volume_anomaly": 0.04700197874004878}, "score_pts": 153, "score_weights": {"insider_momo": 0.2, "news": 0.05, "trends_breakout": 0.15, "volume_anomaly": 0.6}, "symbol": "INOD", "trends_breakout": 0.5833333333333334, "trends_multiplier": null, "trends_rank": null, "vol_anomaly_score": 0.04700197874004878}
+          {"final_score_0_1": 0.1192857142857143, "insider_momo": 0, "news_score": 0.55, "score_components": {"insider_momo": 0.0, "news": 0.55, "trends_breakout": 0.6428571428571429, "volume_anomaly": 0.0}, "score_pts": 119, "score_weights": {"insider_momo": 0.2, "news": 0.1, "trends_breakout": 0.1, "volume_anomaly": 0.6}, "symbol": "IRDM", "trends_breakout": 0.6428571428571429, "vol_anomaly_score": 0}
           </script>
         </div>
       
     </div>
+
     
   </div>
 
   <script>
-    // Overview: click again to close
-    function bindToggles(scope = document) {
-      scope.querySelectorAll(".tab-toggle").forEach(group => {
-        group.querySelectorAll(".toggle-btn").forEach(btn => {
+    // タブ：クリックで開閉（再クリックで閉じる）
+    function bindTabs(scope = document) {
+      scope.querySelectorAll(".tab-buttons").forEach(btns => {
+        btns.querySelectorAll(".tab-btn").forEach(btn => {
           btn.addEventListener("click", () => {
             const card = btn.closest(".card");
-            const target = card.querySelector(btn.getAttribute("data-target"));
+            const targetSel = btn.getAttribute("data-target");
+            const target = card.querySelector(targetSel);
             const isActive = target.classList.contains("active");
-            // deactivate all
-            group.querySelectorAll(".toggle-btn").forEach(b => b.classList.remove("active"));
+            // reset
+            btns.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
             card.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-            // toggle clicked
+            // toggle
             if (!isActive) {
               btn.classList.add("active");
               target.classList.add("active");
@@ -1414,9 +1370,9 @@
         });
       });
     }
-    bindToggles(document);
+    bindTabs(document);
 
-    // Score breakdown (normalize weights over present components)
+    // スコア内訳テーブル（存在要素のみ正規化 → 1000点換算）
     function fillBreakdown() {
       document.querySelectorAll(".card").forEach(card => {
         const payloadEl = card.querySelector(".js-payload");
@@ -1437,7 +1393,7 @@
           volume_anomaly: "Volume anomaly",
           insider_momo: "Insider momentum",
           trends_breakout: "Trends breakout",
-          news: "News",
+          news: "News coverage",
         }[k] || k);
 
         keys.forEach(k => {
@@ -1454,12 +1410,11 @@
           `;
           tbody.appendChild(tr);
         });
-
         if (totalEl) totalEl.textContent = String(totalPts);
       });
     }
 
-    // Insider details from JSON
+    // Insider details
     async function fillInsiderDetails() {
       try {
         const res = await fetch(`/data/insider/form4_latest.json`, { cache: "no-store" });
@@ -1484,13 +1439,12 @@
               <div><span class="k">Unique buyers (90d)</span><br>${(rec.buyers_90||0)}</div>
               <div><span class="k">Score 30</span><br>${Number(rec.score_30||0).toFixed(2)}</div>
               <div><span class="k">Score 90</span><br>${Number(rec.score_90||0).toFixed(2)}</div>
-            </div>
-          `;
+            </div>`;
           box.innerHTML = html;
         });
-      } catch {
+      } catch (e) {
         document.querySelectorAll(".js-insider").forEach(box => {
-          box.innerHTML = `<summary>Insider details (Form 4)</summary><div class="muted">Load failed</div>`;
+          box.innerHTML = `<summary>Insider details (Form 4)</summary><div class="muted">Failed to load</div>`;
         });
       }
     }
