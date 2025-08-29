@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 """
 News fetcher (robust & idempotent)
-- Google News RSS で記事取得（会社名 / "SYMBOL stock" の2クエリ）
-- 直近 NEWS_RECENT_DAYS の記事数 + かんたん感情で素点
-- 宇宙内パーセンタイルで 0..1 正規化（スコアは score_0_1）
+- Google News RSS で記事取得（会社名 / "SYMBOL stock"）
+- 直近 RECENT_DAYS の記事 × 簡易感情で素点
+- 宇宙内パーセンタイルで 0..1 正規化（score_0_1）
 - latest.json と 日付別 news.json に保存（何度実行してもOK）
 """
 
 import os, time, json, pathlib, math, random, datetime, re
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 from zoneinfo import ZoneInfo
 
 import requests
@@ -24,7 +24,7 @@ DATE = os.getenv("REPORT_DATE")
 if not DATE:
     now_et = datetime.datetime.now(ZoneInfo("America/New_York"))
     d = now_et.date()
-    # 20:00 ET までは前営業日扱い（あなたの方針に合わせて安全寄り）
+    # 20:00 ET までは前営業日扱い（安全寄り）
     if now_et.hour < 20:
         d = d - datetime.timedelta(days=1)
     while d.weekday() >= 5:
@@ -35,9 +35,8 @@ UA = os.getenv("NEWS_USER_AGENT", "futuretech-stock/1.0 (news-fetcher)")
 SLEEP = float(os.getenv("NEWS_SLEEP", "1.0"))
 JITTER = float(os.getenv("NEWS_JITTER", "0.7"))
 
-DAYS_KEEP = int(os.getenv("NEWS_DAYS_KEEP", "60"))     # 保存の参考値（今回は使わないが将来清掃に）
-RECENT_DAYS = int(os.getenv("NEWS_RECENT_DAYS", "5"))  # スコア対象期間
-LOOKBACK_DAYS = int(os.getenv("NEWS_LOOKBACK_DAYS", "30"))  # 取得対象期間
+RECENT_DAYS = int(os.getenv("NEWS_RECENT_DAYS", "5"))
+LOOKBACK_DAYS = int(os.getenv("NEWS_LOOKBACK_DAYS", "30"))
 MAX_PER_SYMBOL = int(os.getenv("NEWS_MAX_PER_SYMBOL", "80"))
 RETRIES = int(os.getenv("NEWS_RETRIES", "3"))
 TIMEOUT = int(os.getenv("NEWS_TIMEOUT", "25"))
@@ -56,7 +55,6 @@ def req_get(url: str, params: dict | None = None) -> requests.Response:
                 timeout=TIMEOUT,
             )
             if r.status_code == 429:
-                # クールダウン（指数 + ジッタ）
                 wait = min(60, 5 * (2 ** (i-1))) + random.uniform(0, 1.5)
                 print(f"[NEWS] 429 cooldown {wait:.1f}s ...")
                 time.sleep(wait)
@@ -75,10 +73,8 @@ def to_str(x: Any) -> str:
         return ""
     if isinstance(x, (str, bytes)):
         return x.decode() if isinstance(x, bytes) else x
-    # FeedParserDict 等
     try:
         if hasattr(x, "get"):
-            # よくある形: {'$t': 'Bloomberg'} / {'name': 'Reuters'}
             for k in ("$t", "name", "label", "text"):
                 v = x.get(k)
                 if isinstance(v, (str, bytes)):
@@ -94,20 +90,21 @@ def clean_text(s: Any) -> str:
     return s
 
 def parse_time(e: Any) -> datetime.datetime:
-    # feedparser の published_parsed / updated_parsed / published / updated を順に
     now = datetime.datetime.now(datetime.timezone.utc)
     for k in ("published_parsed", "updated_parsed"):
-        t = getattr(e, k, None) or e.get(k)
+        t = getattr(e, k, None) or (e.get(k) if hasattr(e, "get") else None)
         if t:
             try:
                 return datetime.datetime(*t[:6], tzinfo=datetime.timezone.utc)
             except Exception:
                 pass
     for k in ("published", "updated", "dc_date"):
-        s = e.get(k)
+        s = e.get(k) if hasattr(e, "get") else None
         if s:
             try:
-                return feedparser._parse_date(s) or now
+                pt = feedparser._parse_date(s)
+                if pt:
+                    return datetime.datetime(*pt[:6], tzinfo=datetime.timezone.utc)
             except Exception:
                 pass
     return now
@@ -120,7 +117,6 @@ def pct_rank(vals: List[float], x: float | None) -> float:
     k = bisect.bisect_right(arr, x)
     return k / len(arr)
 
-# 軽い辞書ベースの感情（ヘッドラインのみ）
 POS = set("""
 beat beats tops surges jumps soars record growth bullish win wins winning upbeat upgrade upgrades
 """.split())
@@ -133,33 +129,24 @@ def tiny_sentiment(headline: str) -> float:
     pos = sum(1 for w in POS if f" {w}" in f" {h}")
     neg = sum(1 for w in NEG if f" {w}" in f" {h}")
     if pos == 0 and neg == 0:
-        return 1.0  # 中立=1倍
-    return max(0.2, (1.0 + 0.15 * pos - 0.15 * neg))  # 0.2〜∞（実質1.4倍程度に収まることが多い）
+        return 1.0
+    return max(0.2, (1.0 + 0.15 * pos - 0.15 * neg))
 
 # ---------- Core ----------
 def build_queries(symbol: str, name: str) -> List[str]:
-    q1 = f'"{name}"'
+    q1 = f'"{name}"' if name else ""
     q2 = f'"{symbol} stock"'
-    # 名前が空なら ticker だけ
-    queries = [q2] if not name else [q1, q2]
-    # 余計な空白を除去
-    return [q.strip() for q in queries if q.strip()]
+    return [q for q in (q1, q2) if q.strip()]
 
 def fetch_rss_for_query(query: str, hl="en-US", gl="US") -> feedparser.FeedParserDict:
     base = "https://news.google.com/rss/search"
-    params = {
-        "q": query,
-        "hl": hl,
-        "gl": gl,
-        "ceid": "US:en",
-    }
+    params = {"q": query, "hl": hl, "gl": gl, "ceid": "US:en"}
     r = req_get(base, params=params)
     jitter_sleep()
     return feedparser.parse(r.text)
 
 def main():
     uni = pd.read_csv(UNIVERSE_CSV)
-    # symbol, name を堅牢に
     uni["symbol"] = uni["symbol"].astype(str).str.upper().str.strip()
     if "name" not in uni.columns:
         uni["name"] = ""
@@ -187,21 +174,19 @@ def main():
                 print(f"[NEWS] fetch failed {sym} / {q}: {e}")
                 continue
 
-            for entry in feed.entries:
-                url = clean_text(entry.get("link"))
-                if not url:
-                    continue
-                if url in seen_urls:
+            for entry in getattr(feed, "entries", []):
+                get = entry.get
+                url = clean_text(get("link"))
+                if not url or url in seen_urls:
                     continue
 
-                # 日時
                 ts = parse_time(entry)
                 if ts < lookback_since:
-                    continue  # 取得対象外
+                    continue
 
-                title = clean_text(entry.get("title"))
-                summary = clean_text(entry.get("summary") or entry.get("description"))
-                source = clean_text(entry.get("source") or entry.get("author"))
+                title = clean_text(get("title"))
+                summary = clean_text(get("summary") or get("description"))
+                source = clean_text(get("source") or get("author"))
 
                 articles.append({
                     "url": url,
@@ -213,18 +198,17 @@ def main():
                     "query": q,
                 })
                 seen_urls.add(url)
-
                 if len(articles) >= MAX_PER_SYMBOL:
                     break
             if len(articles) >= MAX_PER_SYMBOL:
                 break
 
-        # スコア：直近RECENT_DAYS の記事に重み（件数 × かんたん感情係数）
+        # スコア：直近だけを数えて簡易感情で重み付け
         recent = [a for a in articles if datetime.datetime.fromisoformat(a["ts"]) >= recent_since]
         raw = 0.0
         for a in recent:
             raw += 1.0 * tiny_sentiment(a["title"])
-        # 記録
+
         per_symbol[sym] = {
             "as_of": asof,
             "recent_count": len(recent),
