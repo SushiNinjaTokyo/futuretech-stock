@@ -106,6 +106,51 @@
     .kv div{font-size:12px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 8px}
     .kv .k{color:var(--muted)}
     .no-insider{flex:1;background:#f9fafb;border:1px dashed #d1d5db;border-radius:12px;padding:8px 10px;font-size:12px;color:#6b7280;font-style:italic;text-align:center}
+
+    /* ===== Rocket rank badges ===== */
+    .rank-rocket{
+      --ring:#e5e7eb;
+      width:46px;height:46px;border-radius:999px;
+      display:flex;align-items:center;justify-content:center;
+      position:relative; isolation:isolate;
+      box-shadow:0 6px 18px rgba(0,0,0,.08) inset, 0 4px 10px rgba(0,0,0,.06);
+    }
+    .rank-rocket .num{
+      position:absolute; right:-6px; bottom:-6px;
+      width:20px; height:20px; border-radius:999px;
+      background:#0f172a; color:#fff; font-weight:800; font-size:11px;
+      display:flex; align-items:center; justify-content:center;
+      border:2px solid #fff;
+    }
+    .rank-rocket svg{ width:22px;height:22px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.18)); }
+    .rank-rocket .flame{ transform-origin:10px 18px; }
+    
+    /* Gold / Silver / Bronze backgrounds */
+    .rank1{ background:linear-gradient(135deg,#f59e0b 0%,#f97316 100%); }
+    .rank2{ background:linear-gradient(135deg,#cbd5e1 0%,#9ca3af 100%); }
+    .rank3{ background:linear-gradient(135deg,#fb923c 0%,#f59e0b 100%); }
+    .rankN{ background:#f3f4f6; }
+    .rank1{ box-shadow:0 0 0 2px #fef3c7 inset, 0 8px 24px rgba(245,158,11,.35); }
+    .rank2{ box-shadow:0 0 0 2px #e5e7eb inset, 0 8px 24px rgba(15,23,42,.18); }
+    .rank3{ box-shadow:0 0 0 2px #fee2e2 inset, 0 8px 24px rgba(251,146,60,.28); }
+    
+    /* Rocket poses */
+    .rank1 .rocket{ animation:lift 1.8s ease-in-out infinite; }
+    .rank2 .rocket{ transform:rotate(32deg) translateY(-1px); }
+    .rank3 .rocket{ transform:rotate(16deg); }
+    
+    /* Subtle flame flicker for #1 */
+    .rank1 .flame{ animation:flicker .9s ease-in-out infinite; }
+    @keyframes lift{
+      0%{ transform:translateY(0) rotate(-4deg); }
+      50%{ transform:translateY(-3px) rotate(0deg); }
+      100%{ transform:translateY(0) rotate(-4deg); }
+    }
+    @keyframes flicker{
+      0%,100%{ opacity:.95; transform:scale(1); }
+      50%{ opacity:.55; transform:scale(.85); }
+    }
+    
   </style>
 </head>
 <body>
@@ -139,33 +184,28 @@
 
           <div class="row">
             <div class="sym">
-              <div class="rank {{ tier }}">{{ rank }}</div>
+              {# rank → rocket badge #}
+              {% set rank_class = 'rank1' if rank==1 else ('rank2' if rank==2 else ('rank3' if rank==3 else 'rankN') ) %}
+              <div class="rank-rocket {{ rank_class }}" aria-label="Rank {{ rank }}">
+                <!-- Simple rocket SVG (inline, lightweight) -->
+                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <!-- body -->
+                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                  <!-- window -->
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <!-- fins -->
+                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <!-- flame (animated on rank1) -->
+                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                </svg>
+                <div class="num">{{ rank }}</div>
+              </div>
+
               <div>
-                <div class="symbol">{{ _sym }}</div>
-                {% if _name %}<div class="name">{{ _name }}</div>{% endif %}
-
-                <!-- price chips -->
-                {% set pc = item.price_change if item.price_change is defined else {} %}
-                {% set d1 = pc.d1_pct if pc else None %}
-                {% set w1 = pc.w1_pct if pc else None %}
-                {% set m1 = pc.m1_pct if pc else None %}
-                <div class="price-chips" aria-label="Price changes">
-                  <span class="pch {% if d1 is none %}neutral{% elif d1>=0 %}up{% else %}down{% endif %}" title="Change vs prior day">
-                    <span class="k">1d</span>
-                    {% if d1 is none %}—{% else %}{{ ('+' if d1>=0 else '') ~ ('%.2f'|format(d1)) }}%{% endif %}
-                  </span>
-                  <span class="pch {% if w1 is none %}neutral{% elif w1>=0 %}up{% else %}down{% endif %}" title="Change vs prior week">
-                    <span class="k">1w</span>
-                    {% if w1 is none %}—{% else %}{{ ('+' if w1>=0 else '') ~ ('%.2f'|format(w1)) }}%{% endif %}
-                  </span>
-                  <span class="pch {% if m1 is none %}neutral{% elif m1>=0 %}up{% else %}down{% endif %}" title="Change vs prior month">
-                    <span class="k">1m</span>
-                    {% if m1 is none %}—{% else %}{{ ('+' if m1>=0 else '') ~ ('%.2f'|format(m1)) }}%{% endif %}
-                  </span>
+                  <div class="symbol">{{ _sym }}</div>
+                  {% if _name %}<div class="name">{{ _name }}</div>{% endif %}
                 </div>
-
-                <!-- medals (News/Trends Top3) -->
-                <div class="medals" aria-label="Top 3 medals"></div>
               </div>
             </div>
 
