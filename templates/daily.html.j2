@@ -51,10 +51,6 @@
     .badge.top5{border-color:var(--ok);box-shadow:0 0 0 2px #10b98122 inset}
     .badge .pill{font-weight:700;letter-spacing:.1px}
 
-    .chipbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-    .chip{font-size:11px;border:1px solid var(--border);background:var(--soft);color:#111;padding:4px 8px;border-radius:999px}
-    .chip.star{border-color:var(--ok);background:#ecfdf5}
-
     .chart{width:100%;border:1px solid var(--border);border-radius:10px}
 
     .table{width:100%;border-collapse:collapse;margin-top:6px}
@@ -140,7 +136,7 @@
               <span class="muted js-trends-rank"></span>
             </div>
 
-            <!-- News: 件数キーを news_recent_count に統一、rank はクライアントで算出 -->
+            <!-- News: 件数キーは news_recent_count、rank はクライアント算出 -->
             <div class="badge" data-kind="news" data-score="{{ item.news_score|default(0,true) }}">
               <span class="hint">News</span>
               <span class="pill js-news-tier">
@@ -254,7 +250,7 @@
     }
     bindTabs(document);
 
-    // スコア内訳（埋め込み JSON から再計算）
+    // Breakdown（埋め込み JSON から再計算）
     function fillBreakdown(){
       document.querySelectorAll(".card").forEach(card=>{
         const payloadEl=card.querySelector(".js-payload");
@@ -284,7 +280,7 @@
       });
     }
 
-    // Insider details (外部 JSON 読み込み)
+    // Insider details
     async function fillInsiderDetails(){
       try{
         const res=await fetch(`/data/insider/form4_latest.json`,{cache:"no-store"});
@@ -314,37 +310,37 @@
       }
     }
 
-    // ---- 追加：クライアント側で Trends / News の順位を算出して TOP5 を強調 ----
+    // Trends / News の順位を算出して TOP5 を強調
     function rankAndDecorate(){
       const cards=[...document.querySelectorAll(".card")].map(card=>{
-        const trendsBadge=card.querySelector('.badge[data-kind="trends"]');
-        const newsBadge=card.querySelector('.badge[data-kind="news"]');
+        const tBadge=card.querySelector('.badge[data-kind="trends"]');
+        const nBadge=card.querySelector('.badge[data-kind="news"]');
         return {
           card,
-          trends: trendsBadge ? Number(trendsBadge.getAttribute("data-score")||0) : 0,
-          news:   newsBadge ? Number(newsBadge.getAttribute("data-score")||0)   : 0
+          trends: tBadge ? Number(tBadge.getAttribute("data-score")||0) : 0,
+          news:   nBadge ? Number(nBadge.getAttribute("data-score")||0)   : 0
         };
       });
-      // Trends
-      [...cards].sort((a,b)=>b.trends-a.trends)
-        .forEach((c,i)=>{
-          const badge=c.card.querySelector('.badge[data-kind="trends"]');
-          if(!badge) return;
-          const rank=i+1;
-          const rankEl=c.card.querySelector(".js-trends-rank");
+
+      [...cards].sort((a,b)=>b.trends-a.trends).forEach((c,i)=>{
+        const badge=c.card.querySelector('.badge[data-kind="trends"]');
+        const rank=i+1;
+        const rankEl=c.card.querySelector(".js-trends-rank");
+        if(badge){
           if(rank<=5) badge.classList.add("top5");
           if(rankEl)  rankEl.textContent = c.trends>0 ? `#${rank}` : "";
-        });
-      // News
-      [...cards].sort((a,b)=>b.news-a.news)
-        .forEach((c,i)=>{
-          const badge=c.card.querySelector('.badge[data-kind="news"]');
-          if(!badge) return;
-          const rank=i+1;
-          const rankEl=c.card.querySelector(".js-news-rank");
+        }
+      });
+
+      [...cards].sort((a,b)=>b.news-a.news).forEach((c,i)=>{
+        const badge=c.card.querySelector('.badge[data-kind="news"]');
+        const rank=i+1;
+        const rankEl=c.card.querySelector(".js-news-rank");
+        if(badge){
           if(rank<=5) badge.classList.add("top5");
           if(rankEl)  rankEl.textContent = c.news>0 ? `#${rank}` : "";
-        });
+        }
+      });
     }
 
     fillBreakdown();
