@@ -7,9 +7,8 @@
   <style>
     :root{
       --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
-      --gold:#f59e0b; --silver:#0f172a; --bronze:#fb923c;
-      --chip:#f8fafc; --chip-fg:#0f172a; --accent:#111827;
-      --ok:#10b981; --warn:#f59e0b; --bad:#ef4444; --soft:#eef2f7;
+      --gold:#f59e0b; --silver:#9ca3af; --bronze:#fb923c;
+      --soft:#f8fafc;
     }
     *{box-sizing:border-box}
     body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:var(--bg);color:var(--fg)}
@@ -26,7 +25,7 @@
     .sym{display:flex;align-items:center;gap:10px}
     .rank{width:34px;height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;letter-spacing:.2px}
     .rank.gold{background:var(--gold);color:#fff}
-    .rank.silver{background:var(--silver);color:#fff}
+    .rank.silver{background:#0f172a;color:#fff}
     .rank.bronze{background:var(--bronze);color:#fff}
     .rank.other{background:#f3f4f6;color:#111827}
 
@@ -37,31 +36,23 @@
     .score .num{font-size:28px;font-weight:900;letter-spacing:-.4px}
     .score .den{font-size:11px;color:var(--muted);margin-top:2px}
 
-    /* NEW: price chips (between name and score) */
+    /* price chips */
     .price-chips{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
-    .pch{font-size:11px;border:1px solid var(--border);background:var(--soft);color:#111;padding:3px 8px;border-radius:999px;line-height:1}
+    .pch{font-size:11px;border:1px solid var(--border);background:#eef2f7;color:#111;padding:3px 8px;border-radius:999px;line-height:1}
     .pch .k{color:var(--muted);margin-right:4px}
     .pch.up{border-color:#10b98133;background:#ecfdf5;color:#065f46}
     .pch.down{border-color:#ef444433;background:#fef2f2;color:#7f1d1d}
     .pch.neutral{color:#6b7280}
 
-    .tabs{margin-top:10px}
-    .tab-buttons{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
-    .tab-btn{border:1px solid var(--border);border-radius:999px;padding:6px 10px;font-size:12px;background:#fff;cursor:pointer;line-height:1}
-    .tab-btn.active{background:#000;color:#fff;border-color:#000}
-    .tab{display:none}
-    .tab.active{display:block}
-
-    .badges{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
-    .badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--chip);color:var(--chip-fg);border-radius:10px;padding:6px 10px;font-size:12px;line-height:1.1;white-space:nowrap}
-    .badge .hint{color:var(--muted);font-weight:500;margin-right:2px}
-    .badge.emph{border-color:#0f172a;box-shadow:0 0 0 2px #0f172a10 inset}
-    .badge.top5{border-color:var(--ok);box-shadow:0 0 0 2px #10b98122 inset}
-    .badge .pill{font-weight:700;letter-spacing:.1px}
-
-    .chipbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-    .chip{font-size:11px;border:1px solid var(--border);background:var(--soft);color:#111;padding:4px 8px;border-radius:999px}
-    .chip.star{border-color:var(--ok);background:#ecfdf5}
+    /* NEW: minimal medal tags next to the name */
+    .medals{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+    .medal{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:#fff;border-radius:999px;padding:3px 8px;line-height:1}
+    .medal .label{font-size:11px;letter-spacing:.2px}
+    .medal .kind{font-size:11px;color:#111;text-transform:capitalize}
+    .medal.gold{border-color:#f59e0b33;box-shadow:0 0 0 2px #f59e0b1a inset}
+    .medal.silver{border-color:#9ca3af33;box-shadow:0 0 0 2px #9ca3af1a inset}
+    .medal.bronze{border-color:#fb923c33;box-shadow:0 0 0 2px #fb923c1a inset}
+    .medal .emoji{font-size:14px}
 
     .chart{width:100%;border:1px solid var(--border);border-radius:10px}
 
@@ -107,7 +98,7 @@
                 <div class="symbol">{{ _sym }}</div>
                 {% if _name %}<div class="name">{{ _name }}</div>{% endif %}
 
-                <!-- NEW: price change chips -->
+                <!-- price chips -->
                 {% set pc = item.price_change if item.price_change is defined else {} %}
                 {% set d1 = pc.d1_pct if pc else None %}
                 {% set w1 = pc.w1_pct if pc else None %}
@@ -126,6 +117,9 @@
                     {% if m1 is none %}—{% else %}{{ ('+' if m1>=0 else '') ~ ('%.2f'|format(m1)) }}%{% endif %}
                   </span>
                 </div>
+
+                <!-- NEW: compact medal tags will be injected here -->
+                <div class="medals" aria-label="Top 3 medals"></div>
               </div>
             </div>
             <div class="score">
@@ -134,56 +128,7 @@
             </div>
           </div>
 
-          <div class="badges">
-            <!-- Total score -->
-            <div class="badge emph"><span class="hint">Total score</span><span class="pill">{{ pts | int }}</span></div>
-
-            <!-- Volume anomaly -->
-            <div class="badge" data-kind="vol">
-              <span class="hint">Volume</span>
-              <span class="pill">
-                {% if not vol %}Unavailable
-                {% else %}
-                  {% set v=item.vol_anomaly_score|default(0,true) %}
-                  {% if v>=0.85 %}Exceptional
-                  {% elif v>=0.65 %}Strong
-                  {% elif v>=0.45 %}Moderate
-                  {% elif v>0 %}Mild
-                  {% else %}No signal{% endif %}
-                {% endif %}
-              </span>
-            </div>
-
-            <!-- Trends -->
-            <div class="badge" data-kind="trends" data-score="{{ item.trends_breakout|default(0,true) }}">
-              <span class="hint">Trends</span>
-              <span class="pill js-trends-tier">
-                {% set t=item.trends_breakout|default(0,true) %}
-                {% if t>=0.85 %}Breakout today
-                {% elif t>=0.65 %}Strong uptick
-                {% elif t>=0.45 %}Mild uptick
-                {% elif t>0 %}Flat
-                {% else %}No signal{% endif %}
-              </span>
-              <span class="muted js-trends-rank"></span>
-            </div>
-
-            <!-- News -->
-            <div class="badge" data-kind="news" data-score="{{ item.news_score|default(0,true) }}">
-              <span class="hint">News</span>
-              <span class="pill js-news-tier">
-                {% set n=item.news_score|default(0,true) %}
-                {% if n>=0.85 %}Top coverage today
-                {% elif n>=0.65 %}High coverage
-                {% elif n>=0.45 %}Moderate
-                {% elif n>0 %}Low
-                {% else %}No signal{% endif %}
-              </span>
-              <span class="muted">({{ item.news_recent_count|default(0,true) }} articles)</span>
-              <span class="muted js-news-rank"></span>
-            </div>
-          </div>
-
+          <!-- tabs -->
           <div class="tabs">
             <div class="tab-buttons">
               <button class="tab-btn" data-target="#ov-{{ loop.index }}">Overview</button>
@@ -264,7 +209,7 @@
   </div>
 
   <script>
-    // タブ：クリックで開閉（再クリックで閉じる）
+    // Tabs
     function bindTabs(scope=document){
       scope.querySelectorAll(".tab-buttons").forEach(btns=>{
         btns.querySelectorAll(".tab-btn").forEach(btn=>{
@@ -282,7 +227,7 @@
     }
     bindTabs(document);
 
-    // スコア内訳（埋め込み JSON から再計算）
+    // Breakdown
     function fillBreakdown(){
       document.querySelectorAll(".card").forEach(card=>{
         const payloadEl=card.querySelector(".js-payload");
@@ -312,7 +257,7 @@
       });
     }
 
-    // Insider details (外部 JSON 読み込み)
+    // Insider detail fetch
     async function fillInsiderDetails(){
       try{
         const res=await fetch(`/data/insider/form4_latest.json`,{cache:"no-store"});
@@ -342,42 +287,65 @@
       }
     }
 
-    // Trends / News の順位を算出して TOP5 を強調
-    function rankAndDecorate(){
+    // NEW: compute top-3 for Trends and News, then inject medal tags next to the name
+    function decorateTop3Medals(){
+      // Collect scores from payloads
       const cards=[...document.querySelectorAll(".card")].map(card=>{
-        const trendsBadge=card.querySelector('.badge[data-kind="trends"]');
-        const newsBadge=card.querySelector('.badge[data-kind="news"]');
+        let data={};
+        try{ data=JSON.parse(card.querySelector(".js-payload")?.textContent||"{}"); }catch(_){}
         return {
           card,
-          trends: trendsBadge ? Number(trendsBadge.getAttribute("data-score")||0) : 0,
-          news:   newsBadge ? Number(newsBadge.getAttribute("data-score")||0)   : 0
+          symbol: card.getAttribute("data-symbol"),
+          trends: Number(data.trends_breakout||0),
+          news:   Number(data.news_score||0)
         };
       });
-      // Trends
-      [...cards].sort((a,b)=>b.trends-a.trends)
-        .forEach((c,i)=>{
-          const badge=c.card.querySelector('.badge[data-kind="trends"]');
-          if(!badge) return;
-          const rank=i+1;
-          const rankEl=c.card.querySelector(".js-trends-rank");
-          if(rank<=5) badge.classList.add("top5");
-          if(rankEl)  rankEl.textContent = c.trends>0 ? `#${rank}` : "";
-        });
-      // News
-      [...cards].sort((a,b)=>b.news-a.news)
-        .forEach((c,i)=>{
-          const badge=c.card.querySelector('.badge[data-kind="news"]');
-          if(!badge) return;
-          const rank=i+1;
-          const rankEl=c.card.querySelector(".js-news-rank");
-          if(rank<=5) badge.classList.add("top5");
-          if(rankEl)  rankEl.textContent = c.news>0 ? `#${rank}` : "";
-        });
+
+      // Ranking helpers
+      const withRank = (arr, key) =>
+        [...arr].sort((a,b)=>Number(b[key])-Number(a[key]))
+                .map((o,idx)=>({ ...o, _rank: idx+1 }))
+                .filter(o=>o[key]>0 && o._rank<=3);
+
+      const topTrends = withRank(cards, "trends");
+      const topNews   = withRank(cards, "news");
+
+      // Index by symbol for quick lookup
+      const tMap = new Map(topTrends.map(o=>[o.symbol, o._rank]));
+      const nMap = new Map(topNews.map(o=>[o.symbol, o._rank]));
+
+      // Medal renderer
+      const medalInfo = (rank)=> rank===1 ? {cls:"gold", emoji:"🥇"} : rank===2 ? {cls:"silver", emoji:"🥈"} : {cls:"bronze", emoji:"🥉"};
+
+      cards.forEach(({card, symbol})=>{
+        const box = card.querySelector(".medals");
+        if(!box) return;
+        box.innerHTML = ""; // reset
+
+        const tRank = tMap.get(symbol);
+        if(tRank){
+          const {cls,emoji}=medalInfo(tRank);
+          const el=document.createElement("span");
+          el.className=`medal ${cls}`;
+          el.title=`Trends Top #${tRank}`;
+          el.innerHTML=`<span class="emoji">${emoji}</span><span class="label"><span class="kind">Trends</span></span>`;
+          box.appendChild(el);
+        }
+        const nRank = nMap.get(symbol);
+        if(nRank){
+          const {cls,emoji}=medalInfo(nRank);
+          const el=document.createElement("span");
+          el.className=`medal ${cls}`;
+          el.title=`News Top #${nRank}`;
+          el.innerHTML=`<span class="emoji">${emoji}</span><span class="label"><span class="kind">News</span></span>`;
+          box.appendChild(el);
+        }
+      });
     }
 
     fillBreakdown();
     fillInsiderDetails();
-    rankAndDecorate();
+    decorateTop3Medals(); // ← これだけでOK（従来のバッジは削除）
   </script>
 </body>
 </html>
