@@ -5,93 +5,93 @@
   "items": {
     "NVDA": {
       "query": "NVIDIA Corporation",
-      "raw_breakout": 5.828571428571428,
-      "score_0_1": 0.7647058823529411,
+      "raw_breakout": 1.6571428571428573,
+      "score_0_1": 0.7142857142857143,
       "rank": 5
     },
     "MSFT": {
       "query": "Microsoft Corporation",
-      "raw_breakout": 0.5224489795918367,
-      "score_0_1": 0.7058823529411765,
+      "raw_breakout": 0.5112781954887218,
+      "score_0_1": 0.6428571428571429,
       "rank": 6
     },
     "PLTR": {
       "query": "Palantir Technologies Inc.",
-      "raw_breakout": 714285714.2857143,
-      "score_0_1": 0.8823529411764706,
-      "rank": 3
+      "raw_breakout": 857142857.1428571,
+      "score_0_1": 0.7857142857142857,
+      "rank": 4
     },
     "AI": {
       "query": "C3.ai, Inc.",
-      "raw_breakout": 0.0,
-      "score_0_1": 0.6470588235294118,
-      "rank": 7
+      "raw_breakout": 13714285714.285713,
+      "score_0_1": 0.8571428571428571,
+      "rank": 3
     },
     "ISRG": {
       "query": "Intuitive Surgical, Inc.",
       "raw_breakout": 0.0,
-      "score_0_1": 0.6470588235294118,
-      "rank": 8
+      "score_0_1": 0.5714285714285714,
+      "rank": 7
     },
     "TER": {
       "query": "Teradyne, Inc.",
-      "raw_breakout": 0.0,
-      "score_0_1": 0.6470588235294118,
-      "rank": 9
+      "raw_breakout": 14285714285.714285,
+      "score_0_1": 1.0,
+      "rank": 1
     },
     "SYM": {
       "query": "Symbotic Inc.",
       "raw_breakout": 0.0,
-      "score_0_1": 0.6470588235294118,
-      "rank": 10
+      "score_0_1": 0.5714285714285714,
+      "rank": 8
     },
     "RKLB": {
       "query": "Rocket Lab USA, Inc.",
-      "raw_breakout": 857142857.1428571,
-      "score_0_1": 1.0,
-      "rank": 1
+      "raw_breakout": 0.0,
+      "score_0_1": 0.5714285714285714,
+      "rank": 9
     },
     "IRDM": {
       "query": "Iridium Communications Inc.",
       "raw_breakout": 0.0,
-      "score_0_1": 0.6470588235294118,
-      "rank": 11
+      "score_0_1": 0.5714285714285714,
+      "rank": 10
     },
     "VSAT": {
       "query": "Viasat, Inc.",
-      "raw_breakout": 0.0,
-      "score_0_1": 0.6470588235294118,
-      "rank": 12
+      "raw_breakout": null,
+      "score_0_1": 0.0,
+      "rank": null
     },
     "INOD": {
       "query": "Innodata Inc.",
-      "raw_breakout": 0.0,
-      "score_0_1": 0.6470588235294118,
-      "rank": 13
+      "raw_breakout": null,
+      "score_0_1": 0.0,
+      "rank": null
     },
     "SOUN": {
       "query": "SoundHound AI, Inc.",
-      "raw_breakout": 0.0,
-      "score_0_1": 0.6470588235294118,
-      "rank": 14
+      "raw_breakout": null,
+      "score_0_1": 0.0,
+      "rank": null
     },
     "MNDY": {
       "query": "Monday.com Ltd.",
       "raw_breakout": 0.0,
-      "score_0_1": 0.6470588235294118,
-      "rank": 15
+      "score_0_1": 0.5714285714285714,
+      "rank": 11
     },
     "AVAV": {
       "query": "AeroVironment, Inc.",
-      "raw_breakout": 857142857.1428571,
-      "score_0_1": 1.0,
-      "rank": 2
+      "raw_breakout": 0.0,
+      "score_0_1": 0.5714285714285714,
+      "rank": 12
     },
     "PERF": {
       "query": "Perfect Corp.",
-      "raw_breakout": 0.0,
-      "score_0_1": 0.6470588235294118,
-      "rank": 16
+      "raw_breakout": 14285714285.714285,
+      "score_0_1": 1.0,
+      "rank": 2
     },
     "GDRX": {
       "query": "GoodRx Holdings, Inc.",
@@ -114,14 +114,14 @@
     "TEM": {
       "query": "Tempus AI, Inc.",
       "raw_breakout": 0.0,
-      "score_0_1": 0.6470588235294118,
-      "rank": 17
+      "score_0_1": 0.5714285714285714,
+      "rank": 13
     },
     "VRT": {
       "query": "Vertiv Holdings Co",
-      "raw_breakout": 714285714.2857143,
-      "score_0_1": 0.8823529411764706,
-      "rank": 4
+      "raw_breakout": 0.0,
+      "score_0_1": 0.5714285714285714,
+      "rank": 14
     }
   }
 }
