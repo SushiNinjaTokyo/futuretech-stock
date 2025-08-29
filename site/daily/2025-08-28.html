@@ -37,6 +37,14 @@
     .score .num{font-size:28px;font-weight:900;letter-spacing:-.4px}
     .score .den{font-size:11px;color:var(--muted);margin-top:2px}
 
+    /* NEW: price chips (between name and score) */
+    .price-chips{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+    .pch{font-size:11px;border:1px solid var(--border);background:var(--soft);color:#111;padding:3px 8px;border-radius:999px;line-height:1}
+    .pch .k{color:var(--muted);margin-right:4px}
+    .pch.up{border-color:#10b98133;background:#ecfdf5;color:#065f46}
+    .pch.down{border-color:#ef444433;background:#fef2f2;color:#7f1d1d}
+    .pch.neutral{color:#6b7280}
+
     .tabs{margin-top:10px}
     .tab-buttons{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
     .tab-btn{border:1px solid var(--border);border-radius:999px;padding:6px 10px;font-size:12px;background:#fff;cursor:pointer;line-height:1}
@@ -50,6 +58,10 @@
     .badge.emph{border-color:#0f172a;box-shadow:0 0 0 2px #0f172a10 inset}
     .badge.top5{border-color:var(--ok);box-shadow:0 0 0 2px #10b98122 inset}
     .badge .pill{font-weight:700;letter-spacing:.1px}
+
+    .chipbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .chip{font-size:11px;border:1px solid var(--border);background:var(--soft);color:#111;padding:4px 8px;border-radius:999px}
+    .chip.star{border-color:var(--ok);background:#ecfdf5}
 
     .chart{width:100%;border:1px solid var(--border);border-radius:10px}
 
@@ -93,17 +105,37 @@
               <div>
                 <div class="symbol">NVDA</div>
                 <div class="name">NVIDIA Corporation</div>
+
+                <!-- NEW: price change chips -->
+                
+                
+                
+                
+                <div class="price-chips" aria-label="Price changes">
+                  <span class="pch down" title="Change vs prior day">
+                    <span class="k">1d</span>
+                    -0.09%
+                  </span>
+                  <span class="pch up" title="Change vs prior week">
+                    <span class="k">1w</span>
+                    +3.53%
+                  </span>
+                  <span class="pch up" title="Change vs prior month">
+                    <span class="k">1m</span>
+                    +3.47%
+                  </span>
+                </div>
               </div>
             </div>
             <div class="score">
-              <div class="num">799</div>
+              <div class="num">705</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
           <div class="badges">
             <!-- Total score -->
-            <div class="badge emph"><span class="hint">Total score</span><span class="pill">799</span></div>
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">705</span></div>
 
             <!-- Volume anomaly -->
             <div class="badge" data-kind="vol">
@@ -117,18 +149,18 @@
               </span>
             </div>
 
-            <!-- Trends: rank はクライアントで算出 -->
-            <div class="badge" data-kind="trends" data-score="1.0">
+            <!-- Trends -->
+            <div class="badge" data-kind="trends" data-score="0.7647058823529411">
               <span class="hint">Trends</span>
               <span class="pill js-trends-tier">
                 
-                Breakout today
+                Strong uptick
                 
               </span>
               <span class="muted js-trends-rank"></span>
             </div>
 
-            <!-- News: 件数キーは news_recent_count、rank はクライアント算出 -->
+            <!-- News -->
             <div class="badge" data-kind="news" data-score="0.85">
               <span class="hint">News</span>
               <span class="pill js-news-tier">
@@ -161,7 +193,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">799</span></th>
+                    <th class="right"><span class="js-total">705</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -197,7 +229,7 @@
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.7989978226629093, "insider_momo": 0, "news_recent_count": 59, "news_score": 0.85, "score_components": {"insider_momo": 0.0, "news": 0.85, "trends_breakout": 1.0, "volume_anomaly": 0.5074891133145465}, "score_pts": 799, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "NVDA", "trends_breakout": 1.0, "vol_anomaly_score": 0.5074891133145465}
+          {"final_score_0_1": 0.7048801756040858, "insider_momo": 0, "news_recent_count": 59, "news_score": 0.85, "score_components": {"insider_momo": 0.0, "news": 0.85, "trends_breakout": 0.7647058823529411, "volume_anomaly": 0.5074891133145465}, "score_pts": 705, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "NVDA", "trends_breakout": 0.7647058823529411, "vol_anomaly_score": 0.5074891133145465}
           </script>
         </div>
       
@@ -211,24 +243,44 @@
         
         
 
-        <div class="card" id="card-2" data-symbol="VRT">
+        <div class="card" id="card-2" data-symbol="AVAV">
           <div class="row">
             <div class="sym">
               <div class="rank silver">2</div>
               <div>
-                <div class="symbol">VRT</div>
-                <div class="name">Vertiv Holdings Co</div>
+                <div class="symbol">AVAV</div>
+                <div class="name">AeroVironment, Inc.</div>
+
+                <!-- NEW: price change chips -->
+                
+                
+                
+                
+                <div class="price-chips" aria-label="Price changes">
+                  <span class="pch up" title="Change vs prior day">
+                    <span class="k">1d</span>
+                    +0.64%
+                  </span>
+                  <span class="pch up" title="Change vs prior week">
+                    <span class="k">1w</span>
+                    +6.56%
+                  </span>
+                  <span class="pch down" title="Change vs prior month">
+                    <span class="k">1m</span>
+                    -7.79%
+                  </span>
+                </div>
               </div>
             </div>
             <div class="score">
-              <div class="num">716</div>
+              <div class="num">699</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
           <div class="badges">
             <!-- Total score -->
-            <div class="badge emph"><span class="hint">Total score</span><span class="pill">716</span></div>
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">699</span></div>
 
             <!-- Volume anomaly -->
             <div class="badge" data-kind="vol">
@@ -242,8 +294,8 @@
               </span>
             </div>
 
-            <!-- Trends: rank はクライアントで算出 -->
-            <div class="badge" data-kind="trends" data-score="0.9411764705882353">
+            <!-- Trends -->
+            <div class="badge" data-kind="trends" data-score="1.0">
               <span class="hint">Trends</span>
               <span class="pill js-trends-tier">
                 
@@ -253,15 +305,15 @@
               <span class="muted js-trends-rank"></span>
             </div>
 
-            <!-- News: 件数キーは news_recent_count、rank はクライアント算出 -->
-            <div class="badge" data-kind="news" data-score="0.9">
+            <!-- News -->
+            <div class="badge" data-kind="news" data-score="0.8">
               <span class="hint">News</span>
               <span class="pill js-news-tier">
                 
-                Top coverage today
+                High coverage
                 
               </span>
-              <span class="muted">(59 articles)</span>
+              <span class="muted">(55 articles)</span>
               <span class="muted js-news-rank"></span>
             </div>
           </div>
@@ -286,7 +338,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">716</span></th>
+                    <th class="right"><span class="js-total">699</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -300,10 +352,10 @@
                   
                   
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>1.01</div>
-                    <div><span class="k">Z60</span><br>0.01</div>
-                    <div><span class="k">PctRank90</span><br>0.64</div>
-                    <div><span class="k">DollarVol</span><br>$829.2M</div>
+                    <div><span class="k">RVOL20</span><br>0.81</div>
+                    <div><span class="k">Z60</span><br>-0.36</div>
+                    <div><span class="k">PctRank90</span><br>0.48</div>
+                    <div><span class="k">DollarVol</span><br>$154.8M</div>
                     <div><span class="k">Eligible</span><br>Yes</div>
                   </div>
                 
@@ -316,13 +368,13 @@
             </div>
 
             <div id="tech-2" class="tab">
-              <img src="/charts/2025-08-28/VRT.png" alt="VRT weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-28/AVAV.png" alt="AVAV weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.7160432090852834, "insider_momo": 0, "news_recent_count": 59, "news_score": 0.9, "score_components": {"insider_momo": 0.0, "news": 0.9, "trends_breakout": 0.9411764705882353, "volume_anomaly": 0.12286310424994655}, "score_pts": 716, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "VRT", "trends_breakout": 0.9411764705882353, "vol_anomaly_score": 0.12286310424994655}
+          {"final_score_0_1": 0.6994847167239925, "insider_momo": 0, "news_recent_count": 55, "news_score": 0.8, "score_components": {"insider_momo": 0.0, "news": 0.8, "trends_breakout": 1.0, "volume_anomaly": 0.09742358361996235}, "score_pts": 699, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "AVAV", "trends_breakout": 1.0, "vol_anomaly_score": 0.09742358361996235}
           </script>
         </div>
       
@@ -335,24 +387,44 @@
         
         
 
-        <div class="card" id="card-3" data-symbol="MSFT">
+        <div class="card" id="card-3" data-symbol="VRT">
           <div class="row">
             <div class="sym">
               <div class="rank bronze">3</div>
               <div>
-                <div class="symbol">MSFT</div>
-                <div class="name">Microsoft Corporation</div>
+                <div class="symbol">VRT</div>
+                <div class="name">Vertiv Holdings Co</div>
+
+                <!-- NEW: price change chips -->
+                
+                
+                
+                
+                <div class="price-chips" aria-label="Price changes">
+                  <span class="pch up" title="Change vs prior day">
+                    <span class="k">1d</span>
+                    +1.08%
+                  </span>
+                  <span class="pch up" title="Change vs prior week">
+                    <span class="k">1w</span>
+                    +1.39%
+                  </span>
+                  <span class="pch down" title="Change vs prior month">
+                    <span class="k">1m</span>
+                    -9.38%
+                  </span>
+                </div>
               </div>
             </div>
             <div class="score">
-              <div class="num">656</div>
+              <div class="num">693</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
           <div class="badges">
             <!-- Total score -->
-            <div class="badge emph"><span class="hint">Total score</span><span class="pill">656</span></div>
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">693</span></div>
 
             <!-- Volume anomaly -->
             <div class="badge" data-kind="vol">
@@ -366,19 +438,19 @@
               </span>
             </div>
 
-            <!-- Trends: rank はクライアントで算出 -->
-            <div class="badge" data-kind="trends" data-score="0.7647058823529411">
+            <!-- Trends -->
+            <div class="badge" data-kind="trends" data-score="0.8823529411764706">
               <span class="hint">Trends</span>
               <span class="pill js-trends-tier">
                 
-                Strong uptick
+                Breakout today
                 
               </span>
               <span class="muted js-trends-rank"></span>
             </div>
 
-            <!-- News: 件数キーは news_recent_count、rank はクライアント算出 -->
-            <div class="badge" data-kind="news" data-score="0.95">
+            <!-- News -->
+            <div class="badge" data-kind="news" data-score="0.9">
               <span class="hint">News</span>
               <span class="pill js-news-tier">
                 
@@ -410,7 +482,151 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">656</span></th>
+                    <th class="right"><span class="js-total">693</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>1.01</div>
+                    <div><span class="k">Z60</span><br>0.01</div>
+                    <div><span class="k">PctRank90</span><br>0.64</div>
+                    <div><span class="k">DollarVol</span><br>$829.2M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <div id="tech-3" class="tab">
+              <img src="/charts/2025-08-28/VRT.png" alt="VRT weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.6925137973205775, "insider_momo": 0, "news_recent_count": 59, "news_score": 0.9, "score_components": {"insider_momo": 0.0, "news": 0.9, "trends_breakout": 0.8823529411764706, "volume_anomaly": 0.12286310424994655}, "score_pts": 693, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "VRT", "trends_breakout": 0.8823529411764706, "vol_anomaly_score": 0.12286310424994655}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+        
+        
+
+        <div class="card" id="card-4" data-symbol="MSFT">
+          <div class="row">
+            <div class="sym">
+              <div class="rank other">4</div>
+              <div>
+                <div class="symbol">MSFT</div>
+                <div class="name">Microsoft Corporation</div>
+
+                <!-- NEW: price change chips -->
+                
+                
+                
+                
+                <div class="price-chips" aria-label="Price changes">
+                  <span class="pch up" title="Change vs prior day">
+                    <span class="k">1d</span>
+                    +0.94%
+                  </span>
+                  <span class="pch up" title="Change vs prior week">
+                    <span class="k">1w</span>
+                    +0.37%
+                  </span>
+                  <span class="pch down" title="Change vs prior month">
+                    <span class="k">1m</span>
+                    -0.97%
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="score">
+              <div class="num">633</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="badges">
+            <!-- Total score -->
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">633</span></div>
+
+            <!-- Volume anomaly -->
+            <div class="badge" data-kind="vol">
+              <span class="hint">Volume</span>
+              <span class="pill">
+                
+                  
+                  Mild
+                  
+                
+              </span>
+            </div>
+
+            <!-- Trends -->
+            <div class="badge" data-kind="trends" data-score="0.7058823529411765">
+              <span class="hint">Trends</span>
+              <span class="pill js-trends-tier">
+                
+                Strong uptick
+                
+              </span>
+              <span class="muted js-trends-rank"></span>
+            </div>
+
+            <!-- News -->
+            <div class="badge" data-kind="news" data-score="0.95">
+              <span class="hint">News</span>
+              <span class="pill js-news-tier">
+                
+                Top coverage today
+                
+              </span>
+              <span class="muted">(59 articles)</span>
+              <span class="muted js-news-rank"></span>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <div class="tab-buttons">
+              <button class="tab-btn" data-target="#ov-4">Overview</button>
+              <button class="tab-btn" data-target="#tech-4">Technical snapshot</button>
+            </div>
+
+            <div id="ov-4" class="tab">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">633</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -439,14 +655,14 @@
               </details>
             </div>
 
-            <div id="tech-3" class="tab">
+            <div id="tech-4" class="tab">
               <img src="/charts/2025-08-28/MSFT.png" alt="MSFT weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.6561211436803954, "insider_momo": 0, "news_recent_count": 59, "news_score": 0.95, "score_components": {"insider_momo": 0.0, "news": 0.95, "trends_breakout": 0.7647058823529411, "volume_anomaly": 0.08869395369609474}, "score_pts": 656, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "MSFT", "trends_breakout": 0.7647058823529411, "vol_anomaly_score": 0.08869395369609474}
+          {"final_score_0_1": 0.6325917319156895, "insider_momo": 0, "news_recent_count": 59, "news_score": 0.95, "score_components": {"insider_momo": 0.0, "news": 0.95, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.08869395369609474}, "score_pts": 633, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "MSFT", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.08869395369609474}
           </script>
         </div>
       
@@ -459,24 +675,44 @@
         
         
 
-        <div class="card" id="card-4" data-symbol="PERF">
+        <div class="card" id="card-5" data-symbol="PERF">
           <div class="row">
             <div class="sym">
-              <div class="rank other">4</div>
+              <div class="rank other">5</div>
               <div>
                 <div class="symbol">PERF</div>
                 <div class="name">Perfect Corp.</div>
+
+                <!-- NEW: price change chips -->
+                
+                
+                
+                
+                <div class="price-chips" aria-label="Price changes">
+                  <span class="pch up" title="Change vs prior day">
+                    <span class="k">1d</span>
+                    +4.43%
+                  </span>
+                  <span class="pch up" title="Change vs prior week">
+                    <span class="k">1w</span>
+                    +10.42%
+                  </span>
+                  <span class="pch up" title="Change vs prior month">
+                    <span class="k">1m</span>
+                    +3.41%
+                  </span>
+                </div>
               </div>
             </div>
             <div class="score">
-              <div class="num">652</div>
+              <div class="num">629</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
           <div class="badges">
             <!-- Total score -->
-            <div class="badge emph"><span class="hint">Total score</span><span class="pill">652</span></div>
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">629</span></div>
 
             <!-- Volume anomaly -->
             <div class="badge" data-kind="vol">
@@ -490,18 +726,18 @@
               </span>
             </div>
 
-            <!-- Trends: rank はクライアントで算出 -->
-            <div class="badge" data-kind="trends" data-score="0.7058823529411765">
+            <!-- Trends -->
+            <div class="badge" data-kind="trends" data-score="0.6470588235294118">
               <span class="hint">Trends</span>
               <span class="pill js-trends-tier">
                 
-                Strong uptick
+                Mild uptick
                 
               </span>
               <span class="muted js-trends-rank"></span>
             </div>
 
-            <!-- News: 件数キーは news_recent_count、rank はクライアント算出 -->
+            <!-- News -->
             <div class="badge" data-kind="news" data-score="1.0">
               <span class="hint">News</span>
               <span class="pill js-news-tier">
@@ -516,11 +752,11 @@
 
           <div class="tabs">
             <div class="tab-buttons">
-              <button class="tab-btn" data-target="#ov-4">Overview</button>
-              <button class="tab-btn" data-target="#tech-4">Technical snapshot</button>
+              <button class="tab-btn" data-target="#ov-5">Overview</button>
+              <button class="tab-btn" data-target="#tech-5">Technical snapshot</button>
             </div>
 
-            <div id="ov-4" class="tab">
+            <div id="ov-5" class="tab">
               <table class="table js-breakdown">
                 <thead>
                   <tr>
@@ -534,7 +770,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">652</span></th>
+                    <th class="right"><span class="js-total">629</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -563,138 +799,14 @@
               </details>
             </div>
 
-            <div id="tech-4" class="tab">
+            <div id="tech-5" class="tab">
               <img src="/charts/2025-08-28/PERF.png" alt="PERF weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.6524521646449779, "insider_momo": 0, "news_recent_count": 60, "news_score": 1.0, "score_components": {"insider_momo": 0.0, "news": 1.0, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.10049611734253666}, "score_pts": 652, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "PERF", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.10049611734253666}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-        
-        
-
-        <div class="card" id="card-5" data-symbol="AVAV">
-          <div class="row">
-            <div class="sym">
-              <div class="rank other">5</div>
-              <div>
-                <div class="symbol">AVAV</div>
-                <div class="name">AeroVironment, Inc.</div>
-              </div>
-            </div>
-            <div class="score">
-              <div class="num">582</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <div class="badges">
-            <!-- Total score -->
-            <div class="badge emph"><span class="hint">Total score</span><span class="pill">582</span></div>
-
-            <!-- Volume anomaly -->
-            <div class="badge" data-kind="vol">
-              <span class="hint">Volume</span>
-              <span class="pill">
-                
-                  
-                  Mild
-                  
-                
-              </span>
-            </div>
-
-            <!-- Trends: rank はクライアントで算出 -->
-            <div class="badge" data-kind="trends" data-score="0.7058823529411765">
-              <span class="hint">Trends</span>
-              <span class="pill js-trends-tier">
-                
-                Strong uptick
-                
-              </span>
-              <span class="muted js-trends-rank"></span>
-            </div>
-
-            <!-- News: 件数キーは news_recent_count、rank はクライアント算出 -->
-            <div class="badge" data-kind="news" data-score="0.8">
-              <span class="hint">News</span>
-              <span class="pill js-news-tier">
-                
-                High coverage
-                
-              </span>
-              <span class="muted">(55 articles)</span>
-              <span class="muted js-news-rank"></span>
-            </div>
-          </div>
-
-          <div class="tabs">
-            <div class="tab-buttons">
-              <button class="tab-btn" data-target="#ov-5">Overview</button>
-              <button class="tab-btn" data-target="#tech-5">Technical snapshot</button>
-            </div>
-
-            <div id="ov-5" class="tab">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">582</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  
-                  
-                  
-                  
-                  
-                  <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.81</div>
-                    <div><span class="k">Z60</span><br>-0.36</div>
-                    <div><span class="k">PctRank90</span><br>0.48</div>
-                    <div><span class="k">DollarVol</span><br>$154.8M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
-                  </div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-            </div>
-
-            <div id="tech-5" class="tab">
-              <img src="/charts/2025-08-28/AVAV.png" alt="AVAV weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <!-- JSON payload -->
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.5818376579004632, "insider_momo": 0, "news_recent_count": 55, "news_score": 0.8, "score_components": {"insider_momo": 0.0, "news": 0.8, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.09742358361996235}, "score_pts": 582, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "AVAV", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.09742358361996235}
+          {"final_score_0_1": 0.6289227528802721, "insider_momo": 0, "news_recent_count": 60, "news_score": 1.0, "score_components": {"insider_momo": 0.0, "news": 1.0, "trends_breakout": 0.6470588235294118, "volume_anomaly": 0.10049611734253666}, "score_pts": 629, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "PERF", "trends_breakout": 0.6470588235294118, "vol_anomaly_score": 0.10049611734253666}
           </script>
         </div>
       
@@ -714,17 +826,37 @@
               <div>
                 <div class="symbol">SOUN</div>
                 <div class="name">SoundHound AI, Inc.</div>
+
+                <!-- NEW: price change chips -->
+                
+                
+                
+                
+                <div class="price-chips" aria-label="Price changes">
+                  <span class="pch down" title="Change vs prior day">
+                    <span class="k">1d</span>
+                    -0.92%
+                  </span>
+                  <span class="pch down" title="Change vs prior week">
+                    <span class="k">1w</span>
+                    -4.26%
+                  </span>
+                  <span class="pch up" title="Change vs prior month">
+                    <span class="k">1m</span>
+                    +11.41%
+                  </span>
+                </div>
               </div>
             </div>
             <div class="score">
-              <div class="num">567</div>
+              <div class="num">544</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
           <div class="badges">
             <!-- Total score -->
-            <div class="badge emph"><span class="hint">Total score</span><span class="pill">567</span></div>
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">544</span></div>
 
             <!-- Volume anomaly -->
             <div class="badge" data-kind="vol">
@@ -738,18 +870,18 @@
               </span>
             </div>
 
-            <!-- Trends: rank はクライアントで算出 -->
-            <div class="badge" data-kind="trends" data-score="0.7058823529411765">
+            <!-- Trends -->
+            <div class="badge" data-kind="trends" data-score="0.6470588235294118">
               <span class="hint">Trends</span>
               <span class="pill js-trends-tier">
                 
-                Strong uptick
+                Mild uptick
                 
               </span>
               <span class="muted js-trends-rank"></span>
             </div>
 
-            <!-- News: 件数キーは news_recent_count、rank はクライアント算出 -->
+            <!-- News -->
             <div class="badge" data-kind="news" data-score="0.75">
               <span class="hint">News</span>
               <span class="pill js-news-tier">
@@ -782,7 +914,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">567</span></th>
+                    <th class="right"><span class="js-total">544</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -818,7 +950,7 @@
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.5670733355464875, "insider_momo": 0, "news_recent_count": 55, "news_score": 0.75, "score_components": {"insider_momo": 0.0, "news": 0.75, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.1111019718500848}, "score_pts": 567, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "SOUN", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.1111019718500848}
+          {"final_score_0_1": 0.5435439237817816, "insider_momo": 0, "news_recent_count": 55, "news_score": 0.75, "score_components": {"insider_momo": 0.0, "news": 0.75, "trends_breakout": 0.6470588235294118, "volume_anomaly": 0.1111019718500848}, "score_pts": 544, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "SOUN", "trends_breakout": 0.6470588235294118, "vol_anomaly_score": 0.1111019718500848}
           </script>
         </div>
       
@@ -838,17 +970,37 @@
               <div>
                 <div class="symbol">SYM</div>
                 <div class="name">Symbotic Inc.</div>
+
+                <!-- NEW: price change chips -->
+                
+                
+                
+                
+                <div class="price-chips" aria-label="Price changes">
+                  <span class="pch down" title="Change vs prior day">
+                    <span class="k">1d</span>
+                    -0.54%
+                  </span>
+                  <span class="pch up" title="Change vs prior week">
+                    <span class="k">1w</span>
+                    +7.26%
+                  </span>
+                  <span class="pch down" title="Change vs prior month">
+                    <span class="k">1m</span>
+                    -5.88%
+                  </span>
+                </div>
               </div>
             </div>
             <div class="score">
-              <div class="num">521</div>
+              <div class="num">498</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
           <div class="badges">
             <!-- Total score -->
-            <div class="badge emph"><span class="hint">Total score</span><span class="pill">521</span></div>
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">498</span></div>
 
             <!-- Volume anomaly -->
             <div class="badge" data-kind="vol">
@@ -862,18 +1014,18 @@
               </span>
             </div>
 
-            <!-- Trends: rank はクライアントで算出 -->
-            <div class="badge" data-kind="trends" data-score="0.7058823529411765">
+            <!-- Trends -->
+            <div class="badge" data-kind="trends" data-score="0.6470588235294118">
               <span class="hint">Trends</span>
               <span class="pill js-trends-tier">
                 
-                Strong uptick
+                Mild uptick
                 
               </span>
               <span class="muted js-trends-rank"></span>
             </div>
 
-            <!-- News: 件数キーは news_recent_count、rank はクライアント算出 -->
+            <!-- News -->
             <div class="badge" data-kind="news" data-score="0.65">
               <span class="hint">News</span>
               <span class="pill js-news-tier">
@@ -906,7 +1058,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">521</span></th>
+                    <th class="right"><span class="js-total">498</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -942,7 +1094,7 @@
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.5213763327789932, "insider_momo": 0, "news_recent_count": 52, "news_score": 0.65, "score_components": {"insider_momo": 0.0, "news": 0.65, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.057616958012613004}, "score_pts": 521, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "SYM", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.057616958012613004}
+          {"final_score_0_1": 0.4978469210142873, "insider_momo": 0, "news_recent_count": 52, "news_score": 0.65, "score_components": {"insider_momo": 0.0, "news": 0.65, "trends_breakout": 0.6470588235294118, "volume_anomaly": 0.057616958012613004}, "score_pts": 498, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "SYM", "trends_breakout": 0.6470588235294118, "vol_anomaly_score": 0.057616958012613004}
           </script>
         </div>
       
@@ -962,17 +1114,37 @@
               <div>
                 <div class="symbol">TEM</div>
                 <div class="name">Tempus AI, Inc.</div>
+
+                <!-- NEW: price change chips -->
+                
+                
+                
+                
+                <div class="price-chips" aria-label="Price changes">
+                  <span class="pch down" title="Change vs prior day">
+                    <span class="k">1d</span>
+                    -4.02%
+                  </span>
+                  <span class="pch down" title="Change vs prior week">
+                    <span class="k">1w</span>
+                    -0.07%
+                  </span>
+                  <span class="pch up" title="Change vs prior month">
+                    <span class="k">1m</span>
+                    +25.63%
+                  </span>
+                </div>
               </div>
             </div>
             <div class="score">
-              <div class="num">506</div>
+              <div class="num">482</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
           <div class="badges">
             <!-- Total score -->
-            <div class="badge emph"><span class="hint">Total score</span><span class="pill">506</span></div>
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">482</span></div>
 
             <!-- Volume anomaly -->
             <div class="badge" data-kind="vol">
@@ -986,18 +1158,18 @@
               </span>
             </div>
 
-            <!-- Trends: rank はクライアントで算出 -->
-            <div class="badge" data-kind="trends" data-score="0.7058823529411765">
+            <!-- Trends -->
+            <div class="badge" data-kind="trends" data-score="0.6470588235294118">
               <span class="hint">Trends</span>
               <span class="pill js-trends-tier">
                 
-                Strong uptick
+                Mild uptick
                 
               </span>
               <span class="muted js-trends-rank"></span>
             </div>
 
-            <!-- News: 件数キーは news_recent_count、rank はクライアント算出 -->
+            <!-- News -->
             <div class="badge" data-kind="news" data-score="0.6">
               <span class="hint">News</span>
               <span class="pill js-news-tier">
@@ -1030,7 +1202,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">506</span></th>
+                    <th class="right"><span class="js-total">482</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -1066,7 +1238,7 @@
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.5058092428504446, "insider_momo": 0, "news_recent_count": 51, "news_score": 0.6, "score_components": {"insider_momo": 0.0, "news": 0.6, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.06728150836986971}, "score_pts": 506, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "TEM", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.06728150836986971}
+          {"final_score_0_1": 0.4822798310857387, "insider_momo": 0, "news_recent_count": 51, "news_score": 0.6, "score_components": {"insider_momo": 0.0, "news": 0.6, "trends_breakout": 0.6470588235294118, "volume_anomaly": 0.06728150836986971}, "score_pts": 482, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "TEM", "trends_breakout": 0.6470588235294118, "vol_anomaly_score": 0.06728150836986971}
           </script>
         </div>
       
@@ -1086,17 +1258,37 @@
               <div>
                 <div class="symbol">IRDM</div>
                 <div class="name">Iridium Communications Inc.</div>
+
+                <!-- NEW: price change chips -->
+                
+                
+                
+                
+                <div class="price-chips" aria-label="Price changes">
+                  <span class="pch up" title="Change vs prior day">
+                    <span class="k">1d</span>
+                    +1.34%
+                  </span>
+                  <span class="pch up" title="Change vs prior week">
+                    <span class="k">1w</span>
+                    +3.69%
+                  </span>
+                  <span class="pch up" title="Change vs prior month">
+                    <span class="k">1m</span>
+                    +1.67%
+                  </span>
+                </div>
               </div>
             </div>
             <div class="score">
-              <div class="num">503</div>
+              <div class="num">480</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
           <div class="badges">
             <!-- Total score -->
-            <div class="badge emph"><span class="hint">Total score</span><span class="pill">503</span></div>
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">480</span></div>
 
             <!-- Volume anomaly -->
             <div class="badge" data-kind="vol">
@@ -1110,18 +1302,18 @@
               </span>
             </div>
 
-            <!-- Trends: rank はクライアントで算出 -->
-            <div class="badge" data-kind="trends" data-score="0.7058823529411765">
+            <!-- Trends -->
+            <div class="badge" data-kind="trends" data-score="0.6470588235294118">
               <span class="hint">Trends</span>
               <span class="pill js-trends-tier">
                 
-                Strong uptick
+                Mild uptick
                 
               </span>
               <span class="muted js-trends-rank"></span>
             </div>
 
-            <!-- News: 件数キーは news_recent_count、rank はクライアント算出 -->
+            <!-- News -->
             <div class="badge" data-kind="news" data-score="0.55">
               <span class="hint">News</span>
               <span class="pill js-news-tier">
@@ -1154,7 +1346,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">503</span></th>
+                    <th class="right"><span class="js-total">480</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -1190,7 +1382,7 @@
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.5031740764807, "insider_momo": 0, "news_recent_count": 52, "news_score": 0.55, "score_components": {"insider_momo": 0.0, "news": 0.55, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.14160567652114667}, "score_pts": 503, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "IRDM", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.14160567652114667}
+          {"final_score_0_1": 0.4796446647159941, "insider_momo": 0, "news_recent_count": 52, "news_score": 0.55, "score_components": {"insider_momo": 0.0, "news": 0.55, "trends_breakout": 0.6470588235294118, "volume_anomaly": 0.14160567652114667}, "score_pts": 480, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "IRDM", "trends_breakout": 0.6470588235294118, "vol_anomaly_score": 0.14160567652114667}
           </script>
         </div>
       
@@ -1203,24 +1395,44 @@
         
         
 
-        <div class="card" id="card-10" data-symbol="VSAT">
+        <div class="card" id="card-10" data-symbol="RKLB">
           <div class="row">
             <div class="sym">
               <div class="rank other">10</div>
               <div>
-                <div class="symbol">VSAT</div>
-                <div class="name">Viasat, Inc.</div>
+                <div class="symbol">RKLB</div>
+                <div class="name">Rocket Lab USA, Inc.</div>
+
+                <!-- NEW: price change chips -->
+                
+                
+                
+                
+                <div class="price-chips" aria-label="Price changes">
+                  <span class="pch down" title="Change vs prior day">
+                    <span class="k">1d</span>
+                    -3.91%
+                  </span>
+                  <span class="pch up" title="Change vs prior week">
+                    <span class="k">1w</span>
+                    +13.66%
+                  </span>
+                  <span class="pch up" title="Change vs prior month">
+                    <span class="k">1m</span>
+                    +5.62%
+                  </span>
+                </div>
               </div>
             </div>
             <div class="score">
-              <div class="num">481</div>
+              <div class="num">472</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
           <div class="badges">
             <!-- Total score -->
-            <div class="badge emph"><span class="hint">Total score</span><span class="pill">481</span></div>
+            <div class="badge emph"><span class="hint">Total score</span><span class="pill">472</span></div>
 
             <!-- Volume anomaly -->
             <div class="badge" data-kind="vol">
@@ -1234,26 +1446,26 @@
               </span>
             </div>
 
-            <!-- Trends: rank はクライアントで算出 -->
-            <div class="badge" data-kind="trends" data-score="0.7058823529411765">
+            <!-- Trends -->
+            <div class="badge" data-kind="trends" data-score="1.0">
               <span class="hint">Trends</span>
               <span class="pill js-trends-tier">
                 
-                Strong uptick
+                Breakout today
                 
               </span>
               <span class="muted js-trends-rank"></span>
             </div>
 
-            <!-- News: 件数キーは news_recent_count、rank はクライアント算出 -->
-            <div class="badge" data-kind="news" data-score="0.35">
+            <!-- News -->
+            <div class="badge" data-kind="news" data-score="0.15">
               <span class="hint">News</span>
               <span class="pill js-news-tier">
                 
                 Low
                 
               </span>
-              <span class="muted">(48 articles)</span>
+              <span class="muted">(41 articles)</span>
               <span class="muted js-news-rank"></span>
             </div>
           </div>
@@ -1278,7 +1490,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">481</span></th>
+                    <th class="right"><span class="js-total">472</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -1292,10 +1504,10 @@
                   
                   
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>1.98</div>
-                    <div><span class="k">Z60</span><br>1.06</div>
-                    <div><span class="k">PctRank90</span><br>0.99</div>
-                    <div><span class="k">DollarVol</span><br>$347.8M</div>
+                    <div><span class="k">RVOL20</span><br>0.82</div>
+                    <div><span class="k">Z60</span><br>-0.40</div>
+                    <div><span class="k">PctRank90</span><br>0.62</div>
+                    <div><span class="k">DollarVol</span><br>$776.3M</div>
                     <div><span class="k">Eligible</span><br>Yes</div>
                   </div>
                 
@@ -1308,13 +1520,13 @@
             </div>
 
             <div id="tech-10" class="tab">
-              <img src="/charts/2025-08-28/VSAT.png" alt="VSAT weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-28/RKLB.png" alt="RKLB weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.4808733142249439, "insider_momo": 0, "news_recent_count": 48, "news_score": 0.35, "score_components": {"insider_momo": 0.0, "news": 0.35, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.3801018652423662}, "score_pts": 481, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "VSAT", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.3801018652423662}
+          {"final_score_0_1": 0.4722514210500252, "insider_momo": 0, "news_recent_count": 41, "news_score": 0.15, "score_components": {"insider_momo": 0.0, "news": 0.15, "trends_breakout": 1.0, "volume_anomaly": 0.09875710525012588}, "score_pts": 472, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "RKLB", "trends_breakout": 1.0, "vol_anomaly_score": 0.09875710525012588}
           </script>
         </div>
       
@@ -1341,7 +1553,7 @@
     }
     bindTabs(document);
 
-    // Breakdown（埋め込み JSON から再計算）
+    // スコア内訳（埋め込み JSON から再計算）
     function fillBreakdown(){
       document.querySelectorAll(".card").forEach(card=>{
         const payloadEl=card.querySelector(".js-payload");
@@ -1371,7 +1583,7 @@
       });
     }
 
-    // Insider details
+    // Insider details (外部 JSON 読み込み)
     async function fillInsiderDetails(){
       try{
         const res=await fetch(`/data/insider/form4_latest.json`,{cache:"no-store"});
@@ -1404,34 +1616,34 @@
     // Trends / News の順位を算出して TOP5 を強調
     function rankAndDecorate(){
       const cards=[...document.querySelectorAll(".card")].map(card=>{
-        const tBadge=card.querySelector('.badge[data-kind="trends"]');
-        const nBadge=card.querySelector('.badge[data-kind="news"]');
+        const trendsBadge=card.querySelector('.badge[data-kind="trends"]');
+        const newsBadge=card.querySelector('.badge[data-kind="news"]');
         return {
           card,
-          trends: tBadge ? Number(tBadge.getAttribute("data-score")||0) : 0,
-          news:   nBadge ? Number(nBadge.getAttribute("data-score")||0)   : 0
+          trends: trendsBadge ? Number(trendsBadge.getAttribute("data-score")||0) : 0,
+          news:   newsBadge ? Number(newsBadge.getAttribute("data-score")||0)   : 0
         };
       });
-
-      [...cards].sort((a,b)=>b.trends-a.trends).forEach((c,i)=>{
-        const badge=c.card.querySelector('.badge[data-kind="trends"]');
-        const rank=i+1;
-        const rankEl=c.card.querySelector(".js-trends-rank");
-        if(badge){
+      // Trends
+      [...cards].sort((a,b)=>b.trends-a.trends)
+        .forEach((c,i)=>{
+          const badge=c.card.querySelector('.badge[data-kind="trends"]');
+          if(!badge) return;
+          const rank=i+1;
+          const rankEl=c.card.querySelector(".js-trends-rank");
           if(rank<=5) badge.classList.add("top5");
           if(rankEl)  rankEl.textContent = c.trends>0 ? `#${rank}` : "";
-        }
-      });
-
-      [...cards].sort((a,b)=>b.news-a.news).forEach((c,i)=>{
-        const badge=c.card.querySelector('.badge[data-kind="news"]');
-        const rank=i+1;
-        const rankEl=c.card.querySelector(".js-news-rank");
-        if(badge){
+        });
+      // News
+      [...cards].sort((a,b)=>b.news-a.news)
+        .forEach((c,i)=>{
+          const badge=c.card.querySelector('.badge[data-kind="news"]');
+          if(!badge) return;
+          const rank=i+1;
+          const rankEl=c.card.querySelector(".js-news-rank");
           if(rank<=5) badge.classList.add("top5");
           if(rankEl)  rankEl.textContent = c.news>0 ? `#${rank}` : "";
-        }
-      });
+        });
     }
 
     fillBreakdown();
