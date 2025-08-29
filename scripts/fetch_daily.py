@@ -1,20 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Daily scorer & exporter (robust)
-- OHLCV: yfinance.Ticker.history → yfinance.download → Stooq CSV の順にフェイルオーバー
-- Volume anomaly(0..1)、Trends、Insider、News(いずれも0..1) を重み付け合成
-- 重みは「存在するコンポーネントのみ」で正規化して 1000 点換算
-- テンプレートが読む JSON に必須キーを必ず出力
+Daily scorer & exporter (with price-change chips)
+- EOD取得: yfinance → Stooq CSV → pandas-datareader(stooq) の順でフェイルオーバー
+- Volume anomaly を算出（0..1）
+- Trends / Insider / News の各0..1スコアを取り込み
+- "存在するコンポーネントだけ" を重み正規化して 1000点換算
+- 週足チャート(3M)生成
+- NEW: 価格変化(1d/1w/1m)を計算してJSONに出力
+
+テンプレート(daily.html.j2)が読むキー:
+- rank, symbol, name, score_pts, final_score_0_1
+- vol_anomaly_score, insider_momo, trends_breakout, news_score, news_recent_count
+- detail.vol_anomaly（詳細）
+- price_change: { d1_pct, w1_pct, m1_pct }  # ％（例: 1.23 は +1.23%）
+- chart_url
 """
 
 import os, sys, json, math, pathlib, random, datetime, time, io, csv
 from zoneinfo import ZoneInfo
 import requests
 import pandas as pd
-
-# --- yfinance の curl-cffi 絡みの不具合を避ける（'tuple' .lower エラー対策） ---
-os.environ.setdefault("YF_USE_CURL_CFFI", "0")
 
 # charts
 import matplotlib
@@ -23,7 +29,7 @@ import matplotlib.pyplot as plt
 
 # ---------------- Time helpers ----------------
 def prev_us_business_day(d: datetime.date) -> datetime.date:
-    while d.weekday() >= 5:
+    while d.weekday() >= 5:  # Sat/Sun
         d = d - datetime.timedelta(days=1)
     return d
 
@@ -43,10 +49,9 @@ OUT_DIR = os.getenv("OUT_DIR", "site")
 DATE = os.getenv("REPORT_DATE") or usa_market_date_now().isoformat()
 MOCK_MODE = os.getenv("MOCK_MODE", "false").lower() == "true"
 
-# Sleep between vendor calls (yfinance 連打対策)
 YFI_SLEEP = float(os.getenv("YFI_SLEEP", "0.4"))
 
-# Weights (raw)
+# Weights
 W_VOL    = float(os.getenv("WEIGHT_VOL_ANOM", "0.20"))
 W_FORM4  = float(os.getenv("WEIGHT_FORM4",   "0.05"))
 W_TRENDS = float(os.getenv("WEIGHT_TRENDS",  "0.40"))
@@ -56,48 +61,13 @@ FORM4_JSON   = os.getenv("FORM4_JSON",   f"{OUT_DIR}/data/insider/form4_latest.j
 TRENDS_JSON  = os.getenv("TRENDS_JSON",  f"{OUT_DIR}/data/trends/latest.json")
 NEWS_JSON    = os.getenv("NEWS_JSON",    f"{OUT_DIR}/data/news/latest.json")
 
-# ---------------- Helpers ----------------
-def stooq_symbol(sym: str) -> str:
-    """
-    Stooq CSV は米株を `nvda.us` のように要求する。
-    ドットを含むティッカーは軽く正規化（例: BRK.B → brk-b.us）。
-    """
-    s = sym.strip().lower()
-    if "." in s:
-        s = s.replace(".", "-")
-    if not s.endswith(".us"):
-        s = f"{s}.us"
-    return s
-
-def _normalize_history_df(df: pd.DataFrame) -> pd.DataFrame:
-    if df is None or df.empty:
-        return pd.DataFrame()
-    df = df.reset_index()
-    df.columns = [str(c).strip().lower().replace(" ", "") for c in df.columns]
-    date_col = "date" if "date" in df.columns else ("index" if "index" in df.columns else None)
-    if date_col is None:
-        return pd.DataFrame()
-    close_series = df.get("close")
-    if close_series is None or (hasattr(close_series, "isna") and close_series.isna().all()):
-        close_series = df.get("adjclose") or df.get("adj close")
-    out = pd.DataFrame({
-        "date":   pd.to_datetime(df[date_col], errors="coerce").dt.strftime("%Y-%m-%d"),
-        "open":   pd.to_numeric(df.get("open"), errors="coerce"),
-        "high":   pd.to_numeric(df.get("high"), errors="coerce"),
-        "low":    pd.to_numeric(df.get("low"), errors="coerce"),
-        "close":  pd.to_numeric(close_series, errors="coerce"),
-        "volume": pd.to_numeric(df.get("volume"), errors="coerce").fillna(0),
-    }).dropna(subset=["date","close"])
-    return out
-
 # ---------------- Data providers ----------------
 def yfi_eod_range(symbol, start, end):
     """
-    EOD 取得（強耐性版）
-      1) yfinance.Ticker(...).history(...)
-      2) yfinance.download(...)
-      3) Stooq CSV
-    どれかで取れて日付範囲にフィルターできれば返す。
+    安全第一の EOD 取得:
+      1) yfinance.Ticker(...).history()
+      2) Stooq CSV
+      3) pandas-datareader(stooq)
     """
     if MOCK_MODE:
         dates = pd.date_range(start=start, end=end, freq="B")
@@ -114,50 +84,39 @@ def yfi_eod_range(symbol, start, end):
     start_dt = datetime.date.fromisoformat(start)
     end_dt   = datetime.date.fromisoformat(end)
 
-    # --- 1) yfinance Ticker.history
+    # 1) yfinance
     try:
         import yfinance as yf
         t = yf.Ticker(symbol)
-        df = t.history(
-            start=(start_dt - datetime.timedelta(days=2)).isoformat(),
-            end=(end_dt + datetime.timedelta(days=1)).isoformat(),
-            interval="1d",
-            auto_adjust=True
-        )
-        df = _normalize_history_df(df)
-        if not df.empty:
-            df = df[(df["date"] >= start) & (df["date"] <= end)]
-            if not df.empty:
+        df = t.history(start=(start_dt - datetime.timedelta(days=2)).isoformat(),
+                       end=(end_dt + datetime.timedelta(days=1)).isoformat(),
+                       interval="1d", auto_adjust=True)
+        if df is not None and not df.empty:
+            df = df.reset_index()
+            df.columns = [str(c).strip().lower() for c in df.columns]
+            date_col = "date" if "date" in df.columns else "index"
+            close_series = df.get("close")
+            if close_series is None or close_series.isna().all():
+                close_series = df.get("adj close") if df.get("adj close") is not None else df.get("adjclose")
+            out = pd.DataFrame({
+                "date":   pd.to_datetime(df[date_col]).dt.strftime("%Y-%m-%d"),
+                "open":   pd.to_numeric(df.get("open"), errors="coerce"),
+                "high":   pd.to_numeric(df.get("high"), errors="coerce"),
+                "low":    pd.to_numeric(df.get("low"), errors="coerce"),
+                "close":  pd.to_numeric(close_series, errors="coerce"),
+                "volume": pd.to_numeric(df.get("volume"), errors="coerce").fillna(0),
+            }).dropna(subset=["close"])
+            out = out[(out["date"] >= start) & (out["date"] <= end)]
+            if not out.empty:
                 time.sleep(YFI_SLEEP)
-                return df[["date","open","high","low","close","volume"]]
+                return out[["date","open","high","low","close","volume"]]
     except Exception as e:
-        print(f"[WARN] yfinance(history) failed for {symbol}: {e}", file=sys.stderr)
+        print(f"[WARN] yfinance failed for {symbol}: {e}", file=sys.stderr)
 
-    # --- 2) yfinance download（別経路）
+    # 2) Stooq CSV
     try:
-        import yfinance as yf
-        df = yf.download(
-            tickers=symbol,
-            start=(start_dt - datetime.timedelta(days=2)).isoformat(),
-            end=(end_dt + datetime.timedelta(days=1)).isoformat(),
-            interval="1d",
-            auto_adjust=True,
-            progress=False,
-            threads=False,
-        )
-        df = _normalize_history_df(df)
-        if not df.empty:
-            df = df[(df["date"] >= start) & (df["date"] <= end)]
-            if not df.empty:
-                time.sleep(YFI_SLEEP)
-                return df[["date","open","high","low","close","volume"]]
-    except Exception as e:
-        print(f"[WARN] yfinance(download) failed for {symbol}: {e}", file=sys.stderr)
-
-    # --- 3) Stooq CSV
-    try:
-        url = f"https://stooq.com/q/d/l/?s={stooq_symbol(symbol)}&i=d"
-        r = requests.get(url, timeout=20, headers={"User-Agent":"curl/8"})
+        url = f"https://stooq.com/q/d/l/?s={symbol.lower()}&i=d"
+        r = requests.get(url, timeout=20)
         if r.ok and "Date,Open,High,Low,Close,Volume" in r.text:
             reader = csv.DictReader(io.StringIO(r.text))
             rows = []
@@ -179,12 +138,29 @@ def yfi_eod_range(symbol, start, end):
     except Exception as e:
         print(f"[WARN] stooq csv failed for {symbol}: {e}", file=sys.stderr)
 
+    # 3) pandas-datareader(stooq)
+    try:
+        import pandas_datareader.data as web
+        df = web.DataReader(symbol, "stooq",
+                            start=start_dt - datetime.timedelta(days=2),
+                            end=end_dt + datetime.timedelta(days=1))
+        if df is not None and not df.empty:
+            df = df.sort_index().reset_index().rename(columns={
+                "Date":"date","Open":"open","High":"high","Low":"low","Close":"close","Volume":"volume"
+            })
+            df["date"] = pd.to_datetime(df["date"]).dt.strftime("%Y-%m-%d")
+            df = df[(df["date"] >= start) & (df["date"] <= end)]
+            if not df.empty:
+                time.sleep(0.2)
+                return df[["date","open","high","low","close","volume"]]
+    except Exception as e:
+        print(f"[WARN] pandas-datareader failed for {symbol}: {e}", file=sys.stderr)
+
     print(f"[ERROR] {symbol}: no OHLCV from all sources", file=sys.stderr)
     return pd.DataFrame()
 
 # ---------------- Metrics ----------------
 def compute_volume_anomaly(df: pd.DataFrame):
-    """Return dict with 0..1 score and details. If not enough data, score=0."""
     if df is None or df.empty or "volume" not in df.columns or "close" not in df.columns:
         return {"score": 0.0, "eligible": False}
 
@@ -213,10 +189,7 @@ def compute_volume_anomaly(df: pd.DataFrame):
     d["dollar_vol"] = d["close"] * d["volume"]
     last_dv = float(d["dollar_vol"].iloc[-1])
     tail = d["dollar_vol"].tail(90).dropna()
-    if len(tail) >= 5:
-        pct_rank_90 = float((tail <= last_dv).mean())
-    else:
-        pct_rank_90 = 0.0
+    pct_rank_90 = float((tail <= last_dv).mean()) if len(tail) >= 5 else 0.0
 
     vol_score = 0.6 * max(0.0, min(1.0, rvol20 / 5.0)) + 0.4 * z60_u
     vol_score = max(0.0, min(1.0, vol_score))
@@ -229,6 +202,39 @@ def compute_volume_anomaly(df: pd.DataFrame):
         "pct_rank_90": pct_rank_90,
         "dollar_vol": last_dv,
     }
+
+def compute_price_changes(df: pd.DataFrame):
+    """
+    終値ベースの％変化:
+      1d = 前営業日比
+      1w = 直近5本前（約1週間）
+      1m = 直近21本前（約1か月）
+    データ不足時は None。
+    """
+    if df is None or df.empty or "close" not in df.columns:
+        return {"d1_pct": None, "w1_pct": None, "m1_pct": None}
+
+    d = df.copy()
+    d["date"] = pd.to_datetime(d["date"])
+    d = d.sort_values("date")
+    closes = d["close"].astype(float).values
+    n = len(closes)
+    res = {"d1_pct": None, "w1_pct": None, "m1_pct": None}
+
+    def pct_change(cur, prev):
+        if prev is None or prev == 0 or cur is None:
+            return None
+        return (cur / prev - 1.0) * 100.0
+
+    cur = closes[-1] if n >= 1 else None
+    prev1 = closes[-2] if n >= 2 else None
+    prev5 = closes[-6] if n >= 6 else None   # 現在を含めて6本 → 1週間前は -6 の位置
+    prev21 = closes[-22] if n >= 22 else None
+
+    res["d1_pct"] = pct_change(cur, prev1)
+    res["w1_pct"] = pct_change(cur, prev5)
+    res["m1_pct"] = pct_change(cur, prev21)
+    return res
 
 # ---------------- IO helpers ----------------
 def load_json_safe(path, default):
@@ -246,20 +252,15 @@ def ensure_dirs(date_iso):
 
 # ---------------- Charts ----------------
 def save_chart_png_weekly_3m(symbol, df, out_dir, date_iso):
-    if df is None or df.empty:
-        return
+    if df is None or df.empty: return
     d = df.copy()
-    d["date"] = pd.to_datetime(d["date"], errors="coerce")
-    d = d.dropna(subset=["date"]).set_index("date").sort_index()
-    if d.empty:
-        return
+    d["date"] = pd.to_datetime(d["date"])
+    d = d.set_index("date").sort_index()
     w = pd.DataFrame({
         "close": d["close"].resample("W-FRI").last(),
         "volume": d["volume"].resample("W-FRI").sum(),
-    }).dropna(subset=["close"])
+    }).dropna()
     w = w.tail(13)
-    if w.empty:
-        return
 
     plt.figure(figsize=(9, 4.6), dpi=120)
     plt.plot(w.index, w["close"], linewidth=1.3)
@@ -281,22 +282,17 @@ def main():
     ensure_dirs(report_d.isoformat())
 
     uni = pd.read_csv(UNIVERSE_CSV)
-    symbols = [str(s).strip().upper() for s in uni["symbol"].tolist()]
+    symbols = [str(s).strip() for s in uni["symbol"].tolist()]
 
-    trends = load_json_safe(TRENDS_JSON, {"items": {}})
-    trends_items = trends.get("items", {})
-
-    form4 = load_json_safe(FORM4_JSON, {"items": {}})
-    form4_items = form4.get("items", {})
-
-    news = load_json_safe(NEWS_JSON, {"items": {}})
-    news_items = news.get("items", {})
+    trends = load_json_safe(TRENDS_JSON, {"items": {}}).get("items", {})
+    form4  = load_json_safe(FORM4_JSON, {"items": {}}).get("items", {})
+    news   = load_json_safe(NEWS_JSON,   {"items": {}}).get("items", {})
 
     records = []
     recent_map = {}
 
     for sym in symbols:
-        # 価格/出来高
+        # OHLCV
         try:
             df = yfi_eod_range(sym, start, end_s)
         except Exception as e:
@@ -312,20 +308,21 @@ def main():
             vol_detail = compute_volume_anomaly(df)
             vol_score = float(vol_detail.get("score", 0.0))
 
-        # Trends breakout 0..1
-        tr = trends_items.get(sym) or {}
+        # Price changes
+        chg = compute_price_changes(df) if df is not None and not df.empty else {"d1_pct": None, "w1_pct": None, "m1_pct": None}
+
+        # Trends / Insider / News
+        tr = trends.get(sym) or {}
         trends_breakout = float(tr.get("score_0_1") or tr.get("breakout_score") or 0.0)
 
-        # Insider momentum 0..1
-        f4 = form4_items.get(sym) or {}
+        f4 = form4.get(sym) or {}
         insider_momo = float(f4.get("score_30", 0.0))
 
-        # News 0..1 + recent count
-        nw = news_items.get(sym) or {}
+        nw = news.get(sym) or {}
         news_score = float(nw.get("score_0_1", 0.0))
-        news_recent = int(nw.get("recent_count", 0))
+        news_recent = int(nw.get("recent_count", nw.get("news_recent_count", 0)))
 
-        # weights normalization (only-present)
+        # weights normalize
         comps = {
             "volume_anomaly": vol_score if vol_detail is not None else 0.0,
             "insider_momo": insider_momo,
@@ -341,7 +338,6 @@ def main():
         present_keys = list(comps.keys())
         wsum = sum(max(0.0, raw_w.get(k,0.0)) for k in present_keys) or 1.0
         norm_w = {k: (max(0.0, raw_w.get(k,0.0))/wsum) for k in present_keys}
-
         final_0_1 = sum((comps.get(k,0.0) * norm_w.get(k,0.0)) for k in present_keys)
         score_pts = int(round(final_0_1 * 1000))
 
@@ -359,6 +355,13 @@ def main():
             "news_score": news_score,
             "news_recent_count": news_recent,
 
+            # NEW: price change chips
+            "price_change": {
+                "d1_pct": chg.get("d1_pct"),
+                "w1_pct": chg.get("w1_pct"),
+                "m1_pct": chg.get("m1_pct"),
+            },
+
             # breakdown & weights
             "score_components": comps,
             "score_weights": raw_w,
@@ -369,18 +372,18 @@ def main():
         }
         records.append(rec)
 
-    # ランキング
+    # ranking
     records.sort(key=lambda r: r.get("score_pts", 0), reverse=True)
     for i, r in enumerate(records, 1):
         r["rank"] = i
 
-    # JSON 出力
+    # output
     out_json_dir = pathlib.Path(OUT_DIR)/"data"/DATE
     out_json_dir.mkdir(parents=True, exist_ok=True)
     top10 = records[:10]
     (out_json_dir/"top10.json").write_text(json.dumps(top10, indent=2))
 
-    # チャート
+    # charts
     for r in top10:
         df = recent_map.get(r["symbol"])
         try:
