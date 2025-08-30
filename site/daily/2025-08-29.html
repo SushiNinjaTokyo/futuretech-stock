@@ -1,0 +1,1331 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <title>futuretech-stock — Daily Top 10 (2025-08-29)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
+      --gold:#f59e0b; --silver:#9ca3af; --bronze:#fb923c;
+      --soft:#f8fafc; --ring:#e2e8f0;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:var(--bg);color:var(--fg)}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px}
+    header{margin-bottom:16px}
+    h1{font-size:22px;margin:0 0 6px;letter-spacing:-0.2px}
+    .sub{color:var(--muted);font-size:12px}
+
+    .grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:12px}
+    @media (min-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+    .card{position:relative;border:1px solid var(--border);border-radius:16px;padding:14px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .sym{display:flex;align-items:center;gap:12px}
+
+    .symbol{font-size:18px;font-weight:800;letter-spacing:.2px}
+    .name{font-size:12px;color:var(--muted)}
+
+    /* score block with subtle ring; emphasized for top1-3 */
+    .score{text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.05}
+    .score .num{
+      font-size:28px;font-weight:900;letter-spacing:-.4px;
+      padding:6px 10px;border-radius:12px;border:1px solid var(--ring);
+      background:linear-gradient(180deg,#ffffff 0%,#f9fafb 100%);
+    }
+    .score.top1 .num{ border-color:#f59e0b66; box-shadow:0 0 0 4px #f59e0b26; }
+    .score.top2 .num{ border-color:#9ca3af66; box-shadow:0 0 0 4px #9ca3af26; }
+    .score.top3 .num{ border-color:#fb923c66; box-shadow:0 0 0 4px #fb923c26; }
+    .score .den{font-size:11px;color:var(--muted);margin-top:2px}
+
+    /* corner ribbon for total ranking */
+    .ribbon{
+      position:absolute; top:10px; right:-6px;
+      font-size:11px; padding:4px 10px 4px 12px; color:#111; background:#fff;
+      border:1px solid var(--border); border-right:none; border-radius:999px 0 0 999px;
+      box-shadow:0 1px 1px rgba(0,0,0,.04);
+      display:flex; align-items:center; gap:6px; pointer-events:none;
+    }
+    .ribbon .dot{width:8px;height:8px;border-radius:999px}
+    .ribbon.top1 .dot{background:var(--gold)}
+    .ribbon.top2 .dot{background:#52525b}
+    .ribbon.top3 .dot{background:var(--bronze)}
+    .ribbon .txt{font-weight:700;letter-spacing:.2px}
+
+    /* medals (News/Trends top3) */
+    .medals{display:flex;gap:6px;margin:8px 0 4px;flex-wrap:wrap}
+    .medal{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:#fff;border-radius:999px;padding:3px 8px;line-height:1}
+    .medal .label{font-size:11px;letter-spacing:.2px}
+    .medal .kind{font-size:11px;color:#111;text-transform:capitalize}
+    .medal.gold{border-color:#f59e0b44;box-shadow:0 0 0 2px #f59e0b1f inset}
+    .medal.silver{border-color:#9ca3af44;box-shadow:0 0 0 2px #9ca3af1f inset}
+    .medal.bronze{border-color:#fb923c44;box-shadow:0 0 0 2px #fb923c1f inset}
+    .medal .emoji{font-size:14px}
+
+    /* tabs: segmented glass buttons */
+    .tabs{margin-top:12px}
+    .seg{display:inline-flex;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:rgba(243,244,246,.6);backdrop-filter:saturate(1.1) blur(2px)}
+    .seg .segbtn{
+      appearance:none;border:0;margin:0;padding:8px 12px;background:transparent;cursor:pointer;
+      font-size:12px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;
+    }
+    .seg .segbtn:focus{outline:none;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
+    .seg .segbtn[aria-pressed="true"]{
+      background:#fff; font-weight:700;
+      box-shadow:inset 0 0 0 1px var(--border);
+    }
+    .seg .ico{font-size:14px;opacity:.9}
+    .tab{display:none}
+    .tab.active{display:block}
+
+    .chart{width:100%;border:1px solid var(--border);border-radius:10px}
+
+    .table{width:100%;border-collapse:collapse;margin-top:6px}
+    .table th,.table td{border-bottom:1px solid var(--border);padding:6px 8px;font-size:12px;text-align:left}
+    .table th{color:var(--muted);font-weight:600}
+    .right{text-align:right}
+    .muted{color:var(--muted)}
+    details{margin-top:6px;background:#fafafa;border:1px solid var(--border);border-radius:8px;padding:8px 10px}
+    details>summary{cursor:pointer;font-size:12px;color:#111;user-select:none}
+    .kv{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+    .kv div{font-size:12px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 8px}
+    .kv .k{color:var(--muted)}
+    .no-insider{flex:1;background:#f9fafb;border:1px dashed #d1d5db;border-radius:12px;padding:8px 10px;font-size:12px;color:#6b7280;font-style:italic;text-align:center}
+
+    /* ===== Rocket rank badges (bigger / clearer) ===== */
+    .rank-rocket{
+      width:56px;height:56px;border-radius:999px;
+      display:flex;align-items:center;justify-content:center;
+      position:relative; isolation:isolate;
+      box-shadow:inset 0 8px 22px rgba(0,0,0,.08), 0 6px 14px rgba(0,0,0,.06);
+      border:2px solid #fff;
+    }
+    .rank-rocket .num{
+      position:absolute; right:-6px; bottom:-6px;
+      width:22px; height:22px; border-radius:999px;
+      background:#0f172a; color:#fff; font-weight:800; font-size:11px;
+      display:flex; align-items:center; justify-content:center;
+      border:2px solid #fff;
+    }
+    .rank-rocket svg{ width:28px;height:28px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.2)); }
+    .rank-rocket .flame{ transform-origin:10px 18px; }
+
+    /* clearer backgrounds for 1/2/3 with halo ring */
+    .rank1{ background:
+        radial-gradient(120px 120px at 30% 20%, #fff1 0%, #0000 60%),
+        linear-gradient(135deg,#f59e0b 0%,#f97316 55%,#fdba74 120%); 
+      box-shadow:0 0 0 3px #fef3c7, 0 10px 28px rgba(245,158,11,.38); }
+    .rank2{ background:
+        radial-gradient(120px 120px at 30% 20%, #fff1 0%, #0000 60%),
+        linear-gradient(135deg,#cbd5e1 0%,#9ca3af 60%,#6b7280 120%);
+      box-shadow:0 0 0 3px #e5e7eb, 0 10px 28px rgba(107,114,128,.28); }
+    .rank3{ background:
+        radial-gradient(120px 120px at 30% 20%, #fff1 0%, #0000 60%),
+        linear-gradient(135deg,#fb923c 0%,#f59e0b 60%,#fde68a 120%);
+      box-shadow:0 0 0 3px #fee2e2, 0 10px 28px rgba(251,146,60,.3); }
+    .rankN{ background:#f3f4f6; box-shadow:inset 0 6px 18px rgba(0,0,0,.06); }
+
+    /* poses & subtle animation */
+    .rank1 .rocket{ animation:lift 1.8s ease-in-out infinite; }
+    .rank2 .rocket{ transform:rotate(32deg) translateY(-1px); }
+    .rank3 .rocket{ transform:rotate(16deg); }
+    .rank1 .flame{ animation:flicker .9s ease-in-out infinite; }
+    @keyframes lift{
+      0%{ transform:translateY(0) rotate(-4deg); }
+      50%{ transform:translateY(-3px) rotate(0deg); }
+      100%{ transform:translateY(0) rotate(-4deg); }
+    }
+    @keyframes flicker{
+      0%,100%{ opacity:.95; transform:scale(1); }
+      50%{ opacity:.55; transform:scale(.85); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>futuretech-stock — Daily Top 10</h1>
+      <div class="sub">Date: 2025-08-29 / Scoring: 1000 pts（volume + insider + trends + news）</div>
+    </header>
+
+    
+    <div class="grid" id="cards">
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card is-top" id="card-1" data-symbol="NVDA">
+          
+          <div class="ribbon top1">
+            <span class="dot"></span>
+            <span class="txt">Top 1</span>
+          </div>
+          
+
+          <div class="row">
+            <div class="sym">
+              
+              <div class="rank-rocket rank1" aria-label="Rank 1">
+                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                </svg>
+                <div class="num">1</div>
+              </div>
+
+              <div>
+                <div class="symbol">NVDA</div>
+                <div class="name">NVIDIA Corporation</div>
+              </div>
+            </div>
+
+            <div class="score top1">
+              <div class="num">749</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <!-- medals mount point -->
+          <div class="medals"></div>
+
+          <!-- segmented toggle buttons -->
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-1"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-1"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-1" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">749</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>1.67</div>
+                    <div><span class="k">Z60</span><br>3.38</div>
+                    <div><span class="k">PctRank90</span><br>0.99</div>
+                    <div><span class="k">DollarVol</span><br>$50769.7M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <div id="tech-1" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/NVDA.png" alt="NVDA weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.749473735957594, "insider_momo": 0, "news_recent_count": 59, "news_score": 0.9, "score_components": {"insider_momo": 0.0, "news": 0.9, "trends_breakout": 0.7857142857142857, "volume_anomaly": 0.6009401083593985}, "score_pts": 749, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "NVDA", "trends_breakout": 0.7857142857142857, "vol_anomaly_score": 0.6009401083593985}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card is-top" id="card-2" data-symbol="VRT">
+          
+          <div class="ribbon top2">
+            <span class="dot"></span>
+            <span class="txt">Top 2</span>
+          </div>
+          
+
+          <div class="row">
+            <div class="sym">
+              
+              <div class="rank-rocket rank2" aria-label="Rank 2">
+                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                </svg>
+                <div class="num">2</div>
+              </div>
+
+              <div>
+                <div class="symbol">VRT</div>
+                <div class="name">Vertiv Holdings Co</div>
+              </div>
+            </div>
+
+            <div class="score top2">
+              <div class="num">623</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <!-- medals mount point -->
+          <div class="medals"></div>
+
+          <!-- segmented toggle buttons -->
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-2"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-2"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-2" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">623</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>1.11</div>
+                    <div><span class="k">Z60</span><br>0.24</div>
+                    <div><span class="k">PctRank90</span><br>0.72</div>
+                    <div><span class="k">DollarVol</span><br>$915.1M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <div id="tech-2" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/VRT.png" alt="VRT weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.6226706901328694, "insider_momo": 0, "news_recent_count": 60, "news_score": 0.95, "score_components": {"insider_momo": 0.0, "news": 0.95, "trends_breakout": 0.6428571428571429, "volume_anomaly": 0.16513916495006103}, "score_pts": 623, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "VRT", "trends_breakout": 0.6428571428571429, "vol_anomaly_score": 0.16513916495006103}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card is-top" id="card-3" data-symbol="SYM">
+          
+          <div class="ribbon top3">
+            <span class="dot"></span>
+            <span class="txt">Top 3</span>
+          </div>
+          
+
+          <div class="row">
+            <div class="sym">
+              
+              <div class="rank-rocket rank3" aria-label="Rank 3">
+                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                </svg>
+                <div class="num">3</div>
+              </div>
+
+              <div>
+                <div class="symbol">SYM</div>
+                <div class="name">Symbotic Inc.</div>
+              </div>
+            </div>
+
+            <div class="score top3">
+              <div class="num">568</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <!-- medals mount point -->
+          <div class="medals"></div>
+
+          <!-- segmented toggle buttons -->
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-3"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-3"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-3" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">568</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>0.56</div>
+                    <div><span class="k">Z60</span><br>-0.79</div>
+                    <div><span class="k">PctRank90</span><br>0.50</div>
+                    <div><span class="k">DollarVol</span><br>$68.1M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <div id="tech-3" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/SYM.png" alt="SYM weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.5680815221310287, "insider_momo": 0, "news_recent_count": 56, "news_score": 0.85, "score_components": {"insider_momo": 0.0, "news": 0.85, "trends_breakout": 0.6428571428571429, "volume_anomaly": 0.06719332494085736}, "score_pts": 568, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "SYM", "trends_breakout": 0.6428571428571429, "vol_anomaly_score": 0.06719332494085736}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card " id="card-4" data-symbol="MSFT">
+          
+
+          <div class="row">
+            <div class="sym">
+              
+              <div class="rank-rocket rankN" aria-label="Rank 4">
+                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                </svg>
+                <div class="num">4</div>
+              </div>
+
+              <div>
+                <div class="symbol">MSFT</div>
+                <div class="name">Microsoft Corporation</div>
+              </div>
+            </div>
+
+            <div class="score ">
+              <div class="num">533</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <!-- medals mount point -->
+          <div class="medals"></div>
+
+          <!-- segmented toggle buttons -->
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-4"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-4"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-4" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">533</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>0.83</div>
+                    <div><span class="k">Z60</span><br>-0.53</div>
+                    <div><span class="k">PctRank90</span><br>0.54</div>
+                    <div><span class="k">DollarVol</span><br>$9181.5M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <div id="tech-4" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/MSFT.png" alt="MSFT weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.5331427298831077, "insider_momo": 0, "news_recent_count": 55, "news_score": 0.65, "score_components": {"insider_momo": 0.0, "news": 0.65, "trends_breakout": 0.7142857142857143, "volume_anomaly": 0.09964222084410992}, "score_pts": 533, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "MSFT", "trends_breakout": 0.7142857142857143, "vol_anomaly_score": 0.09964222084410992}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card " id="card-5" data-symbol="SOUN">
+          
+
+          <div class="row">
+            <div class="sym">
+              
+              <div class="rank-rocket rankN" aria-label="Rank 5">
+                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                </svg>
+                <div class="num">5</div>
+              </div>
+
+              <div>
+                <div class="symbol">SOUN</div>
+                <div class="name">SoundHound AI, Inc.</div>
+              </div>
+            </div>
+
+            <div class="score ">
+              <div class="num">530</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <!-- medals mount point -->
+          <div class="medals"></div>
+
+          <!-- segmented toggle buttons -->
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-5"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-5"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-5" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">530</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>1.11</div>
+                    <div><span class="k">Z60</span><br>0.03</div>
+                    <div><span class="k">PctRank90</span><br>0.90</div>
+                    <div><span class="k">DollarVol</span><br>$804.7M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <div id="tech-5" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/SOUN.png" alt="SOUN weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.5295326649625369, "insider_momo": 0, "news_recent_count": 56, "news_score": 0.7, "score_components": {"insider_momo": 0.0, "news": 0.7, "trends_breakout": 0.6428571428571429, "volume_anomaly": 0.13694903909839876}, "score_pts": 530, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "SOUN", "trends_breakout": 0.6428571428571429, "vol_anomaly_score": 0.13694903909839876}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card " id="card-6" data-symbol="IRDM">
+          
+
+          <div class="row">
+            <div class="sym">
+              
+              <div class="rank-rocket rankN" aria-label="Rank 6">
+                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                </svg>
+                <div class="num">6</div>
+              </div>
+
+              <div>
+                <div class="symbol">IRDM</div>
+                <div class="name">Iridium Communications Inc.</div>
+              </div>
+            </div>
+
+            <div class="score ">
+              <div class="num">491</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <!-- medals mount point -->
+          <div class="medals"></div>
+
+          <!-- segmented toggle buttons -->
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-6"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-6"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-6" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">491</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>0.98</div>
+                    <div><span class="k">Z60</span><br>-0.12</div>
+                    <div><span class="k">PctRank90</span><br>0.56</div>
+                    <div><span class="k">DollarVol</span><br>$36.2M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <div id="tech-6" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/IRDM.png" alt="IRDM weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.4907289080155952, "insider_momo": 0, "news_recent_count": 52, "news_score": 0.6, "score_components": {"insider_momo": 0.0, "news": 0.6, "trends_breakout": 0.6428571428571429, "volume_anomaly": 0.11793025436369035}, "score_pts": 491, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "IRDM", "trends_breakout": 0.6428571428571429, "vol_anomaly_score": 0.11793025436369035}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card " id="card-7" data-symbol="VSAT">
+          
+
+          <div class="row">
+            <div class="sym">
+              
+              <div class="rank-rocket rankN" aria-label="Rank 7">
+                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                </svg>
+                <div class="num">7</div>
+              </div>
+
+              <div>
+                <div class="symbol">VSAT</div>
+                <div class="name">Viasat, Inc.</div>
+              </div>
+            </div>
+
+            <div class="score ">
+              <div class="num">477</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <!-- medals mount point -->
+          <div class="medals"></div>
+
+          <!-- segmented toggle buttons -->
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-7"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-7"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-7" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">477</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>1.11</div>
+                    <div><span class="k">Z60</span><br>0.02</div>
+                    <div><span class="k">PctRank90</span><br>0.96</div>
+                    <div><span class="k">DollarVol</span><br>$195.3M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <div id="tech-7" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/VSAT.png" alt="VSAT weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.4767313643787807, "insider_momo": 0, "news_recent_count": 49, "news_score": 0.55, "score_components": {"insider_momo": 0.0, "news": 0.55, "trends_breakout": 0.6428571428571429, "volume_anomaly": 0.1354425361796176}, "score_pts": 477, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "VSAT", "trends_breakout": 0.6428571428571429, "vol_anomaly_score": 0.1354425361796176}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card " id="card-8" data-symbol="AI">
+          
+
+          <div class="row">
+            <div class="sym">
+              
+              <div class="rank-rocket rankN" aria-label="Rank 8">
+                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                </svg>
+                <div class="num">8</div>
+              </div>
+
+              <div>
+                <div class="symbol">AI</div>
+                <div class="name">C3.ai, Inc.</div>
+              </div>
+            </div>
+
+            <div class="score ">
+              <div class="num">469</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <!-- medals mount point -->
+          <div class="medals"></div>
+
+          <!-- segmented toggle buttons -->
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-8"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-8"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-8" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">469</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>0.41</div>
+                    <div><span class="k">Z60</span><br>-0.67</div>
+                    <div><span class="k">PctRank90</span><br>0.14</div>
+                    <div><span class="k">DollarVol</span><br>$77.8M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <div id="tech-8" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/AI.png" alt="AI weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.4687988577176134, "insider_momo": 0, "news_recent_count": 39, "news_score": 0.25, "score_components": {"insider_momo": 0.0, "news": 0.25, "trends_breakout": 0.9285714285714286, "volume_anomaly": 0.04935143144521007}, "score_pts": 469, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "AI", "trends_breakout": 0.9285714285714286, "vol_anomaly_score": 0.04935143144521007}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card " id="card-9" data-symbol="PLTR">
+          
+
+          <div class="row">
+            <div class="sym">
+              
+              <div class="rank-rocket rankN" aria-label="Rank 9">
+                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                </svg>
+                <div class="num">9</div>
+              </div>
+
+              <div>
+                <div class="symbol">PLTR</div>
+                <div class="name">Palantir Technologies Inc.</div>
+              </div>
+            </div>
+
+            <div class="score ">
+              <div class="num">451</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <!-- medals mount point -->
+          <div class="medals"></div>
+
+          <!-- segmented toggle buttons -->
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-9"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-9"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-9" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">451</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>0.68</div>
+                    <div><span class="k">Z60</span><br>-0.76</div>
+                    <div><span class="k">PctRank90</span><br>0.29</div>
+                    <div><span class="k">DollarVol</span><br>$9152.8M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <div id="tech-9" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/PLTR.png" alt="PLTR weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.4513215998693562, "insider_momo": 0, "news_recent_count": 10, "news_score": 0.1, "score_components": {"insider_momo": 0.0, "news": 0.1, "trends_breakout": 1.0, "volume_anomaly": 0.08160799934678109}, "score_pts": 451, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "PLTR", "trends_breakout": 1.0, "vol_anomaly_score": 0.08160799934678109}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card " id="card-10" data-symbol="TER">
+          
+
+          <div class="row">
+            <div class="sym">
+              
+              <div class="rank-rocket rankN" aria-label="Rank 10">
+                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                </svg>
+                <div class="num">10</div>
+              </div>
+
+              <div>
+                <div class="symbol">TER</div>
+                <div class="name">Teradyne, Inc.</div>
+              </div>
+            </div>
+
+            <div class="score ">
+              <div class="num">433</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <!-- medals mount point -->
+          <div class="medals"></div>
+
+          <!-- segmented toggle buttons -->
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-10"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-10"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-10" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">433</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>0.77</div>
+                    <div><span class="k">Z60</span><br>-0.47</div>
+                    <div><span class="k">PctRank90</span><br>0.62</div>
+                    <div><span class="k">DollarVol</span><br>$325.5M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <div id="tech-10" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/TER.png" alt="TER weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.43316174936558094, "insider_momo": 0, "news_recent_count": 46, "news_score": 0.45, "score_components": {"insider_momo": 0.0, "news": 0.45, "trends_breakout": 0.6428571428571429, "volume_anomaly": 0.09259446111361887}, "score_pts": 433, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "TER", "trends_breakout": 0.6428571428571429, "vol_anomaly_score": 0.09259446111361887}
+          </script>
+        </div>
+      
+    </div>
+    
+  </div>
+
+  <script>
+    // Segmented toggle: click to open, click again to close (one open at a time per card)
+    function bindToggles(scope=document){
+      scope.querySelectorAll(".card").forEach(card=>{
+        const seg = card.querySelector(".seg");
+        if(!seg) return;
+        const buttons = [...seg.querySelectorAll(".segbtn")];
+        const panels = [...card.querySelectorAll(".tab")];
+
+        function openPanel(btn){
+          const sel = btn.getAttribute("data-target");
+          const panel = card.querySelector(sel);
+          const isActive = panel.classList.contains("active");
+          buttons.forEach(b=>{ b.setAttribute("aria-pressed","false"); b.setAttribute("aria-selected","false"); });
+          panels.forEach(p=>{ p.classList.remove("active"); p.setAttribute("aria-hidden","true"); });
+          if(!isActive){
+            btn.setAttribute("aria-pressed","true");
+            btn.setAttribute("aria-selected","true");
+            panel.classList.add("active");
+            panel.setAttribute("aria-hidden","false");
+          }
+        }
+
+        buttons.forEach(btn=>{
+          btn.addEventListener("click", ()=> openPanel(btn));
+          btn.addEventListener("keydown", (e)=>{
+            if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openPanel(btn); }
+          });
+        });
+
+        // open Overview by default
+        if (buttons[0]) buttons[0].click();
+      });
+    }
+
+    // Breakdown (recompute points from embedded payload)
+    function fillBreakdown(){
+      document.querySelectorAll(".card").forEach(card=>{
+        const payloadEl=card.querySelector(".js-payload");
+        if(!payloadEl) return;
+        let data={};
+        try{ data=JSON.parse(payloadEl.textContent||"{}"); }catch(_){}
+        const comps=data.score_components||{};
+        const weights=data.score_weights||{};
+        const keys=Object.keys(comps).filter(k=>comps[k]!=null);
+        const wsum=keys.reduce((s,k)=>s+Math.max(0,Number(weights[k]||0)),0)||1;
+        const tbody=card.querySelector(".js-breakdown tbody");
+        const totalEl=card.querySelector(".js-total");
+        if(!tbody) return;
+        tbody.innerHTML="";
+        let totalPts=0;
+        const label=k=>({volume_anomaly:"Volume anomaly",insider_momo:"Insider momentum",trends_breakout:"Trends breakout",news:"News coverage"}[k]||k);
+        keys.forEach(k=>{
+          const v=Math.max(0,Math.min(1,Number(comps[k]||0)));
+          const wn=Math.max(0,Number(weights[k]||0))/wsum;
+          const pts=Math.round(v*wn*1000);
+          totalPts+=pts;
+          const tr=document.createElement("tr");
+          tr.innerHTML=`<td>${label(k)}</td><td class="right">${v.toFixed(2)}</td><td class="right">${(wn*100).toFixed(0)}%</td><td class="right">${pts}</td>`;
+          tbody.appendChild(tr);
+        });
+        if(totalEl) totalEl.textContent=String(totalPts);
+      });
+    }
+
+    // Insider details (external JSON)
+    async function fillInsiderDetails(){
+      try{
+        const res=await fetch(`/data/insider/form4_latest.json`,{cache:"no-store"});
+        if(!res.ok) throw new Error("fetch insider json failed");
+        const j=await res.json();
+        const items=j.items||{};
+        document.querySelectorAll(".card").forEach(card=>{
+          const sym=card.getAttribute("data-symbol");
+          const box=card.querySelector(".js-insider");
+          if(!box) return;
+          const rec=items[sym];
+          if(!rec){ box.innerHTML=`<summary>Insider details (Form 4)</summary><div class="muted">No data</div>`; return; }
+          box.innerHTML=`<summary>Insider details (Form 4)</summary>
+            <div class="kv">
+              <div><span class="k">Net buy (30d)</span><br>${(rec.net_buy_shares_30||0).toLocaleString()} shares</div>
+              <div><span class="k">Net buy (90d)</span><br>${(rec.net_buy_shares_90||0).toLocaleString()} shares</div>
+              <div><span class="k">Unique buyers (30d)</span><br>${(rec.buyers_30||0)}</div>
+              <div><span class="k">Unique buyers (90d)</span><br>${(rec.buyers_90||0)}</div>
+              <div><span class="k">Score 30</span><br>${Number(rec.score_30||0).toFixed(2)}</div>
+              <div><span class="k">Score 90</span><br>${Number(rec.score_90||0).toFixed(2)}</div>
+            </div>`;
+        });
+      }catch(e){
+        document.querySelectorAll(".js-insider").forEach(box=>{
+          box.innerHTML=`<summary>Insider details (Form 4)</summary><div class="muted">Failed to load</div>`;
+        });
+      }
+    }
+
+    // News/Trends medals (Top3)
+    function decorateTop3Medals(){
+      const cards=[...document.querySelectorAll(".card")].map(card=>{
+        let data={};
+        try{ data=JSON.parse(card.querySelector(".js-payload")?.textContent||"{}"); }catch(_){}
+        return {
+          card,
+          symbol: card.getAttribute("data-symbol"),
+          trends: Number(data.trends_breakout||0),
+          news:   Number(data.news_score||0)
+        };
+      });
+      const rankBy = (arr, key)=>
+        [...arr].sort((a,b)=>Number(b[key])-Number(a[key]))
+                .map((o,i)=>({...o,_rank:i+1}))
+                .filter(o=>o[key]>0 && o._rank<=3);
+      const tMap=new Map(rankBy(cards,"trends").map(o=>[o.symbol,o._rank]));
+      const nMap=new Map(rankBy(cards,"news").map(o=>[o.symbol,o._rank]));
+      const medalInfo = r => r===1?{cls:"gold",emoji:"🥇"}:r===2?{cls:"silver",emoji:"🥈"}:{cls:"bronze",emoji:"🥉"};
+      cards.forEach(({card,symbol})=>{
+        const box=card.querySelector(".medals"); if(!box) return;
+        box.innerHTML="";
+        const t=tMap.get(symbol); if(t){ const m=medalInfo(t); const el=document.createElement("span");
+          el.className=`medal ${m.cls}`; el.title=`Trends Top #${t}`;
+          el.innerHTML=`<span class="emoji">${m.emoji}</span><span class="label"><span class="kind">Trends</span></span>`;
+          box.appendChild(el);
+        }
+        const n=nMap.get(symbol); if(n){ const m=medalInfo(n); const el=document.createElement("span");
+          el.className=`medal ${m.cls}`; el.title=`News Top #${n}`;
+          el.innerHTML=`<span class="emoji">${m.emoji}</span><span class="label"><span class="kind">News</span></span>`;
+          box.appendChild(el);
+        }
+      });
+    }
+
+    // INIT
+    bindToggles();
+    fillBreakdown();
+    fillInsiderDetails();
+    decorateTop3Medals();
+  </script>
+</body>
+</html>
