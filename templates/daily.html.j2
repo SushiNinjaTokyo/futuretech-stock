@@ -7,160 +7,132 @@
   <style>
     :root{
       --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
-      --gold-1:#FFE58A; --gold-2:#FFC94A; --gold-3:#E6B800; /* richer gold */
-      --silver-1:#F3F4F6; --silver-2:#D1D5DB; --silver-3:#A1A1AA;
-      --bronze-1:#FFD5B0; --bronze-2:#FFB07A; --bronze-3:#D97B2D;
-      --soft:#f8fafc;
-      --ring:#e2e8f0;
-      --green:#065f46; --green-bg:#ecfdf5; --green-b:#10b98133;
-      --red:#7f1d1d; --red-bg:#fef2f2; --red-b:#ef444433;
+      --gold:#f5c542; --silver:#c0c7d1; --bronze:#d98c3f;
+      --soft:#f8fafc; --ring:#e2e8f0;
+      --ok:#10b981; --bad:#ef4444;
     }
     *{box-sizing:border-box}
     body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:var(--bg);color:var(--fg)}
-    .wrap{max-width:1100px;margin:0 auto;padding:16px 14px}
-    header{margin-bottom:12px}
-    h1{font-size:20px;margin:0 0 4px;letter-spacing:-0.2px}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px}
+    header{margin-bottom:16px}
+    h1{font-size:22px;margin:0 0 6px;letter-spacing:-0.2px}
     .sub{color:var(--muted);font-size:12px}
 
+    /* grid */
     .grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:12px}
     @media (min-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
+    /* card */
     .card{position:relative;border:1px solid var(--border);border-radius:16px;padding:14px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
-    .row{display:flex;align-items:center;gap:12px;flex-wrap:nowrap;justify-content:space-between}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:nowrap}
+    .sym{display:flex;align-items:center;gap:10px;min-width:0}
+    .symbol{font-size:clamp(16px,3.6vw,18px);font-weight:800;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:58vw}
+    .name{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:58vw}
 
-    .sym{display:flex;align-items:center;gap:12px;min-width:0}
-
-    /* ===== Rocket rank (perfect circle) ===== */
-    .rank-rocket{
-      --size:66px;
-      width:var(--size);height:var(--size);border-radius:999px;position:relative;isolation:isolate;
-      display:grid;place-items:center;overflow:hidden;
-      box-shadow:
-        inset 0 0 0 3px rgba(255,255,255,.9),
-        0 10px 26px rgba(0,0,0,.10);
-    }
-    .rank-rocket .ring{
-      position:absolute;inset:0;border-radius:999px;
-      box-shadow:0 0 0 6px rgba(255,255,255,.6) inset, 0 0 80px 20px rgba(255,255,255,.25) inset;
-      pointer-events:none;
-    }
-    /* Rank backgrounds: no “黒い楕円” などの余計なパーツは置かない */
-    .rank1{background:
-      radial-gradient(65% 65% at 30% 30%, var(--gold-1) 0%, var(--gold-2) 55%, var(--gold-3) 100%);
-      box-shadow:0 0 0 2px #FFF inset, 0 0 0 10px rgba(255,215,0,.25) inset, 0 12px 30px rgba(230,184,0,.45);
-    }
-    .rank2{background:
-      radial-gradient(65% 65% at 30% 30%, var(--silver-1) 0%, var(--silver-2) 55%, var(--silver-3) 100%);
-      box-shadow:0 0 0 2px #FFF inset, 0 0 0 10px rgba(209,213,219,.22) inset, 0 10px 24px rgba(0,0,0,.15);
-    }
-    .rank3{background:
-      radial-gradient(65% 65% at 30% 30%, var(--bronze-1) 0%, var(--bronze-2) 55%, var(--bronze-3) 100%);
-      box-shadow:0 0 0 2px #FFF inset, 0 0 0 10px rgba(251,146,60,.22) inset, 0 10px 24px rgba(217,123,45,.35);
-    }
-    .rankN{background:#f3f4f6;box-shadow:inset 0 0 0 2px #fff, 0 3px 8px rgba(0,0,0,.06)}
-
-    .rank-rocket svg{ width:36px;height:36px; filter:drop-shadow(0 2px 6px rgba(0,0,0,.20)); }
-    .rank-rocket .flame{ transform-origin:12px 24px; }
-    /* badge number for 4位以下のみ表示 */
-    .rank-rocket .num{
-      position:absolute; right:-6px; bottom:-6px;
-      width:22px;height:22px;border-radius:999px;background:#0f172a;color:#fff;
-      font-weight:800;font-size:11px;display:none;align-items:center;justify-content:center;border:2px solid #fff;
-    }
-    .rankN .num{display:flex}
-
-    /* Animations:
-       1位：点火＆上昇（強）
-       2位：ふわっとホバリング（現在の1位アニメ）
-       3位：点火準備（フレームゆらぎのみ）
-    */
-    .rank1 .rocket{ animation: ignite 1.8s ease-in-out infinite; }
-    .rank2 .rocket{ animation: hover 1.8s ease-in-out infinite; }
-    .rank3 .rocket{ animation: preignite 1.8s ease-in-out infinite; }
-    .rank1 .flame{ animation: flame-strong .7s ease-in-out infinite; }
-    .rank2 .flame{ animation: flame-soft .9s ease-in-out infinite; }
-    .rank3 .flame{ animation: flame-faint 1.2s ease-in-out infinite; }
-
-    @keyframes ignite{
-      0%{ transform:translateY(0) rotate(-6deg) }
-      35%{ transform:translateY(-5px) rotate(0deg) }
-      70%{ transform:translateY(-8px) rotate(3deg) }
-      100%{ transform:translateY(0) rotate(-6deg) }
-    }
-    @keyframes hover{
-      0%{ transform:translateY(0) rotate(-4deg) }
-      50%{ transform:translateY(-3px) rotate(0deg) }
-      100%{ transform:translateY(0) rotate(-4deg) }
-    }
-    @keyframes preignite{
-      0%{ transform:translateY(0) rotate(-2deg) }
-      50%{ transform:translateY(-1px) rotate(1deg) }
-      100%{ transform:translateY(0) rotate(-2deg) }
-    }
-    @keyframes flame-strong{
-      0%,100%{ opacity:.95; transform:scale(1) }
-      50%{ opacity:.55; transform:scale(.75) }
-    }
-    @keyframes flame-soft{
-      0%,100%{ opacity:.8; transform:scale(.95) }
-      50%{ opacity:.45; transform:scale(.75) }
-    }
-    @keyframes flame-faint{
-      0%,100%{ opacity:.45; transform:scale(.7) }
-      50%{ opacity:.25; transform:scale(.55) }
-    }
-
-    .symbol{font-size:20px;font-weight:900;letter-spacing:.2px}
-    .name{font-size:13px;color:var(--muted);margin-top:2px}
-
-    /* score block; 右端固定だが独立ボックスでチップと重ならない */
-    .score{text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.05;margin-left:auto}
+    /* score block with subtle ring; emphasized for top1-3 */
+    .score{text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.05}
     .score .num{
-      font-size:30px;font-weight:900;letter-spacing:-.4px;
-      padding:8px 12px;border-radius:14px;border:1px solid var(--ring);
+      font-size:clamp(22px,4.6vw,28px);font-weight:900;letter-spacing:-.4px;
+      padding:6px 10px;border-radius:12px;border:1px solid var(--ring);
       background:linear-gradient(180deg,#ffffff 0%,#f9fafb 100%);
-      box-shadow:0 0 0 6px #fef3c7 inset; /* 薄い枠で背景と分離 */
     }
+    .score.top1 .num{ border-color:#f59e0b44; box-shadow:0 0 0 4px #f59e0b1a; }
+    .score.top2 .num{ border-color:#9ca3af44; box-shadow:0 0 0 4px #9ca3af1a; }
+    .score.top3 .num{ border-color:#fb923c44; box-shadow:0 0 0 4px #fb923c1a; }
     .score .den{font-size:11px;color:var(--muted);margin-top:2px}
 
-    /* price chips — 横1行で収まるようにサイズ調整 */
-    .price-chips{display:flex;gap:8px;flex-wrap:nowrap;margin-top:8px;min-width:0}
-    .pch{
-      flex:0 1 auto; max-width:32%;
-      font-size:12px;border:1px solid var(--border);padding:6px 10px;border-radius:999px;line-height:1;white-space:nowrap;
-      display:inline-flex;gap:6px;align-items:center;justify-content:center;background:#eef2f7;color:#111;
+    /* ===== Rocket rank badges (circular) ===== */
+    .rank-rocket{
+      --size: clamp(48px, 12vw, 60px);
+      width:var(--size); height:var(--size);
+      border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      position:relative; isolation:isolate;
+      box-shadow:0 6px 18px rgba(0,0,0,.08) inset, 0 4px 10px rgba(0,0,0,.06);
+      flex:0 0 auto;
+      overflow:hidden;   /* 常に円形に収める */
     }
-    .pch.up{border-color:var(--green-b);background:var(--green-bg);color:var(--green)}
-    .pch.down{border-color:var(--red-b);background:var(--red-bg);color:var(--red)}
-    .pch.neutral{color:#6b7280}
-    .pch .k{opacity:.8}
+    /* Gold / Silver / Bronze backgrounds（視認性強化） */
+    .rank1{ background:radial-gradient(120% 120% at 30% 20%, #fff8cc 0%, var(--gold) 55%, #caa32a 100%); }
+    .rank2{ background:radial-gradient(120% 120% at 30% 20%, #ffffff 0%, var(--silver) 55%, #9aa3ad 100%); }
+    .rank3{ background:radial-gradient(120% 120% at 30% 20%, #fff2e6 0%, var(--bronze) 55%, #b97736 100%); }
+    .rankN{ background:#f3f4f6; }
 
-    /* medals row (Top3 for Trends/News) */
-    .medals{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
-    .medal{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:#fff;border-radius:999px;padding:4px 10px;line-height:1}
-    .medal .label{font-size:12px;letter-spacing:.2px}
-    .medal .kind{font-size:12px;color:#111;text-transform:capitalize}
-    .medal.gold{border-color:#f59e0b33;box-shadow:0 0 0 2px #f59e0b1a inset}
-    .medal.silver{border-color:#9ca3af33;box-shadow:0 0 0 2px #9ca3af1a inset}
-    .medal.bronze{border-color:#fb923c33;box-shadow:0 0 0 2px #fb923c1a inset}
-    .medal .emoji{font-size:14px}
+    .rank-rocket svg{ width:calc(var(--size) * 0.56); height:calc(var(--size) * 0.56); filter:drop-shadow(0 2px 4px rgba(0,0,0,.18)); }
+    .rank-rocket .num{
+      position:absolute; right:-6px; bottom:-6px;
+      width:20px; height:20px; border-radius:999px;
+      background:#0f172a; color:#fff; font-weight:800; font-size:11px;
+      display:flex; align-items:center; justify-content:center;
+      border:2px solid #fff;
+    }
+    .rank-rocket .flame{ transform-origin:10px 18px; }
 
-    /* tabs: segmented buttons; Overviewは初期非表示 */
+    /* Animations: 1=点火&上昇、2=ふわっと、3=点火準備（脈動） */
+    .rank1 .rocket{ animation:lift 1.6s ease-in-out infinite; }
+    .rank1 .flame{ animation:flicker .7s ease-in-out infinite; opacity:1; }
+    .rank2 .rocket{ animation:floaty 2.4s ease-in-out infinite; }
+    .rank2 .flame{ animation:flicker 1.1s ease-in-out infinite; opacity:.8; }
+    .rank3 .rocket{ transform:rotate(12deg); }
+    .rank3 .flame{ animation:pulse 1.6s ease-in-out infinite; opacity:.55; }
+
+    @keyframes lift{
+      0%{ transform:translateY(0) rotate(-4deg); }
+      50%{ transform:translateY(-4px) rotate(0deg); }
+      100%{ transform:translateY(0) rotate(-4deg); }
+    }
+    @keyframes floaty{
+      0%{ transform:translateY(0) rotate(-2deg); }
+      50%{ transform:translateY(-2px) rotate(2deg); }
+      100%{ transform:translateY(0) rotate(-2deg); }
+    }
+    @keyframes flicker{
+      0%,100%{ opacity:.95; transform:scale(1); }
+      50%{ opacity:.55; transform:scale(.85); }
+    }
+    @keyframes pulse{
+      0%,100%{ transform:scale(1); opacity:.55; }
+      50%{ transform:scale(.9); opacity:.35; }
+    }
+
+    /* 右上リボンは削除（重なり対策） */
+    .ribbon{ display:none !important; }
+
+    /* price one-line row */
+    .price-row{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      align-items:center; gap:6px; margin-top:8px;
+    }
+    .pill{
+      display:flex; align-items:center; justify-content:center; gap:6px;
+      padding:6px 8px; border:1px solid var(--border); border-radius:999px;
+      font-size:clamp(11px, 3.2vw, 12px); line-height:1; white-space:nowrap; min-width:0;
+      background:#f8fafc; color:#111;
+    }
+    .pill .k{ color:var(--muted); }
+    .pill.up{ border-color:#10b98133; background:#ecfdf5; color:#065f46 }
+    .pill.down{ border-color:#ef444433; background:#fef2f2; color:#7f1d1d }
+    .pill.flat{ color:#6b7280; background:#f8fafc }
+
+    /* tabs: segmented buttons */
     .tabs{margin-top:12px}
     .seg{display:inline-flex;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:rgba(243,244,246,.6);backdrop-filter:saturate(1.1) blur(2px)}
     .seg .segbtn{
-      appearance:none;border:0;margin:0;padding:9px 14px;background:transparent;cursor:pointer;
-      font-size:13px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;
+      appearance:none;border:0;margin:0;padding:8px 12px;background:transparent;cursor:pointer;
+      font-size:12px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;
     }
+    .seg .segbtn:focus{outline:none;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
     .seg .segbtn[aria-pressed="true"]{
-      background:#fff;font-weight:700;box-shadow:inset 0 0 0 1px var(--border);
+      background:#fff; font-weight:700;
+      box-shadow:inset 0 0 0 1px var(--border);
     }
-    .seg .ico{font-size:16px}
+    .seg .ico{font-size:14px;opacity:.9}
     .tab{display:none}
     .tab.active{display:block}
 
+    /* table etc */
     .chart{width:100%;border:1px solid var(--border);border-radius:10px}
-
     .table{width:100%;border-collapse:collapse;margin-top:6px}
     .table th,.table td{border-bottom:1px solid var(--border);padding:6px 8px;font-size:12px;text-align:left}
     .table th{color:var(--muted);font-weight:600}
@@ -171,17 +143,15 @@
     .kv{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
     .kv div{font-size:12px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 8px}
     .kv .k{color:var(--muted)}
-    .legend{margin-top:8px;font-size:11px;color:#475569;line-height:1.45}
-
     .no-insider{flex:1;background:#f9fafb;border:1px dashed #d1d5db;border-radius:12px;padding:8px 10px;font-size:12px;color:#6b7280;font-style:italic;text-align:center}
 
-    /* モバイル最適化：行つめ＆フォント縮小で1行内に収める */
+    /* Smartphone tweaks */
     @media (max-width:420px){
-      .rank-rocket{ --size:60px }
-      .symbol{font-size:18px}
-      .pch{font-size:11px;padding:5px 8px;max-width:31%}
-      .score .num{font-size:26px;padding:6px 10px}
-      .seg .segbtn{padding:8px 12px;font-size:12px}
+      .row{ gap:10px }
+      .symbol{ max-width:54vw }
+      .name{ display:none }             /* 極小幅は社名省略で崩れ回避 */
+      .score .num{ padding:4px 8px }
+      .rank-rocket{ --size: 52px }
     }
   </style>
 </head>
@@ -201,48 +171,65 @@
         {% set chart_url = (item.chart_url | default('/charts/' ~ (date | default('', true)) ~ '/' ~ _sym ~ '.png', true)) %}
         {% set pts = item.score_pts | default((item.final_score_0_1|default(0,true) * 1000) | round(0, 'common'), true) %}
         {% set vol = (item.detail.vol_anomaly if (item.detail is defined and item.detail and item.detail.vol_anomaly is defined) else none) %}
-        {% set c1d = item.change_1d | default(0,true) %}
-        {% set c1w = item.change_1w | default(0,true) %}
-        {% set c1m = item.change_1m | default(0,true) %}
 
-        <div class="card" id="card-{{ loop.index }}" data-symbol="{{ _sym }}">
+        {# price delta sources (support both item.price_deltas.* or item.pct_* ) #}
+        {% set _pd = item.price_deltas if item.price_deltas is defined else {} %}
+        {% set p1d = (item.pct_1d if item.pct_1d is defined else (_pd.get('pct_1d') if _pd else none)) %}
+        {% set p1w = (item.pct_1w if item.pct_1w is defined else (_pd.get('pct_1w') if _pd else none)) %}
+        {% set p1m = (item.pct_1m if item.pct_1m is defined else (_pd.get('pct_1m') if _pd else none)) %}
+
+        {% set d1cls = (p1d is not none and (p1d>0) and 'up' or (p1d is not none and p1d<0 and 'down' or 'flat')) %}
+        {% set w1cls = (p1w is not none and (p1w>0) and 'up' or (p1w is not none and p1w<0 and 'down' or 'flat')) %}
+        {% set m1cls = (p1m is not none and (p1m>0) and 'up' or (p1m is not none and p1m<0 and 'down' or 'flat')) %}
+        {% set d1txt = (p1d is not none and ((p1d>0 and '+') or '') ~ ('%.2f'|format(p1d*100)) ~ '%' or '—') %}
+        {% set w1txt = (p1w is not none and ((p1w>0 and '+') or '') ~ ('%.2f'|format(p1w*100)) ~ '%' or '—') %}
+        {% set m1txt = (p1m is not none and ((p1m>0 and '+') or '') ~ ('%.2f'|format(p1m*100)) ~ '%' or '—') %}
+
+        {# rank bg class #}
+        {% set rank_class = 'rank1' if rank==1 else ('rank2' if rank==2 else ('rank3' if rank==3 else 'rankN')) %}
+
+        <div class="card {% if rank<=3 %}is-top{% endif %}" id="card-{{ loop.index }}" data-symbol="{{ _sym }}">
           <div class="row">
             <div class="sym">
-              {# rank → rocket (Top1-3 は色背景、4位以下は灰・数字) #}
-              {% set rank_class = 'rank1' if rank==1 else ('rank2' if rank==2 else ('rank3' if rank==3 else 'rankN') ) %}
+              <!-- Rank rocket (circular) -->
               <div class="rank-rocket {{ rank_class }}" aria-label="Rank {{ rank }}">
                 <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <!-- body -->
                   <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.4" fill="#94a3b8"/>
+                  <!-- window -->
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <!-- fins -->
                   <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
                   <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <!-- flame -->
                   <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
                 </svg>
-                <div class="ring"></div>
                 <div class="num">{{ rank }}</div>
               </div>
 
-              <div style="min-width:0">
+              <div>
                 <div class="symbol">{{ _sym }}</div>
                 {% if _name %}<div class="name">{{ _name }}</div>{% endif %}
-                <!-- Price changes (always in one row) -->
-                <div class="price-chips">
-                  <div class="pch {{ 'up' if c1d>0 else ('down' if c1d<0 else 'neutral') }}"><span class="k">1D</span> {{ '%+.2f'|format(c1d) }}%</div>
-                  <div class="pch {{ 'up' if c1w>0 else ('down' if c1w<0 else 'neutral') }}"><span class="k">1W</span> {{ '%+.2f'|format(c1w) }}%</div>
-                  <div class="pch {{ 'up' if c1m>0 else ('down' if c1m<0 else 'neutral') }}"><span class="k">1M</span> {{ '%+.2f'|format(c1m) }}%</div>
+
+                <!-- price deltas row (one line) -->
+                <div class="price-row">
+                  <div class="pill {{ d1cls }}"><span class="k">1D</span><span class="v">{{ d1txt }}</span></div>
+                  <div class="pill {{ w1cls }}"><span class="k">1W</span><span class="v">{{ w1txt }}</span></div>
+                  <div class="pill {{ m1cls }}"><span class="k">1M</span><span class="v">{{ m1txt }}</span></div>
                 </div>
-                <!-- medals (filled by JS) -->
-                <div class="medals"></div>
+
+                <!-- medals (Trends/News top3) -->
+                <div class="medals" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"></div>
               </div>
             </div>
 
-            <div class="score">
+            <div class="score {% if rank==1 %}top1{% elif rank==2 %}top2{% elif rank==3 %}top3{% endif %}">
               <div class="num">{{ pts | int }}</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
-          <!-- Tabs (Overview closed by default) -->
+          <!-- segmented toggle buttons -->
           <div class="tabs">
             <div class="seg" role="tablist" aria-label="Card sections">
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
@@ -251,7 +238,15 @@
                       data-target="#tech-{{ loop.index }}"><span class="ico">📈</span>Weekly chart</button>
             </div>
 
+            <!-- Overview: default CLOSED (no .active) -->
             <div id="ov-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="true">
+              <!-- legend -->
+              <p class="muted" style="font-size:12px; margin:6px 0 0;">
+                • Price Δ: 1D = previous close → report-day close, 1W ≈ 5 trading days, 1M ≈ 21 trading days.<br/>
+                • Volume anomaly: last 60 trading days (blend of RVOL20 & 60-day z-score).<br/>
+                • Trends: Google Trends (3-month window, US). • News: Google News coverage (last {{ news_recent_days|default(5,true) }} days, percentile).
+              </p>
+
               <table class="table js-breakdown">
                 <thead>
                   <tr>
@@ -294,21 +289,9 @@
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
               </details>
-
-              <!-- Legend -->
-              <div class="legend">
-                <strong>Legend:</strong>
-                <ul style="margin:6px 0 0 16px;padding:0">
-                  <li>Price changes (1D/1W/1M): close-to-close vs prior US business day / 5 trading days / approx. 21 trading days as of the report window.</li>
-                  <li>Volume anomaly: blend of RVOL20 and 60-day z-score; DollarVol percentile over last 90 trading days.</li>
-                  <li>Trends: Google Trends (US, timeframe “today 3-m”), normalized across the universe.</li>
-                  <li>News: Google News RSS coverage in last N days (sentiment-adjusted), percentile across the universe.</li>
-                  <li>Insider: Form 4 momentum (30d/90d) aggregated by symbol.</li>
-                  <li>All stats are evaluated up to the prior US business day relative to {{ date }}.</li>
-                </ul>
-              </div>
             </div>
 
+            <!-- Technical: default CLOSED -->
             <div id="tech-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="true">
               <img src="{{ chart_url }}" alt="{{ _sym }} weekly chart" class="chart" loading="lazy" />
             </div>
@@ -326,8 +309,7 @@
             "trends_breakout": item.trends_breakout | default(0, true),
             "vol_anomaly_score": item.vol_anomaly_score | default(0, true),
             "news_score": item.news_score | default(0, true),
-            "news_recent_count": item.news_recent_count | default(0, true),
-            "change_1d": c1d, "change_1w": c1w, "change_1m": c1m
+            "news_recent_count": item.news_recent_count | default(0, true)
           } | tojson }}
           </script>
         </div>
@@ -339,26 +321,22 @@
   </div>
 
   <script>
-    // Segmented toggle: Overviewは初期「閉」
+    // Segmented toggle: click to open, click again to close (default closed)
     function bindToggles(scope=document){
       scope.querySelectorAll(".card").forEach(card=>{
         const seg = card.querySelector(".seg");
         if(!seg) return;
         const buttons = [...seg.querySelectorAll(".segbtn")];
-        const panels  = [...card.querySelectorAll(".tab")];
-
-        // 初期は全て閉
-        buttons.forEach(b=>{ b.setAttribute("aria-pressed","false"); b.setAttribute("aria-selected","false"); });
-        panels.forEach(p=>{ p.classList.remove("active"); p.setAttribute("aria-hidden","true"); });
+        const panels = [...card.querySelectorAll(".tab")];
 
         function openPanel(btn){
           const sel = btn.getAttribute("data-target");
           const panel = card.querySelector(sel);
           const isActive = panel.classList.contains("active");
-          // reset
+          // reset all
           buttons.forEach(b=>{ b.setAttribute("aria-pressed","false"); b.setAttribute("aria-selected","false"); });
           panels.forEach(p=>{ p.classList.remove("active"); p.setAttribute("aria-hidden","true"); });
-          // toggle
+          // toggle on if currently closed
           if(!isActive){
             btn.setAttribute("aria-pressed","true");
             btn.setAttribute("aria-selected","true");
@@ -367,9 +345,12 @@
           }
         }
 
+        // default: none active (keep closed)
         buttons.forEach(btn=>{
           btn.addEventListener("click", ()=> openPanel(btn));
-          btn.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openPanel(btn); }});
+          btn.addEventListener("keydown", (e)=>{
+            if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openPanel(btn); }
+          });
         });
       });
     }
