@@ -8,8 +8,7 @@
     :root{
       --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
       --gold:#f59e0b; --silver:#9ca3af; --bronze:#fb923c;
-      --soft:#f8fafc;
-      --ring:#e2e8f0;
+      --soft:#f8fafc; --ring:#e2e8f0;
     }
     *{box-sizing:border-box}
     body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:var(--bg);color:var(--fg)}
@@ -23,12 +22,7 @@
 
     .card{position:relative;border:1px solid var(--border);border-radius:16px;padding:14px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
     .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .sym{display:flex;align-items:center;gap:10px}
-    .rank{width:34px;height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;letter-spacing:.2px}
-    .rank.gold{background:var(--gold);color:#fff}
-    .rank.silver{background:#0f172a;color:#fff}
-    .rank.bronze{background:var(--bronze);color:#fff}
-    .rank.other{background:#f3f4f6;color:#111827}
+    .sym{display:flex;align-items:center;gap:12px}
 
     .symbol{font-size:18px;font-weight:800;letter-spacing:.2px}
     .name{font-size:12px;color:var(--muted)}
@@ -40,14 +34,14 @@
       padding:6px 10px;border-radius:12px;border:1px solid var(--ring);
       background:linear-gradient(180deg,#ffffff 0%,#f9fafb 100%);
     }
-    .score.top1 .num{ border-color:#f59e0b44; box-shadow:0 0 0 4px #f59e0b1a; }
-    .score.top2 .num{ border-color:#9ca3af44; box-shadow:0 0 0 4px #9ca3af1a; }
-    .score.top3 .num{ border-color:#fb923c44; box-shadow:0 0 0 4px #fb923c1a; }
+    .score.top1 .num{ border-color:#f59e0b66; box-shadow:0 0 0 4px #f59e0b26; }
+    .score.top2 .num{ border-color:#9ca3af66; box-shadow:0 0 0 4px #9ca3af26; }
+    .score.top3 .num{ border-color:#fb923c66; box-shadow:0 0 0 4px #fb923c26; }
     .score .den{font-size:11px;color:var(--muted);margin-top:2px}
 
     /* corner ribbon for total ranking */
     .ribbon{
-      position:absolute; top:10px; right:-6px; transform:translateX(0);
+      position:absolute; top:10px; right:-6px;
       font-size:11px; padding:4px 10px 4px 12px; color:#111; background:#fff;
       border:1px solid var(--border); border-right:none; border-radius:999px 0 0 999px;
       box-shadow:0 1px 1px rgba(0,0,0,.04);
@@ -55,26 +49,18 @@
     }
     .ribbon .dot{width:8px;height:8px;border-radius:999px}
     .ribbon.top1 .dot{background:var(--gold)}
-    .ribbon.top2 .dot{background:#0f172a}
+    .ribbon.top2 .dot{background:#52525b}
     .ribbon.top3 .dot{background:var(--bronze)}
     .ribbon .txt{font-weight:700;letter-spacing:.2px}
 
-    /* price chips */
-    .price-chips{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
-    .pch{font-size:11px;border:1px solid var(--border);background:#eef2f7;color:#111;padding:3px 8px;border-radius:999px;line-height:1}
-    .pch .k{color:var(--muted);margin-right:4px}
-    .pch.up{border-color:#10b98133;background:#ecfdf5;color:#065f46}
-    .pch.down{border-color:#ef444433;background:#fef2f2;color:#7f1d1d}
-    .pch.neutral{color:#6b7280}
-
     /* medals (News/Trends top3) */
-    .medals{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+    .medals{display:flex;gap:6px;margin:8px 0 4px;flex-wrap:wrap}
     .medal{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:#fff;border-radius:999px;padding:3px 8px;line-height:1}
     .medal .label{font-size:11px;letter-spacing:.2px}
     .medal .kind{font-size:11px;color:#111;text-transform:capitalize}
-    .medal.gold{border-color:#f59e0b33;box-shadow:0 0 0 2px #f59e0b1a inset}
-    .medal.silver{border-color:#9ca3af33;box-shadow:0 0 0 2px #9ca3af1a inset}
-    .medal.bronze{border-color:#fb923c33;box-shadow:0 0 0 2px #fb923c1a inset}
+    .medal.gold{border-color:#f59e0b44;box-shadow:0 0 0 2px #f59e0b1f inset}
+    .medal.silver{border-color:#9ca3af44;box-shadow:0 0 0 2px #9ca3af1f inset}
+    .medal.bronze{border-color:#fb923c44;box-shadow:0 0 0 2px #fb923c1f inset}
     .medal .emoji{font-size:14px}
 
     /* tabs: segmented glass buttons */
@@ -107,39 +93,43 @@
     .kv .k{color:var(--muted)}
     .no-insider{flex:1;background:#f9fafb;border:1px dashed #d1d5db;border-radius:12px;padding:8px 10px;font-size:12px;color:#6b7280;font-style:italic;text-align:center}
 
-    /* ===== Rocket rank badges ===== */
+    /* ===== Rocket rank badges (bigger / clearer) ===== */
     .rank-rocket{
-      --ring:#e5e7eb;
-      width:46px;height:46px;border-radius:999px;
+      width:56px;height:56px;border-radius:999px;
       display:flex;align-items:center;justify-content:center;
       position:relative; isolation:isolate;
-      box-shadow:0 6px 18px rgba(0,0,0,.08) inset, 0 4px 10px rgba(0,0,0,.06);
+      box-shadow:inset 0 8px 22px rgba(0,0,0,.08), 0 6px 14px rgba(0,0,0,.06);
+      border:2px solid #fff;
     }
     .rank-rocket .num{
       position:absolute; right:-6px; bottom:-6px;
-      width:20px; height:20px; border-radius:999px;
+      width:22px; height:22px; border-radius:999px;
       background:#0f172a; color:#fff; font-weight:800; font-size:11px;
       display:flex; align-items:center; justify-content:center;
       border:2px solid #fff;
     }
-    .rank-rocket svg{ width:22px;height:22px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.18)); }
+    .rank-rocket svg{ width:28px;height:28px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.2)); }
     .rank-rocket .flame{ transform-origin:10px 18px; }
-    
-    /* Gold / Silver / Bronze backgrounds */
-    .rank1{ background:linear-gradient(135deg,#f59e0b 0%,#f97316 100%); }
-    .rank2{ background:linear-gradient(135deg,#cbd5e1 0%,#9ca3af 100%); }
-    .rank3{ background:linear-gradient(135deg,#fb923c 0%,#f59e0b 100%); }
-    .rankN{ background:#f3f4f6; }
-    .rank1{ box-shadow:0 0 0 2px #fef3c7 inset, 0 8px 24px rgba(245,158,11,.35); }
-    .rank2{ box-shadow:0 0 0 2px #e5e7eb inset, 0 8px 24px rgba(15,23,42,.18); }
-    .rank3{ box-shadow:0 0 0 2px #fee2e2 inset, 0 8px 24px rgba(251,146,60,.28); }
-    
-    /* Rocket poses */
+
+    /* clearer backgrounds for 1/2/3 with halo ring */
+    .rank1{ background:
+        radial-gradient(120px 120px at 30% 20%, #fff1 0%, #0000 60%),
+        linear-gradient(135deg,#f59e0b 0%,#f97316 55%,#fdba74 120%); 
+      box-shadow:0 0 0 3px #fef3c7, 0 10px 28px rgba(245,158,11,.38); }
+    .rank2{ background:
+        radial-gradient(120px 120px at 30% 20%, #fff1 0%, #0000 60%),
+        linear-gradient(135deg,#cbd5e1 0%,#9ca3af 60%,#6b7280 120%);
+      box-shadow:0 0 0 3px #e5e7eb, 0 10px 28px rgba(107,114,128,.28); }
+    .rank3{ background:
+        radial-gradient(120px 120px at 30% 20%, #fff1 0%, #0000 60%),
+        linear-gradient(135deg,#fb923c 0%,#f59e0b 60%,#fde68a 120%);
+      box-shadow:0 0 0 3px #fee2e2, 0 10px 28px rgba(251,146,60,.3); }
+    .rankN{ background:#f3f4f6; box-shadow:inset 0 6px 18px rgba(0,0,0,.06); }
+
+    /* poses & subtle animation */
     .rank1 .rocket{ animation:lift 1.8s ease-in-out infinite; }
     .rank2 .rocket{ transform:rotate(32deg) translateY(-1px); }
     .rank3 .rocket{ transform:rotate(16deg); }
-    
-    /* Subtle flame flicker for #1 */
     .rank1 .flame{ animation:flicker .9s ease-in-out infinite; }
     @keyframes lift{
       0%{ transform:translateY(0) rotate(-4deg); }
@@ -150,7 +140,6 @@
       0%,100%{ opacity:.95; transform:scale(1); }
       50%{ opacity:.55; transform:scale(.85); }
     }
-    
   </style>
 </head>
 <body>
@@ -169,10 +158,6 @@
         {% set chart_url = (item.chart_url | default('/charts/' ~ (date | default('', true)) ~ '/' ~ _sym ~ '.png', true)) %}
         {% set pts = item.score_pts | default((item.final_score_0_1|default(0,true) * 1000) | round(0, 'common'), true) %}
         {% set vol = (item.detail.vol_anomaly if (item.detail is defined and item.detail and item.detail.vol_anomaly is defined) else none) %}
-        {% set tier = 'other' %}
-        {% if rank == 1 %}{% set tier = 'gold' %}
-        {% elif rank == 2 %}{% set tier = 'silver' %}
-        {% elif rank == 3 %}{% set tier = 'bronze' %}{% endif %}
 
         <div class="card {% if rank<=3 %}is-top{% endif %}" id="card-{{ loop.index }}" data-symbol="{{ _sym }}">
           {% if rank<=3 %}
@@ -184,28 +169,21 @@
 
           <div class="row">
             <div class="sym">
-              {# rank → rocket badge #}
               {% set rank_class = 'rank1' if rank==1 else ('rank2' if rank==2 else ('rank3' if rank==3 else 'rankN') ) %}
               <div class="rank-rocket {{ rank_class }}" aria-label="Rank {{ rank }}">
-                <!-- Simple rocket SVG (inline, lightweight) -->
                 <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <!-- body -->
                   <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <!-- window -->
                   <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
-                  <!-- fins -->
                   <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
                   <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <!-- flame (animated on rank1) -->
                   <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
                 </svg>
                 <div class="num">{{ rank }}</div>
               </div>
 
               <div>
-                  <div class="symbol">{{ _sym }}</div>
-                  {% if _name %}<div class="name">{{ _name }}</div>{% endif %}
-                </div>
+                <div class="symbol">{{ _sym }}</div>
+                {% if _name %}<div class="name">{{ _name }}</div>{% endif %}
               </div>
             </div>
 
@@ -214,6 +192,9 @@
               <div class="den">/ 1000</div>
             </div>
           </div>
+
+          <!-- medals mount point -->
+          <div class="medals"></div>
 
           <!-- segmented toggle buttons -->
           <div class="tabs">
@@ -310,10 +291,8 @@
           const sel = btn.getAttribute("data-target");
           const panel = card.querySelector(sel);
           const isActive = panel.classList.contains("active");
-          // reset all
           buttons.forEach(b=>{ b.setAttribute("aria-pressed","false"); b.setAttribute("aria-selected","false"); });
           panels.forEach(p=>{ p.classList.remove("active"); p.setAttribute("aria-hidden","true"); });
-          // toggle
           if(!isActive){
             btn.setAttribute("aria-pressed","true");
             btn.setAttribute("aria-selected","true");
@@ -328,6 +307,9 @@
             if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openPanel(btn); }
           });
         });
+
+        // open Overview by default
+        if (buttons[0]) buttons[0].click();
       });
     }
 
