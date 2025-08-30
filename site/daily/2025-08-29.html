@@ -7,160 +7,132 @@
   <style>
     :root{
       --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
-      --gold-1:#FFE58A; --gold-2:#FFC94A; --gold-3:#E6B800; /* richer gold */
-      --silver-1:#F3F4F6; --silver-2:#D1D5DB; --silver-3:#A1A1AA;
-      --bronze-1:#FFD5B0; --bronze-2:#FFB07A; --bronze-3:#D97B2D;
-      --soft:#f8fafc;
-      --ring:#e2e8f0;
-      --green:#065f46; --green-bg:#ecfdf5; --green-b:#10b98133;
-      --red:#7f1d1d; --red-bg:#fef2f2; --red-b:#ef444433;
+      --gold:#f5c542; --silver:#c0c7d1; --bronze:#d98c3f;
+      --soft:#f8fafc; --ring:#e2e8f0;
+      --ok:#10b981; --bad:#ef4444;
     }
     *{box-sizing:border-box}
     body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:var(--bg);color:var(--fg)}
-    .wrap{max-width:1100px;margin:0 auto;padding:16px 14px}
-    header{margin-bottom:12px}
-    h1{font-size:20px;margin:0 0 4px;letter-spacing:-0.2px}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px}
+    header{margin-bottom:16px}
+    h1{font-size:22px;margin:0 0 6px;letter-spacing:-0.2px}
     .sub{color:var(--muted);font-size:12px}
 
+    /* grid */
     .grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:12px}
     @media (min-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
+    /* card */
     .card{position:relative;border:1px solid var(--border);border-radius:16px;padding:14px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
-    .row{display:flex;align-items:center;gap:12px;flex-wrap:nowrap;justify-content:space-between}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:nowrap}
+    .sym{display:flex;align-items:center;gap:10px;min-width:0}
+    .symbol{font-size:clamp(16px,3.6vw,18px);font-weight:800;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:58vw}
+    .name{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:58vw}
 
-    .sym{display:flex;align-items:center;gap:12px;min-width:0}
-
-    /* ===== Rocket rank (perfect circle) ===== */
-    .rank-rocket{
-      --size:66px;
-      width:var(--size);height:var(--size);border-radius:999px;position:relative;isolation:isolate;
-      display:grid;place-items:center;overflow:hidden;
-      box-shadow:
-        inset 0 0 0 3px rgba(255,255,255,.9),
-        0 10px 26px rgba(0,0,0,.10);
-    }
-    .rank-rocket .ring{
-      position:absolute;inset:0;border-radius:999px;
-      box-shadow:0 0 0 6px rgba(255,255,255,.6) inset, 0 0 80px 20px rgba(255,255,255,.25) inset;
-      pointer-events:none;
-    }
-    /* Rank backgrounds: no “黒い楕円” などの余計なパーツは置かない */
-    .rank1{background:
-      radial-gradient(65% 65% at 30% 30%, var(--gold-1) 0%, var(--gold-2) 55%, var(--gold-3) 100%);
-      box-shadow:0 0 0 2px #FFF inset, 0 0 0 10px rgba(255,215,0,.25) inset, 0 12px 30px rgba(230,184,0,.45);
-    }
-    .rank2{background:
-      radial-gradient(65% 65% at 30% 30%, var(--silver-1) 0%, var(--silver-2) 55%, var(--silver-3) 100%);
-      box-shadow:0 0 0 2px #FFF inset, 0 0 0 10px rgba(209,213,219,.22) inset, 0 10px 24px rgba(0,0,0,.15);
-    }
-    .rank3{background:
-      radial-gradient(65% 65% at 30% 30%, var(--bronze-1) 0%, var(--bronze-2) 55%, var(--bronze-3) 100%);
-      box-shadow:0 0 0 2px #FFF inset, 0 0 0 10px rgba(251,146,60,.22) inset, 0 10px 24px rgba(217,123,45,.35);
-    }
-    .rankN{background:#f3f4f6;box-shadow:inset 0 0 0 2px #fff, 0 3px 8px rgba(0,0,0,.06)}
-
-    .rank-rocket svg{ width:36px;height:36px; filter:drop-shadow(0 2px 6px rgba(0,0,0,.20)); }
-    .rank-rocket .flame{ transform-origin:12px 24px; }
-    /* badge number for 4位以下のみ表示 */
-    .rank-rocket .num{
-      position:absolute; right:-6px; bottom:-6px;
-      width:22px;height:22px;border-radius:999px;background:#0f172a;color:#fff;
-      font-weight:800;font-size:11px;display:none;align-items:center;justify-content:center;border:2px solid #fff;
-    }
-    .rankN .num{display:flex}
-
-    /* Animations:
-       1位：点火＆上昇（強）
-       2位：ふわっとホバリング（現在の1位アニメ）
-       3位：点火準備（フレームゆらぎのみ）
-    */
-    .rank1 .rocket{ animation: ignite 1.8s ease-in-out infinite; }
-    .rank2 .rocket{ animation: hover 1.8s ease-in-out infinite; }
-    .rank3 .rocket{ animation: preignite 1.8s ease-in-out infinite; }
-    .rank1 .flame{ animation: flame-strong .7s ease-in-out infinite; }
-    .rank2 .flame{ animation: flame-soft .9s ease-in-out infinite; }
-    .rank3 .flame{ animation: flame-faint 1.2s ease-in-out infinite; }
-
-    @keyframes ignite{
-      0%{ transform:translateY(0) rotate(-6deg) }
-      35%{ transform:translateY(-5px) rotate(0deg) }
-      70%{ transform:translateY(-8px) rotate(3deg) }
-      100%{ transform:translateY(0) rotate(-6deg) }
-    }
-    @keyframes hover{
-      0%{ transform:translateY(0) rotate(-4deg) }
-      50%{ transform:translateY(-3px) rotate(0deg) }
-      100%{ transform:translateY(0) rotate(-4deg) }
-    }
-    @keyframes preignite{
-      0%{ transform:translateY(0) rotate(-2deg) }
-      50%{ transform:translateY(-1px) rotate(1deg) }
-      100%{ transform:translateY(0) rotate(-2deg) }
-    }
-    @keyframes flame-strong{
-      0%,100%{ opacity:.95; transform:scale(1) }
-      50%{ opacity:.55; transform:scale(.75) }
-    }
-    @keyframes flame-soft{
-      0%,100%{ opacity:.8; transform:scale(.95) }
-      50%{ opacity:.45; transform:scale(.75) }
-    }
-    @keyframes flame-faint{
-      0%,100%{ opacity:.45; transform:scale(.7) }
-      50%{ opacity:.25; transform:scale(.55) }
-    }
-
-    .symbol{font-size:20px;font-weight:900;letter-spacing:.2px}
-    .name{font-size:13px;color:var(--muted);margin-top:2px}
-
-    /* score block; 右端固定だが独立ボックスでチップと重ならない */
-    .score{text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.05;margin-left:auto}
+    /* score block with subtle ring; emphasized for top1-3 */
+    .score{text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.05}
     .score .num{
-      font-size:30px;font-weight:900;letter-spacing:-.4px;
-      padding:8px 12px;border-radius:14px;border:1px solid var(--ring);
+      font-size:clamp(22px,4.6vw,28px);font-weight:900;letter-spacing:-.4px;
+      padding:6px 10px;border-radius:12px;border:1px solid var(--ring);
       background:linear-gradient(180deg,#ffffff 0%,#f9fafb 100%);
-      box-shadow:0 0 0 6px #fef3c7 inset; /* 薄い枠で背景と分離 */
     }
+    .score.top1 .num{ border-color:#f59e0b44; box-shadow:0 0 0 4px #f59e0b1a; }
+    .score.top2 .num{ border-color:#9ca3af44; box-shadow:0 0 0 4px #9ca3af1a; }
+    .score.top3 .num{ border-color:#fb923c44; box-shadow:0 0 0 4px #fb923c1a; }
     .score .den{font-size:11px;color:var(--muted);margin-top:2px}
 
-    /* price chips — 横1行で収まるようにサイズ調整 */
-    .price-chips{display:flex;gap:8px;flex-wrap:nowrap;margin-top:8px;min-width:0}
-    .pch{
-      flex:0 1 auto; max-width:32%;
-      font-size:12px;border:1px solid var(--border);padding:6px 10px;border-radius:999px;line-height:1;white-space:nowrap;
-      display:inline-flex;gap:6px;align-items:center;justify-content:center;background:#eef2f7;color:#111;
+    /* ===== Rocket rank badges (circular) ===== */
+    .rank-rocket{
+      --size: clamp(48px, 12vw, 60px);
+      width:var(--size); height:var(--size);
+      border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      position:relative; isolation:isolate;
+      box-shadow:0 6px 18px rgba(0,0,0,.08) inset, 0 4px 10px rgba(0,0,0,.06);
+      flex:0 0 auto;
+      overflow:hidden;   /* 常に円形に収める */
     }
-    .pch.up{border-color:var(--green-b);background:var(--green-bg);color:var(--green)}
-    .pch.down{border-color:var(--red-b);background:var(--red-bg);color:var(--red)}
-    .pch.neutral{color:#6b7280}
-    .pch .k{opacity:.8}
+    /* Gold / Silver / Bronze backgrounds（視認性強化） */
+    .rank1{ background:radial-gradient(120% 120% at 30% 20%, #fff8cc 0%, var(--gold) 55%, #caa32a 100%); }
+    .rank2{ background:radial-gradient(120% 120% at 30% 20%, #ffffff 0%, var(--silver) 55%, #9aa3ad 100%); }
+    .rank3{ background:radial-gradient(120% 120% at 30% 20%, #fff2e6 0%, var(--bronze) 55%, #b97736 100%); }
+    .rankN{ background:#f3f4f6; }
 
-    /* medals row (Top3 for Trends/News) */
-    .medals{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
-    .medal{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:#fff;border-radius:999px;padding:4px 10px;line-height:1}
-    .medal .label{font-size:12px;letter-spacing:.2px}
-    .medal .kind{font-size:12px;color:#111;text-transform:capitalize}
-    .medal.gold{border-color:#f59e0b33;box-shadow:0 0 0 2px #f59e0b1a inset}
-    .medal.silver{border-color:#9ca3af33;box-shadow:0 0 0 2px #9ca3af1a inset}
-    .medal.bronze{border-color:#fb923c33;box-shadow:0 0 0 2px #fb923c1a inset}
-    .medal .emoji{font-size:14px}
+    .rank-rocket svg{ width:calc(var(--size) * 0.56); height:calc(var(--size) * 0.56); filter:drop-shadow(0 2px 4px rgba(0,0,0,.18)); }
+    .rank-rocket .num{
+      position:absolute; right:-6px; bottom:-6px;
+      width:20px; height:20px; border-radius:999px;
+      background:#0f172a; color:#fff; font-weight:800; font-size:11px;
+      display:flex; align-items:center; justify-content:center;
+      border:2px solid #fff;
+    }
+    .rank-rocket .flame{ transform-origin:10px 18px; }
 
-    /* tabs: segmented buttons; Overviewは初期非表示 */
+    /* Animations: 1=点火&上昇、2=ふわっと、3=点火準備（脈動） */
+    .rank1 .rocket{ animation:lift 1.6s ease-in-out infinite; }
+    .rank1 .flame{ animation:flicker .7s ease-in-out infinite; opacity:1; }
+    .rank2 .rocket{ animation:floaty 2.4s ease-in-out infinite; }
+    .rank2 .flame{ animation:flicker 1.1s ease-in-out infinite; opacity:.8; }
+    .rank3 .rocket{ transform:rotate(12deg); }
+    .rank3 .flame{ animation:pulse 1.6s ease-in-out infinite; opacity:.55; }
+
+    @keyframes lift{
+      0%{ transform:translateY(0) rotate(-4deg); }
+      50%{ transform:translateY(-4px) rotate(0deg); }
+      100%{ transform:translateY(0) rotate(-4deg); }
+    }
+    @keyframes floaty{
+      0%{ transform:translateY(0) rotate(-2deg); }
+      50%{ transform:translateY(-2px) rotate(2deg); }
+      100%{ transform:translateY(0) rotate(-2deg); }
+    }
+    @keyframes flicker{
+      0%,100%{ opacity:.95; transform:scale(1); }
+      50%{ opacity:.55; transform:scale(.85); }
+    }
+    @keyframes pulse{
+      0%,100%{ transform:scale(1); opacity:.55; }
+      50%{ transform:scale(.9); opacity:.35; }
+    }
+
+    /* 右上リボンは削除（重なり対策） */
+    .ribbon{ display:none !important; }
+
+    /* price one-line row */
+    .price-row{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      align-items:center; gap:6px; margin-top:8px;
+    }
+    .pill{
+      display:flex; align-items:center; justify-content:center; gap:6px;
+      padding:6px 8px; border:1px solid var(--border); border-radius:999px;
+      font-size:clamp(11px, 3.2vw, 12px); line-height:1; white-space:nowrap; min-width:0;
+      background:#f8fafc; color:#111;
+    }
+    .pill .k{ color:var(--muted); }
+    .pill.up{ border-color:#10b98133; background:#ecfdf5; color:#065f46 }
+    .pill.down{ border-color:#ef444433; background:#fef2f2; color:#7f1d1d }
+    .pill.flat{ color:#6b7280; background:#f8fafc }
+
+    /* tabs: segmented buttons */
     .tabs{margin-top:12px}
     .seg{display:inline-flex;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:rgba(243,244,246,.6);backdrop-filter:saturate(1.1) blur(2px)}
     .seg .segbtn{
-      appearance:none;border:0;margin:0;padding:9px 14px;background:transparent;cursor:pointer;
-      font-size:13px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;
+      appearance:none;border:0;margin:0;padding:8px 12px;background:transparent;cursor:pointer;
+      font-size:12px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;
     }
+    .seg .segbtn:focus{outline:none;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
     .seg .segbtn[aria-pressed="true"]{
-      background:#fff;font-weight:700;box-shadow:inset 0 0 0 1px var(--border);
+      background:#fff; font-weight:700;
+      box-shadow:inset 0 0 0 1px var(--border);
     }
-    .seg .ico{font-size:16px}
+    .seg .ico{font-size:14px;opacity:.9}
     .tab{display:none}
     .tab.active{display:block}
 
+    /* table etc */
     .chart{width:100%;border:1px solid var(--border);border-radius:10px}
-
     .table{width:100%;border-collapse:collapse;margin-top:6px}
     .table th,.table td{border-bottom:1px solid var(--border);padding:6px 8px;font-size:12px;text-align:left}
     .table th{color:var(--muted);font-weight:600}
@@ -171,17 +143,15 @@
     .kv{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
     .kv div{font-size:12px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 8px}
     .kv .k{color:var(--muted)}
-    .legend{margin-top:8px;font-size:11px;color:#475569;line-height:1.45}
-
     .no-insider{flex:1;background:#f9fafb;border:1px dashed #d1d5db;border-radius:12px;padding:8px 10px;font-size:12px;color:#6b7280;font-style:italic;text-align:center}
 
-    /* モバイル最適化：行つめ＆フォント縮小で1行内に収める */
+    /* Smartphone tweaks */
     @media (max-width:420px){
-      .rank-rocket{ --size:60px }
-      .symbol{font-size:18px}
-      .pch{font-size:11px;padding:5px 8px;max-width:31%}
-      .score .num{font-size:26px;padding:6px 10px}
-      .seg .segbtn{padding:8px 12px;font-size:12px}
+      .row{ gap:10px }
+      .symbol{ max-width:54vw }
+      .name{ display:none }             /* 極小幅は社名省略で崩れ回避 */
+      .score .num{ padding:4px 8px }
+      .rank-rocket{ --size: 52px }
     }
   </style>
 </head>
@@ -201,48 +171,65 @@
         
         
         
+
+        
+        
         
         
         
 
-        <div class="card" id="card-1" data-symbol="NVDA">
+        
+        
+        
+        
+        
+        
+
+        
+        
+
+        <div class="card is-top" id="card-1" data-symbol="NVDA">
           <div class="row">
             <div class="sym">
-              
-              
+              <!-- Rank rocket (circular) -->
               <div class="rank-rocket rank1" aria-label="Rank 1">
                 <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <!-- body -->
                   <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.4" fill="#94a3b8"/>
+                  <!-- window -->
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <!-- fins -->
                   <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
                   <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <!-- flame -->
                   <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
                 </svg>
-                <div class="ring"></div>
                 <div class="num">1</div>
               </div>
 
-              <div style="min-width:0">
+              <div>
                 <div class="symbol">NVDA</div>
                 <div class="name">NVIDIA Corporation</div>
-                <!-- Price changes (always in one row) -->
-                <div class="price-chips">
-                  <div class="pch neutral"><span class="k">1D</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1W</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1M</span> +0.00%</div>
+
+                <!-- price deltas row (one line) -->
+                <div class="price-row">
+                  <div class="pill flat"><span class="k">1D</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1W</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1M</span><span class="v">—</span></div>
                 </div>
-                <!-- medals (filled by JS) -->
-                <div class="medals"></div>
+
+                <!-- medals (Trends/News top3) -->
+                <div class="medals" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"></div>
               </div>
             </div>
 
-            <div class="score">
+            <div class="score top1">
               <div class="num">835</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
-          <!-- Tabs (Overview closed by default) -->
+          <!-- segmented toggle buttons -->
           <div class="tabs">
             <div class="seg" role="tablist" aria-label="Card sections">
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
@@ -251,7 +238,15 @@
                       data-target="#tech-1"><span class="ico">📈</span>Weekly chart</button>
             </div>
 
+            <!-- Overview: default CLOSED (no .active) -->
             <div id="ov-1" class="tab" role="tabpanel" aria-hidden="true">
+              <!-- legend -->
+              <p class="muted" style="font-size:12px; margin:6px 0 0;">
+                • Price Δ: 1D = previous close → report-day close, 1W ≈ 5 trading days, 1M ≈ 21 trading days.<br/>
+                • Volume anomaly: last 60 trading days (blend of RVOL20 & 60-day z-score).<br/>
+                • Trends: Google Trends (3-month window, US). • News: Google News coverage (last 5 days, percentile).
+              </p>
+
               <table class="table js-breakdown">
                 <thead>
                   <tr>
@@ -292,21 +287,9 @@
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
               </details>
-
-              <!-- Legend -->
-              <div class="legend">
-                <strong>Legend:</strong>
-                <ul style="margin:6px 0 0 16px;padding:0">
-                  <li>Price changes (1D/1W/1M): close-to-close vs prior US business day / 5 trading days / approx. 21 trading days as of the report window.</li>
-                  <li>Volume anomaly: blend of RVOL20 and 60-day z-score; DollarVol percentile over last 90 trading days.</li>
-                  <li>Trends: Google Trends (US, timeframe “today 3-m”), normalized across the universe.</li>
-                  <li>News: Google News RSS coverage in last N days (sentiment-adjusted), percentile across the universe.</li>
-                  <li>Insider: Form 4 momentum (30d/90d) aggregated by symbol.</li>
-                  <li>All stats are evaluated up to the prior US business day relative to 2025-08-29.</li>
-                </ul>
-              </div>
             </div>
 
+            <!-- Technical: default CLOSED -->
             <div id="tech-1" class="tab" role="tabpanel" aria-hidden="true">
               <img src="/charts/2025-08-29/NVDA.png" alt="NVDA weekly chart" class="chart" loading="lazy" />
             </div>
@@ -314,7 +297,7 @@
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"change_1d": 0, "change_1m": 0, "change_1w": 0, "final_score_0_1": 0.8351880216718797, "insider_momo": 0, "news_recent_count": 59, "news_score": 0.9, "score_components": {"insider_momo": 0.0, "news": 0.9, "trends_breakout": 1.0, "volume_anomaly": 0.6009401083593985}, "score_pts": 835, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "NVDA", "trends_breakout": 1.0, "vol_anomaly_score": 0.6009401083593985}
+          {"final_score_0_1": 0.8351880216718797, "insider_momo": 0, "news_recent_count": 59, "news_score": 0.9, "score_components": {"insider_momo": 0.0, "news": 0.9, "trends_breakout": 1.0, "volume_anomaly": 0.6009401083593985}, "score_pts": 835, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "NVDA", "trends_breakout": 1.0, "vol_anomaly_score": 0.6009401083593985}
           </script>
         </div>
       
@@ -324,48 +307,65 @@
         
         
         
+
+        
+        
         
         
         
 
-        <div class="card" id="card-2" data-symbol="PERF">
+        
+        
+        
+        
+        
+        
+
+        
+        
+
+        <div class="card is-top" id="card-2" data-symbol="VRT">
           <div class="row">
             <div class="sym">
-              
-              
+              <!-- Rank rocket (circular) -->
               <div class="rank-rocket rank2" aria-label="Rank 2">
                 <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <!-- body -->
                   <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.4" fill="#94a3b8"/>
+                  <!-- window -->
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <!-- fins -->
                   <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
                   <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <!-- flame -->
                   <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
                 </svg>
-                <div class="ring"></div>
                 <div class="num">2</div>
               </div>
 
-              <div style="min-width:0">
-                <div class="symbol">PERF</div>
-                <div class="name">Perfect Corp.</div>
-                <!-- Price changes (always in one row) -->
-                <div class="price-chips">
-                  <div class="pch neutral"><span class="k">1D</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1W</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1M</span> +0.00%</div>
+              <div>
+                <div class="symbol">VRT</div>
+                <div class="name">Vertiv Holdings Co</div>
+
+                <!-- price deltas row (one line) -->
+                <div class="price-row">
+                  <div class="pill flat"><span class="k">1D</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1W</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1M</span><span class="v">—</span></div>
                 </div>
-                <!-- medals (filled by JS) -->
-                <div class="medals"></div>
+
+                <!-- medals (Trends/News top3) -->
+                <div class="medals" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"></div>
               </div>
             </div>
 
-            <div class="score">
-              <div class="num">699</div>
+            <div class="score top2">
+              <div class="num">746</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
-          <!-- Tabs (Overview closed by default) -->
+          <!-- segmented toggle buttons -->
           <div class="tabs">
             <div class="seg" role="tablist" aria-label="Card sections">
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
@@ -374,7 +374,15 @@
                       data-target="#tech-2"><span class="ico">📈</span>Weekly chart</button>
             </div>
 
+            <!-- Overview: default CLOSED (no .active) -->
             <div id="ov-2" class="tab" role="tabpanel" aria-hidden="true">
+              <!-- legend -->
+              <p class="muted" style="font-size:12px; margin:6px 0 0;">
+                • Price Δ: 1D = previous close → report-day close, 1W ≈ 5 trading days, 1M ≈ 21 trading days.<br/>
+                • Volume anomaly: last 60 trading days (blend of RVOL20 & 60-day z-score).<br/>
+                • Trends: Google Trends (3-month window, US). • News: Google News coverage (last 5 days, percentile).
+              </p>
+
               <table class="table js-breakdown">
                 <thead>
                   <tr>
@@ -388,7 +396,143 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">699</span></th>
+                    <th class="right"><span class="js-total">746</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>1.11</div>
+                    <div><span class="k">Z60</span><br>0.24</div>
+                    <div><span class="k">PctRank90</span><br>0.72</div>
+                    <div><span class="k">DollarVol</span><br>$915.1M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <!-- Technical: default CLOSED -->
+            <div id="tech-2" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/VRT.png" alt="VRT weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.7455278329900121, "insider_momo": 0, "news_recent_count": 60, "news_score": 0.95, "score_components": {"insider_momo": 0.0, "news": 0.95, "trends_breakout": 0.95, "volume_anomaly": 0.16513916495006103}, "score_pts": 746, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "VRT", "trends_breakout": 0.95, "vol_anomaly_score": 0.16513916495006103}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        
+        
+        
+        
+        
+
+        
+        
+        
+        
+        
+        
+
+        
+        
+
+        <div class="card is-top" id="card-3" data-symbol="PERF">
+          <div class="row">
+            <div class="sym">
+              <!-- Rank rocket (circular) -->
+              <div class="rank-rocket rank3" aria-label="Rank 3">
+                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <!-- body -->
+                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                  <!-- window -->
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <!-- fins -->
+                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <!-- flame -->
+                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                </svg>
+                <div class="num">3</div>
+              </div>
+
+              <div>
+                <div class="symbol">PERF</div>
+                <div class="name">Perfect Corp.</div>
+
+                <!-- price deltas row (one line) -->
+                <div class="price-row">
+                  <div class="pill flat"><span class="k">1D</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1W</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1M</span><span class="v">—</span></div>
+                </div>
+
+                <!-- medals (Trends/News top3) -->
+                <div class="medals" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"></div>
+              </div>
+            </div>
+
+            <div class="score top3">
+              <div class="num">726</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <!-- segmented toggle buttons -->
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-3"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-3"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <!-- Overview: default CLOSED (no .active) -->
+            <div id="ov-3" class="tab" role="tabpanel" aria-hidden="true">
+              <!-- legend -->
+              <p class="muted" style="font-size:12px; margin:6px 0 0;">
+                • Price Δ: 1D = previous close → report-day close, 1W ≈ 5 trading days, 1M ≈ 21 trading days.<br/>
+                • Volume anomaly: last 60 trading days (blend of RVOL20 & 60-day z-score).<br/>
+                • Trends: Google Trends (3-month window, US). • News: Google News coverage (last 5 days, percentile).
+              </p>
+
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">726</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -415,29 +559,17 @@
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
               </details>
-
-              <!-- Legend -->
-              <div class="legend">
-                <strong>Legend:</strong>
-                <ul style="margin:6px 0 0 16px;padding:0">
-                  <li>Price changes (1D/1W/1M): close-to-close vs prior US business day / 5 trading days / approx. 21 trading days as of the report window.</li>
-                  <li>Volume anomaly: blend of RVOL20 and 60-day z-score; DollarVol percentile over last 90 trading days.</li>
-                  <li>Trends: Google Trends (US, timeframe “today 3-m”), normalized across the universe.</li>
-                  <li>News: Google News RSS coverage in last N days (sentiment-adjusted), percentile across the universe.</li>
-                  <li>Insider: Form 4 momentum (30d/90d) aggregated by symbol.</li>
-                  <li>All stats are evaluated up to the prior US business day relative to 2025-08-29.</li>
-                </ul>
-              </div>
             </div>
 
-            <div id="tech-2" class="tab" role="tabpanel" aria-hidden="true">
+            <!-- Technical: default CLOSED -->
+            <div id="tech-3" class="tab" role="tabpanel" aria-hidden="true">
               <img src="/charts/2025-08-29/PERF.png" alt="PERF weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"change_1d": 0, "change_1m": 0, "change_1w": 0, "final_score_0_1": 0.6991190096665642, "insider_momo": 0, "news_recent_count": 60, "news_score": 1.0, "score_components": {"insider_momo": 0.0, "news": 1.0, "trends_breakout": 0.8333333333333334, "volume_anomaly": 0.07892838166615398}, "score_pts": 699, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "PERF", "trends_breakout": 0.8333333333333334, "vol_anomaly_score": 0.07892838166615398}
+          {"final_score_0_1": 0.7257856763332309, "insider_momo": 0, "news_recent_count": 60, "news_score": 1.0, "score_components": {"insider_momo": 0.0, "news": 1.0, "trends_breakout": 0.9, "volume_anomaly": 0.07892838166615398}, "score_pts": 726, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "PERF", "trends_breakout": 0.9, "vol_anomaly_score": 0.07892838166615398}
           </script>
         </div>
       
@@ -447,57 +579,82 @@
         
         
         
+
+        
+        
         
         
         
 
-        <div class="card" id="card-3" data-symbol="AVAV">
+        
+        
+        
+        
+        
+        
+
+        
+        
+
+        <div class="card " id="card-4" data-symbol="U">
           <div class="row">
             <div class="sym">
-              
-              
-              <div class="rank-rocket rank3" aria-label="Rank 3">
+              <!-- Rank rocket (circular) -->
+              <div class="rank-rocket rankN" aria-label="Rank 4">
                 <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <!-- body -->
                   <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.4" fill="#94a3b8"/>
+                  <!-- window -->
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <!-- fins -->
                   <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
                   <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <!-- flame -->
                   <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
                 </svg>
-                <div class="ring"></div>
-                <div class="num">3</div>
+                <div class="num">4</div>
               </div>
 
-              <div style="min-width:0">
-                <div class="symbol">AVAV</div>
-                <div class="name">AeroVironment, Inc.</div>
-                <!-- Price changes (always in one row) -->
-                <div class="price-chips">
-                  <div class="pch neutral"><span class="k">1D</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1W</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1M</span> +0.00%</div>
+              <div>
+                <div class="symbol">U</div>
+                <div class="name">Unity Software Inc.</div>
+
+                <!-- price deltas row (one line) -->
+                <div class="price-row">
+                  <div class="pill flat"><span class="k">1D</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1W</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1M</span><span class="v">—</span></div>
                 </div>
-                <!-- medals (filled by JS) -->
-                <div class="medals"></div>
+
+                <!-- medals (Trends/News top3) -->
+                <div class="medals" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"></div>
               </div>
             </div>
 
-            <div class="score">
+            <div class="score ">
               <div class="num">632</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
-          <!-- Tabs (Overview closed by default) -->
+          <!-- segmented toggle buttons -->
           <div class="tabs">
             <div class="seg" role="tablist" aria-label="Card sections">
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-3"><span class="ico">🧭</span>Overview</button>
+                      data-target="#ov-4"><span class="ico">🧭</span>Overview</button>
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-3"><span class="ico">📈</span>Weekly chart</button>
+                      data-target="#tech-4"><span class="ico">📈</span>Weekly chart</button>
             </div>
 
-            <div id="ov-3" class="tab" role="tabpanel" aria-hidden="true">
+            <!-- Overview: default CLOSED (no .active) -->
+            <div id="ov-4" class="tab" role="tabpanel" aria-hidden="true">
+              <!-- legend -->
+              <p class="muted" style="font-size:12px; margin:6px 0 0;">
+                • Price Δ: 1D = previous close → report-day close, 1W ≈ 5 trading days, 1M ≈ 21 trading days.<br/>
+                • Volume anomaly: last 60 trading days (blend of RVOL20 & 60-day z-score).<br/>
+                • Trends: Google Trends (3-month window, US). • News: Google News coverage (last 5 days, percentile).
+              </p>
+
               <table class="table js-breakdown">
                 <thead>
                   <tr>
@@ -525,375 +682,6 @@
                   
                   
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.58</div>
-                    <div><span class="k">Z60</span><br>-0.59</div>
-                    <div><span class="k">PctRank90</span><br>0.33</div>
-                    <div><span class="k">DollarVol</span><br>$109.2M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
-                  </div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-
-              <!-- Legend -->
-              <div class="legend">
-                <strong>Legend:</strong>
-                <ul style="margin:6px 0 0 16px;padding:0">
-                  <li>Price changes (1D/1W/1M): close-to-close vs prior US business day / 5 trading days / approx. 21 trading days as of the report window.</li>
-                  <li>Volume anomaly: blend of RVOL20 and 60-day z-score; DollarVol percentile over last 90 trading days.</li>
-                  <li>Trends: Google Trends (US, timeframe “today 3-m”), normalized across the universe.</li>
-                  <li>News: Google News RSS coverage in last N days (sentiment-adjusted), percentile across the universe.</li>
-                  <li>Insider: Form 4 momentum (30d/90d) aggregated by symbol.</li>
-                  <li>All stats are evaluated up to the prior US business day relative to 2025-08-29.</li>
-                </ul>
-              </div>
-            </div>
-
-            <div id="tech-3" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/AVAV.png" alt="AVAV weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <!-- JSON payload -->
-          <script type="application/json" class="js-payload">
-          {"change_1d": 0, "change_1m": 0, "change_1w": 0, "final_score_0_1": 0.6319640951219047, "insider_momo": 0, "news_recent_count": 56, "news_score": 0.75, "score_components": {"insider_momo": 0.0, "news": 0.75, "trends_breakout": 0.8888888888888888, "volume_anomaly": 0.06954269783174558}, "score_pts": 632, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "AVAV", "trends_breakout": 0.8888888888888888, "vol_anomaly_score": 0.06954269783174558}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-        <div class="card" id="card-4" data-symbol="SYM">
-          <div class="row">
-            <div class="sym">
-              
-              
-              <div class="rank-rocket rankN" aria-label="Rank 4">
-                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.4" fill="#94a3b8"/>
-                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                </svg>
-                <div class="ring"></div>
-                <div class="num">4</div>
-              </div>
-
-              <div style="min-width:0">
-                <div class="symbol">SYM</div>
-                <div class="name">Symbotic Inc.</div>
-                <!-- Price changes (always in one row) -->
-                <div class="price-chips">
-                  <div class="pch neutral"><span class="k">1D</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1W</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1M</span> +0.00%</div>
-                </div>
-                <!-- medals (filled by JS) -->
-                <div class="medals"></div>
-              </div>
-            </div>
-
-            <div class="score">
-              <div class="num">555</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <!-- Tabs (Overview closed by default) -->
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-4"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-4"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-4" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">555</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  
-                  
-                  
-                  
-                  
-                  <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.56</div>
-                    <div><span class="k">Z60</span><br>-0.79</div>
-                    <div><span class="k">PctRank90</span><br>0.50</div>
-                    <div><span class="k">DollarVol</span><br>$68.1M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
-                  </div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-
-              <!-- Legend -->
-              <div class="legend">
-                <strong>Legend:</strong>
-                <ul style="margin:6px 0 0 16px;padding:0">
-                  <li>Price changes (1D/1W/1M): close-to-close vs prior US business day / 5 trading days / approx. 21 trading days as of the report window.</li>
-                  <li>Volume anomaly: blend of RVOL20 and 60-day z-score; DollarVol percentile over last 90 trading days.</li>
-                  <li>Trends: Google Trends (US, timeframe “today 3-m”), normalized across the universe.</li>
-                  <li>News: Google News RSS coverage in last N days (sentiment-adjusted), percentile across the universe.</li>
-                  <li>Insider: Form 4 momentum (30d/90d) aggregated by symbol.</li>
-                  <li>All stats are evaluated up to the prior US business day relative to 2025-08-29.</li>
-                </ul>
-              </div>
-            </div>
-
-            <div id="tech-4" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/SYM.png" alt="SYM weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <!-- JSON payload -->
-          <script type="application/json" class="js-payload">
-          {"change_1d": 0, "change_1m": 0, "change_1w": 0, "final_score_0_1": 0.5553831094326159, "insider_momo": 0, "news_recent_count": 56, "news_score": 0.85, "score_components": {"insider_momo": 0.0, "news": 0.85, "trends_breakout": 0.6111111111111112, "volume_anomaly": 0.06719332494085736}, "score_pts": 555, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "SYM", "trends_breakout": 0.6111111111111112, "vol_anomaly_score": 0.06719332494085736}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-        <div class="card" id="card-5" data-symbol="TER">
-          <div class="row">
-            <div class="sym">
-              
-              
-              <div class="rank-rocket rankN" aria-label="Rank 5">
-                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.4" fill="#94a3b8"/>
-                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                </svg>
-                <div class="ring"></div>
-                <div class="num">5</div>
-              </div>
-
-              <div style="min-width:0">
-                <div class="symbol">TER</div>
-                <div class="name">Teradyne, Inc.</div>
-                <!-- Price changes (always in one row) -->
-                <div class="price-chips">
-                  <div class="pch neutral"><span class="k">1D</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1W</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1M</span> +0.00%</div>
-                </div>
-                <!-- medals (filled by JS) -->
-                <div class="medals"></div>
-              </div>
-            </div>
-
-            <div class="score">
-              <div class="num">554</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <!-- Tabs (Overview closed by default) -->
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-5"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-5"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-5" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">554</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  
-                  
-                  
-                  
-                  
-                  <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.77</div>
-                    <div><span class="k">Z60</span><br>-0.47</div>
-                    <div><span class="k">PctRank90</span><br>0.62</div>
-                    <div><span class="k">DollarVol</span><br>$325.5M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
-                  </div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-
-              <!-- Legend -->
-              <div class="legend">
-                <strong>Legend:</strong>
-                <ul style="margin:6px 0 0 16px;padding:0">
-                  <li>Price changes (1D/1W/1M): close-to-close vs prior US business day / 5 trading days / approx. 21 trading days as of the report window.</li>
-                  <li>Volume anomaly: blend of RVOL20 and 60-day z-score; DollarVol percentile over last 90 trading days.</li>
-                  <li>Trends: Google Trends (US, timeframe “today 3-m”), normalized across the universe.</li>
-                  <li>News: Google News RSS coverage in last N days (sentiment-adjusted), percentile across the universe.</li>
-                  <li>Insider: Form 4 momentum (30d/90d) aggregated by symbol.</li>
-                  <li>All stats are evaluated up to the prior US business day relative to 2025-08-29.</li>
-                </ul>
-              </div>
-            </div>
-
-            <div id="tech-5" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/TER.png" alt="TER weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <!-- JSON payload -->
-          <script type="application/json" class="js-payload">
-          {"change_1d": 0, "change_1m": 0, "change_1w": 0, "final_score_0_1": 0.5537966700005016, "insider_momo": 0, "news_recent_count": 46, "news_score": 0.45, "score_components": {"insider_momo": 0.0, "news": 0.45, "trends_breakout": 0.9444444444444444, "volume_anomaly": 0.09259446111361887}, "score_pts": 554, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "TER", "trends_breakout": 0.9444444444444444, "vol_anomaly_score": 0.09259446111361887}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-        <div class="card" id="card-6" data-symbol="U">
-          <div class="row">
-            <div class="sym">
-              
-              
-              <div class="rank-rocket rankN" aria-label="Rank 6">
-                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.4" fill="#94a3b8"/>
-                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                </svg>
-                <div class="ring"></div>
-                <div class="num">6</div>
-              </div>
-
-              <div style="min-width:0">
-                <div class="symbol">U</div>
-                <div class="name">Unity Software Inc.</div>
-                <!-- Price changes (always in one row) -->
-                <div class="price-chips">
-                  <div class="pch neutral"><span class="k">1D</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1W</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1M</span> +0.00%</div>
-                </div>
-                <!-- medals (filled by JS) -->
-                <div class="medals"></div>
-              </div>
-            </div>
-
-            <div class="score">
-              <div class="num">537</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <!-- Tabs (Overview closed by default) -->
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-6"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-6"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-6" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">537</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  
-                  
-                  
-                  
-                  
-                  <div class="kv">
                     <div><span class="k">RVOL20</span><br>0.52</div>
                     <div><span class="k">Z60</span><br>-0.74</div>
                     <div><span class="k">PctRank90</span><br>0.53</div>
@@ -907,29 +695,17 @@
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
               </details>
-
-              <!-- Legend -->
-              <div class="legend">
-                <strong>Legend:</strong>
-                <ul style="margin:6px 0 0 16px;padding:0">
-                  <li>Price changes (1D/1W/1M): close-to-close vs prior US business day / 5 trading days / approx. 21 trading days as of the report window.</li>
-                  <li>Volume anomaly: blend of RVOL20 and 60-day z-score; DollarVol percentile over last 90 trading days.</li>
-                  <li>Trends: Google Trends (US, timeframe “today 3-m”), normalized across the universe.</li>
-                  <li>News: Google News RSS coverage in last N days (sentiment-adjusted), percentile across the universe.</li>
-                  <li>Insider: Form 4 momentum (30d/90d) aggregated by symbol.</li>
-                  <li>All stats are evaluated up to the prior US business day relative to 2025-08-29.</li>
-                </ul>
-              </div>
             </div>
 
-            <div id="tech-6" class="tab" role="tabpanel" aria-hidden="true">
+            <!-- Technical: default CLOSED -->
+            <div id="tech-4" class="tab" role="tabpanel" aria-hidden="true">
               <img src="/charts/2025-08-29/U.png" alt="U weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"change_1d": 0, "change_1m": 0, "change_1w": 0, "final_score_0_1": 0.5369041361668747, "insider_momo": 0, "news_recent_count": 55, "news_score": 0.8, "score_components": {"insider_momo": 0.0, "news": 0.8, "trends_breakout": 0.6111111111111112, "volume_anomaly": 0.06229845861215117}, "score_pts": 537, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "U", "trends_breakout": 0.6111111111111112, "vol_anomaly_score": 0.06229845861215117}
+          {"final_score_0_1": 0.6324596917224302, "insider_momo": 0, "news_recent_count": 55, "news_score": 0.8, "score_components": {"insider_momo": 0.0, "news": 0.8, "trends_breakout": 0.85, "volume_anomaly": 0.06229845861215117}, "score_pts": 632, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "U", "trends_breakout": 0.85, "vol_anomaly_score": 0.06229845861215117}
           </script>
         </div>
       
@@ -939,57 +715,82 @@
         
         
         
+
+        
+        
         
         
         
 
-        <div class="card" id="card-7" data-symbol="SOUN">
+        
+        
+        
+        
+        
+        
+
+        
+        
+
+        <div class="card " id="card-5" data-symbol="SOUN">
           <div class="row">
             <div class="sym">
-              
-              
-              <div class="rank-rocket rankN" aria-label="Rank 7">
+              <!-- Rank rocket (circular) -->
+              <div class="rank-rocket rankN" aria-label="Rank 5">
                 <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <!-- body -->
                   <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.4" fill="#94a3b8"/>
+                  <!-- window -->
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <!-- fins -->
                   <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
                   <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <!-- flame -->
                   <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
                 </svg>
-                <div class="ring"></div>
-                <div class="num">7</div>
+                <div class="num">5</div>
               </div>
 
-              <div style="min-width:0">
+              <div>
                 <div class="symbol">SOUN</div>
                 <div class="name">SoundHound AI, Inc.</div>
-                <!-- Price changes (always in one row) -->
-                <div class="price-chips">
-                  <div class="pch neutral"><span class="k">1D</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1W</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1M</span> +0.00%</div>
+
+                <!-- price deltas row (one line) -->
+                <div class="price-row">
+                  <div class="pill flat"><span class="k">1D</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1W</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1M</span><span class="v">—</span></div>
                 </div>
-                <!-- medals (filled by JS) -->
-                <div class="medals"></div>
+
+                <!-- medals (Trends/News top3) -->
+                <div class="medals" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"></div>
               </div>
             </div>
 
-            <div class="score">
-              <div class="num">517</div>
+            <div class="score ">
+              <div class="num">552</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
-          <!-- Tabs (Overview closed by default) -->
+          <!-- segmented toggle buttons -->
           <div class="tabs">
             <div class="seg" role="tablist" aria-label="Card sections">
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-7"><span class="ico">🧭</span>Overview</button>
+                      data-target="#ov-5"><span class="ico">🧭</span>Overview</button>
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-7"><span class="ico">📈</span>Weekly chart</button>
+                      data-target="#tech-5"><span class="ico">📈</span>Weekly chart</button>
             </div>
 
-            <div id="ov-7" class="tab" role="tabpanel" aria-hidden="true">
+            <!-- Overview: default CLOSED (no .active) -->
+            <div id="ov-5" class="tab" role="tabpanel" aria-hidden="true">
+              <!-- legend -->
+              <p class="muted" style="font-size:12px; margin:6px 0 0;">
+                • Price Δ: 1D = previous close → report-day close, 1W ≈ 5 trading days, 1M ≈ 21 trading days.<br/>
+                • Volume anomaly: last 60 trading days (blend of RVOL20 & 60-day z-score).<br/>
+                • Trends: Google Trends (3-month window, US). • News: Google News coverage (last 5 days, percentile).
+              </p>
+
               <table class="table js-breakdown">
                 <thead>
                   <tr>
@@ -1003,7 +804,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">517</span></th>
+                    <th class="right"><span class="js-total">552</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -1030,29 +831,17 @@
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
               </details>
-
-              <!-- Legend -->
-              <div class="legend">
-                <strong>Legend:</strong>
-                <ul style="margin:6px 0 0 16px;padding:0">
-                  <li>Price changes (1D/1W/1M): close-to-close vs prior US business day / 5 trading days / approx. 21 trading days as of the report window.</li>
-                  <li>Volume anomaly: blend of RVOL20 and 60-day z-score; DollarVol percentile over last 90 trading days.</li>
-                  <li>Trends: Google Trends (US, timeframe “today 3-m”), normalized across the universe.</li>
-                  <li>News: Google News RSS coverage in last N days (sentiment-adjusted), percentile across the universe.</li>
-                  <li>Insider: Form 4 momentum (30d/90d) aggregated by symbol.</li>
-                  <li>All stats are evaluated up to the prior US business day relative to 2025-08-29.</li>
-                </ul>
-              </div>
             </div>
 
-            <div id="tech-7" class="tab" role="tabpanel" aria-hidden="true">
+            <!-- Technical: default CLOSED -->
+            <div id="tech-5" class="tab" role="tabpanel" aria-hidden="true">
               <img src="/charts/2025-08-29/SOUN.png" alt="SOUN weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"change_1d": 0, "change_1m": 0, "change_1w": 0, "final_score_0_1": 0.5168342522641242, "insider_momo": 0, "news_recent_count": 56, "news_score": 0.7, "score_components": {"insider_momo": 0.0, "news": 0.7, "trends_breakout": 0.6111111111111112, "volume_anomaly": 0.13694903909839876}, "score_pts": 517, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "SOUN", "trends_breakout": 0.6111111111111112, "vol_anomaly_score": 0.13694903909839876}
+          {"final_score_0_1": 0.5523898078196797, "insider_momo": 0, "news_recent_count": 56, "news_score": 0.7, "score_components": {"insider_momo": 0.0, "news": 0.7, "trends_breakout": 0.7, "volume_anomaly": 0.13694903909839876}, "score_pts": 552, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "SOUN", "trends_breakout": 0.7, "vol_anomaly_score": 0.13694903909839876}
           </script>
         </div>
       
@@ -1062,57 +851,82 @@
         
         
         
+
+        
+        
         
         
         
 
-        <div class="card" id="card-8" data-symbol="MSFT">
+        
+        
+        
+        
+        
+        
+
+        
+        
+
+        <div class="card " id="card-6" data-symbol="SYM">
           <div class="row">
             <div class="sym">
-              
-              
-              <div class="rank-rocket rankN" aria-label="Rank 8">
+              <!-- Rank rocket (circular) -->
+              <div class="rank-rocket rankN" aria-label="Rank 6">
                 <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <!-- body -->
                   <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.4" fill="#94a3b8"/>
+                  <!-- window -->
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <!-- fins -->
                   <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
                   <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <!-- flame -->
                   <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
                 </svg>
-                <div class="ring"></div>
-                <div class="num">8</div>
+                <div class="num">6</div>
               </div>
 
-              <div style="min-width:0">
-                <div class="symbol">MSFT</div>
-                <div class="name">Microsoft Corporation</div>
-                <!-- Price changes (always in one row) -->
-                <div class="price-chips">
-                  <div class="pch neutral"><span class="k">1D</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1W</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1M</span> +0.00%</div>
+              <div>
+                <div class="symbol">SYM</div>
+                <div class="name">Symbotic Inc.</div>
+
+                <!-- price deltas row (one line) -->
+                <div class="price-row">
+                  <div class="pill flat"><span class="k">1D</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1W</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1M</span><span class="v">—</span></div>
                 </div>
-                <!-- medals (filled by JS) -->
-                <div class="medals"></div>
+
+                <!-- medals (Trends/News top3) -->
+                <div class="medals" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"></div>
               </div>
             </div>
 
-            <div class="score">
-              <div class="num">514</div>
+            <div class="score ">
+              <div class="num">551</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
-          <!-- Tabs (Overview closed by default) -->
+          <!-- segmented toggle buttons -->
           <div class="tabs">
             <div class="seg" role="tablist" aria-label="Card sections">
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-8"><span class="ico">🧭</span>Overview</button>
+                      data-target="#ov-6"><span class="ico">🧭</span>Overview</button>
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-8"><span class="ico">📈</span>Weekly chart</button>
+                      data-target="#tech-6"><span class="ico">📈</span>Weekly chart</button>
             </div>
 
-            <div id="ov-8" class="tab" role="tabpanel" aria-hidden="true">
+            <!-- Overview: default CLOSED (no .active) -->
+            <div id="ov-6" class="tab" role="tabpanel" aria-hidden="true">
+              <!-- legend -->
+              <p class="muted" style="font-size:12px; margin:6px 0 0;">
+                • Price Δ: 1D = previous close → report-day close, 1W ≈ 5 trading days, 1M ≈ 21 trading days.<br/>
+                • Volume anomaly: last 60 trading days (blend of RVOL20 & 60-day z-score).<br/>
+                • Trends: Google Trends (3-month window, US). • News: Google News coverage (last 5 days, percentile).
+              </p>
+
               <table class="table js-breakdown">
                 <thead>
                   <tr>
@@ -1126,7 +940,279 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">514</span></th>
+                    <th class="right"><span class="js-total">551</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>0.56</div>
+                    <div><span class="k">Z60</span><br>-0.79</div>
+                    <div><span class="k">PctRank90</span><br>0.50</div>
+                    <div><span class="k">DollarVol</span><br>$68.1M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <!-- Technical: default CLOSED -->
+            <div id="tech-6" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/SYM.png" alt="SYM weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.5509386649881715, "insider_momo": 0, "news_recent_count": 56, "news_score": 0.85, "score_components": {"insider_momo": 0.0, "news": 0.85, "trends_breakout": 0.6, "volume_anomaly": 0.06719332494085736}, "score_pts": 551, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "SYM", "trends_breakout": 0.6, "vol_anomaly_score": 0.06719332494085736}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        
+        
+        
+        
+        
+
+        
+        
+        
+        
+        
+        
+
+        
+        
+
+        <div class="card " id="card-7" data-symbol="AVAV">
+          <div class="row">
+            <div class="sym">
+              <!-- Rank rocket (circular) -->
+              <div class="rank-rocket rankN" aria-label="Rank 7">
+                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <!-- body -->
+                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                  <!-- window -->
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <!-- fins -->
+                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <!-- flame -->
+                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                </svg>
+                <div class="num">7</div>
+              </div>
+
+              <div>
+                <div class="symbol">AVAV</div>
+                <div class="name">AeroVironment, Inc.</div>
+
+                <!-- price deltas row (one line) -->
+                <div class="price-row">
+                  <div class="pill flat"><span class="k">1D</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1W</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1M</span><span class="v">—</span></div>
+                </div>
+
+                <!-- medals (Trends/News top3) -->
+                <div class="medals" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"></div>
+              </div>
+            </div>
+
+            <div class="score ">
+              <div class="num">516</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <!-- segmented toggle buttons -->
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-7"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-7"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <!-- Overview: default CLOSED (no .active) -->
+            <div id="ov-7" class="tab" role="tabpanel" aria-hidden="true">
+              <!-- legend -->
+              <p class="muted" style="font-size:12px; margin:6px 0 0;">
+                • Price Δ: 1D = previous close → report-day close, 1W ≈ 5 trading days, 1M ≈ 21 trading days.<br/>
+                • Volume anomaly: last 60 trading days (blend of RVOL20 & 60-day z-score).<br/>
+                • Trends: Google Trends (3-month window, US). • News: Google News coverage (last 5 days, percentile).
+              </p>
+
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">516</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>0.58</div>
+                    <div><span class="k">Z60</span><br>-0.59</div>
+                    <div><span class="k">PctRank90</span><br>0.33</div>
+                    <div><span class="k">DollarVol</span><br>$109.2M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <!-- Technical: default CLOSED -->
+            <div id="tech-7" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/AVAV.png" alt="AVAV weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.5164085395663491, "insider_momo": 0, "news_recent_count": 56, "news_score": 0.75, "score_components": {"insider_momo": 0.0, "news": 0.75, "trends_breakout": 0.6, "volume_anomaly": 0.06954269783174558}, "score_pts": 516, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "AVAV", "trends_breakout": 0.6, "vol_anomaly_score": 0.06954269783174558}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        
+        
+        
+        
+        
+
+        
+        
+        
+        
+        
+        
+
+        
+        
+
+        <div class="card " id="card-8" data-symbol="MSFT">
+          <div class="row">
+            <div class="sym">
+              <!-- Rank rocket (circular) -->
+              <div class="rank-rocket rankN" aria-label="Rank 8">
+                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <!-- body -->
+                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                  <!-- window -->
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <!-- fins -->
+                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <!-- flame -->
+                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                </svg>
+                <div class="num">8</div>
+              </div>
+
+              <div>
+                <div class="symbol">MSFT</div>
+                <div class="name">Microsoft Corporation</div>
+
+                <!-- price deltas row (one line) -->
+                <div class="price-row">
+                  <div class="pill flat"><span class="k">1D</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1W</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1M</span><span class="v">—</span></div>
+                </div>
+
+                <!-- medals (Trends/News top3) -->
+                <div class="medals" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"></div>
+              </div>
+            </div>
+
+            <div class="score ">
+              <div class="num">507</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <!-- segmented toggle buttons -->
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-8"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-8"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <!-- Overview: default CLOSED (no .active) -->
+            <div id="ov-8" class="tab" role="tabpanel" aria-hidden="true">
+              <!-- legend -->
+              <p class="muted" style="font-size:12px; margin:6px 0 0;">
+                • Price Δ: 1D = previous close → report-day close, 1W ≈ 5 trading days, 1M ≈ 21 trading days.<br/>
+                • Volume anomaly: last 60 trading days (blend of RVOL20 & 60-day z-score).<br/>
+                • Trends: Google Trends (3-month window, US). • News: Google News coverage (last 5 days, percentile).
+              </p>
+
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">507</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -1153,21 +1239,9 @@
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
               </details>
-
-              <!-- Legend -->
-              <div class="legend">
-                <strong>Legend:</strong>
-                <ul style="margin:6px 0 0 16px;padding:0">
-                  <li>Price changes (1D/1W/1M): close-to-close vs prior US business day / 5 trading days / approx. 21 trading days as of the report window.</li>
-                  <li>Volume anomaly: blend of RVOL20 and 60-day z-score; DollarVol percentile over last 90 trading days.</li>
-                  <li>Trends: Google Trends (US, timeframe “today 3-m”), normalized across the universe.</li>
-                  <li>News: Google News RSS coverage in last N days (sentiment-adjusted), percentile across the universe.</li>
-                  <li>Insider: Form 4 momentum (30d/90d) aggregated by symbol.</li>
-                  <li>All stats are evaluated up to the prior US business day relative to 2025-08-29.</li>
-                </ul>
-              </div>
             </div>
 
+            <!-- Technical: default CLOSED -->
             <div id="tech-8" class="tab" role="tabpanel" aria-hidden="true">
               <img src="/charts/2025-08-29/MSFT.png" alt="MSFT weekly chart" class="chart" loading="lazy" />
             </div>
@@ -1175,7 +1249,7 @@
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"change_1d": 0, "change_1m": 0, "change_1w": 0, "final_score_0_1": 0.5140951108354886, "insider_momo": 0, "news_recent_count": 55, "news_score": 0.65, "score_components": {"insider_momo": 0.0, "news": 0.65, "trends_breakout": 0.6666666666666666, "volume_anomaly": 0.09964222084410992}, "score_pts": 514, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "MSFT", "trends_breakout": 0.6666666666666666, "vol_anomaly_score": 0.09964222084410992}
+          {"final_score_0_1": 0.5074284441688219, "insider_momo": 0, "news_recent_count": 55, "news_score": 0.65, "score_components": {"insider_momo": 0.0, "news": 0.65, "trends_breakout": 0.65, "volume_anomaly": 0.09964222084410992}, "score_pts": 507, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "MSFT", "trends_breakout": 0.65, "vol_anomaly_score": 0.09964222084410992}
           </script>
         </div>
       
@@ -1185,48 +1259,65 @@
         
         
         
+
+        
+        
         
         
         
 
-        <div class="card" id="card-9" data-symbol="IRDM">
+        
+        
+        
+        
+        
+        
+
+        
+        
+
+        <div class="card " id="card-9" data-symbol="IRDM">
           <div class="row">
             <div class="sym">
-              
-              
+              <!-- Rank rocket (circular) -->
               <div class="rank-rocket rankN" aria-label="Rank 9">
                 <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <!-- body -->
                   <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.4" fill="#94a3b8"/>
+                  <!-- window -->
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <!-- fins -->
                   <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
                   <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <!-- flame -->
                   <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
                 </svg>
-                <div class="ring"></div>
                 <div class="num">9</div>
               </div>
 
-              <div style="min-width:0">
+              <div>
                 <div class="symbol">IRDM</div>
                 <div class="name">Iridium Communications Inc.</div>
-                <!-- Price changes (always in one row) -->
-                <div class="price-chips">
-                  <div class="pch neutral"><span class="k">1D</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1W</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1M</span> +0.00%</div>
+
+                <!-- price deltas row (one line) -->
+                <div class="price-row">
+                  <div class="pill flat"><span class="k">1D</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1W</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1M</span><span class="v">—</span></div>
                 </div>
-                <!-- medals (filled by JS) -->
-                <div class="medals"></div>
+
+                <!-- medals (Trends/News top3) -->
+                <div class="medals" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"></div>
               </div>
             </div>
 
-            <div class="score">
-              <div class="num">478</div>
+            <div class="score ">
+              <div class="num">474</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
-          <!-- Tabs (Overview closed by default) -->
+          <!-- segmented toggle buttons -->
           <div class="tabs">
             <div class="seg" role="tablist" aria-label="Card sections">
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
@@ -1235,7 +1326,15 @@
                       data-target="#tech-9"><span class="ico">📈</span>Weekly chart</button>
             </div>
 
+            <!-- Overview: default CLOSED (no .active) -->
             <div id="ov-9" class="tab" role="tabpanel" aria-hidden="true">
+              <!-- legend -->
+              <p class="muted" style="font-size:12px; margin:6px 0 0;">
+                • Price Δ: 1D = previous close → report-day close, 1W ≈ 5 trading days, 1M ≈ 21 trading days.<br/>
+                • Volume anomaly: last 60 trading days (blend of RVOL20 & 60-day z-score).<br/>
+                • Trends: Google Trends (3-month window, US). • News: Google News coverage (last 5 days, percentile).
+              </p>
+
               <table class="table js-breakdown">
                 <thead>
                   <tr>
@@ -1249,7 +1348,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">478</span></th>
+                    <th class="right"><span class="js-total">474</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -1276,21 +1375,9 @@
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
               </details>
-
-              <!-- Legend -->
-              <div class="legend">
-                <strong>Legend:</strong>
-                <ul style="margin:6px 0 0 16px;padding:0">
-                  <li>Price changes (1D/1W/1M): close-to-close vs prior US business day / 5 trading days / approx. 21 trading days as of the report window.</li>
-                  <li>Volume anomaly: blend of RVOL20 and 60-day z-score; DollarVol percentile over last 90 trading days.</li>
-                  <li>Trends: Google Trends (US, timeframe “today 3-m”), normalized across the universe.</li>
-                  <li>News: Google News RSS coverage in last N days (sentiment-adjusted), percentile across the universe.</li>
-                  <li>Insider: Form 4 momentum (30d/90d) aggregated by symbol.</li>
-                  <li>All stats are evaluated up to the prior US business day relative to 2025-08-29.</li>
-                </ul>
-              </div>
             </div>
 
+            <!-- Technical: default CLOSED -->
             <div id="tech-9" class="tab" role="tabpanel" aria-hidden="true">
               <img src="/charts/2025-08-29/IRDM.png" alt="IRDM weekly chart" class="chart" loading="lazy" />
             </div>
@@ -1298,7 +1385,7 @@
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"change_1d": 0, "change_1m": 0, "change_1w": 0, "final_score_0_1": 0.47803049531718256, "insider_momo": 0, "news_recent_count": 52, "news_score": 0.6, "score_components": {"insider_momo": 0.0, "news": 0.6, "trends_breakout": 0.6111111111111112, "volume_anomaly": 0.11793025436369035}, "score_pts": 478, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "IRDM", "trends_breakout": 0.6111111111111112, "vol_anomaly_score": 0.11793025436369035}
+          {"final_score_0_1": 0.4735860508727381, "insider_momo": 0, "news_recent_count": 52, "news_score": 0.6, "score_components": {"insider_momo": 0.0, "news": 0.6, "trends_breakout": 0.6, "volume_anomaly": 0.11793025436369035}, "score_pts": 474, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "IRDM", "trends_breakout": 0.6, "vol_anomaly_score": 0.11793025436369035}
           </script>
         </div>
       
@@ -1308,48 +1395,65 @@
         
         
         
+
+        
+        
         
         
         
 
-        <div class="card" id="card-10" data-symbol="VSAT">
+        
+        
+        
+        
+        
+        
+
+        
+        
+
+        <div class="card " id="card-10" data-symbol="VSAT">
           <div class="row">
             <div class="sym">
-              
-              
+              <!-- Rank rocket (circular) -->
               <div class="rank-rocket rankN" aria-label="Rank 10">
                 <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                  <!-- body -->
                   <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.4" fill="#94a3b8"/>
+                  <!-- window -->
+                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                  <!-- fins -->
                   <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
                   <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                  <!-- flame -->
                   <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
                 </svg>
-                <div class="ring"></div>
                 <div class="num">10</div>
               </div>
 
-              <div style="min-width:0">
+              <div>
                 <div class="symbol">VSAT</div>
                 <div class="name">Viasat, Inc.</div>
-                <!-- Price changes (always in one row) -->
-                <div class="price-chips">
-                  <div class="pch neutral"><span class="k">1D</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1W</span> +0.00%</div>
-                  <div class="pch neutral"><span class="k">1M</span> +0.00%</div>
+
+                <!-- price deltas row (one line) -->
+                <div class="price-row">
+                  <div class="pill flat"><span class="k">1D</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1W</span><span class="v">—</span></div>
+                  <div class="pill flat"><span class="k">1M</span><span class="v">—</span></div>
                 </div>
-                <!-- medals (filled by JS) -->
-                <div class="medals"></div>
+
+                <!-- medals (Trends/News top3) -->
+                <div class="medals" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"></div>
               </div>
             </div>
 
-            <div class="score">
-              <div class="num">464</div>
+            <div class="score ">
+              <div class="num">460</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
 
-          <!-- Tabs (Overview closed by default) -->
+          <!-- segmented toggle buttons -->
           <div class="tabs">
             <div class="seg" role="tablist" aria-label="Card sections">
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
@@ -1358,7 +1462,15 @@
                       data-target="#tech-10"><span class="ico">📈</span>Weekly chart</button>
             </div>
 
+            <!-- Overview: default CLOSED (no .active) -->
             <div id="ov-10" class="tab" role="tabpanel" aria-hidden="true">
+              <!-- legend -->
+              <p class="muted" style="font-size:12px; margin:6px 0 0;">
+                • Price Δ: 1D = previous close → report-day close, 1W ≈ 5 trading days, 1M ≈ 21 trading days.<br/>
+                • Volume anomaly: last 60 trading days (blend of RVOL20 & 60-day z-score).<br/>
+                • Trends: Google Trends (3-month window, US). • News: Google News coverage (last 5 days, percentile).
+              </p>
+
               <table class="table js-breakdown">
                 <thead>
                   <tr>
@@ -1372,7 +1484,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">464</span></th>
+                    <th class="right"><span class="js-total">460</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -1399,21 +1511,9 @@
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
               </details>
-
-              <!-- Legend -->
-              <div class="legend">
-                <strong>Legend:</strong>
-                <ul style="margin:6px 0 0 16px;padding:0">
-                  <li>Price changes (1D/1W/1M): close-to-close vs prior US business day / 5 trading days / approx. 21 trading days as of the report window.</li>
-                  <li>Volume anomaly: blend of RVOL20 and 60-day z-score; DollarVol percentile over last 90 trading days.</li>
-                  <li>Trends: Google Trends (US, timeframe “today 3-m”), normalized across the universe.</li>
-                  <li>News: Google News RSS coverage in last N days (sentiment-adjusted), percentile across the universe.</li>
-                  <li>Insider: Form 4 momentum (30d/90d) aggregated by symbol.</li>
-                  <li>All stats are evaluated up to the prior US business day relative to 2025-08-29.</li>
-                </ul>
-              </div>
             </div>
 
+            <!-- Technical: default CLOSED -->
             <div id="tech-10" class="tab" role="tabpanel" aria-hidden="true">
               <img src="/charts/2025-08-29/VSAT.png" alt="VSAT weekly chart" class="chart" loading="lazy" />
             </div>
@@ -1421,7 +1521,7 @@
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"change_1d": 0, "change_1m": 0, "change_1w": 0, "final_score_0_1": 0.464032951680368, "insider_momo": 0, "news_recent_count": 49, "news_score": 0.55, "score_components": {"insider_momo": 0.0, "news": 0.55, "trends_breakout": 0.6111111111111112, "volume_anomaly": 0.1354425361796176}, "score_pts": 464, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "VSAT", "trends_breakout": 0.6111111111111112, "vol_anomaly_score": 0.1354425361796176}
+          {"final_score_0_1": 0.45958850723592354, "insider_momo": 0, "news_recent_count": 49, "news_score": 0.55, "score_components": {"insider_momo": 0.0, "news": 0.55, "trends_breakout": 0.6, "volume_anomaly": 0.1354425361796176}, "score_pts": 460, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "VSAT", "trends_breakout": 0.6, "vol_anomaly_score": 0.1354425361796176}
           </script>
         </div>
       
@@ -1430,26 +1530,22 @@
   </div>
 
   <script>
-    // Segmented toggle: Overviewは初期「閉」
+    // Segmented toggle: click to open, click again to close (default closed)
     function bindToggles(scope=document){
       scope.querySelectorAll(".card").forEach(card=>{
         const seg = card.querySelector(".seg");
         if(!seg) return;
         const buttons = [...seg.querySelectorAll(".segbtn")];
-        const panels  = [...card.querySelectorAll(".tab")];
-
-        // 初期は全て閉
-        buttons.forEach(b=>{ b.setAttribute("aria-pressed","false"); b.setAttribute("aria-selected","false"); });
-        panels.forEach(p=>{ p.classList.remove("active"); p.setAttribute("aria-hidden","true"); });
+        const panels = [...card.querySelectorAll(".tab")];
 
         function openPanel(btn){
           const sel = btn.getAttribute("data-target");
           const panel = card.querySelector(sel);
           const isActive = panel.classList.contains("active");
-          // reset
+          // reset all
           buttons.forEach(b=>{ b.setAttribute("aria-pressed","false"); b.setAttribute("aria-selected","false"); });
           panels.forEach(p=>{ p.classList.remove("active"); p.setAttribute("aria-hidden","true"); });
-          // toggle
+          // toggle on if currently closed
           if(!isActive){
             btn.setAttribute("aria-pressed","true");
             btn.setAttribute("aria-selected","true");
@@ -1458,9 +1554,12 @@
           }
         }
 
+        // default: none active (keep closed)
         buttons.forEach(btn=>{
           btn.addEventListener("click", ()=> openPanel(btn));
-          btn.addEventListener("keydown", (e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openPanel(btn); }});
+          btn.addEventListener("keydown", (e)=>{
+            if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openPanel(btn); }
+          });
         });
       });
     }
