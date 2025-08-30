@@ -25,7 +25,7 @@
 
     .card{position:relative;border:1px solid var(--border);border-radius:16px;padding:14px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
     .row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .sym{display:flex;align-items:center;gap:12px}
+    .sym{display:flex;align-items:center;gap:12px;min-width:0}
 
     .symbol{font-size:18px;font-weight:800;letter-spacing:.2px}
     .name{font-size:12px;color:var(--muted)}
@@ -41,19 +41,24 @@
     .score.top3 .num{ border-color:#fb923c66; box-shadow:0 0 0 4px #fb923c26; }
     .score .den{font-size:11px;color:var(--muted);margin-top:2px}
 
-    /* ribbon */
-    .ribbon{
-      position:absolute; top:10px; right:-6px;
-      font-size:11px; padding:4px 10px 4px 12px; color:#111; background:#fff;
-      border:1px solid var(--border); border-right:none; border-radius:999px 0 0 999px;
-      box-shadow:0 1px 1px rgba(0,0,0,.04);
-      display:flex; align-items:center; gap:6px; pointer-events:none;
+    /* === corner tab badge (Top 1/2/3) === */
+    .corner-tab{
+      position:absolute; top:0; right:14px; transform:translateY(-45%);
+      display:flex; align-items:center; gap:8px;
+      background:#fff; border:1px solid var(--border);
+      border-radius:999px; padding:6px 12px; font-size:12px; font-weight:700;
+      box-shadow:0 6px 16px rgba(0,0,0,.06);
+      z-index:3;
     }
-    .ribbon .dot{width:8px;height:8px;border-radius:999px}
-    .ribbon.top1 .dot{background:var(--gold)}
-    .ribbon.top2 .dot{background:#52525b}
-    .ribbon.top3 .dot{background:var(--bronze)}
-    .ribbon .txt{font-weight:700;letter-spacing:.2px}
+    .corner-tab:after{
+      content:""; position:absolute; right:12px; bottom:-7px; width:12px; height:12px;
+      background:#fff; border-left:1px solid var(--border); border-bottom:1px solid var(--border);
+      transform:rotate(45deg);
+    }
+    .corner-dot{width:8px;height:8px;border-radius:999px}
+    .corner-tab.top1 .corner-dot{background:var(--gold)}
+    .corner-tab.top2 .corner-dot{background:#52525b}
+    .corner-tab.top3 .corner-dot{background:var(--bronze)}
 
     /* medals (News/Trends top3) */
     .medals{display:flex;gap:6px;margin:8px 0 6px;flex-wrap:wrap}
@@ -65,10 +70,11 @@
     .medal.bronze{border-color:#fb923c44;box-shadow:0 0 0 2px #fb923c1f inset}
     .medal .emoji{font-size:14px}
 
-    /* price chips */
-    .price-chips{display:flex;gap:6px;margin-top:2px;flex-wrap:wrap}
-    .pch{font-size:11px;border:1px solid var(--nzbd);background:var(--nzbg);color:var(--nz);padding:4px 8px;border-radius:999px;line-height:1}
-    .pch .k{color:var(--muted);margin-right:4px}
+    /* price chips — single row, no wrap */
+    .price-chips{display:flex;flex-wrap:nowrap;gap:8px;margin-top:6px;overflow-x:auto;scrollbar-width:none}
+    .price-chips::-webkit-scrollbar{display:none}
+    .pch{white-space:nowrap;font-size:12px;border:1px solid var(--nzbd);background:var(--nzbg);color:var(--nz);padding:6px 10px;border-radius:999px;line-height:1}
+    .pch .k{color:var(--muted);margin-right:6px}
     .pch.up{border-color:var(--upbd);background:var(--upbg);color:var(--up)}
     .pch.down{border-color:var(--dbd);background:var(--dnbg);color:var(--dn)}
     .pch.neutral{border-color:var(--nzbd);background:var(--nzbg);color:var(--nz)}
@@ -77,15 +83,15 @@
     .tabs{margin-top:12px}
     .seg{display:inline-flex;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:rgba(243,244,246,.6);backdrop-filter:saturate(1.1) blur(2px)}
     .seg .segbtn{
-      appearance:none;border:0;margin:0;padding:8px 12px;background:transparent;cursor:pointer;
-      font-size:12px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;
+      appearance:none;border:0;margin:0;padding:10px 14px;background:transparent;cursor:pointer;
+      font-size:13px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;
     }
     .seg .segbtn:focus{outline:none;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
     .seg .segbtn[aria-pressed="true"]{
       background:#fff; font-weight:700;
       box-shadow:inset 0 0 0 1px var(--border);
     }
-    .seg .ico{font-size:14px;opacity:.9}
+    .seg .ico{font-size:16px;opacity:.9}
     .tab{display:none}
     .tab.active{display:block}
 
@@ -102,27 +108,29 @@
     .kv div{font-size:12px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 8px}
     .kv .k{color:var(--muted)}
 
-    /* ===== Rocket rank badges (bigger + vivid) ===== */
+    /* ===== Rocket rank badges (always perfect circle) ===== */
     .rank-rocket{
-      width:56px;height:56px;border-radius:999px;
-      display:flex;align-items:center;justify-content:center;
+      width:clamp(52px,14vw,68px);
+      aspect-ratio:1/1;           /* 真円を強制 */
+      border-radius:50%;
+      display:grid; place-items:center;
       position:relative; isolation:isolate;
       box-shadow:inset 0 8px 22px rgba(0,0,0,.08), 0 6px 14px rgba(0,0,0,.06);
       border:2px solid #fff;
       overflow:hidden;
+      flex:0 0 auto;             /* 横幅維持（スマホで潰れない） */
     }
     .rank-rocket .num{
       position:absolute; right:-6px; bottom:-6px;
       width:22px; height:22px; border-radius:999px;
       background:#0f172a; color:#fff; font-weight:800; font-size:11px;
       display:flex; align-items:center; justify-content:center;
-      border:2px solid #fff;
-      z-index:2;
+      border:2px solid #fff; z-index:2;
     }
-    .rank-rocket svg{ width:28px;height:28px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.2)); z-index:2; }
+    .rank-rocket svg{ width:58%; height:auto; filter:drop-shadow(0 2px 4px rgba(0,0,0,.2)); z-index:2; }
     .rank-rocket .flame{ transform-origin:10px 18px; }
 
-    /* 1/2/3 位の背景（はっきり） */
+    /* 1/2/3 位の背景（明確な差） */
     .rank1{ background:
         radial-gradient(130px 130px at 30% 20%, #fff2 0%, #0000 62%),
         linear-gradient(135deg,#f59e0b 0%,#f97316 55%,#fdba74 120%);
@@ -137,12 +145,10 @@
       box-shadow:0 0 0 3px #fee2e2, 0 10px 28px rgba(251,146,60,.3); }
     .rankN{ background:#f3f4f6; box-shadow:inset 0 6px 18px rgba(0,0,0,.06); }
 
-    /* Rocket animation modes
-       - rank1: ignition (strong thrust + smoke + bounce)
-       - rank2: gentle lift (previous #1)
-       - rank3: pre-ignition (soft blink + micro wobble)
-    */
-    /* shared trails (pseudo smoke for rank1) */
+    /* Rocket animation
+       - rank1: ignition（強推力＋スモーク＋バウンス）
+       - rank2: gentle lift
+       - rank3: pre-ignition（微振動） */
     .rank1::before{
       content:""; position:absolute; bottom:-6px; left:50%; transform:translateX(-50%);
       width:70%; height:40%; border-radius:50%;
@@ -154,14 +160,10 @@
       60%{ transform:translateX(-50%) scale(1.08); opacity:.45; }
       100%{ transform:translateX(-50%) scale(1); opacity:.85; }
     }
-
-    /* pose & flame */
     .rank1 .rocket{ animation:ignite 1.4s cubic-bezier(.22,.61,.36,1) infinite; }
     .rank1 .flame { animation:flameStrong .7s ease-in-out infinite; filter:drop-shadow(0 0 6px rgba(249,115,22,.7)); }
-
     .rank2 .rocket{ animation:lift 1.8s ease-in-out infinite; }
     .rank2 .flame { animation:flicker .9s ease-in-out infinite; opacity:.9; }
-
     .rank3 .rocket{ animation:wobble 1.8s ease-in-out infinite; opacity:.96; }
     .rank3 .flame { animation:prime .9s ease-in-out infinite; opacity:.55; }
 
@@ -175,7 +177,6 @@
       0%,100%{ opacity:1; transform:scale(1) translateY(0); }
       50%{ opacity:.55; transform:scale(1.15) translateY(1px); }
     }
-
     @keyframes lift{
       0%{ transform:translateY(0) rotate(-4deg); }
       50%{ transform:translateY(-3px) rotate(0deg); }
@@ -185,7 +186,6 @@
       0%,100%{ opacity:.95; transform:scale(1); }
       50%{ opacity:.55; transform:scale(.85); }
     }
-
     @keyframes wobble{
       0%,100%{ transform:translateY(0) rotate(-2deg); }
       50%{ transform:translateY(-1px) rotate(-1deg); }
@@ -215,9 +215,8 @@
 
         <div class="card {% if rank<=3 %}is-top{% endif %}" id="card-{{ loop.index }}" data-symbol="{{ _sym }}">
           {% if rank<=3 %}
-          <div class="ribbon top{{rank}}">
-            <span class="dot"></span>
-            <span class="txt">Top {{rank}}</span>
+          <div class="corner-tab top{{rank}}">
+            <span class="corner-dot"></span> Top {{rank}}
           </div>
           {% endif %}
 
@@ -235,10 +234,9 @@
                 <div class="num">{{ rank }}</div>
               </div>
 
-              <div>
+              <div style="min-width:0">
                 <div class="symbol">{{ _sym }}</div>
                 {% if _name %}<div class="name">{{ _name }}</div>{% endif %}
-                <!-- price chips mount -->
                 <div class="price-chips" aria-label="Price changes (1D/1W/1M)"></div>
               </div>
             </div>
@@ -249,10 +247,8 @@
             </div>
           </div>
 
-          <!-- medals mount point -->
           <div class="medals"></div>
 
-          <!-- segmented toggle buttons -->
           <div class="tabs">
             <div class="seg" role="tablist" aria-label="Card sections">
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
@@ -336,39 +332,28 @@
   </div>
 
   <script>
-    // Segmented toggle: closed by default; click to open (toggle off by clicking again)
+    // Segmented toggle: closed by default
     function bindToggles(scope=document){
       scope.querySelectorAll(".card").forEach(card=>{
-        const seg = card.querySelector(".seg");
-        if(!seg) return;
-        const buttons = [...seg.querySelectorAll(".segbtn")];
-        const panels = [...card.querySelectorAll(".tab")];
-
+        const seg=card.querySelector(".seg"); if(!seg) return;
+        const buttons=[...seg.querySelectorAll(".segbtn")];
+        const panels=[...card.querySelectorAll(".tab")];
         function togglePanel(btn){
-          const sel = btn.getAttribute("data-target");
-          const panel = card.querySelector(sel);
-          const isActive = panel.classList.contains("active");
-          // reset if switching; if same button, just close
-          if (isActive){
-            btn.setAttribute("aria-pressed","false");
-            btn.setAttribute("aria-selected","false");
-            panel.classList.remove("active");
-            panel.setAttribute("aria-hidden","true");
-            return;
+          const sel=btn.getAttribute("data-target");
+          const panel=card.querySelector(sel);
+          const isActive=panel.classList.contains("active");
+          if(isActive){
+            btn.setAttribute("aria-pressed","false"); btn.setAttribute("aria-selected","false");
+            panel.classList.remove("active"); panel.setAttribute("aria-hidden","true"); return;
           }
-          buttons.forEach(b=>{ b.setAttribute("aria-pressed","false"); b.setAttribute("aria-selected","false"); });
-          panels.forEach(p=>{ p.classList.remove("active"); p.setAttribute("aria-hidden","true"); });
-          btn.setAttribute("aria-pressed","true");
-          btn.setAttribute("aria-selected","true");
-          panel.classList.add("active");
-          panel.setAttribute("aria-hidden","false");
+          buttons.forEach(b=>{b.setAttribute("aria-pressed","false");b.setAttribute("aria-selected","false");});
+          panels.forEach(p=>{p.classList.remove("active");p.setAttribute("aria-hidden","true");});
+          btn.setAttribute("aria-pressed","true"); btn.setAttribute("aria-selected","true");
+          panel.classList.add("active"); panel.setAttribute("aria-hidden","false");
         }
-
         buttons.forEach(btn=>{
-          btn.addEventListener("click", ()=> togglePanel(btn));
-          btn.addEventListener("keydown", (e)=>{
-            if(e.key==="Enter"||e.key===" "){ e.preventDefault(); togglePanel(btn); }
-          });
+          btn.addEventListener("click",()=>togglePanel(btn));
+          btn.addEventListener("keydown",(e)=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();togglePanel(btn);} });
         });
       });
     }
@@ -376,25 +361,18 @@
     // Breakdown
     function fillBreakdown(){
       document.querySelectorAll(".card").forEach(card=>{
-        const payloadEl=card.querySelector(".js-payload");
-        if(!payloadEl) return;
-        let data={};
-        try{ data=JSON.parse(payloadEl.textContent||"{}"); }catch(_){}
-        const comps=data.score_components||{};
-        const weights=data.score_weights||{};
+        const payloadEl=card.querySelector(".js-payload"); if(!payloadEl) return;
+        let data={}; try{ data=JSON.parse(payloadEl.textContent||"{}"); }catch(_){}
+        const comps=data.score_components||{}; const weights=data.score_weights||{};
         const keys=Object.keys(comps).filter(k=>comps[k]!=null);
         const wsum=keys.reduce((s,k)=>s+Math.max(0,Number(weights[k]||0)),0)||1;
-        const tbody=card.querySelector(".js-breakdown tbody");
-        const totalEl=card.querySelector(".js-total");
-        if(!tbody) return;
-        tbody.innerHTML="";
-        let totalPts=0;
+        const tbody=card.querySelector(".js-breakdown tbody"); const totalEl=card.querySelector(".js-total");
+        if(!tbody) return; tbody.innerHTML=""; let totalPts=0;
         const label=k=>({volume_anomaly:"Volume anomaly",insider_momo:"Insider momentum",trends_breakout:"Trends breakout",news:"News coverage"}[k]||k);
         keys.forEach(k=>{
           const v=Math.max(0,Math.min(1,Number(comps[k]||0)));
           const wn=Math.max(0,Number(weights[k]||0))/wsum;
-          const pts=Math.round(v*wn*1000);
-          totalPts+=pts;
+          const pts=Math.round(v*wn*1000); totalPts+=pts;
           const tr=document.createElement("tr");
           tr.innerHTML=`<td>${label(k)}</td><td class="right">${v.toFixed(2)}</td><td class="right">${(wn*100).toFixed(0)}%</td><td class="right">${pts}</td>`;
           tbody.appendChild(tr);
@@ -408,12 +386,10 @@
       try{
         const res=await fetch(`/data/insider/form4_latest.json`,{cache:"no-store"});
         if(!res.ok) throw new Error("fetch insider json failed");
-        const j=await res.json();
-        const items=j.items||{};
+        const j=await res.json(); const items=j.items||{};
         document.querySelectorAll(".card").forEach(card=>{
           const sym=card.getAttribute("data-symbol");
-          const box=card.querySelector(".js-insider");
-          if(!box) return;
+          const box=card.querySelector(".js-insider"); if(!box) return;
           const rec=items[sym];
           if(!rec){ box.innerHTML=`<summary>Insider details (Form 4)</summary><div class="muted">No data</div>`; return; }
           box.innerHTML=`<summary>Insider details (Form 4)</summary>
@@ -433,16 +409,12 @@
       }
     }
 
-    // Price chips (D1/W1/M1)
+    // Price chips (1D/1W/1M) single row
     function fillPriceChips(){
       document.querySelectorAll(".card").forEach(card=>{
-        const payloadEl=card.querySelector(".js-payload");
-        if(!payloadEl) return;
-        let data={};
-        try{ data=JSON.parse(payloadEl.textContent||"{}"); }catch(_){}
-        const pc=(data.price_change)||{};
-        const mount=card.querySelector(".price-chips");
-        if(!mount) return;
+        const payloadEl=card.querySelector(".js-payload"); if(!payloadEl) return;
+        let data={}; try{ data=JSON.parse(payloadEl.textContent||"{}"); }catch(_){}
+        const pc=(data.price_change)||{}; const mount=card.querySelector(".price-chips"); if(!mount) return;
         const fmt=(v)=>{
           if(v===null || v===undefined || isNaN(Number(v))) return {cls:"neutral", text:"—"};
           const n=Number(v);
@@ -457,28 +429,20 @@
       });
     }
 
-    // Medals Top3
+    // Medals Top3 for Trends/News
     function decorateTop3Medals(){
       const cards=[...document.querySelectorAll(".card")].map(card=>{
-        let data={};
-        try{ data=JSON.parse(card.querySelector(".js-payload")?.textContent||"{}"); }catch(_){}
-        return {
-          card,
-          symbol: card.getAttribute("data-symbol"),
-          trends: Number(data.trends_breakout||0),
-          news:   Number(data.news_score||0)
-        };
+        let data={}; try{ data=JSON.parse(card.querySelector(".js-payload")?.textContent||"{}"); }catch(_){}
+        return { card, symbol:card.getAttribute("data-symbol"),
+                 trends:Number(data.trends_breakout||0), news:Number(data.news_score||0) };
       });
-      const rankBy = (arr, key)=>
-        [...arr].sort((a,b)=>Number(b[key])-Number(a[key]))
-                .map((o,i)=>({...o,_rank:i+1}))
-                .filter(o=>o[key]>0 && o._rank<=3);
+      const rankBy=(arr,key)=>[...arr].sort((a,b)=>Number(b[key])-Number(a[key]))
+        .map((o,i)=>({...o,_rank:i+1})).filter(o=>o[key]>0 && o._rank<=3);
       const tMap=new Map(rankBy(cards,"trends").map(o=>[o.symbol,o._rank]));
       const nMap=new Map(rankBy(cards,"news").map(o=>[o.symbol,o._rank]));
-      const medalInfo = r => r===1?{cls:"gold",emoji:"🥇"}:r===2?{cls:"silver",emoji:"🥈"}:{cls:"bronze",emoji:"🥉"};
+      const medalInfo=r=>r===1?{cls:"gold",emoji:"🥇"}:r===2?{cls:"silver",emoji:"🥈"}:{cls:"bronze",emoji:"🥉"};
       cards.forEach(({card,symbol})=>{
-        const box=card.querySelector(".medals"); if(!box) return;
-        box.innerHTML="";
+        const box=card.querySelector(".medals"); if(!box) return; box.innerHTML="";
         const t=tMap.get(symbol); if(t){ const m=medalInfo(t); const el=document.createElement("span");
           el.className=`medal ${m.cls}`; el.title=`Trends Top #${t}`;
           el.innerHTML=`<span class="emoji">${m.emoji}</span><span class="label"><span class="kind">Trends</span></span>`;
@@ -493,10 +457,10 @@
     }
 
     // INIT
-    bindToggles();            // Overview はデフォルトで閉
+    bindToggles();        // Overview はデフォルト閉
     fillBreakdown();
     fillInsiderDetails();
-    fillPriceChips();         // ← 価格差表示
+    fillPriceChips();     // 横一列で表示
     decorateTop3Medals();
   </script>
 </body>
