@@ -1,20 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Daily scorer & exporter (with price-change chips)
-- EOD取得: yfinance → Stooq CSV → pandas-datareader(stooq) の順でフェイルオーバー
-- Volume anomaly を算出（0..1）
-- Trends / Insider / News の各0..1スコアを取り込み
-- "存在するコンポーネントだけ" を重み正規化して 1000点換算
-- 週足チャート(3M)生成
-- NEW: 価格変化(1d/1w/1m)を計算してJSONに出力
-
-テンプレート(daily.html.j2)が読むキー:
-- rank, symbol, name, score_pts, final_score_0_1
-- vol_anomaly_score, insider_momo, trends_breakout, news_score, news_recent_count
-- detail.vol_anomaly（詳細）
-- price_change: { d1_pct, w1_pct, m1_pct }  # ％（例: 1.23 は +1.23%）
-- chart_url
+Daily scorer & exporter (with price deltas)
+- OHLCV: yfinance.Ticker.history → Stooq CSV → pandas-datareader(stooq)
+- Volume anomaly 0..1
+- Google Trends / Insider momentum / News coverage to 0..1
+- Weights via env; normalize only-present -> 1000 pts
+- Also computes 1D/1W/1M price change (not used in scoring) for UI chips
 """
 
 import os, sys, json, math, pathlib, random, datetime, time, io, csv
@@ -22,14 +14,13 @@ from zoneinfo import ZoneInfo
 import requests
 import pandas as pd
 
-# charts
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 # ---------------- Time helpers ----------------
 def prev_us_business_day(d: datetime.date) -> datetime.date:
-    while d.weekday() >= 5:  # Sat/Sun
+    while d.weekday() >= 5:
         d = d - datetime.timedelta(days=1)
     return d
 
@@ -43,12 +34,10 @@ def usa_market_date_now():
     return d
 
 # ---------------- Config ----------------
-DATA_PROVIDER = os.getenv("DATA_PROVIDER", "yfinance").lower()
 UNIVERSE_CSV = os.getenv("UNIVERSE_CSV", "data/universe.csv")
 OUT_DIR = os.getenv("OUT_DIR", "site")
 DATE = os.getenv("REPORT_DATE") or usa_market_date_now().isoformat()
 MOCK_MODE = os.getenv("MOCK_MODE", "false").lower() == "true"
-
 YFI_SLEEP = float(os.getenv("YFI_SLEEP", "0.4"))
 
 # Weights
@@ -63,12 +52,6 @@ NEWS_JSON    = os.getenv("NEWS_JSON",    f"{OUT_DIR}/data/news/latest.json")
 
 # ---------------- Data providers ----------------
 def yfi_eod_range(symbol, start, end):
-    """
-    安全第一の EOD 取得:
-      1) yfinance.Ticker(...).history()
-      2) Stooq CSV
-      3) pandas-datareader(stooq)
-    """
     if MOCK_MODE:
         dates = pd.date_range(start=start, end=end, freq="B")
         base = 100.0 + random.Random(symbol).random()*20
@@ -102,8 +85,8 @@ def yfi_eod_range(symbol, start, end):
                 "date":   pd.to_datetime(df[date_col]).dt.strftime("%Y-%m-%d"),
                 "open":   pd.to_numeric(df.get("open"), errors="coerce"),
                 "high":   pd.to_numeric(df.get("high"), errors="coerce"),
-                "low":    pd.to_numeric(df.get("low"), errors="coerce"),
-                "close":  pd.to_numeric(close_series, errors="coerce"),
+                "low":    pd.to_numeric(df.get("low"),  errors="coerce"),
+                "close":  pd.to_numeric(close_series,    errors="coerce"),
                 "volume": pd.to_numeric(df.get("volume"), errors="coerce").fillna(0),
             }).dropna(subset=["close"])
             out = out[(out["date"] >= start) & (out["date"] <= end)]
@@ -138,7 +121,7 @@ def yfi_eod_range(symbol, start, end):
     except Exception as e:
         print(f"[WARN] stooq csv failed for {symbol}: {e}", file=sys.stderr)
 
-    # 3) pandas-datareader(stooq)
+    # 3) pandas-datareader stooq
     try:
         import pandas_datareader.data as web
         df = web.DataReader(symbol, "stooq",
@@ -173,7 +156,6 @@ def compute_volume_anomaly(df: pd.DataFrame):
         return {"score": 0.0, "eligible": False}
 
     v_today = float(d["volume"].iloc[-1])
-
     v_sma20 = float(d["volume"].rolling(20).mean().iloc[-1])
     rvol20 = v_today / v_sma20 if v_sma20 > 0 else 0.0
 
@@ -203,38 +185,30 @@ def compute_volume_anomaly(df: pd.DataFrame):
         "dollar_vol": last_dv,
     }
 
-def compute_price_changes(df: pd.DataFrame):
+def compute_price_deltas(df: pd.DataFrame):
     """
-    終値ベースの％変化:
-      1d = 前営業日比
-      1w = 直近5本前（約1週間）
-      1m = 直近21本前（約1か月）
-    データ不足時は None。
+    Return dict: {'d1': pct, 'w1': pct, 'm1': pct} using trading-day lags (1, 5, 21)
+    Values are percentages (-12.34 etc). None when unavailable.
     """
     if df is None or df.empty or "close" not in df.columns:
-        return {"d1_pct": None, "w1_pct": None, "m1_pct": None}
-
+        return {"d1": None, "w1": None, "m1": None}
     d = df.copy()
     d["date"] = pd.to_datetime(d["date"])
     d = d.sort_values("date")
-    closes = d["close"].astype(float).values
-    n = len(closes)
-    res = {"d1_pct": None, "w1_pct": None, "m1_pct": None}
-
-    def pct_change(cur, prev):
-        if prev is None or prev == 0 or cur is None:
+    c = d["close"].astype(float).values
+    out = {"d1": None, "w1": None, "m1": None}
+    def pct(cur, prev):
+        if prev is None or prev == 0:
             return None
-        return (cur / prev - 1.0) * 100.0
-
-    cur = closes[-1] if n >= 1 else None
-    prev1 = closes[-2] if n >= 2 else None
-    prev5 = closes[-6] if n >= 6 else None   # 現在を含めて6本 → 1週間前は -6 の位置
-    prev21 = closes[-22] if n >= 22 else None
-
-    res["d1_pct"] = pct_change(cur, prev1)
-    res["w1_pct"] = pct_change(cur, prev5)
-    res["m1_pct"] = pct_change(cur, prev21)
-    return res
+        return (cur/prev - 1.0) * 100.0
+    try:
+        cur = c[-1]
+        if len(c) >= 2:  out["d1"] = round(pct(cur, c[-2]), 2)
+        if len(c) >= 6:  out["w1"] = round(pct(cur, c[-6]), 2)   # ~5 trading days ago
+        if len(c) >= 22: out["m1"] = round(pct(cur, c[-22]), 2) # ~21 trading days ago
+    except Exception:
+        pass
+    return out
 
 # ---------------- IO helpers ----------------
 def load_json_safe(path, default):
@@ -267,7 +241,8 @@ def save_chart_png_weekly_3m(symbol, df, out_dir, date_iso):
     plt.title(f"{symbol} — 3M Weekly")
     plt.tight_layout()
     out = pathlib.Path(out_dir)/"charts"/date_iso/f"{symbol}.png"
-    out.parent.mkdir(parents=True, exist_ok=True)
+    out.parent.mkdir(parents=True, exist_ok=True
+    )
     plt.savefig(out)
     plt.close()
 
@@ -285,7 +260,7 @@ def main():
     symbols = [str(s).strip() for s in uni["symbol"].tolist()]
 
     trends = load_json_safe(TRENDS_JSON, {"items": {}}).get("items", {})
-    form4  = load_json_safe(FORM4_JSON, {"items": {}}).get("items", {})
+    form4  = load_json_safe(FORM4_JSON,  {"items": {}}).get("items", {})
     news   = load_json_safe(NEWS_JSON,   {"items": {}}).get("items", {})
 
     records = []
@@ -308,8 +283,8 @@ def main():
             vol_detail = compute_volume_anomaly(df)
             vol_score = float(vol_detail.get("score", 0.0))
 
-        # Price changes
-        chg = compute_price_changes(df) if df is not None and not df.empty else {"d1_pct": None, "w1_pct": None, "m1_pct": None}
+        # Price deltas (for UI only)
+        deltas = compute_price_deltas(df)
 
         # Trends / Insider / News
         tr = trends.get(sym) or {}
@@ -320,9 +295,10 @@ def main():
 
         nw = news.get(sym) or {}
         news_score = float(nw.get("score_0_1", 0.0))
-        news_recent = int(nw.get("recent_count", nw.get("news_recent_count", 0)))
+        news_rank = int(nw.get("rank", 0)) if str(nw.get("rank","")).strip() else None
+        news_recent = int(nw.get("recent_count", 0))
 
-        # weights normalize
+        # scoring
         comps = {
             "volume_anomaly": vol_score if vol_detail is not None else 0.0,
             "insider_momo": insider_momo,
@@ -348,27 +324,24 @@ def main():
             "final_score_0_1": final_0_1,
             "score_pts": score_pts,
 
-            # components for badges
+            # components
             "vol_anomaly_score": vol_score,
             "insider_momo": insider_momo,
             "trends_breakout": trends_breakout,
             "news_score": news_score,
+            "news_rank": news_rank,
             "news_recent_count": news_recent,
-
-            # NEW: price change chips
-            "price_change": {
-                "d1_pct": chg.get("d1_pct"),
-                "w1_pct": chg.get("w1_pct"),
-                "m1_pct": chg.get("m1_pct"),
-            },
 
             # breakdown & weights
             "score_components": comps,
             "score_weights": raw_w,
 
-            # details for UI
+            # details
             "detail": {"vol_anomaly": vol_detail},
             "chart_url": f"/charts/{DATE}/{sym}.png",
+
+            # UI-only deltas
+            "price_change": {"d1": deltas.get("d1"), "w1": deltas.get("w1"), "m1": deltas.get("m1")},
         }
         records.append(rec)
 
