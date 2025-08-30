@@ -8,7 +8,7 @@
     :root{
       --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
       --gold:#f59e0b; --silver:#9ca3af; --bronze:#fb923c;
-      --soft:#f8fafc; --ring:#e2e8f0;
+      --ring:#e2e8f0; --soft:#f8fafc;
       --up:#065f46; --upbg:#ecfdf5; --upbd:#10b98133;
       --dn:#7f1d1d; --dnbg:#fef2f2; --dbd:#ef444433;
       --nz:#6b7280; --nzbg:#f3f4f6; --nzbd:#e5e7eb;
@@ -41,24 +41,13 @@
     .score.top3 .num{ border-color:#fb923c66; box-shadow:0 0 0 4px #fb923c26; }
     .score .den{font-size:11px;color:var(--muted);margin-top:2px}
 
-    /* === corner tab badge (Top 1/2/3) === */
-    .corner-tab{
-      position:absolute; top:0; right:14px; transform:translateY(-45%);
-      display:flex; align-items:center; gap:8px;
-      background:#fff; border:1px solid var(--border);
-      border-radius:999px; padding:6px 12px; font-size:12px; font-weight:700;
-      box-shadow:0 6px 16px rgba(0,0,0,.06);
-      z-index:3;
+    /* 4位以下の丸数字 */
+    .rank-num{
+      width:40px;height:40px;border-radius:50%; flex:0 0 auto;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:800;font-size:13px;color:#111;
+      background:#f3f4f6;border:1px solid var(--border);
     }
-    .corner-tab:after{
-      content:""; position:absolute; right:12px; bottom:-7px; width:12px; height:12px;
-      background:#fff; border-left:1px solid var(--border); border-bottom:1px solid var(--border);
-      transform:rotate(45deg);
-    }
-    .corner-dot{width:8px;height:8px;border-radius:999px}
-    .corner-tab.top1 .corner-dot{background:var(--gold)}
-    .corner-tab.top2 .corner-dot{background:#52525b}
-    .corner-tab.top3 .corner-dot{background:var(--bronze)}
 
     /* medals (News/Trends top3) */
     .medals{display:flex;gap:6px;margin:8px 0 6px;flex-wrap:wrap}
@@ -70,14 +59,22 @@
     .medal.bronze{border-color:#fb923c44;box-shadow:0 0 0 2px #fb923c1f inset}
     .medal .emoji{font-size:14px}
 
-    /* price chips — single row, no wrap */
-    .price-chips{display:flex;flex-wrap:nowrap;gap:8px;margin-top:6px;overflow-x:auto;scrollbar-width:none}
-    .price-chips::-webkit-scrollbar{display:none}
+    /* price chips — 横1行・非スクロール。幅に合わせて縮小 */
+    .price-chips{display:flex;flex-wrap:nowrap;gap:8px;margin-top:6px}
     .pch{white-space:nowrap;font-size:12px;border:1px solid var(--nzbd);background:var(--nzbg);color:var(--nz);padding:6px 10px;border-radius:999px;line-height:1}
     .pch .k{color:var(--muted);margin-right:6px}
     .pch.up{border-color:var(--upbd);background:var(--upbg);color:var(--up)}
     .pch.down{border-color:var(--dbd);background:var(--dnbg);color:var(--dn)}
     .pch.neutral{border-color:var(--nzbd);background:var(--nzbg);color:var(--nz)}
+    @media (max-width:420px){
+      .rank-rocket{width:56px}
+      .pch{font-size:11px;padding:5px 8px}
+      .symbol{font-size:17px}
+    }
+    @media (max-width:360px){
+      .pch{font-size:10px;padding:4px 7px}
+      .symbol{font-size:16px}
+    }
 
     /* segmented tabs */
     .tabs{margin-top:12px}
@@ -108,29 +105,15 @@
     .kv div{font-size:12px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 8px}
     .kv .k{color:var(--muted)}
 
-    /* ===== Rocket rank badges (always perfect circle) ===== */
+    /* ===== Rocket rank badges (1〜3位のみ) ===== */
     .rank-rocket{
-      width:clamp(52px,14vw,68px);
-      aspect-ratio:1/1;           /* 真円を強制 */
-      border-radius:50%;
-      display:grid; place-items:center;
-      position:relative; isolation:isolate;
+      width:clamp(58px,15vw,72px);
+      aspect-ratio:1/1; border-radius:50%; overflow:hidden;
+      display:grid; place-items:center; position:relative; isolation:isolate;
       box-shadow:inset 0 8px 22px rgba(0,0,0,.08), 0 6px 14px rgba(0,0,0,.06);
-      border:2px solid #fff;
-      overflow:hidden;
-      flex:0 0 auto;             /* 横幅維持（スマホで潰れない） */
+      border:2px solid #fff; flex:0 0 auto;
     }
-    .rank-rocket .num{
-      position:absolute; right:-6px; bottom:-6px;
-      width:22px; height:22px; border-radius:999px;
-      background:#0f172a; color:#fff; font-weight:800; font-size:11px;
-      display:flex; align-items:center; justify-content:center;
-      border:2px solid #fff; z-index:2;
-    }
-    .rank-rocket svg{ width:58%; height:auto; filter:drop-shadow(0 2px 4px rgba(0,0,0,.2)); z-index:2; }
-    .rank-rocket .flame{ transform-origin:10px 18px; }
-
-    /* 1/2/3 位の背景（明確な差） */
+    /* 1/2/3 位の背景（金銀銅） */
     .rank1{ background:
         radial-gradient(130px 130px at 30% 20%, #fff2 0%, #0000 62%),
         linear-gradient(135deg,#f59e0b 0%,#f97316 55%,#fdba74 120%);
@@ -143,15 +126,17 @@
         radial-gradient(130px 130px at 30% 20%, #fff2 0%, #0000 62%),
         linear-gradient(135deg,#fb923c 0%,#f59e0b 60%,#fde68a 120%);
       box-shadow:0 0 0 3px #fee2e2, 0 10px 28px rgba(251,146,60,.3); }
-    .rankN{ background:#f3f4f6; box-shadow:inset 0 6px 18px rgba(0,0,0,.06); }
 
-    /* Rocket animation
+    .rank-rocket svg{ width:60%; height:auto; filter:drop-shadow(0 2px 4px rgba(0,0,0,.2)); z-index:2; }
+    .rank-rocket .flame{ transform-origin:10px 18px; }
+
+    /* ロケット演出
        - rank1: ignition（強推力＋スモーク＋バウンス）
        - rank2: gentle lift
        - rank3: pre-ignition（微振動） */
     .rank1::before{
       content:""; position:absolute; bottom:-6px; left:50%; transform:translateX(-50%);
-      width:70%; height:40%; border-radius:50%;
+      width:72%; height:42%; border-radius:50%;
       background:radial-gradient(closest-side, rgba(255,255,255,.9), rgba(255,255,255,.0));
       filter:blur(6px); z-index:1; animation:smoke 1.2s ease-in-out infinite;
     }
@@ -214,25 +199,23 @@
         {% set vol = (item.detail.vol_anomaly if (item.detail is defined and item.detail and item.detail.vol_anomaly is defined) else none) %}
 
         <div class="card {% if rank<=3 %}is-top{% endif %}" id="card-{{ loop.index }}" data-symbol="{{ _sym }}">
-          {% if rank<=3 %}
-          <div class="corner-tab top{{rank}}">
-            <span class="corner-dot"></span> Top {{rank}}
-          </div>
-          {% endif %}
-
           <div class="row">
             <div class="sym">
-              {% set rank_class = 'rank1' if rank==1 else ('rank2' if rank==2 else ('rank3' if rank==3 else 'rankN') ) %}
-              <div class="rank-rocket {{ rank_class }}" aria-label="Rank {{ rank }}">
-                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
-                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                </svg>
-                <div class="num">{{ rank }}</div>
-              </div>
+              {# 1〜3位はロケット、4位以降は数字バッジ #}
+              {% if rank<=3 %}
+                {% set rank_class = 'rank1' if rank==1 else ('rank2' if rank==2 else 'rank3') %}
+                <div class="rank-rocket {{ rank_class }}" aria-label="Rank {{ rank }}">
+                  <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                    <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                    <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                    <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                    <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                    <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                  </svg>
+                </div>
+              {% else %}
+                <div class="rank-num">{{ rank }}</div>
+              {% endif %}
 
               <div style="min-width:0">
                 <div class="symbol">{{ _sym }}</div>
@@ -294,6 +277,20 @@
                 {% else %}
                   <div class="muted">No details.</div>
                 {% endif %}
+              </details>
+
+              <!-- 凡例 -->
+              <details>
+                <summary>Legend / Data windows</summary>
+                <div class="kv">
+                  <div><span class="k">Price 1D</span><br>Close vs previous close (T-1, same symbol).</div>
+                  <div><span class="k">Price 1W</span><br>Close vs close 5 trading days earlier.</div>
+                  <div><span class="k">Price 1M</span><br>Close vs close 21 trading days earlier.</div>
+                  <div><span class="k">Trends</span><br>Google Trends breakout (0–1), latest snapshot.</div>
+                  <div><span class="k">News</span><br>Last {{ (news_recent_days if news_recent_days is defined else 5) }} days of Google News coverage; percentile vs universe.</div>
+                  <div><span class="k">Insider</span><br>Form 4 momentum (score_30 / score_90), buys netted.</div>
+                </div>
+                <div class="muted" style="margin-top:6px">All components are normalized and weighted to a 1000-point total score.</div>
               </details>
 
               <details class="js-insider">
@@ -460,7 +457,7 @@
     bindToggles();        // Overview はデフォルト閉
     fillBreakdown();
     fillInsiderDetails();
-    fillPriceChips();     // 横一列で表示
+    fillPriceChips();     // 横1行で表示
     decorateTop3Medals();
   </script>
 </body>
