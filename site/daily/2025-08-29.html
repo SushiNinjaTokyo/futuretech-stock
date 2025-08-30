@@ -8,7 +8,7 @@
     :root{
       --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
       --gold:#f59e0b; --silver:#9ca3af; --bronze:#fb923c;
-      --soft:#f8fafc; --ring:#e2e8f0;
+      --ring:#e2e8f0; --soft:#f8fafc;
       --up:#065f46; --upbg:#ecfdf5; --upbd:#10b98133;
       --dn:#7f1d1d; --dnbg:#fef2f2; --dbd:#ef444433;
       --nz:#6b7280; --nzbg:#f3f4f6; --nzbd:#e5e7eb;
@@ -41,24 +41,13 @@
     .score.top3 .num{ border-color:#fb923c66; box-shadow:0 0 0 4px #fb923c26; }
     .score .den{font-size:11px;color:var(--muted);margin-top:2px}
 
-    /* === corner tab badge (Top 1/2/3) === */
-    .corner-tab{
-      position:absolute; top:0; right:14px; transform:translateY(-45%);
-      display:flex; align-items:center; gap:8px;
-      background:#fff; border:1px solid var(--border);
-      border-radius:999px; padding:6px 12px; font-size:12px; font-weight:700;
-      box-shadow:0 6px 16px rgba(0,0,0,.06);
-      z-index:3;
+    /* 4位以下の丸数字 */
+    .rank-num{
+      width:40px;height:40px;border-radius:50%; flex:0 0 auto;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:800;font-size:13px;color:#111;
+      background:#f3f4f6;border:1px solid var(--border);
     }
-    .corner-tab:after{
-      content:""; position:absolute; right:12px; bottom:-7px; width:12px; height:12px;
-      background:#fff; border-left:1px solid var(--border); border-bottom:1px solid var(--border);
-      transform:rotate(45deg);
-    }
-    .corner-dot{width:8px;height:8px;border-radius:999px}
-    .corner-tab.top1 .corner-dot{background:var(--gold)}
-    .corner-tab.top2 .corner-dot{background:#52525b}
-    .corner-tab.top3 .corner-dot{background:var(--bronze)}
 
     /* medals (News/Trends top3) */
     .medals{display:flex;gap:6px;margin:8px 0 6px;flex-wrap:wrap}
@@ -70,14 +59,22 @@
     .medal.bronze{border-color:#fb923c44;box-shadow:0 0 0 2px #fb923c1f inset}
     .medal .emoji{font-size:14px}
 
-    /* price chips — single row, no wrap */
-    .price-chips{display:flex;flex-wrap:nowrap;gap:8px;margin-top:6px;overflow-x:auto;scrollbar-width:none}
-    .price-chips::-webkit-scrollbar{display:none}
+    /* price chips — 横1行・非スクロール。幅に合わせて縮小 */
+    .price-chips{display:flex;flex-wrap:nowrap;gap:8px;margin-top:6px}
     .pch{white-space:nowrap;font-size:12px;border:1px solid var(--nzbd);background:var(--nzbg);color:var(--nz);padding:6px 10px;border-radius:999px;line-height:1}
     .pch .k{color:var(--muted);margin-right:6px}
     .pch.up{border-color:var(--upbd);background:var(--upbg);color:var(--up)}
     .pch.down{border-color:var(--dbd);background:var(--dnbg);color:var(--dn)}
     .pch.neutral{border-color:var(--nzbd);background:var(--nzbg);color:var(--nz)}
+    @media (max-width:420px){
+      .rank-rocket{width:56px}
+      .pch{font-size:11px;padding:5px 8px}
+      .symbol{font-size:17px}
+    }
+    @media (max-width:360px){
+      .pch{font-size:10px;padding:4px 7px}
+      .symbol{font-size:16px}
+    }
 
     /* segmented tabs */
     .tabs{margin-top:12px}
@@ -108,29 +105,15 @@
     .kv div{font-size:12px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 8px}
     .kv .k{color:var(--muted)}
 
-    /* ===== Rocket rank badges (always perfect circle) ===== */
+    /* ===== Rocket rank badges (1〜3位のみ) ===== */
     .rank-rocket{
-      width:clamp(52px,14vw,68px);
-      aspect-ratio:1/1;           /* 真円を強制 */
-      border-radius:50%;
-      display:grid; place-items:center;
-      position:relative; isolation:isolate;
+      width:clamp(58px,15vw,72px);
+      aspect-ratio:1/1; border-radius:50%; overflow:hidden;
+      display:grid; place-items:center; position:relative; isolation:isolate;
       box-shadow:inset 0 8px 22px rgba(0,0,0,.08), 0 6px 14px rgba(0,0,0,.06);
-      border:2px solid #fff;
-      overflow:hidden;
-      flex:0 0 auto;             /* 横幅維持（スマホで潰れない） */
+      border:2px solid #fff; flex:0 0 auto;
     }
-    .rank-rocket .num{
-      position:absolute; right:-6px; bottom:-6px;
-      width:22px; height:22px; border-radius:999px;
-      background:#0f172a; color:#fff; font-weight:800; font-size:11px;
-      display:flex; align-items:center; justify-content:center;
-      border:2px solid #fff; z-index:2;
-    }
-    .rank-rocket svg{ width:58%; height:auto; filter:drop-shadow(0 2px 4px rgba(0,0,0,.2)); z-index:2; }
-    .rank-rocket .flame{ transform-origin:10px 18px; }
-
-    /* 1/2/3 位の背景（明確な差） */
+    /* 1/2/3 位の背景（金銀銅） */
     .rank1{ background:
         radial-gradient(130px 130px at 30% 20%, #fff2 0%, #0000 62%),
         linear-gradient(135deg,#f59e0b 0%,#f97316 55%,#fdba74 120%);
@@ -143,15 +126,17 @@
         radial-gradient(130px 130px at 30% 20%, #fff2 0%, #0000 62%),
         linear-gradient(135deg,#fb923c 0%,#f59e0b 60%,#fde68a 120%);
       box-shadow:0 0 0 3px #fee2e2, 0 10px 28px rgba(251,146,60,.3); }
-    .rankN{ background:#f3f4f6; box-shadow:inset 0 6px 18px rgba(0,0,0,.06); }
 
-    /* Rocket animation
+    .rank-rocket svg{ width:60%; height:auto; filter:drop-shadow(0 2px 4px rgba(0,0,0,.2)); z-index:2; }
+    .rank-rocket .flame{ transform-origin:10px 18px; }
+
+    /* ロケット演出
        - rank1: ignition（強推力＋スモーク＋バウンス）
        - rank2: gentle lift
        - rank3: pre-ignition（微振動） */
     .rank1::before{
       content:""; position:absolute; bottom:-6px; left:50%; transform:translateX(-50%);
-      width:70%; height:40%; border-radius:50%;
+      width:72%; height:42%; border-radius:50%;
       background:radial-gradient(closest-side, rgba(255,255,255,.9), rgba(255,255,255,.0));
       filter:blur(6px); z-index:1; animation:smoke 1.2s ease-in-out infinite;
     }
@@ -214,25 +199,21 @@
         
 
         <div class="card is-top" id="card-1" data-symbol="NVDA">
-          
-          <div class="corner-tab top1">
-            <span class="corner-dot"></span> Top 1
-          </div>
-          
-
           <div class="row">
             <div class="sym">
               
-              <div class="rank-rocket rank1" aria-label="Rank 1">
-                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
-                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                </svg>
-                <div class="num">1</div>
-              </div>
+              
+                
+                <div class="rank-rocket rank1" aria-label="Rank 1">
+                  <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                    <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                    <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                    <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                    <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                    <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                  </svg>
+                </div>
+              
 
               <div style="min-width:0">
                 <div class="symbol">NVDA</div>
@@ -242,7 +223,7 @@
             </div>
 
             <div class="score top1">
-              <div class="num">741</div>
+              <div class="num">765</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -271,7 +252,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">741</span></th>
+                    <th class="right"><span class="js-total">765</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -294,6 +275,20 @@
                 
               </details>
 
+              <!-- 凡例 -->
+              <details>
+                <summary>Legend / Data windows</summary>
+                <div class="kv">
+                  <div><span class="k">Price 1D</span><br>Close vs previous close (T-1, same symbol).</div>
+                  <div><span class="k">Price 1W</span><br>Close vs close 5 trading days earlier.</div>
+                  <div><span class="k">Price 1M</span><br>Close vs close 21 trading days earlier.</div>
+                  <div><span class="k">Trends</span><br>Google Trends breakout (0–1), latest snapshot.</div>
+                  <div><span class="k">News</span><br>Last 5 days of Google News coverage; percentile vs universe.</div>
+                  <div><span class="k">Insider</span><br>Form 4 momentum (score_30 / score_90), buys netted.</div>
+                </div>
+                <div class="muted" style="margin-top:6px">All components are normalized and weighted to a 1000-point total score.</div>
+              </details>
+
               <details class="js-insider">
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
@@ -307,7 +302,7 @@
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.7410703746130562, "insider_momo": 0, "news_recent_count": 59, "news_score": 0.9, "price_change": {"d1": -0.79, "m1": 0.5, "w1": 2.97}, "score_components": {"insider_momo": 0.0, "news": 0.9, "trends_breakout": 0.7647058823529411, "volume_anomaly": 0.6009401083593985}, "score_pts": 741, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "NVDA", "trends_breakout": 0.7647058823529411, "vol_anomaly_score": 0.6009401083593985}
+          {"final_score_0_1": 0.764599786377762, "insider_momo": 0, "news_recent_count": 59, "news_score": 0.9, "price_change": {"d1": -0.79, "m1": 0.5, "w1": 2.97}, "score_components": {"insider_momo": 0.0, "news": 0.9, "trends_breakout": 0.8235294117647058, "volume_anomaly": 0.6009401083593985}, "score_pts": 765, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "NVDA", "trends_breakout": 0.8235294117647058, "vol_anomaly_score": 0.6009401083593985}
           </script>
         </div>
       
@@ -318,36 +313,32 @@
         
         
 
-        <div class="card is-top" id="card-2" data-symbol="SOUN">
-          
-          <div class="corner-tab top2">
-            <span class="corner-dot"></span> Top 2
-          </div>
-          
-
+        <div class="card is-top" id="card-2" data-symbol="PERF">
           <div class="row">
             <div class="sym">
               
-              <div class="rank-rocket rank2" aria-label="Rank 2">
-                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
-                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                </svg>
-                <div class="num">2</div>
-              </div>
+              
+                
+                <div class="rank-rocket rank2" aria-label="Rank 2">
+                  <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                    <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                    <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                    <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                    <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                    <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                  </svg>
+                </div>
+              
 
               <div style="min-width:0">
-                <div class="symbol">SOUN</div>
-                <div class="name">SoundHound AI, Inc.</div>
+                <div class="symbol">PERF</div>
+                <div class="name">Perfect Corp.</div>
                 <div class="price-chips" aria-label="Price changes (1D/1W/1M)"></div>
               </div>
             </div>
 
             <div class="score top2">
-              <div class="num">649</div>
+              <div class="num">648</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -376,7 +367,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">649</span></th>
+                    <th class="right"><span class="js-total">648</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -390,13 +381,27 @@
                   
                   
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>1.11</div>
-                    <div><span class="k">Z60</span><br>0.03</div>
-                    <div><span class="k">PctRank90</span><br>0.90</div>
-                    <div><span class="k">DollarVol</span><br>$804.7M</div>
+                    <div><span class="k">RVOL20</span><br>0.66</div>
+                    <div><span class="k">Z60</span><br>-0.45</div>
+                    <div><span class="k">PctRank90</span><br>0.37</div>
+                    <div><span class="k">DollarVol</span><br>$0.2M</div>
                     <div><span class="k">Eligible</span><br>Yes</div>
                   </div>
                 
+              </details>
+
+              <!-- 凡例 -->
+              <details>
+                <summary>Legend / Data windows</summary>
+                <div class="kv">
+                  <div><span class="k">Price 1D</span><br>Close vs previous close (T-1, same symbol).</div>
+                  <div><span class="k">Price 1W</span><br>Close vs close 5 trading days earlier.</div>
+                  <div><span class="k">Price 1M</span><br>Close vs close 21 trading days earlier.</div>
+                  <div><span class="k">Trends</span><br>Google Trends breakout (0–1), latest snapshot.</div>
+                  <div><span class="k">News</span><br>Last 5 days of Google News coverage; percentile vs universe.</div>
+                  <div><span class="k">Insider</span><br>Form 4 momentum (score_30 / score_90), buys netted.</div>
+                </div>
+                <div class="muted" style="margin-top:6px">All components are normalized and weighted to a 1000-point total score.</div>
               </details>
 
               <details class="js-insider">
@@ -406,13 +411,13 @@
             </div>
 
             <div id="tech-2" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/SOUN.png" alt="SOUN weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-29/PERF.png" alt="PERF weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.6488603960549738, "insider_momo": 0, "news_recent_count": 56, "news_score": 0.7, "price_change": {"d1": 5.21, "m1": 20.6, "w1": 2.45}, "score_components": {"insider_momo": 0.0, "news": 0.7, "trends_breakout": 0.9411764705882353, "volume_anomaly": 0.13694903909839876}, "score_pts": 649, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "SOUN", "trends_breakout": 0.9411764705882353, "vol_anomaly_score": 0.13694903909839876}
+          {"final_score_0_1": 0.6481386175097015, "insider_momo": 0, "news_recent_count": 60, "news_score": 1.0, "price_change": {"d1": -1.89, "m1": 8.33, "w1": 9.47}, "score_components": {"insider_momo": 0.0, "news": 1.0, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.07892838166615398}, "score_pts": 648, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "PERF", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.07892838166615398}
           </script>
         </div>
       
@@ -423,36 +428,32 @@
         
         
 
-        <div class="card is-top" id="card-3" data-symbol="PERF">
-          
-          <div class="corner-tab top3">
-            <span class="corner-dot"></span> Top 3
-          </div>
-          
-
+        <div class="card is-top" id="card-3" data-symbol="VRT">
           <div class="row">
             <div class="sym">
               
-              <div class="rank-rocket rank3" aria-label="Rank 3">
-                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
-                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                </svg>
-                <div class="num">3</div>
-              </div>
+              
+                
+                <div class="rank-rocket rank3" aria-label="Rank 3">
+                  <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                    <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                    <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
+                    <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                    <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                    <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                  </svg>
+                </div>
+              
 
               <div style="min-width:0">
-                <div class="symbol">PERF</div>
-                <div class="name">Perfect Corp.</div>
+                <div class="symbol">VRT</div>
+                <div class="name">Vertiv Holdings Co</div>
                 <div class="price-chips" aria-label="Price changes (1D/1W/1M)"></div>
               </div>
             </div>
 
             <div class="score top3">
-              <div class="num">625</div>
+              <div class="num">648</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -481,7 +482,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">625</span></th>
+                    <th class="right"><span class="js-total">648</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -495,13 +496,27 @@
                   
                   
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.66</div>
-                    <div><span class="k">Z60</span><br>-0.45</div>
-                    <div><span class="k">PctRank90</span><br>0.37</div>
-                    <div><span class="k">DollarVol</span><br>$0.2M</div>
+                    <div><span class="k">RVOL20</span><br>1.11</div>
+                    <div><span class="k">Z60</span><br>0.24</div>
+                    <div><span class="k">PctRank90</span><br>0.72</div>
+                    <div><span class="k">DollarVol</span><br>$915.1M</div>
                     <div><span class="k">Eligible</span><br>Yes</div>
                   </div>
                 
+              </details>
+
+              <!-- 凡例 -->
+              <details>
+                <summary>Legend / Data windows</summary>
+                <div class="kv">
+                  <div><span class="k">Price 1D</span><br>Close vs previous close (T-1, same symbol).</div>
+                  <div><span class="k">Price 1W</span><br>Close vs close 5 trading days earlier.</div>
+                  <div><span class="k">Price 1M</span><br>Close vs close 21 trading days earlier.</div>
+                  <div><span class="k">Trends</span><br>Google Trends breakout (0–1), latest snapshot.</div>
+                  <div><span class="k">News</span><br>Last 5 days of Google News coverage; percentile vs universe.</div>
+                  <div><span class="k">Insider</span><br>Form 4 momentum (score_30 / score_90), buys netted.</div>
+                </div>
+                <div class="muted" style="margin-top:6px">All components are normalized and weighted to a 1000-point total score.</div>
               </details>
 
               <details class="js-insider">
@@ -511,13 +526,13 @@
             </div>
 
             <div id="tech-3" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/PERF.png" alt="PERF weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-29/VRT.png" alt="VRT weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.6246092057449955, "insider_momo": 0, "news_recent_count": 60, "news_score": 1.0, "price_change": {"d1": -1.89, "m1": 8.33, "w1": 9.47}, "score_components": {"insider_momo": 0.0, "news": 1.0, "trends_breakout": 0.6470588235294118, "volume_anomaly": 0.07892838166615398}, "score_pts": 625, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "PERF", "trends_breakout": 0.6470588235294118, "vol_anomaly_score": 0.07892838166615398}
+          {"final_score_0_1": 0.6478807741664828, "insider_momo": 0, "news_recent_count": 60, "news_score": 0.95, "price_change": {"d1": 3.8, "m1": -6.89, "w1": 6.04}, "score_components": {"insider_momo": 0.0, "news": 0.95, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.16513916495006103}, "score_pts": 648, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "VRT", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.16513916495006103}
           </script>
         </div>
       
@@ -528,32 +543,23 @@
         
         
 
-        <div class="card " id="card-4" data-symbol="VRT">
-          
-
+        <div class="card " id="card-4" data-symbol="SYM">
           <div class="row">
             <div class="sym">
               
-              <div class="rank-rocket rankN" aria-label="Rank 4">
-                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
-                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                </svg>
-                <div class="num">4</div>
-              </div>
+              
+                <div class="rank-num">4</div>
+              
 
               <div style="min-width:0">
-                <div class="symbol">VRT</div>
-                <div class="name">Vertiv Holdings Co</div>
+                <div class="symbol">SYM</div>
+                <div class="name">Symbotic Inc.</div>
                 <div class="price-chips" aria-label="Price changes (1D/1W/1M)"></div>
               </div>
             </div>
 
             <div class="score ">
-              <div class="num">624</div>
+              <div class="num">593</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -582,7 +588,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">624</span></th>
+                    <th class="right"><span class="js-total">593</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -596,13 +602,27 @@
                   
                   
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>1.11</div>
-                    <div><span class="k">Z60</span><br>0.24</div>
-                    <div><span class="k">PctRank90</span><br>0.72</div>
-                    <div><span class="k">DollarVol</span><br>$915.1M</div>
+                    <div><span class="k">RVOL20</span><br>0.56</div>
+                    <div><span class="k">Z60</span><br>-0.79</div>
+                    <div><span class="k">PctRank90</span><br>0.50</div>
+                    <div><span class="k">DollarVol</span><br>$68.1M</div>
                     <div><span class="k">Eligible</span><br>Yes</div>
                   </div>
                 
+              </details>
+
+              <!-- 凡例 -->
+              <details>
+                <summary>Legend / Data windows</summary>
+                <div class="kv">
+                  <div><span class="k">Price 1D</span><br>Close vs previous close (T-1, same symbol).</div>
+                  <div><span class="k">Price 1W</span><br>Close vs close 5 trading days earlier.</div>
+                  <div><span class="k">Price 1M</span><br>Close vs close 21 trading days earlier.</div>
+                  <div><span class="k">Trends</span><br>Google Trends breakout (0–1), latest snapshot.</div>
+                  <div><span class="k">News</span><br>Last 5 days of Google News coverage; percentile vs universe.</div>
+                  <div><span class="k">Insider</span><br>Form 4 momentum (score_30 / score_90), buys netted.</div>
+                </div>
+                <div class="muted" style="margin-top:6px">All components are normalized and weighted to a 1000-point total score.</div>
               </details>
 
               <details class="js-insider">
@@ -612,13 +632,13 @@
             </div>
 
             <div id="tech-4" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/VRT.png" alt="VRT weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-29/SYM.png" alt="SYM weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.6243513624017769, "insider_momo": 0, "news_recent_count": 60, "news_score": 0.95, "price_change": {"d1": 3.8, "m1": -6.89, "w1": 6.04}, "score_components": {"insider_momo": 0.0, "news": 0.95, "trends_breakout": 0.6470588235294118, "volume_anomaly": 0.16513916495006103}, "score_pts": 624, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "VRT", "trends_breakout": 0.6470588235294118, "vol_anomaly_score": 0.16513916495006103}
+          {"final_score_0_1": 0.593291606164642, "insider_momo": 0, "news_recent_count": 56, "news_score": 0.85, "price_change": {"d1": 3.37, "m1": -6.46, "w1": 12.39}, "score_components": {"insider_momo": 0.0, "news": 0.85, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.06719332494085736}, "score_pts": 593, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "SYM", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.06719332494085736}
           </script>
         </div>
       
@@ -629,32 +649,23 @@
         
         
 
-        <div class="card " id="card-5" data-symbol="SYM">
-          
-
+        <div class="card " id="card-5" data-symbol="AVAV">
           <div class="row">
             <div class="sym">
               
-              <div class="rank-rocket rankN" aria-label="Rank 5">
-                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
-                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                </svg>
-                <div class="num">5</div>
-              </div>
+              
+                <div class="rank-num">5</div>
+              
 
               <div style="min-width:0">
-                <div class="symbol">SYM</div>
-                <div class="name">Symbotic Inc.</div>
+                <div class="symbol">AVAV</div>
+                <div class="name">AeroVironment, Inc.</div>
                 <div class="price-chips" aria-label="Price changes (1D/1W/1M)"></div>
               </div>
             </div>
 
             <div class="score ">
-              <div class="num">570</div>
+              <div class="num">559</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -683,7 +694,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">570</span></th>
+                    <th class="right"><span class="js-total">559</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -697,13 +708,27 @@
                   
                   
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.56</div>
-                    <div><span class="k">Z60</span><br>-0.79</div>
-                    <div><span class="k">PctRank90</span><br>0.50</div>
-                    <div><span class="k">DollarVol</span><br>$68.1M</div>
+                    <div><span class="k">RVOL20</span><br>0.58</div>
+                    <div><span class="k">Z60</span><br>-0.59</div>
+                    <div><span class="k">PctRank90</span><br>0.33</div>
+                    <div><span class="k">DollarVol</span><br>$109.2M</div>
                     <div><span class="k">Eligible</span><br>Yes</div>
                   </div>
                 
+              </details>
+
+              <!-- 凡例 -->
+              <details>
+                <summary>Legend / Data windows</summary>
+                <div class="kv">
+                  <div><span class="k">Price 1D</span><br>Close vs previous close (T-1, same symbol).</div>
+                  <div><span class="k">Price 1W</span><br>Close vs close 5 trading days earlier.</div>
+                  <div><span class="k">Price 1M</span><br>Close vs close 21 trading days earlier.</div>
+                  <div><span class="k">Trends</span><br>Google Trends breakout (0–1), latest snapshot.</div>
+                  <div><span class="k">News</span><br>Last 5 days of Google News coverage; percentile vs universe.</div>
+                  <div><span class="k">Insider</span><br>Form 4 momentum (score_30 / score_90), buys netted.</div>
+                </div>
+                <div class="muted" style="margin-top:6px">All components are normalized and weighted to a 1000-point total score.</div>
               </details>
 
               <details class="js-insider">
@@ -713,13 +738,13 @@
             </div>
 
             <div id="tech-5" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/SYM.png" alt="SYM weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-29/AVAV.png" alt="AVAV weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.5697621943999363, "insider_momo": 0, "news_recent_count": 56, "news_score": 0.85, "price_change": {"d1": 3.37, "m1": -6.46, "w1": 12.39}, "score_components": {"insider_momo": 0.0, "news": 0.85, "trends_breakout": 0.6470588235294118, "volume_anomaly": 0.06719332494085736}, "score_pts": 570, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "SYM", "trends_breakout": 0.6470588235294118, "vol_anomaly_score": 0.06719332494085736}
+          {"final_score_0_1": 0.5587614807428197, "insider_momo": 0, "news_recent_count": 56, "news_score": 0.75, "price_change": {"d1": 0.59, "m1": -7.05, "w1": 5.9}, "score_components": {"insider_momo": 0.0, "news": 0.75, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.06954269783174558}, "score_pts": 559, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "AVAV", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.06954269783174558}
           </script>
         </div>
       
@@ -730,32 +755,23 @@
         
         
 
-        <div class="card " id="card-6" data-symbol="AVAV">
-          
-
+        <div class="card " id="card-6" data-symbol="SOUN">
           <div class="row">
             <div class="sym">
               
-              <div class="rank-rocket rankN" aria-label="Rank 6">
-                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
-                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                </svg>
-                <div class="num">6</div>
-              </div>
+              
+                <div class="rank-num">6</div>
+              
 
               <div style="min-width:0">
-                <div class="symbol">AVAV</div>
-                <div class="name">AeroVironment, Inc.</div>
+                <div class="symbol">SOUN</div>
+                <div class="name">SoundHound AI, Inc.</div>
                 <div class="price-chips" aria-label="Price changes (1D/1W/1M)"></div>
               </div>
             </div>
 
             <div class="score ">
-              <div class="num">535</div>
+              <div class="num">555</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -784,7 +800,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">535</span></th>
+                    <th class="right"><span class="js-total">555</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -798,13 +814,27 @@
                   
                   
                   <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.58</div>
-                    <div><span class="k">Z60</span><br>-0.59</div>
-                    <div><span class="k">PctRank90</span><br>0.33</div>
-                    <div><span class="k">DollarVol</span><br>$109.2M</div>
+                    <div><span class="k">RVOL20</span><br>1.11</div>
+                    <div><span class="k">Z60</span><br>0.03</div>
+                    <div><span class="k">PctRank90</span><br>0.90</div>
+                    <div><span class="k">DollarVol</span><br>$804.7M</div>
                     <div><span class="k">Eligible</span><br>Yes</div>
                   </div>
                 
+              </details>
+
+              <!-- 凡例 -->
+              <details>
+                <summary>Legend / Data windows</summary>
+                <div class="kv">
+                  <div><span class="k">Price 1D</span><br>Close vs previous close (T-1, same symbol).</div>
+                  <div><span class="k">Price 1W</span><br>Close vs close 5 trading days earlier.</div>
+                  <div><span class="k">Price 1M</span><br>Close vs close 21 trading days earlier.</div>
+                  <div><span class="k">Trends</span><br>Google Trends breakout (0–1), latest snapshot.</div>
+                  <div><span class="k">News</span><br>Last 5 days of Google News coverage; percentile vs universe.</div>
+                  <div><span class="k">Insider</span><br>Form 4 momentum (score_30 / score_90), buys netted.</div>
+                </div>
+                <div class="muted" style="margin-top:6px">All components are normalized and weighted to a 1000-point total score.</div>
               </details>
 
               <details class="js-insider">
@@ -814,13 +844,13 @@
             </div>
 
             <div id="tech-6" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/AVAV.png" alt="AVAV weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-29/SOUN.png" alt="SOUN weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.5352320689781138, "insider_momo": 0, "news_recent_count": 56, "news_score": 0.75, "price_change": {"d1": 0.59, "m1": -7.05, "w1": 5.9}, "score_components": {"insider_momo": 0.0, "news": 0.75, "trends_breakout": 0.6470588235294118, "volume_anomaly": 0.06954269783174558}, "score_pts": 535, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "AVAV", "trends_breakout": 0.6470588235294118, "vol_anomaly_score": 0.06954269783174558}
+          {"final_score_0_1": 0.5547427489961504, "insider_momo": 0, "news_recent_count": 56, "news_score": 0.7, "price_change": {"d1": 5.21, "m1": 20.6, "w1": 2.45}, "score_components": {"insider_momo": 0.0, "news": 0.7, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.13694903909839876}, "score_pts": 555, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "SOUN", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.13694903909839876}
           </script>
         </div>
       
@@ -832,21 +862,12 @@
         
 
         <div class="card " id="card-7" data-symbol="MSFT">
-          
-
           <div class="row">
             <div class="sym">
               
-              <div class="rank-rocket rankN" aria-label="Rank 7">
-                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
-                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                </svg>
-                <div class="num">7</div>
-              </div>
+              
+                <div class="rank-num">7</div>
+              
 
               <div style="min-width:0">
                 <div class="symbol">MSFT</div>
@@ -856,7 +877,7 @@
             </div>
 
             <div class="score ">
-              <div class="num">530</div>
+              <div class="num">553</div>
               <div class="den">/ 1000</div>
             </div>
           </div>
@@ -885,7 +906,7 @@
                 <tfoot>
                   <tr>
                     <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">530</span></th>
+                    <th class="right"><span class="js-total">553</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -908,6 +929,20 @@
                 
               </details>
 
+              <!-- 凡例 -->
+              <details>
+                <summary>Legend / Data windows</summary>
+                <div class="kv">
+                  <div><span class="k">Price 1D</span><br>Close vs previous close (T-1, same symbol).</div>
+                  <div><span class="k">Price 1W</span><br>Close vs close 5 trading days earlier.</div>
+                  <div><span class="k">Price 1M</span><br>Close vs close 21 trading days earlier.</div>
+                  <div><span class="k">Trends</span><br>Google Trends breakout (0–1), latest snapshot.</div>
+                  <div><span class="k">News</span><br>Last 5 days of Google News coverage; percentile vs universe.</div>
+                  <div><span class="k">Insider</span><br>Form 4 momentum (score_30 / score_90), buys netted.</div>
+                </div>
+                <div class="muted" style="margin-top:6px">All components are normalized and weighted to a 1000-point total score.</div>
+              </details>
+
               <details class="js-insider">
                 <summary>Insider details (Form 4)</summary>
                 <div class="muted">Loading…</div>
@@ -921,7 +956,7 @@
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.5297813853452926, "insider_momo": 0, "news_recent_count": 55, "news_score": 0.65, "price_change": {"d1": 0.57, "m1": -0.54, "w1": 1.07}, "score_components": {"insider_momo": 0.0, "news": 0.65, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.09964222084410992}, "score_pts": 530, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "MSFT", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.09964222084410992}
+          {"final_score_0_1": 0.5533107971099984, "insider_momo": 0, "news_recent_count": 55, "news_score": 0.65, "price_change": {"d1": 0.57, "m1": -0.54, "w1": 1.07}, "score_components": {"insider_momo": 0.0, "news": 0.65, "trends_breakout": 0.7647058823529411, "volume_anomaly": 0.09964222084410992}, "score_pts": 553, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "MSFT", "trends_breakout": 0.7647058823529411, "vol_anomaly_score": 0.09964222084410992}
           </script>
         </div>
       
@@ -932,22 +967,225 @@
         
         
 
-        <div class="card " id="card-8" data-symbol="AI">
-          
-
+        <div class="card " id="card-8" data-symbol="IRDM">
           <div class="row">
             <div class="sym">
               
-              <div class="rank-rocket rankN" aria-label="Rank 8">
-                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
-                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                </svg>
-                <div class="num">8</div>
+              
+                <div class="rank-num">8</div>
+              
+
+              <div style="min-width:0">
+                <div class="symbol">IRDM</div>
+                <div class="name">Iridium Communications Inc.</div>
+                <div class="price-chips" aria-label="Price changes (1D/1W/1M)"></div>
               </div>
+            </div>
+
+            <div class="score ">
+              <div class="num">516</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="medals"></div>
+
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-8"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-8"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-8" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">516</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>0.98</div>
+                    <div><span class="k">Z60</span><br>-0.12</div>
+                    <div><span class="k">PctRank90</span><br>0.56</div>
+                    <div><span class="k">DollarVol</span><br>$36.2M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <!-- 凡例 -->
+              <details>
+                <summary>Legend / Data windows</summary>
+                <div class="kv">
+                  <div><span class="k">Price 1D</span><br>Close vs previous close (T-1, same symbol).</div>
+                  <div><span class="k">Price 1W</span><br>Close vs close 5 trading days earlier.</div>
+                  <div><span class="k">Price 1M</span><br>Close vs close 21 trading days earlier.</div>
+                  <div><span class="k">Trends</span><br>Google Trends breakout (0–1), latest snapshot.</div>
+                  <div><span class="k">News</span><br>Last 5 days of Google News coverage; percentile vs universe.</div>
+                  <div><span class="k">Insider</span><br>Form 4 momentum (score_30 / score_90), buys netted.</div>
+                </div>
+                <div class="muted" style="margin-top:6px">All components are normalized and weighted to a 1000-point total score.</div>
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <div id="tech-8" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/IRDM.png" alt="IRDM weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.5159389920492087, "insider_momo": 0, "news_recent_count": 52, "news_score": 0.6, "price_change": {"d1": -1.64, "m1": -1.2, "w1": 1.95}, "score_components": {"insider_momo": 0.0, "news": 0.6, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.11793025436369035}, "score_pts": 516, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "IRDM", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.11793025436369035}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card " id="card-9" data-symbol="VSAT">
+          <div class="row">
+            <div class="sym">
+              
+              
+                <div class="rank-num">9</div>
+              
+
+              <div style="min-width:0">
+                <div class="symbol">VSAT</div>
+                <div class="name">Viasat, Inc.</div>
+                <div class="price-chips" aria-label="Price changes (1D/1W/1M)"></div>
+              </div>
+            </div>
+
+            <div class="score ">
+              <div class="num">502</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="medals"></div>
+
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#ov-9"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
+                      data-target="#tech-9"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-9" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">502</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                
+                  
+                  
+                  
+                  
+                  
+                  <div class="kv">
+                    <div><span class="k">RVOL20</span><br>1.11</div>
+                    <div><span class="k">Z60</span><br>0.02</div>
+                    <div><span class="k">PctRank90</span><br>0.96</div>
+                    <div><span class="k">DollarVol</span><br>$195.3M</div>
+                    <div><span class="k">Eligible</span><br>Yes</div>
+                  </div>
+                
+              </details>
+
+              <!-- 凡例 -->
+              <details>
+                <summary>Legend / Data windows</summary>
+                <div class="kv">
+                  <div><span class="k">Price 1D</span><br>Close vs previous close (T-1, same symbol).</div>
+                  <div><span class="k">Price 1W</span><br>Close vs close 5 trading days earlier.</div>
+                  <div><span class="k">Price 1M</span><br>Close vs close 21 trading days earlier.</div>
+                  <div><span class="k">Trends</span><br>Google Trends breakout (0–1), latest snapshot.</div>
+                  <div><span class="k">News</span><br>Last 5 days of Google News coverage; percentile vs universe.</div>
+                  <div><span class="k">Insider</span><br>Form 4 momentum (score_30 / score_90), buys netted.</div>
+                </div>
+                <div class="muted" style="margin-top:6px">All components are normalized and weighted to a 1000-point total score.</div>
+              </details>
+
+              <details class="js-insider">
+                <summary>Insider details (Form 4)</summary>
+                <div class="muted">Loading…</div>
+              </details>
+            </div>
+
+            <div id="tech-9" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/VSAT.png" alt="VSAT weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <!-- JSON payload -->
+          <script type="application/json" class="js-payload">
+          {"final_score_0_1": 0.5019414484123942, "insider_momo": 0, "news_recent_count": 49, "news_score": 0.55, "price_change": {"d1": 0.09, "m1": 109.6, "w1": 22.2}, "score_components": {"insider_momo": 0.0, "news": 0.55, "trends_breakout": 0.7058823529411765, "volume_anomaly": 0.1354425361796176}, "score_pts": 502, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "VSAT", "trends_breakout": 0.7058823529411765, "vol_anomaly_score": 0.1354425361796176}
+          </script>
+        </div>
+      
+        
+        
+        
+        
+        
+        
+
+        <div class="card " id="card-10" data-symbol="AI">
+          <div class="row">
+            <div class="sym">
+              
+              
+                <div class="rank-num">10</div>
+              
 
               <div style="min-width:0">
                 <div class="symbol">AI</div>
@@ -967,12 +1205,12 @@
           <div class="tabs">
             <div class="seg" role="tablist" aria-label="Card sections">
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-8"><span class="ico">🧭</span>Overview</button>
+                      data-target="#ov-10"><span class="ico">🧭</span>Overview</button>
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-8"><span class="ico">📈</span>Weekly chart</button>
+                      data-target="#tech-10"><span class="ico">📈</span>Weekly chart</button>
             </div>
 
-            <div id="ov-8" class="tab" role="tabpanel" aria-hidden="true">
+            <div id="ov-10" class="tab" role="tabpanel" aria-hidden="true">
               <table class="table js-breakdown">
                 <thead>
                   <tr>
@@ -1009,206 +1247,18 @@
                 
               </details>
 
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-            </div>
-
-            <div id="tech-8" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/AI.png" alt="AI weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <!-- JSON payload -->
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.497370286289042, "insider_momo": 0, "news_recent_count": 39, "news_score": 0.25, "price_change": {"d1": 0.0, "m1": -28.53, "w1": 2.67}, "score_components": {"insider_momo": 0.0, "news": 0.25, "trends_breakout": 1.0, "volume_anomaly": 0.04935143144521007}, "score_pts": 497, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "AI", "trends_breakout": 1.0, "vol_anomaly_score": 0.04935143144521007}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-
-        <div class="card " id="card-9" data-symbol="IRDM">
-          
-
-          <div class="row">
-            <div class="sym">
-              
-              <div class="rank-rocket rankN" aria-label="Rank 9">
-                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
-                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                </svg>
-                <div class="num">9</div>
-              </div>
-
-              <div style="min-width:0">
-                <div class="symbol">IRDM</div>
-                <div class="name">Iridium Communications Inc.</div>
-                <div class="price-chips" aria-label="Price changes (1D/1W/1M)"></div>
-              </div>
-            </div>
-
-            <div class="score ">
-              <div class="num">492</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <div class="medals"></div>
-
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-9"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-9"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-9" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">492</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
+              <!-- 凡例 -->
               <details>
-                <summary>Volume anomaly details</summary>
-                
-                  
-                  
-                  
-                  
-                  
-                  <div class="kv">
-                    <div><span class="k">RVOL20</span><br>0.98</div>
-                    <div><span class="k">Z60</span><br>-0.12</div>
-                    <div><span class="k">PctRank90</span><br>0.56</div>
-                    <div><span class="k">DollarVol</span><br>$36.2M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
-                  </div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-            </div>
-
-            <div id="tech-9" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/IRDM.png" alt="IRDM weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <!-- JSON payload -->
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.49240958028450277, "insider_momo": 0, "news_recent_count": 52, "news_score": 0.6, "price_change": {"d1": -1.64, "m1": -1.2, "w1": 1.95}, "score_components": {"insider_momo": 0.0, "news": 0.6, "trends_breakout": 0.6470588235294118, "volume_anomaly": 0.11793025436369035}, "score_pts": 492, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "IRDM", "trends_breakout": 0.6470588235294118, "vol_anomaly_score": 0.11793025436369035}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-
-        <div class="card " id="card-10" data-symbol="VSAT">
-          
-
-          <div class="row">
-            <div class="sym">
-              
-              <div class="rank-rocket rankN" aria-label="Rank 10">
-                <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                  <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                  <circle cx="12" cy="9.5" r="2.2" fill="#94a3b8"/>
-                  <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                  <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                  <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                </svg>
-                <div class="num">10</div>
-              </div>
-
-              <div style="min-width:0">
-                <div class="symbol">VSAT</div>
-                <div class="name">Viasat, Inc.</div>
-                <div class="price-chips" aria-label="Price changes (1D/1W/1M)"></div>
-              </div>
-            </div>
-
-            <div class="score ">
-              <div class="num">478</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <div class="medals"></div>
-
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-10"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-10"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-10" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">478</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  
-                  
-                  
-                  
-                  
-                  <div class="kv">
-                    <div><span class="k">RVOL20</span><br>1.11</div>
-                    <div><span class="k">Z60</span><br>0.02</div>
-                    <div><span class="k">PctRank90</span><br>0.96</div>
-                    <div><span class="k">DollarVol</span><br>$195.3M</div>
-                    <div><span class="k">Eligible</span><br>Yes</div>
-                  </div>
-                
+                <summary>Legend / Data windows</summary>
+                <div class="kv">
+                  <div><span class="k">Price 1D</span><br>Close vs previous close (T-1, same symbol).</div>
+                  <div><span class="k">Price 1W</span><br>Close vs close 5 trading days earlier.</div>
+                  <div><span class="k">Price 1M</span><br>Close vs close 21 trading days earlier.</div>
+                  <div><span class="k">Trends</span><br>Google Trends breakout (0–1), latest snapshot.</div>
+                  <div><span class="k">News</span><br>Last 5 days of Google News coverage; percentile vs universe.</div>
+                  <div><span class="k">Insider</span><br>Form 4 momentum (score_30 / score_90), buys netted.</div>
+                </div>
+                <div class="muted" style="margin-top:6px">All components are normalized and weighted to a 1000-point total score.</div>
               </details>
 
               <details class="js-insider">
@@ -1218,13 +1268,13 @@
             </div>
 
             <div id="tech-10" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/VSAT.png" alt="VSAT weekly chart" class="chart" loading="lazy" />
+              <img src="/charts/2025-08-29/AI.png" alt="AI weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
           <!-- JSON payload -->
           <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.4784120366476883, "insider_momo": 0, "news_recent_count": 49, "news_score": 0.55, "price_change": {"d1": 0.09, "m1": 109.6, "w1": 22.2}, "score_components": {"insider_momo": 0.0, "news": 0.55, "trends_breakout": 0.6470588235294118, "volume_anomaly": 0.1354425361796176}, "score_pts": 478, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "VSAT", "trends_breakout": 0.6470588235294118, "vol_anomaly_score": 0.1354425361796176}
+          {"final_score_0_1": 0.497370286289042, "insider_momo": 0, "news_recent_count": 39, "news_score": 0.25, "price_change": {"d1": 0.0, "m1": -28.53, "w1": 2.67}, "score_components": {"insider_momo": 0.0, "news": 0.25, "trends_breakout": 1.0, "volume_anomaly": 0.04935143144521007}, "score_pts": 497, "score_weights": {"insider_momo": 0.05, "news": 0.35, "trends_breakout": 0.4, "volume_anomaly": 0.2}, "symbol": "AI", "trends_breakout": 1.0, "vol_anomaly_score": 0.04935143144521007}
           </script>
         </div>
       
@@ -1361,7 +1411,7 @@
     bindToggles();        // Overview はデフォルト閉
     fillBreakdown();
     fillInsiderDetails();
-    fillPriceChips();     // 横一列で表示
+    fillPriceChips();     // 横1行で表示
     decorateTop3Medals();
   </script>
 </body>
