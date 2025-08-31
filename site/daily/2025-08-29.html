@@ -7,9 +7,9 @@
   <style>
     :root{
       --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
-      --gold:#f6c453;
-      --silver:#cdd2d8;
-      --bronze:#f4a261;
+      --gold:#f6c453;        /* 1位 */
+      --silver:#cdd2d8;      /* 2位 */
+      --bronze:#f4a261;      /* 3位 */
       --soft:#f8fafc; --ring:#e2e8f0;
 
       --up-bg:#ecfdf5; --up-fg:#065f46; --up-bd:#10b98133;
@@ -54,35 +54,17 @@
 
     .rank1 .rocket{ animation:lift-strong 1.6s ease-in-out infinite; }
     .rank1 .flame{ animation:flicker-strong .6s ease-in-out infinite; }
-    @keyframes lift-strong{
-      0%{ transform:translateY(0) rotate(-6deg) scale(1);}
-      50%{ transform:translateY(-5px) rotate(0) scale(1.03);}
-      100%{ transform:translateY(0) rotate(-6deg) scale(1);}
-    }
-    @keyframes flicker-strong{
-      0%,100%{ opacity:1; transform:scale(1); }
-      50%{ opacity:.55; transform:scale(.82); }
-    }
+    @keyframes lift-strong{0%{transform:translateY(0) rotate(-6deg) scale(1);}50%{transform:translateY(-5px) rotate(0) scale(1.03);}100%{transform:translateY(0) rotate(-6deg) scale(1);}}
+    @keyframes flicker-strong{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.55;transform:scale(.82);}}
 
     .rank2 .rocket{ animation:lift 1.8s ease-in-out infinite; }
     .rank2 .flame{ animation:flicker .9s ease-in-out infinite; }
-    @keyframes lift{
-      0%{ transform:translateY(0) rotate(-4deg) }
-      50%{ transform:translateY(-3px) rotate(0) }
-      100%{ transform:translateY(0) rotate(-4deg) }
-    }
-    @keyframes flicker{
-      0%,100%{ opacity:.95; transform:scale(1); }
-      50%{ opacity:.7; transform:scale(.88); }
-    }
+    @keyframes lift{0%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-3px) rotate(0)}100%{transform:translateY(0) rotate(-4deg)}}
+    @keyframes flicker{0%,100%{opacity:.95;transform:scale(1);}50%{opacity:.7;transform:scale(.88);}}
 
     .rank3 .rocket{ animation:prep 1.6s ease-in-out infinite; }
     .rank3 .flame{ opacity:.0; }
-    @keyframes prep{
-      0%{ transform:translateY(0) rotate(-2deg) }
-      50%{ transform:translateY(-1px) rotate(1deg) }
-      100%{ transform:translateY(0) rotate(-2deg) }
-    }
+    @keyframes prep{0%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-1px) rotate(1deg)}100%{transform:translateY(0) rotate(-2deg)}}
 
     .id-block{min-width:0}
     .symbol{font-size:18px;font-weight:800;letter-spacing:.2px;line-height:1.15;white-space:nowrap}
@@ -90,24 +72,11 @@
     @media (min-width:900px){ .name{max-width:420px} }
 
     .score{text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.05;margin-left:auto}
-    .score .num{
-      font-size:28px;font-weight:900;letter-spacing:-.4px;
-      padding:6px 10px;border-radius:12px;border:1px solid var(--ring);
-      background:linear-gradient(180deg,#ffffff 0%,#f9fafb 100%);
-    }
+    .score .num{font-size:28px;font-weight:900;letter-spacing:-.4px;padding:6px 10px;border-radius:12px;border:1px solid var(--ring);background:linear-gradient(180deg,#ffffff 0%,#f9fafb 100%);}
     .score .den{font-size:11px;color:var(--muted);margin-top:2px}
 
-    .price-row{
-      display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:nowrap;
-      overflow:hidden;
-    }
-    .pch{
-      flex:1 1 0%; min-width:0;
-      display:flex;align-items:center;justify-content:center;gap:6px;
-      padding:6px 8px;border-radius:999px;border:1px solid var(--border);
-      font-size:11px;line-height:1; background:var(--chip-bg); color:#111;
-      white-space:nowrap;
-    }
+    .price-row{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:nowrap;overflow:hidden;}
+    .pch{flex:1 1 0%; min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 8px;border-radius:999px;border:1px solid var(--border);font-size:11px;line-height:1;background:var(--chip-bg);color:#111;white-space:nowrap;}
     .pch .k{color:var(--muted)}
     .pch.up{border-color:var(--up-bd);background:var(--up-bg);color:var(--up-fg)}
     .pch.down{border-color:var(--dn-bd);background:var(--dn-bg);color:var(--dn-fg)}
@@ -125,14 +94,9 @@
 
     .tabs{margin-top:12px}
     .seg{display:inline-flex;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:rgba(243,244,246,.6);backdrop-filter:saturate(1.1) blur(2px)}
-    .seg .segbtn{
-      appearance:none;border:0;margin:0;padding:8px 12px;background:transparent;cursor:pointer;
-      font-size:12px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;
-    }
+    .seg .segbtn{appearance:none;border:0;margin:0;padding:8px 12px;background:transparent;cursor:pointer;font-size:12px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;}
     .seg .segbtn:focus{outline:none;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
-    .seg .segbtn[aria-pressed="true"]{
-      background:#fff; font-weight:700; box-shadow:inset 0 0 0 1px var(--border);
-    }
+    .seg .segbtn[aria-pressed="true"]{background:#fff; font-weight:700; box-shadow:inset 0 0 0 1px var(--border);}
     .seg .ico{font-size:14px;opacity:.9}
 
     .tab{display:none}
@@ -166,1001 +130,11 @@
   <div class="wrap">
     <header>
       <h1>futuretech-stock — Daily Top 10</h1>
-      <div class="sub">Date: 2025-08-29 / Scoring: 1000 pts（volume + insider + trends + news）</div>
+      <div class="sub">Date: 2025-08-29 / Scoring: 1000 pts（volume anomaly + DII + trends + news）</div>
     </header>
 
-    
     <div class="grid" id="cards">
-      
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-
-        <div class="card" id="card-1" data-symbol="NVDA">
-          <div class="row">
-            <div class="left">
-              
-                
-                <div class="rank-rocket rank1" aria-label="Rank 1">
-                  <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                    <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                    <circle cx="12" cy="9.4" r="2.1" fill="#94a3b8"/>
-                    <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                    <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                    <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                  </svg>
-                </div>
-              
-
-              <div class="id-block">
-                <div class="symbol">NVDA</div>
-                <div class="name">NVIDIA Corporation</div>
-                <div class="medals"></div>
-              </div>
-            </div>
-
-            <div class="score">
-              <div class="num">589</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <div class="price-row">
-            
-            
-            
-            <div class="pch down"><span class="k">1D</span><span class="delta">-0.03%</span></div>
-            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
-            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
-          </div>
-
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-1"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-1"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-1" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">589</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  <div class="muted">No details.</div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-
-              <div class="note">
-                ※ Price changes: 1D = 前営業日比, 1W = 5営業日前比, 1M = 20営業日前比。<br/>
-                ※ Trends: Google Trends の相対スコア。News: 直近記事×簡易センチメントを宇宙内パーセンタイル正規化。<br/>
-                ※ Insider: 直近 Form 4 指標（スコア30/90など）を0–1へ縮約。
-              </div>
-            </div>
-
-            <div id="tech-1" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/NVDA.png" alt="NVDA weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.589459, "insider_momo": 0, "news_recent_count": 0, "news_score": 0.497573, "score_components": {}, "score_pts": 589, "score_weights": {}, "symbol": "NVDA", "trends_breakout": 1.0, "vol_anomaly_score": 0.759779}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-
-        <div class="card" id="card-2" data-symbol="MSFT">
-          <div class="row">
-            <div class="left">
-              
-                
-                <div class="rank-rocket rank2" aria-label="Rank 2">
-                  <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                    <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                    <circle cx="12" cy="9.4" r="2.1" fill="#94a3b8"/>
-                    <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                    <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                    <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                  </svg>
-                </div>
-              
-
-              <div class="id-block">
-                <div class="symbol">MSFT</div>
-                <div class="name">Microsoft Corporation</div>
-                <div class="medals"></div>
-              </div>
-            </div>
-
-            <div class="score">
-              <div class="num">428</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <div class="price-row">
-            
-            
-            
-            <div class="pch down"><span class="k">1D</span><span class="delta">-0.01%</span></div>
-            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
-            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
-          </div>
-
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-2"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-2"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-2" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">428</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  <div class="muted">No details.</div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-
-              <div class="note">
-                ※ Price changes: 1D = 前営業日比, 1W = 5営業日前比, 1M = 20営業日前比。<br/>
-                ※ Trends: Google Trends の相対スコア。News: 直近記事×簡易センチメントを宇宙内パーセンタイル正規化。<br/>
-                ※ Insider: 直近 Form 4 指標（スコア30/90など）を0–1へ縮約。
-              </div>
-            </div>
-
-            <div id="tech-2" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/MSFT.png" alt="MSFT weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.42777, "insider_momo": 0, "news_recent_count": 0, "news_score": 0.473769, "score_components": {}, "score_pts": 428, "score_weights": {}, "symbol": "MSFT", "trends_breakout": 0.588235, "vol_anomaly_score": 0.626183}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-
-        <div class="card" id="card-3" data-symbol="IRDM">
-          <div class="row">
-            <div class="left">
-              
-                
-                <div class="rank-rocket rank3" aria-label="Rank 3">
-                  <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
-                    <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
-                    <circle cx="12" cy="9.4" r="2.1" fill="#94a3b8"/>
-                    <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
-                    <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
-                    <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
-                  </svg>
-                </div>
-              
-
-              <div class="id-block">
-                <div class="symbol">IRDM</div>
-                <div class="name">Iridium Communications Inc.</div>
-                <div class="medals"></div>
-              </div>
-            </div>
-
-            <div class="score">
-              <div class="num">271</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <div class="price-row">
-            
-            
-            
-            <div class="pch up"><span class="k">1D</span><span class="delta">+0.01%</span></div>
-            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
-            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
-          </div>
-
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-3"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-3"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-3" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">271</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  <div class="muted">No details.</div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-
-              <div class="note">
-                ※ Price changes: 1D = 前営業日比, 1W = 5営業日前比, 1M = 20営業日前比。<br/>
-                ※ Trends: Google Trends の相対スコア。News: 直近記事×簡易センチメントを宇宙内パーセンタイル正規化。<br/>
-                ※ Insider: 直近 Form 4 指標（スコア30/90など）を0–1へ縮約。
-              </div>
-            </div>
-
-            <div id="tech-3" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/IRDM.png" alt="IRDM weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.271155, "insider_momo": 0, "news_recent_count": 0, "news_score": 0.426007, "score_components": {}, "score_pts": 271, "score_weights": {}, "symbol": "IRDM", "trends_breakout": 0, "vol_anomaly_score": 0.743816}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-
-        <div class="card" id="card-4" data-symbol="TER">
-          <div class="row">
-            <div class="left">
-              
-                <div class="rank-badge" aria-label="Rank 4">4</div>
-              
-
-              <div class="id-block">
-                <div class="symbol">TER</div>
-                <div class="name">Teradyne, Inc.</div>
-                <div class="medals"></div>
-              </div>
-            </div>
-
-            <div class="score">
-              <div class="num">265</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <div class="price-row">
-            
-            
-            
-            <div class="pch up"><span class="k">1D</span><span class="delta">+0.00%</span></div>
-            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
-            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
-          </div>
-
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-4"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-4"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-4" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">265</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  <div class="muted">No details.</div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-
-              <div class="note">
-                ※ Price changes: 1D = 前営業日比, 1W = 5営業日前比, 1M = 20営業日前比。<br/>
-                ※ Trends: Google Trends の相対スコア。News: 直近記事×簡易センチメントを宇宙内パーセンタイル正規化。<br/>
-                ※ Insider: 直近 Form 4 指標（スコア30/90など）を0–1へ縮約。
-              </div>
-            </div>
-
-            <div id="tech-4" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/TER.png" alt="TER weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.265198, "insider_momo": 0, "news_recent_count": 0, "news_score": 0.468044, "score_components": {}, "score_pts": 265, "score_weights": {}, "symbol": "TER", "trends_breakout": 0, "vol_anomaly_score": 0.686357}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-
-        <div class="card" id="card-5" data-symbol="SOUN">
-          <div class="row">
-            <div class="left">
-              
-                <div class="rank-badge" aria-label="Rank 5">5</div>
-              
-
-              <div class="id-block">
-                <div class="symbol">SOUN</div>
-                <div class="name">SoundHound AI, Inc.</div>
-                <div class="medals"></div>
-              </div>
-            </div>
-
-            <div class="score">
-              <div class="num">261</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <div class="price-row">
-            
-            
-            
-            <div class="pch up"><span class="k">1D</span><span class="delta">+0.04%</span></div>
-            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
-            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
-          </div>
-
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-5"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-5"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-5" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">261</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  <div class="muted">No details.</div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-
-              <div class="note">
-                ※ Price changes: 1D = 前営業日比, 1W = 5営業日前比, 1M = 20営業日前比。<br/>
-                ※ Trends: Google Trends の相対スコア。News: 直近記事×簡易センチメントを宇宙内パーセンタイル正規化。<br/>
-                ※ Insider: 直近 Form 4 指標（スコア30/90など）を0–1へ縮約。
-              </div>
-            </div>
-
-            <div id="tech-5" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/SOUN.png" alt="SOUN weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.261468, "insider_momo": 0, "news_recent_count": 0, "news_score": 0.384941, "score_components": {}, "score_pts": 261, "score_weights": {}, "symbol": "SOUN", "trends_breakout": 0, "vol_anomaly_score": 0.73792}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-
-        <div class="card" id="card-6" data-symbol="VRT">
-          <div class="row">
-            <div class="left">
-              
-                <div class="rank-badge" aria-label="Rank 6">6</div>
-              
-
-              <div class="id-block">
-                <div class="symbol">VRT</div>
-                <div class="name">Vertiv Holdings Co</div>
-                <div class="medals"></div>
-              </div>
-            </div>
-
-            <div class="score">
-              <div class="num">261</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <div class="price-row">
-            
-            
-            
-            <div class="pch down"><span class="k">1D</span><span class="delta">-0.05%</span></div>
-            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
-            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
-          </div>
-
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-6"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-6"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-6" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">261</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  <div class="muted">No details.</div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-
-              <div class="note">
-                ※ Price changes: 1D = 前営業日比, 1W = 5営業日前比, 1M = 20営業日前比。<br/>
-                ※ Trends: Google Trends の相対スコア。News: 直近記事×簡易センチメントを宇宙内パーセンタイル正規化。<br/>
-                ※ Insider: 直近 Form 4 指標（スコア30/90など）を0–1へ縮約。
-              </div>
-            </div>
-
-            <div id="tech-6" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/VRT.png" alt="VRT weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.261019, "insider_momo": 0, "news_recent_count": 0, "news_score": 0.479887, "score_components": {}, "score_pts": 261, "score_weights": {}, "symbol": "VRT", "trends_breakout": 0, "vol_anomaly_score": 0.660165}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-
-        <div class="card" id="card-7" data-symbol="ABCL">
-          <div class="row">
-            <div class="left">
-              
-                <div class="rank-badge" aria-label="Rank 7">7</div>
-              
-
-              <div class="id-block">
-                <div class="symbol">ABCL</div>
-                <div class="name">AbCellera Biologics Inc.</div>
-                <div class="medals"></div>
-              </div>
-            </div>
-
-            <div class="score">
-              <div class="num">250</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <div class="price-row">
-            
-            
-            
-            <div class="pch down"><span class="k">1D</span><span class="delta">-0.03%</span></div>
-            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
-            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
-          </div>
-
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-7"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-7"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-7" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">250</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  <div class="muted">No details.</div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-
-              <div class="note">
-                ※ Price changes: 1D = 前営業日比, 1W = 5営業日前比, 1M = 20営業日前比。<br/>
-                ※ Trends: Google Trends の相対スコア。News: 直近記事×簡易センチメントを宇宙内パーセンタイル正規化。<br/>
-                ※ Insider: 直近 Form 4 指標（スコア30/90など）を0–1へ縮約。
-              </div>
-            </div>
-
-            <div id="tech-7" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/ABCL.png" alt="ABCL weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.250143, "insider_momo": 0, "news_recent_count": 0, "news_score": 0.604389, "score_components": {}, "score_pts": 250, "score_weights": {}, "symbol": "ABCL", "trends_breakout": 0, "vol_anomaly_score": 0.517061}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-
-        <div class="card" id="card-8" data-symbol="MNDY">
-          <div class="row">
-            <div class="left">
-              
-                <div class="rank-badge" aria-label="Rank 8">8</div>
-              
-
-              <div class="id-block">
-                <div class="symbol">MNDY</div>
-                <div class="name">Monday.com Ltd.</div>
-                <div class="medals"></div>
-              </div>
-            </div>
-
-            <div class="score">
-              <div class="num">242</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <div class="price-row">
-            
-            
-            
-            <div class="pch up"><span class="k">1D</span><span class="delta">+0.02%</span></div>
-            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
-            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
-          </div>
-
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-8"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-8"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-8" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">242</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  <div class="muted">No details.</div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-
-              <div class="note">
-                ※ Price changes: 1D = 前営業日比, 1W = 5営業日前比, 1M = 20営業日前比。<br/>
-                ※ Trends: Google Trends の相対スコア。News: 直近記事×簡易センチメントを宇宙内パーセンタイル正規化。<br/>
-                ※ Insider: 直近 Form 4 指標（スコア30/90など）を0–1へ縮約。
-              </div>
-            </div>
-
-            <div id="tech-8" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/MNDY.png" alt="MNDY weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.242258, "insider_momo": 0, "news_recent_count": 0, "news_score": 0.519172, "score_components": {}, "score_pts": 242, "score_weights": {}, "symbol": "MNDY", "trends_breakout": 0, "vol_anomaly_score": 0.553693}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-
-        <div class="card" id="card-9" data-symbol="AVAV">
-          <div class="row">
-            <div class="left">
-              
-                <div class="rank-badge" aria-label="Rank 9">9</div>
-              
-
-              <div class="id-block">
-                <div class="symbol">AVAV</div>
-                <div class="name">AeroVironment, Inc.</div>
-                <div class="medals"></div>
-              </div>
-            </div>
-
-            <div class="score">
-              <div class="num">240</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <div class="price-row">
-            
-            
-            
-            <div class="pch down"><span class="k">1D</span><span class="delta">-0.03%</span></div>
-            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
-            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
-          </div>
-
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-9"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-9"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-9" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">240</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  <div class="muted">No details.</div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-
-              <div class="note">
-                ※ Price changes: 1D = 前営業日比, 1W = 5営業日前比, 1M = 20営業日前比。<br/>
-                ※ Trends: Google Trends の相対スコア。News: 直近記事×簡易センチメントを宇宙内パーセンタイル正規化。<br/>
-                ※ Insider: 直近 Form 4 指標（スコア30/90など）を0–1へ縮約。
-              </div>
-            </div>
-
-            <div id="tech-9" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/AVAV.png" alt="AVAV weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.240063, "insider_momo": 0, "news_recent_count": 0, "news_score": 0.488093, "score_components": {}, "score_pts": 240, "score_weights": {}, "symbol": "AVAV", "trends_breakout": 0, "vol_anomaly_score": 0.569779}
-          </script>
-        </div>
-      
-        
-        
-        
-        
-        
-        
-
-        
-        
-        
-
-        <div class="card" id="card-10" data-symbol="ISRG">
-          <div class="row">
-            <div class="left">
-              
-                <div class="rank-badge" aria-label="Rank 10">10</div>
-              
-
-              <div class="id-block">
-                <div class="symbol">ISRG</div>
-                <div class="name">Intuitive Surgical, Inc.</div>
-                <div class="medals"></div>
-              </div>
-            </div>
-
-            <div class="score">
-              <div class="num">238</div>
-              <div class="den">/ 1000</div>
-            </div>
-          </div>
-
-          <div class="price-row">
-            
-            
-            
-            <div class="pch down"><span class="k">1D</span><span class="delta">-0.00%</span></div>
-            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
-            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
-          </div>
-
-          <div class="tabs">
-            <div class="seg" role="tablist" aria-label="Card sections">
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#ov-10"><span class="ico">🧭</span>Overview</button>
-              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
-                      data-target="#tech-10"><span class="ico">📈</span>Weekly chart</button>
-            </div>
-
-            <div id="ov-10" class="tab" role="tabpanel" aria-hidden="true">
-              <table class="table js-breakdown">
-                <thead>
-                  <tr>
-                    <th>Component</th>
-                    <th class="right">Normalized</th>
-                    <th class="right">Weight</th>
-                    <th class="right">Contribution (pts)</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="3" class="right">Total</th>
-                    <th class="right"><span class="js-total">238</span></th>
-                  </tr>
-                </tfoot>
-              </table>
-
-              <details>
-                <summary>Volume anomaly details</summary>
-                
-                  <div class="muted">No details.</div>
-                
-              </details>
-
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-
-              <div class="note">
-                ※ Price changes: 1D = 前営業日比, 1W = 5営業日前比, 1M = 20営業日前比。<br/>
-                ※ Trends: Google Trends の相対スコア。News: 直近記事×簡易センチメントを宇宙内パーセンタイル正規化。<br/>
-                ※ Insider: 直近 Form 4 指標（スコア30/90など）を0–1へ縮約。
-              </div>
-            </div>
-
-            <div id="tech-10" class="tab" role="tabpanel" aria-hidden="true">
-              <img src="/charts/2025-08-29/ISRG.png" alt="ISRG weekly chart" class="chart" loading="lazy" />
-            </div>
-          </div>
-
-          <script type="application/json" class="js-payload">
-          {"final_score_0_1": 0.238343, "insider_momo": 0, "news_recent_count": 0, "news_score": 0.458099, "score_components": {}, "score_pts": 238, "score_weights": {}, "symbol": "ISRG", "trends_breakout": 0, "vol_anomaly_score": 0.586892}
-          </script>
-        </div>
-      
     </div>
-    
   </div>
 
   <script>
@@ -1206,7 +180,17 @@
         if(!tbody) return;
         tbody.innerHTML="";
         let totalPts=0;
-        const label=k=>({volume_anomaly:"Volume anomaly",insider_momo:"Insider momentum",trends_breakout:"Trends breakout",news:"News coverage"}[k]||k);
+        const label=k=>({
+          volume_anomaly:"Volume anomaly",
+          vol_anomaly:"Volume anomaly",
+          dii_momo:"DII momentum",
+          dii:"DII momentum",
+          insider_momo:"DII momentum",
+          trends_breakout:"Trends breakout",
+          trends:"Trends breakout",
+          news:"News coverage",
+          news_score:"News coverage"
+        }[k]||k);
         keys.forEach(k=>{
           const v=Math.max(0,Math.min(1,Number(comps[k]||0)));
           const wn=Math.max(0,Number(weights[k]||0))/wsum;
@@ -1220,31 +204,34 @@
       });
     }
 
-    async function fillInsiderDetails(){
+    async function fillDiiDetails(){
       try{
-        const res=await fetch(`/data/insider/form4_latest.json`,{cache:"no-store"});
-        if(!res.ok) throw new Error("fetch insider json failed");
+        const res=await fetch(`/data/dii/latest.json`,{cache:"no-store"});
+        if(!res.ok) throw new Error("fetch dii json failed");
         const j=await res.json();
-        const items=j.items||{};
+        const items=j.items||j || {};
         document.querySelectorAll(".card").forEach(card=>{
           const sym=card.getAttribute("data-symbol");
-          const box=card.querySelector(".js-insider");
+          const box=card.querySelector(".js-dii");
           if(!box) return;
-          const rec=items[sym];
-          if(!rec){ box.innerHTML=`<summary>Insider details (Form 4)</summary><div class="muted">No data</div>`; return; }
-          box.innerHTML=`<summary>Insider details (Form 4)</summary>
+          const rec = items[sym] || (Array.isArray(items)? items.find(x=>x.symbol===sym): null);
+          if(!rec){ box.innerHTML=`<summary>DII details</summary><div class="muted">No data</div>`; return; }
+          const safeNum = (v)=> v==null? "-": (typeof v==="number"? v.toFixed(2): String(v));
+          const html = `
+            <summary>DII details</summary>
             <div class="kv">
-              <div><span class="k">Net buy (30d)</span><br>${(rec.net_buy_shares_30||0).toLocaleString()} shares</div>
-              <div><span class="k">Net buy (90d)</span><br>${(rec.net_buy_shares_90||0).toLocaleString()} shares</div>
-              <div><span class="k">Unique buyers (30d)</span><br>${(rec.buyers_30||0)}</div>
-              <div><span class="k">Unique buyers (90d)</span><br>${(rec.buyers_90||0)}</div>
-              <div><span class="k">Score 30</span><br>${Number(rec.score_30||0).toFixed(2)}</div>
-              <div><span class="k">Score 90</span><br>${Number(rec.score_90||0).toFixed(2)}</div>
+              <div><span class="k">Score (4w)</span><br>${safeNum(rec.score_4w ?? rec.score_30 ?? rec.dii_score_4w)}</div>
+              <div><span class="k">Score (12w)</span><br>${safeNum(rec.score_12w ?? rec.score_90 ?? rec.dii_score_12w)}</div>
+              <div><span class="k">Z(20~60)</span><br>${safeNum(rec.zscore_20 ?? rec.zscore_60)}</div>
+              <div><span class="k">PctRank</span><br>${safeNum(rec.pct_rank_90 ?? rec.pct_rank_60)}</div>
+              <div><span class="k">Recent surges</span><br>${safeNum(rec.surge_count)}</div>
+              <div><span class="k">Dark ratio</span><br>${safeNum(rec.dark_ratio)}</div>
             </div>`;
+          box.innerHTML = html;
         });
       }catch(e){
-        document.querySelectorAll(".js-insider").forEach(box=>{
-          box.innerHTML=`<summary>Insider details (Form 4)</summary><div class="muted">Failed to load</div>`;
+        document.querySelectorAll(".js-dii").forEach(box=>{
+          box.innerHTML=`<summary>DII details</summary><div class="muted">Failed to load</div>`;
         });
       }
     }
@@ -1285,7 +272,7 @@
 
     bindToggles();
     fillBreakdown();
-    fillInsiderDetails();
+    fillDiiDetails();
     decorateTop3Medals();
   </script>
 </body>
