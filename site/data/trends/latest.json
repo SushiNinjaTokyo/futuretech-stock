@@ -5,13 +5,13 @@
   "items": {
     "NVDA": {
       "query": "NVIDIA Corporation",
-      "raw_breakout": 3.9642857142857144,
+      "raw_breakout": 4.071428571428571,
       "score_0_1": 0.7647058823529411,
       "rank": 5
     },
     "MSFT": {
       "query": "Microsoft Corporation",
-      "raw_breakout": 0.5433255269320844,
+      "raw_breakout": 0.5480093676814989,
       "score_0_1": 0.7058823529411765,
       "rank": 6
     },
