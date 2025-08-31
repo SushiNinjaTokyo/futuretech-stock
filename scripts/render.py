@@ -1,140 +1,113 @@
 #!/usr/bin/env python3
-import os, json
+# -*- coding: utf-8 -*-
+
+import os, json, sys
+from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-BASE_DIR   = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
-OUT_DIR    = os.path.join(BASE_DIR, "site")
-REPORT_DATE = os.environ.get("REPORT_DATE")  # e.g. 2025-08-29
+ROOT = Path(__file__).resolve().parents[1]
+TEMPLATES = ROOT / "templates"
+SITE = ROOT / "site"
 
-def read_json(path):
-    if not os.path.exists(path):
+def _load_json(p: Path):
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
         return None
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
 
-def load_first_existing(paths):
+def _first_existing(paths):
     for p in paths:
-        d = read_json(p)
-        if d is not None:
-            return d, p
-    return {}, None
+        if p and p.exists():
+            return p
+    return None
 
-def normalize_top10(payload):
+def _as_top10_list(obj):
     """
-    期待形式：
-      { "items": [ {symbol, name, final_score_0_1, ...} ] }
-    それ以外でも最低限動くように防御的に整形。
+    入力が list でも dict でも安全に [item, ...] へ。
+    必要キーが無い場合も可能な限り補完（symbol, rank, final_score_0_1, score_pts など）
     """
-    if not payload:
+    if not obj:
         return []
-    items = payload.get("items")
-    if isinstance(items, list):
-        src = items
-    elif isinstance(payload, list):
-        src = payload
+    if isinstance(obj, list):
+        items = obj
+    elif isinstance(obj, dict):
+        items = []
+        for k, v in obj.items():
+            if isinstance(v, dict):
+                v = dict(v)
+                v.setdefault("symbol", v.get("symbol", k))
+                items.append(v)
     else:
         return []
 
-    norm = []
-    for it in src:
-        if isinstance(it, dict):
-            # 数値は float 化（None は 0.0 に）
-            def f(v, default=0.0):
-                try:
-                    return float(v)
-                except Exception:
-                    return default
-            norm.append({
-                "symbol": it.get("symbol",""),
-                "name": it.get("name", it.get("symbol","")),
-                "rank": it.get("rank"),  # なければテンプレ側で loop.index
-                "final_score_0_1": f(it.get("final_score_0_1"), 0.0),
-                "score_pts": int(round(f(it.get("final_score_0_1"),0.0) * 1000)),
-                "vol_anomaly_score": f(it.get("vol_anom_0_1") or it.get("vol_anomaly_score"), 0.0),
-                "trends_breakout": f(it.get("trends_0_1") or it.get("trends_breakout"), 0.0),
-                "news_score": f(it.get("news_0_1") or it.get("news_score"), 0.0),
-                "dii_0_1": f(it.get("dii_0_1"), 0.0),
-                "price_delta_1d": it.get("pct_change_1d"),
-                "price_delta_1w": it.get("pct_change_1w"),
-                "price_delta_1m": it.get("pct_change_1m"),
-                "chart_url": it.get("chart_url"),
-                # Breakdown 用（なければ空で OK）
-                "score_components": it.get("score_components", {}),
-                "score_weights": it.get("score_weights", {}),
-                # 詳細（ボリュームなど）
-                "detail": it.get("detail", {}),
-                "insider_momo": f(it.get("insider_momo"), 0.0),
-                "news_recent_count": it.get("news_recent_count", 0),
-            })
-        elif isinstance(it, str):
-            norm.append({
-                "symbol": it, "name": it, "final_score_0_1": 0.0, "score_pts": 0,
-                "vol_anomaly_score": 0.0, "trends_breakout": 0.0, "news_score": 0.0, "dii_0_1": 0.0,
-                "price_delta_1d": None, "price_delta_1w": None, "price_delta_1m": None,
-                "chart_url": None, "score_components": {}, "score_weights": {},
-                "detail": {}, "insider_momo": 0.0, "news_recent_count": 0,
-            })
-    return norm
+    # rank 補完・スコアの整形
+    for i, it in enumerate(items, start=1):
+        it.setdefault("rank", it.get("rank", i))
+        score01 = it.get("final_score_0_1", it.get("final_score", it.get("score", 0))) or 0
+        try:
+            score01 = float(score01)
+        except Exception:
+            score01 = 0.0
+        it["final_score_0_1"] = max(0.0, min(1.0, score01))
+        it.setdefault("score_pts", int(round(it["final_score_0_1"] * 1000)))
+        # 価格差分のフォールバック
+        if "price_delta_1d" not in it and "delta_1d" in it: it["price_delta_1d"] = it["delta_1d"]
+        if "price_delta_1w" not in it and "delta_1w" in it: it["price_delta_1w"] = it["delta_1_w"] if "delta_1_w" in it else it["delta_1w"]
+        if "price_delta_1m" not in it and "delta_1m" in it: it["price_delta_1m"] = it["delta_1m"]
+    # rank優先/スコア優先で安定ソート
+    items.sort(key=lambda x: (int(x.get("rank", 9999)), -float(x.get("final_score_0_1", 0.0))))
+    return items
 
 def main():
-    os.makedirs(os.path.join(OUT_DIR, "daily"), exist_ok=True)
+    report_date = os.environ.get("REPORT_DATE", "").strip()
+    if not report_date:
+        print("[WARN] REPORT_DATE not set; trying latest files", file=sys.stderr)
 
-    # Top10 の探索場所を増やして確実に拾う
-    top10_payload, top10_src = load_first_existing([
-        os.path.join(OUT_DIR, f"data/top10/{REPORT_DATE}.json"),
-        os.path.join(OUT_DIR, f"data/{REPORT_DATE}/top10.json"),
-        os.path.join(OUT_DIR, "data/top10/latest.json"),
+    # 入力ファイルを解決
+    top10_p = _first_existing([
+        SITE / "data" / "top10" / f"{report_date}.json" if report_date else None,
+        SITE / "data" / "top10" / "latest.json",
     ])
-    if not top10_payload:
-        print(f"[WARN] Missing data for 'top10': tried 3 paths. Using empty.")
-    else:
-        print(f"[INFO] Loaded top10 from {top10_src}")
-
-    trends, trends_src = load_first_existing([
-        os.path.join(OUT_DIR, f"data/{REPORT_DATE}/trends.json"),
-        os.path.join(OUT_DIR, "data/trends/latest.json"),
+    trends_p = _first_existing([
+        SITE / "data" / (report_date or "latest") / "trends.json" if report_date else None,
+        SITE / "data" / "trends" / "latest.json",
     ])
-    if trends_src: print(f"[INFO] Loaded trends from {trends_src}")
-
-    news, news_src = load_first_existing([
-        os.path.join(OUT_DIR, f"data/{REPORT_DATE}/news.json"),
-        os.path.join(OUT_DIR, "data/news/latest.json"),
+    news_p = _first_existing([
+        SITE / "data" / (report_date or "latest") / "news.json" if report_date else None,
+        SITE / "data" / "news" / "latest.json",
     ])
-    if news_src: print(f"[INFO] Loaded news from {news_src}")
-
-    dii, dii_src = load_first_existing([
-        os.path.join(OUT_DIR, f"data/{REPORT_DATE}/dii.json"),
-        os.path.join(OUT_DIR, "data/dii/latest.json"),
+    dii_p = _first_existing([
+        SITE / "data" / (report_date or "latest") / "dii.json" if report_date else None,
+        SITE / "data" / "dii" / "latest.json",
     ])
-    if dii_src: print(f"[INFO] Loaded dii from {dii_src}")
 
-    top10_items = normalize_top10(top10_payload)
+    top10 = _load_json(top10_p) or []
+    trends = _load_json(trends_p) or {}
+    news = _load_json(news_p) or {}
+    dii = _load_json(dii_p) or {}
+
+    items = _as_top10_list(top10)
 
     env = Environment(
-        loader=FileSystemLoader(TEMPLATE_DIR),
-        autoescape=select_autoescape(["html", "xml"]),
+        loader=FileSystemLoader(str(TEMPLATES)),
+        autoescape=select_autoescape(['html', 'xml']),
+        trim_blocks=True, lstrip_blocks=True,
     )
-    # 誤ってテンプレに enumerate を書いても落ちない保険
-    env.globals["enumerate"] = enumerate
-
     tmpl = env.get_template("daily.html.j2")
-    try:
-        html = tmpl.render(
-            date=REPORT_DATE,    # ← テンプレは date を使う
-            top10=top10_items,
-            trends=trends or {},
-            news=news or {},
-            dii=dii or {},
-        )
-    except Exception as e:
-        print(f"[FATAL] Jinja2 render failed: {e}")
-        raise
 
-    out_path = os.path.join(OUT_DIR, "daily", f"{REPORT_DATE}.html")
-    with open(out_path, "w", encoding="utf-8") as f:
-        f.write(html)
-    print(f"[OK] wrote: {out_path}")
+    outdir = SITE / "daily"
+    outdir.mkdir(parents=True, exist_ok=True)
+    outpath = outdir / f"{report_date or 'latest'}.html"
+
+    html = tmpl.render(
+        date=report_date,
+        top10=items,
+        trends=trends,
+        news=news,
+        dii=dii,
+    )
+    outpath.write_text(html, encoding="utf-8")
+    print(f"[OK] wrote: {outpath}")
 
 if __name__ == "__main__":
     main()
