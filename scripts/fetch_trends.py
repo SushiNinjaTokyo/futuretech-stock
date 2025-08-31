@@ -1,188 +1,94 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Google Trends fetcher with robust 429 handling and urllib3 v2 shim.
-- Batch size is configurable (default 3).
-- Sleeps between batches with jitter.
-- Detects 429 and performs exponential cool-down retries per batch.
-- Outputs for each symbol:
-    query, raw_breakout (倍率), score_0_1 (全体パーセンタイル), rank (倍率の降順)
+Google Trends breakout scorer (0..1)
+- name を優先、無ければ symbol で検索
+- 3件ずつの小バッチ、間隔スリープ＆クールダウン
+- 指数化: 最終値 / 直近30日の中央値 を 0..1 へクリップ
+- 出力: site/data/trends/latest.json と site/data/<DATE>/trends.json
 """
 
-import os, time, json, pathlib, math, datetime, itertools, random
-from typing import List, Dict
-
-# ---- urllib3 v2 互換レイヤー（pytrends が method_whitelist を使う問題の回避）----
-def _install_retry_compat_shim():
-    try:
-        from urllib3.util.retry import Retry as _Retry
-        import inspect
-        sig = inspect.signature(_Retry.__init__)
-        if "allowed_methods" in sig.parameters:
-            orig_init = _Retry.__init__
-            def compat_init(self, *args, **kwargs):
-                if "method_whitelist" in kwargs and "allowed_methods" not in kwargs:
-                    kwargs["allowed_methods"] = kwargs.pop("method_whitelist")
-                return orig_init(self, *args, **kwargs)
-            _Retry.__init__ = compat_init
-    except Exception:
-        pass
-_install_retry_compat_shim()
-# ----------------------------------------------------------------------
-
+import os, sys, json, time, random, datetime, pathlib
 import pandas as pd
-from zoneinfo import ZoneInfo
 from pytrends.request import TrendReq
-from requests.exceptions import RetryError
-import urllib3
 
-OUT_DIR = os.getenv("OUT_DIR", "site")
-UNIVERSE_CSV = os.getenv("UNIVERSE_CSV", "data/universe.csv")
-DATE = os.getenv("REPORT_DATE") or datetime.datetime.now(ZoneInfo("America/New_York")).date().isoformat()
+OUT_DIR      = os.getenv("OUT_DIR","site")
+UNIVERSE_CSV = os.getenv("UNIVERSE_CSV","data/universe.csv")
+DATE         = os.getenv("REPORT_DATE") or datetime.date.today().isoformat()
 
-TRENDS_GEO = os.getenv("TRENDS_GEO", "US")
-TRENDS_TIMEFRAME = os.getenv("TRENDS_TIMEFRAME", "today 3-m")
-TRENDS_BATCH = int(os.getenv("TRENDS_BATCH", "3"))
-TRENDS_SLEEP = float(os.getenv("TRENDS_SLEEP", "4.0"))
-TRENDS_JITTER = float(os.getenv("TRENDS_JITTER", "1.5"))
-TRENDS_COOLDOWN_BASE = float(os.getenv("TRENDS_COOLDOWN_BASE", "45"))
-TRENDS_COOLDOWN_MAX  = float(os.getenv("TRENDS_COOLDOWN_MAX",  "180"))
-TRENDS_BATCH_RETRIES = int(os.getenv("TRENDS_BATCH_RETRIES", "4"))
+GEO       = os.getenv("TRENDS_GEO","US")
+TIMEFRAME = os.getenv("TRENDS_TIMEFRAME","today 3-m")
+BATCH     = int(os.getenv("TRENDS_BATCH","3"))
+SLEEP     = float(os.getenv("TRENDS_SLEEP","4.0"))
+JITTER    = float(os.getenv("TRENDS_JITTER","1.5"))
+CD_BASE   = int(os.getenv("TRENDS_COOLDOWN_BASE","45"))
+CD_MAX    = int(os.getenv("TRENDS_COOLDOWN_MAX","180"))
+RETRIES   = int(os.getenv("TRENDS_BATCH_RETRIES","4"))
 
-def load_universe():
-    df = pd.read_csv(UNIVERSE_CSV)
-    df["query"] = df.apply(lambda r: build_query(r), axis=1)
-    return df[["symbol", "name", "query"]]
+def load_universe(path):
+    df = pd.read_csv(path)
+    df["symbol"] = df["symbol"].astype(str).str.upper().str.strip()
+    df["name"] = (df["name"].astype(str) if "name" in df.columns else df["symbol"])
+    return df[["symbol","name"]]
 
-def build_query(row):
-    name = str(row.get("name", "") or "").strip()
-    sym = str(row.get("symbol", "") or "").strip().upper()
-    if name and name.lower() not in ("nan", "none"):
-        return name
-    return f"{sym} stock"
-
-def pct_rank(vals, x):
-    arr = sorted([v for v in vals if isinstance(v, (int, float)) and not (isinstance(v, float) and math.isnan(v))])
-    if not arr or x is None or (isinstance(x, float) and math.isnan(x)):
-        return 0.0
-    import bisect
-    k = bisect.bisect_right(arr, x)
-    return k / len(arr)
-
-def compute_breakout_score(series: pd.Series):
-    """ recent 7d mean / prior 8w median """
-    if series is None or series.empty: return None
-    s = series.dropna().astype(float)
-    if len(s) < 40:
-        return None
-    recent = s.tail(7).mean()
-    prior = s.iloc[:-7]
-    base = prior.tail(56).median() if len(prior) >= 56 else prior.median()
-    if not base or base <= 0:
-        base = 1e-9
-    return float(recent / base)
-
-def batched(iterable, n):
-    it = iter(iterable)
-    while True:
-        chunk = list(itertools.islice(it, n))
-        if not chunk: break
-        yield chunk
-
-def is_429_error(err: Exception) -> bool:
-    txt = repr(err)
-    return ("429" in txt) or ("Too Many Requests" in txt) or ("too many 429" in txt)
-
-def cooldown_sleep(attempt: int):
-    sec = min(TRENDS_COOLDOWN_BASE * (2 ** max(0, attempt-1)), TRENDS_COOLDOWN_MAX)
-    sec = sec + random.uniform(0, TRENDS_JITTER)
-    sec = max(sec, TRENDS_COOLDOWN_BASE)
-    print(f"[TRENDS] 429 cooldown sleeping {sec:.1f}s ...", flush=True)
-    time.sleep(sec)
-
-def between_batches_sleep():
-    sec = TRENDS_SLEEP + random.uniform(0, TRENDS_JITTER)
-    print(f"[TRENDS] sleeping {sec:.1f}s between batches ...", flush=True)
-    time.sleep(sec)
-
-def fetch_batch(py: TrendReq, kw_list: List[str]):
-    last_err = None
-    for attempt in range(1, TRENDS_BATCH_RETRIES+1):
+def fetch_batch(pytrends, terms):
+    for attempt in range(1, RETRIES+1):
         try:
-            py.build_payload(kw_list=kw_list, timeframe=TRENDS_TIMEFRAME, geo=TRENDS_GEO)
-            df = py.interest_over_time()
+            pytrends.build_payload(terms, timeframe=TIMEFRAME, geo=GEO)
+            df = pytrends.interest_over_time()
             if df is not None and not df.empty:
-                if "isPartial" in df.columns:
-                    df = df.drop(columns=["isPartial"])
                 return df
-            print(f"[WARN] Trends returned empty frame for {kw_list} (attempt {attempt})", flush=True)
-        except (RetryError, urllib3.exceptions.MaxRetryError) as e:
-            last_err = e
-            if is_429_error(e):
-                cooldown_sleep(attempt)
-            else:
-                print(f"[WARN] Trends retry error (attempt {attempt}): {e}", flush=True)
-                time.sleep(2 + attempt)
+            print(f"[WARN] Trends returned empty frame for {terms} (attempt {attempt})")
         except Exception as e:
-            last_err = e
-            if is_429_error(e):
-                cooldown_sleep(attempt)
-            else:
-                print(f"[WARN] Trends fetch failed (attempt {attempt}): {e}", flush=True)
-                time.sleep(2 + attempt)
-    print(f"[ERROR] Trends batch failed after retries: {kw_list} :: {last_err}", flush=True)
-    return None
+            print(f"[WARN] Trends error for {terms} (attempt {attempt}): {e}")
+        time.sleep(min(CD_MAX, CD_BASE + int(random.random()*CD_BASE)))
+    print(f"[ERROR] Trends batch failed after retries: {terms} :: None")
+    return pd.DataFrame()
+
+def score_series(s: pd.Series) -> float:
+    s = pd.to_numeric(s, errors="coerce").dropna()
+    if len(s) < 10: return 0.0
+    last = float(s.iloc[-1])
+    med30 = float(s.tail(30).median()) if len(s) >= 30 else float(s.median())
+    if med30 <= 0: return 0.0
+    r = last / med30
+    # 1.0 を超える分をやや控えめに（3.0以上はサチる）
+    if r <= 0.2: sc = 0.0
+    elif r >= 3.0: sc = 1.0
+    else: sc = (r - 0.2) / (3.0 - 0.2)
+    return max(0.0, min(1.0, sc))
 
 def main():
-    uni = load_universe()
+    uni = load_universe(UNIVERSE_CSV)
+    terms = uni["name"].tolist()
+    syms  = uni["symbol"].tolist()
 
-    py = TrendReq(
-        hl="en-US", tz=360, retries=1, backoff_factor=0.2, timeout=30,
-        requests_args={
-            "headers": {
-                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-                              "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
-            },
-        },
-    )
+    pytrends = TrendReq(hl="en-US", tz=360)
+    items = {}
+    for i in range(0, len(terms), BATCH):
+        chunk = terms[i:i+BATCH]
+        print(f"[TRENDS] fetching: {chunk}")
+        df = fetch_batch(pytrends, chunk)
+        # sleep between batches
+        time.sleep(SLEEP + random.random()*JITTER)
+        if df is None or df.empty:
+            continue
+        for t in chunk:
+            if t in df.columns:
+                sc = score_series(df[t])
+                # t -> symbol の対応を解決
+                for j in range(i, min(i+BATCH, len(terms))):
+                    if terms[j] == t:
+                        items[syms[j]] = {"score_0_1": sc}
 
-    results: Dict[str, Dict] = {}
-    for batch in batched(uni.to_dict("records"), TRENDS_BATCH):
-        kw_list = [r["query"] for r in batch]
-        print(f"[TRENDS] fetching: {kw_list}", flush=True)
-        df = fetch_batch(py, kw_list)
-        if df is not None:
-            for r in batch:
-                q = r["query"]; sym = r["symbol"]
-                series = df.get(q)
-                score = compute_breakout_score(series) if series is not None else None
-                results[sym] = {"query": q, "raw_breakout": score}
-        else:
-            for r in batch:
-                sym = r["symbol"]; q = r["query"]
-                results[sym] = {"query": q, "raw_breakout": None}
-        between_batches_sleep()
-
-    # 0–1 正規化 & rank（raw_breakout 降順）
-    raws = [(s, v.get("raw_breakout")) for s, v in results.items() if v.get("raw_breakout") is not None]
-    raws_sorted = sorted(raws, key=lambda t: t[1], reverse=True)
-    rank_map = {sym: i+1 for i, (sym, _) in enumerate(raws_sorted)}
-    raw_vals = [v for _, v in raws_sorted]
-
-    for sym, rec in results.items():
-        rb = rec.get("raw_breakout")
-        rec["score_0_1"] = pct_rank(raw_vals, rb) if rb is not None else 0.0
-        rec["rank"] = rank_map.get(sym)
-
-    # 保存
-    out_latest = pathlib.Path(OUT_DIR) / "data" / "trends" / "latest.json"
-    out_today  = pathlib.Path(OUT_DIR) / "data" / DATE / "trends.json"
-    payload = {"as_of": DATE, "geo": TRENDS_GEO, "timeframe": TRENDS_TIMEFRAME, "items": results}
+    payload = {"items": items, "date": DATE, "geo": GEO, "timeframe": TIMEFRAME}
+    out_latest = pathlib.Path(OUT_DIR)/"data"/"trends"/"latest.json"
+    out_daily  = pathlib.Path(OUT_DIR)/"data"/DATE/"trends.json"
     out_latest.parent.mkdir(parents=True, exist_ok=True)
-    out_today.parent.mkdir(parents=True, exist_ok=True)
+    out_daily.parent.mkdir(parents=True, exist_ok=True)
     out_latest.write_text(json.dumps(payload, indent=2))
-    out_today.write_text(json.dumps(payload, indent=2))
-    print(f"[TRENDS] saved: {out_latest} and {out_today} ({len(results)} symbols)")
+    out_daily.write_text(json.dumps(payload, indent=2))
+    print(f"[TRENDS] saved: {out_latest} and {out_daily} ({len(items)} symbols)")
 
 if __name__ == "__main__":
     main()
