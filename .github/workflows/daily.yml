@@ -2,7 +2,7 @@ name: daily-report
 
 on:
   schedule:
-    - cron: '10 22 * * *'  # 18:10 ET / 07:10 JST
+    - cron: '10 22 * * *' # 18:10 ET / 07:10 JST
   workflow_dispatch:
 
 jobs:
@@ -13,14 +13,6 @@ jobs:
     concurrency:
       group: daily-report
       cancel-in-progress: false
-
-    # Repo/Env vars が無い場合のデフォルト値
-    env:
-      DATA_PROVIDER: ${{ vars.DATA_PROVIDER && vars.DATA_PROVIDER || 'yfinance' }}
-      MOCK_MODE: ${{ vars.MOCK_MODE && vars.MOCK_MODE || 'false' }}
-      BUDGET_JPY_MAX: ${{ vars.BUDGET_JPY_MAX && vars.BUDGET_JPY_MAX || '10000' }}
-      MANUAL_DAILY_COST_JPY: ${{ vars.MANUAL_DAILY_COST_JPY && vars.MANUAL_DAILY_COST_JPY || '0' }}
-      TIINGO_MONTHLY_JPY: ${{ vars.TIINGO_MONTHLY_JPY && vars.TIINGO_MONTHLY_JPY || '1600' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -34,32 +26,33 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ← ETの市場日付を一意に決めて outputs に載せる
+      # 1) ETの市場日付（"前営業日"）を確定させ、以降はこの値を使い回す
       - name: Set ET market date
         id: set_date
-        shell: bash
         run: |
-          d="$(python scripts/et_market_date.py)"
-          echo "REPORT_DATE=$d" >> "$GITHUB_OUTPUT"
-          echo "Resolved REPORT_DATE=$d"
+          echo "REPORT_DATE=$(python scripts/et_market_date.py)" >> "$GITHUB_OUTPUT"
+          echo "REPORT_DATE=$REPORT_DATE"
 
-      # まず DII と Trends を取得（Top10に反映させるため）
+      # 2) DII（フェイルセーフ：なければ静かに0）を先に生成
       - name: Build DII (dark activity)
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-          DII_SOURCE: finra_api
+          # finra_api は無効化（ノイズ回避）。必要時は 'finra_api' に変更可（内部で静かにlatestへフォールバック）
+          DII_SOURCE: skip
           DII_LOOKBACK_WEEKS: "12"
           DII_RECENT_WEEKS: "4"
-        run: python scripts/fetch_dii.py
+        run: |
+          python scripts/fetch_dii.py
 
+      # 3) Google Trends（安全な小バッチ＋待機）
       - name: Google Trends breakout
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-          TRENDS_GEO: US
+          TRENDS_GEO: "US"
           TRENDS_TIMEFRAME: "today 3-m"
           TRENDS_BATCH: "3"
           TRENDS_SLEEP: "4.0"
@@ -67,42 +60,44 @@ jobs:
           TRENDS_COOLDOWN_BASE: "45"
           TRENDS_COOLDOWN_MAX: "180"
           TRENDS_BATCH_RETRIES: "4"
-        run: python scripts/fetch_trends.py
+        run: |
+          python scripts/fetch_trends.py
 
-      # 全スコアを合算して Top10 を生成（1回だけ）
+      # 4) News（RSS + 簡易センチメント）
+      - name: Fetch news
+        env:
+          OUT_DIR: site
+          UNIVERSE_CSV: data/universe.csv
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+          NEWS_LOOKBACK_DAYS: "7"
+          NEWS_MAX_PER_SYMBOL: "20"
+          NEWS_SLEEP_SEC: "1.0"
+        run: |
+          python scripts/fetch_news.py
+
+      # 5) Daily スコア合算 → Top10 JSON + チャート
       - name: Generate Top10 JSON
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-          DATA_PROVIDER: ${{ env.DATA_PROVIDER }}
-          MOCK_MODE: ${{ env.MOCK_MODE }}
-          BUDGET_JPY_MAX: ${{ env.BUDGET_JPY_MAX }}
-          MANUAL_DAILY_COST_JPY: ${{ env.MANUAL_DAILY_COST_JPY }}
-          TIINGO_MONTHLY_JPY: ${{ env.TIINGO_MONTHLY_JPY }}
-          TIINGO_TOKEN: ${{ secrets.TIINGO_TOKEN }}
-        run: python scripts/fetch_daily.py
+          MOCK_MODE: "false"
+          WEIGHT_VOL_ANOM: "0.25"
+          WEIGHT_DII: "0.25"
+          WEIGHT_TRENDS: "0.30"
+          WEIGHT_NEWS: "0.20"
+        run: |
+          python scripts/fetch_daily.py
 
+      # 6) HTML 出力（Overview = daily ページ）
       - name: Render HTML
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-        run: python scripts/render.py
-
-      # レンダー後に index.html を“必ず”最新日に向けて再生成（heredoc を使わず printf で安全に）
-      - name: Update index.html redirect
-        shell: bash
         run: |
-          d='${{ steps.set_date.outputs.REPORT_DATE }}'
-          mkdir -p site
-          printf '%s\n' \
-            '<!doctype html><meta charset="utf-8">' \
-            "<meta http-equiv=\"refresh\" content=\"0; url=daily/${d}.html\">" \
-            "<link rel=\"canonical\" href=\"daily/${d}.html\">" \
-            "<p>Redirecting to <a href=\"daily/${d}.html\">daily/${d}.html</a> …</p>" \
-            > site/index.html
+          python scripts/render.py
 
+      # 7) 成果物の検証
       - name: Verify outputs (ET market date)
-        shell: bash
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
@@ -110,10 +105,8 @@ jobs:
           ls -la site/daily || true
           echo "Checking file: site/daily/${REPORT_DATE}.html"
           test -f "site/daily/${REPORT_DATE}.html" || (echo "Expected file missing: site/daily/${REPORT_DATE}.html" && exit 1)
-          echo "Checking file: site/index.html"
-          test -f "site/index.html" || (echo "Expected file missing: site/index.html" && exit 1)
-          grep -q "daily/${REPORT_DATE}.html" site/index.html || (echo "index.html does not point to daily/${REPORT_DATE}.html" && exit 1)
 
+      # 8) コミット＆プッシュ（Vercel 側が pull → デプロイ想定）
       - name: Commit & Push
         run: |
           git config user.name "github-actions"
