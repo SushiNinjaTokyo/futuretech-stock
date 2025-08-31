@@ -1,28 +1,28 @@
 {
   "score_0_1": {
-    "NVIDIA Corporation": 0.4821689254617635,
-    "Microsoft Corporation": 0.4544678161931275,
-    "Palantir Technologies Inc.": 0.580016808948998,
-    "C3.ai, Inc.": 0.5069015515700724,
-    "Intuitive Surgical, Inc.": 0.4816297798689059,
-    "Teradyne, Inc.": 0.4680441824735208,
-    "Symbotic Inc.": 0.4351864532456724,
-    "Rocket Lab USA, Inc.": 0.5053345780624827,
-    "Iridium Communications Inc.": 0.43990638945878474,
-    "Viasat, Inc.": 0.5163631441431994,
-    "Innodata Inc.": 0.5135488122132374,
-    "SoundHound AI, Inc.": 0.2130501086230209,
-    "Monday.com Ltd.": 0.4933793427002575,
-    "AeroVironment, Inc.": 0.45001720391396366,
-    "Perfect Corp.": 0.5778629020607602,
-    "GoodRx Holdings, Inc.": 0.5305299271593367,
-    "AbCellera Biologics Inc.": 0.6387709682995797,
-    "Unity Software Inc.": 0.45024341827421255,
-    "Tempus AI, Inc.": 0.4287700278710932,
-    "Vertiv Holdings Co": 0.4682404780703175
+    "NVIDIA Corporation": 0.5193253963498241,
+    "Microsoft Corporation": 0.5476274660287056,
+    "Palantir Technologies Inc.": 0.5412101906772497,
+    "C3.ai, Inc.": 0.5553757115362576,
+    "Intuitive Surgical, Inc.": 0.5171900185622835,
+    "Teradyne, Inc.": 0.47675467061189714,
+    "Symbotic Inc.": 0.4895549496642883,
+    "Rocket Lab USA, Inc.": 0.4959479681367611,
+    "Iridium Communications Inc.": 0.4503595270155526,
+    "Viasat, Inc.": 0.5176250392486954,
+    "Innodata Inc.": 0.609164741930755,
+    "SoundHound AI, Inc.": 0.4445058163608311,
+    "Monday.com Ltd.": 0.562957013490166,
+    "AeroVironment, Inc.": 0.42830778529855873,
+    "Perfect Corp.": 0.7118172837115406,
+    "GoodRx Holdings, Inc.": 0.46482595323465986,
+    "AbCellera Biologics Inc.": 0.5728419650846275,
+    "Unity Software Inc.": 0.42715844634878825,
+    "Tempus AI, Inc.": 0.5956390921319411,
+    "Vertiv Holdings Co": 0.4675892325065576
   },
   "meta": {
     "source": "rss/google-news",
-    "lookback_days": 7
+    "lookback_days": 31
   }
 }
