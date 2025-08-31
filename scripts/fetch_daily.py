@@ -285,7 +285,7 @@ def save_chart_png_weekly_3m(symbol, df, out_dir, date_iso):
 def main():
     # レポート対象日の前営業日で評価（週末/祝日でもOK）
     report_d = datetime.date.fromisoformat(DATE)
-    end_day = prev_us_business_day(report_d - datetime.timedelta(days=1))
+    end_day = prev_us_business_day(report_d)
     # 余裕を持って 260 営業日相当（約1年）取っておくと delta 計算の安全性UP
     start_day = end_day - datetime.timedelta(days=400)
     start = start_day.isoformat()
