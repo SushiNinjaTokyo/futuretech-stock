@@ -264,8 +264,7 @@
             "score_weights": (item.score_weights if item.score_weights is defined else item.get('score_weights', {})),
             "final_score_0_1": score01,
             "score_pts": pts | int,
-
-            /* ===== フォールバック付きの個別成分 ===== */
+          
             "dii_momo":  (item.dii_momo  if item.dii_momo  is defined else (item.get('dii_score', item.get('insider_momo', 0)))),
             "trends_breakout": (item.trends_breakout if item.trends_breakout is defined else item.get('trends_score', 0)),
             "vol_anomaly_score": (item.vol_anomaly_score if item.vol_anomaly_score is defined else item.get('volume_anomaly_score', 0)),
