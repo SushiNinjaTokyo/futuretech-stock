@@ -27,7 +27,6 @@ def normalize_top10(payload):
     items = []
     for it in payload["items"]:
         if isinstance(it, dict):
-            # 必須キーのデフォルトを補完
             items.append({
                 "symbol": it.get("symbol",""),
                 "name": it.get("name", it.get("symbol","")),
@@ -40,7 +39,6 @@ def normalize_top10(payload):
                 "pct_change_1d": it.get("pct_change_1d"),
             })
         elif isinstance(it, str):
-            # 文字列だけの旧形式でも落ちない
             items.append({
                 "symbol": it, "name": it,
                 "final_score_0_1": 0.0,
@@ -52,7 +50,6 @@ def normalize_top10(payload):
 def main():
     os.makedirs(os.path.join(OUT_DIR,"daily"), exist_ok=True)
 
-    # データ読み込み（top10は日付→latestの順にフォールバック）
     top10_payload = load_or_empty([
         os.path.join(OUT_DIR, f"data/top10/{REPORT_DATE}.json"),
         os.path.join(OUT_DIR, "data/top10/latest.json"),
@@ -74,10 +71,14 @@ def main():
     ])
 
     top10_items = normalize_top10(top10_payload)
+
     env = Environment(
         loader=FileSystemLoader(TEMPLATE_DIR),
         autoescape=select_autoescape(["html", "xml"])
     )
+    # 再発防止の保険（テンプレ側で誤って enumerate を書いても動く）
+    env.globals["enumerate"] = enumerate
+
     print(f"[INFO] Using template: {os.path.join(TEMPLATE_DIR,'daily.html.j2')}")
     tmpl = env.get_template("daily.html.j2")
 
