@@ -3,9 +3,9 @@
 """
 Daily scorer & exporter (robust, with DII and enhanced volume anomaly)
 - OHLCV: yfinance.Ticker.history → Stooq CSV → pandas-datareader(stooq)
-- Volume anomaly: RVOL20 + zscore(60d) + POT(過大値)っぽい鋭さを加味
-- DII: site/data/dii/latest.json の score_0_1 を採用（fail時は0）
-- Trends / News: 既存の latest.json を採用
+- Volume anomaly: RVOL20 + zscore(60d) + POT(heavy tail) bonus
+- DII: site/data/dii/latest.json の score_0_1 を採用（フォールバックも実装）
+- Trends / News: latest.json を採用
 - 重みは環境変数、存在キーのみ正規化して 1000点換算
 - 価格差分（1D/1W/1M）は ref(=REPORT_DATEの前営業日) 終値に対し 1/5/20本前
 - 出力: site/data/<DATE>/top10.json と charts
@@ -23,16 +23,16 @@ import matplotlib.pyplot as plt
 # ---- time helpers ----
 def prev_us_business_day(d: datetime.date) -> datetime.date:
     while d.weekday() >= 5:
-        d = d - datetime.timedelta(days=1)
+        d -= datetime.timedelta(days=1)
     return d
 
 def usa_market_date_now():
     now_et = datetime.datetime.now(ZoneInfo("America/New_York"))
     d = now_et.date()
     if now_et.hour < 18:
-        d = d - datetime.timedelta(days=1)
+        d -= datetime.timedelta(days=1)
     while d.weekday() >= 5:
-        d = d - datetime.timedelta(days=1)
+        d -= datetime.timedelta(days=1)
     return d
 
 # ---- config ----
@@ -82,7 +82,17 @@ def yfi_eod_range(symbol, start, end):
             df = df.reset_index()
             df.columns = [str(c).strip().lower() for c in df.columns]
             date_col = "date" if "date" in df.columns else "index"
-            close_series = df.get("close") or df.get("adj close") or df.get("adjclose")
+
+            # ❌ Seriesに対する or は禁止（曖昧真偽エラーの原因）
+            if "close" in df.columns:
+                close_series = df["close"]
+            elif "adj close" in df.columns:
+                close_series = df["adj close"]
+            elif "adjclose" in df.columns:
+                close_series = df["adjclose"]
+            else:
+                raise KeyError("No close/adj close column in yfinance frame")
+
             out = pd.DataFrame({
                 "date":   pd.to_datetime(df[date_col]).dt.strftime("%Y-%m-%d"),
                 "open":   pd.to_numeric(df.get("open"), errors="coerce"),
@@ -103,7 +113,6 @@ def yfi_eod_range(symbol, start, end):
         url = f"https://stooq.com/q/d/l/?s={symbol.lower()}&i=d"
         r = requests.get(url, timeout=20)
         if r.ok and "Date,Open,High,Low,Close,Volume" in r.text:
-            import io, csv
             reader = csv.DictReader(io.StringIO(r.text))
             rows=[]
             for row in reader:
@@ -147,11 +156,7 @@ def yfi_eod_range(symbol, start, end):
 
 # ---- metrics ----
 def compute_volume_anomaly(df: pd.DataFrame):
-    """
-    強化版 異常出来高スコア 0..1
-    - ベース: RVOL20 と z60（60日内の相対位置）を合成
-    - 追加: 上位裾(heavy-tail)の鋭さを簡易的に加点（POT風）
-    """
+    """強化版 異常出来高スコア 0..1"""
     if df is None or df.empty or "volume" not in df.columns or "close" not in df.columns:
         return {"score": 0.0, "eligible": False}
 
@@ -175,16 +180,15 @@ def compute_volume_anomaly(df: pd.DataFrame):
     else:
         mu, sd = float(rvol_60.mean()), float(rvol_60.std(ddof=0))
         z60 = (rvol20 - mu) / sd if sd > 1e-9 else 0.0
-        # POTっぽく: 上位10%閾値超過度合いで加点（0..0.3）
+        # POT風: 上位10%閾値超過度合いで 0..0.3 を加点
         q90 = float(rvol_60.quantile(0.9))
         tail_bonus = max(0.0, min(0.3, (rvol20 - q90) / max(1e-9, q90))) if q90 > 0 else 0.0
 
     z60_u = max(0.0, min(1.0, z60 / 3.0))
-    # 基本スコア
     base = 0.55 * max(0.0, min(1.0, rvol20 / 5.0)) + 0.45 * z60_u
     vol_score = max(0.0, min(1.0, base + tail_bonus))
 
-    # Dollar volume rank (参考値)
+    # Dollar volume rank（参考）
     d["dollar_vol"] = d["close"] * d["volume"]
     last_dv = float(d["dollar_vol"].iloc[-1])
     tail = d["dollar_vol"].tail(90).dropna()
@@ -239,6 +243,30 @@ def load_json_safe(path, default):
         pass
     return default
 
+def load_items_upper(path):
+    """
+    JSON の形が:
+      - {"items": { "NVDA": {...}, ... }}
+      - {"data": [ {"symbol":"NVDA", ...}, ... ]}
+    などでも吸収して {SYMBOL_UPPER: dict} にして返す。
+    """
+    j = load_json_safe(path, {})
+    items = j.get("items")
+    if items is None:
+        data = j.get("data")
+        if isinstance(data, list):
+            items = {}
+            for row in data:
+                sym = (row.get("symbol") or row.get("ticker") or "").strip().upper()
+                if sym:
+                    items[sym] = row
+        else:
+            items = {}
+    # dict の場合もキーを大文字へ
+    if isinstance(items, dict):
+        return {str(k).strip().upper(): v for k, v in items.items()}
+    return {}
+
 def ensure_dirs(date_iso):
     (pathlib.Path(OUT_DIR)/"data"/date_iso).mkdir(parents=True, exist_ok=True)
     (pathlib.Path(OUT_DIR)/"charts"/date_iso).mkdir(parents=True, exist_ok=True)
@@ -277,11 +305,34 @@ def main():
     uni = pd.read_csv(UNIVERSE_CSV)
     uni["symbol"] = uni["symbol"].astype(str).str.upper().str.strip()
     symbols = uni["symbol"].tolist()
+    name_by_symbol = {row["symbol"]: str(row.get("name","")) for _, row in uni.iterrows()}
 
-    # inputs
-    trends_items = load_json_safe(TRENDS_JSON, {"items":{}}).get("items",{})
-    news_items   = load_json_safe(NEWS_JSON,   {"items":{}}).get("items",{})
-    dii_items    = load_json_safe(DII_JSON,    {"items":{}}).get("items",{})
+    # inputs（大文字キーへ正規化）
+    trends_items = load_items_upper(TRENDS_JSON)
+    news_items   = load_items_upper(NEWS_JSON)
+    dii_items    = load_items_upper(DII_JSON)
+
+    print(f"[INFO] loaded items: trends={len(trends_items)} news={len(news_items)} dii={len(dii_items)}", file=sys.stderr)
+
+    def dii_score_from_obj(o: dict) -> float:
+        if not isinstance(o, dict): return 0.0
+        # 優先: score_0_1（0..1）
+        if "score_0_1" in o and o["score_0_1"] is not None:
+            try:
+                return max(0.0, min(1.0, float(o["score_0_1"])))
+            except Exception:
+                pass
+        # 代替: score（100刻み等を想定）
+        for k in ("score", "score_pct"):
+            if k in o and o[k] is not None:
+                try:
+                    v = float(o[k])
+                    if v > 1.00001:  # 0..100 を想定
+                        v = v/100.0
+                    return max(0.0, min(1.0, v))
+                except Exception:
+                    continue
+        return 0.0
 
     records=[]
     recent_map={}
@@ -319,8 +370,14 @@ def main():
         news_recent = int(nw.get("recent_count",0))
 
         di = dii_items.get(sym) or {}
-        dii_score = float(di.get("score_0_1",0.0))
-        dii_ratio = float(di.get("ats_share_ratio",0.0)) if str(di.get("ats_share_ratio","")).strip() else None
+        dii_score = dii_score_from_obj(di)
+        # 参考表示用
+        dii_ratio = None
+        if isinstance(di, dict) and di.get("ats_share_ratio") not in (None, ""):
+            try:
+                dii_ratio = float(di.get("ats_share_ratio"))
+            except Exception:
+                dii_ratio = None
 
         # weights normalize
         comps = {
@@ -344,8 +401,8 @@ def main():
 
         rec = {
             "symbol": sym,
-            "name": uni.loc[uni["symbol"]==sym, "name"].values[0] if "name" in uni.columns else "",
-            "theme": uni.loc[uni["symbol"]==sym, "theme"].values[0] if "theme" in uni.columns else "",
+            "name": name_by_symbol.get(sym, ""),
+            "theme": str(uni.loc[uni["symbol"]==sym, "theme"].values[0]) if "theme" in uni.columns else "",
             "final_score_0_1": final_0_1,
             "score_pts": score_pts,
 
