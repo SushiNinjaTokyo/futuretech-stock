@@ -1,180 +1,226 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os
-import sys
-import json
-import pathlib
-from datetime import datetime
-from zoneinfo import ZoneInfo
+"""
+Render the daily HTML from Jinja2 template and JSON data.
 
-from jinja2 import Environment, FileSystemLoader, ChoiceLoader, Template
+- Finds 'daily.html.j2' robustly:
+  1) env TEMPLATE_PATH (file or directory; comma-separated supported)
+  2) scripts/templates/daily.html.j2
+  3) scripts/daily.html.j2
+  4) templates/daily.html.j2 (repo root)
+  5) daily.html.j2 (cwd)
 
-OUT_DIR = os.getenv("OUT_DIR", "site")
-REPORT_DATE = os.getenv("REPORT_DATE")  # 例: 2025-08-29
-TEMPLATE_NAME = "daily.html.j2"
-# 明示的にテンプレート配置を変えたい場合は TEMPLATE_DIR を指定（例: templates）
-TEMPLATE_DIR = os.getenv("TEMPLATE_DIR")
+- Fails fast if the template file is not found (prevents publishing a broken plain page).
+- Loads data from site/data/{kind}/{REPORT_DATE}.json, falling back to site/data/{kind}/latest.json.
+- Writes to site/daily/{REPORT_DATE}.html
 
-# ---- 内蔵フォールバック用テンプレート（最後の砦） ----
-BUILTIN_TEMPLATE = """<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Daily Report — {{ report_date }}</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-    :root { --fg:#111; --muted:#666; --bg:#fff; --card:#f7f7f9; }
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; }
-    header{ padding:24px 16px; border-bottom:1px solid #eee;}
-    .container{ max-width:1100px; margin:0 auto; padding:0 16px;}
-    h1{font-size:28px; margin:0 0 6px;}
-    .meta{color:var(--muted); font-size:14px;}
-    .grid{ display:grid; grid-template-columns: repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin:24px 0 40px;}
-    .card{ background:var(--card); border:1px solid #eee; border-radius:14px; padding:14px;}
-    .rank{font-weight:700; font-size:13px; color:#444;}
-    .sym{font-weight:800; font-size:20px; letter-spacing:.3px;}
-    .name{color:var(--muted); font-size:13px;}
-    .score{margin-top:6px; font-size:14px;}
-    .comp{margin-top:8px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:12px;}
-    img{width:100%; height:auto; border-radius:10px; display:block; margin-top:8px;}
-    footer{border-top:1px solid #eee; padding:16px; color:var(--muted); font-size:12px; text-align:center;}
-  </style>
-</head>
-<body>
-  <header>
-    <div class="container">
-      <h1>Daily Report</h1>
-      <div class="meta">Report date (ET market date): <strong>{{ report_date }}</strong> — Universe size: {{ universe_size }}</div>
-    </div>
-  </header>
-
-  <main class="container">
-    {% if top10|length == 0 %}
-      <p>No Top10 items were generated.</p>
-    {% else %}
-      <div class="grid">
-        {% for r in top10 %}
-        <article class="card">
-          <div class="rank">#{{ r.rank }}</div>
-          <div class="sym">{{ r.symbol }}</div>
-          {% if r.name %}<div class="name">{{ r.name }}</div>{% endif %}
-          <div class="score">Score: <strong>{{ r.score_pts }}</strong> ({{ "%.3f"|format(r.final_score_0_1) }})</div>
-          <div class="comp">
-            vol={{ "%.2f"|format(r.vol_anomaly_score) }},
-            trends={{ "%.2f"|format(r.trends_breakout) }},
-            news={{ "%.2f"|format(r.news_score) }},
-            dii={{ "%.2f"|format(r.dii_score) }}
-          </div>
-          {% if r.chart_url %}
-            <img loading="lazy" src="{{ r.chart_url }}" alt="{{ r.symbol }} weekly chart">
-          {% endif %}
-          <div class="comp">Δ1D={{ r.price_delta_1d if r.price_delta_1d is not none else "-" }}%
-            / Δ1W={{ r.price_delta_1w if r.price_delta_1w is not none else "-" }}%
-            / Δ1M={{ r.price_delta_1m if r.price_delta_1m is not none else "-" }}%</div>
-        </article>
-        {% endfor %}
-      </div>
-    {% endif %}
-  </main>
-
-  <footer>
-    Generated {{ generated_at }} (server time)
-  </footer>
-</body>
-</html>
+Usage:
+  REPORT_DATE=2025-08-29 python scripts/render.py
+  python scripts/render.py --date 2025-08-29
 """
 
-def _resolve_report_date():
-    if REPORT_DATE:
-        return REPORT_DATE
-    # 念のため fallback（ET 18:00 前は前営業日）
-    now_et = datetime.now(ZoneInfo("America/New_York"))
-    d = now_et.date()
-    if now_et.hour < 18:
-        from datetime import timedelta
-        d = d - timedelta(days=1)
-        while d.weekday() >= 5:
-            d = d - timedelta(days=1)
-    return d.isoformat()
+from __future__ import annotations
 
-def _load_top10(date_iso: str):
-    p = pathlib.Path(OUT_DIR) / "data" / date_iso / "top10.json"
-    if not p.exists():
+import argparse
+import json
+import os
+import sys
+import pathlib
+from typing import Any, Dict, Optional, Tuple, List
+
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+
+# ---------- paths / constants ----------
+
+SCRIPT_DIR = pathlib.Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent
+DEFAULT_OUT_DIR = REPO_ROOT / "site" / "daily"
+
+TEMPLATE_NAME = "daily.html.j2"
+
+# Data kinds we try to load. Adjust keys to what your template expects.
+DATA_SOURCES: List[Tuple[str, str]] = [
+    ("trends", "trends"),   # site/data/trends/{date}.json (or latest.json)
+    ("news", "news"),       # site/data/news/{date}.json
+    ("dii", "dii"),         # site/data/dii/{date}.json
+    ("top10", "top10"),     # site/data/top10/{date}.json  (if your fetch_daily.py writes this)
+]
+
+# ---------- utils ----------
+
+def eprint(*args, **kwargs) -> None:
+    print(*args, file=sys.stderr, **kwargs)
+
+def parse_args() -> argparse.Namespace:
+    p = argparse.ArgumentParser()
+    p.add_argument("--date", dest="report_date", type=str, default=os.environ.get("REPORT_DATE", "").strip(),
+                   help="Report date YYYY-MM-DD (or via env REPORT_DATE)")
+    p.add_argument("--out", dest="out_dir", type=str, default=str(DEFAULT_OUT_DIR),
+                   help="Output directory for HTML (default: site/daily)")
+    p.add_argument("--template", dest="template_override", type=str, default=os.environ.get("TEMPLATE_PATH", "").strip(),
+                   help="Template file or directory (or comma-separated list). Env TEMPLATE_PATH also supported.")
+    return p.parse_args()
+
+def validate_date_str(date_str: str) -> None:
+    # Very light validation: YYYY-MM-DD
+    import re
+    if not date_str or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date_str):
+        raise SystemExit(f"[FATAL] REPORT_DATE is invalid or missing: '{date_str}'. Provide via env REPORT_DATE or --date YYYY-MM-DD.")
+
+def split_paths(env_value: str) -> List[pathlib.Path]:
+    if not env_value:
         return []
-    try:
-        return json.loads(p.read_text())
-    except Exception:
-        return []
+    parts = [s.strip() for s in env_value.split(",") if s.strip()]
+    return [pathlib.Path(p).resolve() for p in parts]
 
-def _guess_universe_size(date_iso: str, top10_len: int):
-    # universe.csv を読みにいってみる
-    uni_csv = pathlib.Path("data/universe.csv")
-    if uni_csv.exists():
-        try:
-            import pandas as pd
-            df = pd.read_csv(uni_csv)
-            if "symbol" in df.columns:
-                return int(df["symbol"].nunique())
-        except Exception:
-            pass
-    # 分からなければ top10 長さを返す（最低限）
-    return top10_len
+def candidate_template_locations(template_override: str) -> List[pathlib.Path]:
+    """
+    Returns candidate full file paths to the template.
+    Accepts files or directories in template_override (comma-separated).
+    """
+    candidates: List[pathlib.Path] = []
 
-def _build_jinja_env():
-    search_paths = []
-    # 優先: ユーザーが指定した TEMPLATE_DIR
-    if TEMPLATE_DIR:
-        search_paths.append(TEMPLATE_DIR)
-    # よくある場所
-    search_paths += [
-        "templates",
-        ".",               # リポジトリ直下
-        "scripts",         # 以前の実装互換
+    # 1) Overrides from CLI/env: can be a file OR directory (or list)
+    for p in split_paths(template_override):
+        if p.is_file():
+            candidates.append(p)
+        elif p.is_dir():
+            candidates.append(p / TEMPLATE_NAME)
+
+    # 2) Conventional locations (in order)
+    candidates += [
+        SCRIPT_DIR / "templates" / TEMPLATE_NAME,
+        SCRIPT_DIR / TEMPLATE_NAME,
+        REPO_ROOT / "templates" / TEMPLATE_NAME,
+        pathlib.Path.cwd() / TEMPLATE_NAME,
     ]
-    existing = [p for p in search_paths if pathlib.Path(p).exists()]
-    loaders = [FileSystemLoader(p) for p in existing]
-    if not loaders:
-        # 物理テンプレートが無い場合でも env 自体は返す
-        return Environment(loader=ChoiceLoader([]), autoescape=False, trim_blocks=True, lstrip_blocks=True)
-    return Environment(loader=ChoiceLoader(loaders), autoescape=False, trim_blocks=True, lstrip_blocks=True)
 
-def main():
-    date_iso = _resolve_report_date()
+    # De-duplicate keeping order
+    seen = set()
+    uniq: List[pathlib.Path] = []
+    for c in candidates:
+        key = str(c)
+        if key not in seen:
+            uniq.append(c)
+            seen.add(key)
+    return uniq
 
-    # 入力
-    top10 = _load_top10(date_iso)
-    universe_size = _guess_universe_size(date_iso, len(top10))
+def find_template_file(template_override: str) -> pathlib.Path:
+    for cand in candidate_template_locations(template_override):
+        if cand.exists():
+            print(f"[INFO] Using template: {cand}")
+            return cand
+    msg_lines = ["[FATAL] Jinja2 template not found. Searched:"]
+    for cand in candidate_template_locations(template_override):
+        msg_lines.append(f" - {cand}")
+    msg_lines.append("")
+    msg_lines.append("Hint:")
+    msg_lines.append(" - Ensure 'scripts/daily.html.j2' is committed to the repo")
+    msg_lines.append(" - Or set env TEMPLATE_PATH to the file or directory containing the template")
+    raise SystemExit("\n".join(msg_lines))
 
-    # 出力先準備
-    out_dir = pathlib.Path(OUT_DIR) / "daily"
+def load_json_with_fallback(kind: str, date_str: str) -> Any:
+    """
+    Try site/data/{kind}/{date}.json, then site/data/{kind}/latest.json.
+    Returns parsed JSON or an empty structure if both miss.
+    """
+    base_dir = REPO_ROOT / "site" / "data" / kind
+    primary = base_dir / f"{date_str}.json"
+    fallback = base_dir / "latest.json"
+
+    def load(path: pathlib.Path) -> Optional[Any]:
+        if path.exists():
+            try:
+                with path.open("r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception as ex:
+                eprint(f"[WARN] Failed to parse JSON: {path} :: {ex}")
+        return None
+
+    data = load(primary)
+    if data is not None:
+        print(f"[INFO] Loaded {kind} from {primary}")
+        return data
+
+    data = load(fallback)
+    if data is not None:
+        print(f"[INFO] Loaded {kind} from {fallback}")
+        return data
+
+    eprint(f"[WARN] Missing data for '{kind}': tried {primary} and {fallback}. Using empty.")
+    # Reasonable empty defaults (adjust to your template’s expectations)
+    if kind == "trends":
+        return {"items": []}
+    if kind == "news":
+        return {"items": []}
+    if kind == "dii":
+        return {"items": []}
+    if kind == "top10":
+        return {"symbols": [], "detail": {}}
+    return {}
+
+def build_jinja_env(template_file: pathlib.Path) -> Environment:
+    # Loader must point to the directory containing the template
+    loader_dir = template_file.parent
+    env = Environment(
+        loader=FileSystemLoader([loader_dir]),
+        autoescape=select_autoescape(["html", "xml"]),
+        trim_blocks=True,
+        lstrip_blocks=True,
+    )
+    # You can add filters here if your template uses them.
+    return env
+
+def ensure_out_dir(out_dir: pathlib.Path) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
-    out_file = out_dir / f"{date_iso}.html"
 
-    # テンプレート解決
-    env = _build_jinja_env()
-    html = None
+# ---------- main ----------
+
+def main() -> None:
+    args = parse_args()
+    report_date = args.report_date
+    validate_date_str(report_date)
+
+    # Resolve template
+    template_file = find_template_file(args.template_override)
+    env = build_jinja_env(template_file)
     try:
-        tmpl = env.get_template(TEMPLATE_NAME)
-        html = tmpl.render(
-            report_date=date_iso,
-            top10=top10,
-            universe_size=universe_size,
-            generated_at=datetime.now().isoformat(timespec="seconds"),
-        )
-    except Exception as e:
-        # 最後の砦：内蔵テンプレートで描画（TemplateNotFound でも確実に成功する）
-        sys.stderr.write(f"[WARN] Falling back to builtin template: {e}\n")
-        tmpl = Template(BUILTIN_TEMPLATE)
-        html = tmpl.render(
-            report_date=date_iso,
-            top10=top10,
-            universe_size=universe_size,
-            generated_at=datetime.now().isoformat(timespec="seconds"),
-        )
+        tmpl = env.get_template(template_file.name)
+    except Exception as ex:
+        raise SystemExit(f"[FATAL] Failed to load template '{template_file}': {ex}")
 
-    out_file.write_text(html, encoding="utf-8")
-    print(f"[RENDER] wrote: {out_file}")
+    # Load all data kinds with fallback
+    context: Dict[str, Any] = {"report_date": report_date}
+    for key, kind in DATA_SOURCES:
+        context[key] = load_json_with_fallback(kind, report_date)
+
+    # The template may rely on convenience keys — provide some sane defaults here
+    # If your template expects flattened arrays, derive them here (non-breaking).
+    # Example: extract top10 list if structure is {symbols: [...]}
+    if isinstance(context.get("top10"), dict):
+        top10_dict = context["top10"]
+        context["top10_list"] = top10_dict.get("symbols", [])  # for {% for s in top10_list %}
+        context["top10_detail"] = top10_dict.get("detail", {}) # map symbol->metrics
+
+    out_dir = pathlib.Path(args.out_dir).resolve()
+    ensure_out_dir(out_dir)
+    out_file = out_dir / f"{report_date}.html"
+
+    # Render
+    try:
+        html = tmpl.render(**context)
+    except Exception as ex:
+        raise SystemExit(f"[FATAL] Jinja2 render failed: {ex}")
+
+    # Write
+    try:
+        with out_file.open("w", encoding="utf-8") as f:
+            f.write(html)
+    except Exception as ex:
+        raise SystemExit(f"[FATAL] Failed to write HTML to {out_file}: {ex}")
+
+    print(f"[INFO] Rendered daily HTML: {out_file}")
 
 if __name__ == "__main__":
     main()
