@@ -1,7 +1,7 @@
 {
   "raw_last": {
     "NVIDIA Corporation": 15.0,
-    "Microsoft Corporation": 9.0,
+    "Microsoft Corporation": 10.0,
     "Palantir Technologies Inc.": 0.0,
     "C3.ai, Inc.": 0.0,
     "Intuitive Surgical, Inc.": 0.0,
@@ -23,7 +23,7 @@
   },
   "score_0_1": {
     "NVIDIA Corporation": 0.9999999999333333,
-    "Microsoft Corporation": 0.59999999996,
+    "Microsoft Corporation": 0.6666666666222222,
     "Palantir Technologies Inc.": 0.0,
     "C3.ai, Inc.": 0.0,
     "Intuitive Surgical, Inc.": 0.0,

@@ -7,9 +7,9 @@
       "name": "NVIDIA Corporation",
       "vol_anom_0_1": 0.759779,
       "trends_0_1": 1.0,
-      "news_0_1": 0.497523,
+      "news_0_1": 0.506973,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.58945,
+      "final_score_0_1": 0.59134,
       "price": 174.17999267578125,
       "pct_change_1d": -0.033246409247044806
     },
@@ -17,10 +17,10 @@
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
       "vol_anom_0_1": 0.626183,
-      "trends_0_1": 0.6,
+      "trends_0_1": 0.666667,
       "news_0_1": 0.473769,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.4313,
+      "final_score_0_1": 0.4513,
       "price": 506.69000244140625,
       "pct_change_1d": -0.005788423440546087
     },
@@ -69,46 +69,46 @@
       "pct_change_1d": -0.02790705978450958
     },
     {
-      "symbol": "MNDY",
-      "name": "Monday.com Ltd.",
-      "vol_anom_0_1": 0.553693,
-      "trends_0_1": 0.0,
-      "news_0_1": 0.510571,
-      "dii_0_1": 0.0,
-      "final_score_0_1": 0.240538,
-      "price": 193.0,
-      "pct_change_1d": 0.01841594424740567
-    },
-    {
       "symbol": "ISRG",
       "name": "Intuitive Surgical, Inc.",
       "vol_anom_0_1": 0.586892,
       "trends_0_1": 0.0,
-      "news_0_1": 0.456197,
+      "news_0_1": 0.470839,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.237962,
+      "final_score_0_1": 0.240891,
       "price": 473.29998779296875,
       "pct_change_1d": -0.0011396432320939232
     },
     {
-      "symbol": "TEM",
-      "name": "Tempus AI, Inc.",
-      "vol_anom_0_1": 0.469897,
+      "symbol": "INOD",
+      "name": "Innodata Inc.",
+      "vol_anom_0_1": 0.476399,
       "trends_0_1": 0.0,
-      "news_0_1": 0.578648,
+      "news_0_1": 0.594534,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.233204,
-      "price": 75.86000061035156,
-      "pct_change_1d": 0.029866913370435677
+      "final_score_0_1": 0.238007,
+      "price": 37.97999954223633,
+      "pct_change_1d": -0.03872434432534555
+    },
+    {
+      "symbol": "MNDY",
+      "name": "Monday.com Ltd.",
+      "vol_anom_0_1": 0.553693,
+      "trends_0_1": 0.0,
+      "news_0_1": 0.479291,
+      "dii_0_1": 0.0,
+      "final_score_0_1": 0.234282,
+      "price": 193.0,
+      "pct_change_1d": 0.01841594424740567
     },
     {
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
       "vol_anom_0_1": 0.537653,
       "trends_0_1": 0.0,
-      "news_0_1": 0.471937,
+      "news_0_1": 0.494017,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.228801,
+      "final_score_0_1": 0.233217,
       "price": 48.599998474121094,
       "pct_change_1d": 0.014401975138938594
     }
