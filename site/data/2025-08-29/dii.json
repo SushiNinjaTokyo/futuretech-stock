@@ -1,6 +1,6 @@
 {
-  "as_of": "2025-08-29",
-  "lookback_weeks": 12,
-  "recent_weeks": 4,
-  "items": {}
+  "score_0_1": {},
+  "meta": {
+    "source": "finra_api"
+  }
 }

@@ -1,0 +1,116 @@
+{
+  "date": "2025-08-29",
+  "universe_size": 20,
+  "items": [
+    {
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "vol_anom_0_1": 0.759779,
+      "trends_0_1": 1.0,
+      "news_0_1": 0.48287,
+      "dii_0_1": 0.0,
+      "final_score_0_1": 0.586519,
+      "price": 174.17999267578125,
+      "pct_change_1d": -0.033246409247044806
+    },
+    {
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "vol_anom_0_1": 0.626183,
+      "trends_0_1": 0.5,
+      "news_0_1": 0.473769,
+      "dii_0_1": 0.0,
+      "final_score_0_1": 0.4013,
+      "price": 506.69000244140625,
+      "pct_change_1d": -0.005788423440546087
+    },
+    {
+      "symbol": "IRDM",
+      "name": "Iridium Communications Inc.",
+      "vol_anom_0_1": 0.743816,
+      "trends_0_1": 0.0,
+      "news_0_1": 0.426007,
+      "dii_0_1": 0.0,
+      "final_score_0_1": 0.271155,
+      "price": 24.889999389648438,
+      "pct_change_1d": 0.011377438941594376
+    },
+    {
+      "symbol": "TER",
+      "name": "Teradyne, Inc.",
+      "vol_anom_0_1": 0.686357,
+      "trends_0_1": 0.0,
+      "news_0_1": 0.453544,
+      "dii_0_1": 0.0,
+      "final_score_0_1": 0.262298,
+      "price": 118.23999786376953,
+      "pct_change_1d": 0.0029688563570544613
+    },
+    {
+      "symbol": "ABCL",
+      "name": "AbCellera Biologics Inc.",
+      "vol_anom_0_1": 0.517061,
+      "trends_0_1": 0.0,
+      "news_0_1": 0.662784,
+      "dii_0_1": 0.0,
+      "final_score_0_1": 0.261822,
+      "price": 4.179999828338623,
+      "pct_change_1d": -0.02790705978450958
+    },
+    {
+      "symbol": "SOUN",
+      "name": "SoundHound AI, Inc.",
+      "vol_anom_0_1": 0.73792,
+      "trends_0_1": 0.0,
+      "news_0_1": 0.384941,
+      "dii_0_1": 0.0,
+      "final_score_0_1": 0.261468,
+      "price": 13.020000457763672,
+      "pct_change_1d": 0.03910620392936659
+    },
+    {
+      "symbol": "VRT",
+      "name": "Vertiv Holdings Co",
+      "vol_anom_0_1": 0.660165,
+      "trends_0_1": 0.0,
+      "news_0_1": 0.479887,
+      "dii_0_1": 0.0,
+      "final_score_0_1": 0.261019,
+      "price": 127.55000305175781,
+      "pct_change_1d": -0.049765275187375724
+    },
+    {
+      "symbol": "MNDY",
+      "name": "Monday.com Ltd.",
+      "vol_anom_0_1": 0.553693,
+      "trends_0_1": 0.0,
+      "news_0_1": 0.521004,
+      "dii_0_1": 0.0,
+      "final_score_0_1": 0.242624,
+      "price": 193.0,
+      "pct_change_1d": 0.01841594424740567
+    },
+    {
+      "symbol": "ISRG",
+      "name": "Intuitive Surgical, Inc.",
+      "vol_anom_0_1": 0.586892,
+      "trends_0_1": 0.0,
+      "news_0_1": 0.468335,
+      "dii_0_1": 0.0,
+      "final_score_0_1": 0.24039,
+      "price": 473.29998779296875,
+      "pct_change_1d": -0.0011396432320939232
+    },
+    {
+      "symbol": "AVAV",
+      "name": "AeroVironment, Inc.",
+      "vol_anom_0_1": 0.569779,
+      "trends_0_1": 0.0,
+      "news_0_1": 0.473159,
+      "dii_0_1": 0.0,
+      "final_score_0_1": 0.237076,
+      "price": 241.35000610351562,
+      "pct_change_1d": -0.030450274355401485
+    }
+  ]
+}

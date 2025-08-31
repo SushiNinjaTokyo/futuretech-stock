@@ -1,67 +1,46 @@
 {
-  "items": {
-    "NVDA": {
-      "score_0_1": 0.40476190476190477
-    },
-    "MSFT": {
-      "score_0_1": 0.07509157509157509
-    },
-    "PLTR": {
-      "score_0_1": 0.0
-    },
-    "AI": {
-      "score_0_1": 0.0
-    },
-    "ISRG": {
-      "score_0_1": 0.0
-    },
-    "TER": {
-      "score_0_1": 0.0
-    },
-    "SYM": {
-      "score_0_1": 0.0
-    },
-    "RKLB": {
-      "score_0_1": 0.0
-    },
-    "IRDM": {
-      "score_0_1": 0.0
-    },
-    "VSAT": {
-      "score_0_1": 0.0
-    },
-    "INOD": {
-      "score_0_1": 0.0
-    },
-    "SOUN": {
-      "score_0_1": 0.0
-    },
-    "MNDY": {
-      "score_0_1": 0.0
-    },
-    "AVAV": {
-      "score_0_1": 0.0
-    },
-    "PERF": {
-      "score_0_1": 0.0
-    },
-    "GDRX": {
-      "score_0_1": 0.0
-    },
-    "ABCL": {
-      "score_0_1": 0.0
-    },
-    "U": {
-      "score_0_1": 0.0
-    },
-    "TEM": {
-      "score_0_1": 0.0
-    },
-    "VRT": {
-      "score_0_1": 0.0
-    }
+  "raw_last": {
+    "NVIDIA Corporation": 14.0,
+    "Microsoft Corporation": 7.0,
+    "Palantir Technologies Inc.": 0.0,
+    "C3.ai, Inc.": 0.0,
+    "Intuitive Surgical, Inc.": 0.0,
+    "Teradyne, Inc.": 0.0,
+    "Symbotic Inc.": 0.0,
+    "Rocket Lab USA, Inc.": 0.0,
+    "Iridium Communications Inc.": 0.0,
+    "Viasat, Inc.": 0.0,
+    "Innodata Inc.": 0.0,
+    "SoundHound AI, Inc.": 0.0,
+    "Monday.com Ltd.": 0.0,
+    "AeroVironment, Inc.": 0.0,
+    "Perfect Corp.": 0.0,
+    "GoodRx Holdings, Inc.": 0.0,
+    "AbCellera Biologics Inc.": 0.0,
+    "Unity Software Inc.": 0.0,
+    "Tempus AI, Inc.": 0.0,
+    "Vertiv Holdings Co": 0.0
   },
-  "date": "2025-08-29",
-  "geo": "US",
-  "timeframe": "today 3-m"
+  "score_0_1": {
+    "NVIDIA Corporation": 0.9999999999285715,
+    "Microsoft Corporation": 0.49999999996428574,
+    "Palantir Technologies Inc.": 0.0,
+    "C3.ai, Inc.": 0.0,
+    "Intuitive Surgical, Inc.": 0.0,
+    "Teradyne, Inc.": 0.0,
+    "Symbotic Inc.": 0.0,
+    "Rocket Lab USA, Inc.": 0.0,
+    "Iridium Communications Inc.": 0.0,
+    "Viasat, Inc.": 0.0,
+    "Innodata Inc.": 0.0,
+    "SoundHound AI, Inc.": 0.0,
+    "Monday.com Ltd.": 0.0,
+    "AeroVironment, Inc.": 0.0,
+    "Perfect Corp.": 0.0,
+    "GoodRx Holdings, Inc.": 0.0,
+    "AbCellera Biologics Inc.": 0.0,
+    "Unity Software Inc.": 0.0,
+    "Tempus AI, Inc.": 0.0,
+    "Vertiv Holdings Co": 0.0
+  }
 }

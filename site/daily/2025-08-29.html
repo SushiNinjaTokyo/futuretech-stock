@@ -1,192 +1,249 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Daily Report — 2025-08-29</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <style>
-    :root { --fg:#111; --muted:#666; --bg:#fff; --card:#f9f9fb; }
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Apple Color Emoji","Segoe UI Emoji";}
-    header{padding:24px 16px;border-bottom:1px solid #eee;}
-    .container{max-width:1100px;margin:0 auto;padding:0 16px;}
-    h1{font-size:28px;margin:0 0 6px;}
-    .meta{color:var(--muted);font-size:14px;}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:24px 0 40px;}
-    .card{background:var(--card);border:1px solid #eee;border-radius:14px;padding:14px;}
-    .rank{font-weight:700;font-size:13px;color:#444;}
-    .sym{font-weight:800;font-size:20px;letter-spacing:.3px;}
-    .name{color:var(--muted);font-size:13px;}
-    .score{margin-top:6px;font-size:14px;}
-    .comp{margin-top:8px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:12px;}
-    img{width:100%;height:auto;border-radius:10px;display:block;margin-top:8px;}
-    footer{border-top:1px solid #eee;padding:16px;color:var(--muted);font-size:12px;text-align:center;}
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Daily Report – 2025-08-29</title>
+<style>
+  :root{--bg:#0b0e13;--card:#121826;--text:#e6eefc;--muted:#9bb0d1;--accent:#4ea3ff;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial;}
+  .wrap{max-width:1040px;margin:32px auto;padding:0 16px;}
+  header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .badge{background:var(--card);padding:6px 10px;border-radius:999px;color:var(--muted);border:1px solid #1a2233;}
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(12,1fr);}
+  .card{background:var(--card);border:1px solid #1a2233;border-radius:14px;padding:16px;}
+  h1{font-size:20px;margin:0}
+  h2{font-size:16px;margin:0 0 8px 0;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{padding:10px;border-bottom:1px solid #1a2233;text-align:left}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#0f1524;border:1px solid #22304a;color:var(--muted)}
+  .score{font-variant-numeric:tabular-nums}
+  .sym{font-weight:600;color:#cfe2ff}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+</style>
 </head>
 <body>
-  <header>
-    <div class="container">
+  <div class="wrap">
+    <header>
       <h1>Daily Report</h1>
-      <div class="meta">Report date (ET market date): <strong>2025-08-29</strong> — Universe size: 20</div>
+      <div class="badge">2025-08-29</div>
+    </header>
+
+    <!-- Overview -->
+    <div class="grid">
+      <section class="card" style="grid-column: span 12;">
+        <h2>Overview</h2>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <span class="pill">Universe: 20</span>
+          <span class="pill">News covered: 20</span>
+          <span class="pill">DII available: 0</span>
+          <span class="pill">Top10 items: 10</span>
+        </div>
+      </section>
+
+      <!-- Top 10 -->
+      <section class="card" style="grid-column: span 12;">
+        <h2>Top 10</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>Symbol</th><th>Name</th>
+              <th class="score">Score</th>
+              <th class="score">Vol</th>
+              <th class="score">Trends</th>
+              <th class="score">News</th>
+              <th class="score">DII</th>
+              <th class="score">Price</th>
+              <th class="score">1d%</th>
+            </tr>
+          </thead>
+          <tbody>
+          
+            <tr>
+              <td>1</td>
+              <td class="sym">NVDA</td>
+              <td>NVIDIA Corporation</td>
+              <td class="score">0.587</td>
+              <td class="score">0.76</td>
+              <td class="score">1.00</td>
+              <td class="score">0.48</td>
+              <td class="score">0.00</td>
+              <td class="score">174.17999267578125</td>
+              <td class="score">
+                
+                  -3.32%
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>2</td>
+              <td class="sym">MSFT</td>
+              <td>Microsoft Corporation</td>
+              <td class="score">0.401</td>
+              <td class="score">0.63</td>
+              <td class="score">0.50</td>
+              <td class="score">0.47</td>
+              <td class="score">0.00</td>
+              <td class="score">506.69000244140625</td>
+              <td class="score">
+                
+                  -0.58%
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>3</td>
+              <td class="sym">IRDM</td>
+              <td>Iridium Communications Inc.</td>
+              <td class="score">0.271</td>
+              <td class="score">0.74</td>
+              <td class="score">0.00</td>
+              <td class="score">0.43</td>
+              <td class="score">0.00</td>
+              <td class="score">24.889999389648438</td>
+              <td class="score">
+                
+                  1.14%
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>4</td>
+              <td class="sym">TER</td>
+              <td>Teradyne, Inc.</td>
+              <td class="score">0.262</td>
+              <td class="score">0.69</td>
+              <td class="score">0.00</td>
+              <td class="score">0.45</td>
+              <td class="score">0.00</td>
+              <td class="score">118.23999786376953</td>
+              <td class="score">
+                
+                  0.30%
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>5</td>
+              <td class="sym">ABCL</td>
+              <td>AbCellera Biologics Inc.</td>
+              <td class="score">0.262</td>
+              <td class="score">0.52</td>
+              <td class="score">0.00</td>
+              <td class="score">0.66</td>
+              <td class="score">0.00</td>
+              <td class="score">4.179999828338623</td>
+              <td class="score">
+                
+                  -2.79%
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>6</td>
+              <td class="sym">SOUN</td>
+              <td>SoundHound AI, Inc.</td>
+              <td class="score">0.261</td>
+              <td class="score">0.74</td>
+              <td class="score">0.00</td>
+              <td class="score">0.38</td>
+              <td class="score">0.00</td>
+              <td class="score">13.020000457763672</td>
+              <td class="score">
+                
+                  3.91%
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>7</td>
+              <td class="sym">VRT</td>
+              <td>Vertiv Holdings Co</td>
+              <td class="score">0.261</td>
+              <td class="score">0.66</td>
+              <td class="score">0.00</td>
+              <td class="score">0.48</td>
+              <td class="score">0.00</td>
+              <td class="score">127.55000305175781</td>
+              <td class="score">
+                
+                  -4.98%
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>8</td>
+              <td class="sym">MNDY</td>
+              <td>Monday.com Ltd.</td>
+              <td class="score">0.243</td>
+              <td class="score">0.55</td>
+              <td class="score">0.00</td>
+              <td class="score">0.52</td>
+              <td class="score">0.00</td>
+              <td class="score">193.0</td>
+              <td class="score">
+                
+                  1.84%
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>9</td>
+              <td class="sym">ISRG</td>
+              <td>Intuitive Surgical, Inc.</td>
+              <td class="score">0.240</td>
+              <td class="score">0.59</td>
+              <td class="score">0.00</td>
+              <td class="score">0.47</td>
+              <td class="score">0.00</td>
+              <td class="score">473.29998779296875</td>
+              <td class="score">
+                
+                  -0.11%
+                
+              </td>
+            </tr>
+          
+            <tr>
+              <td>10</td>
+              <td class="sym">AVAV</td>
+              <td>AeroVironment, Inc.</td>
+              <td class="score">0.237</td>
+              <td class="score">0.57</td>
+              <td class="score">0.00</td>
+              <td class="score">0.47</td>
+              <td class="score">0.00</td>
+              <td class="score">241.35000610351562</td>
+              <td class="score">
+                
+                  -3.05%
+                
+              </td>
+            </tr>
+          
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Meta blocks -->
+      <section class="card" style="grid-column: span 6;">
+        <h2>Trends snapshot</h2>
+        <p style="color:var(--muted);margin:0">Normalized last interest (0–1). Populated if available.</p>
+      </section>
+      <section class="card" style="grid-column: span 6;">
+        <h2>News snapshot</h2>
+        <p style="color:var(--muted);margin:0">Mean headline sentiment per symbol (0–1). Populated if available.</p>
+      </section>
     </div>
-  </header>
-
-  <main class="container">
-      <div class="grid">
-        <article class="card">
-          <div class="rank">#1</div>
-          <div class="sym">NVDA</div>
-<div class="name">NVIDIA Corporation</div>          <div class="score">Score: <strong>373</strong> (0.373)</div>
-          <div class="comp">
-            vol=0.57,
-            trends=0.40,
-            news=0.54,
-            dii=0.00
-          </div>
-            <img loading="lazy" src="/charts/2025-08-29/NVDA.png" alt="NVDA weekly chart" />
-          <div class="comp">Δ1D=-3.3246409247044806%
-            / Δ1W=-2.140576830045182%
-            / Δ1M=0.26478900060202815%</div>
-        </article>
-        <article class="card">
-          <div class="rank">#2</div>
-          <div class="sym">PERF</div>
-<div class="name">Perfect Corp.</div>          <div class="score">Score: <strong>173</strong> (0.173)</div>
-          <div class="comp">
-            vol=0.05,
-            trends=0.00,
-            news=0.80,
-            dii=0.00
-          </div>
-            <img loading="lazy" src="/charts/2025-08-29/PERF.png" alt="PERF weekly chart" />
-          <div class="comp">Δ1D=-1.4423063697193705%
-            / Δ1W=6.7708332363205725%
-            / Δ1M=10.215050352144871%</div>
-        </article>
-        <article class="card">
-          <div class="rank">#3</div>
-          <div class="sym">IRDM</div>
-<div class="name">Iridium Communications Inc.</div>          <div class="score">Score: <strong>172</strong> (0.172)</div>
-          <div class="comp">
-            vol=0.21,
-            trends=0.00,
-            news=0.59,
-            dii=0.00
-          </div>
-            <img loading="lazy" src="/charts/2025-08-29/IRDM.png" alt="IRDM weekly chart" />
-          <div class="comp">Δ1D=1.1377438941594376%
-            / Δ1W=-0.3602888480270683%
-            / Δ1M=2.9363071774679783%</div>
-        </article>
-        <article class="card">
-          <div class="rank">#4</div>
-          <div class="sym">MSFT</div>
-<div class="name">Microsoft Corporation</div>          <div class="score">Score: <strong>167</strong> (0.167)</div>
-          <div class="comp">
-            vol=0.11,
-            trends=0.08,
-            news=0.59,
-            dii=0.00
-          </div>
-            <img loading="lazy" src="/charts/2025-08-29/MSFT.png" alt="MSFT weekly chart" />
-          <div class="comp">Δ1D=-0.5788423440546087%
-            / Δ1W=-0.10646226233179679%
-            / Δ1M=-3.1648008118582593%</div>
-        </article>
-        <article class="card">
-          <div class="rank">#5</div>
-          <div class="sym">SOUN</div>
-<div class="name">SoundHound AI, Inc.</div>          <div class="score">Score: <strong>164</strong> (0.164)</div>
-          <div class="comp">
-            vol=0.20,
-            trends=0.00,
-            news=0.57,
-            dii=0.00
-          </div>
-            <img loading="lazy" src="/charts/2025-08-29/SOUN.png" alt="SOUN weekly chart" />
-          <div class="comp">Δ1D=3.910620392936659%
-            / Δ1W=3.6624205635258367%
-            / Δ1M=28.78339169046844%</div>
-        </article>
-        <article class="card">
-          <div class="rank">#6</div>
-          <div class="sym">VRT</div>
-<div class="name">Vertiv Holdings Co</div>          <div class="score">Score: <strong>155</strong> (0.155)</div>
-          <div class="comp">
-            vol=0.14,
-            trends=0.00,
-            news=0.60,
-            dii=0.00
-          </div>
-            <img loading="lazy" src="/charts/2025-08-29/VRT.png" alt="VRT weekly chart" />
-          <div class="comp">Δ1D=-4.976527518737573%
-            / Δ1W=1.2542683303515156%
-            / Δ1M=-9.915950031263332%</div>
-        </article>
-        <article class="card">
-          <div class="rank">#7</div>
-          <div class="sym">TER</div>
-<div class="name">Teradyne, Inc.</div>          <div class="score">Score: <strong>151</strong> (0.151)</div>
-          <div class="comp">
-            vol=0.15,
-            trends=0.00,
-            news=0.57,
-            dii=0.00
-          </div>
-            <img loading="lazy" src="/charts/2025-08-29/TER.png" alt="TER weekly chart" />
-          <div class="comp">Δ1D=0.2968856357054461%
-            / Δ1W=2.5498653375507496%
-            / Δ1M=13.517659088545209%</div>
-        </article>
-        <article class="card">
-          <div class="rank">#8</div>
-          <div class="sym">RKLB</div>
-<div class="name">Rocket Lab USA, Inc.</div>          <div class="score">Score: <strong>141</strong> (0.141)</div>
-          <div class="comp">
-            vol=0.08,
-            trends=0.00,
-            news=0.60,
-            dii=0.00
-          </div>
-            <img loading="lazy" src="/charts/2025-08-29/RKLB.png" alt="RKLB weekly chart" />
-          <div class="comp">Δ1D=1.4401975138938594%
-            / Δ1W=9.508781668411693%
-            / Δ1M=8.457926767860148%</div>
-        </article>
-        <article class="card">
-          <div class="rank">#9</div>
-          <div class="sym">INOD</div>
-<div class="name">Innodata Inc.</div>          <div class="score">Score: <strong>139</strong> (0.139)</div>
-          <div class="comp">
-            vol=0.07,
-            trends=0.00,
-            news=0.61,
-            dii=0.00
-          </div>
-            <img loading="lazy" src="/charts/2025-08-29/INOD.png" alt="INOD weekly chart" />
-          <div class="comp">Δ1D=-3.872434432534555%
-            / Δ1W=-1.2993763148338666%
-            / Δ1M=-15.524910330006957%</div>
-        </article>
-        <article class="card">
-          <div class="rank">#10</div>
-          <div class="sym">GDRX</div>
-<div class="name">GoodRx Holdings, Inc.</div>          <div class="score">Score: <strong>139</strong> (0.139)</div>
-          <div class="comp">
-            vol=0.03,
-            trends=0.00,
-            news=0.66,
-            dii=0.00
-          </div>
-            <img loading="lazy" src="/charts/2025-08-29/GDRX.png" alt="GDRX weekly chart" />
-          <div class="comp">Δ1D=-0.22936304072485036%
-            / Δ1W=-4.605264052239599%
-            / Δ1M=-3.9735164865124073%</div>
-        </article>
-      </div>
-  </main>
-
-  <footer>
-    Generated 2025-08-31T11:44:36 (server time)
-  </footer>
+  </div>
 </body>
 </html>

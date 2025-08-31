@@ -1,86 +1,28 @@
 {
-  "items": {
-    "NVDA": {
-      "score_0_1": 0.5418625,
-      "recent_count": 20
-    },
-    "MSFT": {
-      "score_0_1": 0.5879552631578947,
-      "recent_count": 19
-    },
-    "PLTR": {
-      "score_0_1": 0.520325,
-      "recent_count": 18
-    },
-    "AI": {
-      "score_0_1": 0.5041785714285715,
-      "recent_count": 14
-    },
-    "ISRG": {
-      "score_0_1": 0.5631947368421053,
-      "recent_count": 19
-    },
-    "TER": {
-      "score_0_1": 0.5654763157894737,
-      "recent_count": 19
-    },
-    "SYM": {
-      "score_0_1": 0.49065,
-      "recent_count": 20
-    },
-    "RKLB": {
-      "score_0_1": 0.6008625,
-      "recent_count": 20
-    },
-    "IRDM": {
-      "score_0_1": 0.5936575,
-      "recent_count": 20
-    },
-    "VSAT": {
-      "score_0_1": 0.6103000000000001,
-      "recent_count": 20
-    },
-    "INOD": {
-      "score_0_1": 0.6053375,
-      "recent_count": 20
-    },
-    "SOUN": {
-      "score_0_1": 0.5675666666666667,
-      "recent_count": 18
-    },
-    "MNDY": {
-      "score_0_1": 0.5372078947368422,
-      "recent_count": 19
-    },
-    "AVAV": {
-      "score_0_1": 0.56885,
-      "recent_count": 19
-    },
-    "PERF": {
-      "score_0_1": 0.8043525,
-      "recent_count": 20
-    },
-    "GDRX": {
-      "score_0_1": 0.658045,
-      "recent_count": 20
-    },
-    "ABCL": {
-      "score_0_1": 0.5470475,
-      "recent_count": 20
-    },
-    "U": {
-      "score_0_1": 0.588435,
-      "recent_count": 20
-    },
-    "TEM": {
-      "score_0_1": 0.579835,
-      "recent_count": 20
-    },
-    "VRT": {
-      "score_0_1": 0.59657,
-      "recent_count": 20
-    }
+  "score_0_1": {
+    "NVIDIA Corporation": 0.48286962381637977,
+    "Microsoft Corporation": 0.47376945690048833,
+    "Palantir Technologies Inc.": 0.5889978383182599,
+    "C3.ai, Inc.": 0.4685373879381272,
+    "Intuitive Surgical, Inc.": 0.4683350273963126,
+    "Teradyne, Inc.": 0.45354401189564647,
+    "Symbotic Inc.": 0.45340563131399875,
+    "Rocket Lab USA, Inc.": 0.4868475986299884,
+    "Iridium Communications Inc.": 0.4260073255738631,
+    "Viasat, Inc.": 0.5146143681554163,
+    "Innodata Inc.": 0.5329155668136185,
+    "SoundHound AI, Inc.": 0.38494121482810545,
+    "Monday.com Ltd.": 0.5210042831784822,
+    "AeroVironment, Inc.": 0.47315857265792277,
+    "Perfect Corp.": 0.5297580634480684,
+    "GoodRx Holdings, Inc.": 0.47750274983727276,
+    "AbCellera Biologics Inc.": 0.6627835474343302,
+    "Unity Software Inc.": 0.40576090839725837,
+    "Tempus AI, Inc.": 0.5786484987006165,
+    "Vertiv Holdings Co": 0.4798866851747823
   },
-  "date": "2025-08-29",
-  "lookback_days": 7
+  "meta": {
+    "source": "rss/google-news",
+    "lookback_days": 7
+  }
 }
