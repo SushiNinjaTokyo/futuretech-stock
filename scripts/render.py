@@ -2,174 +2,236 @@
 # -*- coding: utf-8 -*-
 
 """
-Render daily report HTML.
-
-- 入力:
-    ENV REPORT_DATE=YYYY-MM-DD   … 任意（未指定時は site/data/top10/*.json の最新日付）
-    templates/daily.html.j2      … Jinja2 テンプレート
-    site/data/top10/<DATE>.json  … メイン（fetch_daily.py の成果物）
-    site/data/<DATE>/trends.json … 任意
-    site/data/<DATE>/news.json   … 任意
-    site/data/<DATE>/dii.json    … 任意
-
-- 出力:
-    site/daily/<DATE>.html
-
-- 方針:
-    * テンプレートの “ranking” / “top10” どちらでも動くように alias を渡す
-    * 欠損フィールドはサイレントに既定値で補完（テンプレート側で KeyError を起こさない）
-    * デザインはテンプレートに委譲（ここでは構造を崩さない）
+Render daily Top10 HTML.
+- Input JSONs (robust to slight schema differences):
+    site/data/top10/{DATE}.json
+    site/data/{DATE}/trends.json
+    site/data/{DATE}/news.json
+    site/data/{DATE}/dii.json  or site/data/dii/latest.json (ページ側でfetch)
+- Output:
+    site/daily/{DATE}.html
+- Jinja template:
+    templates/daily.html.j2
 """
 
 from __future__ import annotations
-
-import json
 import os
-import re
-from dataclasses import dataclass, asdict
+import sys
+import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-from jinja2 import Environment, FileSystemLoader, StrictUndefined, select_autoescape
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-
-ROOT = Path(__file__).resolve().parents[1]  # repo root
-SITE_DIR = ROOT / "site"
-DATA_DIR = SITE_DIR / "data"
-TOP10_DIR = DATA_DIR / "top10"
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = ROOT / "site" / "data"
+DAILY_DIR = ROOT / "site" / "daily"
 TEMPLATES_DIR = ROOT / "templates"
-OUT_DIR = SITE_DIR / "daily"
 
-
-# ---------- Utilities ----------
-
-def load_json(path: Path, default: Any) -> Any:
-    try:
-        with path.open("r", encoding="utf-8") as f:
+# -----------------------------
+# Helpers
+# -----------------------------
+def read_json(p: Path) -> Any:
+    if not p.exists():
+        return None
+    with p.open("r", encoding="utf-8") as f:
+        try:
             return json.load(f)
-    except FileNotFoundError:
+        except json.JSONDecodeError:
+            return None
+
+def to_float(x: Any, default: float = 0.0) -> float:
+    try:
+        if x is None:
+            return default
+        return float(x)
+    except Exception:
         return default
 
+def clamp01(x: Any) -> float:
+    v = to_float(x, 0.0)
+    return max(0.0, min(1.0, v))
 
-def latest_date_from_top10() -> Optional[str]:
-    if not TOP10_DIR.exists():
-        return None
-    dates: List[Tuple[str, Path]] = []
-    for p in TOP10_DIR.glob("*.json"):
-        m = re.match(r"(\d{4}-\d{2}-\d{2})\.json$", p.name)
-        if m:
-            dates.append((m.group(1), p))
-    if not dates:
-        return None
-    dates.sort(key=lambda t: t[0])
-    return dates[-1][0]
+def first(*vals, default=None):
+    for v in vals:
+        if v is not None:
+            return v
+    return default
 
+def norm_weights(w: Dict[str, float]) -> Dict[str, float]:
+    s = sum(max(0.0, float(v)) for v in w.values())
+    if s <= 0:
+        # fallback: equal weights (avoid zero division)
+        keys = list(w.keys()) or ["vol_anomaly", "dii", "trends", "news"]
+        n = len(keys)
+        return {k: 1.0 / n for k in keys}
+    return {k: max(0.0, float(v)) / s for k, v in w.items()}
 
-def ensure_dir(p: Path) -> None:
-    p.mkdir(parents=True, exist_ok=True)
+def read_env_weights() -> Dict[str, float]:
+    # read from env (logs show these are set)
+    return {
+        "vol_anomaly": to_float(os.getenv("WEIGHT_VOL_ANOM"), 0.25),
+        "dii":         to_float(os.getenv("WEIGHT_DII"), 0.25),
+        "trends":      to_float(os.getenv("WEIGHT_TRENDS"), 0.30),
+        "news":        to_float(os.getenv("WEIGHT_NEWS"), 0.20),
+    }
 
+def guess_date_from_env() -> str:
+    d = os.getenv("REPORT_DATE")
+    if d:
+        return d
+    # fallback: latest folder name under site/data/YYYY-MM-DD
+    candidates = sorted((DATA_DIR.glob("20??-??-??")), reverse=True)
+    return candidates[0].name if candidates else "1970-01-01"
 
-def safe_get(d: Dict[str, Any], key: str, default: Any = None) -> Any:
-    v = d.get(key, default)
-    return v if v is not None else default
+# -----------------------------
+# Unify a single item to template schema
+# -----------------------------
+def unify_item(raw: Dict[str, Any], idx: int, date_str: str, default_weights: Dict[str, float]) -> Dict[str, Any]:
+    sym = raw.get("symbol") or raw.get("ticker") or raw.get("sym") or ""
+    name = raw.get("name") or raw.get("company") or raw.get("title") or ""
 
+    # final score (0..1) and points
+    score01 = first(
+        raw.get("final_score_0_1"),
+        raw.get("score_norm"),
+        (raw.get("final") or {}).get("score_0_1"),
+        default=0.0
+    )
+    score01 = clamp01(score01)
+    score_pts = int(round(score01 * 1000))
 
-# ---------- Data shaping ----------
+    # rank
+    rank = int(first(raw.get("rank"), idx + 1))
 
-CORE_KEYS = ["vol_anomaly_score", "insider_momo", "trends_breakout", "news_score"]
+    # components (0..1)
+    comps_candidates = raw.get("score_components") or raw.get("components") or {}
+    comps: Dict[str, float] = {
+        # volume anomaly
+        "vol_anomaly": clamp01(first(
+            comps_candidates.get("vol_anomaly"),
+            raw.get("vol_anomaly_score"),
+            raw.get("volume_anomaly"),
+            (raw.get("detail") or {}).get("vol_anomaly_score"),
+            default=0.0
+        )),
+        # DII (replacing Insider)
+        "dii": clamp01(first(
+            comps_candidates.get("dii"),
+            raw.get("dii_score"),
+            raw.get("insider_momo"),
+            raw.get("form4_score"),
+            default=0.0
+        )),
+        # trends
+        "trends": clamp01(first(
+            comps_candidates.get("trends"),
+            raw.get("trends_breakout"),
+            default=0.0
+        )),
+        # news
+        "news": clamp01(first(
+            comps_candidates.get("news"),
+            raw.get("news_score"),
+            default=0.0
+        )),
+    }
 
-def normalize_item(item: Dict[str, Any], rank_fallback: int, date_str: str) -> Dict[str, Any]:
-    """テンプレートが必要とする最低限の形に正規化。未知キーは触らない。"""
-    sym = safe_get(item, "symbol", "")
-    name = safe_get(item, "name", "")
-    rank = int(safe_get(item, "rank", rank_fallback))
+    # weights
+    weights_raw = raw.get("score_weights") or raw.get("weights") or {}
+    weights: Dict[str, float] = {
+        "vol_anomaly": to_float(first(weights_raw.get("vol_anomaly"),
+                                      weights_raw.get("vol_anomaly_score"),
+                                      default_weights.get("vol_anomaly"),)),
+        "dii":         to_float(first(weights_raw.get("dii"),
+                                      weights_raw.get("insider"),
+                                      default_weights.get("dii"),)),
+        "trends":      to_float(first(weights_raw.get("trends"),
+                                      weights_raw.get("trends_breakout"),
+                                      default_weights.get("trends"),)),
+        "news":        to_float(first(weights_raw.get("news"),
+                                      weights_raw.get("news_score"),
+                                      default_weights.get("news"),)),
+    }
+    weights = norm_weights(weights)
 
-    # スコア系
-    final_0_1 = float(safe_get(item, "final_score_0_1", 0.0))
-    score_pts = int(safe_get(item, "score_pts", round(final_0_1 * 1000)))
+    # price deltas
+    d1  = first(raw.get("price_delta_1d"),  raw.get("delta_1d"),  raw.get("d1"),  default=None)
+    d5  = first(raw.get("price_delta_1w"),  raw.get("delta_1w"),  raw.get("d5"),  raw.get("price_delta_5d"),  default=None)
+    d20 = first(raw.get("price_delta_1m"),  raw.get("delta_1m"),  raw.get("d20"), raw.get("price_delta_20d"), default=None)
 
-    # score_components が dict でなければ空 dict
-    sc = safe_get(item, "score_components", {}) or {}
-    if not isinstance(sc, dict):
-        sc = {}
+    # detail.vol_anomaly
+    vol_detail = None
+    det = raw.get("detail") or {}
+    if "vol_anomaly" in det:
+        vol_detail = det.get("vol_anomaly")
+    else:
+        # build minimal struct if pieces exist
+        rvol20 = first(det.get("rvol20"), det.get("rvol_20"))
+        z60    = first(det.get("z60"), det.get("zscore_60"))
+        pr90   = first(det.get("pct_rank_90"), det.get("pr90"))
+        dv     = first(det.get("dollar_vol"), det.get("dvol"))
+        elig   = first(det.get("eligible"), det.get("eligibility"), None)
+        if any(v is not None for v in [rvol20, z60, pr90, dv, elig]):
+            vol_detail = {"rvol20": rvol20, "z60": z60, "pct_rank_90": pr90, "dollar_vol": dv, "eligible": elig}
 
-    # 代表キーが numeric になるようにキャスト（壊れてても落とさない）
-    def to_num(x):
-        try:
-            return float(x)
-        except Exception:
-            return 0.0
+    # chart url (relative from site root)
+    chart_url = raw.get("chart_url") or f"/charts/{date_str}/{sym}.png"
 
-    for k in CORE_KEYS:
-        if k in sc and sc[k] is not None:
-            sc[k] = to_num(sc[k])
-
-    # detail（出来高異常など）
-    detail = safe_get(item, "detail", {}) or {}
-    vol = detail.get("vol_anomaly") if isinstance(detail, dict) else None
-    if not isinstance(detail, dict):
-        detail = {}
-    # 期待する形: detail.vol_anomaly.{is_anomaly, ratio, zscore ...}
-    if vol is not None and not isinstance(vol, dict):
-        detail["vol_anomaly"] = {}
-
-    # チャート URL（テンプレート互換）
-    chart_url = safe_get(item, "chart_url", f"/charts/{date_str}/{sym}.png")
-
-    # rank 1..n に合わせて返す
-    shaped = {
-        **item,  # 既存のフィールドは温存
+    # expose top-level fields the template expects (plus fallbacks)
+    out = {
         "symbol": sym,
         "name": name,
         "rank": rank,
-        "final_score_0_1": final_0_1,
+        "final_score_0_1": score01,
         "score_pts": score_pts,
-        "score_components": sc,
-        "detail": detail,
+        "score_components": comps,
+        "score_weights": weights,
+        "trends_breakout": comps["trends"],
+        "news_score": comps["news"],
+        "dii_score": comps["dii"],
+        "vol_anomaly_score": comps["vol_anomaly"],
         "chart_url": chart_url,
+        "price_delta_1d": d1,
+        "price_delta_1w": d5,
+        "price_delta_1m": d20,
+        "detail": {"vol_anomaly": vol_detail} if vol_detail else {},
     }
-    return shaped
+    return out
 
-
-# ---------- Main ----------
-
-def main() -> None:
-    # 1) 日付解決
-    report_date = os.environ.get("REPORT_DATE", "").strip()
-    if not report_date:
-        report_date = latest_date_from_top10() or ""
-    if not report_date:
-        raise SystemExit("[ERROR] REPORT_DATE が解決できませんでした（site/data/top10/*.json も見つかりません）")
-
-    # 2) データ読み取り（存在しなくても落とさない）
-    top10_path = TOP10_DIR / f"{report_date}.json"
-    top10_raw = load_json(top10_path, default={"items": []})
-    if isinstance(top10_raw, dict) and "items" in top10_raw:
-        items_in = top10_raw["items"]
-    elif isinstance(top10_raw, list):
-        items_in = top10_raw
+# -----------------------------
+# Load Top10 source
+# -----------------------------
+def load_top10(date_str: str) -> List[Dict[str, Any]]:
+    p = DATA_DIR / "top10" / f"{date_str}.json"
+    j = read_json(p)
+    if j is None:
+        return []
+    if isinstance(j, dict):
+        # possible keys: items / top10 / data
+        items = j.get("items") or j.get("top10") or j.get("data") or []
+    elif isinstance(j, list):
+        items = j
     else:
-        items_in = []
+        items = []
+    return items
 
-    # trends/news/dii は “存在すれば” 渡す（テンプレートでは使わなくてもOK）
-    base_day_dir = DATA_DIR / report_date
-    trends = load_json(base_day_dir / "trends.json", default={})
-    news = load_json(base_day_dir / "news.json", default={})
-    dii = load_json(base_day_dir / "dii.json", default={})
+# -----------------------------
+# Main
+# -----------------------------
+def main():
+    date_str = guess_date_from_env()
 
-    # 3) 形を整える（rank, score, components, detail, chart_url）
-    items_out: List[Dict[str, Any]] = []
-    for idx, it in enumerate(items_in, start=1):
-        try:
-            items_out.append(normalize_item(it, rank_fallback=idx, date_str=report_date))
-        except Exception:
-            # 1件壊れていても全体は落とさない
-            items_out.append(normalize_item({}, rank_fallback=idx, date_str=report_date))
+    raw_items = load_top10(date_str)
+    if not raw_items:
+        print(f"[WARN] No top10 data for {date_str} ({DATA_DIR/'top10'/f'{date_str}.json'})", file=sys.stderr)
 
-    # 4) Jinja2 で出力
-    ensure_dir(OUT_DIR)
+    env_weights = read_env_weights()
+    unified: List[Dict[str, Any]] = [
+        unify_item(raw, i, date_str, env_weights) for i, raw in enumerate(raw_items)
+    ]
 
-    # テンプレートは “厳密すぎると欠損で落ちる” ので StrictUndefined は使わない
+    # Prepare Jinja environment
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATES_DIR)),
         autoescape=select_autoescape(["html", "xml"]),
@@ -178,23 +240,15 @@ def main() -> None:
     )
     tmpl = env.get_template("daily.html.j2")
 
-    # スコアの説明文（デザイン文言はテンプレ側にもあるが、念のため渡す）
-    scoring = "volume anomaly + DII + trends + news"
+    DAILY_DIR.mkdir(parents=True, exist_ok=True)
+    out_path = DAILY_DIR / f"{date_str}.html"
 
     html = tmpl.render(
-        date=report_date,
-        scoring=scoring,
-        top10=items_out,     # 既存呼び名
-        ranking=items_out,   # 互換エイリアス（テンプレがどちらでも動く）
-        trends=trends,
-        news=news,
-        dii=dii,
+        date=date_str,
+        top10=unified,
     )
-
-    out_path = OUT_DIR / f"{report_date}.html"
     out_path.write_text(html, encoding="utf-8")
     print(f"[OK] wrote: {out_path}")
-
 
 if __name__ == "__main__":
     main()
