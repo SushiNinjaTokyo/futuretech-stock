@@ -3,18 +3,18 @@
     "symbol": "NVDA",
     "name": "NVIDIA Corporation",
     "theme": "AI",
-    "final_score_0_1": 0.574704948965241,
-    "score_pts": 575,
-    "vol_anomaly_score": 0.5788197958609641,
-    "trends_breakout": 0.8333333333333334,
+    "final_score_0_1": 0.5568339204803381,
+    "score_pts": 557,
+    "vol_anomaly_score": 0.5740023485880189,
+    "trends_breakout": 0.7777777777777778,
     "news_score": 0.9,
     "news_recent_count": 58,
     "dii_score": 0.0,
     "dii_ratio": null,
     "score_components": {
-      "volume_anomaly": 0.5788197958609641,
+      "volume_anomaly": 0.5740023485880189,
       "dii": 0.0,
-      "trends_breakout": 0.8333333333333334,
+      "trends_breakout": 0.7777777777777778,
       "news": 0.9
     },
     "score_weights": {
@@ -25,119 +25,37 @@
     },
     "detail": {
       "vol_anomaly": {
-        "score": 0.5788197958609641,
+        "score": 0.5740023485880189,
         "eligible": true,
-        "rvol20": 1.428992977297235,
-        "z60": 2.112788126404102,
+        "rvol20": 1.4261976747318632,
+        "z60": 2.10109185677026,
         "pct_rank_90": 0.9444444444444444,
-        "dollar_vol": 42370656319.14
+        "dollar_vol": 42278152246.21582
       },
       "dii": {}
     },
     "chart_url": "/charts/2025-08-29/NVDA.png",
-    "price_delta_1d": -3.3246378420380696,
-    "price_delta_1w": -2.140569694926686,
-    "price_delta_1m": 0.26479392125260404,
+    "price_delta_1d": -3.3246409247044806,
+    "price_delta_1w": -2.140576830045182,
+    "price_delta_1m": 0.26478900060202815,
     "rank": 1
-  },
-  {
-    "symbol": "VSAT",
-    "name": "Viasat, Inc.",
-    "theme": "Space",
-    "final_score_0_1": 0.43187062160376843,
-    "score_pts": 432,
-    "vol_anomaly_score": 0.060815819748407086,
-    "trends_breakout": 0.8888888888888888,
-    "news_score": 0.75,
-    "news_recent_count": 53,
-    "dii_score": 0.0,
-    "dii_ratio": null,
-    "score_components": {
-      "volume_anomaly": 0.060815819748407086,
-      "dii": 0.0,
-      "trends_breakout": 0.8888888888888888,
-      "news": 0.75
-    },
-    "score_weights": {
-      "volume_anomaly": 0.25,
-      "dii": 0.25,
-      "trends_breakout": 0.3,
-      "news": 0.2
-    },
-    "detail": {
-      "vol_anomaly": {
-        "score": 0.060815819748407086,
-        "eligible": true,
-        "rvol20": 0.5528710886218825,
-        "z60": -0.6439714696713825,
-        "pct_rank_90": 0.8333333333333334,
-        "dollar_vol": 95471459.89999999
-      },
-      "dii": {}
-    },
-    "chart_url": "/charts/2025-08-29/VSAT.png",
-    "price_delta_1d": -0.6148170919151652,
-    "price_delta_1w": 15.753669889008236,
-    "price_delta_1m": 94.99396863691196,
-    "rank": 2
-  },
-  {
-    "symbol": "MSFT",
-    "name": "Microsoft Corporation",
-    "theme": "AI",
-    "final_score_0_1": 0.4304006738148882,
-    "score_pts": 430,
-    "vol_anomaly_score": 0.10826936192621966,
-    "trends_breakout": 0.7777777777777778,
-    "news_score": 0.85,
-    "news_recent_count": 58,
-    "dii_score": 0.0,
-    "dii_ratio": null,
-    "score_components": {
-      "volume_anomaly": 0.10826936192621966,
-      "dii": 0.0,
-      "trends_breakout": 0.7777777777777778,
-      "news": 0.85
-    },
-    "score_weights": {
-      "volume_anomaly": 0.25,
-      "dii": 0.25,
-      "trends_breakout": 0.3,
-      "news": 0.2
-    },
-    "detail": {
-      "vol_anomaly": {
-        "score": 0.10826936192621966,
-        "eligible": true,
-        "rvol20": 0.9842669266019969,
-        "z60": -0.11533521915294558,
-        "pct_rank_90": 0.7333333333333333,
-        "dollar_vol": 10621017396.61
-      },
-      "dii": {}
-    },
-    "chart_url": "/charts/2025-08-29/MSFT.png",
-    "price_delta_1d": -0.5788399654658161,
-    "price_delta_1w": -0.1064605800130125,
-    "price_delta_1m": -3.3237297513880715,
-    "rank": 3
   },
   {
     "symbol": "PERF",
     "name": "Perfect Corp.",
     "theme": "AI",
-    "final_score_0_1": 0.4290138206798462,
-    "score_pts": 429,
-    "vol_anomaly_score": 0.049388616052718305,
-    "trends_breakout": 0.7222222222222222,
+    "final_score_0_1": 0.5123163825567022,
+    "score_pts": 512,
+    "vol_anomaly_score": 0.04926553022680887,
+    "trends_breakout": 1.0,
     "news_score": 1.0,
     "news_recent_count": 60,
     "dii_score": 0.0,
     "dii_ratio": null,
     "score_components": {
-      "volume_anomaly": 0.049388616052718305,
+      "volume_anomaly": 0.04926553022680887,
       "dii": 0.0,
-      "trends_breakout": 0.7222222222222222,
+      "trends_breakout": 1.0,
       "news": 1.0
     },
     "score_weights": {
@@ -148,37 +66,119 @@
     },
     "detail": {
       "vol_anomaly": {
-        "score": 0.049388616052718305,
+        "score": 0.04926553022680887,
         "eligible": true,
-        "rvol20": 0.44898741866107544,
-        "z60": -0.631628075397758,
+        "rvol20": 0.4478684566073533,
+        "z60": -0.6323660200007778,
         "pct_rank_90": 0.2,
-        "dollar_vol": 160318.19999999998
+        "dollar_vol": 159694.99628543854
       },
       "dii": {}
     },
     "chart_url": "/charts/2025-08-29/PERF.png",
-    "price_delta_1d": -1.4423076923077094,
-    "price_delta_1w": 6.770833333333326,
-    "price_delta_1m": 10.215053763440851,
+    "price_delta_1d": -1.4423063697193705,
+    "price_delta_1w": 6.7708332363205725,
+    "price_delta_1m": 10.215050352144871,
+    "rank": 2
+  },
+  {
+    "symbol": "VSAT",
+    "name": "Viasat, Inc.",
+    "theme": "Space",
+    "final_score_0_1": 0.4151975574342763,
+    "score_pts": 415,
+    "vol_anomaly_score": 0.06079022973710497,
+    "trends_breakout": 0.8333333333333334,
+    "news_score": 0.75,
+    "news_recent_count": 53,
+    "dii_score": 0.0,
+    "dii_ratio": null,
+    "score_components": {
+      "volume_anomaly": 0.06079022973710497,
+      "dii": 0.0,
+      "trends_breakout": 0.8333333333333334,
+      "news": 0.75
+    },
+    "score_weights": {
+      "volume_anomaly": 0.25,
+      "dii": 0.25,
+      "trends_breakout": 0.3,
+      "news": 0.2
+    },
+    "detail": {
+      "vol_anomaly": {
+        "score": 0.06079022973710497,
+        "eligible": true,
+        "rvol20": 0.5526384521554997,
+        "z60": -0.6442423251403238,
+        "pct_rank_90": 0.8333333333333334,
+        "dollar_vol": 95428466.40472412
+      },
+      "dii": {}
+    },
+    "chart_url": "/charts/2025-08-29/VSAT.png",
+    "price_delta_1d": -0.6148077336217805,
+    "price_delta_1w": 15.753675180102068,
+    "price_delta_1m": 94.99398057794504,
+    "rank": 3
+  },
+  {
+    "symbol": "MSFT",
+    "name": "Microsoft Corporation",
+    "theme": "AI",
+    "final_score_0_1": 0.41372634098256217,
+    "score_pts": 414,
+    "vol_anomaly_score": 0.10823869726358201,
+    "trends_breakout": 0.7222222222222222,
+    "news_score": 0.85,
+    "news_recent_count": 58,
+    "dii_score": 0.0,
+    "dii_ratio": null,
+    "score_components": {
+      "volume_anomaly": 0.10823869726358201,
+      "dii": 0.0,
+      "trends_breakout": 0.7222222222222222,
+      "news": 0.85
+    },
+    "score_weights": {
+      "volume_anomaly": 0.25,
+      "dii": 0.25,
+      "trends_breakout": 0.3,
+      "news": 0.2
+    },
+    "detail": {
+      "vol_anomaly": {
+        "score": 0.10823869726358201,
+        "eligible": true,
+        "rvol20": 0.9839881569416546,
+        "z60": -0.116105543805172,
+        "pct_rank_90": 0.7333333333333333,
+        "dollar_vol": 10617283649.157715
+      },
+      "dii": {}
+    },
+    "chart_url": "/charts/2025-08-29/MSFT.png",
+    "price_delta_1d": -0.5788423440546087,
+    "price_delta_1w": -0.10646226233179679,
+    "price_delta_1m": -3.1648008118582593,
     "rank": 4
   },
   {
     "symbol": "U",
     "name": "Unity Software Inc.",
     "theme": "AI",
-    "final_score_0_1": 0.39588086857427196,
-    "score_pts": 396,
-    "vol_anomaly_score": 0.07685680763042103,
-    "trends_breakout": 0.7222222222222222,
+    "final_score_0_1": 0.3792189303512349,
+    "score_pts": 379,
+    "vol_anomaly_score": 0.07687572140493945,
+    "trends_breakout": 0.6666666666666666,
     "news_score": 0.8,
     "news_recent_count": 56,
     "dii_score": 0.0,
     "dii_ratio": null,
     "score_components": {
-      "volume_anomaly": 0.07685680763042103,
+      "volume_anomaly": 0.07687572140493945,
       "dii": 0.0,
-      "trends_breakout": 0.7222222222222222,
+      "trends_breakout": 0.6666666666666666,
       "news": 0.8
     },
     "score_weights": {
@@ -189,37 +189,37 @@
     },
     "detail": {
       "vol_anomaly": {
-        "score": 0.07685680763042103,
+        "score": 0.07687572140493945,
         "eligible": true,
-        "rvol20": 0.6986982511856457,
-        "z60": -0.4206326066045471,
+        "rvol20": 0.6988701945903586,
+        "z60": -0.4204052466516649,
         "pct_rank_90": 0.6777777777777778,
-        "dollar_vol": 401876026.51
+        "dollar_vol": 401714010.4446411
       },
       "dii": {}
     },
     "chart_url": "/charts/2025-08-29/U.png",
-    "price_delta_1d": -1.8919591735125807,
-    "price_delta_1w": 0.6384065372829317,
-    "price_delta_1m": 23.814011938422873,
+    "price_delta_1d": -1.891955081344121,
+    "price_delta_1w": 0.6384065397704974,
+    "price_delta_1m": 23.814011755811194,
     "rank": 5
   },
   {
     "symbol": "IRDM",
     "name": "Iridium Communications Inc.",
     "theme": "Space",
-    "final_score_0_1": 0.3899234957468524,
-    "score_pts": 390,
-    "vol_anomaly_score": 0.21302731632074312,
-    "trends_breakout": 0.7222222222222222,
+    "final_score_0_1": 0.3732426645963458,
+    "score_pts": 373,
+    "vol_anomaly_score": 0.21297065838538326,
+    "trends_breakout": 0.6666666666666666,
     "news_score": 0.6,
     "news_recent_count": 53,
     "dii_score": 0.0,
     "dii_ratio": null,
     "score_components": {
-      "volume_anomaly": 0.21302731632074312,
+      "volume_anomaly": 0.21297065838538326,
       "dii": 0.0,
-      "trends_breakout": 0.7222222222222222,
+      "trends_breakout": 0.6666666666666666,
       "news": 0.6
     },
     "score_weights": {
@@ -230,37 +230,37 @@
     },
     "detail": {
       "vol_anomaly": {
-        "score": 0.21302731632074312,
+        "score": 0.21297065838538326,
         "eligible": true,
-        "rvol20": 1.3620160706180138,
-        "z60": 0.4213703236850772,
+        "rvol20": 1.3618579981094423,
+        "z60": 0.4211085239556305,
         "pct_rank_90": 0.8666666666666667,
-        "dollar_vol": 51648616.75
+        "dollar_vol": 51636792.73376465
       },
       "dii": {}
     },
     "chart_url": "/charts/2025-08-29/IRDM.png",
-    "price_delta_1d": 1.137748882568057,
-    "price_delta_1w": -0.36028823058447124,
-    "price_delta_1m": 2.936311000827141,
+    "price_delta_1d": 1.1377438941594376,
+    "price_delta_1w": -0.3602888480270683,
+    "price_delta_1m": 2.9363071774679783,
     "rank": 6
   },
   {
     "symbol": "SOUN",
     "name": "SoundHound AI, Inc.",
     "theme": "AI",
-    "final_score_0_1": 0.3778684204741176,
-    "score_pts": 378,
-    "vol_anomaly_score": 0.20480701522980382,
-    "trends_breakout": 0.7222222222222222,
+    "final_score_0_1": 0.36083011406110377,
+    "score_pts": 361,
+    "vol_anomaly_score": 0.20332045624441503,
+    "trends_breakout": 0.6666666666666666,
     "news_score": 0.55,
     "news_recent_count": 51,
     "dii_score": 0.0,
     "dii_ratio": null,
     "score_components": {
-      "volume_anomaly": 0.20480701522980382,
+      "volume_anomaly": 0.20332045624441503,
       "dii": 0.0,
-      "trends_breakout": 0.7222222222222222,
+      "trends_breakout": 0.6666666666666666,
       "news": 0.55
     },
     "score_weights": {
@@ -271,37 +271,37 @@
     },
     "detail": {
       "vol_anomaly": {
-        "score": 0.20480701522980382,
+        "score": 0.20332045624441503,
         "eligible": true,
-        "rvol20": 1.3434674311926418,
-        "z60": 0.3801706519907548,
+        "rvol20": 1.3391057983210146,
+        "z60": 0.37345878952735595,
         "pct_rank_90": 0.9555555555555556,
-        "dollar_vol": 1063407067.8
+        "dollar_vol": 1059576751.253128
       },
       "dii": {}
     },
     "chart_url": "/charts/2025-08-29/SOUN.png",
-    "price_delta_1d": 3.9106145251396773,
-    "price_delta_1w": 3.6624203821655987,
-    "price_delta_1m": 28.783382789317514,
+    "price_delta_1d": 3.910620392936659,
+    "price_delta_1w": 3.6624205635258367,
+    "price_delta_1m": 28.78339169046844,
     "rank": 7
   },
   {
     "symbol": "PLTR",
     "name": "Palantir Technologies Inc.",
     "theme": "AI",
-    "final_score_0_1": 0.37476368855585696,
-    "score_pts": 375,
-    "vol_anomaly_score": 0.059054754223427854,
-    "trends_breakout": 1.0,
+    "final_score_0_1": 0.35806012135637943,
+    "score_pts": 358,
+    "vol_anomaly_score": 0.05890715209218446,
+    "trends_breakout": 0.9444444444444444,
     "news_score": 0.3,
     "news_recent_count": 40,
     "dii_score": 0.0,
     "dii_ratio": null,
     "score_components": {
-      "volume_anomaly": 0.059054754223427854,
+      "volume_anomaly": 0.05890715209218446,
       "dii": 0.0,
-      "trends_breakout": 1.0,
+      "trends_breakout": 0.9444444444444444,
       "news": 0.3
     },
     "score_weights": {
@@ -312,37 +312,37 @@
     },
     "detail": {
       "vol_anomaly": {
-        "score": 0.059054754223427854,
+        "score": 0.05890715209218446,
         "eligible": true,
-        "rvol20": 0.5368614020311623,
-        "z60": -1.0627903766025073,
+        "rvol20": 0.5355195644744042,
+        "z60": -1.0661132476062454,
         "pct_rank_90": 0.07777777777777778,
-        "dollar_vol": 7094340368.42
+        "dollar_vol": 7075409790.129089
       },
       "dii": {}
     },
     "chart_url": "/charts/2025-08-29/PLTR.png",
-    "price_delta_1d": -0.8917278016696173,
-    "price_delta_1w": -1.2788207131157914,
-    "price_delta_1m": 1.5816425747066765,
+    "price_delta_1d": -0.8917204951058411,
+    "price_delta_1w": -1.2788198998672007,
+    "price_delta_1m": 1.5816441134576475,
     "rank": 8
   },
   {
     "symbol": "SYM",
     "name": "Symbotic Inc.",
     "theme": "Robotics",
-    "final_score_0_1": 0.36879828799930614,
-    "score_pts": 369,
-    "vol_anomaly_score": 0.04852648533055798,
-    "trends_breakout": 0.7222222222222222,
+    "final_score_0_1": 0.3521134305567434,
+    "score_pts": 352,
+    "vol_anomaly_score": 0.048453722226973764,
+    "trends_breakout": 0.6666666666666666,
     "news_score": 0.7,
     "news_recent_count": 53,
     "dii_score": 0.0,
     "dii_ratio": null,
     "score_components": {
-      "volume_anomaly": 0.04852648533055798,
+      "volume_anomaly": 0.048453722226973764,
       "dii": 0.0,
-      "trends_breakout": 0.7222222222222222,
+      "trends_breakout": 0.6666666666666666,
       "news": 0.7
     },
     "score_weights": {
@@ -353,37 +353,37 @@
     },
     "detail": {
       "vol_anomaly": {
-        "score": 0.04852648533055798,
+        "score": 0.048453722226973764,
         "eligible": true,
-        "rvol20": 0.4411498666414361,
-        "z60": -0.9573169292338529,
+        "rvol20": 0.4404883838815796,
+        "z60": -0.9580915190645137,
         "pct_rank_90": 0.37777777777777777,
-        "dollar_vol": 50156086.68
+        "dollar_vol": 50076594.32220459
       },
       "dii": {}
     },
     "chart_url": "/charts/2025-08-29/SYM.png",
-    "price_delta_1d": -3.8710985002026854,
-    "price_delta_1w": 2.59571706683972,
-    "price_delta_1m": -6.725663716814168,
+    "price_delta_1d": -3.8710981789730092,
+    "price_delta_1w": 2.595718742854669,
+    "price_delta_1m": -6.725660317739912,
     "rank": 9
   },
   {
     "symbol": "INOD",
     "name": "Innodata Inc.",
     "theme": "AI",
-    "final_score_0_1": 0.3645667280363839,
-    "score_pts": 365,
-    "vol_anomaly_score": 0.07160024547886885,
-    "trends_breakout": 0.7222222222222222,
+    "final_score_0_1": 0.3477932152853539,
+    "score_pts": 348,
+    "vol_anomaly_score": 0.07117286114141569,
+    "trends_breakout": 0.6666666666666666,
     "news_score": 0.65,
     "news_recent_count": 52,
     "dii_score": 0.0,
     "dii_ratio": null,
     "score_components": {
-      "volume_anomaly": 0.07160024547886885,
+      "volume_anomaly": 0.07117286114141569,
       "dii": 0.0,
-      "trends_breakout": 0.7222222222222222,
+      "trends_breakout": 0.6666666666666666,
       "news": 0.65
     },
     "score_weights": {
@@ -394,19 +394,19 @@
     },
     "detail": {
       "vol_anomaly": {
-        "score": 0.07160024547886885,
+        "score": 0.07117286114141569,
         "eligible": true,
-        "rvol20": 0.6509113225351714,
-        "z60": -0.5692540493490514,
+        "rvol20": 0.6470260103765062,
+        "z60": -0.5761043571432906,
         "pct_rank_90": 0.2,
-        "dollar_vol": 50096037.779999994
+        "dollar_vol": 49780385.400009155
       },
       "dii": {}
     },
     "chart_url": "/charts/2025-08-29/INOD.png",
-    "price_delta_1d": -3.8724373576309867,
-    "price_delta_1w": -1.299376299376298,
-    "price_delta_1m": -15.51551551551552,
+    "price_delta_1d": -3.872434432534555,
+    "price_delta_1w": -1.2993763148338666,
+    "price_delta_1m": -15.524910330006957,
     "rank": 10
   }
 ]
