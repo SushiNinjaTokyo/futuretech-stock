@@ -7,9 +7,9 @@
   <style>
     :root{
       --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
-      --gold:#f6c453;
-      --silver:#cdd2d8;
-      --bronze:#f4a261;
+      --gold:#f6c453;        /* 1位 */
+      --silver:#cdd2d8;      /* 2位 */
+      --bronze:#f4a261;      /* 3位 */
       --soft:#f8fafc; --ring:#e2e8f0;
 
       --up-bg:#ecfdf5; --up-fg:#065f46; --up-bd:#10b98133;
@@ -54,35 +54,17 @@
 
     .rank1 .rocket{ animation:lift-strong 1.6s ease-in-out infinite; }
     .rank1 .flame{ animation:flicker-strong .6s ease-in-out infinite; }
-    @keyframes lift-strong{
-      0%{ transform:translateY(0) rotate(-6deg) scale(1);}
-      50%{ transform:translateY(-5px) rotate(0) scale(1.03);}
-      100%{ transform:translateY(0) rotate(-6deg) scale(1);}
-    }
-    @keyframes flicker-strong{
-      0%,100%{ opacity:1; transform:scale(1); }
-      50%{ opacity:.55; transform:scale(.82); }
-    }
+    @keyframes lift-strong{0%{transform:translateY(0) rotate(-6deg) scale(1);}50%{transform:translateY(-5px) rotate(0) scale(1.03);}100%{transform:translateY(0) rotate(-6deg) scale(1);}}
+    @keyframes flicker-strong{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.55;transform:scale(.82);}}
 
     .rank2 .rocket{ animation:lift 1.8s ease-in-out infinite; }
     .rank2 .flame{ animation:flicker .9s ease-in-out infinite; }
-    @keyframes lift{
-      0%{ transform:translateY(0) rotate(-4deg) }
-      50%{ transform:translateY(-3px) rotate(0) }
-      100%{ transform:translateY(0) rotate(-4deg) }
-    }
-    @keyframes flicker{
-      0%,100%{ opacity:.95; transform:scale(1); }
-      50%{ opacity:.7; transform:scale(.88); }
-    }
+    @keyframes lift{0%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-3px) rotate(0)}100%{transform:translateY(0) rotate(-4deg)}}
+    @keyframes flicker{0%,100%{opacity:.95;transform:scale(1);}50%{opacity:.7;transform:scale(.88);}}
 
     .rank3 .rocket{ animation:prep 1.6s ease-in-out infinite; }
     .rank3 .flame{ opacity:.0; }
-    @keyframes prep{
-      0%{ transform:translateY(0) rotate(-2deg) }
-      50%{ transform:translateY(-1px) rotate(1deg) }
-      100%{ transform:translateY(0) rotate(-2deg) }
-    }
+    @keyframes prep{0%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-1px) rotate(1deg)}100%{transform:translateY(0) rotate(-2deg)}}
 
     .id-block{min-width:0}
     .symbol{font-size:18px;font-weight:800;letter-spacing:.2px;line-height:1.15;white-space:nowrap}
@@ -90,24 +72,11 @@
     @media (min-width:900px){ .name{max-width:420px} }
 
     .score{text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.05;margin-left:auto}
-    .score .num{
-      font-size:28px;font-weight:900;letter-spacing:-.4px;
-      padding:6px 10px;border-radius:12px;border:1px solid var(--ring);
-      background:linear-gradient(180deg,#ffffff 0%,#f9fafb 100%);
-    }
+    .score .num{font-size:28px;font-weight:900;letter-spacing:-.4px;padding:6px 10px;border-radius:12px;border:1px solid var(--ring);background:linear-gradient(180deg,#ffffff 0%,#f9fafb 100%);}
     .score .den{font-size:11px;color:var(--muted);margin-top:2px}
 
-    .price-row{
-      display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:nowrap;
-      overflow:hidden;
-    }
-    .pch{
-      flex:1 1 0%; min-width:0;
-      display:flex;align-items:center;justify-content:center;gap:6px;
-      padding:6px 8px;border-radius:999px;border:1px solid var(--border);
-      font-size:11px;line-height:1; background:var(--chip-bg); color:#111;
-      white-space:nowrap;
-    }
+    .price-row{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:nowrap;overflow:hidden;}
+    .pch{flex:1 1 0%; min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 8px;border-radius:999px;border:1px solid var(--border);font-size:11px;line-height:1;background:var(--chip-bg);color:#111;white-space:nowrap;}
     .pch .k{color:var(--muted)}
     .pch.up{border-color:var(--up-bd);background:var(--up-bg);color:var(--up-fg)}
     .pch.down{border-color:var(--dn-bd);background:var(--dn-bg);color:var(--dn-fg)}
@@ -125,14 +94,9 @@
 
     .tabs{margin-top:12px}
     .seg{display:inline-flex;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:rgba(243,244,246,.6);backdrop-filter:saturate(1.1) blur(2px)}
-    .seg .segbtn{
-      appearance:none;border:0;margin:0;padding:8px 12px;background:transparent;cursor:pointer;
-      font-size:12px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;
-    }
+    .seg .segbtn{appearance:none;border:0;margin:0;padding:8px 12px;background:transparent;cursor:pointer;font-size:12px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;}
     .seg .segbtn:focus{outline:none;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
-    .seg .segbtn[aria-pressed="true"]{
-      background:#fff; font-weight:700; box-shadow:inset 0 0 0 1px var(--border);
-    }
+    .seg .segbtn[aria-pressed="true"]{background:#fff; font-weight:700; box-shadow:inset 0 0 0 1px var(--border);}
     .seg .ico{font-size:14px;opacity:.9}
 
     .tab{display:none}
@@ -166,22 +130,27 @@
   <div class="wrap">
     <header>
       <h1>futuretech-stock — Daily Top 10</h1>
-      <div class="sub">Date: {{ date | default('', true) }} / Scoring: 1000 pts（volume + insider + trends + news）</div>
+      <div class="sub">Date: {{ date | default('', true) }} / Scoring: 1000 pts（volume anomaly + DII + trends + news）</div>
     </header>
 
     {% if top10 is defined %}
+    {# —— 安全に配列化：list でも dict でも動く —— #}
+    {% set items = (top10 if top10 is iterable and (top10 is sequence or (top10|length > 0 and top10[0] is defined)) else (top10|dictsort|map('last')|list)) %}
     <div class="grid" id="cards">
-      {% for item in top10 %}
-        {% set _sym  = item.symbol | default('', true) %}
-        {% set _name = item.name   | default('', true) %}
+      {% for item in items %}
+        {% set _sym  = item.symbol | default(item.get('ticker',''), true) %}
+        {% set _name = item.name   | default(item.get('company',''), true) %}
         {% set rank  = (item.rank | default(loop.index, true)) %}
         {% set chart_url = (item.chart_url | default('/charts/' ~ (date | default('', true)) ~ '/' ~ _sym ~ '.png', true)) %}
-        {% set pts  = item.score_pts | default((item.final_score_0_1|default(0,true) * 1000) | round(0, 'common'), true) %}
-        {% set vol  = (item.detail.vol_anomaly if (item.detail is defined and item.detail and item.detail.vol_anomaly is defined) else none) %}
 
-        {% set d1 = item.price_delta_1d if item.price_delta_1d is defined else none %}
-        {% set d5 = item.price_delta_1w if item.price_delta_1w is defined else none %}
-        {% set d20= item.price_delta_1m if item.price_delta_1m is defined else none %}
+        {# 0..1 最終スコアと 1000pt 変換 #}
+        {% set score01 = item.final_score_0_1 | default(item.get('final_score','') | default(0,true), true) %}
+        {% set pts  = item.score_pts | default((score01 * 1000) | round(0, 'common'), true) %}
+
+        {# price deltas; fallbackにも対応 #}
+        {% set d1 = item.price_delta_1d if item.price_delta_1d is defined else item.get('delta_1d') %}
+        {% set d5 = item.price_delta_1w if item.price_delta_1w is defined else item.get('delta_1w') %}
+        {% set d20= item.price_delta_1m if item.price_delta_1m is defined else item.get('delta_1m') %}
 
         <div class="card" id="card-{{ loop.index }}" data-symbol="{{ _sym }}">
           <div class="row">
@@ -252,6 +221,7 @@
 
               <details>
                 <summary>Volume anomaly details</summary>
+                {% set vol = (item.detail.vol_anomaly if (item.detail is defined and item.detail and item.detail.vol_anomaly is defined) else (item.get('detail',{}).get('vol_anomaly'))) %}
                 {% if vol %}
                   {% set rvol20 = vol.get('rvol20') %}
                   {% set z60 = vol.get('z60') %}
@@ -270,15 +240,15 @@
                 {% endif %}
               </details>
 
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
+              <details class="js-dii">
+                <summary>DII details</summary>
                 <div class="muted">Loading…</div>
               </details>
 
               <div class="note">
                 ※ Price changes: 1D = 前営業日比, 1W = 5営業日前比, 1M = 20営業日前比。<br/>
-                ※ Trends: Google Trends の相対スコア。News: 直近記事×簡易センチメントを宇宙内パーセンタイル正規化。<br/>
-                ※ Insider: 直近 Form 4 指標（スコア30/90など）を0–1へ縮約。
+                ※ Trends: Google Trends の相対スコア（直近ウィンドウ基準）。News: 直近記事数×簡易センチメントを宇宙内パーセンタイル正規化。<br/>
+                ※ DII: 直近ダークプール/オフ取引指標（例：4週/12週スコア等）を0–1へ縮約。
               </div>
             </div>
 
@@ -290,15 +260,17 @@
           <script type="application/json" class="js-payload">
           {{ {
             "symbol": _sym,
-            "score_components": (item.score_components if item.score_components is defined else {}),
-            "score_weights": (item.score_weights if item.score_weights is defined else {}),
-            "final_score_0_1": item.final_score_0_1 | default(0, true),
+            "score_components": (item.score_components if item.score_components is defined else item.get('score_components', {})),
+            "score_weights": (item.score_weights if item.score_weights is defined else item.get('score_weights', {})),
+            "final_score_0_1": score01,
             "score_pts": pts | int,
-            "insider_momo": item.insider_momo | default(0, true),
-            "trends_breakout": item.trends_breakout | default(0, true),
-            "vol_anomaly_score": item.vol_anomaly_score | default(0, true),
-            "news_score": item.news_score | default(0, true),
-            "news_recent_count": item.news_recent_count | default(0, true)
+
+            /* ===== フォールバック付きの個別成分 ===== */
+            "dii_momo":  (item.dii_momo  if item.dii_momo  is defined else (item.get('dii_score', item.get('insider_momo', 0)))),
+            "trends_breakout": (item.trends_breakout if item.trends_breakout is defined else item.get('trends_score', 0)),
+            "vol_anomaly_score": (item.vol_anomaly_score if item.vol_anomaly_score is defined else item.get('volume_anomaly_score', 0)),
+            "news_score": (item.news_score if item.news_score is defined else item.get('news', item.get('news_score_norm', 0))),
+            "news_recent_count": item.news_recent_count | default(item.get('news_count', 0), true)
           } | tojson }}
           </script>
         </div>
@@ -352,7 +324,17 @@
         if(!tbody) return;
         tbody.innerHTML="";
         let totalPts=0;
-        const label=k=>({volume_anomaly:"Volume anomaly",insider_momo:"Insider momentum",trends_breakout:"Trends breakout",news:"News coverage"}[k]||k);
+        const label=k=>({
+          volume_anomaly:"Volume anomaly",
+          vol_anomaly:"Volume anomaly",
+          dii_momo:"DII momentum",
+          dii:"DII momentum",
+          insider_momo:"DII momentum",
+          trends_breakout:"Trends breakout",
+          trends:"Trends breakout",
+          news:"News coverage",
+          news_score:"News coverage"
+        }[k]||k);
         keys.forEach(k=>{
           const v=Math.max(0,Math.min(1,Number(comps[k]||0)));
           const wn=Math.max(0,Number(weights[k]||0))/wsum;
@@ -366,31 +348,34 @@
       });
     }
 
-    async function fillInsiderDetails(){
+    async function fillDiiDetails(){
       try{
-        const res=await fetch(`/data/insider/form4_latest.json`,{cache:"no-store"});
-        if(!res.ok) throw new Error("fetch insider json failed");
+        const res=await fetch(`/data/dii/latest.json`,{cache:"no-store"});
+        if(!res.ok) throw new Error("fetch dii json failed");
         const j=await res.json();
-        const items=j.items||{};
+        const items=j.items||j || {};
         document.querySelectorAll(".card").forEach(card=>{
           const sym=card.getAttribute("data-symbol");
-          const box=card.querySelector(".js-insider");
+          const box=card.querySelector(".js-dii");
           if(!box) return;
-          const rec=items[sym];
-          if(!rec){ box.innerHTML=`<summary>Insider details (Form 4)</summary><div class="muted">No data</div>`; return; }
-          box.innerHTML=`<summary>Insider details (Form 4)</summary>
+          const rec = items[sym] || (Array.isArray(items)? items.find(x=>x.symbol===sym): null);
+          if(!rec){ box.innerHTML=`<summary>DII details</summary><div class="muted">No data</div>`; return; }
+          const safeNum = (v)=> v==null? "-": (typeof v==="number"? v.toFixed(2): String(v));
+          const html = `
+            <summary>DII details</summary>
             <div class="kv">
-              <div><span class="k">Net buy (30d)</span><br>${(rec.net_buy_shares_30||0).toLocaleString()} shares</div>
-              <div><span class="k">Net buy (90d)</span><br>${(rec.net_buy_shares_90||0).toLocaleString()} shares</div>
-              <div><span class="k">Unique buyers (30d)</span><br>${(rec.buyers_30||0)}</div>
-              <div><span class="k">Unique buyers (90d)</span><br>${(rec.buyers_90||0)}</div>
-              <div><span class="k">Score 30</span><br>${Number(rec.score_30||0).toFixed(2)}</div>
-              <div><span class="k">Score 90</span><br>${Number(rec.score_90||0).toFixed(2)}</div>
+              <div><span class="k">Score (4w)</span><br>${safeNum(rec.score_4w ?? rec.score_30 ?? rec.dii_score_4w)}</div>
+              <div><span class="k">Score (12w)</span><br>${safeNum(rec.score_12w ?? rec.score_90 ?? rec.dii_score_12w)}</div>
+              <div><span class="k">Z(20~60)</span><br>${safeNum(rec.zscore_20 ?? rec.zscore_60)}</div>
+              <div><span class="k">PctRank</span><br>${safeNum(rec.pct_rank_90 ?? rec.pct_rank_60)}</div>
+              <div><span class="k">Recent surges</span><br>${safeNum(rec.surge_count)}</div>
+              <div><span class="k">Dark ratio</span><br>${safeNum(rec.dark_ratio)}</div>
             </div>`;
+          box.innerHTML = html;
         });
       }catch(e){
-        document.querySelectorAll(".js-insider").forEach(box=>{
-          box.innerHTML=`<summary>Insider details (Form 4)</summary><div class="muted">Failed to load</div>`;
+        document.querySelectorAll(".js-dii").forEach(box=>{
+          box.innerHTML=`<summary>DII details</summary><div class="muted">Failed to load</div>`;
         });
       }
     }
@@ -431,7 +416,7 @@
 
     bindToggles();
     fillBreakdown();
-    fillInsiderDetails();
+    fillDiiDetails();
     decorateTop3Medals();
   </script>
 </body>
