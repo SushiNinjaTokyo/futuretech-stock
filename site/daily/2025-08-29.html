@@ -1,305 +1,1116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>futuretech-stock — Daily Top 10</title>
-<style>
-  :root{
-    --fg:#0f172a; --sub:#334155; --muted:#64748b; --bg:#ffffff;
-    --chip:#f1f5f9; --badge:#e0f2fe; --badge-fg:#075985;
-    --card:#ffffff; --border:#e2e8f0; --accent:#111827;
-  }
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Apple Color Emoji","Segoe UI Emoji";}
-  .container{max-width:1080px;margin:36px auto;padding:0 20px;}
-  h1{font-size:22px;line-height:1.2;margin:0 0 6px 0;font-weight:800;letter-spacing:.2px}
-  .sub{font-size:12px;color:var(--muted)}
-  .grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:14px;margin-top:22px}
-  @media(min-width:720px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
-  @media(min-width:1024px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
-  .card{border:1px solid var(--border);border-radius:12px;background:var(--card);padding:14px}
-  .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-  .sym{font-weight:800;letter-spacing:.3px}
-  .name{color:var(--sub);font-size:12px}
-  .score{margin-left:auto;font-size:12px;color:var(--sub)}
-  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-  .chip{background:var(--chip);border-radius:999px;padding:4px 8px;font-size:12px}
-  .chip strong{font-weight:800}
-  .badge{background:var(--badge);color:var(--badge-fg);font-weight:700;border-radius:6px;padding:2px 6px;font-size:11px}
-  .medal{font-size:12px;margin-left:6px}
-  .foot{margin-top:10px;font-size:11px;color:var(--muted)}
-  .divider{height:1px;background:var(--border);margin:18px 0 12px}
-  .rank{font-weight:900;margin-right:4px}
-</style>
+  <meta charset="utf-8" />
+  <title>futuretech-stock — Daily Top 10 (2025-08-29)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
+      --gold:#f6c453; --silver:#cdd2d8; --bronze:#f4a261;
+      --soft:#f8fafc; --ring:#e2e8f0;
+      --up-bg:#ecfdf5; --up-fg:#065f46; --up-bd:#10b98133;
+      --dn-bg:#fef2f2; --dn-fg:#7f1d1d; --dn-bd:#ef444433;
+      --nz-fg:#6b7280; --chip-bg:#eef2f7;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:var(--bg);color:var(--fg)}
+
+    .wrap{max-width:1100px;margin:0 auto;padding:16px 16px 24px}
+    header{margin-bottom:14px}
+    h1{font-size:20px;margin:0 0 6px;letter-spacing:-0.2px}
+    .sub{color:var(--muted);font-size:12px}
+
+    .grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:12px}
+    @media (min-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+    .card{position:relative;border:1px solid var(--border);border-radius:16px;padding:12px 12px 14px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .left{display:flex;align-items:center;gap:10px;min-width:0}
+
+    .rank-rocket{
+      width:64px;height:64px;border-radius:999px;flex:0 0 auto;
+      display:flex;align-items:center;justify-content:center;position:relative;isolation:isolate;
+      overflow:hidden; box-shadow:0 10px 24px rgba(0,0,0,.08) inset, 0 6px 14px rgba(0,0,0,.06);
+    }
+    .rank1{ background:radial-gradient(120% 120% at 30% 30%, #fff6d6 0%, var(--gold) 45%, #d59b2b 100%); }
+    .rank2{ background:radial-gradient(120% 120% at 30% 30%, #ffffff 0%, var(--silver) 50%, #9ea3a9 100%); }
+    .rank3{ background:radial-gradient(120% 120% at 30% 30%, #fff0e5 0%, var(--bronze) 50%, #e4823f 100%); }
+    .rankN{ display:none; }
+
+    .rank-badge{
+      width:36px;height:36px;border-radius:999px;flex:0 0 auto;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:800;font-size:13px;letter-spacing:.2px;color:#111827;background:#f3f4f6;border:1px solid var(--border);
+    }
+
+    .rocket{ width:30px;height:30px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.18)); }
+    .flame{ transform-origin:12px 20px; }
+    .rank1 .rocket{ animation:lift-strong 1.6s ease-in-out infinite; }
+    .rank1 .flame{ animation:flicker-strong .6s ease-in-out infinite; }
+    @keyframes lift-strong{ 0%{transform:translateY(0) rotate(-6deg) scale(1);} 50%{transform:translateY(-5px) rotate(0) scale(1.03);} 100%{transform:translateY(0) rotate(-6deg) scale(1);} }
+    @keyframes flicker-strong{ 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.55;transform:scale(.82);} }
+
+    .rank2 .rocket{ animation:lift 1.8s ease-in-out infinite; }
+    .rank2 .flame{ animation:flicker .9s ease-in-out infinite; }
+    @keyframes lift{ 0%{transform:translateY(0) rotate(-4deg)} 50%{transform:translateY(-3px) rotate(0)} 100%{transform:translateY(0) rotate(-4deg)} }
+    @keyframes flicker{ 0%,100%{opacity:.95; transform:scale(1);} 50%{opacity:.7; transform:scale(.88);} }
+
+    .rank3 .rocket{ animation:prep 1.6s ease-in-out infinite; }
+    .rank3 .flame{ opacity:0; }
+    @keyframes prep{ 0%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-1px) rotate(1deg)} 100%{transform:translateY(0) rotate(-2deg)} }
+
+    .id-block{min-width:0}
+    .symbol{font-size:18px;font-weight:800;letter-spacing:.2px;line-height:1.15;white-space:nowrap}
+    .name{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60vw}
+    @media (min-width:900px){ .name{max-width:420px} }
+
+    .score{text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.05;margin-left:auto}
+    .score .num{
+      font-size:28px;font-weight:900;letter-spacing:-.4px;
+      padding:6px 10px;border-radius:12px;border:1px solid var(--ring);
+      background:linear-gradient(180deg,#ffffff 0%,#f9fafb 100%);
+    }
+    .score .den{font-size:11px;color:var(--muted);margin-top:2px}
+
+    .price-row{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:nowrap;overflow:hidden;}
+    .pch{flex:1 1 0%; min-width:0; display:flex;align-items:center;justify-content:center;gap:6px;
+      padding:6px 8px;border-radius:999px;border:1px solid var(--border); font-size:11px;line-height:1; background:var(--chip-bg); color:#111; white-space:nowrap;}
+    .pch .k{color:var(--muted)}
+    .pch.up{border-color:var(--up-bd);background:var(--up-bg);color:var(--up-fg)}
+    .pch.down{border-color:var(--dn-bd);background:var(--dn-bg);color:var(--dn-fg)}
+    .pch.neutral{color:var(--nz-fg)}
+    .delta{font-variant-numeric:tabular-nums}
+
+    .medals{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+    .medal{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:#fff;border-radius:999px;padding:4px 8px;line-height:1}
+    .medal .label{font-size:11px;letter-spacing:.2px}
+    .medal .kind{font-size:11px;color:#111;text-transform:capitalize}
+    .medal.gold{border-color:#f59e0b33;box-shadow:0 0 0 2px #f59e0b1a inset}
+    .medal.silver{border-color:#9ca3af33;box-shadow:0 0 0 2px #9ca3af1a inset}
+    .medal.bronze{border-color:#fb923c33;box-shadow:0 0 0 2px #fb923c1a inset}
+    .medal .emoji{font-size:14px}
+
+    .tabs{margin-top:12px}
+    .seg{display:inline-flex;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:rgba(243,244,246,.6);backdrop-filter:saturate(1.1) blur(2px)}
+    .seg .segbtn{appearance:none;border:0;margin:0;padding:8px 12px;background:transparent;cursor:pointer;font-size:12px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;}
+    .seg .segbtn:focus{outline:none;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
+    .seg .segbtn[aria-pressed="true"]{background:#fff;font-weight:700;box-shadow:inset 0 0 0 1px var(--border);}
+    .seg .ico{font-size:14px;opacity:.9}
+
+    .tab{display:none}
+    .tab.active{display:block}
+    .chart{width:100%;border:1px solid var(--border);border-radius:10px}
+
+    .table{width:100%;border-collapse:collapse;margin-top:6px}
+    .table th,.table td{border-bottom:1px solid var(--border);padding:6px 8px;font-size:12px;text-align:left}
+    .table th{color:var(--muted);font-weight:600}
+    .right{text-align:right}
+    .muted{color:var(--muted)}
+    details{margin-top:8px;background:#fafafa;border:1px solid var(--border);border-radius:8px;padding:8px 10px}
+    details>summary{cursor:pointer;font-size:12px;color:#111;user-select:none}
+
+    .kv{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+    .kv div{font-size:12px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 8px}
+    .kv .k{color:var(--muted)}
+    .note{margin-top:8px;font-size:11px;color:var(--muted)}
+
+    @media (max-width:420px){
+      .symbol{font-size:16px}
+      .rank-rocket{width:56px;height:56px}
+      .rocket{width:28px;height:28px}
+      .score .num{font-size:24px}
+      .pch{padding:5px 6px;font-size:10.5px}
+      .name{max-width:58vw}
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-  <h1>futuretech-stock — Daily Top 10</h1>
-  <div class="sub">
-    Date: 2025-08-29 / Scoring: 1000 pts
-    <span style="color:var(--muted)">&nbsp; (volume anomaly + DII + trends + news)</span>
+  <div class="wrap">
+    <header>
+      <h1>futuretech-stock — Daily Top 10</h1>
+      <div class="sub">Date: 2025-08-29 / Scoring: 1000 pts（volume anomaly + DII + trends + news）</div>
+    </header>
+
+    <div class="grid" id="cards">
+
+
+
+        <div class="card" id="card-1" data-symbol="NVDA">
+          <div class="row">
+            <div class="left">
+                <div class="rank-rocket rank1" aria-label="Rank 1">
+                  <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                    <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                    <circle cx="12" cy="9.4" r="2.1" fill="#94a3b8"/>
+                    <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                    <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                    <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                  </svg>
+                </div>
+
+              <div class="id-block">
+                <div class="symbol">NVDA</div>
+<div class="name">NVIDIA Corporation</div>                <div class="medals"></div>
+              </div>
+            </div>
+
+            <div class="score">
+              <div class="num">582</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="price-row">
+            <div class="pch neutral"><span class="k">1D</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
+          </div>
+
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#ov-1"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#tech-1"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-1" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">582</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                  <div class="muted">No details.</div>
+              </details>
+
+              <details class="js-dii">
+                <summary>DII details</summary>
+                <div class="muted">Loading…</div>
+              </details>
+
+              <div class="note">
+                ※ Price changes: 1D=前日比, 1W=5営業日前比, 1M=20営業日前比。<br/>
+                ※ DII: Dark/Insider/Institutional の合成指標を0–1へ正規化（取得できた場合）。<br/>
+                ※ Trends/News: Google Trends と News記事×センチメントを宇宙内で正規化。
+              </div>
+            </div>
+
+            <div id="tech-1" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/NVDA.png" alt="NVDA weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <script type="application/json" class="js-payload">
+          {"dii_score": 0, "final_score_0_1": 0.582435, "news_score": 0, "score_components": {}, "score_pts": 582, "score_weights": {}, "symbol": "NVDA", "trends_breakout": 0, "vol_anomaly_score": 0}
+          </script>
+        </div>
+
+
+
+        <div class="card" id="card-2" data-symbol="MSFT">
+          <div class="row">
+            <div class="left">
+                <div class="rank-rocket rank2" aria-label="Rank 2">
+                  <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                    <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                    <circle cx="12" cy="9.4" r="2.1" fill="#94a3b8"/>
+                    <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                    <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                    <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                  </svg>
+                </div>
+
+              <div class="id-block">
+                <div class="symbol">MSFT</div>
+<div class="name">Microsoft Corporation</div>                <div class="medals"></div>
+              </div>
+            </div>
+
+            <div class="score">
+              <div class="num">447</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="price-row">
+            <div class="pch neutral"><span class="k">1D</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
+          </div>
+
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#ov-2"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#tech-2"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-2" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">447</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                  <div class="muted">No details.</div>
+              </details>
+
+              <details class="js-dii">
+                <summary>DII details</summary>
+                <div class="muted">Loading…</div>
+              </details>
+
+              <div class="note">
+                ※ Price changes: 1D=前日比, 1W=5営業日前比, 1M=20営業日前比。<br/>
+                ※ DII: Dark/Insider/Institutional の合成指標を0–1へ正規化（取得できた場合）。<br/>
+                ※ Trends/News: Google Trends と News記事×センチメントを宇宙内で正規化。
+              </div>
+            </div>
+
+            <div id="tech-2" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/MSFT.png" alt="MSFT weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <script type="application/json" class="js-payload">
+          {"dii_score": 0, "final_score_0_1": 0.447439, "news_score": 0, "score_components": {}, "score_pts": 447, "score_weights": {}, "symbol": "MSFT", "trends_breakout": 0, "vol_anomaly_score": 0}
+          </script>
+        </div>
+
+
+
+        <div class="card" id="card-3" data-symbol="IRDM">
+          <div class="row">
+            <div class="left">
+                <div class="rank-rocket rank3" aria-label="Rank 3">
+                  <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                    <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
+                    <circle cx="12" cy="9.4" r="2.1" fill="#94a3b8"/>
+                    <path d="M7.8 13.5l2.1 3.5H7.6a1 1 0 0 1-.9-1.4l1.1-2.1z" fill="#cbd5e1"/>
+                    <path d="M16.2 13.5l-2.1 3.5h2.3c.8 0 1.3-.9.9-1.6l-1.1-1.9z" fill="#cbd5e1"/>
+                    <path class="flame" d="M11.2 20.5c-.8-1.2.6-2.4.8-2.9.2.5 1.6 1.7.8 2.9-.5.8-1.9.8-2.4 0z" fill="#f97316"/>
+                  </svg>
+                </div>
+
+              <div class="id-block">
+                <div class="symbol">IRDM</div>
+<div class="name">Iridium Communications Inc.</div>                <div class="medals"></div>
+              </div>
+            </div>
+
+            <div class="score">
+              <div class="num">278</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="price-row">
+            <div class="pch neutral"><span class="k">1D</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
+          </div>
+
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#ov-3"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#tech-3"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-3" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">278</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                  <div class="muted">No details.</div>
+              </details>
+
+              <details class="js-dii">
+                <summary>DII details</summary>
+                <div class="muted">Loading…</div>
+              </details>
+
+              <div class="note">
+                ※ Price changes: 1D=前日比, 1W=5営業日前比, 1M=20営業日前比。<br/>
+                ※ DII: Dark/Insider/Institutional の合成指標を0–1へ正規化（取得できた場合）。<br/>
+                ※ Trends/News: Google Trends と News記事×センチメントを宇宙内で正規化。
+              </div>
+            </div>
+
+            <div id="tech-3" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/IRDM.png" alt="IRDM weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <script type="application/json" class="js-payload">
+          {"dii_score": 0, "final_score_0_1": 0.277551, "news_score": 0, "score_components": {}, "score_pts": 278, "score_weights": {}, "symbol": "IRDM", "trends_breakout": 0, "vol_anomaly_score": 0}
+          </script>
+        </div>
+
+
+
+        <div class="card" id="card-4" data-symbol="TER">
+          <div class="row">
+            <div class="left">
+                <div class="rank-badge" aria-label="Rank 4">4</div>
+
+              <div class="id-block">
+                <div class="symbol">TER</div>
+<div class="name">Teradyne, Inc.</div>                <div class="medals"></div>
+              </div>
+            </div>
+
+            <div class="score">
+              <div class="num">262</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="price-row">
+            <div class="pch neutral"><span class="k">1D</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
+          </div>
+
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#ov-4"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#tech-4"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-4" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">262</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                  <div class="muted">No details.</div>
+              </details>
+
+              <details class="js-dii">
+                <summary>DII details</summary>
+                <div class="muted">Loading…</div>
+              </details>
+
+              <div class="note">
+                ※ Price changes: 1D=前日比, 1W=5営業日前比, 1M=20営業日前比。<br/>
+                ※ DII: Dark/Insider/Institutional の合成指標を0–1へ正規化（取得できた場合）。<br/>
+                ※ Trends/News: Google Trends と News記事×センチメントを宇宙内で正規化。
+              </div>
+            </div>
+
+            <div id="tech-4" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/TER.png" alt="TER weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <script type="application/json" class="js-payload">
+          {"dii_score": 0, "final_score_0_1": 0.262298, "news_score": 0, "score_components": {}, "score_pts": 262, "score_weights": {}, "symbol": "TER", "trends_breakout": 0, "vol_anomaly_score": 0}
+          </script>
+        </div>
+
+
+
+        <div class="card" id="card-5" data-symbol="VRT">
+          <div class="row">
+            <div class="left">
+                <div class="rank-badge" aria-label="Rank 5">5</div>
+
+              <div class="id-block">
+                <div class="symbol">VRT</div>
+<div class="name">Vertiv Holdings Co</div>                <div class="medals"></div>
+              </div>
+            </div>
+
+            <div class="score">
+              <div class="num">259</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="price-row">
+            <div class="pch neutral"><span class="k">1D</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
+          </div>
+
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#ov-5"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#tech-5"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-5" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">259</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                  <div class="muted">No details.</div>
+              </details>
+
+              <details class="js-dii">
+                <summary>DII details</summary>
+                <div class="muted">Loading…</div>
+              </details>
+
+              <div class="note">
+                ※ Price changes: 1D=前日比, 1W=5営業日前比, 1M=20営業日前比。<br/>
+                ※ DII: Dark/Insider/Institutional の合成指標を0–1へ正規化（取得できた場合）。<br/>
+                ※ Trends/News: Google Trends と News記事×センチメントを宇宙内で正規化。
+              </div>
+            </div>
+
+            <div id="tech-5" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/VRT.png" alt="VRT weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <script type="application/json" class="js-payload">
+          {"dii_score": 0, "final_score_0_1": 0.258689, "news_score": 0, "score_components": {}, "score_pts": 259, "score_weights": {}, "symbol": "VRT", "trends_breakout": 0, "vol_anomaly_score": 0}
+          </script>
+        </div>
+
+
+
+        <div class="card" id="card-6" data-symbol="ABCL">
+          <div class="row">
+            <div class="left">
+                <div class="rank-badge" aria-label="Rank 6">6</div>
+
+              <div class="id-block">
+                <div class="symbol">ABCL</div>
+<div class="name">AbCellera Biologics Inc.</div>                <div class="medals"></div>
+              </div>
+            </div>
+
+            <div class="score">
+              <div class="num">257</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="price-row">
+            <div class="pch neutral"><span class="k">1D</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
+          </div>
+
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#ov-6"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#tech-6"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-6" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">257</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                  <div class="muted">No details.</div>
+              </details>
+
+              <details class="js-dii">
+                <summary>DII details</summary>
+                <div class="muted">Loading…</div>
+              </details>
+
+              <div class="note">
+                ※ Price changes: 1D=前日比, 1W=5営業日前比, 1M=20営業日前比。<br/>
+                ※ DII: Dark/Insider/Institutional の合成指標を0–1へ正規化（取得できた場合）。<br/>
+                ※ Trends/News: Google Trends と News記事×センチメントを宇宙内で正規化。
+              </div>
+            </div>
+
+            <div id="tech-6" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/ABCL.png" alt="ABCL weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <script type="application/json" class="js-payload">
+          {"dii_score": 0, "final_score_0_1": 0.257019, "news_score": 0, "score_components": {}, "score_pts": 257, "score_weights": {}, "symbol": "ABCL", "trends_breakout": 0, "vol_anomaly_score": 0}
+          </script>
+        </div>
+
+
+
+        <div class="card" id="card-7" data-symbol="ISRG">
+          <div class="row">
+            <div class="left">
+                <div class="rank-badge" aria-label="Rank 7">7</div>
+
+              <div class="id-block">
+                <div class="symbol">ISRG</div>
+<div class="name">Intuitive Surgical, Inc.</div>                <div class="medals"></div>
+              </div>
+            </div>
+
+            <div class="score">
+              <div class="num">243</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="price-row">
+            <div class="pch neutral"><span class="k">1D</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
+          </div>
+
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#ov-7"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#tech-7"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-7" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">243</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                  <div class="muted">No details.</div>
+              </details>
+
+              <details class="js-dii">
+                <summary>DII details</summary>
+                <div class="muted">Loading…</div>
+              </details>
+
+              <div class="note">
+                ※ Price changes: 1D=前日比, 1W=5営業日前比, 1M=20営業日前比。<br/>
+                ※ DII: Dark/Insider/Institutional の合成指標を0–1へ正規化（取得できた場合）。<br/>
+                ※ Trends/News: Google Trends と News記事×センチメントを宇宙内で正規化。
+              </div>
+            </div>
+
+            <div id="tech-7" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/ISRG.png" alt="ISRG weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <script type="application/json" class="js-payload">
+          {"dii_score": 0, "final_score_0_1": 0.243049, "news_score": 0, "score_components": {}, "score_pts": 243, "score_weights": {}, "symbol": "ISRG", "trends_breakout": 0, "vol_anomaly_score": 0}
+          </script>
+        </div>
+
+
+
+        <div class="card" id="card-8" data-symbol="MNDY">
+          <div class="row">
+            <div class="left">
+                <div class="rank-badge" aria-label="Rank 8">8</div>
+
+              <div class="id-block">
+                <div class="symbol">MNDY</div>
+<div class="name">Monday.com Ltd.</div>                <div class="medals"></div>
+              </div>
+            </div>
+
+            <div class="score">
+              <div class="num">237</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="price-row">
+            <div class="pch neutral"><span class="k">1D</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
+          </div>
+
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#ov-8"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#tech-8"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-8" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">237</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                  <div class="muted">No details.</div>
+              </details>
+
+              <details class="js-dii">
+                <summary>DII details</summary>
+                <div class="muted">Loading…</div>
+              </details>
+
+              <div class="note">
+                ※ Price changes: 1D=前日比, 1W=5営業日前比, 1M=20営業日前比。<br/>
+                ※ DII: Dark/Insider/Institutional の合成指標を0–1へ正規化（取得できた場合）。<br/>
+                ※ Trends/News: Google Trends と News記事×センチメントを宇宙内で正規化。
+              </div>
+            </div>
+
+            <div id="tech-8" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/MNDY.png" alt="MNDY weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <script type="application/json" class="js-payload">
+          {"dii_score": 0, "final_score_0_1": 0.237099, "news_score": 0, "score_components": {}, "score_pts": 237, "score_weights": {}, "symbol": "MNDY", "trends_breakout": 0, "vol_anomaly_score": 0}
+          </script>
+        </div>
+
+
+
+        <div class="card" id="card-9" data-symbol="RKLB">
+          <div class="row">
+            <div class="left">
+                <div class="rank-badge" aria-label="Rank 9">9</div>
+
+              <div class="id-block">
+                <div class="symbol">RKLB</div>
+<div class="name">Rocket Lab USA, Inc.</div>                <div class="medals"></div>
+              </div>
+            </div>
+
+            <div class="score">
+              <div class="num">229</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="price-row">
+            <div class="pch neutral"><span class="k">1D</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
+          </div>
+
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#ov-9"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#tech-9"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-9" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">229</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                  <div class="muted">No details.</div>
+              </details>
+
+              <details class="js-dii">
+                <summary>DII details</summary>
+                <div class="muted">Loading…</div>
+              </details>
+
+              <div class="note">
+                ※ Price changes: 1D=前日比, 1W=5営業日前比, 1M=20営業日前比。<br/>
+                ※ DII: Dark/Insider/Institutional の合成指標を0–1へ正規化（取得できた場合）。<br/>
+                ※ Trends/News: Google Trends と News記事×センチメントを宇宙内で正規化。
+              </div>
+            </div>
+
+            <div id="tech-9" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/RKLB.png" alt="RKLB weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <script type="application/json" class="js-payload">
+          {"dii_score": 0, "final_score_0_1": 0.229494, "news_score": 0, "score_components": {}, "score_pts": 229, "score_weights": {}, "symbol": "RKLB", "trends_breakout": 0, "vol_anomaly_score": 0}
+          </script>
+        </div>
+
+
+
+        <div class="card" id="card-10" data-symbol="SOUN">
+          <div class="row">
+            <div class="left">
+                <div class="rank-badge" aria-label="Rank 10">10</div>
+
+              <div class="id-block">
+                <div class="symbol">SOUN</div>
+<div class="name">SoundHound AI, Inc.</div>                <div class="medals"></div>
+              </div>
+            </div>
+
+            <div class="score">
+              <div class="num">227</div>
+              <div class="den">/ 1000</div>
+            </div>
+          </div>
+
+          <div class="price-row">
+            <div class="pch neutral"><span class="k">1D</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1W</span><span class="delta">—</span></div>
+            <div class="pch neutral"><span class="k">1M</span><span class="delta">—</span></div>
+          </div>
+
+          <div class="tabs">
+            <div class="seg" role="tablist" aria-label="Card sections">
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#ov-10"><span class="ico">🧭</span>Overview</button>
+              <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false" data-target="#tech-10"><span class="ico">📈</span>Weekly chart</button>
+            </div>
+
+            <div id="ov-10" class="tab" role="tabpanel" aria-hidden="true">
+              <table class="table js-breakdown">
+                <thead>
+                  <tr>
+                    <th>Component</th>
+                    <th class="right">Normalized</th>
+                    <th class="right">Weight</th>
+                    <th class="right">Contribution (pts)</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="3" class="right">Total</th>
+                    <th class="right"><span class="js-total">227</span></th>
+                  </tr>
+                </tfoot>
+              </table>
+
+              <details>
+                <summary>Volume anomaly details</summary>
+                  <div class="muted">No details.</div>
+              </details>
+
+              <details class="js-dii">
+                <summary>DII details</summary>
+                <div class="muted">Loading…</div>
+              </details>
+
+              <div class="note">
+                ※ Price changes: 1D=前日比, 1W=5営業日前比, 1M=20営業日前比。<br/>
+                ※ DII: Dark/Insider/Institutional の合成指標を0–1へ正規化（取得できた場合）。<br/>
+                ※ Trends/News: Google Trends と News記事×センチメントを宇宙内で正規化。
+              </div>
+            </div>
+
+            <div id="tech-10" class="tab" role="tabpanel" aria-hidden="true">
+              <img src="/charts/2025-08-29/SOUN.png" alt="SOUN weekly chart" class="chart" loading="lazy" />
+            </div>
+          </div>
+
+          <script type="application/json" class="js-payload">
+          {"dii_score": 0, "final_score_0_1": 0.22709, "news_score": 0, "score_components": {}, "score_pts": 227, "score_weights": {}, "symbol": "SOUN", "trends_breakout": 0, "vol_anomaly_score": 0}
+          </script>
+        </div>
+    </div>
   </div>
 
-
-
-  <div class="grid">
-
-      <div class="card">
-        <div class="row">
-          <span class="rank">#1</span>
-          <span class="sym">NVDA</span>
-          <span class="name">— NVIDIA Corporation</span>
-
-
-          <span class="score">Score: 591 pts</span>
-        </div>
-
-        <div class="chips">
-
-
-        </div>
-
-        <div class="row" style="margin-top:8px">
-            <span class="medal">🥇 Trends Top3</span>
-            <span class="medal">🏅 News Top3</span>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="foot">
-          Final: 59%
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <span class="rank">#2</span>
-          <span class="sym">MSFT</span>
-          <span class="name">— Microsoft Corporation</span>
-
-
-          <span class="score">Score: 451 pts</span>
-        </div>
-
-        <div class="chips">
-
-
-        </div>
-
-        <div class="row" style="margin-top:8px">
-            <span class="medal">🥇 Trends Top3</span>
-            <span class="medal">🏅 News Top3</span>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="foot">
-          Final: 45%
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <span class="rank">#3</span>
-          <span class="sym">IRDM</span>
-          <span class="name">— Iridium Communications Inc.</span>
-
-
-          <span class="score">Score: 271 pts</span>
-        </div>
-
-        <div class="chips">
-
-
-        </div>
-
-        <div class="row" style="margin-top:8px">
-            <span class="medal">🥇 Trends Top3</span>
-            <span class="medal">🏅 News Top3</span>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="foot">
-          Final: 27%
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <span class="rank">#4</span>
-          <span class="sym">TER</span>
-          <span class="name">— Teradyne, Inc.</span>
-
-
-          <span class="score">Score: 262 pts</span>
-        </div>
-
-        <div class="chips">
-
-
-        </div>
-
-        <div class="row" style="margin-top:8px">
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="foot">
-          Final: 26%
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <span class="rank">#5</span>
-          <span class="sym">VRT</span>
-          <span class="name">— Vertiv Holdings Co</span>
-
-
-          <span class="score">Score: 261 pts</span>
-        </div>
-
-        <div class="chips">
-
-
-        </div>
-
-        <div class="row" style="margin-top:8px">
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="foot">
-          Final: 26%
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <span class="rank">#6</span>
-          <span class="sym">ABCL</span>
-          <span class="name">— AbCellera Biologics Inc.</span>
-
-
-          <span class="score">Score: 257 pts</span>
-        </div>
-
-        <div class="chips">
-
-
-        </div>
-
-        <div class="row" style="margin-top:8px">
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="foot">
-          Final: 26%
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <span class="rank">#7</span>
-          <span class="sym">ISRG</span>
-          <span class="name">— Intuitive Surgical, Inc.</span>
-
-
-          <span class="score">Score: 241 pts</span>
-        </div>
-
-        <div class="chips">
-
-
-        </div>
-
-        <div class="row" style="margin-top:8px">
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="foot">
-          Final: 24%
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <span class="rank">#8</span>
-          <span class="sym">INOD</span>
-          <span class="name">— Innodata Inc.</span>
-
-
-          <span class="score">Score: 238 pts</span>
-        </div>
-
-        <div class="chips">
-
-
-        </div>
-
-        <div class="row" style="margin-top:8px">
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="foot">
-          Final: 24%
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <span class="rank">#9</span>
-          <span class="sym">MNDY</span>
-          <span class="name">— Monday.com Ltd.</span>
-
-
-          <span class="score">Score: 234 pts</span>
-        </div>
-
-        <div class="chips">
-
-
-        </div>
-
-        <div class="row" style="margin-top:8px">
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="foot">
-          Final: 23%
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="row">
-          <span class="rank">#10</span>
-          <span class="sym">RKLB</span>
-          <span class="name">— Rocket Lab USA, Inc.</span>
-
-
-          <span class="score">Score: 233 pts</span>
-        </div>
-
-        <div class="chips">
-
-
-        </div>
-
-        <div class="row" style="margin-top:8px">
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="foot">
-          Final: 23%
-        </div>
-      </div>
-  </div>
-</div>
+  <script>
+    function bindToggles(scope=document){
+      scope.querySelectorAll(".card").forEach(card=>{
+        const seg = card.querySelector(".seg"); if(!seg) return;
+        const buttons = [...seg.querySelectorAll(".segbtn")];
+        const panels  = [...card.querySelectorAll(".tab")];
+
+        function openPanel(btn){
+          const sel   = btn.getAttribute("data-target");
+          const panel = card.querySelector(sel);
+          const isActive = panel.classList.contains("active");
+          buttons.forEach(b=>{ b.setAttribute("aria-pressed","false"); b.setAttribute("aria-selected","false"); });
+          panels.forEach(p=>{ p.classList.remove("active"); p.setAttribute("aria-hidden","true"); });
+          if(!isActive){
+            btn.setAttribute("aria-pressed","true");
+            btn.setAttribute("aria-selected","true");
+            panel.classList.add("active");
+            panel.setAttribute("aria-hidden","false");
+          }
+        }
+        buttons.forEach(btn=>{
+          btn.addEventListener("click", ()=> openPanel(btn));
+          btn.addEventListener("keydown",(e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openPanel(btn);} });
+        });
+      });
+    }
+
+    // === Overview breakdown ===
+    function fillBreakdown(){
+      document.querySelectorAll(".card").forEach(card=>{
+        const payloadEl=card.querySelector(".js-payload");
+        if(!payloadEl) return;
+        let data={};
+        try{ data=JSON.parse(payloadEl.textContent||"{}"); }catch(_){}
+        const comps = data.score_components||{};
+        const weights = data.score_weights||{};
+
+        // フォールバック: 旧/新キーのどちらでも表示できるようにする
+        const alias = {
+          // volume anomaly
+          "vol_anomaly":"vol_anomaly","vol_anomaly_score":"vol_anomaly","volume_anomaly":"vol_anomaly",
+          // DII / Insider
+          "dii_score":"dii","dii":"dii","insider_momo":"dii","form4_score":"dii",
+          // trends
+          "trends_breakout":"trends","trends":"trends",
+          // news
+          "news_score":"news","news":"news"
+        };
+
+        // 可視化順を固定
+        const order = ["vol_anomaly","dii","trends","news"];
+
+        // 値取り出し（0..1にクランプ）
+        function getVal(key){
+          // compに無ければ payload のトップレベル（tojson内）も見る
+          const vFromComps = Object.keys(comps).find(k=>alias[k]===key);
+          let v = null;
+          if(vFromComps){ v = comps[vFromComps]; }
+          if(v==null){
+            if(key==="vol_anomaly") v = data.vol_anomaly_score ?? data.volume_anomaly ?? null;
+            if(key==="dii")         v = data.dii_score ?? null;
+            if(key==="trends")      v = data.trends_breakout ?? null;
+            if(key==="news")        v = data.news_score ?? null;
+          }
+          if(v==null) return 0;
+          const n=Number(v); if(isNaN(n)) return 0;
+          return Math.max(0, Math.min(1, n));
+        }
+
+        // 重み（未提供でも合計1になるよう正規化）
+        function getWeightN(key){
+          // compsに対応するキーに重みがあれば拾う
+          let raw=0;
+          for(const k in weights){ if(alias[k]===key){ raw = Number(weights[k]||0); break; } }
+          return raw;
+        }
+        const rawWeights = order.map(k=>getWeightN(k));
+        const sumRaw = rawWeights.reduce((a,b)=>a+b,0) || 1;
+        const normW = rawWeights.map(w=>w/sumRaw);
+
+        const tbody=card.querySelector(".js-breakdown tbody");
+        const totalEl=card.querySelector(".js-total");
+        if(!tbody) return;
+        tbody.innerHTML="";
+        let totalPts=0;
+
+        const LABEL = { vol_anomaly:"Volume anomaly", dii:"DII", trends:"Trends breakout", news:"News coverage" };
+
+        order.forEach((k,idx)=>{
+          const v = getVal(k);
+          const wn = normW[idx];
+          const pts = Math.round(v*wn*1000);
+          totalPts+=pts;
+          const tr=document.createElement("tr");
+          tr.innerHTML=`<td>${LABEL[k]}</td><td class="right">${v.toFixed(2)}</td><td class="right">${(wn*100).toFixed(0)}%</td><td class="right">${pts}</td>`;
+          tbody.appendChild(tr);
+        });
+        if(totalEl) totalEl.textContent=String(totalPts);
+      });
+    }
+
+    // === DII details (外部JSON) ===
+    async function fillDiiDetails(){
+      try{
+        const res=await fetch(`/data/dii/latest.json`,{cache:"no-store"});
+        if(!res.ok) throw new Error("fetch dii json failed");
+        const j=await res.json();
+        const items=j.items||j||{};
+        document.querySelectorAll(".card").forEach(card=>{
+          const sym=card.getAttribute("data-symbol");
+          const box=card.querySelector(".js-dii");
+          if(!box) return;
+          const rec=items[sym] || items[sym?.toUpperCase?.()] || null;
+          if(!rec){
+            box.innerHTML=`<summary>DII details</summary><div class="muted">No data</div>`;
+            return;
+          }
+          const s30 = Number(rec.score_30 ?? rec.score30 ?? rec.score)?.toFixed(2);
+          const s90 = Number(rec.score_90 ?? rec.score90)?.toFixed(2);
+          const buyers30 = rec.buyers_30 ?? rec.buyers30 ?? rec.buyers;
+          const buyers90 = rec.buyers_90 ?? rec.buyers90;
+          const net30 = rec.net_buy_shares_30 ?? rec.net30 ?? 0;
+          const net90 = rec.net_buy_shares_90 ?? rec.net90 ?? 0;
+          box.innerHTML=`<summary>DII details</summary>
+            <div class="kv">
+              <div><span class="k">Score 30</span><br>${s30 ?? "-"}</div>
+              <div><span class="k">Score 90</span><br>${s90 ?? "-"}</div>
+              <div><span class="k">Unique buyers (30d)</span><br>${buyers30 ?? "-"}</div>
+              <div><span class="k">Unique buyers (90d)</span><br>${buyers90 ?? "-"}</div>
+              <div><span class="k">Net buy (30d)</span><br>${Number(net30||0).toLocaleString()} shares</div>
+              <div><span class="k">Net buy (90d)</span><br>${Number(net90||0).toLocaleString()} shares</div>
+            </div>`;
+        });
+      }catch(e){
+        document.querySelectorAll(".js-dii").forEach(box=>{
+          box.innerHTML=`<summary>DII details</summary><div class="muted">Failed to load</div>`;
+        });
+      }
+    }
+
+    // === Medals: Trends / News Top3 ===
+    function decorateTop3Medals(){
+      const cards=[...document.querySelectorAll(".card")].map(card=>{
+        let data={};
+        try{ data=JSON.parse(card.querySelector(".js-payload")?.textContent||"{}"); }catch(_){}
+        return {
+          card,
+          symbol: card.getAttribute("data-symbol"),
+          trends: Number(data.trends_breakout||data.trends||0),
+          news:   Number(data.news_score||data.news||0)
+        };
+      });
+      const rankBy = (arr, key)=> [...arr]
+        .sort((a,b)=>Number(b[key])-Number(a[key]))
+        .map((o,i)=>({...o,_rank:i+1}))
+        .filter(o=>o[key]>0 && o._rank<=3);
+      const tMap=new Map(rankBy(cards,"trends").map(o=>[o.symbol,o._rank]));
+      const nMap=new Map(rankBy(cards,"news").map(o=>[o.symbol,o._rank]));
+      const medalInfo = r => r===1?{cls:"gold",emoji:"🥇"}:r===2?{cls:"silver",emoji:"🥈"}:{cls:"bronze",emoji:"🥉"};
+      cards.forEach(({card,symbol})=>{
+        const box=card.querySelector(".medals"); if(!box) return;
+        box.innerHTML="";
+        const t=tMap.get(symbol); if(t){ const m=medalInfo(t); const el=document.createElement("span");
+          el.className=`medal ${m.cls}`; el.title=`Trends Top #${t}`;
+          el.innerHTML=`<span class="emoji">${m.emoji}</span><span class="label"><span class="kind">Trends</span></span>`;
+          box.appendChild(el);
+        }
+        const n=nMap.get(symbol); if(n){ const m=medalInfo(n); const el=document.createElement("span");
+          el.className=`medal ${m.cls}`; el.title=`News Top #${n}`;
+          el.innerHTML=`<span class="emoji">${m.emoji}</span><span class="label"><span class="kind">News</span></span>`;
+          box.appendChild(el);
+        }
+      });
+    }
+
+    // INIT
+    bindToggles();
+    fillBreakdown();
+    fillDiiDetails();
+    decorateTop3Medals();
+  </script>
 </body>
 </html>

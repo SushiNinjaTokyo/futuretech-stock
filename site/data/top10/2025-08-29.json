@@ -7,9 +7,9 @@
       "name": "NVIDIA Corporation",
       "vol_anom_0_1": 0.759779,
       "trends_0_1": 1.0,
-      "news_0_1": 0.506973,
+      "news_0_1": 0.462452,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.59134,
+      "final_score_0_1": 0.582435,
       "price": 174.17999267578125,
       "pct_change_1d": -0.033246409247044806
     },
@@ -18,9 +18,9 @@
       "name": "Microsoft Corporation",
       "vol_anom_0_1": 0.626183,
       "trends_0_1": 0.666667,
-      "news_0_1": 0.473769,
+      "news_0_1": 0.454468,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.4513,
+      "final_score_0_1": 0.447439,
       "price": 506.69000244140625,
       "pct_change_1d": -0.005788423440546087
     },
@@ -29,9 +29,9 @@
       "name": "Iridium Communications Inc.",
       "vol_anom_0_1": 0.743816,
       "trends_0_1": 0.0,
-      "news_0_1": 0.426007,
+      "news_0_1": 0.457987,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.271155,
+      "final_score_0_1": 0.277551,
       "price": 24.889999389648438,
       "pct_change_1d": 0.011377438941594376
     },
@@ -51,9 +51,9 @@
       "name": "Vertiv Holdings Co",
       "vol_anom_0_1": 0.660165,
       "trends_0_1": 0.0,
-      "news_0_1": 0.479887,
+      "news_0_1": 0.46824,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.261019,
+      "final_score_0_1": 0.258689,
       "price": 127.55000305175781,
       "pct_change_1d": -0.049765275187375724
     },
@@ -73,31 +73,20 @@
       "name": "Intuitive Surgical, Inc.",
       "vol_anom_0_1": 0.586892,
       "trends_0_1": 0.0,
-      "news_0_1": 0.470839,
+      "news_0_1": 0.48163,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.240891,
+      "final_score_0_1": 0.243049,
       "price": 473.29998779296875,
       "pct_change_1d": -0.0011396432320939232
-    },
-    {
-      "symbol": "INOD",
-      "name": "Innodata Inc.",
-      "vol_anom_0_1": 0.476399,
-      "trends_0_1": 0.0,
-      "news_0_1": 0.594534,
-      "dii_0_1": 0.0,
-      "final_score_0_1": 0.238007,
-      "price": 37.97999954223633,
-      "pct_change_1d": -0.03872434432534555
     },
     {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
       "vol_anom_0_1": 0.553693,
       "trends_0_1": 0.0,
-      "news_0_1": 0.479291,
+      "news_0_1": 0.493379,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.234282,
+      "final_score_0_1": 0.237099,
       "price": 193.0,
       "pct_change_1d": 0.01841594424740567
     },
@@ -106,11 +95,22 @@
       "name": "Rocket Lab USA, Inc.",
       "vol_anom_0_1": 0.537653,
       "trends_0_1": 0.0,
-      "news_0_1": 0.494017,
+      "news_0_1": 0.475404,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.233217,
+      "final_score_0_1": 0.229494,
       "price": 48.599998474121094,
       "pct_change_1d": 0.014401975138938594
+    },
+    {
+      "symbol": "SOUN",
+      "name": "SoundHound AI, Inc.",
+      "vol_anom_0_1": 0.73792,
+      "trends_0_1": 0.0,
+      "news_0_1": 0.21305,
+      "dii_0_1": 0.0,
+      "final_score_0_1": 0.22709,
+      "price": 13.020000457763672,
+      "pct_change_1d": 0.03910620392936659
     }
   ]
 }
