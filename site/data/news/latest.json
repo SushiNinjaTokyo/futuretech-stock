@@ -1,487 +1,86 @@
 {
-  "as_of": "2025-08-29",
-  "recent_days": 7,
-  "lookback_days": 31,
   "items": {
     "NVDA": {
-      "as_of": "2025-08-29",
-      "recent_count": 58,
-      "total_count": 60,
-      "raw_signal": 59.05,
-      "examples": [
-        {
-          "title": "NVIDIA Announces Financial Results for Second Quarter Fiscal 2026 - NVIDIA Newsroom",
-          "source": "{'href': 'https://nvidianews.nvidia.com', 'title': 'NVIDIA Newsroom'}",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQamxIZnNxSmxsamFuZEtkSlZraHpSdWhxMDd0clNtQTE2VElUMUVuN3A3TUFrWFZDeHZTbGFBNHZhNzE2SF91d2lBY2J3NWViLXFlMTJuSVBtNXlSbktyc040TXRXSFJ5a21aTHJXMnljWXpmbzBzTkRwRmFtQUlZM0h1dS1kbzd4SFhhVTBhYVQ0cWZEdlFfaXdwTmozdXVJUWc?oc=5"
-        },
-        {
-          "title": "Nvidia\u2019s China-based rival posts 4,300% revenue jump as chipmaker\u2019s earnings reported no H20 chip sales to the country - Fortune",
-          "source": "{'href': 'https://fortune.com', 'title': 'Fortune'}",
-          "url": "https://news.google.com/rss/articles/CBMikgJBVV95cUxOaWJ2TXE4eG83emxaWVBKRFZPWExiZUtOdTlaMmVWUmRoZHctQVMyWlhzVmFFV0dBenRfREc2b1RsMmZMWWFFQnZnUXJBOXFKU2VwY3puWUo5Y0RHQW1zWDR5VUQ2SzZHX1UyVW85a3BNWDNJWG9ZaW1hVE1HVjNUcHltSnd3ZzJRTm9vdGF2OGFDQzg0aHNOQlV4c29aNlU4U0VPcjJtTTBwSEhiVlI5X3BlU0VXR29JMlZBMXhLd3d2Uk53SU9FdHctdWRURmlHRVc3eEZrUzBNZ1hOZVZ2dk5INDdfVm1nZ3hYWUdCQTU2bTB0eEdmZHB0V1RwWWdpWGRtazlVVE0tZEdNemhjN3Bn?oc=5"
-        },
-        {
-          "title": "NVIDIA Corporation (NVDA): Jim Cramer Says Biggest Concern Is NVIDIA Making Money While No One Else Does - Yahoo Finance",
-          "source": "{'href': 'https://finance.yahoo.com', 'title': 'Yahoo Finance'}",
-          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOZnBUZkZnTmw2REJjNFZlZU91ZEZzSlVscnVveHZKa19abGxiaDd1YmxPLXZEMHZXcERWQlFwTy13NEJXSU1vUUVvdThTN0pjTENKM1k4U3pCS2ZXaUkzY0J6SlZXZVpmSFZ1YVhVSUxRUm9fUnpFS0ZxdDlRc0dJLWxobTdDcDA?oc=5"
-        }
-      ],
-      "score_0_1": 0.9
+      "score_0_1": 0.5791483333333334,
+      "recent_count": 60
     },
     "MSFT": {
-      "as_of": "2025-08-29",
-      "recent_count": 58,
-      "total_count": 60,
-      "raw_signal": 58.3,
-      "examples": [
-        {
-          "title": "Microsoft fires four workers over protests against firm\u2019s ties to Israel - Al Jazeera",
-          "source": "{'href': 'https://www.aljazeera.com', 'title': 'Al Jazeera'}",
-          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPcXZZRVR6cXNNSDhyZ3lZNklNSGRqU3BCeHlzeVEyaGRRNTNubnNESVF3aWVPMk9tQzdJeGxadHhNdGNQWVlPMDlDMUdXQjM1c3BxOUR3Q0hJeGZrcjhranp1ZUpILTNCUGV1Y0lUZFBOMFlGNF9Kekw5cXZwVTFxWmJnYVNLS0JSOU9xb0JLaE5YUGgtcmxXS1NKOG5XV0FLSTB3OU15blp1ZVlQZF9nVURn0gG3AUFVX3lxTE11Ml81ZjRXUDJQZTRoNzY1eXM5YUhfalUyaDIyUDEzeXczWElhc3llZjFScFN5WkE3WGpYdzAxWWM0Qm9pdDUyYy1KZFNaYlpZTy1VRUxQQkhEajIwYlliT1lZUS11eVEtLUVoVjlNWnFTV185VXlWa2hsVFVHU3E4c1VaMXJQWjlrTWVRNktvZG5FX0FlZ1pLdWNJa1hVOENvaXV0M1pDOUJsa3MzTmZkdVN6YnUzSQ?oc=5"
-        },
-        {
-          "title": "Pentagon Warns Microsoft: Company\u2019s Use of China-Based Engineers Was a \u201cBreach of Trust\u201d - ProPublica",
-          "source": "{'href': 'https://www.propublica.org', 'title': 'ProPublica'}",
-          "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOdldrbG9CcXFaUV94LU05MHg5V2UwM052dzhseXVraFphck5ZUGtkczg5NDJIU2ZJZ3IzU294NWRoa2FoQ2RaRGltbjgyam1uYkNjbGtDclJEbUFLQnl3UWlkQTBQUlBYYVp3VzU1WnE2V21Tb0xQTW11SURRU1FaQWRTdm5KeUZZMFRtNFRpNXQ3R0Y3dGJJMHZma2dIZnlsRTNueXRfV0F5ejQ?oc=5"
-        },
-        {
-          "title": "Who Was Pratik Pandey, Indian-Origin Engineer Found Dead At Microsoft Office - NDTV",
-          "source": "{'href': 'https://www.ndtv.com', 'title': 'NDTV'}",
-          "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPVnVRcWZOb2NRLW9xdjdkUEo1M0Z4WkNqNjFDbE9LbVQ4alVHZzI4bmk2eVZVQUdmM0lUbUlIR1NkeEJuQUV4NWFKUFduM0lHUDU2UnBtMHNaaGVudzZfZmZaT3hEQW9qbnpGbzNZTVpERklhRW5nRGR4LWZpOEk5NHdUdzFWbUlFT3ZoVDZyLUF6eGItUVRmY1hRdUZkWFo3Y1pEaWJDU1NLMUJtTDJhOFpKSWZVQdIBvgFBVV95cUxNYzVhcWJBNUNzV243UU40OXU3VGstMU9zT3AzN3ZFNkZXajFHWkdUVUhfWmVOWWsyUGRHSkdzdXNmRWpERndHWkw4RElVTnJxNmR4Q2pPSTUtQnkwSUxfOHNfOFJHbXFwZy05SWNjM1J1c2xwRGhsUlZKcE9odlYxZ0t6a1JFaWMxZFVfcVhpTGIweDNZZkdraXBWVm0yZ1NreXRZRlBuWmthT3dCT0NrVkw0OU8xZW40WlRUNXd3?oc=5"
-        }
-      ],
-      "score_0_1": 0.85
+      "score_0_1": 0.5649707547169811,
+      "recent_count": 53
     },
     "PLTR": {
-      "as_of": "2025-08-29",
-      "recent_count": 40,
-      "total_count": 60,
-      "raw_signal": 40.75,
-      "examples": [
-        {
-          "title": "Palantir is mapping government data. What it means for governance - Fast Company",
-          "source": "{'href': 'https://www.fastcompany.com', 'title': 'Fast Company'}",
-          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBTaGt6dUdDc2JGTUVWdFp1ZlM3NXpVU2h0Z3NEX1lKVEtRVFBqQTRnNmlVc2RCT3hkSHlhTGx5Wi1lamxreWpsd056R0Y0ekg2QkFKVVliTmtTOWd4N0NxSDh0WVNGejBCb216NkRSaW96UFUxczRCcmFzZnA?oc=5"
-        },
-        {
-          "title": "Palantir Stock Stays Above 50-Day Line, Bucks AI Software Worries. Is PLTR Stock A Buy? - Investor's Business Daily",
-          "source": "{'href': 'https://www.investors.com', 'title': \"Investor's Business Daily\"}",
-          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPV3BLOEFHYnBkMUNUZ3djZXNCZ0pWS21DZm1LQ0IyQXJmckdTbkVtajZUc2JnWmdaN3lON0RvZjdabUplZ0ZQTGNKZ0xYdGlqSDU1OVE3THFubnlwME9waEJkS2JTakZjdDJWMXN3U1FvdTRpNWRnN3NhaEFNekQ0enhkT21vTW5lZ2RXSTNENTk?oc=5"
-        },
-        {
-          "title": "Palantir Technologies Inc. (PLTR)\u2019s New Name Is \u201cKarpe Diem,\u2019 Says Jim Cramer - Yahoo Finance",
-          "source": "{'href': 'https://finance.yahoo.com', 'title': 'Yahoo Finance'}",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOOFpEeV9KaGp4N1hWd1dWcTJUdzZLZFg5XzVXQlBEUHB6OTFNdzBlcU9ZVmNwYml4cEh0bTRYUWZkQkNzWEVwOHdXby1yMmpIZVctekRaVkdibHBRMlZvemw3VkZFSHItLXhVb2hsclJvalN2X3VmWEhWc1NaUERxWWxla1JrSlBk?oc=5"
-        }
-      ],
-      "score_0_1": 0.3
+      "score_0_1": 0.5368870689655172,
+      "recent_count": 58
     },
     "AI": {
-      "as_of": "2025-08-29",
-      "recent_count": 42,
-      "total_count": 60,
-      "raw_signal": 40.65,
-      "examples": [
-        {
-          "title": "Earnings Preview: C3.ai, Inc. (AI) Q1 Earnings Expected to Decline - Yahoo Finance",
-          "source": "{'href': 'https://finance.yahoo.com', 'title': 'Yahoo Finance'}",
-          "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBiaVhHNDFrV0hmU2ZDdTFkcHdXVUNBblhUaHNzZi0tNTZUZXZmN3NuVnRLVFJ4TEpudTNsNjVOeGFsMnFSa2VwRzJRTzJIeGplcEhCZGtGcDlaSVVsRkRJcnl6SUlJLUlwWlhZckxRZDgyMkFoZXd5ZnVfVks?oc=5"
-        },
-        {
-          "title": "C3.AI SHAREHOLDER ALERT BY FORMER LOUISIANA ATTORNEY GENERAL: KAHN SWICK & FOTI, LLC REMINDS INVESTORS WITH LOSSES IN EXCESS OF $100,000 of Lead Plaintiff Deadline in Class Action Lawsuit Against C3.ai, Inc. - AI - Morningstar",
-          "source": "{'href': 'https://www.morningstar.com', 'title': 'Morningstar'}",
-          "url": "https://news.google.com/rss/articles/CBMi-AJBVV95cUxNRVNyMnpWOW55X3BFYjZCSXF2QmR0WW9iWWVGRlVnVElJbHZjdmFYcGs5Zkt3a1E3TzJKem1CeEE5Wm04S2I1NzkzanB6WW9saW1qMHpfcHkyZ1cxRWlmUVU4b3lnWE45NkVsWGhNSEdaa1drdUJWYnE5MFZMZVYxMGpBcjB0TzZOT0dlb1cxZTZPR1Z6NmtqdWZ1RFlfbXoyaWNYUE5hRjJTdlI3eDNfN2lOMUhDMWJkMk53NTYzckdYWVIwdzZIdHotakFDRDJ6SThhblc0dGwtTWNXMHlyNUEya0VhZVRQN3VMaGdZOGZEZnhuZ2VZeUdIMzN3VXZGOWtzVGl1c2xuOTEtUTJjd1huR1dNY2pMbjZiSUJBNC1CbzQ0dFNBdENudlYzVF9ETWZta0NjZVhQQmpGLTA5aENOMTA0R3dCaU83MmZoMVJROUN4blBmMjhSMTNKZ2tpemZ4N0NlRFZCRXJwc0pVVkpmS05hMTBo?oc=5"
-        },
-        {
-          "title": "Berger Montague PC Investigates Securities Claims Against C3.ai, Inc. (NYSE: AI) - WRIC ABC 8News",
-          "source": "{'href': 'https://www.wric.com', 'title': 'WRIC ABC 8News'}",
-          "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPR3dnd1NVSWtvSkdVeTY3U1hJR216YlBQWFE2RnJvUzFxN0dWWXRYNVBQNjFiY3FSM0x3ZjJRXzlRaEc5cXhTblYxWEN3MFdvY1BHZ1dFRThVSEhzVUNmVWQ2NzVCaldiOGw3WXExb2VqQVlkZGxxNW5IRWhCNU5TajNMSmd1a2tveWlISU9NVV9EczRoYnI2bHAxM3h0WmgzQUZKMVVFaEtnVnVoX3dqdjhicGR1UGF4SmhBMHhmOGZUNXhxTHY4SDFDUDZ3Q3VicTRNZmR5Q2QzNTA?oc=5"
-        }
-      ],
-      "score_0_1": 0.25
+      "score_0_1": 0.48624576271186437,
+      "recent_count": 59
     },
     "ISRG": {
-      "as_of": "2025-08-29",
-      "recent_count": 25,
-      "total_count": 56,
-      "raw_signal": 25.3,
-      "examples": [
-        {
-          "title": "Is this a good reentry point in Intuitive Surgical Inc. - 2025 Retail Activity & Real-Time Volume Triggers - Newser",
-          "source": "{'href': 'http://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQc1A3YWJXV3NjeHM1Nnk5VG9Ca05WYlVDeFB5UEZjckphNlZTOTZWTHVJMHJ2Y09aODhhSzN5NzltRFZ5Rkd0RFFxcXktdC1kQVJuMFZyOXFldzJQVEpwR2stOUlORUJTUzJ2MEg4WWNHakgwZ3Y5ZGlKZjgyWExyenp0MkZjanA4MENLT29PUDZidw?oc=5"
-        },
-        {
-          "title": "Company that makes da Vinci surgical robot cuts hundreds of Bay Area jobs - KRON4",
-          "source": "{'href': 'https://www.kron4.com', 'title': 'KRON4'}",
-          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBMeDVEZ1lLSlRWLWpGLWFxaW5IQy16UEhvZkNDa0F1RU1QbXpOT0wteFJBSGg1NjUycmFfVl9YeEcyZkZKZ0Nic2pJYWxCdGJZV3VZb1pRUXRXeGotbV9CdF9rNWpRMWZqMnpNOGlWcjNvTnNBMUpR0gF8QVVfeXFMTUtUd3p1SlJ6c0hGRjhVMHJEeWpYVnhRQ1dnTWJjenRKVFVaOHlVSmU2ODVrcnhCd1Awb2k2ekxEbEZ3UVZPSERfLXRkUHBQb19hYjJlcU1ESU83RHdyLXVLNVAtLWFOUzlmWkxlVTNMX1dlN3IwMVhiNkp6Ng?oc=5"
-        },
-        {
-          "title": "Using R and stats models for Intuitive Surgical Inc. forecasting - Market Rally & Risk Managed Investment Strategies - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOSElELWF3TFdDZHZzZnIxOEZxR29aZjJzQWF1YVdlcEhkR1REdWZKYjBEOEpGQnZpQ0xobUFsMzlxbVNWTkpIeDJSNUhEdG02ZmpIejVRRkxpVHVCbV9MV2tHRjBobTBFY0IxVkU5S29hRlo5V2JqQlJ5X3E3YTYtYXV5a0dYc0NtT3dnam9MSkNhMTdFR2dpckRfdjdDd1k?oc=5"
-        }
-      ],
-      "score_0_1": 0.05
+      "score_0_1": 0.5571872881355933,
+      "recent_count": 59
     },
     "TER": {
-      "as_of": "2025-08-29",
-      "recent_count": 41,
-      "total_count": 60,
-      "raw_signal": 41.9,
-      "examples": [
-        {
-          "title": "Teradyne Inc. stock outlook for YEAR - July 2025 Macro Moves & Weekly High Return Stock Forecasts - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9NYnlnQmYwUl96bDladXBmemgzUjdlR0hKeW5ZdW5LaE9UdkRaWUZwZmNrc0trUGJDa3dnMHk2RWY2bGk1clBYTEptcU0ySUxadXgtT2NWY2prdHJuMDl2Nkd4bmQxQmVjc3Q0alpWMmdfYnpOdWc?oc=5"
-        },
-        {
-          "title": "Will Teradyne Inc. benefit from macro trends - Market Volume Summary & Technical Pattern Alert System - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQVm85dUQxYlZOcG9IbGF0bFd2Ull6ZTBSbWhFU0JWZXR6bWtJNXNUS1Y4ZU0xb044aXVLQ3Y1NFVWWWNlY1NSNFFGaUplNjdhaWxhN0tkcDhxTUdwT1dUcWYwVGJkVG81NzQxVXctbzhzQkFYb0tOc0NhdW1jQnVhdjV6ZDg?oc=5"
-        },
-        {
-          "title": "Investors Appear Satisfied With Teradyne, Inc.'s (NASDAQ:TER) Prospects As Shares Rocket 30% - simplywall.st",
-          "source": "{'href': 'https://simplywall.st', 'title': 'simplywall.st'}",
-          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNZ25LemVHdVdOUDRBX0REUjE5c1BaMWs3OUE4b2lIRlF1RkdSMm0zTThuM2NhbEZQS1J4UkRXdktubjlQcGJGbTVFTllkTjd6U01uY2NZam5rV05Gd1BnaFdNTlQzU25xUXJrTVhhc3FtNk5MN3FONUttR1ZvcGxzZEwxRVV3QzZMWXVSUHZwZVdqRXBfREFuWGk4dXJIWUZ1V0V3bHlDakZFQks4Q2pXcWlJYThCR1RzQlk1bXMxVHotSzY5cnVtMDRHbi3SAdIBQVVfeXFMUEEtTTVyNUd2ZV9wdi1ycW5lSWc4ZkxOWGx5MTVaN3Vzb1Z3ZnVSbUlWUVpITHBkTjZNeXlxVHdVRUJZaVppWTlEQ0xoQm8xby04YVUtc21xOENRNGh5ZUplb3FGT25jcE8wYWRWODJza0puTHFpbWNHd253LU9OQm5FQVlqRnJZSzMxMnlKNG5qTjVGVVhOQ20ybENSMlYwOThFcjRxMWJrUDRpWFRSTjJIc3RIalBxQnh3MzZXVWg1VWpSUU1SekxpSWlCUnFFS0l3?oc=5"
-        }
-      ],
-      "score_0_1": 0.35
+      "score_0_1": 0.5576560975609756,
+      "recent_count": 41
     },
     "SYM": {
-      "as_of": "2025-08-29",
-      "recent_count": 53,
-      "total_count": 60,
-      "raw_signal": 53.75,
-      "examples": [
-        {
-          "title": "Building trade automation scripts for Symbotic Inc. - Weekly Volume Report & Weekly Market Pulse Updates - Newser",
-          "source": "{'href': 'http://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQSS12WE0zZ0F5bUVxQ3NFMl91ZTJNc2haa3pUcUdHWXh2TTBpQkkyZ2pSUklNVVJjeEo5aDlKbTBnQzdYNnJLN2hnMm5BcTZfbVZvdWE5OU5JNTRBUGUwVWdvWnJLVGtsMUFUc1FXZWw0a0pNTGR1cmJKdjg1UXJFeXNZdlZIUlZyUDExcg?oc=5"
-        },
-        {
-          "title": "Using data tools to time your Symbotic Inc. exit - Portfolio Gains Report & Proven Capital Preservation Methods - Newser",
-          "source": "{'href': 'http://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPakg4MVlESU5EZXZMV25uWm1nU2U2UURTcDBiWlZZalFadXlfazlRWG9uZWtsOTM3LWNZd0FYNzFodERUN1I3NXJuVjhoMnFlV29HM3FlMjkyS1ZOMXRHN1VfS1hveDdWSDNpbnpxeVlmTFVpZVFqN3NMVUt5NW5jOFkyQmcxbjd5?oc=5"
-        },
-        {
-          "title": "Real time pattern detection on Symbotic Inc. stock - 2025 Technical Patterns & Fast Entry High Yield Tips - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNTW5PTlpnaXY3bzdhbkh0R0ZZN0RMQklwVzFIR0E2aS1adW9scmhSNFk0TmZWNGU1US1DaW5MaVdBM3VzdkVGUmQ4OEc2ZE81TkpOR0dGSXo2NW9BMlZtX1NMV0NuVTZhUmo1SmVjVkZCZ0pOQUpaSTl4UzduLXF6YzYwQmpOenpZ?oc=5"
-        }
-      ],
-      "score_0_1": 0.7
+      "score_0_1": 0.5623530612244898,
+      "recent_count": 49
     },
     "RKLB": {
-      "as_of": "2025-08-29",
-      "recent_count": 38,
-      "total_count": 60,
-      "raw_signal": 38.6,
-      "examples": [
-        {
-          "title": "Volume spikes in Rocket Lab USA Inc. stock \u2013 what they mean - 2025 EndofYear Setup & Fast Momentum Entry Tips - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPdlFvZ0lSLUhIS3BNbVhPVzFqU0p2Z2l3eXhNQTRfTE1nVTFqYTExYUJ1MTYwdkJISjd0RXhXX25UTHowcndFS1hiMVFGa09KMGF6bV85Znl0TGFzWTJoSHFZNDJ4Wnd1N2hydnVURHVTQUNSZXEyQWFjNXQzRWxzTTNFX2VFM3p4MThMSDlnclo0YmZLc0w3dDFxMGE4UTVLckhr?oc=5"
-        },
-        {
-          "title": "Rocket Lab adopts executive bonus plan and reports annual meeting voting results - Investing.com",
-          "source": "{'href': 'https://www.investing.com', 'title': 'Investing.com'}",
-          "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxQX084TXloR3d3MVNuaG93OFpVTTl3UldRZUpESWM2aW5TVThNLWZGOG9zOFF3N0pwLXBmczBkZ0I3QXBiQmxWWFVOZ3JHR2lDdzdaNFNYcWRuOXFNczJvbDdac3J2YU41aWF5X2ZZay0wMnUyV3FIeThSaEN0QjdQUndPckE2TzV0a2JjZnFWRV9TcTV6eDVlNk16a3RoMVplbFZDVnFXcUctTWxyMDdoZDRfX1NZbTZJZVlTbVUxR0c4RFByMThUYTlXdkZyUEhzTkE?oc=5"
-        },
-        {
-          "title": "What high frequency data says about Rocket Lab USA Inc. - 2025 Buyback Activity & Long Hold Capital Preservation Tips - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNYlFFSVNCNTFWOVFHbkg4WE9rUzhBdHJEQmxLOTRNbzd0WmhBYjEwN0VOTWVkVWFTc3BFeWFwaVRORHVTZHJrUHV1UU5xbFNHZXRvU0JIY29KWUM5ZHZ5dGhPQ2lsQ3hLam5xckxJZWNHSjMyZzZvdUFMTFVSTTJlcVpia0hLM1NhVGFrcmNscm0xYnc?oc=5"
-        }
-      ],
-      "score_0_1": 0.2
+      "score_0_1": 0.5940258620689655,
+      "recent_count": 58
     },
     "IRDM": {
-      "as_of": "2025-08-29",
-      "recent_count": 53,
-      "total_count": 60,
-      "raw_signal": 53.15,
-      "examples": [
-        {
-          "title": "Will Iridium Communications Inc. stock go up soon - Fed Meeting & Intraday High Probability Alerts - Newser",
-          "source": "{'href': 'http://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQV29hT1doblpfRXZjOTUtV04yWVp3cWx5X1E3cVVNRXo2QXdNdm9LMG1CMlBtOWxoUnhFZF9YOWZLV21VSl9YOTlWaExWNXhLY0lBMmlodk9rejk0VWhJellqTWlqYU8yTUFueWp5TUpTYWVsUDB3V284OHU1ZmVONkRSOVVRdw?oc=5"
-        },
-        {
-          "title": "Should you hold or exit Iridium Communications Inc. now - Weekly Trade Analysis & AI Enhanced Market Trend Forecasts - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQS3hESEpYVTh5eG5kR1J6bHl0RjhRblRpQVQ3SF9RSDVLZG1GaU5IclhINmNXUkdVNnJKVy1zN1Uzc2VOc0lSMUNnNTYySTdqZTA2aG1iUUh4cTI0YnBWMldENURxM3JiazAyS0I3dThuVVYtSmxISjJvYUZMZGlKV1l6VFpXcFQxa2lfdDM3Z1BQbWM?oc=5"
-        },
-        {
-          "title": "What to do if you\u2019re stuck in Iridium Communications Inc. - July 2025 Intraday Action & AI Forecasted Entry and Exit Points - Newser",
-          "source": "{'href': 'http://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNdTMtaTZxUUxjWU8zdWNZcklZLUgzMFVRMVpaaENsNzBxZTRhOGctZTJvRDJMMWNubFZKRTR6VUdhOEt1WG1pTmgtYVRFLWp2LUVMUy1leWE1NmtoTGNYeWZSNzk0d0lkckNmenJ1OGI1S3ZrVjY5cnVwbUhXYTRGdmR3VXlyWWRFbTlydHlvVVVHelBoQXA0SHVsOGVnWGM?oc=5"
-        }
-      ],
-      "score_0_1": 0.6
+      "score_0_1": 0.596354,
+      "recent_count": 50
     },
     "VSAT": {
-      "as_of": "2025-08-29",
-      "recent_count": 53,
-      "total_count": 60,
-      "raw_signal": 54.05,
-      "examples": [
-        {
-          "title": "Intraday pattern recognizer results for Viasat Inc. - July 2025 Sentiment & Technical Confirmation Alerts - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNRTROQlpCX3k2Umg5YTAwRnIzamZyN2RpT3BFRXVDSzNvRzR1bmlFNnRZUV8xVTlRUWdsRWoyWTlmN0gwR2ZmNE5kZF83WUxHZ240QXUyanlDdHkyVDhOblhIYmRrdDN5UzVXNDhnc0R6R3BrZnZlaEhmSnhBTFNBVVlBRm5ySTdKblE?oc=5"
-        },
-        {
-          "title": "Is Viasat Inc. still worth holding after the dip - Breakout Watch & Weekly Chart Analysis and Guides - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOeG44N2R3bG5yb1V1QUJQZlhpZ2NKODFpYjZSd1J1WFFoSVNSM1lGQVpSNlZGMndNdGNiYklKRXJTc2swZTQ1d0J3aVdjdEFUQkFuVjJFSEhLelFxQVM3bjhfckNGdFh2OXV1eldIZmh4N0taQTRkTFVaaHdzXzZlWjdmekpFZw?oc=5"
-        },
-        {
-          "title": "Using portfolio simulators with Viasat Inc. included - 2025 Price Momentum & Fast Momentum Entry Tips - Newser",
-          "source": "{'href': 'http://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOMVZ4NXRWS1dXUUVNZ01wSW1EeTQ5VUQtdXdtX0tzdGpvNWNxTURIM3dCWEtLUXItNDZjZkd0dVR2eUpwd0dGd045dURTcFhua21SaTB6SnpSS1Y2TWNpQkt4U0JfOE8tTEctTHlhNlNtaktJMVNhQVhXQ3prejk5Z1NSWnhveFJib0E?oc=5"
-        }
-      ],
-      "score_0_1": 0.75
+      "score_0_1": 0.5807456140350877,
+      "recent_count": 57
     },
     "INOD": {
-      "as_of": "2025-08-29",
-      "recent_count": 52,
-      "total_count": 60,
-      "raw_signal": 53.2,
-      "examples": [
-        {
-          "title": "Will Innodata Inc. continue its uptrend - Weekly Trade Review & Free Technical Confirmation Trade Alerts - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9NS2VBNmFjLU5vVi11VjFzeGpsclZZMmp4ak5TRW93MDBqR01nWk1icnlaTmVRdWNrUDNKSzRyaFNiLUxOUXg3bWx3WkJ6R1Z6a2xWcGFaUFlHYkZPR3FxZVhEbTR4UXJ4QWhPVndtYTVOZ3RtWkJWWExuLWYtZw?oc=5"
-        },
-        {
-          "title": "Wellington Management Group LLP Buys 507,540 Shares of Innodata Inc. $INOD - MarketBeat",
-          "source": "{'href': 'https://www.marketbeat.com', 'title': 'MarketBeat'}",
-          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNZnEzdXRLUnhxYmxKbmpBcjVlVURIRHFXbmwzTlUtSVBQZXExcjVvN3JPM3NVN0lDTTBZSTAwVFpubEZ2YWhybVZQTWdVaTBXS0JZX08xbE1PSzJCcFFVUFE2UXQ5LUxSUm9vNUd5WURCUUpMWjhNcW0zSU9tZzRJMm5VV2FCY3JBUFlmMk05LTlZSG5sRk5QX3REZlRFUDNRb195b2VkTWV0VzBYaHhoWWFId2NrSEgxMmN5aC00dmtuVnJfZ2dwUFJIWEM?oc=5"
-        },
-        {
-          "title": "Will Innodata Inc. continue its uptrend - Quarterly Profit Review & Low Risk High Win Rate Stock Picks - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5tZUxOS0VhVnYyalJhR1hLQ3RkSWZWejIwZEw5b09LMWNMcGx5djJVc1FpWE5vSTRPa19hSmpydlNqTmFtQ183dUxVd1dQYjkwYnF5RUxGNGl6b2U1QjNWbjhDRnpaQ3NJdU5rY015Z05wd21CVlZKWW9B?oc=5"
-        }
-      ],
-      "score_0_1": 0.65
+      "score_0_1": 0.5854154545454545,
+      "recent_count": 55
     },
     "SOUN": {
-      "as_of": "2025-08-29",
-      "recent_count": 51,
-      "total_count": 60,
-      "raw_signal": 51.45,
-      "examples": [
-        {
-          "title": "SoundHound AI, Inc. $SOUN Shares Sold by Invesco Ltd. - MarketBeat",
-          "source": "{'href': 'https://www.marketbeat.com', 'title': 'MarketBeat'}",
-          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOS1FxVUJSVUg1eUZVRDdkSjdDQVFHVVpTUHdpcFdfNTluQW82TVlKVUxUc0p1aTBHMmVLZ1NZY01vRmEyNGRDWU4zSl83akNVbFBzTUQ3Q09FR1RMRkwySFFZbGNYUHhFVDBXelZfSDBiSC1IRV91M3lBaGZ5STRzV2l2STF0ODZqZERWV3FTNlpIQV8wZlpIZzlzT1NGdi1NZHZSeFpOeXR6dmpUenVn?oc=5"
-        },
-        {
-          "title": "SoundHound AI\u2019s Upward Journey: What\u2019s Fueling the Surge? - StocksToTrade",
-          "source": "{'href': 'https://stockstotrade.com', 'title': 'StocksToTrade'}",
-          "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1YZUVoUXlvQWpwVngydUZjc1JpbVRySzE1bGc1eUZFOUYzZWJ6UzYzU3otLW1LVHJteGdXVkRMOEtUVzlLbXN1c0hxRWlqaTI5N0IzMktpdmpEMHE2aC1EdFZzZG95SEhiaEZqZTRoQ3FDMzNhaTRQWGx3?oc=5"
-        },
-        {
-          "title": "China Auto Deals Boost Expansion: Can SoundHound Outrun Local AI? - Nasdaq",
-          "source": "{'href': 'https://www.nasdaq.com', 'title': 'Nasdaq'}",
-          "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPTmVRNDV6VlVta2lReVFKS3pMeWk0RU80NGFmdllSOHIxMUxzb3NvSFgyLXQ5ci1JOW10ODllQWVNQkRHSU8weE9TV3FBQ3Q5OE1jcFJJWnJUUlFRQ29vdG9nRERiOEhTMm1SeTBYU2Y5ZjlxdkdUN2VRRl9oQkd1UHd1eU5reGNQMmVnX25GVEVHRnEwR3Z2SXphcw?oc=5"
-        }
-      ],
-      "score_0_1": 0.55
+      "score_0_1": 0.5737116666666666,
+      "recent_count": 60
     },
     "MNDY": {
-      "as_of": "2025-08-29",
-      "recent_count": 29,
-      "total_count": 60,
-      "raw_signal": 28.85,
-      "examples": [
-        {
-          "title": "HighTower Advisors LLC Has $1.51 Million Stock Holdings in monday.com Ltd. $MNDY - MarketBeat",
-          "source": "{'href': 'https://www.marketbeat.com', 'title': 'MarketBeat'}",
-          "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPZ2xJRkQyNG1VUTBEYnhUdTVlZlZEenczTmR6aGFNRmo1WUNYSGtsX2p1Q0tCTDRZYkZlYmZVZzJfWVZ6UVhqUGplNWJRRVhleFR0WjhVeVBDNk5lQldlZHQ0NVl4SzNaakxZUVhmWnVsYzViMjl2c0JpUklDa1pHTDBsaWZKVW1telJqeDdCX2JINFR6VVZiOXlRS2N5T3RfUUZfUTRVZUhQRHVqZndleW1OQ0U0ZDl6OWNiaU5B?oc=5"
-        },
-        {
-          "title": "Can volume confirm reversal in monday.com Ltd. - Earnings Overview Summary & Safe Entry Point Identification - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOUVBIZmhKM3ZBZ3dEZFo5dzJFd05wNjZsZ214S2JXMjRLNS1oNnRFbGdlUTN4bllWZGxGVTE5Z0QtYUcxV292TnRWazBtUllsNXZSekxvTmdabTl4UzJTSzJ5YVQ4emJ5a2NKVWNIaDRqSy05TGRWaktVOXdxUzVXRTJIc2REV0k?oc=5"
-        },
-        {
-          "title": "monday.com Ltd. (MNDY) is Attracting Investor Attention: Here is What You Should Know - Yahoo Finance",
-          "source": "{'href': 'https://finance.yahoo.com', 'title': 'Yahoo Finance'}",
-          "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNbUFGekIxdTh4SElsWllzUDc5U2s2NXAwVC1KM1VGdFpOc253QVdJR2Q0TGdFbXpiSzNvRjRaVDBZOHRka1VKR0hqZEFJREZRcGR5UWlNTWo0aUxldjR3OEJLaXlNRzQ4d21MY1RIY0ItUXNlMWI3cnBheGpESnpNdDVn?oc=5"
-        }
-      ],
-      "score_0_1": 0.1
+      "score_0_1": 0.5711225,
+      "recent_count": 60
     },
     "AVAV": {
-      "as_of": "2025-08-29",
-      "recent_count": 49,
-      "total_count": 60,
-      "raw_signal": 49.75,
-      "examples": [
-        {
-          "title": "Key metrics from AeroVironment Inc.\u2019s quarterly data - Earnings Beat & Safe Entry Zone Identification - Newser",
-          "source": "{'href': 'http://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOVXZyN1l5WGpJNFRVZkJzc0g4UmdKOG0yMS1JVElZdXpVREFqc2REVTh4dUtBamNTQ05KT1JLLVlRMUdvd2xSYTlsTjNKUVc3MURkMlFPTWlmYWYzWEcxM2Q1cXVMbEhCMS1zei0yaE9ESWFxeE5lOWFaLU9DYTRuZ1lrV0M4RTNvVzhCOGkwQk1YQ29p?oc=5"
-        },
-        {
-          "title": "Capital Fund Management S.A. Takes $2.57 Million Position in AeroVironment, Inc. $AVAV - MarketBeat",
-          "source": "{'href': 'https://www.marketbeat.com', 'title': 'MarketBeat'}",
-          "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPS3k1eUV4WkN5VWx4VkY0TjNRVTBRSHdSVnBSOUdhX1VJWGtxRmx3dXRRemYtQkFBNTFHUWlaTVZhMDFtNHJ3UmhkeEMtaXY3ajFCVEplNUp2ZW9DV2dwcWhQWmd3SW9jSDF3bWp3cGhWeVloay1obEREVlJYaEZELWozaVA1dElCOWM1T3BPclc0NHR2OHQ3VmNucnRjNlFpNGtqVkg5MndlSnJNdEx5WlhtMnZiLWY4WjBNMkJaS1lqSDFpMjZFaUlrWGhkUQ?oc=5"
-        },
-        {
-          "title": "AeroVironment Inc. Bounces Off Moving Average Support - Layoff News & Consistent Growth Equity Picks - beatles.ru",
-          "source": "{'href': 'http://www.beatles.ru', 'title': 'beatles.ru'}",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOWnAyelRldU9KYkRTRDVaM1Y5QzZZc3laa2g1ZzVBSEpaX3BQSXRLT0ZXaG9CSHcwbnRBQm1LZlRoVE5Vd3ZfWnhiVDM0d01MVmd5dVRWSGlLUGlBWTVWUW5yeTZSbVFOdjRqVG1KeGpwMHFmU2JhZG5mM1ZoVEtubmlqUEY0OXQ3?oc=5"
-        }
-      ],
-      "score_0_1": 0.5
+      "score_0_1": 0.5581103773584906,
+      "recent_count": 53
     },
     "PERF": {
-      "as_of": "2025-08-29",
-      "recent_count": 60,
-      "total_count": 60,
-      "raw_signal": 61.05,
-      "examples": [
-        {
-          "title": "Applying chart zones and confluence areas to Perfect Corp. Equity Warrant - Quarterly Trade Report & Growth Focused Entry Reports - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOR3FOeHF2U1RxRlBSR2NkcUs5dmxrcnF5Z3pvc2FKQjVISEZ4X0EwTUd2Tk8zZTVkRXZINUFiRi1GOG5qdVBrT0VIc0xfT1NyNTNscW9UVTZHR3llUU9ZLTZpUm5pQXhUR1M4aGRZaC05dmUtSGM4eUwzRkpiS3ZZVVBiYzNqQVhDUHNJcWt5YnhWRzlqc1l5VjMwTUFYbUhpaGVOV2J3WQ?oc=5"
-        },
-        {
-          "title": "Smart tools for monitoring Perfect Corp. Equity Warrant\u2019s price action - Insider Buying & Free Verified High Yield Trade Plans - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNYzRUTi1JZm1rZGNBdmJEaC0yckZIeFoxZDNWS191Vm1OdGNyV25EUVFleXZRSV8tRTFsZEdCTV9XRnk1QVJ1dWRMdFBoMFRjc1R6cXdSRFJOZU55S3VkbVdOZHFCT3hNeHIyaXNHaU5OZlY2bUVtNEJSc0FuT1NzVkhGZmdQU0JrM0hneExYclZqVVowZEozeklRMUpHVzhyTjloUmhXa2s4Ni1SLUE?oc=5"
-        },
-        {
-          "title": "Is Perfect Corp. building a consolidation base - Market Sentiment Review & Weekly Consistent Profit Watchlists - Newser",
-          "source": "{'href': 'http://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNeDFydWFOdDRkeVZhZFFITXl2eC01MnhLV3JVeE9raWtib2NKRzdkZk9MZ2tPQXlJOWJKU2pzUUM3enNoWlFKbHZMa0kyZzlDX3VQWmN4NnRGc1VlUVN4VU9GQS1OSGNXOXdRM2IxbEdYZndkdl9QTVRaMHVpb1RvcG93?oc=5"
-        }
-      ],
-      "score_0_1": 1.0
+      "score_0_1": 0.8003336206896551,
+      "recent_count": 58
     },
     "GDRX": {
-      "as_of": "2025-08-29",
-      "recent_count": 47,
-      "total_count": 60,
-      "raw_signal": 48.35,
-      "examples": [
-        {
-          "title": "GoodRx Holdings Inc. stock daily chart insights - July 2025 Trade Ideas & Capital Efficient Trading Techniques - Newser",
-          "source": "{'href': 'http://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOa2Jod2Q2TTJwR2NxRWpybWlTUW4yZW5IV0JiZmFHb2s1ODVmNTFFMllYODF6X3BiTTR5bnByVXpWZEJqd3pMNEw5VkRsOTNZVG5tZDVFVWVQd1lHU094WHJZUTY0aU5DNm9NNlNlT0ZEekxFNnRYTkFzVDlaWnBPV0xBWQ?oc=5"
-        },
-        {
-          "title": "Is GoodRx Holdings Inc. stock poised for growth - Market Risk Analysis & Weekly High Return Opportunities - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQTWlXZUp3Y0VSZnhmdjdUTmtMVUhfczFRQm1QeG50cDNNeTJtUkxFTXBxUEhqemNvdVRPY21RYjA3cXRyZXE4S3phdWNNRFVZMHZwUlNTLW5yOUhueFhFNHFiUXh4OWEwNGZrS3FMQkpLVDJJenJ4QjhNRDhyU0x3dmR0SllMSXNY?oc=5"
-        },
-        {
-          "title": "Best data tools to analyze GoodRx Holdings Inc. stock - Weekly Risk Summary & Reliable Intraday Trade Alerts - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOUDJPeU5QeU5SUmpkTTlqZzZmd1pBMVJLSElYR1ZMcm9zNzR1YzdJbHVyeEZXTGc4dEMzWE1QSFBGcHBvYzFDY3c0N1BsQlpLYjhnSHRhYmIycnB4QThaaVJDd0xUSDdMLTNlX2JKMnpxSWdoazFjRnkyWDVtUmd0VXIwOVRPY2tZS3JRRnZwQ24?oc=5"
-        }
-      ],
-      "score_0_1": 0.45
+      "score_0_1": 0.628393220338983,
+      "recent_count": 59
     },
     "ABCL": {
-      "as_of": "2025-08-29",
-      "recent_count": 44,
-      "total_count": 60,
-      "raw_signal": 45.8,
-      "examples": [
-        {
-          "title": "Applying Elliott Wave Theory to AbCellera Biologics Inc. - Weekly Profit Report & Verified Stock Trade Ideas - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxON0paM2c3ZXpPSzFHY2FidGdRWmZ1N253QjVDNFJSWmU3SmtHRUJTdXpuLUoxZjZuYjVOSTYyaVV4cVpjWk96T0VSekk1R1dJNVdlS05VNjN1V3Q3NGk2OGZ6T3ZGamswZllCRTB2c3RJOU5oVnZzelNaTlBvdmtIdDBiVGRpT0lfSW9HTW56YVg?oc=5"
-        },
-        {
-          "title": "AbCellera Biologics Inc. (ABCL) Launches First Human Trial for Menopause Therapy - Yahoo Finance",
-          "source": "{'href': 'https://finance.yahoo.com', 'title': 'Yahoo Finance'}",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNeW1naWV1c0pjeFpacGVMRWlTbTd4YmFDQnNxTkp0TkdNNUpvaC11clFMWURmemE4LTdHcDZjZHZJQ0V2Ui0wNmNjNTk0NFZUN0FYa3N1ZWpicGY4ME1yNkNSSDVpNlhhY1l2cDZBQVhHeFRXeWpmTjk5aXQ5QkhPcmZUcHI5VGZURDVZ?oc=5"
-        },
-        {
-          "title": "Best data tools to analyze AbCellera Biologics Inc. stock - 2025 Dividend Review & Weekly Market Pulse Updates - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOMG14TGlSVWFVcU43ME02OGdzM1hZUlYzOGVKcjI2UGhiRmVJWUxncFlLbl9QdDlLREZKSU1rLWJJMUVBb3dlbHg2NzhORklYbHRHTjd4RVdiNXNHMkM1N3lSWkpiUjMyc2tsa2VDeENBSXd3LU1PUHkwenNzQTQ3SFdoMFg5dlBiZ2dsSkc4VXZsdw?oc=5"
-        }
-      ],
-      "score_0_1": 0.4
+      "score_0_1": 0.604334090909091,
+      "recent_count": 44
     },
     "U": {
-      "as_of": "2025-08-29",
-      "recent_count": 56,
-      "total_count": 60,
-      "raw_signal": 57.05,
-      "examples": [
-        {
-          "title": "Strategies to average down on Unity Software Inc. - Quarterly Market Review & Real-Time Sentiment Analysis - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNQlZHLUttS2VyTEcwM2RTT1lrVmFMTzFuczdzQWM2QVRhSUtQdFBfZHdFLUY5Z182TjFndWI5ak1XTlkzWm53RVBrRzhaRGdYQ3RLRmFBNU1fTW85WGI1LUhwR3U4M2hRU05Gd3pVZUVIeVR3ZEthWXg0dnFiaXNwaHA0STEwTTl3QWN3?oc=5"
-        },
-        {
-          "title": "What momentum shifts mean for Unity Software Inc. - July 2025 Technicals & Fast Exit and Entry Trade Guides - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNTlNOdFlfY3l3R0NjSEw3UW5LQjZaQThEZWJHXzdDaUhoV2ZLYkptMzhVNGpRNDdJdnRVY01tNFI1NXcyQlpIWFFzZlQ2dFN2TExJTlhmLUVTSkdFOUVBOFAxV3RYdHE1bGR6enAxUHQxRnB2Q0FrY2J2OGRyeFpEME9reVdGejg?oc=5"
-        },
-        {
-          "title": "What data driven models say about Unity Software Inc.\u2019s future - July 2025 Opening Moves & Real-Time Buy Signal Alerts - Newser",
-          "source": "{'href': 'http://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPN2xmejdzcWRZaTY5eThjWURtMVRUdVBQaFR6LVA1NjVMa05tQkpZUVJhdHBSaVNMcEVNaFRWSTkyOTkzdHRRLTl2T2Z0UGk3YW1FMEZ1LWRtdEkxbmh5eFpYbVpwY3o4SE1MWWd0cEJjV1VxdXVjaDZrZWxVR2lEWjVJT01hcVFvaHlZS2dqeEhxV3dYWjNINFdVbmFib09sT2c?oc=5"
-        }
-      ],
-      "score_0_1": 0.8
+      "score_0_1": 0.6019401785714286,
+      "recent_count": 56
     },
     "TEM": {
-      "as_of": "2025-08-29",
-      "recent_count": 37,
-      "total_count": 60,
-      "raw_signal": 37.9,
-      "examples": [
-        {
-          "title": "Chart based exit strategy for Tempus AI Inc. - July 2025 Earnings & Stepwise Swing Trade Plans - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOeWQ3VmFOYUdFZm5kOTNaUjZLS2dLS2FVVjVlQUFzcmlQM0ZRNmJBczA3SktiSE8xZWxYUmRPb09QYjVscjNweGlaYTRWdlhQYl9oZDF4N3g1eHI3MHB2UXdncnpNT19PNnRZOFU4Q0J2czJtMy1tQV9LWElxZGNna2RZQkg?oc=5"
-        },
-        {
-          "title": "Tempus AI, Inc. (TEM) Expands into Digital Pathology with Paige Acquisition - Yahoo Finance",
-          "source": "{'href': 'https://finance.yahoo.com', 'title': 'Yahoo Finance'}",
-          "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBVWVpfM1JGZGZLYUNYVEg4T2sxOXNMN2tZdHN5M004UTdCZTkzS1NwWlVaWkxlNDRKSnQ2cUFzZHNHa3M1Q1JZZHJRd3FFWkdTQXJkaFRGTUExNHRjOWpGNEJCTUdUWW04V0J0R3hjb0tILTZTQ2lDVmFTaw?oc=5"
-        },
-        {
-          "title": "Tempus AI, Inc. $TEM Stake Reduced by Comerica Bank - MarketBeat",
-          "source": "{'href': 'https://www.marketbeat.com', 'title': 'MarketBeat'}",
-          "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNc0o3TnlUUW81RV81SF9lUHlJS041cUo0U0oxZExvODJiSlhvWlE5X2Y4enkxZjhQYVVKQXg2Vzd1bk0xeFF0ZGVSSWR3NDlBY0xJMkNRb2h1WkJUN2ZiRlRFeUxINHM0V3VRdFQzRWdJbU90ZTZ3VnlkLUViX21aODFjZmFuWVhacEVwQU5hNWFoc3lJUURhdlFxVlU2ektkMkNybWdKcURha1QxN0E?oc=5"
-        }
-      ],
-      "score_0_1": 0.15
+      "score_0_1": 0.5791016666666666,
+      "recent_count": 60
     },
     "VRT": {
-      "as_of": "2025-08-29",
-      "recent_count": 59,
-      "total_count": 60,
-      "raw_signal": 59.6,
-      "examples": [
-        {
-          "title": "Will Vertiv Holdings Co price bounce be sustainable - July 2025 Institutional & High Win Rate Trade Tips - Newser",
-          "source": "{'href': 'https://www.newser.com', 'title': 'Newser'}",
-          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPZDd6YndJN2o2dHR5eXVrblNIN1UwV3ZxY0d5cHVCTE9JaHlYUlNDS2JGQ05Tcmo1SlJHcHBKX3ZhVHdJNWh4MXQxZEtDM0tSVlkxclZiMnNvZ3lZcWdzMFM1TTZLTU11VThST0o2UGN2TWJrdVE2SEZwRDlJUlJiYXJQa25LQm9yalE?oc=5"
-        },
-        {
-          "title": "Price T Rowe Associates Inc. MD Reduces Holdings in Vertiv Holdings Co. $VRT - MarketBeat",
-          "source": "{'href': 'https://www.marketbeat.com', 'title': 'MarketBeat'}",
-          "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQbHEtRFBwV1ByWmZXM08tNDREUTJDWHp4ZlM4MVp3ZUQ1c3NCa2NjQV80dmN5SE9uUFF4bDRnSmU3aW5pczdsQkpaWHduV3lvb2xUUHdYYjdwbHY3dTAyaUZ0eV9VbWs2WTBYd2tIRnZyUU9QejVVdFJzREFvMU1MVmtSWHZMcDRxYlpLQUZZMU5mS3c1QmZ5NUZvMmRpLVVIajl6RGxqNlktdGNHMFZrcU12Tmt3MVlSamswUndyVHdBcEEwdmg2S2NtTzV1VVdCMlhpTDBIZ2hydVd3eU1TV080aw?oc=5"
-        },
-        {
-          "title": "Zacks.com featured highlights include Vertiv Holdings Co, MasTec, Inc. and Robinhood Markets - Yahoo Finance",
-          "source": "{'href': 'https://finance.yahoo.com', 'title': 'Yahoo Finance'}",
-          "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOZjk1bXBZX3JEUDVZWHVHdllqVHJnZTJqVXZjelNfYTF4RHVfMUxrYU9sYkJpYzlnaDZKaGdsUVFDTFBldlVTVGx2Q25VSVNiODVjQVpaYVdEbUFRbDNORmMwV2xyOGlOelBmdTM2dHphcWVqaWt0SUZwQlVKdWVXNjJZT0twM3YtNXc?oc=5"
-        }
-      ],
-      "score_0_1": 0.95
+      "score_0_1": 0.5868758333333333,
+      "recent_count": 60
     }
-  }
+  },
+  "date": "2025-08-29",
+  "lookback_days": 31
 }
