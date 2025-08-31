@@ -1,66 +1,98 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Daily Report — {{ report_date }}</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <style>
-    :root { --fg:#111; --muted:#666; --bg:#fff; --card:#f9f9fb; }
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Apple Color Emoji","Segoe UI Emoji";}
-    header{padding:24px 16px;border-bottom:1px solid #eee;}
-    .container{max-width:1100px;margin:0 auto;padding:0 16px;}
-    h1{font-size:28px;margin:0 0 6px;}
-    .meta{color:var(--muted);font-size:14px;}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:24px 0 40px;}
-    .card{background:var(--card);border:1px solid #eee;border-radius:14px;padding:14px;}
-    .rank{font-weight:700;font-size:13px;color:#444;}
-    .sym{font-weight:800;font-size:20px;letter-spacing:.3px;}
-    .name{color:var(--muted);font-size:13px;}
-    .score{margin-top:6px;font-size:14px;}
-    .comp{margin-top:8px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:12px;}
-    img{width:100%;height:auto;border-radius:10px;display:block;margin-top:8px;}
-    footer{border-top:1px solid #eee;padding:16px;color:var(--muted);font-size:12px;text-align:center;}
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Daily Report – {{ report_date }}</title>
+<style>
+  :root{--bg:#0b0e13;--card:#121826;--text:#e6eefc;--muted:#9bb0d1;--accent:#4ea3ff;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial;}
+  .wrap{max-width:1040px;margin:32px auto;padding:0 16px;}
+  header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .badge{background:var(--card);padding:6px 10px;border-radius:999px;color:var(--muted);border:1px solid #1a2233;}
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(12,1fr);}
+  .card{background:var(--card);border:1px solid #1a2233;border-radius:14px;padding:16px;}
+  h1{font-size:20px;margin:0}
+  h2{font-size:16px;margin:0 0 8px 0;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{padding:10px;border-bottom:1px solid #1a2233;text-align:left}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#0f1524;border:1px solid #22304a;color:var(--muted)}
+  .score{font-variant-numeric:tabular-nums}
+  .sym{font-weight:600;color:#cfe2ff}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+</style>
 </head>
 <body>
-  <header>
-    <div class="container">
+  <div class="wrap">
+    <header>
       <h1>Daily Report</h1>
-      <div class="meta">Report date (ET market date): <strong>{{ report_date }}</strong> — Universe size: {{ universe_size }}</div>
+      <div class="badge">{{ report_date }}</div>
+    </header>
+
+    <!-- Overview -->
+    <div class="grid">
+      <section class="card" style="grid-column: span 12;">
+        <h2>Overview</h2>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <span class="pill">Universe: {{ (trends.score_0_1|default({})).__len__() if trends else 0 }}</span>
+          <span class="pill">News covered: {{ (news.score_0_1|default({})).__len__() if news else 0 }}</span>
+          <span class="pill">DII available: {{ (dii.score_0_1|default({})).__len__() if dii else 0 }}</span>
+          <span class="pill">Top10 items: {{ top10|length }}</span>
+        </div>
+      </section>
+
+      <!-- Top 10 -->
+      <section class="card" style="grid-column: span 12;">
+        <h2>Top 10</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>Symbol</th><th>Name</th>
+              <th class="score">Score</th>
+              <th class="score">Vol</th>
+              <th class="score">Trends</th>
+              <th class="score">News</th>
+              <th class="score">DII</th>
+              <th class="score">Price</th>
+              <th class="score">1d%</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for i, it in enumerate(top10) %}
+            <tr>
+              <td>{{ i+1 }}</td>
+              <td class="sym">{{ it.symbol }}</td>
+              <td>{{ it.name }}</td>
+              <td class="score">{{ '%.3f' % (it.final_score_0_1|default(0.0)) }}</td>
+              <td class="score">{{ '%.2f' % (it.vol_anom_0_1|default(0.0)) }}</td>
+              <td class="score">{{ '%.2f' % (it.trends_0_1|default(0.0)) }}</td>
+              <td class="score">{{ '%.2f' % (it.news_0_1|default(0.0)) }}</td>
+              <td class="score">{{ '%.2f' % (it.dii_0_1|default(0.0)) }}</td>
+              <td class="score">{{ it.price if it.price is not none else '-' }}</td>
+              <td class="score">
+                {% if it.pct_change_1d is not none %}
+                  {{ '%.2f%%' % (it.pct_change_1d*100.0) }}
+                {% else %}-{% endif %}
+              </td>
+            </tr>
+          {% else %}
+            <tr><td colspan="10" style="color:var(--muted)">No items.</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Meta blocks -->
+      <section class="card" style="grid-column: span 6;">
+        <h2>Trends snapshot</h2>
+        <p style="color:var(--muted);margin:0">Normalized last interest (0–1). Populated if available.</p>
+      </section>
+      <section class="card" style="grid-column: span 6;">
+        <h2>News snapshot</h2>
+        <p style="color:var(--muted);margin:0">Mean headline sentiment per symbol (0–1). Populated if available.</p>
+      </section>
     </div>
-  </header>
-
-  <main class="container">
-    {% if top10|length == 0 %}
-      <p>No Top10 items were generated.</p>
-    {% else %}
-      <div class="grid">
-        {% for r in top10 %}
-        <article class="card">
-          <div class="rank">#{{ r.rank }}</div>
-          <div class="sym">{{ r.symbol }}</div>
-          {% if r.name %}<div class="name">{{ r.name }}</div>{% endif %}
-          <div class="score">Score: <strong>{{ r.score_pts }}</strong> ({{ "%.3f"|format(r.final_score_0_1) }})</div>
-          <div class="comp">
-            vol={{ "%.2f"|format(r.vol_anomaly_score) }},
-            trends={{ "%.2f"|format(r.trends_breakout) }},
-            news={{ "%.2f"|format(r.news_score) }},
-            dii={{ "%.2f"|format(r.dii_score) }}
-          </div>
-          {% if r.chart_url %}
-            <img loading="lazy" src="{{ r.chart_url }}" alt="{{ r.symbol }} weekly chart" />
-          {% endif %}
-          <div class="comp">Δ1D={{ r.price_delta_1d if r.price_delta_1d is not none else "-" }}%
-            / Δ1W={{ r.price_delta_1w if r.price_delta_1w is not none else "-" }}%
-            / Δ1M={{ r.price_delta_1m if r.price_delta_1m is not none else "-" }}%</div>
-        </article>
-        {% endfor %}
-      </div>
-    {% endif %}
-  </main>
-
-  <footer>
-    Generated {{ generated_at }} (server time)
-  </footer>
+  </div>
 </body>
 </html>
