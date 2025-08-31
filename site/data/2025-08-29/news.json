@@ -1,86 +1,86 @@
 {
   "items": {
     "NVDA": {
-      "score_0_1": 0.5791483333333334,
-      "recent_count": 60
+      "score_0_1": 0.5418625,
+      "recent_count": 20
     },
     "MSFT": {
-      "score_0_1": 0.5649707547169811,
-      "recent_count": 53
+      "score_0_1": 0.5879552631578947,
+      "recent_count": 19
     },
     "PLTR": {
-      "score_0_1": 0.5368870689655172,
-      "recent_count": 58
+      "score_0_1": 0.520325,
+      "recent_count": 18
     },
     "AI": {
-      "score_0_1": 0.48624576271186437,
-      "recent_count": 59
+      "score_0_1": 0.5041785714285715,
+      "recent_count": 14
     },
     "ISRG": {
-      "score_0_1": 0.5571872881355933,
-      "recent_count": 59
+      "score_0_1": 0.5631947368421053,
+      "recent_count": 19
     },
     "TER": {
-      "score_0_1": 0.5576560975609756,
-      "recent_count": 41
+      "score_0_1": 0.5654763157894737,
+      "recent_count": 19
     },
     "SYM": {
-      "score_0_1": 0.5623530612244898,
-      "recent_count": 49
+      "score_0_1": 0.49065,
+      "recent_count": 20
     },
     "RKLB": {
-      "score_0_1": 0.5940258620689655,
-      "recent_count": 58
+      "score_0_1": 0.6008625,
+      "recent_count": 20
     },
     "IRDM": {
-      "score_0_1": 0.596354,
-      "recent_count": 50
+      "score_0_1": 0.5936575,
+      "recent_count": 20
     },
     "VSAT": {
-      "score_0_1": 0.5807456140350877,
-      "recent_count": 57
+      "score_0_1": 0.6103000000000001,
+      "recent_count": 20
     },
     "INOD": {
-      "score_0_1": 0.5854154545454545,
-      "recent_count": 55
+      "score_0_1": 0.6053375,
+      "recent_count": 20
     },
     "SOUN": {
-      "score_0_1": 0.5737116666666666,
-      "recent_count": 60
+      "score_0_1": 0.5675666666666667,
+      "recent_count": 18
     },
     "MNDY": {
-      "score_0_1": 0.5711225,
-      "recent_count": 60
+      "score_0_1": 0.5372078947368422,
+      "recent_count": 19
     },
     "AVAV": {
-      "score_0_1": 0.5581103773584906,
-      "recent_count": 53
+      "score_0_1": 0.56885,
+      "recent_count": 19
     },
     "PERF": {
-      "score_0_1": 0.8003336206896551,
-      "recent_count": 58
+      "score_0_1": 0.8043525,
+      "recent_count": 20
     },
     "GDRX": {
-      "score_0_1": 0.628393220338983,
-      "recent_count": 59
+      "score_0_1": 0.658045,
+      "recent_count": 20
     },
     "ABCL": {
-      "score_0_1": 0.604334090909091,
-      "recent_count": 44
+      "score_0_1": 0.5470475,
+      "recent_count": 20
     },
     "U": {
-      "score_0_1": 0.6019401785714286,
-      "recent_count": 56
+      "score_0_1": 0.588435,
+      "recent_count": 20
     },
     "TEM": {
-      "score_0_1": 0.5791016666666666,
-      "recent_count": 60
+      "score_0_1": 0.579835,
+      "recent_count": 20
     },
     "VRT": {
-      "score_0_1": 0.5868758333333333,
-      "recent_count": 60
+      "score_0_1": 0.59657,
+      "recent_count": 20
     }
   },
   "date": "2025-08-29",
-  "lookback_days": 31
+  "lookback_days": 7
 }

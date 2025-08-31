@@ -1,136 +1,192 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FutureTech Stock Daily</title>
+  <meta charset="utf-8" />
+  <title>Daily Report — 2025-08-29</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f8fafc;
-      color: #0f172a;
-    }
-    header {
-      padding: 1rem;
-      background: #0f172a;
-      color: #fff;
-      text-align: center;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem;
-    }
-    .toggle-btn {
-      display: inline-block;
-      margin: 1rem 0;
-      padding: 0.6rem 1.2rem;
-      border: none;
-      border-radius: 20px;
-      background: #334155;
-      color: #fff;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .toggle-btn:hover {
-      background: #475569;
-    }
-    .overview {
-      display: none;
-      margin-top: 1rem;
-      padding: 1rem;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
-    .legend {
-      margin-top: 2rem;
-      font-size: 0.85rem;
-      line-height: 1.5;
-      color: #475569;
-      background: #f1f5f9;
-      padding: 1rem;
-      border-radius: 10px;
-    }
-    .legend h4 {
-      margin-top: 0;
-      color: #0f172a;
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-    /* Rank styling (gold/silver/bronze for top3) */
-    .rank-rocket.rank1 { background: radial-gradient(circle, #FFD700, #b58900); }
-    .rank-rocket.rank2 { background: radial-gradient(circle, #C0C0C0, #6e6e6e); }
-    .rank-rocket.rank3 { background: radial-gradient(circle, #cd7f32, #6e3c1f); }
-    .rank-rocket {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 0.5rem;
-      position: relative;
-    }
-    .rank-rocket svg {
-      width: 28px;
-      height: 28px;
-    }
-    .rank-num {
-      position: absolute;
-      bottom: -8px;
-      right: -8px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #fff;
-      background: rgba(0,0,0,0.4);
-      padding: 2px 6px;
-      border-radius: 50%;
-    }
-    @media (max-width: 768px) {
-      .rank-rocket { width: 50px; height: 50px; }
-      .rank-rocket svg { width: 24px; height: 24px; }
-    }
+    :root { --fg:#111; --muted:#666; --bg:#fff; --card:#f9f9fb; }
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Apple Color Emoji","Segoe UI Emoji";}
+    header{padding:24px 16px;border-bottom:1px solid #eee;}
+    .container{max-width:1100px;margin:0 auto;padding:0 16px;}
+    h1{font-size:28px;margin:0 0 6px;}
+    .meta{color:var(--muted);font-size:14px;}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin:24px 0 40px;}
+    .card{background:var(--card);border:1px solid #eee;border-radius:14px;padding:14px;}
+    .rank{font-weight:700;font-size:13px;color:#444;}
+    .sym{font-weight:800;font-size:20px;letter-spacing:.3px;}
+    .name{color:var(--muted);font-size:13px;}
+    .score{margin-top:6px;font-size:14px;}
+    .comp{margin-top:8px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:12px;}
+    img{width:100%;height:auto;border-radius:10px;display:block;margin-top:8px;}
+    footer{border-top:1px solid #eee;padding:16px;color:var(--muted);font-size:12px;text-align:center;}
   </style>
-  <script>
-    function toggleOverview() {
-      const section = document.getElementById("overview");
-      section.style.display = section.style.display === "block" ? "none" : "block";
-    }
-  </script>
 </head>
 <body>
   <header>
-    <h1>FutureTech Stock Daily Report</h1>
+    <div class="container">
+      <h1>Daily Report</h1>
+      <div class="meta">Report date (ET market date): <strong>2025-08-29</strong> — Universe size: 20</div>
+    </div>
   </header>
 
-  <div class="container">
-    <button class="toggle-btn" onclick="toggleOverview()">Toggle Overview</button>
-
-    <div id="overview" class="overview">
-      <h2>Overview</h2>
-      <p>This section provides detailed snapshots of selected stocks across multiple indicators.</p>
-
-      <!-- Legend -->
-      <div class="legend">
-        <h4>Legend</h4>
-        <ul>
-          <li><b>Price changes</b>: 1D = vs last trading day, 1W = vs 5 trading days ago, 1M = vs 20 trading days ago.</li>
-          <li><b>Trends</b>: Google Trends score, normalized within selected stocks.</li>
-          <li><b>News</b>: Coverage × sentiment, normalized within selected stocks.</li>
-          <li><b>Volume anomaly</b>: Abnormal trading volume relative to recent average.</li>
-          <li><b>DII</b>: Demand Imbalance Indicator, normalized within selected stocks.</li>
-          <li><b>Total Score</b>: Weighted integration of all indicators.</li>
-        </ul>
+  <main class="container">
+      <div class="grid">
+        <article class="card">
+          <div class="rank">#1</div>
+          <div class="sym">NVDA</div>
+<div class="name">NVIDIA Corporation</div>          <div class="score">Score: <strong>373</strong> (0.373)</div>
+          <div class="comp">
+            vol=0.57,
+            trends=0.40,
+            news=0.54,
+            dii=0.00
+          </div>
+            <img loading="lazy" src="/charts/2025-08-29/NVDA.png" alt="NVDA weekly chart" />
+          <div class="comp">Δ1D=-3.3246409247044806%
+            / Δ1W=-2.140576830045182%
+            / Δ1M=0.26478900060202815%</div>
+        </article>
+        <article class="card">
+          <div class="rank">#2</div>
+          <div class="sym">PERF</div>
+<div class="name">Perfect Corp.</div>          <div class="score">Score: <strong>173</strong> (0.173)</div>
+          <div class="comp">
+            vol=0.05,
+            trends=0.00,
+            news=0.80,
+            dii=0.00
+          </div>
+            <img loading="lazy" src="/charts/2025-08-29/PERF.png" alt="PERF weekly chart" />
+          <div class="comp">Δ1D=-1.4423063697193705%
+            / Δ1W=6.7708332363205725%
+            / Δ1M=10.215050352144871%</div>
+        </article>
+        <article class="card">
+          <div class="rank">#3</div>
+          <div class="sym">IRDM</div>
+<div class="name">Iridium Communications Inc.</div>          <div class="score">Score: <strong>172</strong> (0.172)</div>
+          <div class="comp">
+            vol=0.21,
+            trends=0.00,
+            news=0.59,
+            dii=0.00
+          </div>
+            <img loading="lazy" src="/charts/2025-08-29/IRDM.png" alt="IRDM weekly chart" />
+          <div class="comp">Δ1D=1.1377438941594376%
+            / Δ1W=-0.3602888480270683%
+            / Δ1M=2.9363071774679783%</div>
+        </article>
+        <article class="card">
+          <div class="rank">#4</div>
+          <div class="sym">MSFT</div>
+<div class="name">Microsoft Corporation</div>          <div class="score">Score: <strong>167</strong> (0.167)</div>
+          <div class="comp">
+            vol=0.11,
+            trends=0.08,
+            news=0.59,
+            dii=0.00
+          </div>
+            <img loading="lazy" src="/charts/2025-08-29/MSFT.png" alt="MSFT weekly chart" />
+          <div class="comp">Δ1D=-0.5788423440546087%
+            / Δ1W=-0.10646226233179679%
+            / Δ1M=-3.1648008118582593%</div>
+        </article>
+        <article class="card">
+          <div class="rank">#5</div>
+          <div class="sym">SOUN</div>
+<div class="name">SoundHound AI, Inc.</div>          <div class="score">Score: <strong>164</strong> (0.164)</div>
+          <div class="comp">
+            vol=0.20,
+            trends=0.00,
+            news=0.57,
+            dii=0.00
+          </div>
+            <img loading="lazy" src="/charts/2025-08-29/SOUN.png" alt="SOUN weekly chart" />
+          <div class="comp">Δ1D=3.910620392936659%
+            / Δ1W=3.6624205635258367%
+            / Δ1M=28.78339169046844%</div>
+        </article>
+        <article class="card">
+          <div class="rank">#6</div>
+          <div class="sym">VRT</div>
+<div class="name">Vertiv Holdings Co</div>          <div class="score">Score: <strong>155</strong> (0.155)</div>
+          <div class="comp">
+            vol=0.14,
+            trends=0.00,
+            news=0.60,
+            dii=0.00
+          </div>
+            <img loading="lazy" src="/charts/2025-08-29/VRT.png" alt="VRT weekly chart" />
+          <div class="comp">Δ1D=-4.976527518737573%
+            / Δ1W=1.2542683303515156%
+            / Δ1M=-9.915950031263332%</div>
+        </article>
+        <article class="card">
+          <div class="rank">#7</div>
+          <div class="sym">TER</div>
+<div class="name">Teradyne, Inc.</div>          <div class="score">Score: <strong>151</strong> (0.151)</div>
+          <div class="comp">
+            vol=0.15,
+            trends=0.00,
+            news=0.57,
+            dii=0.00
+          </div>
+            <img loading="lazy" src="/charts/2025-08-29/TER.png" alt="TER weekly chart" />
+          <div class="comp">Δ1D=0.2968856357054461%
+            / Δ1W=2.5498653375507496%
+            / Δ1M=13.517659088545209%</div>
+        </article>
+        <article class="card">
+          <div class="rank">#8</div>
+          <div class="sym">RKLB</div>
+<div class="name">Rocket Lab USA, Inc.</div>          <div class="score">Score: <strong>141</strong> (0.141)</div>
+          <div class="comp">
+            vol=0.08,
+            trends=0.00,
+            news=0.60,
+            dii=0.00
+          </div>
+            <img loading="lazy" src="/charts/2025-08-29/RKLB.png" alt="RKLB weekly chart" />
+          <div class="comp">Δ1D=1.4401975138938594%
+            / Δ1W=9.508781668411693%
+            / Δ1M=8.457926767860148%</div>
+        </article>
+        <article class="card">
+          <div class="rank">#9</div>
+          <div class="sym">INOD</div>
+<div class="name">Innodata Inc.</div>          <div class="score">Score: <strong>139</strong> (0.139)</div>
+          <div class="comp">
+            vol=0.07,
+            trends=0.00,
+            news=0.61,
+            dii=0.00
+          </div>
+            <img loading="lazy" src="/charts/2025-08-29/INOD.png" alt="INOD weekly chart" />
+          <div class="comp">Δ1D=-3.872434432534555%
+            / Δ1W=-1.2993763148338666%
+            / Δ1M=-15.524910330006957%</div>
+        </article>
+        <article class="card">
+          <div class="rank">#10</div>
+          <div class="sym">GDRX</div>
+<div class="name">GoodRx Holdings, Inc.</div>          <div class="score">Score: <strong>139</strong> (0.139)</div>
+          <div class="comp">
+            vol=0.03,
+            trends=0.00,
+            news=0.66,
+            dii=0.00
+          </div>
+            <img loading="lazy" src="/charts/2025-08-29/GDRX.png" alt="GDRX weekly chart" />
+          <div class="comp">Δ1D=-0.22936304072485036%
+            / Δ1W=-4.605264052239599%
+            / Δ1M=-3.9735164865124073%</div>
+        </article>
       </div>
-    </div>
+  </main>
 
-    <!-- Ranking rows -->
-    
-  </div>
+  <footer>
+    Generated 2025-08-31T11:44:36 (server time)
+  </footer>
 </body>
 </html>
