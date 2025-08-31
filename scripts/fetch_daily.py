@@ -2,17 +2,18 @@
 # -*- coding: utf-8 -*-
 """
 Daily scorer & exporter (robust, with DII and enhanced volume anomaly)
-- OHLCV: yfinance（複数経路フォールバック）
-- Volume anomaly: RVOL20 + zscore(60d) + tail bonus
+- OHLCV: yfinance.Ticker.history → (fallback) Stooq CSV → (fallback) pandas-datareader(stooq)
+- Volume anomaly: RVOL20 + zscore(60d) + POT風ボーナス
 - DII: site/data/dii/latest.json の score_0_1 を採用（fail時は0）
-- Trends / News: 各 latest.json を採用
+- Trends / News: 既存の latest.json を採用
 - 重みは環境変数、存在キーのみ正規化して 1000点換算
 - 価格差分（1D/1W/1M）は ref(=REPORT_DATEの前営業日) 終値に対し 1/5/20本前
 - 出力: site/data/<DATE>/top10.json と charts
 """
 
-import os, sys, json, math, pathlib, random, datetime, time
+import os, sys, json, math, pathlib, random, datetime, time, io, csv
 from zoneinfo import ZoneInfo
+import requests
 import pandas as pd
 
 import matplotlib
@@ -28,6 +29,7 @@ def prev_us_business_day(d: datetime.date) -> datetime.date:
 def usa_market_date_now():
     now_et = datetime.datetime.now(ZoneInfo("America/New_York"))
     d = now_et.date()
+    # 18:00 ET までは前営業日を採用（配信安定のため）
     if now_et.hour < 18:
         d = d - datetime.timedelta(days=1)
     while d.weekday() >= 5:
@@ -53,8 +55,95 @@ DII_JSON     = os.getenv("DII_JSON",    f"{OUT_DIR}/data/dii/latest.json")
 TRENDS_JSON  = os.getenv("TRENDS_JSON", f"{OUT_DIR}/data/trends/latest.json")
 NEWS_JSON    = os.getenv("NEWS_JSON",   f"{OUT_DIR}/data/news/latest.json")
 
+# ---------- helpers ----------
+def _first_existing(cols, candidates):
+    for c in candidates:
+        if c in cols:
+            return c
+    return None
+
+def _safe_numeric_series(s):
+    """Series 以外や None の場合は None を返す"""
+    if s is None or not isinstance(s, pd.Series):
+        return None
+    return pd.to_numeric(s, errors="coerce")
+
+def _normalize_ohlcv_df(df):
+    """
+    yfinance / stooq 由来の DataFrame を統一化:
+    - 列名小文字化
+    - 日付は %Y-%m-%d 文字列
+    - 必要列が揃っていれば標準形にして返す。ダメなら空 DataFrame
+    """
+    if df is None or not isinstance(df, pd.DataFrame) or df.empty:
+        return pd.DataFrame()
+
+    d = df.copy()
+    d.columns = [str(c).strip().lower() for c in d.columns]
+
+    # date 列を確実に作る
+    date_col = "date" if "date" in d.columns else None
+    if date_col is None:
+        # yfinance.history は index が DatetimeIndex のことが多い
+        d = d.reset_index(drop=False)
+        d.columns = [str(c).strip().lower() for c in d.columns]
+        date_col = "date" if "date" in d.columns else "index"
+
+    # close 列の候補（存在チェックのみ。値は後で numeric 変換）
+    close_col = _first_existing(d.columns, ["close", "adj close", "adjclose"])
+    open_col  = "open"  if "open"  in d.columns else None
+    high_col  = "high"  if "high"  in d.columns else None
+    low_col   = "low"   if "low"   in d.columns else None
+    vol_col   = "volume" if "volume" in d.columns else None
+
+    if close_col is None or vol_col is None:
+        return pd.DataFrame()
+
+    # 文字列日付へ
+    try:
+        d[date_col] = pd.to_datetime(d[date_col], errors="coerce")
+    except Exception:
+        return pd.DataFrame()
+    d = d.dropna(subset=[date_col])
+    if d.empty:
+        return pd.DataFrame()
+    d["date"] = d[date_col].dt.strftime("%Y-%m-%d")
+
+    # 数値化（Series 以外は不正とみなす）
+    close_s = _safe_numeric_series(d.get(close_col))
+    vol_s   = _safe_numeric_series(d.get(vol_col))
+    if close_s is None or vol_s is None:
+        return pd.DataFrame()
+
+    d["close"]  = close_s
+    d["volume"] = vol_s.fillna(0)
+
+    if open_col in d.columns:
+        d["open"] = _safe_numeric_series(d.get(open_col))
+    else:
+        d["open"] = pd.Series([None] * len(d))
+    if high_col in d.columns:
+        d["high"] = _safe_numeric_series(d.get(high_col))
+    else:
+        d["high"] = pd.Series([None] * len(d))
+    if low_col in d.columns:
+        d["low"]  = _safe_numeric_series(d.get(low_col))
+    else:
+        d["low"]  = pd.Series([None] * len(d))
+
+    d = d.dropna(subset=["close"])  # 終値欠損は除外
+    if d.empty:
+        return pd.DataFrame()
+
+    out = d[["date","open","high","low","close","volume"]].copy()
+    return out.reset_index(drop=True)
+
 # ---- providers ----
 def yfi_eod_range(symbol, start, end):
+    """
+    指定期間の OHLCV を返す（標準列: date/open/high/low/close/volume）
+    - yfinance → Stooq CSV → pandas-datareader(stooq) の順で試行
+    """
     if MOCK_MODE:
         dates = pd.date_range(start=start, end=end, freq="B")
         base = 100.0 + random.Random(symbol).random()*20
@@ -74,47 +163,66 @@ def yfi_eod_range(symbol, start, end):
     try:
         import yfinance as yf
         t = yf.Ticker(symbol)
-        df = t.history(start=(start_dt - datetime.timedelta(days=7)).isoformat(),
-                       end=(end_dt + datetime.timedelta(days=2)).isoformat(),
-                       interval="1d", auto_adjust=True)
-        if df is not None and not df.empty:
-            df = df.reset_index()
-            df.columns = [str(c).strip().lower() for c in df.columns]
-            date_col = "date" if "date" in df.columns else "index"
-            close_series = df.get("close") or df.get("adj close") or df.get("adjclose")
-            out = pd.DataFrame({
-                "date":   pd.to_datetime(df[date_col]).dt.strftime("%Y-%m-%d"),
-                "open":   pd.to_numeric(df.get("open"), errors="coerce"),
-                "high":   pd.to_numeric(df.get("high"), errors="coerce"),
-                "low":    pd.to_numeric(df.get("low"), errors="coerce"),
-                "close":  pd.to_numeric(close_series, errors="coerce"),
-                "volume": pd.to_numeric(df.get("volume"), errors="coerce").fillna(0),
-            }).dropna(subset=["close"])
-            out = out[(out["date"] >= start) & (out["date"] <= end)]
-            if not out.empty:
-                time.sleep(YFI_SLEEP)
-                return out[["date","open","high","low","close","volume"]]
-    except Exception as e:
-        print(f"[WARN] yfinance failed for {symbol}: {e}", file=sys.stderr)
-
-    # 2) yfinance (download)
-    try:
-        import yfinance as yf
-        df = yf.download(symbol, start=start_dt - datetime.timedelta(days=7),
-                         end=end_dt + datetime.timedelta(days=2), auto_adjust=True, progress=False)
-        if df is not None and not df.empty:
-            df = df.reset_index().rename(columns={
-                "Date":"date","Open":"open","High":"high","Low":"low","Close":"close","Adj Close":"adjclose","Volume":"volume"
-            })
-            df["date"] = pd.to_datetime(df["date"]).dt.strftime("%Y-%m-%d")
+        df = t.history(
+            start=(start_dt - datetime.timedelta(days=7)).isoformat(),
+            end=(end_dt + datetime.timedelta(days=2)).isoformat(),
+            interval="1d",
+            auto_adjust=True
+        )
+        if isinstance(df, pd.DataFrame) and not df.empty:
+            df = _normalize_ohlcv_df(df)
             df = df[(df["date"] >= start) & (df["date"] <= end)]
             if not df.empty:
                 time.sleep(YFI_SLEEP)
-                return df[["date","open","high","low","close","volume"]]
+                return df
     except Exception as e:
-        print(f"[WARN] yfinance.download failed for {symbol}: {e}", file=sys.stderr)
+        print(f"[WARN] yfinance failed for {symbol}: {e}", file=sys.stderr)
 
-    print(f"[ERROR] {symbol}: no OHLCV from yfinance", file=sys.stderr)
+    # 2) Stooq CSV
+    try:
+        url = f"https://stooq.com/q/d/l/?s={symbol.lower()}&i=d"
+        r = requests.get(url, timeout=20)
+        if r.ok and "Date,Open,High,Low,Close,Volume" in r.text:
+            reader = csv.DictReader(io.StringIO(r.text))
+            rows=[]
+            for row in reader:
+                rows.append({
+                    "date": row["Date"],
+                    "open": row.get("Open"),
+                    "high": row.get("High"),
+                    "low":  row.get("Low"),
+                    "close":row.get("Close"),
+                    "volume":row.get("Volume"),
+                })
+            if rows:
+                df = pd.DataFrame(rows)
+                df = _normalize_ohlcv_df(df)
+                df = df[(df["date"] >= start) & (df["date"] <= end)]
+                if not df.empty:
+                    time.sleep(0.2)
+                    return df
+    except Exception as e:
+        print(f"[WARN] stooq csv failed for {symbol}: {e}", file=sys.stderr)
+
+    # 3) pandas-datareader stooq
+    try:
+        import pandas_datareader.data as web
+        df = web.DataReader(symbol, "stooq",
+                            start=start_dt - datetime.timedelta(days=7),
+                            end=end_dt + datetime.timedelta(days=2))
+        if isinstance(df, pd.DataFrame) and not df.empty:
+            df = df.sort_index().reset_index().rename(columns={
+                "Date":"date","Open":"open","High":"high","Low":"low","Close":"close","Volume":"volume"
+            })
+            df = _normalize_ohlcv_df(df)
+            df = df[(df["date"] >= start) & (df["date"] <= end)]
+            if not df.empty:
+                time.sleep(0.2)
+                return df
+    except Exception as e:
+        print(f"[WARN] pandas-datareader failed for {symbol}: {e}", file=sys.stderr)
+
+    print(f"[ERROR] {symbol}: no OHLCV from all sources", file=sys.stderr)
     return pd.DataFrame()
 
 # ---- metrics ----
@@ -122,16 +230,28 @@ def compute_volume_anomaly(df: pd.DataFrame):
     """
     強化版 異常出来高スコア 0..1
     - ベース: RVOL20 と z60（60日内の相対位置）を合成
-    - 追加: 上位10%閾値超過に tail_bonus（最大+0.3）
+    - 追加: 上位10%閾値超過度合いで加点（POT風; 最大+0.3）
     """
-    if df is None or df.empty or "volume" not in df.columns or "close" not in df.columns:
+    if not isinstance(df, pd.DataFrame) or df.empty:
+        return {"score": 0.0, "eligible": False}
+    if "volume" not in df.columns or "close" not in df.columns:
         return {"score": 0.0, "eligible": False}
 
     d = df.copy()
-    d["date"] = pd.to_datetime(d["date"])
-    d = d.sort_values("date")
+    # 型の健全性確認（Series であること）
+    if not isinstance(d["volume"], pd.Series) or not isinstance(d["close"], pd.Series):
+        return {"score": 0.0, "eligible": False}
+
+    # 正しい日付順に
+    try:
+        d["date"] = pd.to_datetime(d["date"], errors="coerce")
+    except Exception:
+        return {"score": 0.0, "eligible": False}
+    d = d.dropna(subset=["date"]).sort_values("date")
+
     d["volume"] = pd.to_numeric(d["volume"], errors="coerce").fillna(0)
-    d["close"]  = pd.to_numeric(d["close"],  errors="coerce")
+    d["close"]  = pd.to_numeric(d["close"], errors="coerce")
+    d = d.dropna(subset=["close"])
     if len(d) < 60:
         return {"score": 0.0, "eligible": False}
 
@@ -147,6 +267,7 @@ def compute_volume_anomaly(df: pd.DataFrame):
     else:
         mu, sd = float(rvol_60.mean()), float(rvol_60.std(ddof=0))
         z60 = (rvol20 - mu) / sd if sd > 1e-9 else 0.0
+        # POT っぽい上位裾ボーナス（0..0.3）
         q90 = float(rvol_60.quantile(0.9))
         tail_bonus = max(0.0, min(0.3, (rvol20 - q90) / max(1e-9, q90))) if q90 > 0 else 0.0
 
@@ -154,6 +275,7 @@ def compute_volume_anomaly(df: pd.DataFrame):
     base = 0.55 * max(0.0, min(1.0, rvol20 / 5.0)) + 0.45 * z60_u
     vol_score = max(0.0, min(1.0, base + tail_bonus))
 
+    # Dollar volume rank（参考値）
     d["dollar_vol"] = d["close"] * d["volume"]
     last_dv = float(d["dollar_vol"].iloc[-1])
     tail = d["dollar_vol"].tail(90).dropna()
@@ -169,10 +291,14 @@ def compute_volume_anomaly(df: pd.DataFrame):
     }
 
 def get_closes_for_deltas(df: pd.DataFrame, ref_date_iso: str):
-    if df is None or df.empty: return None, None, None, None
+    if df is None or df.empty:
+        return None, None, None, None
     d = df.copy()
-    d["date"] = pd.to_datetime(d["date"])
-    d = d.sort_values("date").reset_index(drop=True)
+    try:
+        d["date"] = pd.to_datetime(d["date"], errors="coerce")
+    except Exception:
+        return None, None, None, None
+    d = d.dropna(subset=["date"]).sort_values("date").reset_index(drop=True)
     ref_dt = pd.to_datetime(ref_date_iso)
     idx = d.index[d["date"] <= ref_dt]
     if len(idx) == 0:
@@ -180,9 +306,10 @@ def get_closes_for_deltas(df: pd.DataFrame, ref_date_iso: str):
     i_base = int(idx[-1])
 
     def safe_close(i):
-        if i < 0 or i >= len(d): return None
-        v = d.loc[i, "close"]
+        if i < 0 or i >= len(d):
+            return None
         try:
+            v = d.at[i, "close"]  # スカラー取り出し
             v = float(v)
             return None if math.isnan(v) else v
         except Exception:
@@ -195,7 +322,8 @@ def get_closes_for_deltas(df: pd.DataFrame, ref_date_iso: str):
     return c0, c_1, c_5, c_20
 
 def pct_change(a, b):
-    if a is None or b is None or b == 0: return None
+    if a is None or b is None or b == 0:
+        return None
     return (a/b - 1.0) * 100.0
 
 # ---- io helpers ----
@@ -214,15 +342,24 @@ def ensure_dirs(date_iso):
 
 # ---- charts ----
 def save_chart_png_weekly_3m(symbol, df, out_dir, date_iso):
-    if df is None or df.empty: return
+    if df is None or df.empty:
+        return
     d = df.copy()
-    d["date"] = pd.to_datetime(d["date"])
-    d = d.set_index("date").sort_index()
+    try:
+        d["date"] = pd.to_datetime(d["date"], errors="coerce")
+    except Exception:
+        return
+    d = d.dropna(subset=["date"]).set_index("date").sort_index()
+    if d.empty:
+        return
+
     w = pd.DataFrame({
         "close": d["close"].resample("W-FRI").last(),
         "volume": d["volume"].resample("W-FRI").sum(),
     }).dropna()
     w = w.tail(13)
+    if w.empty:
+        return
 
     plt.figure(figsize=(9, 4.6), dpi=120)
     plt.plot(w.index, w["close"], linewidth=1.3)
@@ -268,18 +405,22 @@ def main():
 
         # price deltas
         d1=d5=d20=None
-        if df is not None and not df.empty:
+        if isinstance(df, pd.DataFrame) and not df.empty:
             c0,c_1,c_5,c_20 = get_closes_for_deltas(df, end_s)
             d1  = pct_change(c0, c_1)
             d5  = pct_change(c0, c_5)
             d20 = pct_change(c0, c_20)
 
         # volume anomaly
-        if df is None or df.empty:
-            vol_detail=None; vol_score=0.0
+        if isinstance(df, pd.DataFrame) and not df.empty:
+            try:
+                vol_detail = compute_volume_anomaly(df)
+            except Exception as e:
+                print(f"[WARN] vol anomaly failed {sym}: {e}", file=sys.stderr)
+                vol_detail = {"score": 0.0, "eligible": False}
         else:
-            vol_detail = compute_volume_anomaly(df)
-            vol_score = float(vol_detail.get("score",0.0))
+            vol_detail = {"score": 0.0, "eligible": False}
+        vol_score = float(vol_detail.get("score",0.0))
 
         # trends/news/dii
         tr = trends_items.get(sym) or {}
@@ -287,11 +428,16 @@ def main():
 
         nw = news_items.get(sym) or {}
         news_score = float(nw.get("score_0_1",0.0))
-        news_recent = int(nw.get("recent_count",0))
+        news_recent = int(nw.get("recent_count",0) or 0)
 
         di = dii_items.get(sym) or {}
         dii_score = float(di.get("score_0_1",0.0))
-        dii_ratio = float(di.get("ats_share_ratio",0.0)) if str(di.get("ats_share_ratio","")).strip() else None
+        dii_ratio = None
+        if "ats_share_ratio" in di and str(di.get("ats_share_ratio","")).strip():
+            try:
+                dii_ratio = float(di.get("ats_share_ratio"))
+            except Exception:
+                dii_ratio = None
 
         # weights normalize
         comps = {
@@ -307,10 +453,11 @@ def main():
             "news": W_NEWS,
         }
         keys = list(comps.keys())
-        wsum = sum(max(0.0, raw_w.get(k,0.0)) for k in keys) or 1.0
-        norm_w = {k:(max(0.0, raw_w.get(k,0.0))/wsum) for k in keys}
+        wsum = sum(max(0.0, float(raw_w.get(k,0.0))) for k in keys) or 1.0
+        norm_w = {k:(max(0.0, float(raw_w.get(k,0.0)))/wsum) for k in keys}
 
-        final_0_1 = sum(comps.get(k,0.0)*norm_w.get(k,0.0) for k in keys)
+        final_0_1 = sum(float(comps.get(k,0.0))*float(norm_w.get(k,0.0)) for k in keys)
+        final_0_1 = max(0.0, min(1.0, final_0_1))
         score_pts = int(round(final_0_1*1000))
 
         rec = {
@@ -351,7 +498,7 @@ def main():
     for r in top10:
         df = recent_map.get(r["symbol"])
         try:
-            if df is not None and not df.empty:
+            if isinstance(df, pd.DataFrame) and not df.empty:
                 save_chart_png_weekly_3m(r["symbol"], df, OUT_DIR, DATE)
             else:
                 print(f"[WARN] no data for weekly chart {r['symbol']}", file=sys.stderr)
