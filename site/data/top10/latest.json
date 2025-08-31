@@ -7,9 +7,9 @@
       "name": "NVIDIA Corporation",
       "vol_anom_0_1": 0.759779,
       "trends_0_1": 1.0,
-      "news_0_1": 0.462452,
+      "news_0_1": 0.482169,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.582435,
+      "final_score_0_1": 0.586379,
       "price": 174.17999267578125,
       "pct_change_1d": -0.033246409247044806
     },
@@ -29,9 +29,9 @@
       "name": "Iridium Communications Inc.",
       "vol_anom_0_1": 0.743816,
       "trends_0_1": 0.0,
-      "news_0_1": 0.457987,
+      "news_0_1": 0.439906,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.277551,
+      "final_score_0_1": 0.273935,
       "price": 24.889999389648438,
       "pct_change_1d": 0.011377438941594376
     },
@@ -40,9 +40,9 @@
       "name": "Teradyne, Inc.",
       "vol_anom_0_1": 0.686357,
       "trends_0_1": 0.0,
-      "news_0_1": 0.453544,
+      "news_0_1": 0.468044,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.262298,
+      "final_score_0_1": 0.265198,
       "price": 118.23999786376953,
       "pct_change_1d": 0.0029688563570544613
     },
@@ -95,22 +95,22 @@
       "name": "Rocket Lab USA, Inc.",
       "vol_anom_0_1": 0.537653,
       "trends_0_1": 0.0,
-      "news_0_1": 0.475404,
+      "news_0_1": 0.505335,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.229494,
+      "final_score_0_1": 0.23548,
       "price": 48.599998474121094,
       "pct_change_1d": 0.014401975138938594
     },
     {
-      "symbol": "SOUN",
-      "name": "SoundHound AI, Inc.",
-      "vol_anom_0_1": 0.73792,
+      "symbol": "AVAV",
+      "name": "AeroVironment, Inc.",
+      "vol_anom_0_1": 0.569779,
       "trends_0_1": 0.0,
-      "news_0_1": 0.21305,
+      "news_0_1": 0.450017,
       "dii_0_1": 0.0,
-      "final_score_0_1": 0.22709,
-      "price": 13.020000457763672,
-      "pct_change_1d": 0.03910620392936659
+      "final_score_0_1": 0.232448,
+      "price": 241.35000610351562,
+      "pct_change_1d": -0.030450274355401485
     }
   ]
 }
