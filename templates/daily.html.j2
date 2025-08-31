@@ -35,10 +35,10 @@
       <section class="card" style="grid-column: span 12;">
         <h2>Overview</h2>
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
-          <span class="pill">Universe: {{ (trends.score_0_1|default({})).__len__() if trends else 0 }}</span>
-          <span class="pill">News covered: {{ (news.score_0_1|default({})).__len__() if news else 0 }}</span>
-          <span class="pill">DII available: {{ (dii.score_0_1|default({})).__len__() if dii else 0 }}</span>
-          <span class="pill">Top10 items: {{ top10|length }}</span>
+          <span class="pill">Universe: {{ (trends.score_0_1 | default({}) | length) }}</span>
+          <span class="pill">News covered: {{ (news.score_0_1 | default({}) | length) }}</span>
+          <span class="pill">DII available: {{ (dii.score_0_1 | default({}) | length) }}</span>
+          <span class="pill">Top10 items: {{ top10 | length }}</span>
         </div>
       </section>
 
@@ -59,9 +59,9 @@
             </tr>
           </thead>
           <tbody>
-          {% for i, it in enumerate(top10) %}
+          {% for it in top10 %}
             <tr>
-              <td>{{ i+1 }}</td>
+              <td>{{ loop.index }}</td>
               <td class="sym">{{ it.symbol }}</td>
               <td>{{ it.name }}</td>
               <td class="score">{{ '%.3f' % (it.final_score_0_1|default(0.0)) }}</td>
