@@ -2,7 +2,7 @@ name: daily-report
 
 on:
   schedule:
-    - cron: '10 22 * * *' # 18:10 ET / 07:10 JST
+    - cron: '10 22 * * *'  # 18:10 ET / 07:10 JST
   workflow_dispatch:
 
 jobs:
@@ -26,27 +26,27 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 1) ETの市場日付（"前営業日"）を確定させ、以降はこの値を使い回す
+      # ET市場日付を一意に決める
       - name: Set ET market date
         id: set_date
         run: |
-          echo "REPORT_DATE=$(python scripts/et_market_date.py)" >> "$GITHUB_OUTPUT"
-          echo "REPORT_DATE=$REPORT_DATE"
+          set -euo pipefail
+          REPORT_DATE="$(python scripts/et_market_date.py)"
+          echo "REPORT_DATE=${REPORT_DATE}" >> "$GITHUB_OUTPUT"
+          echo "Resolved REPORT_DATE=${REPORT_DATE}"
 
-      # 2) DII（フェイルセーフ：なければ静かに0）を先に生成
+      # まずインサイダー(DII)とTrends/Newsを取得（Top10に反映させるため）
       - name: Build DII (dark activity)
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-          # finra_api は無効化（ノイズ回避）。必要時は 'finra_api' に変更可（内部で静かにlatestへフォールバック）
-          DII_SOURCE: skip
+          DII_SOURCE: finra_api     # ダメなら "skip" で latest.json を使用
           DII_LOOKBACK_WEEKS: "12"
           DII_RECENT_WEEKS: "4"
         run: |
           python scripts/fetch_dii.py
 
-      # 3) Google Trends（安全な小バッチ＋待機）
       - name: Google Trends breakout
         env:
           OUT_DIR: site
@@ -63,8 +63,7 @@ jobs:
         run: |
           python scripts/fetch_trends.py
 
-      # 4) News（RSS + 簡易センチメント）
-      - name: Fetch news
+      - name: Fetch News
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
@@ -75,38 +74,42 @@ jobs:
         run: |
           python scripts/fetch_news.py
 
-      # 5) Daily スコア合算 → Top10 JSON + チャート
+      # スコアを合算しTop10を1回で生成
       - name: Generate Top10 JSON
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-          MOCK_MODE: "false"
-          WEIGHT_VOL_ANOM: "0.25"
-          WEIGHT_DII: "0.25"
-          WEIGHT_TRENDS: "0.30"
-          WEIGHT_NEWS: "0.20"
+          DATA_PROVIDER: ${{ vars.DATA_PROVIDER || 'yfinance' }}
+          MOCK_MODE: ${{ vars.MOCK_MODE || 'false' }}
+          BUDGET_JPY_MAX: ${{ vars.BUDGET_JPY_MAX || '10000' }}
+          MANUAL_DAILY_COST_JPY: ${{ vars.MANUAL_DAILY_COST_JPY || '0' }}
+          TIINGO_MONTHLY_JPY: ${{ vars.TIINGO_MONTHLY_JPY || '1600' }}
+          TIINGO_TOKEN: ${{ secrets.TIINGO_TOKEN }}
+          WEIGHT_VOL_ANOM: ${{ vars.WEIGHT_VOL_ANOM || '0.25' }}
+          WEIGHT_DII: ${{ vars.WEIGHT_DII || '0.25' }}
+          WEIGHT_TRENDS: ${{ vars.WEIGHT_TRENDS || '0.30' }}
+          WEIGHT_NEWS: ${{ vars.WEIGHT_NEWS || '0.20' }}
         run: |
           python scripts/fetch_daily.py
 
-      # 6) HTML 出力（Overview = daily ページ）
       - name: Render HTML
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
           python scripts/render.py
 
-      # 7) 成果物の検証
       - name: Verify outputs (ET market date)
+        shell: bash
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
+          set -euo pipefail
           echo "REPORT_DATE=$REPORT_DATE"
           ls -la site/daily || true
           echo "Checking file: site/daily/${REPORT_DATE}.html"
           test -f "site/daily/${REPORT_DATE}.html" || (echo "Expected file missing: site/daily/${REPORT_DATE}.html" && exit 1)
 
-      # 8) コミット＆プッシュ（Vercel 側が pull → デプロイ想定）
       - name: Commit & Push
         run: |
           git config user.name "github-actions"
