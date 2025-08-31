@@ -34,19 +34,16 @@ jobs:
           echo "REPORT_DATE=$REPORT_DATE"
 
       # まずインサイダーとTrendsを取得（Top10に反映させるため）
-      - name: Fetch Form 4 (insider momentum)
+      - name: Build DII (dark activity)
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-          SEC_USER_AGENT: "futuretech-stock/1.0 (sachiohiro777@gmail.com)"
-          FORM4_MAX_FILINGS: "10"
-          FORM4_MAX_AGE_DAYS: "95"
-          SEC_SLEEP: "0.7"
-          SEC_XML_SLEEP: "0.25"
-          SEC_RETRY: "3"
+          DII_SOURCE: finra_api     # まずはこれで。ダメなら "skip" で latest.json を使う
+          DII_LOOKBACK_WEEKS: "12"
+          DII_RECENT_WEEKS: "4"
         run: |
-          python scripts/fetch_form4.py
+          python scripts/fetch_dii.py
 
       - name: Google Trends breakout
         env:
