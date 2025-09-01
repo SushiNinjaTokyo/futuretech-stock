@@ -1,133 +1,431 @@
 #!/usr/bin/env python3
-import os, json, math
+# -*- coding: utf-8 -*-
+"""
+Daily scorer & exporter
+Changes:
+- Insider-based scoring removed entirely.
+- New DII (Demand & Interest Index) indicator added (not part of the final score by default).
+- Volume anomaly uses each stock's own history (RVOL20, 60-day z of RVOL, 90-day dollar-volume pct-rank).
+- US market date resolution is independent of runtime and uses the last available SPY daily bar.
+- Dual vendor for OHLCV (yfinance → Stooq CSV → pandas-datareader 'stooq').
+- Throttling added between symbol calls to avoid API limits.
+- All labels/strings kept in English (HTML template handles the UI).
+Outputs:
+  site/data/{DATE}/top10.json and weekly charts in site/charts/{DATE}/SYMBOL.png
+"""
+from __future__ import annotations
+
+import os, sys, json, math, pathlib, random, datetime, time, io, csv
+from zoneinfo import ZoneInfo
+import requests
 import pandas as pd
-import numpy as np
-import yfinance as yf
 
-OUT_DIR = os.environ.get("OUT_DIR","site")
-UNIVERSE_CSV = os.environ.get("UNIVERSE_CSV","data/universe.csv")
-REPORT_DATE = os.environ.get("REPORT_DATE")
-MOCK_MODE = os.environ.get("MOCK_MODE","false").lower()=="true"
+# charts
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 
-W_VOL = float(os.environ.get("WEIGHT_VOL_ANOM","0.25"))
-W_DII = float(os.environ.get("WEIGHT_DII","0.25"))
-W_TR = float(os.environ.get("WEIGHT_TRENDS","0.30"))
-W_NE = float(os.environ.get("WEIGHT_NEWS","0.20"))
+# ---------------- Market date ----------------
+try:
+    from et_market_date import get_effective_market_date
+except Exception:
+    # Minimal fallback if module isn't importable
+    def get_effective_market_date():
+        now_et = datetime.datetime.now(ZoneInfo("America/New_York"))
+        d = now_et.date()
+        if now_et.hour < 18:  # safe-side fallback
+            d -= datetime.timedelta(days=1)
+        while d.weekday() >= 5:
+            d -= datetime.timedelta(days=1)
+        return d
 
-def load_universe(path):
-    df = pd.read_csv(path)
-    if "symbol" not in df.columns: raise RuntimeError("universe.csv needs 'symbol'")
-    if "name" not in df.columns: df["name"]=df["symbol"]
-    return df[["symbol","name"]]
+# ---------------- Config ----------------
+UNIVERSE_CSV = os.getenv("UNIVERSE_CSV", "data/universe.csv")
+OUT_DIR = os.getenv("OUT_DIR", "site")
+DATE = (os.getenv("REPORT_DATE") and datetime.date.fromisoformat(os.getenv("REPORT_DATE"))) or get_effective_market_date()
+DATE_S = DATE.isoformat()
+MOCK_MODE = os.getenv("MOCK_MODE", "false").lower() == "true"
 
-def safe_hist(symbol, period="3mo", interval="1d"):
+# Sleep between symbol calls
+YFI_SLEEP = float(os.getenv("YFI_SLEEP", "0.4"))
+YFI_JITTER = float(os.getenv("YFI_JITTER", "0.25"))
+
+# Final-score weights (only-present components will be normalized)
+W_VOL    = float(os.getenv("WEIGHT_VOL_ANOM", "0.35"))
+W_TRENDS = float(os.getenv("WEIGHT_TRENDS",  "0.40"))
+W_NEWS   = float(os.getenv("WEIGHT_NEWS",    "0.25"))
+
+# DII weights (separate indicator)
+W_DII_VOL    = float(os.getenv("DII_WEIGHT_VOL",    "0.30"))
+W_DII_TRENDS = float(os.getenv("DII_WEIGHT_TRENDS", "0.45"))
+W_DII_NEWS   = float(os.getenv("DII_WEIGHT_NEWS",   "0.25"))
+
+# Optional external data (already produced by your other jobs)
+TRENDS_JSON  = os.getenv("TRENDS_JSON",  f"{OUT_DIR}/data/trends/latest.json")
+NEWS_JSON    = os.getenv("NEWS_JSON",    f"{OUT_DIR}/data/news/latest.json")
+
+# ---------------- Time helpers ----------------
+def prev_us_business_day(d: datetime.date) -> datetime.date:
+    while d.weekday() >= 5:
+        d = d - datetime.timedelta(days=1)
+    return d
+
+def pct_change(c0: float|None, c_prev: float|None) -> float|None:
+    if c0 is None or c_prev is None or c_prev == 0 or any(map(lambda x: x!=x, [c0, c_prev])):
+        return None
+    return (c0 - c_prev) / c_prev * 100.0
+
+def get_closes_for_deltas(df: pd.DataFrame, end_s: str):
+    """Return (c0, c_1, c_5, c_20) using trading-day offsets relative to end_s."""
+    d = df.copy()
+    d["date"] = pd.to_datetime(d["date"])
+    d = d.sort_values("date")
+    d = d[d["date"] <= pd.to_datetime(end_s)]
+    if d.empty:
+        return None, None, None, None
+    c0 = float(d["close"].iloc[-1])
+    def nth_back(n):
+        if len(d) > n:
+            return float(d["close"].iloc[-(n+1)])
+        return None
+    return c0, nth_back(1), nth_back(5), nth_back(20)
+
+# ---------------- Vendors ----------------
+def yfi_eod_range(symbol: str, start: str, end: str) -> pd.DataFrame:
+    """EOD via yfinance → Stooq CSV → pandas-datareader 'stooq'."""
+    if MOCK_MODE:
+        dates = pd.date_range(start=start, end=end, freq="B")
+        base = 100.0 + random.Random(symbol).random()*20
+        rows = []
+        for d in dates:
+            base *= (1.0 + random.uniform(-0.02, 0.02))
+            vol = random.randint(100_000, 10_000_000)
+            rows.append({"date": d.strftime("%Y-%m-%d"),
+                         "open": base*0.99, "high": base*1.01, "low": base*0.98,
+                         "close": base, "volume": vol})
+        return pd.DataFrame(rows)
+
+    start_dt = datetime.date.fromisoformat(start)
+    end_dt   = datetime.date.fromisoformat(end)
+
+    # 1) yfinance
     try:
+        import yfinance as yf
         t = yf.Ticker(symbol)
-        h = t.history(period=period, interval=interval, auto_adjust=False)
-        if isinstance(h, pd.DataFrame) and not h.empty:
-            return h
+        df = t.history(start=(start_dt - datetime.timedelta(days=7)).isoformat(),
+                       end=(end_dt + datetime.timedelta(days=2)).isoformat(),
+                       interval="1d", auto_adjust=True)
+        if df is not None and not df.empty:
+            df = df.reset_index()
+            df.columns = [str(c).strip().lower() for c in df.columns]
+            date_col = "date" if "date" in df.columns else "index"
+            close_series = df.get("close")
+            if close_series is None or close_series.isna().all():
+                close_series = df.get("adj close") if df.get("adj close") is not None else df.get("adjclose")
+            out = pd.DataFrame({
+                "date":   pd.to_datetime(df[date_col]).dt.strftime("%Y-%m-%d"),
+                "open":   pd.to_numeric(df.get("open"), errors="coerce"),
+                "high":   pd.to_numeric(df.get("high"), errors="coerce"),
+                "low":    pd.to_numeric(df.get("low"),  errors="coerce"),
+                "close":  pd.to_numeric(close_series,   errors="coerce"),
+                "volume": pd.to_numeric(df.get("volume"), errors="coerce").fillna(0),
+            })
+            out = out.dropna(subset=["close"])
+            out = out[(out["date"] >= start) & (out["date"] <= end)]
+            if not out.empty:
+                return out[["date","open","high","low","close","volume"]]
     except Exception as e:
-        print(f"[WARN] yfinance failed for {symbol}: {e}")
-    return pd.DataFrame()
+        print(f"[WARN] yfinance failed for {symbol}: {e}", file=sys.stderr)
 
-def compute_volume_anomaly(hist: pd.DataFrame):
-    # hist: columns like ["Open","High","Low","Close","Volume"]
-    if hist is None or hist.empty or "Volume" not in hist.columns:
-        return 0.0
-    vol = pd.to_numeric(hist["Volume"], errors="coerce").fillna(0)
-    if len(vol) < 5:
-        return 0.0
-    cur = float(vol.iloc[-1])
-    ma20 = float(vol.rolling(20, min_periods=5).mean().iloc[-1])
-    if ma20 <= 0: 
-        return 0.0
-    ratio = cur / ma20
-    # 0~1へ圧縮（1以上で頭打ち気味に）
-    score = 1.0 - math.exp(-min(ratio, 5.0))
-    return max(0.0, min(score, 1.0))
-
-def load_component_score(path):
-    if not os.path.exists(path): 
-        return {}
+    # 2) Stooq CSV direct
     try:
-        with open(path) as f:
-            payload = json.load(f)
-        return payload.get("score_0_1", {})
-    except Exception:
-        return {}
+        url = f"https://stooq.com/q/d/l/?s={symbol.lower()}&i=d"
+        r = requests.get(url, timeout=20)
+        if r.ok and "Date,Open,High,Low,Close,Volume" in r.text:
+            reader = csv.DictReader(io.StringIO(r.text))
+            rows = []
+            for row in reader:
+                rows.append({
+                    "date": row["Date"],
+                    "open": float(row["Open"] or 0),
+                    "high": float(row["High"] or 0),
+                    "low": float(row["Low"] or 0),
+                    "close": float(row["Close"] or 0),
+                    "volume": float(row["Volume"] or 0),
+                })
+            if rows:
+                df = pd.DataFrame(rows)
+                df = df[(df["date"] >= start) & (df["date"] <= end)]
+                if not df.empty:
+                    time.sleep(0.2)
+                    return df[["date","open","high","low","close","volume"]]
+    except Exception as e:
+        print(f"[WARN] stooq csv failed for {symbol}: {e}", file=sys.stderr)
 
-def normalize_series(d: dict, keys, default=0.0):
-    # 与えられたkeys順に0~1スコア辞書を返す（無ければdefault）
-    return {k: float(d.get(k, default)) for k in keys}
+    # 3) pandas-datareader (stooq)
+    try:
+        import pandas_datareader.data as web
+        df = web.DataReader(symbol, "stooq", start=start_dt - datetime.timedelta(days=3), end=end_dt + datetime.timedelta(days=1))
+        if df is not None and not df.empty:
+            df = df.sort_index()
+            out = pd.DataFrame({
+                "date":   pd.to_datetime(df.index).strftime("%Y-%m-%d"),
+                "open":   pd.to_numeric(df["Open"],  errors="coerce"),
+                "high":   pd.to_numeric(df["High"],  errors="coerce"),
+                "low":    pd.to_numeric(df["Low"],   errors="coerce"),
+                "close":  pd.to_numeric(df["Close"], errors="coerce"),
+                "volume": pd.to_numeric(df["Volume"],errors="coerce").fillna(0),
+            })
+            out = out.dropna(subset=["close"])
+            out = out[(out["date"] >= start) & (out["date"] <= end)]
+            if not out.empty:
+                time.sleep(0.2)
+                return out[["date","open","high","low","close","volume"]]
+    except Exception as e:
+        print(f"[WARN] pandas-datareader stooq failed for {symbol}: {e}", file=sys.stderr)
 
-def main():
-    os.makedirs(f"{OUT_DIR}/data/top10", exist_ok=True)
-    if REPORT_DATE:
-        os.makedirs(f"{OUT_DIR}/data/{REPORT_DATE}", exist_ok=True)
+    return pd.DataFrame(columns=["date","open","high","low","close","volume"])
 
-    u = load_universe(UNIVERSE_CSV)
-    # 参照データ（会社名keyで保存しているためnameで引く）
-    trends = load_component_score(f"{OUT_DIR}/data/trends/latest.json")
-    news   = load_component_score(f"{OUT_DIR}/data/news/latest.json")
-    dii    = load_component_score(f"{OUT_DIR}/data/dii/latest.json")
+# ---------------- Volume anomaly ----------------
+def compute_volume_anomaly(df: pd.DataFrame) -> dict:
+    """
+    Abnormal volume relative to its own recent history.
+    Returns:
+      {
+        score: 0..1 (emphasizes sustained/large deviations),
+        rvol20: float,
+        z60: float (z of RVOL over last 60 d),
+        pct_rank_90: 0..1 (dollar-volume percentile vs own 90 d),
+        dollar_vol: float (today),
+        eligible: bool
+      }
+    """
+    if df is None or df.empty:
+        return {"score": 0.0, "eligible": False}
 
-    results = []
-    for _, row in u.iterrows():
-        sym = row["symbol"]
-        name = row["name"]
+    d = df.copy()
+    d["date"] = pd.to_datetime(d["date"])
+    d = d.sort_values("date")
+    d["volume"] = pd.to_numeric(d["volume"], errors="coerce").fillna(0)
+    d["close"]  = pd.to_numeric(d["close"],  errors="coerce")
+    if len(d) < 45:
+        return {"score": 0.0, "eligible": False}
 
-        if MOCK_MODE:
-            hist = pd.DataFrame({"Volume":[1,2,3,4,5]})
-        else:
-            hist = safe_hist(sym)
+    # Today
+    v_today = float(d["volume"].iloc[-1])
 
-        vol_score = compute_volume_anomaly(hist)
+    # RVOL20
+    v_sma20 = float(d["volume"].rolling(20).mean().iloc[-1])
+    rvol20 = v_today / v_sma20 if v_sma20 > 0 else 0.0
 
-        # name基準で一致させる（fetch_trends/news側がnameキー）
-        tr = float(trends.get(name, 0.0))
-        ne = float(news.get(name, 0.0))
-        di = float(dii.get(name, 0.0))
+    # RVOL z-score (60d)
+    rvol_series = d["volume"] / d["volume"].rolling(20).mean()
+    rvol_60 = rvol_series.tail(60).dropna()
+    if len(rvol_60) < 20:
+        z60 = 0.0
+    else:
+        mu, sd = float(rvol_60.mean()), float(rvol_60.std(ddof=0))
+        z60 = (rvol20 - mu) / sd if sd > 1e-9 else 0.0
+    z60_u = max(0.0, min(1.0, z60 / 3.0))
 
-        final = W_VOL*vol_score + W_TR*tr + W_NE*ne + W_DII*di
+    # Dollar-volume pct-rank (90d)
+    d["dollar_vol"] = d["close"] * d["volume"]
+    last_dv = float(d["dollar_vol"].iloc[-1])
+    dv90 = d["dollar_vol"].tail(90).dropna().tolist()
+    if dv90:
+        arr = sorted(dv90)
+        import bisect
+        k = bisect.bisect_right(arr, last_dv)
+        pr90 = k / len(arr)
+    else:
+        pr90 = 0.0
 
-        price = float(hist["Close"].iloc[-1]) if ("Close" in hist.columns and not hist.empty) else None
-        change = None
-        if price and "Close" in hist.columns and len(hist["Close"])>=2:
-            prev = float(hist["Close"].iloc[-2])
-            if prev:
-                change = (price/prev - 1.0)
-
-        results.append({
-            "symbol": sym,
-            "name": name,
-            "vol_anom_0_1": round(vol_score, 6),
-            "trends_0_1": round(tr, 6),
-            "news_0_1": round(ne, 6),
-            "dii_0_1": round(di, 6),
-            "final_score_0_1": round(final, 6),
-            "price": price,
-            "pct_change_1d": change
-        })
-
-    # 最終スコアでソート
-    results = sorted(results, key=lambda x: x["final_score_0_1"], reverse=True)
-    top10 = results[:10]
-
-    payload = {
-        "date": REPORT_DATE,
-        "universe_size": int(len(u)),
-        "items": top10
+    # Combine (heavier weight on z, then rvol, then dollar-volume rank)
+    score = 0.6 * z60_u + 0.25 * max(0.0, min(1.0, rvol20 / 5.0)) + 0.15 * pr90
+    eligible = (v_sma20 > 0) and math.isfinite(score)
+    return {
+        "score": float(score),
+        "rvol20": float(rvol20),
+        "z60": float(z60),
+        "pct_rank_90": float(pr90),
+        "dollar_vol": float(last_dv),
+        "eligible": bool(eligible),
     }
 
-    # latest と date への二重保存（テンプレートは両方を参照可能）
-    with open(f"{OUT_DIR}/data/top10/latest.json","w") as f:
-        json.dump(payload, f, indent=2)
-    if REPORT_DATE:
-        with open(f"{OUT_DIR}/data/top10/{REPORT_DATE}.json","w") as f:
-            json.dump(payload, f, indent=2)
+# ---------------- Charts ----------------
+def save_chart_png_weekly_3m(symbol, df, out_dir, date_iso):
+    if df is None or df.empty: return
+    d = df.copy()
+    d["date"] = pd.to_datetime(d["date"])
+    d = d.set_index("date").sort_index()
+    w = pd.DataFrame({
+        "close": d["close"].resample("W-FRI").last(),
+        "volume": d["volume"].resample("W-FRI").sum(),
+    }).dropna()
+    w = w.tail(13)  # ≒3M
+    plt.figure(figsize=(9, 4.6), dpi=120)
+    plt.plot(w.index, w["close"], linewidth=1.3)
+    plt.title(f"{symbol} — 3M Weekly")
+    plt.tight_layout()
+    out = pathlib.Path(out_dir)/"charts"/date_iso/f"{symbol}.png"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(out)
+    plt.close()
 
-    print(f"[INFO] loaded items: trends={len(trends)} news={len(news)} dii={len(dii)}")
-    print(f"Generated top10 for {REPORT_DATE}: {len(top10)} symbols (universe={len(u)})")
+# ---------------- External helpers ----------------
+def load_json(path, default=None):
+    try:
+        p = pathlib.Path(path)
+        if p.exists():
+            return json.loads(p.read_text())
+    except Exception:
+        pass
+    return default
+
+def ensure_dirs(date_iso):
+    (pathlib.Path(OUT_DIR)/"data"/date_iso).mkdir(parents=True, exist_ok=True)
+    (pathlib.Path(OUT_DIR)/"charts"/date_iso).mkdir(parents=True, exist_ok=True)
+
+# ---------------- Main ----------------
+def main():
+    ensure_dirs(DATE_S)
+
+    # Universe
+    uni = pd.read_csv(UNIVERSE_CSV)
+    symbols = [str(s).strip() for s in uni["symbol"].tolist() if str(s).strip()]
+
+    # Supporting data
+    trends = load_json(TRENDS_JSON, default={}).get("items", [])
+    trends_map = {it.get("symbol") or it.get("query") or it.get("ticker"): it for it in trends if it}
+    news = load_json(NEWS_JSON, default={}).get("items", [])
+    news_map = {it.get("symbol") or it.get("ticker"): it for it in news if it}
+
+    # Price window
+    end_s   = DATE_S
+    start_s = (DATE - datetime.timedelta(days=200)).isoformat()
+
+    records = []
+    recent_map = {}
+
+    for sym in symbols:
+        # Try/catch per symbol; throttle to avoid API limits
+        try:
+            df = yfi_eod_range(sym, start_s, end_s)
+        except Exception as e:
+            print(f"[WARN] OHLCV failed {sym}: {e}", file=sys.stderr)
+            df = pd.DataFrame()
+        recent_map[sym] = df
+
+        # Price deltas
+        d1 = d5 = d20 = None
+        if df is not None and not df.empty:
+            c0, c_1, c_5, c_20 = get_closes_for_deltas(df, end_s)
+            d1  = pct_change(c0, c_1)
+            d5  = pct_change(c0, c_5)
+            d20 = pct_change(c0, c_20)
+
+        # Volume anomaly
+        if df is None or df.empty:
+            vol_detail = None
+            vol_score = 0.0
+        else:
+            vol_detail = compute_volume_anomaly(df)
+            vol_score = float(vol_detail.get("score", 0.0))
+
+        # Trends breakout 0..1
+        td = trends_map.get(sym) or {}
+        trends_breakout = float(td.get("score_0_1") or td.get("score") or 0.0)
+
+        # News 0..1 + recent count
+        nw = news_map.get(sym) or {}
+        news_score = float(nw.get("score_0_1", 0.0))
+        news_recent = int(nw.get("recent_count", 0))
+
+        # --- Final score (normalized weights for present comps) ---
+        comps = {
+            "volume_anomaly": vol_score if vol_detail is not None else 0.0,
+            "trends_breakout": trends_breakout,
+            "news": news_score,
+        }
+        raw_w = {
+            "volume_anomaly": W_VOL,
+            "trends_breakout": W_TRENDS,
+            "news": W_NEWS,
+        }
+        present_keys = list(comps.keys())
+        wsum = sum(max(0.0, raw_w.get(k,0.0)) for k in present_keys) or 1.0
+        norm_w = {k: (max(0.0, raw_w.get(k,0.0))/wsum) for k in present_keys}
+        final_0_1 = sum( (comps.get(k,0.0) * norm_w.get(k,0.0)) for k in present_keys )
+        score_pts = int(round(final_0_1 * 1000))
+
+        # --- DII (separate indicator) ---
+        dii_comps = {
+            "volume_anomaly": vol_score if vol_detail is not None else 0.0,
+            "trends": trends_breakout,
+            "news": news_score,
+        }
+        dii_wsum = max(1e-9, W_DII_VOL + W_DII_TRENDS + W_DII_NEWS)
+        dii_score = (
+            (W_DII_VOL * dii_comps["volume_anomaly"]) +
+            (W_DII_TRENDS * dii_comps["trends"]) +
+            (W_DII_NEWS * dii_comps["news"])
+        ) / dii_wsum
+
+        rec = {
+            "symbol": sym,
+            "name": uni.loc[uni["symbol"]==sym, "name"].values[0] if "name" in uni.columns else "",
+            "theme": uni.loc[uni["symbol"]==sym, "theme"].values[0] if "theme" in uni.columns else "",
+            "final_score_0_1": final_0_1,
+            "score_pts": score_pts,
+
+            # components for badges
+            "vol_anomaly_score": vol_score,
+            "trends_breakout": trends_breakout,
+            "news_score": news_score,
+            "news_recent_count": news_recent,
+
+            # DII
+            "dii_score": dii_score,
+            "dii_components": dii_comps,
+
+            # breakdown & weights (for UI table)
+            "score_components": comps,
+            "score_weights": raw_w,
+
+            # details for UI
+            "detail": {"vol_anomaly": vol_detail, "dii": {"score": dii_score, "components": dii_comps}},
+
+            # price
+            "deltas": {"d1": d1, "d5": d5, "d20": d20},
+        }
+        records.append(rec)
+
+        # polite sleep between symbols
+        time.sleep(YFI_SLEEP + random.random()*YFI_JITTER)
+
+    # sort by points
+    records.sort(key=lambda r: (-r["score_pts"], r["symbol"]))
+    for i, r in enumerate(records, 1):
+        r["rank"] = i
+
+    # output JSON
+    out_json_dir = pathlib.Path(OUT_DIR)/"data"/DATE_S
+    out_json_dir.mkdir(parents=True, exist_ok=True)
+    top10 = records[:10]
+    (out_json_dir/"top10.json").write_text(json.dumps(top10, indent=2))
+
+    # charts for top10
+    for r in top10:
+        df = recent_map.get(r["symbol"])
+        try:
+            if df is not None and not df.empty:
+                save_chart_png_weekly_3m(r["symbol"], df, OUT_DIR, DATE_S)
+            else:
+                print(f"[WARN] no data for weekly chart {r['symbol']}", file=sys.stderr)
+        except Exception as e:
+            print(f"[WARN] chart {r['symbol']}: {e}", file=sys.stderr)
+
+    print(f"Generated top10 for {DATE_S}: {len(top10)} symbols (universe={len(symbols)})")
 
 if __name__ == "__main__":
     main()
