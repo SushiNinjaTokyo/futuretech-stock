@@ -1,18 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Daily scorer & exporter
-Changes:
-- Insider-based scoring removed entirely.
-- New DII (Demand & Interest Index) indicator added (not part of the final score by default).
-- Volume anomaly uses each stock's own history (RVOL20, 60-day z of RVOL, 90-day dollar-volume pct-rank).
-- US market date resolution is independent of runtime and uses the last available SPY daily bar.
-- Dual vendor for OHLCV (yfinance → Stooq CSV → pandas-datareader 'stooq').
-- Throttling added between symbol calls to avoid API limits.
-- All labels/strings kept in English (HTML template handles the UI).
-Outputs:
-  site/data/{DATE}/top10.json and weekly charts in site/charts/{DATE}/SYMBOL.png
-"""
 from __future__ import annotations
 
 import os, sys, json, math, pathlib, random, datetime, time, io, csv
@@ -20,24 +7,25 @@ from zoneinfo import ZoneInfo
 import requests
 import pandas as pd
 
-# charts
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-# ---------------- Market date ----------------
+# ---- market date resolver (import from scripts/ or CWD) ----
 try:
-    from et_market_date import get_effective_market_date
+    from scripts.et_market_date import get_effective_market_date  # type: ignore
 except Exception:
-    # Minimal fallback if module isn't importable
-    def get_effective_market_date():
-        now_et = datetime.datetime.now(ZoneInfo("America/New_York"))
-        d = now_et.date()
-        if now_et.hour < 18:  # safe-side fallback
-            d -= datetime.timedelta(days=1)
-        while d.weekday() >= 5:
-            d -= datetime.timedelta(days=1)
-        return d
+    try:
+        from et_market_date import get_effective_market_date  # type: ignore
+    except Exception:
+        def get_effective_market_date():
+            now_et = datetime.datetime.now(ZoneInfo("America/New_York"))
+            d = now_et.date()
+            if now_et.hour < 18:
+                d -= datetime.timedelta(days=1)
+            while d.weekday() >= 5:
+                d -= datetime.timedelta(days=1)
+            return d
 
 # ---------------- Config ----------------
 UNIVERSE_CSV = os.getenv("UNIVERSE_CSV", "data/universe.csv")
@@ -46,25 +34,20 @@ DATE = (os.getenv("REPORT_DATE") and datetime.date.fromisoformat(os.getenv("REPO
 DATE_S = DATE.isoformat()
 MOCK_MODE = os.getenv("MOCK_MODE", "false").lower() == "true"
 
-# Sleep between symbol calls
 YFI_SLEEP = float(os.getenv("YFI_SLEEP", "0.4"))
 YFI_JITTER = float(os.getenv("YFI_JITTER", "0.25"))
 
-# Final-score weights (only-present components will be normalized)
 W_VOL    = float(os.getenv("WEIGHT_VOL_ANOM", "0.35"))
 W_TRENDS = float(os.getenv("WEIGHT_TRENDS",  "0.40"))
 W_NEWS   = float(os.getenv("WEIGHT_NEWS",    "0.25"))
 
-# DII weights (separate indicator)
 W_DII_VOL    = float(os.getenv("DII_WEIGHT_VOL",    "0.30"))
 W_DII_TRENDS = float(os.getenv("DII_WEIGHT_TRENDS", "0.45"))
 W_DII_NEWS   = float(os.getenv("DII_WEIGHT_NEWS",   "0.25"))
 
-# Optional external data (already produced by your other jobs)
 TRENDS_JSON  = os.getenv("TRENDS_JSON",  f"{OUT_DIR}/data/trends/latest.json")
 NEWS_JSON    = os.getenv("NEWS_JSON",    f"{OUT_DIR}/data/news/latest.json")
 
-# ---------------- Time helpers ----------------
 def prev_us_business_day(d: datetime.date) -> datetime.date:
     while d.weekday() >= 5:
         d = d - datetime.timedelta(days=1)
@@ -76,7 +59,6 @@ def pct_change(c0: float|None, c_prev: float|None) -> float|None:
     return (c0 - c_prev) / c_prev * 100.0
 
 def get_closes_for_deltas(df: pd.DataFrame, end_s: str):
-    """Return (c0, c_1, c_5, c_20) using trading-day offsets relative to end_s."""
     d = df.copy()
     d["date"] = pd.to_datetime(d["date"])
     d = d.sort_values("date")
@@ -92,7 +74,6 @@ def get_closes_for_deltas(df: pd.DataFrame, end_s: str):
 
 # ---------------- Vendors ----------------
 def yfi_eod_range(symbol: str, start: str, end: str) -> pd.DataFrame:
-    """EOD via yfinance → Stooq CSV → pandas-datareader 'stooq'."""
     if MOCK_MODE:
         dates = pd.date_range(start=start, end=end, freq="B")
         base = 100.0 + random.Random(symbol).random()*20
@@ -188,21 +169,8 @@ def yfi_eod_range(symbol: str, start: str, end: str) -> pd.DataFrame:
 
 # ---------------- Volume anomaly ----------------
 def compute_volume_anomaly(df: pd.DataFrame) -> dict:
-    """
-    Abnormal volume relative to its own recent history.
-    Returns:
-      {
-        score: 0..1 (emphasizes sustained/large deviations),
-        rvol20: float,
-        z60: float (z of RVOL over last 60 d),
-        pct_rank_90: 0..1 (dollar-volume percentile vs own 90 d),
-        dollar_vol: float (today),
-        eligible: bool
-      }
-    """
     if df is None or df.empty:
         return {"score": 0.0, "eligible": False}
-
     d = df.copy()
     d["date"] = pd.to_datetime(d["date"])
     d = d.sort_values("date")
@@ -211,14 +179,10 @@ def compute_volume_anomaly(df: pd.DataFrame) -> dict:
     if len(d) < 45:
         return {"score": 0.0, "eligible": False}
 
-    # Today
     v_today = float(d["volume"].iloc[-1])
-
-    # RVOL20
     v_sma20 = float(d["volume"].rolling(20).mean().iloc[-1])
     rvol20 = v_today / v_sma20 if v_sma20 > 0 else 0.0
 
-    # RVOL z-score (60d)
     rvol_series = d["volume"] / d["volume"].rolling(20).mean()
     rvol_60 = rvol_series.tail(60).dropna()
     if len(rvol_60) < 20:
@@ -228,7 +192,6 @@ def compute_volume_anomaly(df: pd.DataFrame) -> dict:
         z60 = (rvol20 - mu) / sd if sd > 1e-9 else 0.0
     z60_u = max(0.0, min(1.0, z60 / 3.0))
 
-    # Dollar-volume pct-rank (90d)
     d["dollar_vol"] = d["close"] * d["volume"]
     last_dv = float(d["dollar_vol"].iloc[-1])
     dv90 = d["dollar_vol"].tail(90).dropna().tolist()
@@ -240,7 +203,6 @@ def compute_volume_anomaly(df: pd.DataFrame) -> dict:
     else:
         pr90 = 0.0
 
-    # Combine (heavier weight on z, then rvol, then dollar-volume rank)
     score = 0.6 * z60_u + 0.25 * max(0.0, min(1.0, rvol20 / 5.0)) + 0.15 * pr90
     eligible = (v_sma20 > 0) and math.isfinite(score)
     return {
@@ -262,7 +224,7 @@ def save_chart_png_weekly_3m(symbol, df, out_dir, date_iso):
         "close": d["close"].resample("W-FRI").last(),
         "volume": d["volume"].resample("W-FRI").sum(),
     }).dropna()
-    w = w.tail(13)  # ≒3M
+    w = w.tail(13)
     plt.figure(figsize=(9, 4.6), dpi=120)
     plt.plot(w.index, w["close"], linewidth=1.3)
     plt.title(f"{symbol} — 3M Weekly")
@@ -272,7 +234,6 @@ def save_chart_png_weekly_3m(symbol, df, out_dir, date_iso):
     plt.savefig(out)
     plt.close()
 
-# ---------------- External helpers ----------------
 def load_json(path, default=None):
     try:
         p = pathlib.Path(path)
@@ -286,21 +247,17 @@ def ensure_dirs(date_iso):
     (pathlib.Path(OUT_DIR)/"data"/date_iso).mkdir(parents=True, exist_ok=True)
     (pathlib.Path(OUT_DIR)/"charts"/date_iso).mkdir(parents=True, exist_ok=True)
 
-# ---------------- Main ----------------
 def main():
     ensure_dirs(DATE_S)
 
-    # Universe
     uni = pd.read_csv(UNIVERSE_CSV)
     symbols = [str(s).strip() for s in uni["symbol"].tolist() if str(s).strip()]
 
-    # Supporting data
     trends = load_json(TRENDS_JSON, default={}).get("items", [])
     trends_map = {it.get("symbol") or it.get("query") or it.get("ticker"): it for it in trends if it}
     news = load_json(NEWS_JSON, default={}).get("items", [])
     news_map = {it.get("symbol") or it.get("ticker"): it for it in news if it}
 
-    # Price window
     end_s   = DATE_S
     start_s = (DATE - datetime.timedelta(days=200)).isoformat()
 
@@ -308,7 +265,6 @@ def main():
     recent_map = {}
 
     for sym in symbols:
-        # Try/catch per symbol; throttle to avoid API limits
         try:
             df = yfi_eod_range(sym, start_s, end_s)
         except Exception as e:
@@ -316,7 +272,6 @@ def main():
             df = pd.DataFrame()
         recent_map[sym] = df
 
-        # Price deltas
         d1 = d5 = d20 = None
         if df is not None and not df.empty:
             c0, c_1, c_5, c_20 = get_closes_for_deltas(df, end_s)
@@ -324,7 +279,6 @@ def main():
             d5  = pct_change(c0, c_5)
             d20 = pct_change(c0, c_20)
 
-        # Volume anomaly
         if df is None or df.empty:
             vol_detail = None
             vol_score = 0.0
@@ -332,16 +286,13 @@ def main():
             vol_detail = compute_volume_anomaly(df)
             vol_score = float(vol_detail.get("score", 0.0))
 
-        # Trends breakout 0..1
         td = trends_map.get(sym) or {}
         trends_breakout = float(td.get("score_0_1") or td.get("score") or 0.0)
 
-        # News 0..1 + recent count
         nw = news_map.get(sym) or {}
         news_score = float(nw.get("score_0_1", 0.0))
         news_recent = int(nw.get("recent_count", 0))
 
-        # --- Final score (normalized weights for present comps) ---
         comps = {
             "volume_anomaly": vol_score if vol_detail is not None else 0.0,
             "trends_breakout": trends_breakout,
@@ -352,24 +303,20 @@ def main():
             "trends_breakout": W_TRENDS,
             "news": W_NEWS,
         }
-        present_keys = list(comps.keys())
-        wsum = sum(max(0.0, raw_w.get(k,0.0)) for k in present_keys) or 1.0
-        norm_w = {k: (max(0.0, raw_w.get(k,0.0))/wsum) for k in present_keys}
-        final_0_1 = sum( (comps.get(k,0.0) * norm_w.get(k,0.0)) for k in present_keys )
+        wsum = sum(max(0.0, raw_w.get(k,0.0)) for k in comps.keys()) or 1.0
+        norm_w = {k: (max(0.0, raw_w.get(k,0.0))/wsum) for k in comps.keys()}
+        final_0_1 = sum( (comps[k] * norm_w[k]) for k in comps.keys() )
         score_pts = int(round(final_0_1 * 1000))
 
-        # --- DII (separate indicator) ---
         dii_comps = {
             "volume_anomaly": vol_score if vol_detail is not None else 0.0,
             "trends": trends_breakout,
             "news": news_score,
         }
         dii_wsum = max(1e-9, W_DII_VOL + W_DII_TRENDS + W_DII_NEWS)
-        dii_score = (
-            (W_DII_VOL * dii_comps["volume_anomaly"]) +
-            (W_DII_TRENDS * dii_comps["trends"]) +
-            (W_DII_NEWS * dii_comps["news"])
-        ) / dii_wsum
+        dii_score = ((W_DII_VOL * dii_comps["volume_anomaly"]) +
+                     (W_DII_TRENDS * dii_comps["trends"]) +
+                     (W_DII_NEWS * dii_comps["news"])) / dii_wsum
 
         rec = {
             "symbol": sym,
@@ -377,44 +324,30 @@ def main():
             "theme": uni.loc[uni["symbol"]==sym, "theme"].values[0] if "theme" in uni.columns else "",
             "final_score_0_1": final_0_1,
             "score_pts": score_pts,
-
-            # components for badges
             "vol_anomaly_score": vol_score,
             "trends_breakout": trends_breakout,
             "news_score": news_score,
             "news_recent_count": news_recent,
-
-            # DII
             "dii_score": dii_score,
             "dii_components": dii_comps,
-
-            # breakdown & weights (for UI table)
             "score_components": comps,
             "score_weights": raw_w,
-
-            # details for UI
             "detail": {"vol_anomaly": vol_detail, "dii": {"score": dii_score, "components": dii_comps}},
-
-            # price
             "deltas": {"d1": d1, "d5": d5, "d20": d20},
         }
         records.append(rec)
 
-        # polite sleep between symbols
         time.sleep(YFI_SLEEP + random.random()*YFI_JITTER)
 
-    # sort by points
     records.sort(key=lambda r: (-r["score_pts"], r["symbol"]))
     for i, r in enumerate(records, 1):
         r["rank"] = i
 
-    # output JSON
     out_json_dir = pathlib.Path(OUT_DIR)/"data"/DATE_S
     out_json_dir.mkdir(parents=True, exist_ok=True)
     top10 = records[:10]
     (out_json_dir/"top10.json").write_text(json.dumps(top10, indent=2))
 
-    # charts for top10
     for r in top10:
         df = recent_map.get(r["symbol"])
         try:
@@ -425,7 +358,7 @@ def main():
         except Exception as e:
             print(f"[WARN] chart {r['symbol']}: {e}", file=sys.stderr)
 
-    print(f"Generated top10 for {DATE_S}: {len(top10)} symbols (universe={len(symbols)})")
+    print(f"Generated top10 for {DATE_S}: {len(top10)} symbols (universe={len(records)})")
 
 if __name__ == "__main__":
     main()
