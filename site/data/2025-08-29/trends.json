@@ -1,7 +1,7 @@
 {
   "raw_last": {
-    "NVIDIA Corporation": 15.0,
-    "Microsoft Corporation": 10.0,
+    "NVIDIA Corporation": 26.0,
+    "Microsoft Corporation": 17.0,
     "Palantir Technologies Inc.": 0.0,
     "C3.ai, Inc.": 0.0,
     "Intuitive Surgical, Inc.": 0.0,
@@ -15,15 +15,12 @@
     "Monday.com Ltd.": 0.0,
     "AeroVironment, Inc.": 0.0,
     "Perfect Corp.": 0.0,
-    "GoodRx Holdings, Inc.": 0.0,
-    "AbCellera Biologics Inc.": 0.0,
-    "Unity Software Inc.": 0.0,
     "Tempus AI, Inc.": 0.0,
     "Vertiv Holdings Co": 0.0
   },
   "score_0_1": {
-    "NVIDIA Corporation": 0.9999999999333333,
-    "Microsoft Corporation": 0.6666666666222222,
+    "NVIDIA Corporation": 0.9999999999615384,
+    "Microsoft Corporation": 0.6538461538210059,
     "Palantir Technologies Inc.": 0.0,
     "C3.ai, Inc.": 0.0,
     "Intuitive Surgical, Inc.": 0.0,
@@ -37,9 +34,6 @@
     "Monday.com Ltd.": 0.0,
     "AeroVironment, Inc.": 0.0,
     "Perfect Corp.": 0.0,
-    "GoodRx Holdings, Inc.": 0.0,
-    "AbCellera Biologics Inc.": 0.0,
-    "Unity Software Inc.": 0.0,
     "Tempus AI, Inc.": 0.0,
     "Vertiv Holdings Co": 0.0
   }
