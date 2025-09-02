@@ -33,8 +33,8 @@
       "symbol": "ISRG",
       "name": "Intuitive Surgical, Inc.",
       "query": "\"Intuitive Surgical, Inc.\" OR ISRG",
-      "recent_count": 60,
-      "score_0_1": 1.0
+      "recent_count": 56,
+      "score_0_1": 0.9333333333333333
     },
     {
       "symbol": "TER",
@@ -131,8 +131,8 @@
       "symbol": "TEM",
       "name": "Tempus AI, Inc.",
       "query": "\"Tempus AI, Inc.\" OR TEM",
-      "recent_count": 51,
-      "score_0_1": 0.85
+      "recent_count": 47,
+      "score_0_1": 0.7833333333333333
     },
     {
       "symbol": "VRT",
