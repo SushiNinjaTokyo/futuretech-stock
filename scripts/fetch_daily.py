@@ -37,21 +37,21 @@ MOCK_MODE = os.getenv("MOCK_MODE", "false").lower() == "true"
 YFI_SLEEP = float(os.getenv("YFI_SLEEP", "0.4"))
 YFI_JITTER = float(os.getenv("YFI_JITTER", "0.25"))
 
+# final score weights（0..1に正規化して合算）—— DIIも重みが>0なら採用
 W_VOL    = float(os.getenv("WEIGHT_VOL_ANOM", "0.35"))
-W_TRENDS = float(os.getenv("WEIGHT_TRENDS",  "0.40"))
-W_NEWS   = float(os.getenv("WEIGHT_NEWS",    "0.25"))
+W_DII    = float(os.getenv("WEIGHT_DII",      "0.00"))
+W_TRENDS = float(os.getenv("WEIGHT_TRENDS",   "0.40"))
+W_NEWS   = float(os.getenv("WEIGHT_NEWS",     "0.25"))
 
+# DII内部の算出（別指標としても出力）
 W_DII_VOL    = float(os.getenv("DII_WEIGHT_VOL",    "0.30"))
 W_DII_TRENDS = float(os.getenv("DII_WEIGHT_TRENDS", "0.45"))
 W_DII_NEWS   = float(os.getenv("DII_WEIGHT_NEWS",   "0.25"))
 
+# external data paths
 TRENDS_JSON  = os.getenv("TRENDS_JSON",  f"{OUT_DIR}/data/trends/latest.json")
 NEWS_JSON    = os.getenv("NEWS_JSON",    f"{OUT_DIR}/data/news/latest.json")
-
-def prev_us_business_day(d: datetime.date) -> datetime.date:
-    while d.weekday() >= 5:
-        d = d - datetime.timedelta(days=1)
-    return d
+DII_JSON     = os.getenv("DII_JSON",     f"{OUT_DIR}/data/dii/latest.json")
 
 def pct_change(c0: float|None, c_prev: float|None) -> float|None:
     if c0 is None or c_prev is None or c_prev == 0 or any(map(lambda x: x!=x, [c0, c_prev])):
@@ -224,7 +224,7 @@ def save_chart_png_weekly_3m(symbol, df, out_dir, date_iso):
         "close": d["close"].resample("W-FRI").last(),
         "volume": d["volume"].resample("W-FRI").sum(),
     }).dropna()
-    w = w.tail(13)
+    w = w.tail(13)  # ≒3M
     plt.figure(figsize=(9, 4.6), dpi=120)
     plt.plot(w.index, w["close"], linewidth=1.3)
     plt.title(f"{symbol} — 3M Weekly")
@@ -253,10 +253,16 @@ def main():
     uni = pd.read_csv(UNIVERSE_CSV)
     symbols = [str(s).strip() for s in uni["symbol"].tolist() if str(s).strip()]
 
-    trends = load_json(TRENDS_JSON, default={}).get("items", [])
-    trends_map = {it.get("symbol") or it.get("query") or it.get("ticker"): it for it in trends if it}
-    news = load_json(NEWS_JSON, default={}).get("items", [])
-    news_map = {it.get("symbol") or it.get("ticker"): it for it in news if it}
+    # ---- load external feature maps ----
+    trends_items = (load_json(TRENDS_JSON, default={}) or {}).get("items", [])
+    trends_map = {it.get("symbol") or it.get("query") or it.get("ticker"): it for it in trends_items if it}
+
+    news_items = (load_json(NEWS_JSON, default={}) or {}).get("items", [])
+    news_map = {it.get("symbol") or it.get("ticker"): it for it in news_items if it}
+
+    dii_items = (load_json(DII_JSON, default={}) or {}).get("items", [])
+    # 0..1に正規化済みの `score_0_1` を想定。無ければ 0。
+    dii_map = {it.get("symbol") or it.get("ticker"): it for it in dii_items if it}
 
     end_s   = DATE_S
     start_s = (DATE - datetime.timedelta(days=200)).isoformat()
@@ -279,6 +285,7 @@ def main():
             d5  = pct_change(c0, c_5)
             d20 = pct_change(c0, c_20)
 
+        # volume anomaly
         if df is None or df.empty:
             vol_detail = None
             vol_score = 0.0
@@ -286,6 +293,7 @@ def main():
             vol_detail = compute_volume_anomaly(df)
             vol_score = float(vol_detail.get("score", 0.0))
 
+        # trends/news/dii (0..1)
         td = trends_map.get(sym) or {}
         trends_breakout = float(td.get("score_0_1") or td.get("score") or 0.0)
 
@@ -293,30 +301,42 @@ def main():
         news_score = float(nw.get("score_0_1", 0.0))
         news_recent = int(nw.get("recent_count", 0))
 
+        di = dii_map.get(sym) or {}
+        dii_score_ext = float(di.get("score_0_1", 0.0))
+
+        # ---- Final score（重みが与えられた要素のみ正規化）----
         comps = {
-            "volume_anomaly": vol_score if vol_detail is not None else 0.0,
+            "volume_anomaly": vol_score,
             "trends_breakout": trends_breakout,
             "news": news_score,
         }
+        if W_DII > 0:
+            comps["dii"] = dii_score_ext   # DIIも最終スコアに参加
+
         raw_w = {
             "volume_anomaly": W_VOL,
             "trends_breakout": W_TRENDS,
             "news": W_NEWS,
+            "dii": W_DII,
         }
-        wsum = sum(max(0.0, raw_w.get(k,0.0)) for k in comps.keys()) or 1.0
-        norm_w = {k: (max(0.0, raw_w.get(k,0.0))/wsum) for k in comps.keys()}
-        final_0_1 = sum( (comps[k] * norm_w[k]) for k in comps.keys() )
+        present = [k for k in comps.keys() if raw_w.get(k, 0) > 0]
+        wsum = sum(raw_w[k] for k in present) or 1.0
+        norm_w = {k: raw_w[k]/wsum for k in present}
+        final_0_1 = sum( (comps[k] * norm_w.get(k,0.0)) for k in comps.keys() )
         score_pts = int(round(final_0_1 * 1000))
 
+        # --- DII（内部合成も別途出力。最終スコア用のdii_score_extとは別）---
         dii_comps = {
-            "volume_anomaly": vol_score if vol_detail is not None else 0.0,
+            "volume_anomaly": vol_score,
             "trends": trends_breakout,
             "news": news_score,
         }
         dii_wsum = max(1e-9, W_DII_VOL + W_DII_TRENDS + W_DII_NEWS)
-        dii_score = ((W_DII_VOL * dii_comps["volume_anomaly"]) +
-                     (W_DII_TRENDS * dii_comps["trends"]) +
-                     (W_DII_NEWS * dii_comps["news"])) / dii_wsum
+        dii_score_internal = (
+            (W_DII_VOL * dii_comps["volume_anomaly"]) +
+            (W_DII_TRENDS * dii_comps["trends"]) +
+            (W_DII_NEWS * dii_comps["news"])
+        ) / dii_wsum
 
         rec = {
             "symbol": sym,
@@ -324,21 +344,27 @@ def main():
             "theme": uni.loc[uni["symbol"]==sym, "theme"].values[0] if "theme" in uni.columns else "",
             "final_score_0_1": final_0_1,
             "score_pts": score_pts,
+
             "vol_anomaly_score": vol_score,
             "trends_breakout": trends_breakout,
             "news_score": news_score,
             "news_recent_count": news_recent,
-            "dii_score": dii_score,
-            "dii_components": dii_comps,
+
+            # DII: 外部スコア（最終スコアに使う）と内部合成（情報表示）
+            "dii_score": dii_score_internal,
+            "dii_external": dii_score_ext,
+
             "score_components": comps,
             "score_weights": raw_w,
-            "detail": {"vol_anomaly": vol_detail, "dii": {"score": dii_score, "components": dii_comps}},
+            "detail": {"vol_anomaly": vol_detail, "dii": {"score": dii_score_internal, "components": dii_comps}},
+
             "deltas": {"d1": d1, "d5": d5, "d20": d20},
         }
         records.append(rec)
 
         time.sleep(YFI_SLEEP + random.random()*YFI_JITTER)
 
+    # rank & output
     records.sort(key=lambda r: (-r["score_pts"], r["symbol"]))
     for i, r in enumerate(records, 1):
         r["rank"] = i
@@ -348,6 +374,7 @@ def main():
     top10 = records[:10]
     (out_json_dir/"top10.json").write_text(json.dumps(top10, indent=2))
 
+    # charts
     for r in top10:
         df = recent_map.get(r["symbol"])
         try:
