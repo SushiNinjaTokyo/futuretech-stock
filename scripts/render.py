@@ -3,25 +3,354 @@
 
 import os, json, pathlib, logging, time, sys
 from datetime import datetime
+from typing import Optional, Tuple, List
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+# -----------------------------------------------------------------------------
+# Logging
+# -----------------------------------------------------------------------------
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(
-    level=getattr(logging, os.getenv("LOG_LEVEL", "INFO").upper(), logging.INFO),
+    level=getattr(logging, LOG_LEVEL, logging.INFO),
     format="%(asctime)sZ [%(levelname)s] %(message)s",
 )
 logging.Formatter.converter = time.gmtime
 
+# -----------------------------------------------------------------------------
+# Config
+# -----------------------------------------------------------------------------
 OUT_DIR = pathlib.Path(os.getenv("OUT_DIR", "site"))
 DATA_DIR = OUT_DIR / "data"
 REPORT_DATE = os.getenv("REPORT_DATE")
-TPL_FILE = pathlib.Path("daily.html.j2")
 
+# -----------------------------------------------------------------------------
+# Fallback template (完全版)
+# 必要に応じて短縮可。ここでは動作優先でフル版を内蔵しています。
+# -----------------------------------------------------------------------------
+TEMPLATE_FALLBACK = r"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>futuretech-stock — Daily Top 10 ({{ date | default('', true) }})</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script type="application/ld+json">{{ schema_json }}</script>
+  <style>
+    :root{
+      --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
+      --gold:#f6c453; --silver:#cdd2d8; --bronze:#f4a261;
+      --soft:#f8fafc; --ring:#e2e8f0;
+
+      --up-bg:#ecfdf5; --up-fg:#065f46; --up-bd:#10b98133;
+      --dn-bg:#fef2f2; --dn-fg:#7f1d1d; --dn-bd:#ef444433;
+      --ne-bg:#f8fafc; --ne-fg:#334155; --ne-bd:#cbd5e133;
+    }
+    html,body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";}
+    .wrap{max-width:1024px;margin:0 auto;padding:24px}
+    h1{font-size:18px;margin:0 0 12px;font-weight:700}
+    p.muted{color:var(--muted);margin:0 0 16px}
+    small.muted{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+    .card{position:relative;border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .left{display:flex;align-items:center;gap:10px;min-width:0}
+    .rank-rocket{width:64px;height:64px;border-radius:999px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;position:relative;isolation:isolate;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.08) inset, 0 6px 14px rgba(0,0,0,.06);}
+    .rank1{ background:radial-gradient(120% 120% at 30% 30%, #fff6d6 0%, var(--gold) 45%, #d1a83a 100%); }
+    .rank2{ background:radial-gradient(120% 120% at 30% 30%, #ffffff 0%, var(--silver) 50%, #aeb5be 100%); }
+    .rank3{ background:radial-gradient(120% 120% at 30% 30%, #ffe9d6 0%, var(--bronze) 45%, #d18a3a 100%); }
+    .medal{position:absolute;bottom:6px;right:6px;background:rgba(255,255,255,.9);border-radius:6px;padding:2px 6px;font-size:12px;font-weight:700;border:1px solid var(--ring)}
+    .sym{font-weight:800;letter-spacing:.2px}
+    .name{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .score{font-size:22px;font-weight:800}
+    .price-row{display:flex;gap:6px;margin-top:8px}
+    .pch{border:1px solid var(--ring);border-radius:8px;padding:2px 8px;display:flex;gap:8px;align-items:center}
+    .pch.up{background:var(--up-bg);color:var(--up-fg);border-color:var(--up-bd)}
+    .pch.down{background:var(--dn-bg);color:var(--dn-fg);border-color:var(--dn-bd)}
+    .pch.neutral{background:var(--ne-bg);color:var(--ne-fg);border-color:var(--ne-bd)}
+    .pch .k{font-weight:700;min-width:1.6em;display:inline-block}
+    .pch .v{font-variant-numeric:tabular-nums}
+    .tabs{margin-top:10px}
+    .seg{display:inline-flex;background:var(--soft);border:1px solid var(--ring);border-radius:10px;overflow:hidden}
+    .segbtn{border:0;background:transparent;padding:6px 10px;font-weight:700;color:#334155;cursor:pointer}
+    .segbtn[aria-pressed="true"]{background:#fff}
+    .segbtn:hover{background:#fff}
+    .tab{display:none;padding-top:10px}
+    .tab[aria-hidden="false"]{display:block}
+    .kv{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+    .kv .k{font-weight:700;color:#334155}
+    .kv > div{border:1px solid var(--ring);border-radius:8px;padding:6px 8px;background:#fff;box-shadow:0 1px 1px rgba(0,0,0,.02)}
+    .chart{width:100%;height:auto;border:1px solid var(--ring);border-radius:8px}
+    .note{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.5}
+    .right{text-align:right}
+    table.tabtbl{width:100%;border-collapse:collapse}
+    table.tabtbl th,table.tabtbl td{border-bottom:1px solid var(--ring);padding:6px 4px}
+    table.tabtbl th.right,table.tabtbl td.right{text-align:right}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Daily Top 10 — {{ date }}</h1>
+    <p class="muted">AI · Robotics · Space — fair scoring across sizes. US market based timing.</p>
+
+    {% if top10 %}
+    <div id="cards" class="grid">
+      {% for item in top10 %}
+      {% set _sym = (item.symbol if item.symbol is defined else (item["symbol"] if item["symbol"] is defined else "")) %}
+      {% set _name = (item.name if item.name is defined else (item["name"] if item["name"] is defined else _sym)) %}
+      {% set pts = (item.score_pts if item.score_pts is defined else (item["score_pts"] if item["score_pts"] is defined else (item.rank_points if item.rank_points is defined else (item["rank_points"] if item["rank_points"] is defined else 0)))) %}
+      {% set deltas = (item.deltas if item.deltas is defined else (item["deltas"] if item["deltas"] is defined else {})) %}
+      {% set returns = (item.returns if item.returns is defined else (item["returns"] if item["returns"] is defined else {})) %}
+      {% set d1 = deltas.get("d1") if deltas else (returns.get("1D") if returns else none) %}
+      {% set d5 = deltas.get("d5") if deltas else (returns.get("1W") if returns else none) %}
+      {% set d20= deltas.get("d20") if deltas else (returns.get("1M") if returns else none) %}
+      {% set chart_url = "/charts/" + date + "/" + _sym + ".png" %}
+
+      <div class="card" data-symbol="{{ _sym }}" id="card-{{ loop.index }}">
+        <div class="row">
+          <div class="left">
+            <div class="rank-rocket rank{{ loop.index }}">
+              <span class="medal">#{{ loop.index }}</span>
+            </div>
+            <div>
+              <div class="sym">{{ _sym }}</div>
+              <div class="name">{{ _name }}</div>
+            </div>
+          </div>
+          <div class="score">{{ pts }}</div>
+        </div>
+
+        <div class="price-row">
+          {% set cls1 = (d1 is not none) and ('up' if d1>0 else ('down' if d1<0 else 'neutral')) or 'neutral' %}
+          {% set cls5 = (d5 is not none) and ('up' if d5>0 else ('down' if d5<0 else 'neutral')) or 'neutral' %}
+          {% set cls20= (d20 is not none) and ('up' if d20>0 else ('down' if d20<0 else 'neutral')) or 'neutral' %}
+          <div class="pch {{ cls1 }}"><span class="k">1D</span><span class="v">{{ d1 is not none and ("%+.2f%%"|format(d1)) or "—" }}</span></div>
+          <div class="pch {{ cls5 }}"><span class="k">1W</span><span class="v">{{ d5 is not none and ("%+.2f%%"|format(d5)) or "—" }}</span></div>
+          <div class="pch {{ cls20 }}"><span class="k">1M</span><span class="v">{{ d20 is not none and ("%+.2f%%"|format(d20)) or "—" }}</span></div>
+        </div>
+
+        <div class="tabs">
+          <div class="seg" role="tablist" aria-label="Card sections">
+            <button class="segbtn" aria-pressed="true" data-target="#breakdown-{{ loop.index }}">Breakdown</button>
+            <button class="segbtn" aria-pressed="false" data-target="#volume-{{ loop.index }}">Volume</button>
+            <button class="segbtn" aria-pressed="false" data-target="#news-{{ loop.index }}">News</button>
+            <button class="segbtn" aria-pressed="false" data-target="#dii-{{ loop.index }}">DII</button>
+            <button class="segbtn" aria-pressed="false" data-target="#tech-{{ loop.index }}">Technical</button>
+          </div>
+
+          <div id="breakdown-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="false">
+            <table class="tabtbl">
+              <thead>
+                <tr><th align="left">Component</th><th class="right">Value</th><th class="right">Weight</th><th class="right">Points</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <div class="note">Final score = weighted average of <b>Volume anomaly</b>, <b>Trend breakout</b>, <b>News coverage</b>, and <b>DII</b>. (0–1000 pts)</div>
+          </div>
+
+          <div id="volume-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="true">
+          {% set vol = item.detail and item.detail.vol_anomaly or (item["detail"]["vol_anomaly"] if item["detail"] else none) %}
+          {% if vol %}
+            {% set rvol20 = vol.get('rvol20') %}
+            {% set z60 = vol.get('z60') %}
+            {% set pr90 = vol.get('pct_rank_90') %}
+            {% set dv = vol.get('dollar_vol') %}
+            {% set eligible = vol.get('eligible') %}
+            <div class="kv">
+              <div><span class="k">RVOL20</span><br>{{ rvol20 is not none and "%.2f"|format(rvol20) or "-" }}</div>
+              <div><span class="k">Z60 (RVOL)</span><br>{{ z60 is not none and "%.2f"|format(z60) or "-" }}</div>
+              <div><span class="k">DollarVol Pctl (90)</span><br>{{ pr90 is not none and "%.2f"|format(pr90) or "-" }}</div>
+              <div><span class="k">DollarVol</span><br>{% if dv %}${{ "%.1f"|format(dv/1_000_000) }}M{% else %}-{% endif %}</div>
+              <div><span class="k">Eligible</span><br>{{ eligible and "Yes" or "No" }}</div>
+            </div>
+          {% else %}
+            <div class="muted">No details.</div>
+          {% endif %}
+          </div>
+
+          <div id="news-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="true">
+            <div class="kv" data-news></div>
+          </div>
+
+          <div id="dii-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="true">
+            <div class="kv" data-dii></div>
+          </div>
+
+          <div id="tech-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="true">
+            <img src="{{ "/charts/" + date + "/" + _sym + ".png" }}" alt="{{ _sym }} weekly chart" class="chart" loading="lazy" />
+          </div>
+        </div>
+
+        <script type="application/json" class="js-payload">
+        {{ {
+          "symbol": _sym,
+          "score_components": (item.score_components if item.score_components is defined else {}),
+          "score_weights": (item.score_weights if item.score_weights is defined else {}),
+          "final_score_0_1": item.final_score_0_1 | default(0, true),
+          "score_pts": pts | int,
+          "trends_breakout": item.trends_breakout | default(0, true),
+          "vol_anomaly_score": item.vol_anomaly_score | default(0, true),
+          "news_score": item.news_score | default(0, true),
+          "news_recent_count": item.news_recent_count | default(0, true),
+          "dii_score": item.dii_score | default(0, true),
+          "dii_components": item.dii_components | default({}, true)
+        } | tojson }}
+        </script>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+      <div id="cards" class="grid"></div>
+    {% endif %}
+  </div>
+
+  <script>
+    function bindToggles(scope=document){
+      scope.querySelectorAll(".card").forEach(card=>{
+        const seg = card.querySelector(".seg");
+        if(!seg) return;
+        const buttons = [...seg.querySelectorAll(".segbtn")];
+        const panels  = [...card.querySelectorAll(".tab")];
+        const show = (id)=>{
+          buttons.forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.target === id)));
+          panels.forEach(p=>p.setAttribute("aria-hidden", String(("#"+p.id)!==id)));
+        };
+        buttons.forEach(btn=>{
+          btn.addEventListener("click", e=>{
+            show(btn.getAttribute("data-target"));
+          });
+        });
+        show(buttons[0].getAttribute("data-target"));
+      });
+    }
+
+    function label(k){
+      switch(k){
+        case "volume_anomaly": return "Volume anomaly";
+        case "trends_breakout": return "Trend breakout";
+        case "news": return "News coverage";
+        case "dii": return "DII model";
+        default: return k;
+      }
+    }
+
+    function fillBreakdown(){
+      document.querySelectorAll(".card").forEach(card=>{
+        const payload = card.querySelector(".js-payload");
+        if(!payload) return;
+        const j = JSON.parse(payload.textContent||"{}");
+        const comps = j.score_components || {};
+        const weights = j.score_weights || {};
+        const tbody = card.querySelector(".tabtbl tbody");
+        if(!tbody) return;
+
+        tbody.innerHTML = "";
+        let subtotalPts = 0;
+        Object.keys(comps).forEach(k=>{
+          const val = Number(comps[k] ?? 0);
+          const w   = Number(weights[k] ?? 0);
+          const pts = Math.round(val * w * 1000);
+          subtotalPts += pts;
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${label(k)}</td>
+            <td class="right">${(val*100).toFixed(1)}%</td>
+            <td class="right">${(w*100).toFixed(0)}%</td>
+            <td class="right">${pts}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+        const ftr = document.createElement("tr");
+        ftr.innerHTML = `<td style="font-weight:700">Total</td><td></td><td></td><td class="right" style="font-weight:700">${subtotalPts}</td>`;
+        tbody.appendChild(ftr);
+      });
+    }
+
+    function fillNewsAndDII(){
+      document.querySelectorAll(".card").forEach(card=>{
+        const payload = card.querySelector(".js-payload");
+        if(!payload) return;
+        const j = JSON.parse(payload.textContent||"{}");
+
+        const newsKV = card.querySelector('[data-news]');
+        if(newsKV){
+          newsKV.innerHTML = `
+            <div><span class="k">Recent count (7d)</span><br>${j.news_recent_count ?? 0}</div>
+            <div><span class="k">News score</span><br>${(Number(j.news_score||0)*100).toFixed(1)}%</div>
+          `;
+        }
+
+        const diiKV = card.querySelector('[data-dii]');
+        if(diiKV){
+          const dii = j.dii_components || {};
+          let extra = "";
+          if(dii.recent_rvol20!=null){ extra += `<div><span class="k">Recent RVOL20</span><br>${Number(dii.recent_rvol20).toFixed(2)}</div>`; }
+          if(dii.recent_weeks!=null){ extra += `<div><span class="k">Recent weeks</span><br>${dii.recent_weeks}</div>`; }
+          diiKV.innerHTML = `
+            <div><span class="k">DII score</span><br>${(Number(j.dii_score||0)*100).toFixed(1)}%</div>
+            ${extra}
+          `;
+        }
+      });
+    }
+
+    function init(){
+      bindToggles();
+      fillBreakdown();
+      fillNewsAndDII();
+    }
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>
+"""
+
+# -----------------------------------------------------------------------------
+# Utilities
+# -----------------------------------------------------------------------------
 def read_json(p: pathlib.Path, default=None):
     if p.exists():
         with p.open("r", encoding="utf-8") as f:
             return json.load(f)
     return default
 
+def _candidate_template_paths() -> List[pathlib.Path]:
+    """Return ordered candidate paths to search for daily.html.j2."""
+    env_tpl = os.getenv("DAILY_TEMPLATE") or os.getenv("TEMPLATE_FILE")
+    script_dir = pathlib.Path(__file__).resolve().parent
+    repo_root  = script_dir.parent
+
+    cands: List[pathlib.Path] = []
+    if env_tpl:
+        cands.append(pathlib.Path(env_tpl))
+    cands += [
+        pathlib.Path("daily.html.j2"),
+        pathlib.Path("templates/daily.html.j2"),
+        pathlib.Path("site/templates/daily.html.j2"),
+        script_dir / "daily.html.j2",
+        repo_root / "daily.html.j2",
+        repo_root / "templates/daily.html.j2",
+    ]
+    return cands
+
+def _load_template(env: Environment) -> Tuple[str, Optional[pathlib.Path]]:
+    """Try to load from file; fallback to embedded template string."""
+    # Try candidates
+    for p in _candidate_template_paths():
+        if p.exists():
+            logging.info("[TPL] using file: %s", p)
+            loader = FileSystemLoader(str(p.parent))
+            env.loader = loader
+            return env.get_template(p.name).render, p
+        logging.debug("[TPL] not found: %s", p)
+
+    # Fallback
+    logging.warning("[TPL] no template file found. Using embedded fallback template.")
+    tmpl = env.from_string(TEMPLATE_FALLBACK)
+    # Return callable compatible with .render
+    return tmpl.render, None
+
+# -----------------------------------------------------------------------------
+# Main
+# -----------------------------------------------------------------------------
 def main():
     if not REPORT_DATE:
         raise RuntimeError("REPORT_DATE missing")
@@ -29,7 +358,6 @@ def main():
     top10 = read_json(DATA_DIR / REPORT_DATE / "top10.json", default=[])
     date_str = REPORT_DATE
 
-    # schema.org (簡易)
     schema = {
         "@context": "https://schema.org",
         "@type": "Dataset",
@@ -39,14 +367,15 @@ def main():
     }
 
     env = Environment(
-        loader=FileSystemLoader("."),
+        loader=FileSystemLoader("."),  # will be overwritten if file found
         autoescape=select_autoescape(["html", "xml"]),
         trim_blocks=True,
         lstrip_blocks=True,
     )
-    tpl = env.get_template(str(TPL_FILE))
 
-    html = tpl.render(
+    render_call, used_path = _load_template(env)
+
+    html = render_call(
         date=date_str,
         top10=top10,
         schema_json=json.dumps(schema, ensure_ascii=False),
@@ -57,7 +386,8 @@ def main():
     with out.open("w", encoding="utf-8") as f:
         f.write(html)
 
-    logging.info("Rendered daily HTML: %s", out)
+    logging.info("Rendered daily HTML: %s (template=%s)",
+                 out, (str(used_path) if used_path else "embedded-fallback"))
 
 if __name__ == "__main__":
     try:
