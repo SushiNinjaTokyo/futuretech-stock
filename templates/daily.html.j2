@@ -52,6 +52,9 @@
     .chart{width:100%;height:auto;border:1px solid var(--ring);border-radius:8px}
     .note{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.5}
     .right{text-align:right}
+    table.tabtbl{width:100%;border-collapse:collapse}
+    table.tabtbl th,table.tabtbl td{border-bottom:1px solid var(--ring);padding:6px 4px}
+    table.tabtbl th.right,table.tabtbl td.right{text-align:right}
   </style>
 </head>
 <body>
@@ -105,7 +108,7 @@
           </div>
 
           <div id="breakdown-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="false">
-            <table class="tabtbl" style="width:100%;border-collapse:collapse">
+            <table class="tabtbl">
               <thead>
                 <tr><th align="left">Component</th><th class="right">Value</th><th class="right">Weight</th><th class="right">Points</th></tr>
               </thead>
@@ -177,16 +180,17 @@
         if(!seg) return;
         const buttons = [...seg.querySelectorAll(".segbtn")];
         const panels  = [...card.querySelectorAll(".tab")];
+        const show = (id)=>{
+          buttons.forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.target === id)));
+          panels.forEach(p=>p.setAttribute("aria-hidden", String(("#"+p.id)!==id)));
+        };
         buttons.forEach(btn=>{
-          btn.addEventListener("click", ()=>{
-            buttons.forEach(b=>b.setAttribute("aria-pressed", "false"));
-            panels.forEach(p=>p.setAttribute("aria-hidden", "true"));
-            btn.setAttribute("aria-pressed", "true");
-            const sel = btn.getAttribute("data-target");
-            const tgt = sel && card.querySelector(sel);
-            if(tgt){ tgt.setAttribute("aria-hidden", "false"); }
+          btn.addEventListener("click", e=>{
+            show(btn.getAttribute("data-target"));
           });
         });
+        // default first tab
+        show(buttons[0].getAttribute("data-target"));
       });
     }
 
@@ -208,74 +212,66 @@
         const comps = j.score_components || {};
         const weights = j.score_weights || {};
         const tbody = card.querySelector("#"+card.id+" .tabtbl tbody") || card.querySelector(".tab .tabtbl tbody");
-        const totalEl = card.querySelector(".score");
         if(!tbody) return;
-        tbody.innerHTML="";
-        const keys = Object.keys(comps);
-        const wsum = keys.reduce((s,k)=>s+Math.max(0,Number(weights[k]||0)),0) || 1;
-        let totalPts = 0;
-        keys.forEach(k=>{
-          const v=Math.max(0,Math.min(1,Number(comps[k]||0)));
-          const wn=Math.max(0,Number(weights[k]||0))/wsum;
-          const pts=Math.round(v*wn*1000);
-          totalPts+=pts;
-          const tr=document.createElement("tr");
-          tr.innerHTML=`<td>${label(k)}</td><td class="right">${(v*100).toFixed(0)}</td><td class="right">${(wn*100).toFixed(0)}%</td><td class="right">${pts}</td>`;
+
+        tbody.innerHTML = "";
+        let subtotalPts = 0;
+        Object.keys(comps).forEach(k=>{
+          const val = Number(comps[k] ?? 0);
+          const w   = Number(weights[k] ?? 0);
+          const pts = Math.round(val * w * 1000);
+          subtotalPts += pts;
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${label(k)}</td>
+            <td class="right">${(val*100).toFixed(1)}%</td>
+            <td class="right">${(w*100).toFixed(0)}%</td>
+            <td class="right">${pts}</td>
+          `;
           tbody.appendChild(tr);
         });
-        if(totalEl && totalPts>0) totalEl.textContent=String(totalPts);
+        const ftr = document.createElement("tr");
+        ftr.innerHTML = `<td style="font-weight:700">Total</td><td></td><td></td><td class="right" style="font-weight:700">${subtotalPts}</td>`;
+        tbody.appendChild(ftr);
       });
     }
 
-    function fillNewsBadges(){
+    function fillNewsAndDII(){
       document.querySelectorAll(".card").forEach(card=>{
         const payload = card.querySelector(".js-payload");
-        const box = card.querySelector("[data-news]");
-        if(!payload || !box) return;
+        if(!payload) return;
         const j = JSON.parse(payload.textContent||"{}");
-        const score = Number(j.news_score||0);
-        const count = Number(j.news_recent_count||0);
-        box.innerHTML="";
-        const el = document.createElement("div");
-        const grade = score>=0.8 ? "🔥 Very Hot" : score>=0.6 ? "Hot" : score>=0.4 ? "Warm" : "Calm";
-        el.innerHTML = `<div><span class="k">Coverage</span><br>${grade} (${(score*100).toFixed(0)})</div>
-                        <div><span class="k">Articles (recent)</span><br>${count}</div>`;
-        box.appendChild(el);
+
+        // News
+        const newsKV = card.querySelector('[data-news]');
+        if(newsKV){
+          newsKV.innerHTML = `
+            <div><span class="k">Recent count (7d)</span><br>${j.news_recent_count ?? 0}</div>
+            <div><span class="k">News score</span><br>${(Number(j.news_score||0)*100).toFixed(1)}%</div>
+          `;
+        }
+
+        // DII
+        const diiKV = card.querySelector('[data-dii]');
+        if(diiKV){
+          const dii = j.dii_components || {};
+          let extra = "";
+          if(dii.recent_rvol20!=null){ extra += `<div><span class="k">Recent RVOL20</span><br>${Number(dii.recent_rvol20).toFixed(2)}</div>`; }
+          if(dii.recent_weeks!=null){ extra += `<div><span class="k">Recent weeks</span><br>${dii.recent_weeks}</div>`; }
+          diiKV.innerHTML = `
+            <div><span class="k">DII score</span><br>${(Number(j.dii_score||0)*100).toFixed(1)}%</div>
+            ${extra}
+          `;
+        }
       });
     }
 
-    function fillDii(){
-      document.querySelectorAll(".card").forEach(card=>{
-        const payload = card.querySelector(".js-payload");
-        const box = card.querySelector("[data-dii]");
-        if(!payload || !box) return;
-        const j = JSON.parse(payload.textContent||"{}");
-        const comps = j.dii_components||{};
-        const score = Number(j.dii_score||0);
-        box.innerHTML="";
-        const el = document.createElement("div");
-        el.innerHTML = `
-          <div><span class="k">DII score</span><br>${(score*100).toFixed(0)}</div>
-          <div><span class="k">Volume</span><br>${((comps.volume_anomaly||0)*100).toFixed(0)}</div>
-          <div><span class="k">Trends</span><br>${((comps.trends||0)*100).toFixed(0)}</div>
-          <div><span class="k">News</span><br>${((comps.news||0)*100).toFixed(0)}</div>
-          <div><span class="k">Signal</span><br>${score>=0.7?'🚀 Strong':score>=0.5?'📈 Building':'↔️ Neutral'}</div>`;
-        box.appendChild(el);
-      });
+    function init(){
+      bindToggles();
+      fillBreakdown();
+      fillNewsAndDII();
     }
-
-    function decorateTop3Medals(){
-      document.querySelectorAll(".rank-rocket").forEach((el,i)=>{
-        const cls = i===0?'rank1':i===1?'rank2':i===2?'rank3':'';
-        if(cls) el.classList.add(cls);
-      });
-    }
-
-    bindToggles();
-    fillBreakdown();
-    fillNewsBadges();
-    fillDii();
-    decorateTop3Medals();
+    document.addEventListener("DOMContentLoaded", init);
   </script>
 </body>
 </html>
