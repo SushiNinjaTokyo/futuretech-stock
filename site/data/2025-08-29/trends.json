@@ -1,24 +1,4 @@
 {
-  "raw_last": {
-    "Viasat, Inc.": 0.0,
-    "Innodata Inc.": 0.0,
-    "SoundHound AI, Inc.": 0.0,
-    "Monday.com Ltd.": 0.0,
-    "AeroVironment, Inc.": 0.0,
-    "Perfect Corp.": 0.0,
-    "GoodRx Holdings, Inc.": 0.0,
-    "AbCellera Biologics Inc.": 0.0,
-    "Unity Software Inc.": 0.0
-  },
-  "score_0_1": {
-    "Viasat, Inc.": 0.0,
-    "Innodata Inc.": 0.0,
-    "SoundHound AI, Inc.": 0.0,
-    "Monday.com Ltd.": 0.0,
-    "AeroVironment, Inc.": 0.0,
-    "Perfect Corp.": 0.0,
-    "GoodRx Holdings, Inc.": 0.0,
-    "AbCellera Biologics Inc.": 0.0,
-    "Unity Software Inc.": 0.0
-  }
+  "raw_last": {},
+  "score_0_1": {}
 }
