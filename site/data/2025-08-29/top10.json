@@ -3,25 +3,24 @@
     "symbol": "NVDA",
     "name": "NVIDIA Corporation",
     "theme": "AI",
-    "final_score_0_1": 0.15829873043932796,
-    "score_pts": 158,
+    "final_score_0_1": 0.21106497391910395,
+    "score_pts": 211,
     "vol_anomaly_score": 0.6331949217573118,
     "trends_breakout": 0.0,
     "news_score": 0.0,
     "news_recent_count": 0,
-    "dii_score": 0.18995847652719355,
     "dii_external": 0.0,
+    "dii_score": 0.18995847652719355,
     "score_components": {
       "volume_anomaly": 0.6331949217573118,
       "trends_breakout": 0.0,
-      "news": 0.0,
-      "dii": 0.0
+      "news": 0.0
     },
     "score_weights": {
       "volume_anomaly": 0.25,
       "trends_breakout": 0.3,
       "news": 0.2,
-      "dii": 0.25
+      "dii": 0.0
     },
     "detail": {
       "vol_anomaly": {
@@ -52,25 +51,24 @@
     "symbol": "SOUN",
     "name": "SoundHound AI, Inc.",
     "theme": "AI",
-    "final_score_0_1": 0.07164282600136551,
-    "score_pts": 72,
+    "final_score_0_1": 0.09552376800182068,
+    "score_pts": 96,
     "vol_anomaly_score": 0.28657130400546205,
     "trends_breakout": 0.0,
     "news_score": 0.0,
     "news_recent_count": 0,
-    "dii_score": 0.08597139120163862,
     "dii_external": 0.0,
+    "dii_score": 0.08597139120163862,
     "score_components": {
       "volume_anomaly": 0.28657130400546205,
       "trends_breakout": 0.0,
-      "news": 0.0,
-      "dii": 0.0
+      "news": 0.0
     },
     "score_weights": {
       "volume_anomaly": 0.25,
       "trends_breakout": 0.3,
       "news": 0.2,
-      "dii": 0.25
+      "dii": 0.0
     },
     "detail": {
       "vol_anomaly": {
@@ -101,25 +99,24 @@
     "symbol": "IRDM",
     "name": "Iridium Communications Inc.",
     "theme": "Space",
-    "final_score_0_1": 0.07060444736479196,
-    "score_pts": 71,
+    "final_score_0_1": 0.09413926315305594,
+    "score_pts": 94,
     "vol_anomaly_score": 0.28241778945916785,
     "trends_breakout": 0.0,
     "news_score": 0.0,
     "news_recent_count": 0,
-    "dii_score": 0.08472533683775035,
     "dii_external": 0.0,
+    "dii_score": 0.08472533683775035,
     "score_components": {
       "volume_anomaly": 0.28241778945916785,
       "trends_breakout": 0.0,
-      "news": 0.0,
-      "dii": 0.0
+      "news": 0.0
     },
     "score_weights": {
       "volume_anomaly": 0.25,
       "trends_breakout": 0.3,
       "news": 0.2,
-      "dii": 0.25
+      "dii": 0.0
     },
     "detail": {
       "vol_anomaly": {
@@ -150,25 +147,24 @@
     "symbol": "TER",
     "name": "Teradyne, Inc.",
     "theme": "Robotics",
-    "final_score_0_1": 0.05618491303945664,
-    "score_pts": 56,
+    "final_score_0_1": 0.07491321738594219,
+    "score_pts": 75,
     "vol_anomaly_score": 0.22473965215782657,
     "trends_breakout": 0.0,
     "news_score": 0.0,
     "news_recent_count": 0,
-    "dii_score": 0.06742189564734796,
     "dii_external": 0.0,
+    "dii_score": 0.06742189564734796,
     "score_components": {
       "volume_anomaly": 0.22473965215782657,
       "trends_breakout": 0.0,
-      "news": 0.0,
-      "dii": 0.0
+      "news": 0.0
     },
     "score_weights": {
       "volume_anomaly": 0.25,
       "trends_breakout": 0.3,
       "news": 0.2,
-      "dii": 0.25
+      "dii": 0.0
     },
     "detail": {
       "vol_anomaly": {
@@ -199,25 +195,24 @@
     "symbol": "MNDY",
     "name": "Monday.com Ltd.",
     "theme": "AI",
-    "final_score_0_1": 0.04425103096750807,
-    "score_pts": 44,
+    "final_score_0_1": 0.059001374623344094,
+    "score_pts": 59,
     "vol_anomaly_score": 0.17700412387003228,
     "trends_breakout": 0.0,
     "news_score": 0.0,
     "news_recent_count": 0,
-    "dii_score": 0.05310123716100968,
     "dii_external": 0.0,
+    "dii_score": 0.05310123716100968,
     "score_components": {
       "volume_anomaly": 0.17700412387003228,
       "trends_breakout": 0.0,
-      "news": 0.0,
-      "dii": 0.0
+      "news": 0.0
     },
     "score_weights": {
       "volume_anomaly": 0.25,
       "trends_breakout": 0.3,
       "news": 0.2,
-      "dii": 0.25
+      "dii": 0.0
     },
     "detail": {
       "vol_anomaly": {
@@ -248,25 +243,24 @@
     "symbol": "VRT",
     "name": "Vertiv Holdings Co",
     "theme": "AI",
-    "final_score_0_1": 0.04333098830297818,
-    "score_pts": 43,
+    "final_score_0_1": 0.05777465107063757,
+    "score_pts": 58,
     "vol_anomaly_score": 0.1733239532119127,
     "trends_breakout": 0.0,
     "news_score": 0.0,
     "news_recent_count": 0,
-    "dii_score": 0.05199718596357381,
     "dii_external": 0.0,
+    "dii_score": 0.05199718596357381,
     "score_components": {
       "volume_anomaly": 0.1733239532119127,
       "trends_breakout": 0.0,
-      "news": 0.0,
-      "dii": 0.0
+      "news": 0.0
     },
     "score_weights": {
       "volume_anomaly": 0.25,
       "trends_breakout": 0.3,
       "news": 0.2,
-      "dii": 0.25
+      "dii": 0.0
     },
     "detail": {
       "vol_anomaly": {
@@ -297,25 +291,24 @@
     "symbol": "MSFT",
     "name": "Microsoft Corporation",
     "theme": "AI",
-    "final_score_0_1": 0.03979985196177068,
-    "score_pts": 40,
+    "final_score_0_1": 0.053066469282360904,
+    "score_pts": 53,
     "vol_anomaly_score": 0.15919940784708272,
     "trends_breakout": 0.0,
     "news_score": 0.0,
     "news_recent_count": 0,
-    "dii_score": 0.04775982235412481,
     "dii_external": 0.0,
+    "dii_score": 0.04775982235412481,
     "score_components": {
       "volume_anomaly": 0.15919940784708272,
       "trends_breakout": 0.0,
-      "news": 0.0,
-      "dii": 0.0
+      "news": 0.0
     },
     "score_weights": {
       "volume_anomaly": 0.25,
       "trends_breakout": 0.3,
       "news": 0.2,
-      "dii": 0.25
+      "dii": 0.0
     },
     "detail": {
       "vol_anomaly": {
@@ -346,25 +339,24 @@
     "symbol": "VSAT",
     "name": "Viasat, Inc.",
     "theme": "Space",
-    "final_score_0_1": 0.03815798065194374,
-    "score_pts": 38,
+    "final_score_0_1": 0.05087730753592499,
+    "score_pts": 51,
     "vol_anomaly_score": 0.15263192260777497,
     "trends_breakout": 0.0,
     "news_score": 0.0,
     "news_recent_count": 0,
-    "dii_score": 0.04578957678233249,
     "dii_external": 0.0,
+    "dii_score": 0.04578957678233249,
     "score_components": {
       "volume_anomaly": 0.15263192260777497,
       "trends_breakout": 0.0,
-      "news": 0.0,
-      "dii": 0.0
+      "news": 0.0
     },
     "score_weights": {
       "volume_anomaly": 0.25,
       "trends_breakout": 0.3,
       "news": 0.2,
-      "dii": 0.25
+      "dii": 0.0
     },
     "detail": {
       "vol_anomaly": {
@@ -395,25 +387,24 @@
     "symbol": "U",
     "name": "Unity Software Inc.",
     "theme": "AI",
-    "final_score_0_1": 0.0341559350887802,
-    "score_pts": 34,
+    "final_score_0_1": 0.04554124678504026,
+    "score_pts": 46,
     "vol_anomaly_score": 0.1366237403551208,
     "trends_breakout": 0.0,
     "news_score": 0.0,
     "news_recent_count": 0,
-    "dii_score": 0.04098712210653623,
     "dii_external": 0.0,
+    "dii_score": 0.04098712210653623,
     "score_components": {
       "volume_anomaly": 0.1366237403551208,
       "trends_breakout": 0.0,
-      "news": 0.0,
-      "dii": 0.0
+      "news": 0.0
     },
     "score_weights": {
       "volume_anomaly": 0.25,
       "trends_breakout": 0.3,
       "news": 0.2,
-      "dii": 0.25
+      "dii": 0.0
     },
     "detail": {
       "vol_anomaly": {
@@ -444,25 +435,24 @@
     "symbol": "RKLB",
     "name": "Rocket Lab USA, Inc.",
     "theme": "Space",
-    "final_score_0_1": 0.032167071077763676,
-    "score_pts": 32,
+    "final_score_0_1": 0.0428894281036849,
+    "score_pts": 43,
     "vol_anomaly_score": 0.1286682843110547,
     "trends_breakout": 0.0,
     "news_score": 0.0,
     "news_recent_count": 0,
-    "dii_score": 0.03860048529331641,
     "dii_external": 0.0,
+    "dii_score": 0.03860048529331641,
     "score_components": {
       "volume_anomaly": 0.1286682843110547,
       "trends_breakout": 0.0,
-      "news": 0.0,
-      "dii": 0.0
+      "news": 0.0
     },
     "score_weights": {
       "volume_anomaly": 0.25,
       "trends_breakout": 0.3,
       "news": 0.2,
-      "dii": 0.25
+      "dii": 0.0
     },
     "detail": {
       "vol_anomaly": {
