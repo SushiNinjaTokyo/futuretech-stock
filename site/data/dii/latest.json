@@ -1,6 +1,147 @@
 {
-  "score_0_1": {},
-  "meta": {
-    "source": "finra_api"
-  }
+  "items": {
+    "NVDA": {
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "MSFT": {
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "PLTR": {
+      "symbol": "PLTR",
+      "name": "Palantir Technologies Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "AI": {
+      "symbol": "AI",
+      "name": "C3.ai, Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "ISRG": {
+      "symbol": "ISRG",
+      "name": "Intuitive Surgical, Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "TER": {
+      "symbol": "TER",
+      "name": "Teradyne, Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "SYM": {
+      "symbol": "SYM",
+      "name": "Symbotic Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "RKLB": {
+      "symbol": "RKLB",
+      "name": "Rocket Lab USA, Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "IRDM": {
+      "symbol": "IRDM",
+      "name": "Iridium Communications Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "VSAT": {
+      "symbol": "VSAT",
+      "name": "Viasat, Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "INOD": {
+      "symbol": "INOD",
+      "name": "Innodata Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "SOUN": {
+      "symbol": "SOUN",
+      "name": "SoundHound AI, Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "MNDY": {
+      "symbol": "MNDY",
+      "name": "Monday.com Ltd.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "AVAV": {
+      "symbol": "AVAV",
+      "name": "AeroVironment, Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "PERF": {
+      "symbol": "PERF",
+      "name": "Perfect Corp.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "GDRX": {
+      "symbol": "GDRX",
+      "name": "GoodRx Holdings, Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "ABCL": {
+      "symbol": "ABCL",
+      "name": "AbCellera Biologics Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "U": {
+      "symbol": "U",
+      "name": "Unity Software Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "TEM": {
+      "symbol": "TEM",
+      "name": "Tempus AI, Inc.",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    },
+    "VRT": {
+      "symbol": "VRT",
+      "name": "Vertiv Holdings Co",
+      "recent_weeks": 0,
+      "score_0_1": 0.0,
+      "points_0_1000": 0
+    }
+  },
+  "count": 20,
+  "date": "2025-08-29",
+  "source": "finra_api"
 }

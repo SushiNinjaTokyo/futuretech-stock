@@ -4,6 +4,43 @@
   "count": 10,
   "items": [
     {
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "rank_points": 457,
+      "returns": {
+        "1D": -0.79,
+        "1W": 2.97,
+        "1M": 0.5
+      },
+      "components": [
+        {
+          "name": "News coverage",
+          "value": 0,
+          "weight": 20,
+          "points": 0
+        },
+        {
+          "name": "Trend breakout",
+          "value": 70,
+          "weight": 30,
+          "points": 696
+        },
+        {
+          "name": "Volume anomaly",
+          "value": 73.21,
+          "weight": 25,
+          "points": 991.0
+        },
+        {
+          "name": "DII model",
+          "value": 0,
+          "weight": 25,
+          "points": 0
+        }
+      ],
+      "explain": "Final score = weighted average of Volume anomaly, Trend breakout, News coverage, and DII model. (0–1000 pts)"
+    },
+    {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
       "rank_points": 250,
@@ -30,43 +67,6 @@
           "value": 286.28,
           "weight": 25,
           "points": 999.0
-        },
-        {
-          "name": "DII model",
-          "value": 0,
-          "weight": 25,
-          "points": 0
-        }
-      ],
-      "explain": "Final score = weighted average of Volume anomaly, Trend breakout, News coverage, and DII model. (0–1000 pts)"
-    },
-    {
-      "symbol": "NVDA",
-      "name": "NVIDIA Corporation",
-      "rank_points": 248,
-      "returns": {
-        "1D": -0.79,
-        "1W": 2.97,
-        "1M": 0.5
-      },
-      "components": [
-        {
-          "name": "News coverage",
-          "value": 0,
-          "weight": 20,
-          "points": 0
-        },
-        {
-          "name": "Trend breakout",
-          "value": 0,
-          "weight": 30,
-          "points": 0
-        },
-        {
-          "name": "Volume anomaly",
-          "value": 73.21,
-          "weight": 25,
-          "points": 991.0
         },
         {
           "name": "DII model",
@@ -152,6 +152,117 @@
       "explain": "Final score = weighted average of Volume anomaly, Trend breakout, News coverage, and DII model. (0–1000 pts)"
     },
     {
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "rank_points": 152,
+      "returns": {
+        "1D": 0.57,
+        "1W": 1.07,
+        "1M": -0.7
+      },
+      "components": [
+        {
+          "name": "News coverage",
+          "value": 0,
+          "weight": 20,
+          "points": 0
+        },
+        {
+          "name": "Trend breakout",
+          "value": 50,
+          "weight": 30,
+          "points": 500
+        },
+        {
+          "name": "Volume anomaly",
+          "value": 0.17,
+          "weight": 25,
+          "points": 10.0
+        },
+        {
+          "name": "DII model",
+          "value": 0,
+          "weight": 25,
+          "points": 0
+        }
+      ],
+      "explain": "Final score = weighted average of Volume anomaly, Trend breakout, News coverage, and DII model. (0–1000 pts)"
+    },
+    {
+      "symbol": "PLTR",
+      "name": "Palantir Technologies Inc.",
+      "rank_points": 150,
+      "returns": {
+        "1D": 0.89,
+        "1W": 1.24,
+        "1M": -0.31
+      },
+      "components": [
+        {
+          "name": "News coverage",
+          "value": 0,
+          "weight": 20,
+          "points": 0
+        },
+        {
+          "name": "Trend breakout",
+          "value": 50,
+          "weight": 30,
+          "points": 500
+        },
+        {
+          "name": "Volume anomaly",
+          "value": 0.0,
+          "weight": 25,
+          "points": 0.0
+        },
+        {
+          "name": "DII model",
+          "value": 0,
+          "weight": 25,
+          "points": 0
+        }
+      ],
+      "explain": "Final score = weighted average of Volume anomaly, Trend breakout, News coverage, and DII model. (0–1000 pts)"
+    },
+    {
+      "symbol": "TER",
+      "name": "Teradyne, Inc.",
+      "rank_points": 150,
+      "returns": {
+        "1D": 0.77,
+        "1W": 7.86,
+        "1M": 9.51
+      },
+      "components": [
+        {
+          "name": "News coverage",
+          "value": 0,
+          "weight": 20,
+          "points": 0
+        },
+        {
+          "name": "Trend breakout",
+          "value": 50,
+          "weight": 30,
+          "points": 500
+        },
+        {
+          "name": "Volume anomaly",
+          "value": 0.0,
+          "weight": 25,
+          "points": 0.0
+        },
+        {
+          "name": "DII model",
+          "value": 0,
+          "weight": 25,
+          "points": 0
+        }
+      ],
+      "explain": "Final score = weighted average of Volume anomaly, Trend breakout, News coverage, and DII model. (0–1000 pts)"
+    },
+    {
       "symbol": "VRT",
       "name": "Vertiv Holdings Co",
       "rank_points": 92,
@@ -226,80 +337,6 @@
       "explain": "Final score = weighted average of Volume anomaly, Trend breakout, News coverage, and DII model. (0–1000 pts)"
     },
     {
-      "symbol": "MSFT",
-      "name": "Microsoft Corporation",
-      "rank_points": 2,
-      "returns": {
-        "1D": 0.57,
-        "1W": 1.07,
-        "1M": -0.7
-      },
-      "components": [
-        {
-          "name": "News coverage",
-          "value": 0,
-          "weight": 20,
-          "points": 0
-        },
-        {
-          "name": "Trend breakout",
-          "value": 0,
-          "weight": 30,
-          "points": 0
-        },
-        {
-          "name": "Volume anomaly",
-          "value": 0.17,
-          "weight": 25,
-          "points": 10.0
-        },
-        {
-          "name": "DII model",
-          "value": 0,
-          "weight": 25,
-          "points": 0
-        }
-      ],
-      "explain": "Final score = weighted average of Volume anomaly, Trend breakout, News coverage, and DII model. (0–1000 pts)"
-    },
-    {
-      "symbol": "PLTR",
-      "name": "Palantir Technologies Inc.",
-      "rank_points": 0,
-      "returns": {
-        "1D": 0.89,
-        "1W": 1.24,
-        "1M": -0.31
-      },
-      "components": [
-        {
-          "name": "News coverage",
-          "value": 0,
-          "weight": 20,
-          "points": 0
-        },
-        {
-          "name": "Trend breakout",
-          "value": 0,
-          "weight": 30,
-          "points": 0
-        },
-        {
-          "name": "Volume anomaly",
-          "value": 0.0,
-          "weight": 25,
-          "points": 0.0
-        },
-        {
-          "name": "DII model",
-          "value": 0,
-          "weight": 25,
-          "points": 0
-        }
-      ],
-      "explain": "Final score = weighted average of Volume anomaly, Trend breakout, News coverage, and DII model. (0–1000 pts)"
-    },
-    {
       "symbol": "AI",
       "name": "C3.ai, Inc.",
       "rank_points": 0,
@@ -307,43 +344,6 @@
         "1D": 0.0,
         "1W": 2.67,
         "1M": -28.53
-      },
-      "components": [
-        {
-          "name": "News coverage",
-          "value": 0,
-          "weight": 20,
-          "points": 0
-        },
-        {
-          "name": "Trend breakout",
-          "value": 0,
-          "weight": 30,
-          "points": 0
-        },
-        {
-          "name": "Volume anomaly",
-          "value": 0.0,
-          "weight": 25,
-          "points": 0.0
-        },
-        {
-          "name": "DII model",
-          "value": 0,
-          "weight": 25,
-          "points": 0
-        }
-      ],
-      "explain": "Final score = weighted average of Volume anomaly, Trend breakout, News coverage, and DII model. (0–1000 pts)"
-    },
-    {
-      "symbol": "ISRG",
-      "name": "Intuitive Surgical, Inc.",
-      "rank_points": 0,
-      "returns": {
-        "1D": 0.57,
-        "1W": 0.84,
-        "1M": -5.33
       },
       "components": [
         {

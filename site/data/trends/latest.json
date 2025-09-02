@@ -1,4 +1,72 @@
 {
-  "raw_last": {},
-  "score_0_1": {}
+  "items": {
+    "NVDA": {
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "term": "NVIDIA",
+      "timeframe": "today 3-m",
+      "geo": "US",
+      "score_0_1": 0.6962,
+      "recent_mean": 28.714285714285715,
+      "window_mean": 25.204301075268816,
+      "points_0_1000": 696
+    },
+    "MSFT": {
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "term": "Microsoft",
+      "timeframe": "today 3-m",
+      "geo": "US",
+      "score_0_1": 0.5,
+      "recent_mean": 52.0,
+      "window_mean": 60.333333333333336,
+      "points_0_1000": 500
+    },
+    "PLTR": {
+      "symbol": "PLTR",
+      "name": "Palantir Technologies Inc.",
+      "term": "Palantir Technologies",
+      "timeframe": "today 3-m",
+      "geo": "US",
+      "score_0_1": 0.5,
+      "recent_mean": 0.0,
+      "window_mean": 0.043010752688172046,
+      "points_0_1000": 500
+    },
+    "AI": {
+      "symbol": "AI",
+      "name": "C3.ai, Inc.",
+      "term": "C3.ai,",
+      "timeframe": "today 3-m",
+      "geo": "US",
+      "score_0_1": 0.0,
+      "recent_mean": 0.0,
+      "window_mean": 0.0,
+      "points_0_1000": 0
+    },
+    "ISRG": {
+      "symbol": "ISRG",
+      "name": "Intuitive Surgical, Inc.",
+      "term": "Intuitive Surgical,",
+      "timeframe": "today 3-m",
+      "geo": "US",
+      "score_0_1": 0.0,
+      "recent_mean": 0.0,
+      "window_mean": 0.0,
+      "points_0_1000": 0
+    },
+    "TER": {
+      "symbol": "TER",
+      "name": "Teradyne, Inc.",
+      "term": "Teradyne,",
+      "timeframe": "today 3-m",
+      "geo": "US",
+      "score_0_1": 0.5,
+      "recent_mean": 0.5714285714285714,
+      "window_mean": 1.118279569892473,
+      "points_0_1000": 500
+    }
+  },
+  "count": 6,
+  "date": "2025-08-29"
 }
