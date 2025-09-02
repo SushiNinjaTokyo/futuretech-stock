@@ -37,22 +37,22 @@ MOCK_MODE = os.getenv("MOCK_MODE", "false").lower() == "true"
 YFI_SLEEP = float(os.getenv("YFI_SLEEP", "0.4"))
 YFI_JITTER = float(os.getenv("YFI_JITTER", "0.25"))
 
-# final score weights（0..1に正規化して合算）—— DIIも重みが>0なら採用
+# Final score weights（>0 の要素のみ正規化して合算）
 W_VOL    = float(os.getenv("WEIGHT_VOL_ANOM", "0.35"))
 W_DII    = float(os.getenv("WEIGHT_DII",      "0.00"))
 W_TRENDS = float(os.getenv("WEIGHT_TRENDS",   "0.40"))
 W_NEWS   = float(os.getenv("WEIGHT_NEWS",     "0.25"))
 
-# DII内部の算出（別指標としても出力）
+# DII 内部の表示用スコア
 W_DII_VOL    = float(os.getenv("DII_WEIGHT_VOL",    "0.30"))
 W_DII_TRENDS = float(os.getenv("DII_WEIGHT_TRENDS", "0.45"))
 W_DII_NEWS   = float(os.getenv("DII_WEIGHT_NEWS",   "0.25"))
 
-# external data paths
 TRENDS_JSON  = os.getenv("TRENDS_JSON",  f"{OUT_DIR}/data/trends/latest.json")
 NEWS_JSON    = os.getenv("NEWS_JSON",    f"{OUT_DIR}/data/news/latest.json")
 DII_JSON     = os.getenv("DII_JSON",     f"{OUT_DIR}/data/dii/latest.json")
 
+# ---------------- Utils ----------------
 def pct_change(c0: float|None, c_prev: float|None) -> float|None:
     if c0 is None or c_prev is None or c_prev == 0 or any(map(lambda x: x!=x, [c0, c_prev])):
         return None
@@ -71,6 +71,52 @@ def get_closes_for_deltas(df: pd.DataFrame, end_s: str):
             return float(d["close"].iloc[-(n+1)])
         return None
     return c0, nth_back(1), nth_back(5), nth_back(20)
+
+def load_json(path, default=None):
+    try:
+        p = pathlib.Path(path)
+        if p.exists():
+            return json.loads(p.read_text())
+    except Exception:
+        pass
+    return default
+
+def clamp01(x):
+    try:
+        x = float(x)
+        if x != x:  # NaN
+            return 0.0
+        return max(0.0, min(1.0, x))
+    except Exception:
+        return 0.0
+
+def load_items_map(path: str) -> dict[str, dict]:
+    """
+    site/data/*/latest.json → {"items": { "NVDA": {...}, ... }} 形式 も
+    {"items": [ {...,"symbol":"NVDA"}, ... ]} 形式もサポート。
+    返り値は {TICKER_UPPER: rec}。
+    """
+    j = load_json(path, default={}) or {}
+    items = j.get("items") or {}
+    m: dict[str, dict] = {}
+
+    if isinstance(items, dict):
+        for k, v in items.items():
+            if not v: 
+                continue
+            # 可能ならシンボルを上書き
+            sym = str(v.get("symbol") or k).upper().strip()
+            m[sym] = v
+    elif isinstance(items, list):
+        for v in items:
+            if not isinstance(v, dict):
+                continue
+            sym = str(v.get("symbol") or v.get("ticker") or "").upper().strip()
+            name = str(v.get("name") or v.get("query") or "").strip()
+            key = sym or name.upper()
+            if key:
+                m[key] = v
+    return m
 
 # ---------------- Vendors ----------------
 def yfi_eod_range(symbol: str, start: str, end: str) -> pd.DataFrame:
@@ -224,7 +270,7 @@ def save_chart_png_weekly_3m(symbol, df, out_dir, date_iso):
         "close": d["close"].resample("W-FRI").last(),
         "volume": d["volume"].resample("W-FRI").sum(),
     }).dropna()
-    w = w.tail(13)  # ≒3M
+    w = w.tail(13)
     plt.figure(figsize=(9, 4.6), dpi=120)
     plt.plot(w.index, w["close"], linewidth=1.3)
     plt.title(f"{symbol} — 3M Weekly")
@@ -234,35 +280,26 @@ def save_chart_png_weekly_3m(symbol, df, out_dir, date_iso):
     plt.savefig(out)
     plt.close()
 
-def load_json(path, default=None):
-    try:
-        p = pathlib.Path(path)
-        if p.exists():
-            return json.loads(p.read_text())
-    except Exception:
-        pass
-    return default
-
 def ensure_dirs(date_iso):
     (pathlib.Path(OUT_DIR)/"data"/date_iso).mkdir(parents=True, exist_ok=True)
     (pathlib.Path(OUT_DIR)/"charts"/date_iso).mkdir(parents=True, exist_ok=True)
 
+# ---------------- Main ----------------
 def main():
     ensure_dirs(DATE_S)
 
     uni = pd.read_csv(UNIVERSE_CSV)
-    symbols = [str(s).strip() for s in uni["symbol"].tolist() if str(s).strip()]
+    symbols = [str(s).strip().upper() for s in uni["symbol"].tolist() if str(s).strip()]
 
-    # ---- load external feature maps ----
-    trends_items = (load_json(TRENDS_JSON, default={}) or {}).get("items", [])
-    trends_map = {it.get("symbol") or it.get("query") or it.get("ticker"): it for it in trends_items if it}
+    # external features
+    trends_map = load_items_map(TRENDS_JSON)   # {SYM: {..., score_0_1}}
+    news_map   = load_items_map(NEWS_JSON)     # {SYM: {..., score_0_1, recent_count}}
+    dii_map    = load_items_map(DII_JSON)      # {SYM: {..., score_0_1}} or {}
 
-    news_items = (load_json(NEWS_JSON, default={}) or {}).get("items", [])
-    news_map = {it.get("symbol") or it.get("ticker"): it for it in news_items if it}
-
-    dii_items = (load_json(DII_JSON, default={}) or {}).get("items", [])
-    # 0..1に正規化済みの `score_0_1` を想定。無ければ 0。
-    dii_map = {it.get("symbol") or it.get("ticker"): it for it in dii_items if it}
+    # DIIが空なら最終スコアから自動除外
+    global W_DII
+    if not dii_map:
+        W_DII = 0.0
 
     end_s   = DATE_S
     start_s = (DATE - datetime.timedelta(days=200)).isoformat()
@@ -293,25 +330,25 @@ def main():
             vol_detail = compute_volume_anomaly(df)
             vol_score = float(vol_detail.get("score", 0.0))
 
-        # trends/news/dii (0..1)
+        # trends/news/dii 0..1
         td = trends_map.get(sym) or {}
-        trends_breakout = float(td.get("score_0_1") or td.get("score") or 0.0)
+        trends_breakout = clamp01(td.get("score_0_1") or td.get("score"))
 
         nw = news_map.get(sym) or {}
-        news_score = float(nw.get("score_0_1", 0.0))
-        news_recent = int(nw.get("recent_count", 0))
+        news_score = clamp01(nw.get("score_0_1"))
+        news_recent = int(nw.get("recent_count") or nw.get("total_count") or 0)
 
         di = dii_map.get(sym) or {}
-        dii_score_ext = float(di.get("score_0_1", 0.0))
+        dii_external = clamp01(di.get("score_0_1"))
 
-        # ---- Final score（重みが与えられた要素のみ正規化）----
+        # Final score（重み>0のみ正規化）
         comps = {
             "volume_anomaly": vol_score,
             "trends_breakout": trends_breakout,
             "news": news_score,
         }
         if W_DII > 0:
-            comps["dii"] = dii_score_ext   # DIIも最終スコアに参加
+            comps["dii"] = dii_external
 
         raw_w = {
             "volume_anomaly": W_VOL,
@@ -319,23 +356,19 @@ def main():
             "news": W_NEWS,
             "dii": W_DII,
         }
-        present = [k for k in comps.keys() if raw_w.get(k, 0) > 0]
+        present = [k for k in comps.keys() if raw_w.get(k,0) > 0]
         wsum = sum(raw_w[k] for k in present) or 1.0
         norm_w = {k: raw_w[k]/wsum for k in present}
-        final_0_1 = sum( (comps[k] * norm_w.get(k,0.0)) for k in comps.keys() )
+        final_0_1 = sum(comps[k] * norm_w.get(k,0.0) for k in comps.keys())
         score_pts = int(round(final_0_1 * 1000))
 
-        # --- DII（内部合成も別途出力。最終スコア用のdii_score_extとは別）---
-        dii_comps = {
-            "volume_anomaly": vol_score,
-            "trends": trends_breakout,
-            "news": news_score,
-        }
+        # DII内部の表示用（最終スコアとは独立）
+        dii_comps = {"volume_anomaly": vol_score, "trends": trends_breakout, "news": news_score}
         dii_wsum = max(1e-9, W_DII_VOL + W_DII_TRENDS + W_DII_NEWS)
         dii_score_internal = (
-            (W_DII_VOL * dii_comps["volume_anomaly"]) +
-            (W_DII_TRENDS * dii_comps["trends"]) +
-            (W_DII_NEWS * dii_comps["news"])
+            W_DII_VOL * dii_comps["volume_anomaly"] +
+            W_DII_TRENDS * dii_comps["trends"] +
+            W_DII_NEWS * dii_comps["news"]
         ) / dii_wsum
 
         rec = {
@@ -350,9 +383,8 @@ def main():
             "news_score": news_score,
             "news_recent_count": news_recent,
 
-            # DII: 外部スコア（最終スコアに使う）と内部合成（情報表示）
+            "dii_external": dii_external,
             "dii_score": dii_score_internal,
-            "dii_external": dii_score_ext,
 
             "score_components": comps,
             "score_weights": raw_w,
