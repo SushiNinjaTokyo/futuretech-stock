@@ -1,12 +1,22 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os
-import json
-import time
-import random
-import math
-from typing import Dict, List, Any
+"""
+Google Trends 収集（pytrends）
+- 環境:
+  OUT_DIR=site, UNIVERSE_CSV=data/universe.csv, REPORT_DATE=YYYY-MM-DD
+  TRENDS_GEO=US, TRENDS_TIMEFRAME="today 3-m"
+  TRENDS_BATCH=5（1リクエストでのキーワード数: 2〜5が安全）
+  TRENDS_SLEEP=4.0, TRENDS_JITTER=1.5
+  TRENDS_COOLDOWN_BASE=45, TRENDS_COOLDOWN_MAX=180
+  TRENDS_BATCH_RETRIES=4
+- 出力: site/data/trends/latest.json と site/data/<date>/trends.json
+- 失敗時でも空配列を書き出し、後段が必ず動く
+"""
+
+import os, csv, json, time, random, math
+from typing import List, Dict, Any
+from datetime import datetime, timedelta
 
 import pandas as pd
 from pytrends.request import TrendReq
@@ -15,161 +25,158 @@ OUT_DIR = os.environ.get("OUT_DIR", "site").strip()
 UNIVERSE_CSV = os.environ.get("UNIVERSE_CSV", "data/universe.csv").strip()
 REPORT_DATE = os.environ.get("REPORT_DATE", "").strip()
 
-# 環境変数で調整可能（保守的な既定値）
-TRENDS_GEO = os.environ.get("TRENDS_GEO", "US")
-TRENDS_TIMEFRAME = os.environ.get("TRENDS_TIMEFRAME", "today 3-m")  # 90日
-TRENDS_BATCH = int(os.environ.get("TRENDS_BATCH", "3"))
-TRENDS_SLEEP = float(os.environ.get("TRENDS_SLEEP", "4.0"))
-TRENDS_JITTER = float(os.environ.get("TRENDS_JITTER", "1.5"))
-TRENDS_COOLDOWN_BASE = int(os.environ.get("TRENDS_COOLDOWN_BASE", "45"))
-TRENDS_COOLDOWN_MAX = int(os.environ.get("TRENDS_COOLDOWN_MAX", "180"))
-TRENDS_BATCH_RETRIES = int(os.environ.get("TRENDS_BATCH_RETRIES", "4"))
+GEO = os.environ.get("TRENDS_GEO", "US").strip()
+TIMEFRAME = os.environ.get("TRENDS_TIMEFRAME", "today 3-m")
+BATCH = max(2, int(float(os.environ.get("TRENDS_BATCH", "5"))))
+SLEEP_BASE = float(os.environ.get("TRENDS_SLEEP", "4.0"))
+JITTER = float(os.environ.get("TRENDS_JITTER", "1.5"))
+COOLDOWN_BASE = int(float(os.environ.get("TRENDS_COOLDOWN_BASE", "45")))
+COOLDOWN_MAX  = int(float(os.environ.get("TRENDS_COOLDOWN_MAX", "180")))
+RETRIES = int(float(os.environ.get("TRENDS_BATCH_RETRIES", "4")))
 
 DATA_ROOT = os.path.join(OUT_DIR, "data")
-DATE_DIR = os.path.join(DATA_ROOT, REPORT_DATE) if REPORT_DATE else os.path.join(DATA_ROOT, "today")
-LATEST_PATH = os.path.join(DATA_ROOT, "trends", "latest.json")
-BYDATE_PATH = os.path.join(DATA_ROOT, REPORT_DATE, "trends.json") if REPORT_DATE else None
+DATE_DIR  = os.path.join(DATA_ROOT, REPORT_DATE or "today")
+OUT_LATEST = os.path.join(DATA_ROOT, "trends", "latest.json")
+OUT_DATE   = os.path.join(DATE_DIR, "trends.json")
 
 def ensure_dirs():
-    os.makedirs(os.path.join(DATA_ROOT, "trends"), exist_ok=True)
-    if REPORT_DATE:
-        os.makedirs(os.path.join(DATA_ROOT, REPORT_DATE), exist_ok=True)
+    os.makedirs(os.path.dirname(OUT_LATEST), exist_ok=True)
+    os.makedirs(DATE_DIR, exist_ok=True)
 
-def load_universe() -> pd.DataFrame:
-    df = pd.read_csv(UNIVERSE_CSV)
+def sleep_brief(t=SLEEP_BASE, j=JITTER):
+    time.sleep(t + random.random() * j)
+
+def clamp01(x: float) -> float:
+    try:
+        return max(0.0, min(1.0, float(x)))
+    except Exception:
+        return 0.0
+
+def load_universe(path: str) -> List[Dict[str, str]]:
+    df = pd.read_csv(path)
     cols = [c.strip().lower() for c in df.columns]
     df.columns = cols
-    if "symbol" not in df.columns:
-        if "ticker" in df.columns:
-            df = df.rename(columns={"ticker": "symbol"})
+    if "symbol" not in cols:
+        if "ticker" in cols:
+            df = df.rename(columns={"ticker":"symbol"})
         else:
-            raise SystemExit("universe.csv に symbol / ticker 列が必要です")
+            raise RuntimeError("universe.csv requires 'symbol'")
     if "name" not in df.columns:
         df["name"] = df["symbol"]
-    df["symbol"] = df["symbol"].astype(str).str.upper()
-    return df[["symbol", "name"]].copy()
+    recs = df[["symbol","name"]].copy()
+    recs["symbol"] = recs["symbol"].astype(str).str.upper().str.strip()
+    recs["name"]   = recs["name"].astype(str).str.strip()
+    return recs.to_dict(orient="records")
 
-def sleep_brief(base=TRENDS_SLEEP, jitter=TRENDS_JITTER):
-    time.sleep(base + random.random() * jitter)
-
-def robust_z_to_01(z: float, clamp=3.0) -> float:
-    z = max(-clamp, min(clamp, float(z)))
-    return 0.5 + z / (2 * clamp)  # -clamp→0.0, 0→0.5, +clamp→1.0
-
-def score_breakout_0_1(series: pd.Series) -> float:
-    """直近7日平均 vs 直近90日（フレーム全体）平均、robust z を0..1に"""
-    s = series.dropna().astype(float)
-    if s.empty:
+def score_from_series(s: pd.Series) -> float:
+    """系列(0..100)から"ブレイクアウト"度合いを 0..1 に正規化。
+       近30日末値 / 近90%分位 を使う。データが薄い場合は末値/100。
+    """
+    if s is None or s.empty:
         return 0.0
-    # Google Trends は 0..100 正規化値だが曜日効果が強いので7日移動平均
-    s_ma = s.rolling(7, min_periods=1).mean()
-    recent = s_ma.tail(7).mean()
-    base = s_ma.mean()
-    if pd.isna(recent) or pd.isna(base) or base == 0:
+    tail = s.dropna().iloc[-30:] if len(s) >= 30 else s.dropna()
+    if tail.empty:
         return 0.0
-    # MAD ベースのロバストz
-    med = s_ma.median()
-    mad = (s_ma - med).abs().median()
-    if mad <= 0:
-        # 分散が出ない場合は単純偏差
-        z = (recent - base) / (max(1.0, s_ma.std(ddof=0)))
-    else:
-        z = (recent - med) / (1.4826 * mad)
-    # 上側だけ見たいので半波整流
-    z = max(0.0, z)
-    return robust_z_to_01(z)  # 0..1
+    pctl = tail.quantile(0.9) if len(tail) > 5 else 100.0
+    pctl = max(1.0, float(pctl))
+    last = float(tail.iloc[-1])
+    return clamp01(last / pctl)
 
-def build_query_term(name: str) -> str:
-    """社名が長い/曖昧でもそこそこ当たる程度の term を作る"""
-    # 例: "NVIDIA Corporation" → "NVIDIA"
-    term = name.strip()
-    # 括弧・, Inc. などを落とす
-    term = term.replace("Inc.", "").replace("Inc", "").replace("Corporation", "").replace("Corp.", "").replace("Corp", "")
-    term = term.replace("Ltd.", "").replace("Ltd", "").replace("Co.", "").replace("Co", "")
-    term = term.split("(")[0].strip()
-    # 単語先頭を利用（2語まで）
-    words = [w for w in term.split() if w]
-    if not words:
-        return name
-    if len(words) >= 2:
-        return " ".join(words[:2])
-    return words[0]
-
-def fetch_batch(pytrends: TrendReq, batch: List[Dict[str, str]]) -> Dict[str, Any]:
-    """batch = [{symbol, name}] → symbol -> record"""
-    out: Dict[str, Any] = {}
-    kw_list = [build_query_term(it["name"]) for it in batch]
-    # pytrends build_payload は20語までが安定（ここはバッチで3にしてある）
-    pytrends.build_payload(kw_list=kw_list, timeframe=TRENDS_TIMEFRAME, geo=TRENDS_GEO)
-    df = pytrends.interest_over_time()
-    if df is None or df.empty:
-        return out
-    # df: index=date, columns=kw_list (+isPartial)
-    if "isPartial" in df.columns:
-        df = df.drop(columns=["isPartial"])
-    for idx, it in enumerate(batch):
-        sym = it["symbol"]
-        col = kw_list[idx]
-        if col in df.columns:
-            s = df[col]
-            score01 = score_breakout_0_1(s)
-            out[sym] = {
-                "symbol": sym,
-                "name": it["name"],
-                "term": col,
-                "timeframe": TRENDS_TIMEFRAME,
-                "geo": TRENDS_GEO,
-                "score_0_1": round(float(score01), 4),
-                "recent_mean": float(s.tail(7).mean()) if not s.tail(7).empty else 0.0,
-                "window_mean": float(s.mean()) if not s.empty else 0.0,
-                "points_0_1000": int(round(score01 * 1000)),
-            }
-    return out
+def fetch_batch(py: TrendReq, kw: List[str]) -> pd.DataFrame:
+    for i in range(RETRIES):
+        try:
+            py.build_payload(kw_list=kw, timeframe=TIMEFRAME, geo=GEO)
+            df = py.interest_over_time()
+            if not df.empty:
+                return df
+            # 空でも少し待つ
+            sleep_brief()
+        except Exception:
+            # 429等は指数バックオフ
+            cool = min(COOLDOWN_MAX, COOLDOWN_BASE * (2 ** i))
+            time.sleep(cool + random.uniform(0, 3))
+    return pd.DataFrame()
 
 def main():
     ensure_dirs()
-    uni = load_universe()
-    records = uni.to_dict("records")
+    uni = load_universe(UNIVERSE_CSV)
+    # 名前優先で検索精度を上げる（重複回避のためTickerも保持）
+    queries = [(x["symbol"], x["name"]) for x in uni]
 
-    # pytrends セッション
-    pytrends = TrendReq(hl="en-US", tz=360)
+    py = TrendReq(hl="en-US", tz=0)
+    items: List[Dict[str, Any]] = []
 
-    items: Dict[str, Any] = {}
-    for i in range(0, len(records), TRENDS_BATCH):
-        chunk = records[i:i+TRENDS_BATCH]
-        # リトライ（指数バックオフ）
-        ok = False
-        wait = TRENDS_COOLDOWN_BASE
-        for r in range(TRENDS_BATCH_RETRIES):
+    # 5語ずつ（BATCH）で投げる
+    buf = []
+    meta = []
+    for sym, name in queries:
+        q = name if len(name) >= 3 else sym
+        buf.append(q)
+        meta.append((sym, name, q))
+        if len(buf) == BATCH:
+            df = fetch_batch(py, buf)
+            for (sym_, name_, q_) in meta:
+                try:
+                    series = df[q_] if q_ in df.columns else pd.Series(dtype=float)
+                    score = score_from_series(series)
+                    items.append({
+                        "symbol": sym_,
+                        "name": name_,
+                        "query": q_,
+                        "score_0_1": score,
+                        "breakout_0_1": score
+                    })
+                except Exception:
+                    items.append({
+                        "symbol": sym_,
+                        "name": name_,
+                        "query": q_,
+                        "score_0_1": 0.0,
+                        "breakout_0_1": 0.0
+                    })
+            buf, meta = [], []
+            sleep_brief()
+
+    # 端数
+    if buf:
+        df = fetch_batch(py, buf)
+        for (sym_, name_, q_) in meta:
             try:
-                part = fetch_batch(pytrends, chunk)
-                # 1つでも取れていれば成功扱い
-                if part:
-                    items.update(part)
-                ok = True
-                break
-            except Exception as e:
-                # 429/5xx 等を想定
-                time.sleep(min(wait, TRENDS_COOLDOWN_MAX))
-                wait = min(TRENDS_COOLDOWN_MAX, wait * 2)
-        # バッチ間クールダウン
-        sleep_brief()
-        if not ok:
-            # 失敗した場合でも items は更新済み(0件の可能性あり)。続行。
-            pass
+                series = df[q_] if q_ in df.columns else pd.Series(dtype=float)
+                score = score_from_series(series)
+                items.append({
+                    "symbol": sym_,
+                    "name": name_,
+                    "query": q_,
+                    "score_0_1": score,
+                    "breakout_0_1": score
+                })
+            except Exception:
+                items.append({
+                    "symbol": sym_,
+                    "name": name_,
+                    "query": q_,
+                    "score_0_1": 0.0,
+                    "breakout_0_1": 0.0
+                })
 
-    payload = {"items": items, "count": len(items), "date": REPORT_DATE}
-    # 保存
-    os.makedirs(os.path.dirname(LATEST_PATH), exist_ok=True)
-    with open(LATEST_PATH, "w", encoding="utf-8") as f:
+    payload = {
+        "date": REPORT_DATE,
+        "items": items,
+        "meta": {
+            "geo": GEO,
+            "timeframe": TIMEFRAME,
+            "batch": BATCH
+        }
+    }
+
+    # 常に書き出し
+    with open(OUT_LATEST, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
-    if BYDATE_PATH:
-        with open(BYDATE_PATH, "w", encoding="utf-8") as f:
-            json.dump(payload, f, ensure_ascii=False, indent=2)
+    with open(OUT_DATE, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
 
-    print(f"[TRENDS] saved: {LATEST_PATH} and {BYDATE_PATH or '(no-date)'} (symbols={len(items)})")
+    print(f"[TRENDS] saved: {OUT_LATEST} and {OUT_DATE} (symbols={len(items)})")
 
 if __name__ == "__main__":
-    if not REPORT_DATE:
-        raise SystemExit("REPORT_DATE is empty.")
     main()
