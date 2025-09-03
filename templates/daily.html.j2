@@ -39,22 +39,9 @@
     .pch.neutral{background:var(--ne-bg);color:var(--ne-fg);border-color:var(--ne-bd)}
     .pch .k{font-weight:700;min-width:1.6em;display:inline-block}
     .pch .v{font-variant-numeric:tabular-nums}
-    .tabs{margin-top:10px}
-    .seg{display:inline-flex;background:var(--soft);border:1px solid var(--ring);border-radius:10px;overflow:hidden}
-    .segbtn{border:0;background:transparent;padding:6px 10px;font-weight:700;color:#334155;cursor:pointer}
-    .segbtn[aria-pressed="true"]{background:#fff}
-    .segbtn:hover{background:#fff}
-    .tab{display:none;padding-top:10px}
-    .tab[aria-hidden="false"]{display:block}
-    .kv{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
-    .kv .k{font-weight:700;color:#334155}
-    .kv > div{border:1px solid var(--ring);border-radius:8px;padding:6px 8px;background:#fff;box-shadow:0 1px 1px rgba(0,0,0,.02)}
-    .chart{width:100%;height:auto;border:1px solid var(--ring);border-radius:8px}
-    .note{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.5}
-    .right{text-align:right}
-    table.tabtbl{width:100%;border-collapse:collapse}
-    table.tabtbl th,table.tabtbl td{border-bottom:1px solid var(--ring);padding:6px 4px}
-    table.tabtbl th.right,table.tabtbl td.right{text-align:right}
+    table{border-collapse:collapse;width:100%}
+    th,td{padding:6px 4px;border-bottom:1px solid var(--ring)}
+    th.right, td.right{text-align:right}
   </style>
 </head>
 <body>
@@ -62,34 +49,26 @@
     <h1>Daily Top 10 — {{ date }}</h1>
     <p class="muted">AI · Robotics · Space — fair scoring across sizes. US market based timing.</p>
 
-    {% if top10 %}
-    <div id="cards" class="grid">
-      {% for item in top10 %}
-      {% set _sym = (item.symbol if item.symbol is defined else (item["symbol"] if item["symbol"] is defined else "")) %}
-      {% set _name = (item.name if item.name is defined else (item["name"] if item["name"] is defined else _sym)) %}
-      {% set pts = (item.score_pts if item.score_pts is defined else (item["score_pts"] if item["score_pts"] is defined else (item.rank_points if item.rank_points is defined else (item["rank_points"] if item["rank_points"] is defined else 0)))) %}
-      {% set deltas = (item.deltas if item.deltas is defined else (item["deltas"] if item["deltas"] is defined else {})) %}
-      {% set returns = (item.returns if item.returns is defined else (item["returns"] if item["returns"] is defined else {})) %}
-      {% set d1 = deltas.get("d1") if deltas else (returns.get("1D") if returns else none) %}
-      {% set d5 = deltas.get("d5") if deltas else (returns.get("1W") if returns else none) %}
-      {% set d20= deltas.get("d20") if deltas else (returns.get("1M") if returns else none) %}
-      {% set chart_url = "/charts/" + date + "/" + _sym + ".png" %}
-
-      <div class="card" data-symbol="{{ _sym }}" id="card-{{ loop.index }}">
+    <div class="grid">
+    {% for item in top10 %}
+      {% set idx = loop.index %}
+      {% set pts = item.score_pts|int %}
+      {% set d = item.deltas or {} %}
+      {% set c = item.score_components or {} %}
+      <div class="card" id="card-{{ idx }}">
         <div class="row">
           <div class="left">
-            <div class="rank-rocket rank{{ loop.index }}">
-              <span class="medal">#{{ loop.index }}</span>
-            </div>
+            <div class="rank-rocket rank{{ idx }}"><span class="medal">#{{ idx }}</span></div>
             <div>
-              <div class="sym">{{ _sym }}</div>
-              <div class="name">{{ _name }}</div>
+              <div class="sym">{{ item.symbol }}</div>
+              <div class="name">{{ item.name }}</div>
             </div>
           </div>
           <div class="score">{{ pts }}</div>
         </div>
 
         <div class="price-row">
+          {% set d1=d.get('d1') %}{% set d5=d.get('d5') %}{% set d20=d.get('d20') %}
           {% set cls1 = (d1 is not none) and ('up' if d1>0 else ('down' if d1<0 else 'neutral')) or 'neutral' %}
           {% set cls5 = (d5 is not none) and ('up' if d5>0 else ('down' if d5<0 else 'neutral')) or 'neutral' %}
           {% set cls20= (d20 is not none) and ('up' if d20>0 else ('down' if d20<0 else 'neutral')) or 'neutral' %}
@@ -98,180 +77,24 @@
           <div class="pch {{ cls20 }}"><span class="k">1M</span><span class="v">{{ d20 is not none and ("%+.2f%%"|format(d20)) or "—" }}</span></div>
         </div>
 
-        <div class="tabs">
-          <div class="seg" role="tablist" aria-label="Card sections">
-            <button class="segbtn" aria-pressed="true" data-target="#breakdown-{{ loop.index }}">Breakdown</button>
-            <button class="segbtn" aria-pressed="false" data-target="#volume-{{ loop.index }}">Volume</button>
-            <button class="segbtn" aria-pressed="false" data-target="#news-{{ loop.index }}">News</button>
-            <button class="segbtn" aria-pressed="false" data-target="#dii-{{ loop.index }}">DII</button>
-            <button class="segbtn" aria-pressed="false" data-target="#tech-{{ loop.index }}">Technical</button>
-          </div>
-
-          <div id="breakdown-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="false">
-            <table class="tabtbl">
-              <thead>
-                <tr><th align="left">Component</th><th class="right">Value</th><th class="right">Weight</th><th class="right">Points</th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-            <div class="note">Final score = weighted average of <b>Volume anomaly</b>, <b>Trend breakout</b>, <b>News coverage</b>, and <b>DII</b>. (0–1000 pts)</div>
-          </div>
-
-          <div id="volume-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="true">
-          {% set vol = item.detail and item.detail.vol_anomaly or (item["detail"]["vol_anomaly"] if item["detail"] else none) %}
-          {% if vol %}
-            {% set rvol20 = vol.get('rvol20') %}
-            {% set z60 = vol.get('z60') %}
-            {% set pr90 = vol.get('pct_rank_90') %}
-            {% set dv = vol.get('dollar_vol') %}
-            {% set eligible = vol.get('eligible') %}
-            <div class="kv">
-              <div><span class="k">RVOL20</span><br>{{ rvol20 is not none and "%.2f"|format(rvol20) or "-" }}</div>
-              <div><span class="k">Z60 (RVOL)</span><br>{{ z60 is not none and "%.2f"|format(z60) or "-" }}</div>
-              <div><span class="k">DollarVol Pctl (90)</span><br>{{ pr90 is not none and "%.2f"|format(pr90) or "-" }}</div>
-              <div><span class="k">DollarVol</span><br>{% if dv %}${{ "%.1f"|format(dv/1_000_000) }}M{% else %}-{% endif %}</div>
-              <div><span class="k">Eligible</span><br>{{ eligible and "Yes" or "No" }}</div>
-            </div>
-          {% else %}
-            <div class="muted">No details.</div>
-          {% endif %}
-          </div>
-
-          <div id="news-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="true">
-            <div class="kv" data-news></div>
-          </div>
-
-          <div id="dii-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="true">
-            <div class="kv" data-dii></div>
-          </div>
-
-          <div id="tech-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="true">
-            <img src="{{ chart_url }}" alt="{{ _sym }} weekly chart" class="chart" loading="lazy" />
-          </div>
-        </div>
-
-        <script type="application/json" class="js-payload">
-        {{ {
-          "symbol": _sym,
-          "score_components": (item.score_components if item.score_components is defined else {}),
-          "score_weights": (item.score_weights if item.score_weights is defined else {}),
-          "final_score_0_1": item.final_score_0_1 | default(0, true),
-          "score_pts": pts | int,
-          "trends_breakout": item.trends_breakout | default(0, true),
-          "vol_anomaly_score": item.vol_anomaly_score | default(0, true),
-          "news_score": item.news_score | default(0, true),
-          "news_recent_count": item.news_recent_count | default(0, true),
-          "dii_score": item.dii_score | default(0, true),
-          "dii_components": item.dii_components | default({}, true)
-        } | tojson }}
-        </script>
+        <h4>Breakdown</h4>
+        <table>
+          <thead><tr><th align="left">Component</th><th class="right">Value</th><th class="right">Weight</th><th class="right">Points</th></tr></thead>
+          <tbody>
+            {% set w = item.score_weights or {} %}
+            {% for k in ["dii","news","trends_breakout","volume_anomaly"] %}
+            {% set nm = {"dii":"DII model","news":"News coverage","trends_breakout":"Trend breakout","volume_anomaly":"Volume anomaly"}[k] %}
+            {% set val = c.get(k,0) %}
+            {% set wk = w.get(k,0) %}
+            {% set pts_k = (val*(wk))*1000 %}
+            <tr><td>{{ nm }}</td><td class="right">{{ "%.3f"|format(val) }}</td><td class="right">{{ "%.0f"|format(wk*100) }}%</td><td class="right">{{ "%.0f"|format(pts_k) }}</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <p class="muted">Final score = weighted average of <b>Volume anomaly</b>, <b>Trend breakout</b>, <b>News coverage</b>, and <b>DII</b>. (0–1000 pts)</p>
       </div>
-      {% endfor %}
+    {% endfor %}
     </div>
-    {% else %}
-      <div id="cards" class="grid"></div>
-    {% endif %}
   </div>
-
-  <script>
-    function bindToggles(scope=document){
-      scope.querySelectorAll(".card").forEach(card=>{
-        const seg = card.querySelector(".seg");
-        if(!seg) return;
-        const buttons = [...seg.querySelectorAll(".segbtn")];
-        const panels  = [...card.querySelectorAll(".tab")];
-        const show = (id)=>{
-          buttons.forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.target === id)));
-          panels.forEach(p=>p.setAttribute("aria-hidden", String(("#"+p.id)!==id)));
-        };
-        buttons.forEach(btn=>{
-          btn.addEventListener("click", e=>{
-            show(btn.getAttribute("data-target"));
-          });
-        });
-        // default first tab
-        show(buttons[0].getAttribute("data-target"));
-      });
-    }
-
-    function label(k){
-      switch(k){
-        case "volume_anomaly": return "Volume anomaly";
-        case "trends_breakout": return "Trend breakout";
-        case "news": return "News coverage";
-        case "dii": return "DII model";
-        default: return k;
-      }
-    }
-
-    function fillBreakdown(){
-      document.querySelectorAll(".card").forEach(card=>{
-        const payload = card.querySelector(".js-payload");
-        if(!payload) return;
-        const j = JSON.parse(payload.textContent||"{}");
-        const comps = j.score_components || {};
-        const weights = j.score_weights || {};
-        const tbody = card.querySelector("#"+card.id+" .tabtbl tbody") || card.querySelector(".tab .tabtbl tbody");
-        if(!tbody) return;
-
-        tbody.innerHTML = "";
-        let subtotalPts = 0;
-        Object.keys(comps).forEach(k=>{
-          const val = Number(comps[k] ?? 0);
-          const w   = Number(weights[k] ?? 0);
-          const pts = Math.round(val * w * 1000);
-          subtotalPts += pts;
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${label(k)}</td>
-            <td class="right">${(val*100).toFixed(1)}%</td>
-            <td class="right">${(w*100).toFixed(0)}%</td>
-            <td class="right">${pts}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-        const ftr = document.createElement("tr");
-        ftr.innerHTML = `<td style="font-weight:700">Total</td><td></td><td></td><td class="right" style="font-weight:700">${subtotalPts}</td>`;
-        tbody.appendChild(ftr);
-      });
-    }
-
-    function fillNewsAndDII(){
-      document.querySelectorAll(".card").forEach(card=>{
-        const payload = card.querySelector(".js-payload");
-        if(!payload) return;
-        const j = JSON.parse(payload.textContent||"{}");
-
-        // News
-        const newsKV = card.querySelector('[data-news]');
-        if(newsKV){
-          newsKV.innerHTML = `
-            <div><span class="k">Recent count (7d)</span><br>${j.news_recent_count ?? 0}</div>
-            <div><span class="k">News score</span><br>${(Number(j.news_score||0)*100).toFixed(1)}%</div>
-          `;
-        }
-
-        // DII
-        const diiKV = card.querySelector('[data-dii]');
-        if(diiKV){
-          const dii = j.dii_components || {};
-          let extra = "";
-          if(dii.recent_rvol20!=null){ extra += `<div><span class="k">Recent RVOL20</span><br>${Number(dii.recent_rvol20).toFixed(2)}</div>`; }
-          if(dii.recent_weeks!=null){ extra += `<div><span class="k">Recent weeks</span><br>${dii.recent_weeks}</div>`; }
-          diiKV.innerHTML = `
-            <div><span class="k">DII score</span><br>${(Number(j.dii_score||0)*100).toFixed(1)}%</div>
-            ${extra}
-          `;
-        }
-      });
-    }
-
-    function init(){
-      bindToggles();
-      fillBreakdown();
-      fillNewsAndDII();
-    }
-    document.addEventListener("DOMContentLoaded", init);
-  </script>
 </body>
 </html>
