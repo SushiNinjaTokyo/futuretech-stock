@@ -4,105 +4,105 @@
     {
       "symbol": "NVDA",
       "recent_count": 0,
-      "score_0_1": 0.4
+      "score_0_1": 0.375
     },
     {
       "symbol": "MSFT",
       "recent_count": 0,
-      "score_0_1": 0.4
+      "score_0_1": 0.375
     },
     {
       "symbol": "PLTR",
-      "recent_count": 0,
-      "score_0_1": 0.4
+      "recent_count": 2,
+      "score_0_1": 0.825
     },
     {
       "symbol": "AI",
-      "recent_count": 7,
-      "score_0_1": 0.9
-    },
-    {
-      "symbol": "ISRG",
-      "recent_count": 0,
-      "score_0_1": 0.4
-    },
-    {
-      "symbol": "TER",
-      "recent_count": 5,
-      "score_0_1": 0.85
-    },
-    {
-      "symbol": "SYM",
-      "recent_count": 0,
-      "score_0_1": 0.4
-    },
-    {
-      "symbol": "RKLB",
-      "recent_count": 0,
-      "score_0_1": 0.4
-    },
-    {
-      "symbol": "IRDM",
-      "recent_count": 0,
-      "score_0_1": 0.4
-    },
-    {
-      "symbol": "VSAT",
-      "recent_count": 0,
-      "score_0_1": 0.4
-    },
-    {
-      "symbol": "INOD",
-      "recent_count": 0,
-      "score_0_1": 0.4
-    },
-    {
-      "symbol": "SOUN",
-      "recent_count": 0,
-      "score_0_1": 0.4
-    },
-    {
-      "symbol": "MNDY",
-      "recent_count": 0,
-      "score_0_1": 0.4
-    },
-    {
-      "symbol": "AVAV",
-      "recent_count": 0,
-      "score_0_1": 0.4
-    },
-    {
-      "symbol": "PERF",
       "recent_count": 15,
       "score_0_1": 0.95
     },
     {
+      "symbol": "ISRG",
+      "recent_count": 0,
+      "score_0_1": 0.375
+    },
+    {
+      "symbol": "TER",
+      "recent_count": 13,
+      "score_0_1": 0.9
+    },
+    {
+      "symbol": "SYM",
+      "recent_count": 0,
+      "score_0_1": 0.375
+    },
+    {
+      "symbol": "RKLB",
+      "recent_count": 0,
+      "score_0_1": 0.375
+    },
+    {
+      "symbol": "IRDM",
+      "recent_count": 0,
+      "score_0_1": 0.375
+    },
+    {
+      "symbol": "VSAT",
+      "recent_count": 0,
+      "score_0_1": 0.375
+    },
+    {
+      "symbol": "INOD",
+      "recent_count": 0,
+      "score_0_1": 0.375
+    },
+    {
+      "symbol": "SOUN",
+      "recent_count": 0,
+      "score_0_1": 0.375
+    },
+    {
+      "symbol": "MNDY",
+      "recent_count": 0,
+      "score_0_1": 0.375
+    },
+    {
+      "symbol": "AVAV",
+      "recent_count": 0,
+      "score_0_1": 0.375
+    },
+    {
+      "symbol": "PERF",
+      "recent_count": 1,
+      "score_0_1": 0.75
+    },
+    {
       "symbol": "GDRX",
       "recent_count": 0,
-      "score_0_1": 0.4
+      "score_0_1": 0.375
     },
     {
       "symbol": "ABCL",
       "recent_count": 0,
-      "score_0_1": 0.4
+      "score_0_1": 0.375
     },
     {
       "symbol": "U",
-      "recent_count": 20,
+      "recent_count": 47,
       "score_0_1": 1.0
     },
     {
       "symbol": "TEM",
-      "recent_count": 1,
-      "score_0_1": 0.8
+      "recent_count": 2,
+      "score_0_1": 0.825
     },
     {
       "symbol": "VRT",
       "recent_count": 0,
-      "score_0_1": 0.4
+      "score_0_1": 0.375
     }
   ],
   "meta": {
-    "lookback_days": 7
+    "lookback_days": 31
   }
 }
