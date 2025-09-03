@@ -3,148 +3,87 @@
   "items": [
     {
       "symbol": "NVDA",
-      "name": "NVIDIA Corporation",
-      "query": "NVIDIA Corporation",
-      "score_0_1": 0.7250755287009063,
-      "breakout_0_1": 0.7250755287009063
+      "breakout": 0.77492
     },
     {
       "symbol": "MSFT",
-      "name": "Microsoft Corporation",
-      "query": "Microsoft Corporation",
-      "score_0_1": 0.49079754601226966,
-      "breakout_0_1": 0.49079754601226966
+      "breakout": 0.003946
     },
     {
       "symbol": "PLTR",
-      "name": "Palantir Technologies Inc.",
-      "query": "Palantir Technologies Inc.",
-      "score_0_1": 1.0,
-      "breakout_0_1": 1.0
+      "breakout": 1.0
     },
     {
       "symbol": "AI",
-      "name": "C3.ai, Inc.",
-      "query": "C3.ai, Inc.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 1.0
     },
     {
       "symbol": "ISRG",
-      "name": "Intuitive Surgical, Inc.",
-      "query": "Intuitive Surgical, Inc.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 0.0
     },
     {
       "symbol": "TER",
-      "name": "Teradyne, Inc.",
-      "query": "Teradyne, Inc.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 0.0
     },
     {
       "symbol": "SYM",
-      "name": "Symbotic Inc.",
-      "query": "Symbotic Inc.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 0.0
     },
     {
       "symbol": "RKLB",
-      "name": "Rocket Lab USA, Inc.",
-      "query": "Rocket Lab USA, Inc.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 1.0
     },
     {
       "symbol": "IRDM",
-      "name": "Iridium Communications Inc.",
-      "query": "Iridium Communications Inc.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 0.0
     },
     {
       "symbol": "VSAT",
-      "name": "Viasat, Inc.",
-      "query": "Viasat, Inc.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 0.0
     },
     {
       "symbol": "INOD",
-      "name": "Innodata Inc.",
-      "query": "Innodata Inc.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 0.0
     },
     {
       "symbol": "SOUN",
-      "name": "SoundHound AI, Inc.",
-      "query": "SoundHound AI, Inc.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 0.0
     },
     {
       "symbol": "MNDY",
-      "name": "Monday.com Ltd.",
-      "query": "Monday.com Ltd.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 0.333333
     },
     {
       "symbol": "AVAV",
-      "name": "AeroVironment, Inc.",
-      "query": "AeroVironment, Inc.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 0.0
     },
     {
       "symbol": "PERF",
-      "name": "Perfect Corp.",
-      "query": "Perfect Corp.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 0.0
     },
     {
       "symbol": "GDRX",
-      "name": "GoodRx Holdings, Inc.",
-      "query": "GoodRx Holdings, Inc.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 0.0
     },
     {
       "symbol": "ABCL",
-      "name": "AbCellera Biologics Inc.",
-      "query": "AbCellera Biologics Inc.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 1.0
     },
     {
       "symbol": "U",
-      "name": "Unity Software Inc.",
-      "query": "Unity Software Inc.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 0.0
     },
     {
       "symbol": "TEM",
-      "name": "Tempus AI, Inc.",
-      "query": "Tempus AI, Inc.",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 0.0
     },
     {
       "symbol": "VRT",
-      "name": "Vertiv Holdings Co",
-      "query": "Vertiv Holdings Co",
-      "score_0_1": 0.0,
-      "breakout_0_1": 0.0
+      "breakout": 0.0
     }
   ],
   "meta": {
     "geo": "US",
-    "timeframe": "today 3-m",
-    "batch": 3
+    "timeframe": "today 3-m"
   }
 }

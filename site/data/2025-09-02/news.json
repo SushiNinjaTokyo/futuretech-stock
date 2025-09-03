@@ -28,7 +28,7 @@
     },
     {
       "symbol": "TER",
-      "recent_count": 6,
+      "recent_count": 5,
       "score_0_1": 0.85
     },
     {
@@ -73,7 +73,7 @@
     },
     {
       "symbol": "PERF",
-      "recent_count": 12,
+      "recent_count": 15,
       "score_0_1": 0.95
     },
     {
@@ -88,12 +88,12 @@
     },
     {
       "symbol": "U",
-      "recent_count": 52,
+      "recent_count": 20,
       "score_0_1": 1.0
     },
     {
       "symbol": "TEM",
-      "recent_count": 3,
+      "recent_count": 1,
       "score_0_1": 0.8
     },
     {
@@ -103,6 +103,6 @@
     }
   ],
   "meta": {
-    "lookback_days": 31
+    "lookback_days": 7
   }
 }

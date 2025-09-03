@@ -45,10 +45,10 @@
   {
     "symbol": "VRT",
     "name": "Vertiv Holdings Co",
-    "final_score_0_1": 0.17207799336020158,
-    "score_pts": 172,
+    "final_score_0_1": 0.17804955865866542,
+    "score_pts": 178,
     "score_components": {
-      "volume_anomaly": 0.6883119734408063,
+      "volume_anomaly": 0.7121982346346617,
       "trends_breakout": 0.0,
       "news": 0.0,
       "dii": 0.0
@@ -59,7 +59,7 @@
       "news": 0.2,
       "dii": 0.25
     },
-    "vol_anomaly_score": 0.6883119734408063,
+    "vol_anomaly_score": 0.7121982346346617,
     "trends_breakout": 0.0,
     "news_score": 0.0,
     "news_recent_count": 0,
@@ -77,10 +77,53 @@
     },
     "detail": {
       "vol_anomaly": {
-        "rvol20": 1.282687805687663,
-        "z60": 0.5855095886645543,
-        "pct_rank_90": 0.7555555555555555,
-        "dollar_vol": 944836298.6060104,
+        "rvol20": 1.3621459057670966,
+        "z60": 0.7570481570436212,
+        "pct_rank_90": 0.8,
+        "dollar_vol": 1007643272.3579407,
+        "eligible": true
+      }
+    }
+  },
+  {
+    "symbol": "SOUN",
+    "name": "SoundHound AI, Inc.",
+    "final_score_0_1": 0.16704534213366767,
+    "score_pts": 167,
+    "score_components": {
+      "volume_anomaly": 0.6681813685346707,
+      "trends_breakout": 0.0,
+      "news": 0.0,
+      "dii": 0.0
+    },
+    "score_weights": {
+      "volume_anomaly": 0.25,
+      "trends_breakout": 0.3,
+      "news": 0.2,
+      "dii": 0.25
+    },
+    "vol_anomaly_score": 0.6681813685346707,
+    "trends_breakout": 0.0,
+    "news_score": 0.0,
+    "news_recent_count": 0,
+    "dii_score": 0.0,
+    "dii_components": {},
+    "returns": {
+      "1D": 3.072193582694993,
+      "1W": 10.817509964951878,
+      "1M": 26.12781619613207
+    },
+    "deltas": {
+      "d1": 3.072193582694993,
+      "d5": 10.817509964951878,
+      "d20": 26.12781619613207
+    },
+    "detail": {
+      "vol_anomaly": {
+        "rvol20": 1.2712398615113465,
+        "z60": 0.2589427216613831,
+        "pct_rank_90": 0.9555555555555556,
+        "dollar_vol": 1084984192.1682358,
         "eligible": true
       }
     }
@@ -124,49 +167,6 @@
         "z60": 0.3404160711399536,
         "pct_rank_90": 0.7555555555555555,
         "dollar_vol": 1045554700.975647,
-        "eligible": true
-      }
-    }
-  },
-  {
-    "symbol": "SOUN",
-    "name": "SoundHound AI, Inc.",
-    "final_score_0_1": 0.16489035815606343,
-    "score_pts": 165,
-    "score_components": {
-      "volume_anomaly": 0.6595614326242537,
-      "trends_breakout": 0.0,
-      "news": 0.0,
-      "dii": 0.0
-    },
-    "score_weights": {
-      "volume_anomaly": 0.25,
-      "trends_breakout": 0.3,
-      "news": 0.2,
-      "dii": 0.25
-    },
-    "vol_anomaly_score": 0.6595614326242537,
-    "trends_breakout": 0.0,
-    "news_score": 0.0,
-    "news_recent_count": 0,
-    "dii_score": 0.0,
-    "dii_components": {},
-    "returns": {
-      "1D": 3.072193582694993,
-      "1W": 10.817509964951878,
-      "1M": 26.12781619613207
-    },
-    "deltas": {
-      "d1": 3.072193582694993,
-      "d5": 10.817509964951878,
-      "d20": 26.12781619613207
-    },
-    "detail": {
-      "vol_anomaly": {
-        "rvol20": 1.240873627846191,
-        "z60": 0.21295809674939586,
-        "pct_rank_90": 0.9444444444444444,
-        "dollar_vol": 1057352707.2511482,
         "eligible": true
       }
     }
@@ -260,10 +260,10 @@
   {
     "symbol": "RKLB",
     "name": "Rocket Lab USA, Inc.",
-    "final_score_0_1": 0.14367001295096835,
+    "final_score_0_1": 0.1440697977513491,
     "score_pts": 144,
     "score_components": {
-      "volume_anomaly": 0.5746800518038734,
+      "volume_anomaly": 0.5762791910053964,
       "trends_breakout": 0.0,
       "news": 0.0,
       "dii": 0.0
@@ -274,7 +274,7 @@
       "news": 0.2,
       "dii": 0.25
     },
-    "vol_anomaly_score": 0.5746800518038734,
+    "vol_anomaly_score": 0.5762791910053964,
     "trends_breakout": 0.0,
     "news_score": 0.0,
     "news_recent_count": 0,
@@ -292,10 +292,10 @@
     },
     "detail": {
       "vol_anomaly": {
-        "rvol20": 0.9603282366615611,
-        "z60": -0.13135750517375977,
+        "rvol20": 0.9645974542605246,
+        "z60": -0.1232021325883933,
         "pct_rank_90": 0.8,
-        "dollar_vol": 993620196.4724731,
+        "dollar_vol": 998261253.8017273,
         "eligible": true
       }
     }
@@ -303,10 +303,10 @@
   {
     "symbol": "INOD",
     "name": "Innodata Inc.",
-    "final_score_0_1": 0.1437693668958234,
+    "final_score_0_1": 0.14391485547017585,
     "score_pts": 144,
     "score_components": {
-      "volume_anomaly": 0.5750774675832936,
+      "volume_anomaly": 0.5756594218807034,
       "trends_breakout": 0.0,
       "news": 0.0,
       "dii": 0.0
@@ -317,7 +317,7 @@
       "news": 0.2,
       "dii": 0.25
     },
-    "vol_anomaly_score": 0.5750774675832936,
+    "vol_anomaly_score": 0.5756594218807034,
     "trends_breakout": 0.0,
     "news_score": 0.0,
     "news_recent_count": 0,
@@ -335,10 +335,10 @@
     },
     "detail": {
       "vol_anomaly": {
-        "rvol20": 0.9421833329714572,
-        "z60": -0.03696958339054383,
+        "rvol20": 0.9437422152511878,
+        "z60": -0.03417876955263695,
         "pct_rank_90": 0.32222222222222224,
-        "dollar_vol": 61168084.47636795,
+        "dollar_vol": 61274301.752471924,
         "eligible": true
       }
     }
@@ -389,10 +389,10 @@
   {
     "symbol": "MNDY",
     "name": "Monday.com Ltd.",
-    "final_score_0_1": 0.1384485069898434,
-    "score_pts": 138,
+    "final_score_0_1": 0.14024796226832315,
+    "score_pts": 140,
     "score_components": {
-      "volume_anomaly": 0.5537940279593736,
+      "volume_anomaly": 0.5609918490732926,
       "trends_breakout": 0.0,
       "news": 0.0,
       "dii": 0.0
@@ -403,7 +403,7 @@
       "news": 0.2,
       "dii": 0.25
     },
-    "vol_anomaly_score": 0.5537940279593736,
+    "vol_anomaly_score": 0.5609918490732926,
     "trends_breakout": 0.0,
     "news_score": 0.0,
     "news_recent_count": 0,
@@ -421,10 +421,10 @@
     },
     "detail": {
       "vol_anomaly": {
-        "rvol20": 0.9143443516426331,
-        "z60": -0.2794263025486352,
-        "pct_rank_90": 0.9111111111111111,
-        "dollar_vol": 353652576.80682373,
+        "rvol20": 0.9364318733233511,
+        "z60": -0.2602229820673586,
+        "pct_rank_90": 0.9333333333333333,
+        "dollar_vol": 362615296.9116211,
         "eligible": true
       }
     }
