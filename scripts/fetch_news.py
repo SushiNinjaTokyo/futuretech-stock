@@ -1,124 +1,109 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
 """
-News/RSS（Google News 検索RSS）
-- 環境:
-  OUT_DIR=site, UNIVERSE_CSV=data/universe.csv, REPORT_DATE=YYYY-MM-DD
-  NEWS_LOOKBACK_DAYS=7, NEWS_MAX_PER_SYMBOL=20, NEWS_SLEEP_SEC=1.0
-- 出力形式は items の配列で、各要素は:
-  { symbol, name, recent_count, score_0_1 }
-- スコア: min(1, recent_count / NEWS_MAX_PER_SYMBOL)
+RSS/Atom から各シンボルの最近記事件数（lookback 日数）を集計し 0..1 に正規化。
+結果: site/data/news/latest.json, site/data/{DATE}/news.json
 """
-
-import os, json, time, urllib.parse, math, random
-from typing import List, Dict, Any
-from datetime import datetime, timedelta, timezone
-
+from __future__ import annotations
+import os, json, time, logging
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
 import pandas as pd
 import feedparser
 
-OUT_DIR = os.environ.get("OUT_DIR", "site").strip()
-UNIVERSE_CSV = os.environ.get("UNIVERSE_CSV", "data/universe.csv").strip()
-REPORT_DATE = os.environ.get("REPORT_DATE", "").strip()
+logging.basicConfig(
+    level=os.getenv("LOG_LEVEL","INFO"),
+    format="%(asctime)sZ [%(levelname)s] [NEWS] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+log = logging.getLogger("news")
 
-LOOKBACK_DAYS = int(float(os.environ.get("NEWS_LOOKBACK_DAYS", "7")))
-MAX_PER_SYMBOL = int(float(os.environ.get("NEWS_MAX_PER_SYMBOL", "20")))
-SLEEP_SEC = float(os.environ.get("NEWS_SLEEP_SEC", "1.0"))
+OUT_DIR   = Path(os.getenv("OUT_DIR","site"))
+UNIVERSE  = Path(os.getenv("UNIVERSE_CSV","data/universe.csv"))
+REPORT    = os.getenv("REPORT_DATE") or pd.Timestamp.utcnow().date().isoformat()
+LOOKBACK  = int(os.getenv("NEWS_LOOKBACK_DAYS","7"))
+MAX_PER   = int(os.getenv("NEWS_MAX_PER_SYMBOL","20"))
+SLEEP_SEC = float(os.getenv("NEWS_SLEEP_SEC","1.0"))
 
-DATA_ROOT = os.path.join(OUT_DIR, "data")
-DATE_DIR  = os.path.join(DATA_ROOT, REPORT_DATE or "today")
-OUT_LATEST = os.path.join(DATA_ROOT, "news", "latest.json")
-OUT_DATE   = os.path.join(DATE_DIR, "news.json")
+SOURCES = [
+    "https://finance.yahoo.com/rss/topstories",
+    "https://www.marketwatch.com/rss/topstories",
+    "https://www.investing.com/rss/news_25.rss",
+    "https://www.reuters.com/finance/us/technologyNews",
+]
 
-def ensure_dirs():
-    os.makedirs(os.path.dirname(OUT_LATEST), exist_ok=True)
-    os.makedirs(DATE_DIR, exist_ok=True)
+def load_universe() -> pd.DataFrame:
+    df = pd.read_csv(UNIVERSE)
+    if "news_keyword" not in df.columns:
+        df["news_keyword"] = df.get("name", df["symbol"])
+    return df[["symbol","news_keyword"]]
 
-def load_universe(path: str) -> List[Dict[str, str]]:
-    df = pd.read_csv(path)
-    cols = [c.strip().lower() for c in df.columns]
-    df.columns = cols
-    if "symbol" not in cols:
-        if "ticker" in cols:
-            df = df.rename(columns={"ticker":"symbol"})
-        else:
-            raise RuntimeError("universe.csv requires 'symbol'")
-    if "name" not in df.columns:
-        df["name"] = df["symbol"]
-    recs = df[["symbol","name"]].copy()
-    recs["symbol"] = recs["symbol"].astype(str).str.upper().str.strip()
-    recs["name"]   = recs["name"].astype(str).str.strip()
-    return recs.to_dict(orient="records")
-
-def news_url(q: str) -> str:
-    base = "https://news.google.com/rss/search"
-    params = {
-        "q": q,
-        "hl": "en-US",
-        "gl": "US",
-        "ceid": "US:en"
-    }
-    return f"{base}?{urllib.parse.urlencode(params)}"
-
-def within_days(published_parsed, days: int) -> bool:
-    if not published_parsed:
-        return False
-    dt = datetime(*published_parsed[:6], tzinfo=timezone.utc)
-    return (datetime.now(timezone.utc) - dt) <= timedelta(days=days)
-
-def clamp01(x: float) -> float:
-    try:
-        return max(0.0, min(1.0, float(x)))
-    except Exception:
-        return 0.0
-
-def main():
-    ensure_dirs()
-    uni = load_universe(UNIVERSE_CSV)
-    items: List[Dict[str, Any]] = []
-
-    for rec in uni:
-        sym = rec["symbol"]
-        name = rec["name"]
-
-        # シンプル検索クエリ（AND/ORのバランス重視）
-        q = f'"{name}" OR {sym}'
-        url = news_url(q)
+def fetch_all() -> list[dict]:
+    results = []
+    cutoff = datetime.now(timezone.utc) - timedelta(days=LOOKBACK)
+    for url in SOURCES:
         try:
             feed = feedparser.parse(url)
-            cnt = 0
-            for e in (feed.entries or []):
-                if within_days(getattr(e, "published_parsed", None), LOOKBACK_DAYS):
-                    cnt += 1
-                    if cnt >= MAX_PER_SYMBOL:
-                        break
-            score = clamp01(cnt / MAX_PER_SYMBOL)
-            items.append({
-                "symbol": sym,
-                "name": name,
-                "query": q,
-                "recent_count": int(cnt),
-                "score_0_1": score,
-            })
-        except Exception:
-            items.append({
-                "symbol": sym,
-                "name": name,
-                "query": q,
-                "recent_count": 0,
-                "score_0_1": 0.0,
-            })
+        except Exception as e:
+            log.warning("parse failed: %s (%s)", url, e)
+            continue
+        for e in feed.entries[:1000]:
+            dt_pub = None
+            for key in ("published_parsed","updated_parsed","created_parsed"):
+                val = getattr(e, key, None) or e.get(key)
+                if val:
+                    dt_pub = datetime(*val[:6], tzinfo=timezone.utc)
+                    break
+            if dt_pub and dt_pub < cutoff: 
+                continue
+            title = e.get("title","")
+            summary = e.get("summary","")
+            results.append({"title": title, "summary": summary})
         time.sleep(SLEEP_SEC)
+    return results
 
-    payload = {"date": REPORT_DATE, "items": items}
+def count_by_symbol(news_rows: list[dict], u: pd.DataFrame) -> list[dict]:
+    items = []
+    for _, r in u.iterrows():
+        sym = r["symbol"]
+        kw  = r["news_keyword"]
+        cnt = 0
+        key = str(kw).lower()
+        for n in news_rows:
+            text = (n["title"] + " " + n["summary"]).lower()
+            if key in text or str(sym).lower() in text:
+                cnt += 1
+                if cnt >= MAX_PER:
+                    break
+        items.append({"symbol": sym, "recent_count": cnt})
+    return items
 
-    with open(OUT_LATEST, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, indent=2)
-    with open(OUT_DATE, "w", encoding="utf-8") as f:
-        json.dump(payload, f, ensure_ascii=False, indent=2)
+def to_percentile(values: list[int]) -> dict[str,float]:
+    s = pd.Series(values, dtype="float")
+    if len(s)==0 or s.max()==0: 
+        return {}
+    pct = s.rank(pct=True, method="average")
+    return {i: float(round(v,6)) for i, v in enumerate(pct.tolist())}
 
-    print(f"[NEWS] saved: {OUT_LATEST} and {OUT_DATE} (symbols={len(items)})")
+def main():
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    date_dir = OUT_DIR / "data" / REPORT
+    (OUT_DIR/"data"/"news").mkdir(parents=True, exist_ok=True)
+    date_dir.mkdir(parents=True, exist_ok=True)
 
-if __name__ == "__main__":
+    u = load_universe()
+    news_rows = fetch_all()
+    items = count_by_symbol(news_rows, u)
+
+    # 0..1 正規化（百分位）
+    pmap = to_percentile([x["recent_count"] for x in items])
+    for i, it in enumerate(items):
+        it["score_0_1"] = float(pmap.get(i, 0.0))
+
+    payload = {"date": REPORT, "items": items, "meta": {"lookback_days": LOOKBACK}}
+    with open(OUT_DIR/"data"/"news"/"latest.json","w") as f: json.dump(payload, f, ensure_ascii=False, indent=2)
+    with open(date_dir/"news.json","w") as f: json.dump(payload, f, ensure_ascii=False, indent=2)
+    log.info("saved: %s and %s (symbols=%d)", OUT_DIR/"data/news/latest.json", date_dir/"news.json", len(items))
+
+if __name__=="__main__":
     main()
