@@ -4,70 +4,39 @@
   <meta charset="utf-8" />
   <title>futuretech-stock — Daily Top 10 ({{ date | default('', true) }})</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <!-- daily.css は render.py が site/assets/daily.css へコピーします -->
+  <link rel="stylesheet" href="../assets/daily.css">
   <script type="application/ld+json">{{ schema_json }}</script>
-  <style>
-    :root{
-      --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
-      --gold:#f6c453; --silver:#cdd2d8; --bronze:#f4a261;
-      --soft:#f8fafc; --ring:#e2e8f0;
-
-      --up-bg:#ecfdf5; --up-fg:#065f46; --up-bd:#10b98133;
-      --dn-bg:#fef2f2; --dn-fg:#7f1d1d; --dn-bd:#ef444433;
-      --ne-bg:#f8fafc; --ne-fg:#334155; --ne-bd:#cbd5e133;
-    }
-    html,body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";}
-    .wrap{max-width:1024px;margin:0 auto;padding:24px}
-    h1{font-size:18px;margin:0 0 12px;font-weight:700}
-    p.muted{color:var(--muted);margin:0 0 16px}
-    small.muted{color:var(--muted)}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
-    .card{position:relative;border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-    .left{display:flex;align-items:center;gap:10px;min-width:0}
-    .rank-rocket{width:64px;height:64px;border-radius:999px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;position:relative;isolation:isolate;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.08) inset, 0 6px 14px rgba(0,0,0,.06);}
-    .rank1{ background:radial-gradient(120% 120% at 30% 30%, #fff6d6 0%, var(--gold) 45%, #d1a83a 100%); }
-    .rank2{ background:radial-gradient(120% 120% at 30% 30%, #ffffff 0%, var(--silver) 50%, #aeb5be 100%); }
-    .rank3{ background:radial-gradient(120% 120% at 30% 30%, #ffe9d6 0%, var(--bronze) 45%, #d18a3a 100%); }
-    .medal{position:absolute;bottom:6px;right:6px;background:rgba(255,255,255,.9);border-radius:6px;padding:2px 6px;font-size:12px;font-weight:700;border:1px solid var(--ring)}
-    .sym{font-weight:800;letter-spacing:.2px}
-    .name{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .score{font-size:22px;font-weight:800}
-    .price-row{display:flex;gap:6px;margin-top:8px}
-    .pch{border:1px solid var(--ring);border-radius:8px;padding:2px 8px;display:flex;gap:8px;align-items:center}
-    .pch.up{background:var(--up-bg);color:var(--up-fg);border-color:var(--up-bd)}
-    .pch.down{background:var(--dn-bg);color:var(--dn-fg);border-color:var(--dn-bd)}
-    .pch.neutral{background:var(--ne-bg);color:var(--ne-fg);border-color:var(--ne-bd)}
-    .pch .k{font-weight:700;min-width:1.6em;display:inline-block}
-    .pch .v{font-variant-numeric:tabular-nums}
-    table{border-collapse:collapse;width:100%}
-    th,td{padding:6px 4px;border-bottom:1px solid var(--ring)}
-    th.right, td.right{text-align:right}
-  </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>Daily Top 10 — {{ date }}</h1>
-    <p class="muted">AI · Robotics · Space — fair scoring across sizes. US market based timing.</p>
+    <header class="header">
+      <h1>Daily Top 10 — {{ date }}</h1>
+      <p class="muted">AI · Robotics · Space — fair scoring across sizes. US market timing.</p>
+    </header>
 
-    <div class="grid">
+    <section class="grid">
     {% for item in top10 %}
       {% set idx = loop.index %}
       {% set pts = item.score_pts|int %}
       {% set d = item.deltas or {} %}
       {% set c = item.score_components or {} %}
-      <div class="card" id="card-{{ idx }}">
+      <article class="card" id="card-{{ idx }}">
         <div class="row">
           <div class="left">
             <div class="rank-rocket rank{{ idx }}"><span class="medal">#{{ idx }}</span></div>
-            <div>
+            <div class="idbox">
               <div class="sym">{{ item.symbol }}</div>
               <div class="name">{{ item.name }}</div>
             </div>
           </div>
-          <div class="score">{{ pts }}</div>
+          <div class="score" aria-label="final score">{{ pts }}</div>
         </div>
 
-        <div class="price-row">
+        <div class="price-row" role="group" aria-label="price momentum">
           {% set d1=d.get('d1') %}{% set d5=d.get('d5') %}{% set d20=d.get('d20') %}
           {% set cls1 = (d1 is not none) and ('up' if d1>0 else ('down' if d1<0 else 'neutral')) or 'neutral' %}
           {% set cls5 = (d5 is not none) and ('up' if d5>0 else ('down' if d5<0 else 'neutral')) or 'neutral' %}
@@ -77,9 +46,11 @@
           <div class="pch {{ cls20 }}"><span class="k">1M</span><span class="v">{{ d20 is not none and ("%+.2f%%"|format(d20)) or "—" }}</span></div>
         </div>
 
-        <h4>Breakdown</h4>
-        <table>
-          <thead><tr><th align="left">Component</th><th class="right">Value</th><th class="right">Weight</th><th class="right">Points</th></tr></thead>
+        <h4 class="h4">Breakdown</h4>
+        <table class="tbl">
+          <thead>
+            <tr><th>Component</th><th class="right">Value</th><th class="right">Weight</th><th class="right">Points</th></tr>
+          </thead>
           <tbody>
             {% set w = item.score_weights or {} %}
             {% for k in ["dii","news","trends_breakout","volume_anomaly"] %}
@@ -87,14 +58,23 @@
             {% set val = c.get(k,0) %}
             {% set wk = w.get(k,0) %}
             {% set pts_k = (val*(wk))*1000 %}
-            <tr><td>{{ nm }}</td><td class="right">{{ "%.3f"|format(val) }}</td><td class="right">{{ "%.0f"|format(wk*100) }}%</td><td class="right">{{ "%.0f"|format(pts_k) }}</td></tr>
+            <tr>
+              <td>{{ nm }}</td>
+              <td class="right">{{ "%.3f"|format(val) }}</td>
+              <td class="right">{{ "%.0f"|format(wk*100) }}%</td>
+              <td class="right">{{ "%.0f"|format(pts_k) }}</td>
+            </tr>
             {% endfor %}
           </tbody>
         </table>
-        <p class="muted">Final score = weighted average of <b>Volume anomaly</b>, <b>Trend breakout</b>, <b>News coverage</b>, and <b>DII</b>. (0–1000 pts)</p>
-      </div>
+        <p class="muted small">Final score = weighted average of <b>Volume anomaly</b>, <b>Trend breakout</b>, <b>News coverage</b>, and <b>DII</b>. (0–1000 pts)</p>
+      </article>
     {% endfor %}
-    </div>
+    </section>
+
+    <footer class="footer">
+      <small class="muted">© {{ date[:4] }} futuretech-stock</small>
+    </footer>
   </div>
 </body>
 </html>
