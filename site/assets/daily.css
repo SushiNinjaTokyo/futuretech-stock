@@ -1,145 +1,171 @@
 :root{
-  --bg: #0b0c10;
-  --panel: #12141a;
-  --text: #e6e8eb;
-  --muted: #a6adbb;
-  --accent: #5aa9e6;
-  --accent-2: #7ed957;
-  --warn: #ffb020;
-  --danger: #ff5c5c;
-  --border: #242730;
-  --chip-bg: #1b1f2a;
+  --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
+  --gold:#f6c453;        /* 1位: もっとゴールド寄り */
+  --silver:#cdd2d8;      /* 2位 */
+  --bronze:#f4a261;      /* 3位 */
+  --soft:#f8fafc; --ring:#e2e8f0;
+
+  --up-bg:#ecfdf5; --up-fg:#065f46; --up-bd:#10b98133;
+  --dn-bg:#fef2f2; --dn-fg:#7f1d1d; --dn-bd:#ef444433;
+  --nz-fg:#6b7280; --chip-bg:#eef2f7;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:var(--bg);color:var(--fg)}
+
+.wrap{max-width:1100px;margin:0 auto;padding:16px 16px 24px}
+header{margin-bottom:14px}
+h1{font-size:20px;margin:0 0 6px;letter-spacing:-0.2px}
+.sub{color:var(--muted);font-size:12px}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:12px}
+@media (min-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* card */
+.card{position:relative;border:1px solid var(--border);border-radius:16px;padding:12px 12px 14px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.left{display:flex;align-items:center;gap:10px;min-width:0}
+
+/* ===== Rank visual ===== */
+.rank-rocket{
+  width:64px;height:64px;border-radius:999px;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;position:relative;isolation:isolate;
+  overflow:hidden; /* スマホで丸崩れ防止 */
+  box-shadow:0 10px 24px rgba(0,0,0,.08) inset, 0 6px 14px rgba(0,0,0,.06);
+}
+/* 金銀銅の塗り */
+.rank1{ background:radial-gradient(120% 120% at 30% 30%, #fff6d6 0%, var(--gold) 45%, #d59b2b 100%); }
+.rank2{ background:radial-gradient(120% 120% at 30% 30%, #ffffff 0%, var(--silver) 50%, #9ea3a9 100%); }
+.rank3{ background:radial-gradient(120% 120% at 30% 30%, #fff0e5 0%, var(--bronze) 50%, #e4823f 100%); }
+.rankN{ display:none; } /* ロケットは4位以降は非表示 */
+
+/* 数字バッジ（4位以下） */
+.rank-badge{
+  width:36px;height:36px;border-radius:999px;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:13px;letter-spacing:.2px;color:#111827;background:#f3f4f6;border:1px solid var(--border);
 }
 
-@media (prefers-color-scheme: light) {
-  :root{
-    --bg: #ffffff;
-    --panel: #f7f8fb;
-    --text: #0b1321;
-    --muted: #4b5565;
-    --accent: #1f6feb;
-    --accent-2: #22863a;
-    --warn: #a97900;
-    --danger: #b23a3a;
-    --border: #e5e7eb;
-    --chip-bg: #eef2f7;
-  }
+/* Rocket icon */
+.rocket{ width:30px;height:30px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.18)); }
+.flame{ transform-origin:12px 20px; }
+
+/* 1位：強い点火＋浮遊 */
+.rank1 .rocket{ animation:lift-strong 1.6s ease-in-out infinite; }
+.rank1 .flame{ animation:flicker-strong .6s ease-in-out infinite; }
+@keyframes lift-strong{
+  0%{ transform:translateY(0) rotate(-6deg) scale(1);}
+  50%{ transform:translateY(-5px) rotate(0) scale(1.03);}
+  100%{ transform:translateY(0) rotate(-6deg) scale(1);}
+}
+@keyframes flicker-strong{
+  0%,100%{ opacity:1; transform:scale(1); }
+  50%{ opacity:.55; transform:scale(.82); }
 }
 
-*{ box-sizing: border-box; }
-html,body{ margin:0; padding:0; }
-body{
-  background: var(--bg);
-  color: var(--text);
-  font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+/* 2位：今の1位のやや控えめ版 */
+.rank2 .rocket{ animation:lift 1.8s ease-in-out infinite; }
+.rank2 .flame{ animation:flicker .9s ease-in-out infinite; }
+@keyframes lift{
+  0%{ transform:translateY(0) rotate(-4deg) }
+  50%{ transform:translateY(-3px) rotate(0) }
+  100%{ transform:translateY(0) rotate(-4deg) }
+}
+@keyframes flicker{
+  0%,100%{ opacity:.95; transform:scale(1); }
+  50%{ opacity:.7; transform:scale(.88); }
 }
 
-.container{
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 1rem 1rem;
+/* 3位：点火準備の揺らぎ */
+.rank3 .rocket{ animation:prep 1.6s ease-in-out infinite; }
+.rank3 .flame{ opacity:.0; }
+@keyframes prep{
+  0%{ transform:translateY(0) rotate(-2deg) }
+  50%{ transform:translateY(-1px) rotate(1deg) }
+  100%{ transform:translateY(0) rotate(-2deg) }
 }
 
-.site-header{
-  background: var(--panel);
-  border-bottom: 1px solid var(--border);
-}
-.site-header h1{
-  margin: 0 0 .25rem 0;
-  letter-spacing: .2px;
-}
-.subtle{ color: var(--muted); margin: 0; }
+/* テキスト */
+.id-block{min-width:0}
+.symbol{font-size:18px;font-weight:800;letter-spacing:.2px;line-height:1.15;white-space:nowrap}
+.name{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60vw}
+@media (min-width:900px){ .name{max-width:420px} }
 
-.site-footer{
-  margin-top: 2rem;
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  background: var(--panel);
+/* スコア（右側） */
+.score{text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.05;margin-left:auto}
+.score .num{
+  font-size:28px;font-weight:900;letter-spacing:-.4px;
+  padding:6px 10px;border-radius:12px;border:1px solid var(--ring);
+  background:linear-gradient(180deg,#ffffff 0%,#f9fafb 100%);
 }
-.site-footer .container{ padding: 1rem; }
-.muted{ color: var(--muted); }
+.score .den{font-size:11px;color:var(--muted);margin-top:2px}
 
-h2{ margin: 1.25rem 0 .75rem; }
-h3{ margin: .5rem 0 .5rem; }
+/* 価格チップ：横一行、リサイズで収める */
+.price-row{
+  display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:nowrap;
+  overflow:hidden;
+}
+.pch{
+  flex:1 1 0%; min-width:0;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:6px 8px;border-radius:999px;border:1px solid var(--border);
+  font-size:11px;line-height:1; background:var(--chip-bg); color:#111;
+  white-space:nowrap;
+}
+.pch .k{color:var(--muted)}
+.pch.up{border-color:var(--up-bd);background:var(--up-bg);color:var(--up-fg)}
+.pch.down{border-color:var(--dn-bd);background:var(--dn-bg);color:var(--dn-fg)}
+.pch.neutral{color:var(--nz-fg)}
+.delta{font-variant-numeric:tabular-nums}
 
-.notice{
-  padding: .75rem .9rem;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--panel);
-}
-.notice.warn{
-  border-color: var(--warn);
-}
+/* メダル（Trends/News top3） */
+.medals{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.medal{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:#fff;border-radius:999px;padding:4px 8px;line-height:1}
+.medal .label{font-size:11px;letter-spacing:.2px}
+.medal .kind{font-size:11px;color:#111;text-transform:capitalize}
+.medal.gold{border-color:#f59e0b33;box-shadow:0 0 0 2px #f59e0b1a inset}
+.medal.silver{border-color:#9ca3af33;box-shadow:0 0 0 2px #9ca3af1a inset}
+.medal.bronze{border-color:#fb923c33;box-shadow:0 0 0 2px #fb923c1a inset}
+.medal .emoji{font-size:14px}
 
-.table-wrap{ overflow-x: auto; }
-.ft-table{
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
+/* Segmented tabs（デフォルト閉） */
+.tabs{margin-top:12px}
+.seg{display:inline-flex;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:rgba(243,244,246,.6);backdrop-filter:saturate(1.1) blur(2px)}
+.seg .segbtn{
+  appearance:none;border:0;margin:0;padding:8px 12px;background:transparent;cursor:pointer;
+  font-size:12px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;
 }
-.ft-table th, .ft-table td{
-  padding: .6rem .7rem;
-  border-bottom: 1px solid var(--border);
-  white-space: nowrap;
+.seg .segbtn:focus{outline:none;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
+.seg .segbtn[aria-pressed="true"]{
+  background:#fff; font-weight:700; box-shadow:inset 0 0 0 1px var(--border);
 }
-.ft-table thead th{
-  text-align: left;
-  font-weight: 600;
-  color: var(--muted);
-  background: color-mix(in srgb, var(--panel) 92%, var(--accent));
-}
-.ft-table tbody tr:nth-child(odd){
-  background: color-mix(in srgb, var(--panel) 96%, var(--accent));
-}
-.ft-table tbody tr:hover{
-  background: color-mix(in srgb, var(--panel) 90%, var(--accent));
-}
-.w-rank{ width: 56px; }
-.w-score, .w-num{ width: 100px; text-align: right; }
-.right{ text-align: right; }
-.center{ text-align: center; }
-.mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+.seg .ico{font-size:14px;opacity:.9}
 
-.footnote{ color: var(--muted); font-size: .9rem; margin-top: .5rem; }
+.tab{display:none}
+.tab.active{display:block}
+.chart{width:100%;border:1px solid var(--border);border-radius:10px}
 
-.grid{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-@media (max-width: 960px){
-  .grid{ grid-template-columns: 1fr; }
-}
+/* table */
+.table{width:100%;border-collapse:collapse;margin-top:6px}
+.table th,.table td{border-bottom:1px solid var(--border);padding:6px 8px;font-size:12px;text-align:left}
+.table th{color:var(--muted);font-weight:600}
+.right{text-align:right}
+.muted{color:var(--muted)}
+details{margin-top:8px;background:#fafafa;border:1px solid var(--border);border-radius:8px;padding:8px 10px}
+details>summary{cursor:pointer;font-size:12px;color:#111;user-select:none}
 
-.card{
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: var(--panel);
-  padding: 12px 14px;
-}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.kv div{font-size:12px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 8px}
+.kv .k{color:var(--muted)}
+.note{margin-top:8px;font-size:11px;color:var(--muted)}
 
-.bullets{
-  list-style: none;
-  padding: 0;
-  margin: .5rem 0 0 0;
-}
-.bullets li{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: .45rem .5rem;
-  border-bottom: 1px dashed var(--border);
-}
-.bullets li:last-child{ border-bottom: none; }
-
-.chip{
-  font-size: .85rem;
-  padding: .15rem .5rem;
-  border-radius: 999px;
-  background: var(--chip-bg);
-  border: 1px solid var(--border);
+/* レイアウトの詰まり回避 */
+@media (max-width:420px){
+  .symbol{font-size:16px}
+  .rank-rocket{width:56px;height:56px}
+  .rocket{width:28px;height:28px}
+  .score .num{font-size:24px}
+  .pch{padding:5px 6px;font-size:10.5px}
+  .name{max-width:58vw}
 }

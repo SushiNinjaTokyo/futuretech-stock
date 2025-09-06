@@ -3,102 +3,102 @@
   "universe_size": 20,
   "top10": [
     {
-      "symbol": "MSFT",
-      "score_0_1": 0.821052631579,
-      "components": {
-        "price_vol_anom": 0.473684210526,
-        "dii": 1.0,
-        "trends": 0.842105263158,
-        "news": 1.0
-      }
-    },
-    {
       "symbol": "SOUN",
-      "score_0_1": 0.813157894737,
+      "score_0_1": 0.868421052632,
       "components": {
         "price_vol_anom": 0.947368421053,
-        "dii": 0.684210526316,
-        "trends": 0.684210526316,
-        "news": 1.0
-      }
-    },
-    {
-      "symbol": "AI",
-      "score_0_1": 0.718421052631,
-      "components": {
-        "price_vol_anom": 1.0,
-        "dii": 0.315789473684,
-        "trends": 0.631578947368,
-        "news": 1.0
-      }
-    },
-    {
-      "symbol": "MNDY",
-      "score_0_1": 0.710526315789,
-      "components": {
-        "price_vol_anom": 0.842105263158,
-        "dii": 0.0,
+        "dii": 0.526315789474,
         "trends": 1.0,
         "news": 1.0
       }
     },
     {
-      "symbol": "U",
-      "score_0_1": 0.686842105263,
-      "components": {
-        "price_vol_anom": 0.368421052632,
-        "dii": 0.631578947368,
-        "trends": 0.789473684211,
-        "news": 1.0
-      }
-    },
-    {
       "symbol": "TER",
-      "score_0_1": 0.681578947369,
+      "score_0_1": 0.852631578947,
       "components": {
-        "price_vol_anom": 0.421052631579,
-        "dii": 0.368421052632,
+        "price_vol_anom": 0.473684210526,
+        "dii": 1.0,
         "trends": 0.947368421053,
         "news": 1.0
       }
     },
     {
-      "symbol": "NVDA",
-      "score_0_1": 0.665789473684,
+      "symbol": "MNDY",
+      "score_0_1": 0.702631578947,
       "components": {
-        "price_vol_anom": 0.578947368421,
-        "dii": 0.210526315789,
+        "price_vol_anom": 0.842105263158,
+        "dii": 0.789473684211,
+        "trends": 0.315789473684,
+        "news": 1.0
+      }
+    },
+    {
+      "symbol": "MSFT",
+      "score_0_1": 0.692105263158,
+      "components": {
+        "price_vol_anom": 0.526315789474,
+        "dii": 0.368421052632,
         "trends": 0.894736842105,
         "news": 1.0
       }
     },
     {
       "symbol": "ISRG",
-      "score_0_1": 0.663157894737,
+      "score_0_1": 0.678947368421,
       "components": {
         "price_vol_anom": 0.894736842105,
-        "dii": 0.578947368421,
-        "trends": 0.315789473684,
+        "dii": 0.894736842105,
+        "trends": 0.105263157895,
         "news": 1.0
       }
     },
     {
       "symbol": "GDRX",
-      "score_0_1": 0.663157894737,
+      "score_0_1": 0.652631578948,
       "components": {
         "price_vol_anom": 0.684210526316,
-        "dii": 0.473684210526,
-        "trends": 0.578947368421,
+        "dii": 0.684210526316,
+        "trends": 0.368421052632,
         "news": 1.0
       }
     },
     {
-      "symbol": "PLTR",
-      "score_0_1": 0.644736842105,
+      "symbol": "AI",
+      "score_0_1": 0.634210526316,
       "components": {
-        "price_vol_anom": 0.263157894737,
+        "price_vol_anom": 1.0,
+        "dii": 0.421052631579,
+        "trends": 0.263157894737,
+        "news": 1.0
+      }
+    },
+    {
+      "symbol": "RKLB",
+      "score_0_1": 0.631578947368,
+      "components": {
+        "price_vol_anom": 0.631578947368,
+        "dii": 0.210526315789,
+        "trends": 0.736842105263,
+        "news": 1.0
+      }
+    },
+    {
+      "symbol": "symbol",
+      "score_0_1": 0.601315789474,
+      "components": {
+        "price_vol_anom": 0.026315789474,
         "dii": 0.947368421053,
-        "trends": 0.473684210526,
+        "trends": 0.526315789474,
+        "news": 1.0
+      }
+    },
+    {
+      "symbol": "AVAV",
+      "score_0_1": 0.560526315789,
+      "components": {
+        "price_vol_anom": 0.210526315789,
+        "dii": 0.473684210526,
+        "trends": 0.631578947368,
         "news": 1.0
       }
     }
