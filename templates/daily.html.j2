@@ -2,59 +2,154 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>{{ name }}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="{{ css_href }}">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+  <title>{{ title }}</title>
+  <!-- ルート相対パスで CSS を参照（/daily/ 配下でも確実に適用） -->
+  <link rel="stylesheet" href="/assets/daily.css?v={{ css_version }}">
+  <meta name="color-scheme" content="light dark" />
 </head>
 <body>
-  <div class="wrap">
-    <header class="header">
-      <h1>{{ name }}</h1>
-      <p class="muted small">Generated at {{ generated_at }} • Weights: 
-        pv={{ "%.2f"|format(weights.get("price_vol_anom", 0)) }},
-        dii={{ "%.2f"|format(weights.get("dii", 0)) }},
-        trends={{ "%.2f"|format(weights.get("trends", 0)) }},
-        news={{ "%.2f"|format(weights.get("news", 0)) }}
-      </p>
-    </header>
+  <header class="site-header">
+    <div class="container">
+      <h1>Daily Top 10</h1>
+      <p class="subtle">Report Date: <strong>{{ date }}</strong></p>
+    </div>
+  </header>
 
-    {% if items and items|length > 0 %}
-    <section class="card">
-      <h2 class="card__title">Top 10 — {{ date }}</h2>
-      <div class="table">
-        <div class="table__head">
-          <div>#</div>
-          <div>Symbol</div>
-          <div>Total</div>
-          <div>Price Vol</div>
-          <div>DII</div>
-          <div>Trends</div>
-          <div>News</div>
+  <main class="container">
+    <section>
+      <h2>Top 10 Ranking</h2>
+
+      {% set items = top10 or [] %}
+      {% if items | length == 0 %}
+        <div class="notice warn">No ranking data found for {{ date }}.</div>
+      {% else %}
+        <div class="table-wrap">
+          <table class="ft-table">
+            <thead>
+              <tr>
+                <th class="w-rank">#</th>
+                <th>Symbol</th>
+                <th class="w-score">Score</th>
+                {# 既知 components を先に並べ、未知キーは末尾にまとめて表示 #}
+                {% set comp_keys = [] %}
+                {% for k in known_component_keys %}
+                  {% set use = false %}
+                  {% for it in items %}
+                    {% set c = (it.get('components') or {}) %}
+                    {% if k in c %}
+                      {% set use = true %}
+                      {% break %}
+                    {% endif %}
+                  {% endfor %}
+                  {% if use %}
+                    {% set _ = comp_keys.append(k) %}
+                  {% endif %}
+                {% endfor %}
+
+                {# 未知キーの収集 #}
+                {% set other_keys = [] %}
+                {% for it in items %}
+                  {% for k, v in (it.get('components') or {}).items() %}
+                    {% if (k not in comp_keys) and (k not in other_keys) %}
+                      {% set _ = other_keys.append(k) %}
+                    {% endif %}
+                  {% endfor %}
+                {% endfor %}
+
+                {% for k in comp_keys %}
+                  <th class="w-num">{{ k|replace('_',' ')|title }}</th>
+                {% endfor %}
+                {% for k in other_keys %}
+                  <th class="w-num">{{ k|replace('_',' ')|title }}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for it in items %}
+                {% set rank = loop.index %}
+                {% set sym = it.get('symbol') or it.get('ticker') or it.get('name') or '-' %}
+                {% set score = it.get('score') or it.get('score_0_1') or it.get('score01') or 0 %}
+                {% set comps = it.get('components') or {} %}
+                <tr>
+                  <td class="mono center">{{ "%d"|format(rank) }}</td>
+                  <td class="mono">{{ sym }}</td>
+                  <td class="mono center">{{ "%.3f"|format(score) }}</td>
+
+                  {% for k in comp_keys %}
+                    {% set v = comps.get(k) %}
+                    <td class="mono right">{{ v is number and ("%.3f"|format(v)) or (v if v is not none else "–") }}</td>
+                  {% endfor %}
+                  {% for k in other_keys %}
+                    {% set v = comps.get(k) %}
+                    <td class="mono right">{{ v is number and ("%.3f"|format(v)) or (v if v is not none else "–") }}</td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
-        <div class="table__body">
-          {% for it in items %}
-          {% set comp = it.get("components", {}) %}
-          <div class="row">
-            <div>{{ loop.index }}</div>
-            <div class="sym">{{ it.symbol or it.get("symbol") }}</div>
-            <div>{{ "%.3f"|format(it.score_0_1 or it.get("score_0_1", 0)) }}</div>
-            <div>{{ "%.3f"|format(comp.get("price_vol_anom", 0)) }}</div>
-            <div>{{ "%.3f"|format(comp.get("dii", 0)) }}</div>
-            <div>{{ "%.3f"|format(comp.get("trends", 0)) }}</div>
-            <div>{{ "%.3f"|format(comp.get("news", 0)) }}</div>
-          </div>
-          {% endfor %}
+      {% endif %}
+      <p class="footnote">* Scores are normalized (0–1) unless noted otherwise.</p>
+    </section>
+
+    <section>
+      <h2>Inputs Snapshot</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>DII / Volume Signal</h3>
+          {% if (dii or [])|length == 0 %}
+            <div class="notice">No DII data.</div>
+          {% else %}
+            <ul class="bullets">
+              {% for d in (dii or [])[:10] %}
+                {% set sym = d.get('symbol') or d.get('ticker') or '-' %}
+                {% set sc = d.get('score') or d.get('score_0_1') or  d.get('score01') or 0 %}
+                <li><span class="mono">{{ sym }}</span><span class="chip">{{ "%.3f"|format(sc) }}</span></li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+        <div class="card">
+          <h3>Google Trends</h3>
+          {% if (trends or [])|length == 0 %}
+            <div class="notice">No trends data.</div>
+          {% else %}
+            <ul class="bullets">
+              {% for t in (trends or [])[:10] %}
+                {% set sym = t.get('symbol') or t.get('ticker') or '-' %}
+                {% set sc = t.get('score') or t.get('score_0_1') or 0 %}
+                <li><span class="mono">{{ sym }}</span><span class="chip">{{ "%.3f"|format(sc) }}</span></li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+        <div class="card">
+          <h3>News Sentiment</h3>
+          {% if (news or [])|length == 0 %}
+            <div class="notice">No news data.</div>
+          {% else %}
+            <ul class="bullets">
+              {% for n in (news or [])[:10] %}
+                {% set sym = n.get('symbol') or n.get('ticker') or '-' %}
+                {% set sc = n.get('score') or n.get('score_0_1') or 0 %}
+                <li><span class="mono">{{ sym }}</span><span class="chip">{{ "%.3f"|format(sc) }}</span></li>
+              {% endfor %}
+            </ul>
+          {% endif %}
         </div>
       </div>
     </section>
-    {% else %}
-    <p class="muted">No items to display.</p>
-    {% endif %}
 
-    <footer class="footer small muted">
-      <p>© {{ date[:4] }} FutureTech — Auto-generated daily report.</p>
-    </footer>
-  </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="muted">© {{ date[:4] }} FutureTech Stock — generated via GitHub Actions</p>
+    </div>
+  </footer>
 </body>
 </html>
