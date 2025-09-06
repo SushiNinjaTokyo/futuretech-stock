@@ -2,12 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>{{ title }}</title>
-  <!-- ルート相対パスで CSS を参照（/daily/ 配下でも確実に適用） -->
   <link rel="stylesheet" href="/assets/daily.css?v={{ css_version }}">
   <meta name="color-scheme" content="light dark" />
 </head>
@@ -34,36 +30,10 @@
                 <th class="w-rank">#</th>
                 <th>Symbol</th>
                 <th class="w-score">Score</th>
-                {# 既知 components を先に並べ、未知キーは末尾にまとめて表示 #}
-                {% set comp_keys = [] %}
-                {% for k in known_component_keys %}
-                  {% set use = false %}
-                  {% for it in items %}
-                    {% set c = (it.get('components') or {}) %}
-                    {% if k in c %}
-                      {% set use = true %}
-                      {% break %}
-                    {% endif %}
-                  {% endfor %}
-                  {% if use %}
-                    {% set _ = comp_keys.append(k) %}
-                  {% endif %}
-                {% endfor %}
-
-                {# 未知キーの収集 #}
-                {% set other_keys = [] %}
-                {% for it in items %}
-                  {% for k, v in (it.get('components') or {}).items() %}
-                    {% if (k not in comp_keys) and (k not in other_keys) %}
-                      {% set _ = other_keys.append(k) %}
-                    {% endif %}
-                  {% endfor %}
-                {% endfor %}
-
-                {% for k in comp_keys %}
+                {% for k in (comp_keys or []) %}
                   <th class="w-num">{{ k|replace('_',' ')|title }}</th>
                 {% endfor %}
-                {% for k in other_keys %}
+                {% for k in (other_keys or []) %}
                   <th class="w-num">{{ k|replace('_',' ')|title }}</th>
                 {% endfor %}
               </tr>
@@ -78,12 +48,11 @@
                   <td class="mono center">{{ "%d"|format(rank) }}</td>
                   <td class="mono">{{ sym }}</td>
                   <td class="mono center">{{ "%.3f"|format(score) }}</td>
-
-                  {% for k in comp_keys %}
+                  {% for k in (comp_keys or []) %}
                     {% set v = comps.get(k) %}
                     <td class="mono right">{{ v is number and ("%.3f"|format(v)) or (v if v is not none else "–") }}</td>
                   {% endfor %}
-                  {% for k in other_keys %}
+                  {% for k in (other_keys or []) %}
                     {% set v = comps.get(k) %}
                     <td class="mono right">{{ v is number and ("%.3f"|format(v)) or (v if v is not none else "–") }}</td>
                   {% endfor %}
@@ -107,7 +76,7 @@
             <ul class="bullets">
               {% for d in (dii or [])[:10] %}
                 {% set sym = d.get('symbol') or d.get('ticker') or '-' %}
-                {% set sc = d.get('score') or d.get('score_0_1') or  d.get('score01') or 0 %}
+                {% set sc = d.get('score') or d.get('score_0_1') or d.get('score01') or 0 %}
                 <li><span class="mono">{{ sym }}</span><span class="chip">{{ "%.3f"|format(sc) }}</span></li>
               {% endfor %}
             </ul>
