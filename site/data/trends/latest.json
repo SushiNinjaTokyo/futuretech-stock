@@ -3,142 +3,142 @@
   "items": [
     {
       "symbol": "symbol",
-      "score_0_1": 0.263157894737,
-      "components": {
-        "trends": 0.263157894737
-      }
-    },
-    {
-      "symbol": "NVDA",
-      "score_0_1": 0.0,
-      "components": {
-        "trends": 0.0
-      }
-    },
-    {
-      "symbol": "MSFT",
-      "score_0_1": 0.473684210526,
-      "components": {
-        "trends": 0.473684210526
-      }
-    },
-    {
-      "symbol": "PLTR",
-      "score_0_1": 0.947368421053,
-      "components": {
-        "trends": 0.947368421053
-      }
-    },
-    {
-      "symbol": "AI",
-      "score_0_1": 1.0,
-      "components": {
-        "trends": 1.0
-      }
-    },
-    {
-      "symbol": "ISRG",
-      "score_0_1": 0.421052631579,
-      "components": {
-        "trends": 0.421052631579
-      }
-    },
-    {
-      "symbol": "TER",
-      "score_0_1": 0.842105263158,
-      "components": {
-        "trends": 0.842105263158
-      }
-    },
-    {
-      "symbol": "SYM",
-      "score_0_1": 0.631578947368,
-      "components": {
-        "trends": 0.631578947368
-      }
-    },
-    {
-      "symbol": "RKLB",
       "score_0_1": 0.052631578947,
       "components": {
         "trends": 0.052631578947
       }
     },
     {
-      "symbol": "IRDM",
-      "score_0_1": 0.736842105263,
-      "components": {
-        "trends": 0.736842105263
-      }
-    },
-    {
-      "symbol": "VSAT",
+      "symbol": "NVDA",
       "score_0_1": 0.894736842105,
       "components": {
         "trends": 0.894736842105
       }
     },
     {
-      "symbol": "INOD",
-      "score_0_1": 0.526315789474,
+      "symbol": "MSFT",
+      "score_0_1": 0.842105263158,
       "components": {
-        "trends": 0.526315789474
+        "trends": 0.842105263158
       }
     },
     {
-      "symbol": "SOUN",
-      "score_0_1": 0.157894736842,
+      "symbol": "PLTR",
+      "score_0_1": 0.473684210526,
       "components": {
-        "trends": 0.157894736842
+        "trends": 0.473684210526
       }
     },
     {
-      "symbol": "MNDY",
-      "score_0_1": 0.368421052632,
+      "symbol": "AI",
+      "score_0_1": 0.631578947368,
       "components": {
-        "trends": 0.368421052632
+        "trends": 0.631578947368
       }
     },
     {
-      "symbol": "AVAV",
-      "score_0_1": 0.789473684211,
-      "components": {
-        "trends": 0.789473684211
-      }
-    },
-    {
-      "symbol": "PERF",
-      "score_0_1": 0.578947368421,
-      "components": {
-        "trends": 0.578947368421
-      }
-    },
-    {
-      "symbol": "GDRX",
-      "score_0_1": 0.684210526316,
-      "components": {
-        "trends": 0.684210526316
-      }
-    },
-    {
-      "symbol": "ABCL",
+      "symbol": "ISRG",
       "score_0_1": 0.315789473684,
       "components": {
         "trends": 0.315789473684
       }
     },
     {
-      "symbol": "U",
+      "symbol": "TER",
+      "score_0_1": 0.947368421053,
+      "components": {
+        "trends": 0.947368421053
+      }
+    },
+    {
+      "symbol": "SYM",
+      "score_0_1": 0.263157894737,
+      "components": {
+        "trends": 0.263157894737
+      }
+    },
+    {
+      "symbol": "RKLB",
+      "score_0_1": 0.736842105263,
+      "components": {
+        "trends": 0.736842105263
+      }
+    },
+    {
+      "symbol": "IRDM",
       "score_0_1": 0.105263157895,
       "components": {
         "trends": 0.105263157895
       }
     },
     {
-      "symbol": "TEM",
+      "symbol": "VSAT",
+      "score_0_1": 0.0,
+      "components": {
+        "trends": 0.0
+      }
+    },
+    {
+      "symbol": "INOD",
+      "score_0_1": 0.157894736842,
+      "components": {
+        "trends": 0.157894736842
+      }
+    },
+    {
+      "symbol": "SOUN",
+      "score_0_1": 0.684210526316,
+      "components": {
+        "trends": 0.684210526316
+      }
+    },
+    {
+      "symbol": "MNDY",
+      "score_0_1": 1.0,
+      "components": {
+        "trends": 1.0
+      }
+    },
+    {
+      "symbol": "AVAV",
       "score_0_1": 0.210526315789,
       "components": {
         "trends": 0.210526315789
+      }
+    },
+    {
+      "symbol": "PERF",
+      "score_0_1": 0.421052631579,
+      "components": {
+        "trends": 0.421052631579
+      }
+    },
+    {
+      "symbol": "GDRX",
+      "score_0_1": 0.578947368421,
+      "components": {
+        "trends": 0.578947368421
+      }
+    },
+    {
+      "symbol": "ABCL",
+      "score_0_1": 0.526315789474,
+      "components": {
+        "trends": 0.526315789474
+      }
+    },
+    {
+      "symbol": "U",
+      "score_0_1": 0.789473684211,
+      "components": {
+        "trends": 0.789473684211
+      }
+    },
+    {
+      "symbol": "TEM",
+      "score_0_1": 0.368421052632,
+      "components": {
+        "trends": 0.368421052632
       }
     }
   ],
