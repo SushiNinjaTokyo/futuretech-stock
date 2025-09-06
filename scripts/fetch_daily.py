@@ -70,43 +70,98 @@ def rank_percentiles(values: List[float]) -> List[float]:
     return [mp[v] for v in values]
 
 def price_volume_anomaly(symbols: List[str]) -> Dict[str, float]:
-    # 近3か月をダウンロードし、直近5日の平均出来高 / 全期間平均出来高 で近似スコア
+    """
+    近3か月の出来高から近似アノマリーを作る。
+    - 無効ティッカーは静かに0点扱い（ログ1行に集約）
+    - yfinanceの雑多なstderr出力を抑制
+    - 単一銘柄戻り/複数銘柄MultiIndexの両対応
+    """
+    import io
+    import sys
+    import contextlib
+    import pandas as pd
+    import numpy as np
+    import yfinance as yf
+    from datetime import datetime, timedelta
+
     if not symbols:
         return {}
+
+    # yfinanceの冗長メッセージを抑制
+    fake_out, fake_err = io.StringIO(), io.StringIO()
     end = datetime.utcnow().date()
     start = end - timedelta(days=150)
-    data = yf.download(
-        tickers=symbols,
-        start=start.isoformat(),
-        end=(end + timedelta(days=1)).isoformat(),
-        progress=False,
-        group_by='ticker',
-        auto_adjust=False,
-        threads=True
-    )
+
+    with contextlib.redirect_stdout(fake_out), contextlib.redirect_stderr(fake_err):
+        data = yf.download(
+            tickers=symbols,
+            start=start.isoformat(),
+            end=(end + timedelta(days=1)).isoformat(),
+            progress=False,
+            group_by="ticker",
+            auto_adjust=False,
+            threads=True,
+        )
 
     scores: Dict[str, float] = {}
+    missing: List[str] = []
+
+    # data の形状に応じて各銘柄の Series を取り出すヘルパ
+    def pick_df(sym: str):
+        try:
+            if isinstance(data.columns, pd.MultiIndex):
+                # 複数銘柄: 列が MultiIndex (('NVDA','Open'),...)
+                if sym in data.columns.get_level_values(0):
+                    return data[sym]
+                raise KeyError(sym)
+            else:
+                # 単一銘柄: そのままDataFrame
+                if len(symbols) == 1:
+                    return data
+                # 単一銘柄しか返ってこなかったが、symがそれ以外 → 欠損扱い
+                raise KeyError(sym)
+        except Exception:
+            raise KeyError(sym)
+
     for s in symbols:
         try:
-            df = data[s] if isinstance(data.columns, pd.MultiIndex) else data
-        except Exception:
-            # yfinanceが単一銘柄しか返さなかった時など
-            df = data
-        try:
-            vol = df["Volume"].dropna()
+            df = pick_df(s)
+            vol = df.get("Volume")
+            if vol is None:
+                raise KeyError("Volume")
+            vol = vol.dropna()
             if len(vol) < 10:
                 scores[s] = 0.0
                 continue
-            recent = vol.tail(5).mean()
-            base = vol.mean()
-            r = float(recent / base) if base > 0 else 0.0
-            scores[s] = max(0.0, min(r / 2.0, 1.0))  # 2倍で満点にクリップ
+            recent = float(vol.tail(5).mean())
+            base = float(vol.mean())
+            r = (recent / base) if base > 0 else 0.0
+            # 2倍で満点に正規化し、[0,1]へクリップ
+            scores[s] = max(0.0, min(r / 2.0, 1.0))
         except Exception:
             scores[s] = 0.0
-    # パーセンタイルに整形
+            missing.append(s)
+
+    # パーセンタイル（降順）
     vals = [scores.get(s, 0.0) for s in symbols]
-    pcts = rank_percentiles(vals)
-    return {s: p for s, p in zip(symbols, pcts)}
+    order = sorted(vals, reverse=True)
+    mp: Dict[float, float] = {}
+    i, n = 0, len(order)
+    while i < n:
+        j = i
+        while j < n and order[j] == order[i]:
+            j += 1
+        avg_rank = (i + j - 1) / 2.0
+        pct = 1.0 - (avg_rank / max(1, n - 1)) if n > 1 else 1.0
+        mp[order[i]] = pct
+        i = j
+    pcts = {s: mp[v] for s, v in zip(symbols, vals)}
+
+    # まとめて1行だけ情報を出す（CIログがうるさくならないように）
+    if missing:
+        print(f"[fetch_daily] yfinance missing/invalid tickers treated as 0: {sorted(set(missing))}")
+
+    return pcts
 
 def main() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
