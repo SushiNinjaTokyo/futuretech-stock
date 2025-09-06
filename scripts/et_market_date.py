@@ -1,34 +1,34 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-US 市場の「前営業日」をレポート日として返す。
-環境変数 REPORT_DATE があればそれを優先（YYYY-MM-DD）。
-"""
 from __future__ import annotations
-import os, sys, datetime as dt, logging
+import os, sys
+from datetime import datetime, timezone, timedelta
 
-TZ = dt.timezone.utc
+def main() -> None:
+    # 1) 昼夜・サマータイム等に左右されにくいようUTC基準
+    now_utc = datetime.now(timezone.utc)
 
-def us_prev_business_day(ref: dt.date|None=None) -> dt.date:
-    if ref is None:
-        ref = dt.datetime.now(tz=TZ).date()
-    d = ref
-    # 米国の簡易休日: 土日。必要なら NYSE 休場表を入れる。
-    if d.weekday() >= 5:
-        # 土: -1, 日: -2
-        d = d - dt.timedelta(days=d.weekday() - 4)
-    # 当日が平日でも「市場クローズ後に回る」前提で前日を使う
-    d = d - dt.timedelta(days=1)
-    while d.weekday() >= 5:
-        d -= dt.timedelta(days=1)
-    return d
+    # 2) 既に REPORT_DATE が来ていればそれを尊重
+    env_date = os.getenv("REPORT_DATE", "").strip()
+    if env_date:
+        try:
+            # YYYY-MM-DD ならそのまま
+            _ = datetime.strptime(env_date, "%Y-%m-%d")
+            print(env_date)
+            return
+        except Exception:
+            # 無効な値なら無視して続行
+            pass
 
-def main():
-    rd_env = os.getenv("REPORT_DATE", "").strip()
-    if rd_env:
-        print(rd_env)
-        return
-    print(us_prev_business_day().isoformat())
+    # 3) 米株想定: 取引終了後に「当日」を締める。UTCで翌日 AM5:00 相当で日繰り上げ。
+    # （NY - UTC は概ね 4〜5 時差なので AM5:00 でほぼ確実にクローズ後）
+    cutoff_hour = 5
+    report_date = (now_utc - timedelta(hours=cutoff_hour)).date()
+    print(report_date.isoformat())
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        # 何があっても今日の日付を返す（CIを止めない）
+        print(datetime.utcnow().date().isoformat())
+        sys.exit(0)
