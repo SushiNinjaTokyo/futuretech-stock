@@ -4,102 +4,102 @@
     {
       "symbol": "NVDA",
       "recent_count": 0,
-      "score_0_1": 0.425
+      "score_0_1": 0.375
     },
     {
       "symbol": "MSFT",
-      "recent_count": 0,
-      "score_0_1": 0.425
+      "recent_count": 1,
+      "score_0_1": 0.8
     },
     {
       "symbol": "PLTR",
       "recent_count": 0,
-      "score_0_1": 0.425
+      "score_0_1": 0.375
     },
     {
       "symbol": "AI",
-      "recent_count": 17,
+      "recent_count": 18,
       "score_0_1": 0.95
     },
     {
       "symbol": "ISRG",
       "recent_count": 0,
-      "score_0_1": 0.425
+      "score_0_1": 0.375
     },
     {
       "symbol": "TER",
-      "recent_count": 11,
+      "recent_count": 5,
       "score_0_1": 0.9
     },
     {
       "symbol": "SYM",
       "recent_count": 0,
-      "score_0_1": 0.425
+      "score_0_1": 0.375
     },
     {
       "symbol": "RKLB",
       "recent_count": 0,
-      "score_0_1": 0.425
+      "score_0_1": 0.375
     },
     {
       "symbol": "IRDM",
       "recent_count": 0,
-      "score_0_1": 0.425
+      "score_0_1": 0.375
     },
     {
       "symbol": "VSAT",
       "recent_count": 0,
-      "score_0_1": 0.425
+      "score_0_1": 0.375
     },
     {
       "symbol": "INOD",
       "recent_count": 0,
-      "score_0_1": 0.425
+      "score_0_1": 0.375
     },
     {
       "symbol": "SOUN",
       "recent_count": 0,
-      "score_0_1": 0.425
+      "score_0_1": 0.375
     },
     {
       "symbol": "MNDY",
       "recent_count": 0,
-      "score_0_1": 0.425
+      "score_0_1": 0.375
     },
     {
       "symbol": "AVAV",
       "recent_count": 0,
-      "score_0_1": 0.425
+      "score_0_1": 0.375
     },
     {
       "symbol": "PERF",
-      "recent_count": 2,
-      "score_0_1": 0.85
+      "recent_count": 1,
+      "score_0_1": 0.8
     },
     {
       "symbol": "GDRX",
       "recent_count": 0,
-      "score_0_1": 0.425
+      "score_0_1": 0.375
     },
     {
       "symbol": "ABCL",
       "recent_count": 0,
-      "score_0_1": 0.425
+      "score_0_1": 0.375
     },
     {
       "symbol": "U",
-      "recent_count": 45,
+      "recent_count": 50,
       "score_0_1": 1.0
     },
     {
       "symbol": "TEM",
-      "recent_count": 0,
-      "score_0_1": 0.425
+      "recent_count": 1,
+      "score_0_1": 0.8
     },
     {
       "symbol": "VRT",
       "recent_count": 0,
-      "score_0_1": 0.425
+      "score_0_1": 0.375
     }
   ],
   "meta": {
