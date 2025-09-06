@@ -1,0 +1,112 @@
+{
+  "date": "2025-09-06",
+  "universe_size": 20,
+  "top10": [
+    {
+      "symbol": "U",
+      "score_0_1": 0.859210526316,
+      "components": {
+        "price_vol_anom": 0.5,
+        "dii": 1.0,
+        "trends": 0.947368421053,
+        "news": 1.0
+      }
+    },
+    {
+      "symbol": "PERF",
+      "score_0_1": 0.727631578948,
+      "components": {
+        "price_vol_anom": 0.5,
+        "dii": 0.789473684211,
+        "trends": 0.684210526316,
+        "news": 1.0
+      }
+    },
+    {
+      "symbol": "INOD",
+      "score_0_1": 0.709210526316,
+      "components": {
+        "price_vol_anom": 0.5,
+        "dii": 0.842105263158,
+        "trends": 0.578947368421,
+        "news": 1.0
+      }
+    },
+    {
+      "symbol": "SYM",
+      "score_0_1": 0.690789473684,
+      "components": {
+        "price_vol_anom": 0.5,
+        "dii": 0.263157894737,
+        "trends": 1.0,
+        "news": 1.0
+      }
+    },
+    {
+      "symbol": "IRDM",
+      "score_0_1": 0.677631578947,
+      "components": {
+        "price_vol_anom": 0.5,
+        "dii": 0.526315789474,
+        "trends": 0.736842105263,
+        "news": 1.0
+      }
+    },
+    {
+      "symbol": "TER",
+      "score_0_1": 0.653947368421,
+      "components": {
+        "price_vol_anom": 0.5,
+        "dii": 0.684210526316,
+        "trends": 0.526315789474,
+        "news": 1.0
+      }
+    },
+    {
+      "symbol": "AI",
+      "score_0_1": 0.648684210527,
+      "components": {
+        "price_vol_anom": 0.5,
+        "dii": 0.947368421053,
+        "trends": 0.289473684211,
+        "news": 1.0
+      }
+    },
+    {
+      "symbol": "VSAT",
+      "score_0_1": 0.632894736842,
+      "components": {
+        "price_vol_anom": 0.5,
+        "dii": 0.157894736842,
+        "trends": 0.894736842105,
+        "news": 1.0
+      }
+    },
+    {
+      "symbol": "MNDY",
+      "score_0_1": 0.625,
+      "components": {
+        "price_vol_anom": 0.5,
+        "dii": 0.631578947368,
+        "trends": 0.473684210526,
+        "news": 1.0
+      }
+    },
+    {
+      "symbol": "SOUN",
+      "score_0_1": 0.619736842105,
+      "components": {
+        "price_vol_anom": 0.5,
+        "dii": 0.736842105263,
+        "trends": 0.368421052632,
+        "news": 1.0
+      }
+    }
+  ],
+  "weights": {
+    "price_vol_anom": 0.25,
+    "dii": 0.25,
+    "trends": 0.3,
+    "news": 0.2
+  }
+}
