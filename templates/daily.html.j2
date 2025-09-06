@@ -2,78 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>futuretech-stock — Daily Top 10 ({{ date | default('', true) }})</title>
+  <title>{{ name }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <!-- daily.css は render.py が site/assets/daily.css へコピーします -->
-  <link rel="stylesheet" href="../assets/daily.css">
-  <script type="application/ld+json">{{ schema_json }}</script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="{{ css_href }}">
 </head>
 <body>
   <div class="wrap">
     <header class="header">
-      <h1>Daily Top 10 — {{ date }}</h1>
-      <p class="muted">AI · Robotics · Space — fair scoring across sizes. US market timing.</p>
+      <h1>{{ name }}</h1>
+      <p class="muted small">Generated at {{ generated_at }} • Weights: 
+        pv={{ "%.2f"|format(weights.get("price_vol_anom", 0)) }},
+        dii={{ "%.2f"|format(weights.get("dii", 0)) }},
+        trends={{ "%.2f"|format(weights.get("trends", 0)) }},
+        news={{ "%.2f"|format(weights.get("news", 0)) }}
+      </p>
     </header>
 
-    <section class="grid">
-    {% for item in top10 %}
-      {% set idx = loop.index %}
-      {% set pts = item.score_pts|int %}
-      {% set d = item.deltas or {} %}
-      {% set c = item.score_components or {} %}
-      <article class="card" id="card-{{ idx }}">
-        <div class="row">
-          <div class="left">
-            <div class="rank-rocket rank{{ idx }}"><span class="medal">#{{ idx }}</span></div>
-            <div class="idbox">
-              <div class="sym">{{ item.symbol }}</div>
-              <div class="name">{{ item.name }}</div>
-            </div>
+    {% if items and items|length > 0 %}
+    <section class="card">
+      <h2 class="card__title">Top 10 — {{ date }}</h2>
+      <div class="table">
+        <div class="table__head">
+          <div>#</div>
+          <div>Symbol</div>
+          <div>Total</div>
+          <div>Price Vol</div>
+          <div>DII</div>
+          <div>Trends</div>
+          <div>News</div>
+        </div>
+        <div class="table__body">
+          {% for it in items %}
+          {% set comp = it.get("components", {}) %}
+          <div class="row">
+            <div>{{ loop.index }}</div>
+            <div class="sym">{{ it.symbol or it.get("symbol") }}</div>
+            <div>{{ "%.3f"|format(it.score_0_1 or it.get("score_0_1", 0)) }}</div>
+            <div>{{ "%.3f"|format(comp.get("price_vol_anom", 0)) }}</div>
+            <div>{{ "%.3f"|format(comp.get("dii", 0)) }}</div>
+            <div>{{ "%.3f"|format(comp.get("trends", 0)) }}</div>
+            <div>{{ "%.3f"|format(comp.get("news", 0)) }}</div>
           </div>
-          <div class="score" aria-label="final score">{{ pts }}</div>
+          {% endfor %}
         </div>
-
-        <div class="price-row" role="group" aria-label="price momentum">
-          {% set d1=d.get('d1') %}{% set d5=d.get('d5') %}{% set d20=d.get('d20') %}
-          {% set cls1 = (d1 is not none) and ('up' if d1>0 else ('down' if d1<0 else 'neutral')) or 'neutral' %}
-          {% set cls5 = (d5 is not none) and ('up' if d5>0 else ('down' if d5<0 else 'neutral')) or 'neutral' %}
-          {% set cls20= (d20 is not none) and ('up' if d20>0 else ('down' if d20<0 else 'neutral')) or 'neutral' %}
-          <div class="pch {{ cls1 }}"><span class="k">1D</span><span class="v">{{ d1 is not none and ("%+.2f%%"|format(d1)) or "—" }}</span></div>
-          <div class="pch {{ cls5 }}"><span class="k">1W</span><span class="v">{{ d5 is not none and ("%+.2f%%"|format(d5)) or "—" }}</span></div>
-          <div class="pch {{ cls20 }}"><span class="k">1M</span><span class="v">{{ d20 is not none and ("%+.2f%%"|format(d20)) or "—" }}</span></div>
-        </div>
-
-        <h4 class="h4">Breakdown</h4>
-        <table class="tbl">
-          <thead>
-            <tr><th>Component</th><th class="right">Value</th><th class="right">Weight</th><th class="right">Points</th></tr>
-          </thead>
-          <tbody>
-            {% set w = item.score_weights or {} %}
-            {% for k in ["dii","news","trends_breakout","volume_anomaly"] %}
-            {% set nm = {"dii":"DII model","news":"News coverage","trends_breakout":"Trend breakout","volume_anomaly":"Volume anomaly"}[k] %}
-            {% set val = c.get(k,0) %}
-            {% set wk = w.get(k,0) %}
-            {% set pts_k = (val*(wk))*1000 %}
-            <tr>
-              <td>{{ nm }}</td>
-              <td class="right">{{ "%.3f"|format(val) }}</td>
-              <td class="right">{{ "%.0f"|format(wk*100) }}%</td>
-              <td class="right">{{ "%.0f"|format(pts_k) }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        <p class="muted small">Final score = weighted average of <b>Volume anomaly</b>, <b>Trend breakout</b>, <b>News coverage</b>, and <b>DII</b>. (0–1000 pts)</p>
-      </article>
-    {% endfor %}
+      </div>
     </section>
+    {% else %}
+    <p class="muted">No items to display.</p>
+    {% endif %}
 
-    <footer class="footer">
-      <small class="muted">© {{ date[:4] }} futuretech-stock</small>
+    <footer class="footer small muted">
+      <p>© {{ date[:4] }} FutureTech — Auto-generated daily report.</p>
     </footer>
   </div>
 </body>
