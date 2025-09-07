@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <title>futuretech-stock — Daily Top 10 ({{ date | default('', true) }})</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/assets/daily.css?v={{ css_version }}">
-  <meta name="color-scheme" content="light dark" />
+  <link rel="preload" href="/assets/daily.css" as="style">
+  <link rel="stylesheet" href="/assets/daily.css">
 </head>
 <body>
   <div class="wrap">
@@ -14,50 +14,19 @@
       <div class="sub">Date: {{ date | default('', true) }} / Scoring: 1000 pts（volume + insider + trends + news）</div>
     </header>
 
-    {% set items = top10 or [] %}
-    {% if items | length > 0 %}
+    {% if top10 is defined %}
     <div class="grid" id="cards">
-      {% for item in items %}
-        {# -------- フォールバック群（shapeの違いを吸収） -------- #}
-        {% set _sym = (item.symbol if item.symbol is defined and item.symbol
-                       else (item.ticker if item.ticker is defined and item.ticker
-                             else (item.code if item.code is defined and item.code else '-'))) %}
-        {% set _name = (item.name if item.name is defined and item.name
-                        else (item.company if item.company is defined and item.company else '')) %}
-        {% set rank = item.rank | default(loop.index, true) %}
-        {% set chart_url = (item.chart_url
-                           | default('/charts/' ~ (date | default('', true)) ~ '/' ~ _sym ~ '.png', true)) %}
+      {% for item in top10 %}
+        {% set _sym  = item.symbol | default('', true) %}
+        {% set _name = item.name   | default('', true) %}
+        {% set rank  = (item.rank | default(loop.index, true)) %}
+        {% set chart_url = (item.chart_url | default('/charts/' ~ (date | default('', true)) ~ '/' ~ _sym ~ '.png', true)) %}
+        {% set pts  = item.score_pts | default((item.final_score_0_1|default(0,true) * 1000) | round(0, 'common'), true) %}
+        {% set vol  = (item.detail.vol_anomaly if (item.detail is defined and item.detail and item.detail.vol_anomaly is defined) else none) %}
 
-        {# スコア（0–1）を多段フォールバック #}
-        {% set s01 =
-          (item.score if item.score is defined else
-           (item.final_score_0_1 if item.final_score_0_1 is defined else
-            (item.score_0_1 if item.score_0_1 is defined else
-             (item.score01 if item.score01 is defined else 0)))) %}
-        {% set pts = (item.score_pts if item.score_pts is defined
-                      else (s01 * 1000) | round(0, 'common')) %}
-
-        {# volume anomaly 詳細 #}
-        {% if item.detail is defined and item.detail and item.detail.vol_anomaly is defined %}
-          {% set vol = item.detail.vol_anomaly %}
-        {% elif item.components is defined and item.components and item.components.volume_anom_detail is defined %}
-          {% set vol = item.components.volume_anom_detail %}
-        {% else %}
-          {% set vol = none %}
-        {% endif %}
-
-        {# price deltas: 1D/1W/1M の多段フォールバック #}
-        {% set d1 = (item.price_delta_1d if item.price_delta_1d is defined
-                     else (item.delta_1d_pct if item.delta_1d_pct is defined
-                           else (item.change1d_pct if item.change1d_pct is defined else none))) %}
-
-        {% set d5 = (item.price_delta_1w if item.price_delta_1w is defined
-                     else (item.delta_5d_pct if item.delta_5d_pct is defined
-                           else (item.delta_1w_pct if item.delta_1w_pct is defined else none))) %}
-
-        {% set d20 = (item.price_delta_1m if item.price_delta_1m is defined
-                      else (item.delta_20d_pct if item.delta_20d_pct is defined
-                            else (item.delta_1m_pct if item.delta_1m_pct is defined else none))) %}
+        {% set d1 = item.price_delta_1d if item.price_delta_1d is defined else none %}
+        {% set d5 = item.price_delta_1w if item.price_delta_1w is defined else none %}
+        {% set d20= item.price_delta_1m if item.price_delta_1m is defined else none %}
 
         <div class="card" id="card-{{ loop.index }}" data-symbol="{{ _sym }}">
           <div class="row">
@@ -167,28 +136,59 @@
           <script type="application/json" class="js-payload">
           {{ {
             "symbol": _sym,
-            "components": (item.components if item.components is defined else {}),
-            "score_components": (item.score_components if item.score_components is defined else (item.components if item.components is defined else {})),
+            "score_components": (item.score_components if item.score_components is defined else {}),
             "score_weights": (item.score_weights if item.score_weights is defined else {}),
-            "final_score_0_1": s01,
+            "final_score_0_1": item.final_score_0_1 | default(0, true),
             "score_pts": pts | int,
-            "insider_momo": (item.insider_momo if item.insider_momo is defined else ((item.components.insider_momo) if (item.components is defined and item.components.insider_momo is defined) else 0)),
-            "trends_breakout": (item.trends_breakout if item.trends_breakout is defined else ((item.components.trends) if (item.components is defined and item.components.trends is defined) else 0)),
-            "vol_anomaly_score": (item.vol_anomaly_score if item.vol_anomaly_score is defined else ((item.components.volume_anom) if (item.components is defined and item.components.volume_anom is defined) else ((item.components.volume) if (item.components is defined and item.components.volume is defined) else 0))),
-            "news_score": (item.news_score if item.news_score is defined else ((item.components.news) if (item.components is defined and item.components.news is defined) else 0)),
-            "news_recent_count": (item.news_recent_count if item.news_recent_count is defined else (item.news_count if item.news_count is defined else 0))
+            "insider_momo": item.insider_momo | default(0, true),
+            "trends_breakout": item.trends_breakout | default(0, true),
+            "vol_anomaly_score": item.vol_anomaly_score | default(0, true),
+            "news_score": item.news_score | default(0, true),
+            "news_recent_count": item.news_recent_count | default(0, true)
           } | tojson }}
           </script>
         </div>
       {% endfor %}
     </div>
     {% else %}
-      <div class="notice warn">No ranking data found for {{ date }}.</div>
+      <div id="cards" class="grid"></div>
     {% endif %}
   </div>
 
   <script>
-    // Segmented toggle
+    // --- helpers ---
+    const KEY_MAP = {
+      price_vol_anom: "volume_anomaly",
+      vol_anom: "volume_anomaly",
+      vol_anomaly: "volume_anomaly",
+      news_coverage: "news",
+      news_score: "news",
+      dii: "insider_momo",
+      insider: "insider_momo",
+      insider_momentum: "insider_momo",
+      trends: "trends_breakout",
+      trends_peak: "trends_breakout",
+      trends_breakout: "trends_breakout",
+      volume_anomaly: "volume_anomaly",
+      news: "news",
+      insider_momo: "insider_momo",
+    };
+    const LABEL = k => ({
+      volume_anomaly: "Price/volume anomaly",
+      insider_momo: "Insider momentum",
+      trends_breakout: "Trends breakout",
+      news: "News coverage",
+    }[k] || k);
+
+    const canon = (obj={})=>{
+      const out={};
+      for(const [k,v] of Object.entries(obj||{})){
+        out[KEY_MAP[k]||k]=v;
+      }
+      return out;
+    };
+
+    // Segmented tabs
     function bindToggles(scope=document){
       scope.querySelectorAll(".card").forEach(card=>{
         const seg = card.querySelector(".seg");
@@ -216,17 +216,24 @@
       });
     }
 
-    // Breakdown table（score_components or components を使用）
+    // Breakdown
     function fillBreakdown(){
       document.querySelectorAll(".card").forEach(card=>{
         const payloadEl=card.querySelector(".js-payload");
         if(!payloadEl) return;
         let data={};
         try{ data=JSON.parse(payloadEl.textContent||"{}"); }catch(_){}
-        const comps=data.score_components && Object.keys(data.score_components).length ? data.score_components : (data.components||{});
-        const weights=data.score_weights||{};
+        const comps=canon(data.score_components||{});
+        let weights=canon(data.score_weights||{});
+
         const keys=Object.keys(comps).filter(k=>comps[k]!=null);
-        const wsum=keys.reduce((s,k)=>s+Math.max(0,Number(weights[k]||0)),0)||1;
+        const wsum = keys.reduce((s,k)=> s + Math.max(0, Number(weights[k]||0)), 0);
+
+        // フォールバック（0 なら等分）
+        if(wsum<=0 && keys.length){
+          const eq = 1/keys.length;
+          weights = Object.fromEntries(keys.map(k=>[k,eq]));
+        }
 
         const tbody=card.querySelector(".js-breakdown tbody");
         const totalEl=card.querySelector(".js-total");
@@ -234,23 +241,14 @@
         tbody.innerHTML="";
         let totalPts=0;
 
-        const label=k=>({
-          volume_anomaly:"Volume anomaly",
-          volume:"Volume anomaly",
-          volume_anom:"Volume anomaly",
-          insider_momo:"Insider momentum",
-          trends_breakout:"Trends breakout",
-          trends:"Trends breakout",
-          news:"News coverage"
-        }[k]||k);
-
         keys.forEach(k=>{
           const v=Math.max(0,Math.min(1,Number(comps[k]||0)));
-          const wn=Math.max(0,Number(weights[k]||0))/wsum;
+          const w=Math.max(0,Number(weights[k]||0));
+          const wn = w; // weights は 0〜1 を想定
           const pts=Math.round(v*wn*1000);
           totalPts+=pts;
           const tr=document.createElement("tr");
-          tr.innerHTML=`<td>${label(k)}</td><td class="right">${v.toFixed(2)}</td><td class="right">${(wn*100).toFixed(0)}%</td><td class="right">${pts}</td>`;
+          tr.innerHTML=`<td>${LABEL(k)}</td><td class="right">${v.toFixed(2)}</td><td class="right">${(wn*100).toFixed(0)}%</td><td class="right">${pts}</td>`;
           tbody.appendChild(tr);
         });
         if(totalEl) totalEl.textContent=String(totalPts);
@@ -287,18 +285,17 @@
       }
     }
 
-    // News/Trends medals Top3（score_components / components 両対応）
+    // Medals
     function decorateTop3Medals(){
       const cards=[...document.querySelectorAll(".card")].map(card=>{
         let data={};
         try{ data=JSON.parse(card.querySelector(".js-payload")?.textContent||"{}"); }catch(_){}
-        const trends = Number(
-          (data.trends_breakout ?? data.components?.trends ?? data.score_components?.trends ?? 0)
-        );
-        const news   = Number(
-          (data.news_score ?? data.components?.news ?? data.score_components?.news ?? 0)
-        );
-        return { card, symbol: card.getAttribute("data-symbol"), trends, news };
+        return {
+          card,
+          symbol: card.getAttribute("data-symbol"),
+          trends: Number(data.trends_breakout||0),
+          news:   Number(data.news_score||0)
+        };
       });
       const rankBy = (arr, key)=>
         [...arr].sort((a,b)=>Number(b[key])-Number(a[key]))
