@@ -1,9 +1,6 @@
-/* templates/daily.css */
 :root{
   --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
-  --gold:#f6c453;
-  --silver:#cdd2d8;
-  --bronze:#f4a261;
+  --gold:#f6c453; --silver:#cdd2d8; --bronze:#f4a261;
   --soft:#f8fafc; --ring:#e2e8f0;
 
   --up-bg:#ecfdf5; --up-fg:#065f46; --up-bd:#10b98133;
@@ -28,7 +25,7 @@ h1{font-size:20px;margin:0 0 6px;letter-spacing:-0.2px}
 .row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .left{display:flex;align-items:center;gap:10px;min-width:0}
 
-/* rank visual */
+/* ===== Rank visual ===== */
 .rank-rocket{
   width:64px;height:64px;border-radius:999px;flex:0 0 auto;
   display:flex;align-items:center;justify-content:center;position:relative;isolation:isolate;
@@ -40,15 +37,18 @@ h1{font-size:20px;margin:0 0 6px;letter-spacing:-0.2px}
 .rank3{ background:radial-gradient(120% 120% at 30% 30%, #fff0e5 0%, var(--bronze) 50%, #e4823f 100%); }
 .rankN{ display:none; }
 
+/* 4位以下: 数字バッジ */
 .rank-badge{
   width:36px;height:36px;border-radius:999px;flex:0 0 auto;
   display:flex;align-items:center;justify-content:center;
   font-weight:800;font-size:13px;letter-spacing:.2px;color:#111827;background:#f3f4f6;border:1px solid var(--border);
 }
 
+/* Rocket icon */
 .rocket{ width:30px;height:30px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.18)); }
 .flame{ transform-origin:12px 20px; }
 
+/* 1位 */
 .rank1 .rocket{ animation:lift-strong 1.6s ease-in-out infinite; }
 .rank1 .flame{ animation:flicker-strong .6s ease-in-out infinite; }
 @keyframes lift-strong{
@@ -61,6 +61,7 @@ h1{font-size:20px;margin:0 0 6px;letter-spacing:-0.2px}
   50%{ opacity:.55; transform:scale(.82); }
 }
 
+/* 2位 */
 .rank2 .rocket{ animation:lift 1.8s ease-in-out infinite; }
 .rank2 .flame{ animation:flicker .9s ease-in-out infinite; }
 @keyframes lift{
@@ -73,6 +74,7 @@ h1{font-size:20px;margin:0 0 6px;letter-spacing:-0.2px}
   50%{ opacity:.7; transform:scale(.88); }
 }
 
+/* 3位 */
 .rank3 .rocket{ animation:prep 1.6s ease-in-out infinite; }
 .rank3 .flame{ opacity:.0; }
 @keyframes prep{
@@ -81,23 +83,38 @@ h1{font-size:20px;margin:0 0 6px;letter-spacing:-0.2px}
   100%{ transform:translateY(0) rotate(-2deg) }
 }
 
+/* テキスト */
 .id-block{min-width:0}
 .symbol{font-size:18px;font-weight:800;letter-spacing:.2px;line-height:1.15;white-space:nowrap}
 .name{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60vw}
 @media (min-width:900px){ .name{max-width:420px} }
 
+/* スコア */
 .score{text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.05;margin-left:auto}
-.score .num{font-size:28px;font-weight:900;letter-spacing:-.4px;padding:6px 10px;border-radius:12px;border:1px solid var(--ring);background:linear-gradient(180deg,#ffffff 0%,#f9fafb 100%);}
+.score .num{
+  font-size:28px;font-weight:900;letter-spacing:-.4px;
+  padding:6px 10px;border-radius:12px;border:1px solid var(--ring);
+  background:linear-gradient(180deg,#ffffff 0%,#f9fafb 100%);
+}
 .score .den{font-size:11px;color:var(--muted);margin-top:2px}
 
-.price-row{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:nowrap;overflow:hidden;}
-.pch{flex:1 1 0%; min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 8px;border-radius:999px;border:1px solid var(--border);font-size:11px;line-height:1; background:var(--chip-bg); color:#111;white-space:nowrap;}
+/* 価格チップ */
+.price-row{
+  display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:nowrap;overflow:hidden;
+}
+.pch{
+  flex:1 1 0%; min-width:0;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:6px 8px;border-radius:999px;border:1px solid var(--border);
+  font-size:11px;line-height:1; background:var(--chip-bg); color:#111; white-space:nowrap;
+}
 .pch .k{color:var(--muted)}
 .pch.up{border-color:var(--up-bd);background:var(--up-bg);color:var(--up-fg)}
 .pch.down{border-color:var(--dn-bd);background:var(--dn-bg);color:var(--dn-fg)}
 .pch.neutral{color:var(--nz-fg)}
 .delta{font-variant-numeric:tabular-nums}
 
+/* メダル */
 .medals{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
 .medal{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:#fff;border-radius:999px;padding:4px 8px;line-height:1}
 .medal .label{font-size:11px;letter-spacing:.2px}
@@ -107,17 +124,22 @@ h1{font-size:20px;margin:0 0 6px;letter-spacing:-0.2px}
 .medal.bronze{border-color:#fb923c33;box-shadow:0 0 0 2px #fb923c1a inset}
 .medal .emoji{font-size:14px}
 
+/* Segmented tabs */
 .tabs{margin-top:12px}
 .seg{display:inline-flex;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:rgba(243,244,246,.6);backdrop-filter:saturate(1.1) blur(2px)}
-.seg .segbtn{appearance:none;border:0;margin:0;padding:8px 12px;background:transparent;cursor:pointer;font-size:12px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;}
+.seg .segbtn{
+  appearance:none;border:0;margin:0;padding:8px 12px;background:transparent;cursor:pointer;
+  font-size:12px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;
+}
 .seg .segbtn:focus{outline:none;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
-.seg .segbtn[aria-pressed="true"]{background:#fff; font-weight:700; box-shadow:inset 0 0 0 1px var(--border);}
+.seg .segbtn[aria-pressed="true"]{ background:#fff; font-weight:700; box-shadow:inset 0 0 0 1px var(--border); }
 .seg .ico{font-size:14px;opacity:.9}
 
 .tab{display:none}
 .tab.active{display:block}
 .chart{width:100%;border:1px solid var(--border);border-radius:10px}
 
+/* table */
 .table{width:100%;border-collapse:collapse;margin-top:6px}
 .table th,.table td{border-bottom:1px solid var(--border);padding:6px 8px;font-size:12px;text-align:left}
 .table th{color:var(--muted);font-weight:600}
@@ -131,6 +153,7 @@ details>summary{cursor:pointer;font-size:12px;color:#111;user-select:none}
 .kv .k{color:var(--muted)}
 .note{margin-top:8px;font-size:11px;color:var(--muted)}
 
+/* レイアウトの詰まり回避 */
 @media (max-width:420px){
   .symbol{font-size:16px}
   .rank-rocket{width:56px;height:56px}
