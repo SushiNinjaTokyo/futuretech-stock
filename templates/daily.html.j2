@@ -1,17 +1,176 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="utf-8" />
   <title>futuretech-stock — Daily Top 10 ({{ date | default('', true) }})</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- external CSS -->
-  <link rel="stylesheet" href="/assets/daily.css" />
+  <style>
+    :root{
+      --bg:#ffffff; --fg:#0f172a; --muted:#64748b; --border:#e5e7eb;
+      --gold:#f6c453; --silver:#cdd2d8; --bronze:#f4a261;
+      --soft:#f8fafc; --ring:#e2e8f0;
+      --up-bg:#ecfdf5; --up-fg:#065f46; --up-bd:#10b98133;
+      --dn-bg:#fef2f2; --dn-fg:#7f1d1d; --dn-bd:#ef444433;
+      --nz-fg:#6b7280; --chip-bg:#eef2f7;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:var(--bg);color:var(--fg)}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px 16px 24px}
+    header{margin-bottom:14px}
+    h1{font-size:20px;margin:0 0 6px;letter-spacing:-0.2px}
+    .sub{color:var(--muted);font-size:12px}
+
+    .grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:12px}
+    @media (min-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+    .card{position:relative;border:1px solid var(--border);border-radius:16px;padding:12px 12px 14px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .left{display:flex;align-items:center;gap:10px;min-width:0}
+
+    /* ===== Rank visual ===== */
+    .rank-rocket{
+      width:64px;height:64px;border-radius:999px;flex:0 0 auto;
+      display:flex;align-items:center;justify-content:center;position:relative;isolation:isolate;
+      overflow:hidden;
+      box-shadow:0 10px 24px rgba(0,0,0,.08) inset, 0 6px 14px rgba(0,0,0,.06);
+    }
+    .rank1{ background:radial-gradient(120% 120% at 30% 30%, #fff6d6 0%, var(--gold) 45%, #d59b2b 100%); }
+    .rank2{ background:radial-gradient(120% 120% at 30% 30%, #ffffff 0%, var(--silver) 50%, #9ea3a9 100%); }
+    .rank3{ background:radial-gradient(120% 120% at 30% 30%, #fff0e5 0%, var(--bronze) 50%, #e4823f 100%); }
+    .rankN{ display:none; }
+
+    .rank-badge{
+      width:36px;height:36px;border-radius:999px;flex:0 0 auto;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:800;font-size:13px;letter-spacing:.2px;color:#111827;background:#f3f4f6;border:1px solid var(--border);
+    }
+
+    .rocket{ width:30px;height:30px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.18)); }
+    .flame{ transform-origin:12px 20px; transform-box: fill-box; }
+
+    /* 1位：炎を超ド派手に＆上昇アニメ誇張 */
+    .rank1 .rocket{ animation:lift-hero 1.3s ease-in-out infinite; }
+    .rank1 .flame{
+      animation:blaze 0.5s ease-in-out infinite;
+      filter: drop-shadow(0 0 6px rgba(249,115,22,.9)) drop-shadow(0 0 12px rgba(251,146,60,.7));
+    }
+    @keyframes lift-hero{
+      0%  { transform:translateY(0) rotate(-8deg) scale(1); }
+      40% { transform:translateY(-8px) rotate(-2deg) scale(1.08); }
+      60% { transform:translateY(-10px) rotate(0deg) scale(1.10); }
+      100%{ transform:translateY(0) rotate(-8deg) scale(1); }
+    }
+    @keyframes blaze{
+      0%  { opacity:1; transform:scale(2.0); }
+      50% { opacity:.6; transform:scale(2.6); }
+      100%{ opacity:1; transform:scale(2.0); }
+    }
+
+    /* 2位：控えめ */
+    .rank2 .rocket{ animation:lift 1.8s ease-in-out infinite; }
+    .rank2 .flame{ animation:flicker .9s ease-in-out infinite; }
+    @keyframes lift{
+      0%{ transform:translateY(0) rotate(-4deg) }
+      50%{ transform:translateY(-3px) rotate(0) }
+      100%{ transform:translateY(0) rotate(-4deg) }
+    }
+    @keyframes flicker{
+      0%,100%{ opacity:.95; transform:scale(1); }
+      50%{ opacity:.7; transform:scale(1.15); }
+    }
+
+    /* 3位：控えめな揺らぎ */
+    .rank3 .rocket{ animation:prep 1.6s ease-in-out infinite; }
+    .rank3 .flame{ opacity:.0; }
+    @keyframes prep{
+      0%{ transform:translateY(0) rotate(-2deg) }
+      50%{ transform:translateY(-1px) rotate(1deg) }
+      100%{ transform:translateY(0) rotate(-2deg) }
+    }
+
+    .id-block{min-width:0}
+    .symbol{font-size:18px;font-weight:800;letter-spacing:.2px;line-height:1.15;white-space:nowrap}
+    .name{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60vw}
+    @media (min-width:900px){ .name{max-width:420px} }
+
+    .score{text-align:right;display:flex;flex-direction:column;align-items:flex-end;line-height:1.05;margin-left:auto}
+    .score .num{
+      font-size:28px;font-weight:900;letter-spacing:-.4px;
+      padding:6px 10px;border-radius:12px;border:1px solid var(--ring);
+      background:linear-gradient(180deg,#ffffff 0%,#f9fafb 100%);
+    }
+    .score .den{font-size:11px;color:var(--muted);margin-top:2px}
+
+    .price-row{
+      display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:nowrap;overflow:hidden;
+    }
+    .pch{
+      flex:1 1 0%; min-width:0;
+      display:flex;align-items:center;justify-content:center;gap:6px;
+      padding:6px 8px;border-radius:999px;border:1px solid var(--border);
+      font-size:11px;line-height:1; background:var(--chip-bg); color:#111;
+      white-space:nowrap;
+    }
+    .pch .k{color:var(--muted)}
+    .pch.up{border-color:var(--up-bd);background:var(--up-bg);color:var(--up-fg)}
+    .pch.down{border-color:var(--dn-bd);background:var(--dn-bg);color:var(--dn-fg)}
+    .pch.neutral{color:var(--nz-fg)}
+    .delta{font-variant-numeric:tabular-nums}
+
+    .medals{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+    .medal{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:#fff;border-radius:999px;padding:4px 8px;line-height:1}
+    .medal .label{font-size:11px;letter-spacing:.2px}
+    .medal .kind{font-size:11px;color:#111;text-transform:capitalize}
+    .medal.gold{border-color:#f59e0b33;box-shadow:0 0 0 2px #f59e0b1a inset}
+    .medal.silver{border-color:#9ca3af33;box-shadow:0 0 0 2px #9ca3af1a inset}
+    .medal.bronze{border-color:#fb923c33;box-shadow:0 0 0 2px #fb923c1a inset}
+    .medal .emoji{font-size:14px}
+
+    .tabs{margin-top:12px}
+    .seg{display:inline-flex;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:rgba(243,244,246,.6);backdrop-filter:saturate(1.1) blur(2px)}
+    .seg .segbtn{
+      appearance:none;border:0;margin:0;padding:8px 12px;background:transparent;cursor:pointer;
+      font-size:12px;color:#111;line-height:1;display:flex;align-items:center;gap:8px;
+    }
+    .seg .segbtn:focus{outline:none;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
+    .seg .segbtn[aria-pressed="true"]{
+      background:#fff; font-weight:700; box-shadow:inset 0 0 0 1px var(--border);
+    }
+    .seg .ico{font-size:14px;opacity:.9}
+
+    .tab{display:none}
+    .tab.active{display:block}
+    .chart{width:100%;border:1px solid var(--border);border-radius:10px}
+
+    .table{width:100%;border-collapse:collapse;margin-top:6px}
+    .table th,.table td{border-bottom:1px solid var(--border);padding:6px 8px;font-size:12px;text-align:left}
+    .table th{color:var(--muted);font-weight:600}
+    .right{text-align:right}
+    .muted{color:var(--muted)}
+    details{margin-top:8px;background:#fafafa;border:1px solid var(--border);border-radius:8px;padding:8px 10px}
+    details>summary{cursor:pointer;font-size:12px;color:#111;user-select:none}
+
+    .kv{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+    .kv div{font-size:12px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 8px}
+    .kv .k{color:var(--muted)}
+    .note{margin-top:8px;font-size:11px;color:var(--muted)}
+
+    @media (max-width:420px){
+      .symbol{font-size:16px}
+      .rank-rocket{width:56px;height:56px}
+      .rocket{width:28px;height:28px}
+      .score .num{font-size:24px}
+      .pch{padding:5px 6px;font-size:10.5px}
+      .name{max-width:58vw}
+    }
+  </style>
 </head>
 <body>
   <div class="wrap">
     <header>
       <h1>futuretech-stock — Daily Top 10</h1>
-      <div class="sub">Date: {{ date | default('', true) }} / Scoring: 1000 pts (volume + dii + trends + news)</div>
+      <div class="sub">Date: {{ date | default('', true) }} / Scoring: 1000 pts（volume + DII + trends + news）</div>
     </header>
 
     {% if top10 is defined %}
@@ -24,7 +183,6 @@
         {% set pts  = item.score_pts | default((item.final_score_0_1|default(0,true) * 1000) | round(0, 'common'), true) %}
         {% set vol  = (item.detail.vol_anomaly if (item.detail is defined and item.detail and item.detail.vol_anomaly is defined) else none) %}
 
-        {# price deltas; expected from fetch_daily.py (fallback to None) #}
         {% set d1 = item.price_delta_1d if item.price_delta_1d is defined else none %}
         {% set d5 = item.price_delta_1w if item.price_delta_1w is defined else none %}
         {% set d20= item.price_delta_1m if item.price_delta_1m is defined else none %}
@@ -35,7 +193,6 @@
               {% if rank <= 3 %}
                 {% set rank_class = 'rank1' if rank==1 else ('rank2' if rank==2 else 'rank3') %}
                 <div class="rank-rocket {{ rank_class }}" aria-label="Rank {{ rank }}">
-                  <!-- rocket SVG -->
                   <svg class="rocket" viewBox="0 0 24 24" role="img" aria-hidden="true">
                     <path d="M12 3c3 0 6 3.2 6 6.8 0 1.4-.4 2.8-1.1 4l-2.4 4c-.3.6-.9 1-1.6 1h-2.8c-.7 0-1.3-.4-1.6-1l-2.4-4A8.2 8.2 0 0 1 6 9.8C6 6.2 9 3 12 3Z" fill="#ffffff"/>
                     <circle cx="12" cy="9.4" r="2.1" fill="#94a3b8"/>
@@ -51,8 +208,6 @@
               <div class="id-block">
                 <div class="symbol">{{ _sym }}</div>
                 {% if _name %}<div class="name">{{ _name }}</div>{% endif %}
-
-                <!-- medals (Top3 of Trends / News) -->
                 <div class="medals"></div>
               </div>
             </div>
@@ -63,7 +218,6 @@
             </div>
           </div>
 
-          <!-- price chips -->
           <div class="price-row">
             {% set cls1 = (d1 is not none) and ('up' if d1>0 else ('down' if d1<0 else 'neutral')) or 'neutral' %}
             {% set cls5 = (d5 is not none) and ('up' if d5>0 else ('down' if d5<0 else 'neutral')) or 'neutral' %}
@@ -73,7 +227,6 @@
             <div class="pch {{ cls20 }}"><span class="k">1M</span><span class="delta">{{ d20 is not none and ("%+.2f%%"|format(d20)) or "—" }}</span></div>
           </div>
 
-          <!-- segmented toggle -->
           <div class="tabs">
             <div class="seg" role="tablist" aria-label="Card sections">
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
@@ -82,7 +235,6 @@
                       data-target="#tech-{{ loop.index }}"><span class="ico">📈</span>Weekly chart</button>
             </div>
 
-            <!-- Overview -->
             <div id="ov-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="true">
               <table class="table js-breakdown">
                 <thead>
@@ -121,22 +273,13 @@
                   <div class="muted">No details.</div>
                 {% endif %}
               </details>
-
-              <!-- legend (simplified English) -->
-              <div class="note">
-                * Price changes: 1D = vs previous trading day; 1W = vs 5 trading days ago; 1M = vs 20 trading days ago.<br/>
-                * Trends: Google Trends relative score (recent window).<br/>
-                * News: recent article volume × quick sentiment, normalized across today’s universe.
-              </div>
             </div>
 
-            <!-- Technical -->
             <div id="tech-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="true">
               <img src="{{ chart_url }}" alt="{{ _sym }} weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
-          <!-- JSON payload for JS -->
           <script type="application/json" class="js-payload">
           {{ {
             "symbol": _sym,
@@ -144,9 +287,10 @@
             "score_weights": (item.score_weights if item.score_weights is defined else {}),
             "final_score_0_1": item.final_score_0_1 | default(0, true),
             "score_pts": pts | int,
+            "dii": (item.score_components.dii if item.score_components is defined else 0),
             "trends_breakout": item.trends_breakout | default(0, true),
-            "news_score": item.news_score | default(0, true),
             "vol_anomaly_score": item.vol_anomaly_score | default(0, true),
+            "news_score": item.news_score | default(0, true),
             "news_recent_count": item.news_recent_count | default(0, true)
           } | tojson }}
           </script>
@@ -156,10 +300,15 @@
     {% else %}
       <div id="cards" class="grid"></div>
     {% endif %}
+
+    <div class="note">
+      * Price changes: 1D = vs previous trading day; 1W = vs 5 trading days ago; 1M = vs 20 trading days ago.<br/>
+      * Trends: Google Trends relative score (recent window).<br/>
+      * News: recent article volume × quick sentiment, normalized across today’s universe.
+    </div>
   </div>
 
   <script>
-    // segmented toggle per card
     function bindToggles(scope=document){
       scope.querySelectorAll(".card").forEach(card=>{
         const seg = card.querySelector(".seg");
@@ -187,7 +336,6 @@
       });
     }
 
-    // score breakdown table from payload
     function fillBreakdown(){
       document.querySelectorAll(".card").forEach(card=>{
         const payloadEl=card.querySelector(".js-payload");
@@ -203,7 +351,7 @@
         if(!tbody) return;
         tbody.innerHTML="";
         let totalPts=0;
-        const label=k=>({price_vol_anom:"Volume anomaly", dii:"dii", trends_breakout:"Trends breakout", news:"News coverage"}[k]||k);
+        const label=k=>({volume_anomaly:"Volume anomaly",dii:"DII",trends_breakout:"Trends breakout",news:"News coverage"}[k]||k);
         keys.forEach(k=>{
           const v=Math.max(0,Math.min(1,Number(comps[k]||0)));
           const wn=Math.max(0,Number(weights[k]||0))/wsum;
@@ -217,7 +365,6 @@
       });
     }
 
-    // medals for Top3 of Trends / News
     function decorateTop3Medals(){
       const cards=[...document.querySelectorAll(".card")].map(card=>{
         let data={};
@@ -252,7 +399,6 @@
       });
     }
 
-    // INIT
     bindToggles();
     fillBreakdown();
     decorateTop3Medals();
