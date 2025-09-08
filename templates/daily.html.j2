@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>futuretech-stock — Daily Top 10 ({{ date | default('', true) }})</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- 分離したCSS -->
+  <!-- external CSS -->
   <link rel="stylesheet" href="/assets/daily.css" />
 </head>
 <body>
   <div class="wrap">
     <header>
       <h1>futuretech-stock — Daily Top 10</h1>
-      <div class="sub">Date: {{ date | default('', true) }} / Scoring: 1000 pts（volume + insider + trends + news）</div>
+      <div class="sub">Date: {{ date | default('', true) }} / Scoring: 1000 pts (volume + dii + trends + news)</div>
     </header>
 
     {% if top10 is defined %}
@@ -24,6 +24,7 @@
         {% set pts  = item.score_pts | default((item.final_score_0_1|default(0,true) * 1000) | round(0, 'common'), true) %}
         {% set vol  = (item.detail.vol_anomaly if (item.detail is defined and item.detail and item.detail.vol_anomaly is defined) else none) %}
 
+        {# price deltas; expected from fetch_daily.py (fallback to None) #}
         {% set d1 = item.price_delta_1d if item.price_delta_1d is defined else none %}
         {% set d5 = item.price_delta_1w if item.price_delta_1w is defined else none %}
         {% set d20= item.price_delta_1m if item.price_delta_1m is defined else none %}
@@ -50,6 +51,8 @@
               <div class="id-block">
                 <div class="symbol">{{ _sym }}</div>
                 {% if _name %}<div class="name">{{ _name }}</div>{% endif %}
+
+                <!-- medals (Top3 of Trends / News) -->
                 <div class="medals"></div>
               </div>
             </div>
@@ -60,6 +63,7 @@
             </div>
           </div>
 
+          <!-- price chips -->
           <div class="price-row">
             {% set cls1 = (d1 is not none) and ('up' if d1>0 else ('down' if d1<0 else 'neutral')) or 'neutral' %}
             {% set cls5 = (d5 is not none) and ('up' if d5>0 else ('down' if d5<0 else 'neutral')) or 'neutral' %}
@@ -69,6 +73,7 @@
             <div class="pch {{ cls20 }}"><span class="k">1M</span><span class="delta">{{ d20 is not none and ("%+.2f%%"|format(d20)) or "—" }}</span></div>
           </div>
 
+          <!-- segmented toggle -->
           <div class="tabs">
             <div class="seg" role="tablist" aria-label="Card sections">
               <button class="segbtn" role="tab" aria-selected="false" aria-pressed="false"
@@ -77,6 +82,7 @@
                       data-target="#tech-{{ loop.index }}"><span class="ico">📈</span>Weekly chart</button>
             </div>
 
+            <!-- Overview -->
             <div id="ov-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="true">
               <table class="table js-breakdown">
                 <thead>
@@ -116,24 +122,21 @@
                 {% endif %}
               </details>
 
-              <details class="js-insider">
-                <summary>Insider details (Form 4)</summary>
-                <div class="muted">Loading…</div>
-              </details>
-
+              <!-- legend (simplified English) -->
               <div class="note">
-                ※ Price changes: 1D = 前営業日比, 1W = 5営業日前比, 1M = 20営業日前比。<br/>
-                ※ Trends: Google Trends の相対スコア（直近ウィンドウ基準）。News: 直近記事数×簡易センチメントを宇宙内パーセンタイル正規化。<br/>
-                ※ Insider: 直近 Form 4 指標（スコア30/90など）を0–1へ縮約。
+                * Price changes: 1D = vs previous trading day; 1W = vs 5 trading days ago; 1M = vs 20 trading days ago.<br/>
+                * Trends: Google Trends relative score (recent window).<br/>
+                * News: recent article volume × quick sentiment, normalized across today’s universe.
               </div>
             </div>
 
+            <!-- Technical -->
             <div id="tech-{{ loop.index }}" class="tab" role="tabpanel" aria-hidden="true">
               <img src="{{ chart_url }}" alt="{{ _sym }} weekly chart" class="chart" loading="lazy" />
             </div>
           </div>
 
-          <!-- JSON payload（JS用） -->
+          <!-- JSON payload for JS -->
           <script type="application/json" class="js-payload">
           {{ {
             "symbol": _sym,
@@ -141,10 +144,9 @@
             "score_weights": (item.score_weights if item.score_weights is defined else {}),
             "final_score_0_1": item.final_score_0_1 | default(0, true),
             "score_pts": pts | int,
-            "insider_momo": item.insider_momo | default(0, true),
             "trends_breakout": item.trends_breakout | default(0, true),
-            "vol_anomaly_score": item.vol_anomaly_score | default(0, true),
             "news_score": item.news_score | default(0, true),
+            "vol_anomaly_score": item.vol_anomaly_score | default(0, true),
             "news_recent_count": item.news_recent_count | default(0, true)
           } | tojson }}
           </script>
@@ -157,7 +159,7 @@
   </div>
 
   <script>
-    /* ======= UI toggles ======= */
+    // segmented toggle per card
     function bindToggles(scope=document){
       scope.querySelectorAll(".card").forEach(card=>{
         const seg = card.querySelector(".seg");
@@ -185,112 +187,37 @@
       });
     }
 
-    /* ======= 内訳テーブル: エイリアス対応で重みを解決 ======= */
+    // score breakdown table from payload
     function fillBreakdown(){
-      const KEY_ALIASES = {
-        dii: ['dii','insider','insider_momo','insiderMomentum'],
-        news_coverage: ['news_coverage','news','newsScore'],
-        price_vol_anom: ['price_vol_anom','vol_anomaly','volume_anomaly','volume','price_vol','rvol'],
-        trends_breakout: ['trends_breakout','trends','trend','google_trends']
-      };
-      const canon = (k)=>{
-        const nk = String(k||'').toLowerCase().replace(/\s+/g,'_');
-        for(const [ck, arr] of Object.entries(KEY_ALIASES)){
-          if(ck===nk || arr.some(a=>nk===String(a).toLowerCase())) return ck;
-        }
-        return nk; // 未知キーはそのまま扱う
-      };
-
       document.querySelectorAll(".card").forEach(card=>{
         const payloadEl=card.querySelector(".js-payload");
         if(!payloadEl) return;
         let data={};
         try{ data=JSON.parse(payloadEl.textContent||"{}"); }catch(_){}
-        const compsRaw=data.score_components||{};
-        const weightsRaw=data.score_weights||{};
-
-        // components を正規化
-        const compsEntries = Object.entries(compsRaw)
-          .filter(([k,v])=>v!==null && v!==undefined)
-          .map(([k,v])=>[canon(k), Number(v)]);
-
-        // weights を正規化し、同一キーが複数あれば合算
-        const weightsMap = new Map();
-        Object.entries(weightsRaw).forEach(([k,v])=>{
-          const c = canon(k);
-          const w = Math.max(0, Number(v)||0);
-          weightsMap.set(c, (weightsMap.get(c)||0) + w);
-        });
-
-        // 正規化したキー列
-        const keys = compsEntries.map(([k])=>k);
-        const rawWsum = keys.reduce((s,k)=> s + (weightsMap.get(k)||0), 0);
-
-        // すべて 0 の場合は等重みで可視化（バックエンドの合計とは一致しないが、情報ゼロ表示を回避）
-        const wsum = rawWsum > 0 ? rawWsum : keys.length;
-
+        const comps=data.score_components||{};
+        const weights=data.score_weights||{};
+        const keys=Object.keys(comps).filter(k=>comps[k]!=null);
+        const wsum=keys.reduce((s,k)=>s+Math.max(0,Number(weights[k]||0)),0)||1;
         const tbody=card.querySelector(".js-breakdown tbody");
         const totalEl=card.querySelector(".js-total");
         if(!tbody) return;
         tbody.innerHTML="";
-
         let totalPts=0;
-        const pretty = (k)=>{
-          if(k==='price_vol_anom') return 'price_vol_anom';
-          if(k==='news_coverage') return 'News coverage';
-          if(k==='trends_breakout') return 'Trends breakout';
-          if(k==='dii') return 'dii';
-          return k;
-        };
-
-        compsEntries.forEach(([k,v])=>{
-          const wk = (weightsMap.get(k)|| (rawWsum>0?0:1)); // 等重み fallback
-          const wn = wk / wsum;
-          const vv = Math.max(0, Math.min(1, Number(v)||0));
-          const pts = Math.round(vv * wn * 1000);
-          totalPts += pts;
+        const label=k=>({price_vol_anom:"Volume anomaly", dii:"dii", trends_breakout:"Trends breakout", news:"News coverage"}[k]||k);
+        keys.forEach(k=>{
+          const v=Math.max(0,Math.min(1,Number(comps[k]||0)));
+          const wn=Math.max(0,Number(weights[k]||0))/wsum;
+          const pts=Math.round(v*wn*1000);
+          totalPts+=pts;
           const tr=document.createElement("tr");
-          tr.innerHTML=`<td>${pretty(k)}</td>
-                        <td class="right">${vv.toFixed(2)}</td>
-                        <td class="right">${(wn*100).toFixed(0)}%</td>
-                        <td class="right">${pts}</td>`;
+          tr.innerHTML=`<td>${label(k)}</td><td class="right">${v.toFixed(2)}</td><td class="right">${(wn*100).toFixed(0)}%</td><td class="right">${pts}</td>`;
           tbody.appendChild(tr);
         });
-
-        if(totalEl && Number.isFinite(totalPts)) totalEl.textContent=String(totalPts);
+        if(totalEl) totalEl.textContent=String(totalPts);
       });
     }
 
-    /* ======= Insider / Medals ======= */
-    async function fillInsiderDetails(){
-      try{
-        const res=await fetch(`/data/insider/form4_latest.json`,{cache:"no-store"});
-        if(!res.ok) throw new Error("fetch insider json failed");
-        const j=await res.json();
-        const items=j.items||{};
-        document.querySelectorAll(".card").forEach(card=>{
-          const sym=card.getAttribute("data-symbol");
-          const box=card.querySelector(".js-insider");
-          if(!box) return;
-          const rec=items[sym];
-          if(!rec){ box.innerHTML=`<summary>Insider details (Form 4)</summary><div class="muted">No data</div>`; return; }
-          box.innerHTML=`<summary>Insider details (Form 4)</summary>
-            <div class="kv">
-              <div><span class="k">Net buy (30d)</span><br>${(rec.net_buy_shares_30||0).toLocaleString()} shares</div>
-              <div><span class="k">Net buy (90d)</span><br>${(rec.net_buy_shares_90||0).toLocaleString()} shares</div>
-              <div><span class="k">Unique buyers (30d)</span><br>${(rec.buyers_30||0)}</div>
-              <div><span class="k">Unique buyers (90d)</span><br>${(rec.buyers_90||0)}</div>
-              <div><span class="k">Score 30</span><br>${Number(rec.score_30||0).toFixed(2)}</div>
-              <div><span class="k">Score 90</span><br>${Number(rec.score_90||0).toFixed(2)}</div>
-            </div>`;
-        });
-      }catch(e){
-        document.querySelectorAll(".js-insider").forEach(box=>{
-          box.innerHTML=`<summary>Insider details (Form 4)</summary><div class="muted">Failed to load</div>`;
-        });
-      }
-    }
-
+    // medals for Top3 of Trends / News
     function decorateTop3Medals(){
       const cards=[...document.querySelectorAll(".card")].map(card=>{
         let data={};
@@ -328,7 +255,6 @@
     // INIT
     bindToggles();
     fillBreakdown();
-    fillInsiderDetails();
     decorateTop3Medals();
   </script>
 </body>
