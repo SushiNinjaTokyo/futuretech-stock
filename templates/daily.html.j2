@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <title>futuretech-stock — Daily Top 10 ({{ date | default('', true) }})</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="preload" href="/assets/daily.css" as="style">
-  <link rel="stylesheet" href="/assets/daily.css">
+  <!-- 分離したCSS -->
+  <link rel="stylesheet" href="/assets/daily.css" />
 </head>
 <body>
   <div class="wrap">
@@ -133,6 +133,7 @@
             </div>
           </div>
 
+          <!-- JSON payload（JS用） -->
           <script type="application/json" class="js-payload">
           {{ {
             "symbol": _sym,
@@ -156,39 +157,7 @@
   </div>
 
   <script>
-    // --- helpers ---
-    const KEY_MAP = {
-      price_vol_anom: "volume_anomaly",
-      vol_anom: "volume_anomaly",
-      vol_anomaly: "volume_anomaly",
-      news_coverage: "news",
-      news_score: "news",
-      dii: "insider_momo",
-      insider: "insider_momo",
-      insider_momentum: "insider_momo",
-      trends: "trends_breakout",
-      trends_peak: "trends_breakout",
-      trends_breakout: "trends_breakout",
-      volume_anomaly: "volume_anomaly",
-      news: "news",
-      insider_momo: "insider_momo",
-    };
-    const LABEL = k => ({
-      volume_anomaly: "Price/volume anomaly",
-      insider_momo: "Insider momentum",
-      trends_breakout: "Trends breakout",
-      news: "News coverage",
-    }[k] || k);
-
-    const canon = (obj={})=>{
-      const out={};
-      for(const [k,v] of Object.entries(obj||{})){
-        out[KEY_MAP[k]||k]=v;
-      }
-      return out;
-    };
-
-    // Segmented tabs
+    /* ======= UI toggles ======= */
     function bindToggles(scope=document){
       scope.querySelectorAll(".card").forEach(card=>{
         const seg = card.querySelector(".seg");
@@ -216,46 +185,83 @@
       });
     }
 
-    // Breakdown
+    /* ======= 内訳テーブル: エイリアス対応で重みを解決 ======= */
     function fillBreakdown(){
+      const KEY_ALIASES = {
+        dii: ['dii','insider','insider_momo','insiderMomentum'],
+        news_coverage: ['news_coverage','news','newsScore'],
+        price_vol_anom: ['price_vol_anom','vol_anomaly','volume_anomaly','volume','price_vol','rvol'],
+        trends_breakout: ['trends_breakout','trends','trend','google_trends']
+      };
+      const canon = (k)=>{
+        const nk = String(k||'').toLowerCase().replace(/\s+/g,'_');
+        for(const [ck, arr] of Object.entries(KEY_ALIASES)){
+          if(ck===nk || arr.some(a=>nk===String(a).toLowerCase())) return ck;
+        }
+        return nk; // 未知キーはそのまま扱う
+      };
+
       document.querySelectorAll(".card").forEach(card=>{
         const payloadEl=card.querySelector(".js-payload");
         if(!payloadEl) return;
         let data={};
         try{ data=JSON.parse(payloadEl.textContent||"{}"); }catch(_){}
-        const comps=canon(data.score_components||{});
-        let weights=canon(data.score_weights||{});
+        const compsRaw=data.score_components||{};
+        const weightsRaw=data.score_weights||{};
 
-        const keys=Object.keys(comps).filter(k=>comps[k]!=null);
-        const wsum = keys.reduce((s,k)=> s + Math.max(0, Number(weights[k]||0)), 0);
+        // components を正規化
+        const compsEntries = Object.entries(compsRaw)
+          .filter(([k,v])=>v!==null && v!==undefined)
+          .map(([k,v])=>[canon(k), Number(v)]);
 
-        // フォールバック（0 なら等分）
-        if(wsum<=0 && keys.length){
-          const eq = 1/keys.length;
-          weights = Object.fromEntries(keys.map(k=>[k,eq]));
-        }
+        // weights を正規化し、同一キーが複数あれば合算
+        const weightsMap = new Map();
+        Object.entries(weightsRaw).forEach(([k,v])=>{
+          const c = canon(k);
+          const w = Math.max(0, Number(v)||0);
+          weightsMap.set(c, (weightsMap.get(c)||0) + w);
+        });
+
+        // 正規化したキー列
+        const keys = compsEntries.map(([k])=>k);
+        const rawWsum = keys.reduce((s,k)=> s + (weightsMap.get(k)||0), 0);
+
+        // すべて 0 の場合は等重みで可視化（バックエンドの合計とは一致しないが、情報ゼロ表示を回避）
+        const wsum = rawWsum > 0 ? rawWsum : keys.length;
 
         const tbody=card.querySelector(".js-breakdown tbody");
         const totalEl=card.querySelector(".js-total");
         if(!tbody) return;
         tbody.innerHTML="";
-        let totalPts=0;
 
-        keys.forEach(k=>{
-          const v=Math.max(0,Math.min(1,Number(comps[k]||0)));
-          const w=Math.max(0,Number(weights[k]||0));
-          const wn = w; // weights は 0〜1 を想定
-          const pts=Math.round(v*wn*1000);
-          totalPts+=pts;
+        let totalPts=0;
+        const pretty = (k)=>{
+          if(k==='price_vol_anom') return 'price_vol_anom';
+          if(k==='news_coverage') return 'News coverage';
+          if(k==='trends_breakout') return 'Trends breakout';
+          if(k==='dii') return 'dii';
+          return k;
+        };
+
+        compsEntries.forEach(([k,v])=>{
+          const wk = (weightsMap.get(k)|| (rawWsum>0?0:1)); // 等重み fallback
+          const wn = wk / wsum;
+          const vv = Math.max(0, Math.min(1, Number(v)||0));
+          const pts = Math.round(vv * wn * 1000);
+          totalPts += pts;
           const tr=document.createElement("tr");
-          tr.innerHTML=`<td>${LABEL(k)}</td><td class="right">${v.toFixed(2)}</td><td class="right">${(wn*100).toFixed(0)}%</td><td class="right">${pts}</td>`;
+          tr.innerHTML=`<td>${pretty(k)}</td>
+                        <td class="right">${vv.toFixed(2)}</td>
+                        <td class="right">${(wn*100).toFixed(0)}%</td>
+                        <td class="right">${pts}</td>`;
           tbody.appendChild(tr);
         });
-        if(totalEl) totalEl.textContent=String(totalPts);
+
+        if(totalEl && Number.isFinite(totalPts)) totalEl.textContent=String(totalPts);
       });
     }
 
-    // Insider details
+    /* ======= Insider / Medals ======= */
     async function fillInsiderDetails(){
       try{
         const res=await fetch(`/data/insider/form4_latest.json`,{cache:"no-store"});
@@ -285,7 +291,6 @@
       }
     }
 
-    // Medals
     function decorateTop3Medals(){
       const cards=[...document.querySelectorAll(".card")].map(card=>{
         let data={};
