@@ -4,7 +4,7 @@
 Daily aggregation script for futuretech-stock.
 
 Outputs per-symbol records whose keys match the web UI:
-- score_components: {volume_anomaly, insider_momo, trends_breakout, news}
+- score_components: {volume_anomaly, dii, trends_breakout, news}
 - score_weights:    same keys (sum to 1.0)
 - final_score_0_1, score_pts (0..1000)
 - price_delta_1d/1w/1m (trading-day offsets 1/5/20)
@@ -343,7 +343,7 @@ def load_config() -> Config:
     mock_mode = env_b("MOCK_MODE", False)
 
     w_vol = env_f("WEIGHT_VOL_ANOM", 0.25)
-    w_dii = env_f("WEIGHT_DII", 0.25)  # insider_momo
+    w_dii = env_f("WEIGHT_DII", 0.25)   # <- DII weight
     w_trend = env_f("WEIGHT_TRENDS", 0.30)
     w_news = env_f("WEIGHT_NEWS", 0.20)
 
@@ -364,7 +364,7 @@ def aggregate() -> None:
     ensure_dir(out_day_dir)
 
     base = cfg.out_dir
-    dii_map = load_component_map_latest(base, "dii")
+    dii_map = load_component_map_latest(base, "dii")          # <- reads site/data/dii/latest.json
     trends_map = load_component_map_latest(base, "trends")
     news_map = load_component_map_latest(base, "news")
 
@@ -403,25 +403,25 @@ def aggregate() -> None:
             d20 = nan_to_none(pct_change(df["Close"], 20))
             vol_detail, vol_score = compute_vol_anomaly(df)
 
-        insider = float(dii_map.get(sym, 0.0))
+        dii_val = float(dii_map.get(sym, 0.0))
         trends = float(trends_map.get(sym, 0.0))
         news = float(news_map.get(sym, 0.0))
 
         score_components = {
             "volume_anomaly": vol_score,
-            "insider_momo": insider,
+            "dii": dii_val,                      # <- unified to "dii"
             "trends_breakout": trends,
             "news": news,
         }
         score_weights = {
             "volume_anomaly": cfg.w_vol,
-            "insider_momo": cfg.w_dii,
+            "dii": cfg.w_dii,                    # <- unified to "dii"
             "trends_breakout": cfg.w_tr,
             "news": cfg.w_news,
         }
         final_score = (
             score_components["volume_anomaly"] * score_weights["volume_anomaly"]
-            + score_components["insider_momo"] * score_weights["insider_momo"]
+            + score_components["dii"] * score_weights["dii"]
             + score_components["trends_breakout"] * score_weights["trends_breakout"]
             + score_components["news"] * score_weights["news"]
         )
