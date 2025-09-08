@@ -56,7 +56,8 @@
     .rank-1 .rocket .flame{font-size:42px;filter:blur(.3px) drop-shadow(0 0 18px rgba(255,120,80,.75));animation:flameBig .35s infinite ease-in-out}
     @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-5px)}100%{transform:translateY(0)}}
     @keyframes flameBig{0%{transform:translateY(0) scale(1)}50%{transform:translateY(4px) scale(.85)}100%{transform:translateY(0) scale(1)}}
-    .rank-1 .card{border-color:#2e4d63;box-shadow:0 0 0 1px rgba(110,231,255,.15),0 18px 40px rgba(0,0,0,.35) inset}
+    /* ↓ ここを修正（自身に両方のクラスが付くため） */
+    .card.rank-1{border-color:#2e4d63;box-shadow:0 0 0 1px rgba(110,231,255,.15),0 18px 40px rgba(0,0,0,.35) inset}
 
     footer.note{margin:26px 0 40px;color:#b7c6d8;font-size:13px;border-top:1px solid #263246;padding-top:14px}
     footer.note h3{margin:0 0 6px 0;font-size:14px}
@@ -74,7 +75,8 @@
     </header>
 
     <section class="grid">
-      {% for item in (items or []) %}
+      {# 変数名を items→top10 に統一 #}
+      {% for item in (top10 or []) %}
       {% set _sym = item.symbol | default('', true) %}
       {% set _nm  = item.name   | default('', true) %}
       {% set _rk  = item.rank   | default(0, true) %}
@@ -142,8 +144,8 @@
           "symbol": _sym,
           "final_score_0_1": item.final_score_0_1 | default(0, true),
           "score_pts": item.score_pts | default(0, true),
-          "score_components": comps,
-          "score_weights": weights
+          "score_components": comps | default({}, true),
+          "score_weights": weights | default({}, true)
         } | tojson }}
         </script>
       </article>
@@ -153,10 +155,10 @@
     <footer class="note">
       <h3>How to read this page</h3>
       <ul>
-        <li><strong>Final Score</strong> mixes three signals: <em>Volume anomaly</em>, <em>Trends breakout</em>, and <em>News</em>. Each signal is normalized to 0–100% and then combined by weights.</li>
-        <li><strong>Volume anomaly</strong> highlights unusual trading activity. <strong>Trends breakout</strong> reflects recent search interest momentum. <strong>News</strong> counts timely, stock-specific headlines.</li>
-        <li>We track AI, Robotics, and Space themed stocks. Rankings are within our daily universe of symbols.</li>
-        <li>A big 🚀 on Rank #1 means exceptional momentum today.</li>
+        <li><strong>Final Score</strong> combines three signals: <em>Volume anomaly</em>, <em>Trends breakout</em>, and <em>News</em>. Each is normalized (0–100%) and weighted.</li>
+        <li><strong>Volume anomaly</strong> = unusual trading activity. <strong>Trends breakout</strong> = recent search interest. <strong>News</strong> = timely, stock-specific headlines.</li>
+        <li>We track AI, Robotics, and Space stocks. Rankings are within our <strong>daily list of stocks</strong>.</li>
+        <li>A big 🚀 on Rank #1 highlights exceptional momentum today.</li>
       </ul>
       <p class="muted">This page is informational and not investment advice.</p>
     </footer>
