@@ -5,8 +5,8 @@
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
       "recent_count": 20,
-      "weighted_count": 17.925953,
-      "score_0_1": 0.919986182208,
+      "weighted_count": 17.755442,
+      "score_0_1": 0.910814897033,
       "articles": [
         {
           "title": "NVDA Stock Analysis: Gap Fill at $173 in Focus - The Tradable",
@@ -21,7 +21,7 @@
         {
           "title": "NVDA Stock Price Prediction: Tests $171 Resistance - The Tradable",
           "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNQU5jX29STWt2SzEzX0dGZUg0R2ZISXJibzJ4Sks5WDltTzU5MDhiT2xCaXJTMmtvTVpyRkFrYzBJRUZ3aGNxSGpHcXZqTWJ1SHNNNEw3VWhPSnUxdEY5TmEtYnhjb1dPXzY5TWNuaE80Z0Z1cXJORXFrY1A1eVd3Wl9rc09ZdmdhNWstYk1UZGcxRmhQ",
-          "published": "2025-09-08T17:40:18Z"
+          "published": "2025-09-08T17:43:50Z"
         },
         {
           "title": "Nvidia Shares Climb Despite Citi Trims Target on Broadcom AI Threat - Yahoo Finance",
@@ -42,11 +42,6 @@
           "title": "Nvidia Higher As AI Rival Boasts Massive $10 Billion Win; Is Nvidia A Buy Or Sell Now? - Investor's Business Daily",
           "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPZFU4SkJjMUVqcXZOVjRqVHdTUEFfNDZXZDdFMURqQnd0Q293S0ZKcUJkWnJubUFoRXBEaDhqSjNFRGJ3YTYxMXVZeVJKQnBBVUNfOEliMkNzOUdWWEtQdWRsYlN5dlZGaWtlcF9UYUllUGt0SDZqUTRBTVBHVHFTWHRab3VOMkNadUdHaA",
           "published": "2025-09-08T15:07:00Z"
-        },
-        {
-          "title": "NVIDIA CORPORATION (NVDA) - MSN",
-          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5PVmQ3Zm1aVlVDTklWNlE0MklJUWc5eVFzNFd6R3M4SGdrYjZFZ2RSbHNtQU1oeTdSSnZSTmNzY05CeXpMM1BYcVgydVBQS2d3amFQcVFQaGVHLVY1ZDdpN0pLTTZEWnY5bWpqcy1Da2Nydm50NVE0",
-          "published": "2025-09-08T14:50:04Z"
         },
         {
           "title": "Alibaba, ByteDance, and Others Remain Keen on NVIDIA (NVDA)’s AI Chips - Yahoo Finance",
@@ -107,18 +102,23 @@
           "title": "Prediction: This Will Be Nvidia's Stock Price 5 Years From Now - Yahoo Finance",
           "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQUTdvSmNyT0tXa2RyNkYwNmxjMkZBRUFCZ2dQZG5iNmdQcjdnRDRDczA4WllHV3drWUVBN0EtTkRCdkFBWkJtckM2djRGb2l2bXl0LThzWXptZTRDSEhfSzJ6WDU5UXloa2VwUlEzTW80b2JjdG1iSkRrZ1V3NjlCNGJPakU",
           "published": "2025-09-07T23:05:00Z"
+        },
+        {
+          "title": "Nvidia: Begun, The Chip Wars Have (NASDAQ:NVDA) - Seeking Alpha",
+          "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1BVlVDRmplSTliN2N0dDYzX1JuVzlLM3RZOUx3Q2xEWHFmaE13RmVocjFNM2wxa0dtUmtaUzV2cU5FdlFVU3RRMFVEU0c0Ym9RamRHMHMyOFc0VVJJejBRUVJkeloyWUk1VUF3SlZUVG56YkZsQ2hOTTFfcno",
+          "published": "2025-09-07T22:00:00Z"
         }
       ],
       "components": {
-        "news": 0.919986182208
+        "news": 0.910814897033
       }
     },
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
       "recent_count": 20,
-      "weighted_count": 15.21837,
-      "score_0_1": 0.74270784732,
+      "weighted_count": 15.189604,
+      "score_0_1": 0.742537635723,
       "articles": [
         {
           "title": "Microsoft Corporation (MSFT) Is a Trending Stock: Facts to Know Before Betting on It - Yahoo Finance",
@@ -222,15 +222,15 @@
         }
       ],
       "components": {
-        "news": 0.74270784732
+        "news": 0.742537635723
       }
     },
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies Inc.",
       "recent_count": 20,
-      "weighted_count": 15.089525,
-      "score_0_1": 0.734271752449,
+      "weighted_count": 15.061015,
+      "score_0_1": 0.734104287727,
       "articles": [
         {
           "title": "Nvidia and Palantir: Top Investor Says These Are the Best AI Stocks to Buy - TipRanks",
@@ -334,25 +334,25 @@
         }
       ],
       "components": {
-        "news": 0.734271752449
+        "news": 0.734104287727
       }
     },
     {
       "symbol": "AI",
       "name": "C3.ai, Inc.",
       "recent_count": 20,
-      "weighted_count": 19.148009,
+      "weighted_count": 19.115308,
       "score_0_1": 1.0,
       "articles": [
         {
-          "title": "When It Comes to Spotting Fake Receipts, It’s A.I. vs. A.I. - The New York Times",
-          "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQWkpYQjUxQUNsdVhXNjU3MkVDYjFqQkFZdmpXYkkzNmZ5emJtdm9TcTAxanBfUEhlNlNmaThkRXNDa3FlR3dZc3ZlTDk0aG5nZnVtalh3ZWxndUx0cHZRQ3pHNmJMM0h4UEROR1h6TnRQN3lNWW9QS081dExuazJ6YktLT01kN24xSDR0RjlB",
-          "published": "2025-09-08T22:52:20Z"
+          "title": "Nvidia-Backed Nebius Skyrockets On AI Cloud Computing Deal With Microsoft - Investor's Business Daily",
+          "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQZzdvLTFtNFpwN050UWIyaTN0YXRqcG9MZXpRT2wyaHEzaUZIUFJLUlNjRjd6UWllQ3BnLWVzX2FMV1c3b3RsU1g2ZWE5VDFIZkJYY1lzVE9HVEtUbE5sLWhXcUd2ZFE0T1VYX3VWM0p6VlpXT0FOWTB3SFFlZEtpUzczaXB1MzZiS0lkTVNsOXVKdXBZWk5SX0o4eEdnVmY2SVdF",
+          "published": "2025-09-08T22:37:00Z"
         },
         {
-          "title": "AI Infrastructure Giant Nebius Partners with Microsoft in Landmark Deal to Power Next-Gen Cloud Services - Stock Titan",
-          "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNb2wtcWpISXdlbV84QmtGNVVCNFRob19QYkFmVGJmeEI1cGJxcjk5MmJUanhGN0V4em5uUm5Bd2JPOWk4a3J4QWd4SzIxcklGYlBlMmkzeHFmNG1HZTlDenpwSnEwUEhWV3MtZXJ2VEhyNExzSzZMOUFCT3Y4bHhIb3dUbEhuZGJBZUZpdHhQeVl6T2ExTGRhOGYwV2NlVmdrdHpXTGhzOTFyVGhqdzhEMFIwbUxVOElEdks5ejVB",
-          "published": "2025-09-08T22:33:00Z"
+          "title": "Earnings live: Lululemon stock drops on lowered outlook, DocuSign jumps, American Eagle soars - Yahoo Finance",
+          "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPYmtNX0o0ZUdHcDRIUVRXQjVuZGI5RFVNdXdUcUU0NUg3c1h4dmpDOTdTdmVQcWV0R0pKeFdxMGRkd0ZyUU5jc18yNkdQckRkSlZ0dmZidUoyeGIyaG5GTVd6eU83aG90UWZqbEFHSjlsSnlDYjNaZEpMMHpVVS0zTnZ1cUgtSHkxM2xpNmhiSVFKcnIxNkx1MXhLZkRpaXVMUTJjemdBYzJQWUZBZWtkOWtnT2REdVhOZkNJOXlSdHNIaFpsUVhYM2F0WEw4dXFGZWFQUVcwOHU",
+          "published": "2025-09-08T22:00:18Z"
         },
         {
           "title": "Nebius' stock soars 60% on multibillion-dollar AI infrastructure deal with Microsoft - CNBC",
@@ -400,9 +400,9 @@
           "published": "2025-09-08T18:28:00Z"
         },
         {
-          "title": "Why Is SoundHound AI (SOUN) Stock Soaring Today - Yahoo Finance",
-          "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE91akp6NVd1RXJIc1JtcTMtTnhMWjZMZmRmOEhoTzNqblp5R0k0QkZjbWxGQjM4T2NTZWR2Znd6WHJ5ckxJZ0tBLUxhNlVMeHVOYUpibHc2UjJpQVIxeldEVmU0NVE0U0k5MG5Yb3JjMUl1OGk4d0VpR0xVLUdxZzQ",
-          "published": "2025-09-08T18:26:13Z"
+          "title": "Why Is SoundHound AI (SOUN) Stock Soaring Today - FinancialContent",
+          "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPWXEzaTRRbnc2cEs3UmNaU0xvdVVWdDlTeTlodUtlUC1zVGJRUTFHZ2xUaG5ua2VDenFXXzRfYk01QUlFdHBqS0hjOGZHWEVIUGFacFNvb1BLSkZsMjgwRGRjcTIyU1FDMUZNVDdjV3B4ZnR1MEVlRFlaU0FVTk94dzFRTWxBYVlDRXc2dVY2NXg0T0drbnl1dEVCb3lVY1N2WHlWYjlVamhpMzBiUWdtbU01eFJsZw",
+          "published": "2025-09-08T18:26:00Z"
         },
         {
           "title": "BofA Applauds ASML’s Mistral AI Investment: Retail Calls Stock A ‘Long-Term Winner’ - Stocktwits",
@@ -420,6 +420,11 @@
           "published": "2025-09-08T17:49:00Z"
         },
         {
+          "title": "Will Apple's iPhone 17 Launch Be a 'Sell-the-News' Event for Investors? - Investopedia",
+          "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOc2JxZmdnV2lvTEZNTy1jajJSQUVlLWRBWWJEczZRS1BBV19pUEtrV09qZFN0MWFqTGNFMERLajMwLVdKZHhhcHUxZFFWZnBtOWhSVnhmeWdpU0hldEduM09VRnR3c3Q0cURQQUc2QXRxS3ZDSFRfUFlpTDl1MXFWNk9fMEJITTdkc1hpbGVWMzRsRnZpYndzTDhveFNoN1YzZmR5YjhKN1NvaUdkemFwZllZZHVjaGplS0RF",
+          "published": "2025-09-08T17:16:03Z"
+        },
+        {
           "title": "Peter Bilzerian Backs Armenian AI and Data Company’s U.S. Launch - Asbarez",
           "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNLWYwRmtaVXlJbkVwTmsxazA5eXpmNUNsYl9nQnRyZjl3SXJPcVltck8yZ0o2Ty1TZ2xNNkNmY3dRRGlwRTY2SkNYaHJHQ3BGY2ZIMkUtcndUU0d2ejRBQzd4YWZ3M1FyQkI2OXhFTTFQYlR4S2NmMkZFc21xVjFmTFpvWmhFSnk5bk9Z",
           "published": "2025-09-08T17:15:00Z"
@@ -435,14 +440,9 @@
           "published": "2025-09-08T16:50:00Z"
         },
         {
-          "title": "As Broadcom Wins A New AI Customer, Is AVGO Stock A Buy Now? - Barchart.com",
-          "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPWnhFTDU2Tm95RlQtLXpzUlY0TkZENXgtVVNpVmhJNXBCY3dlRmp3cjhmeGlRYVVFNk5Zd1dOZ090Q1lUS3gwMEt0elJwbnBkaUF3NG1sMEdOTjFkVlI2Rk5TRFdEdjlKRXZvdjQtdF91dm11dE1ERl9SLUZNY3ZFVXBSMUtRZ1p2MTRlcVhua1BRRXJPRzFSbDdSWFM2S1F3R25BcC1n",
-          "published": "2025-09-08T16:31:05Z"
-        },
-        {
-          "title": "Silicon Valley AI company to aid crowd safety at Super Bowl, World Cup - NBC Bay Area",
-          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOYnpDZHFBM3Q3ZnliVUlCS21yZ1g4bHF4U21LS2xmZ2JSYnFaUEJmaDZwTEcya285aE53a1kyNXRhN1NSUDdWN3VCQlNEaklzaDlnMTd6UlVXWldGTEtmLTJseFBsc2NINTlPNTd2Y25taVF4U2tnM2hBMUJZSHJ2WEJQWDNlR3Y0WDRr0gGTAUFVX3lxTE9lRmozSE5oclVheFdFdWpHVk9EMURtSGtRb2puX3JrQ3FPUFRIVm1LTkNlVzBnQl9hemJWc2tuenQ3UUtpV2pkNXFSdGpWTmFCSWlWbU4ya2p3Zm5DVElXeE9zQmE0RER5bHVKNDg5Mk1jRzdHbkxVaEVxcWdualVoOE9iVUl2MURPOG5oQmFSUVV2OA",
-          "published": "2025-09-08T16:06:46Z"
+          "title": "When It Comes to Spotting Fake Receipts, It’s A.I. vs. A.I. - The New York Times",
+          "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQWkpYQjUxQUNsdVhXNjU3MkVDYjFqQkFZdmpXYkkzNmZ5emJtdm9TcTAxanBfUEhlNlNmaThkRXNDa3FlR3dZc3ZlTDk0aG5nZnVtalh3ZWxndUx0cHZRQ3pHNmJMM0h4UEROR1h6TnRQN3lNWW9QS081dExuazJ6YktLT01kN24xSDR0RjlB",
+          "published": "2025-09-08T16:36:00Z"
         }
       ],
       "components": {
@@ -453,8 +453,8 @@
       "symbol": "ISRG",
       "name": "Intuitive Surgical, Inc.",
       "recent_count": 17,
-      "weighted_count": 6.217511,
-      "score_0_1": 0.153378805115,
+      "weighted_count": 6.205765,
+      "score_0_1": 0.15334384291,
       "articles": [
         {
           "title": "What to Expect From Intuitive Surgical's Next Quarterly Earnings Report - MSN",
@@ -558,14 +558,14 @@
         }
       ],
       "components": {
-        "news": 0.153378805115
+        "news": 0.15334384291
       }
     },
     {
       "symbol": "TER",
       "name": "Teradyne, Inc.",
       "recent_count": 10,
-      "weighted_count": 3.874947,
+      "weighted_count": 3.867627,
       "score_0_1": 0.0,
       "articles": [
         {
@@ -677,8 +677,8 @@
       "symbol": "SYM",
       "name": "Symbotic Inc.",
       "recent_count": 12,
-      "weighted_count": 5.016515,
-      "score_0_1": 0.074743885673,
+      "weighted_count": 5.007042,
+      "score_0_1": 0.074727101124,
       "articles": [
         {
           "title": "MACD Cross Could Confirm Trend in Symbotic Inc. - Market Growth Review & Fast Moving Market Watchlists - beatles.ru",
@@ -782,15 +782,15 @@
         }
       ],
       "components": {
-        "news": 0.074743885673
+        "news": 0.074727101124
       }
     },
     {
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
       "recent_count": 20,
-      "weighted_count": 11.171049,
-      "score_0_1": 0.477710494464,
+      "weighted_count": 12.520404,
+      "score_0_1": 0.567481507516,
       "articles": [
         {
           "title": "What analysts say about RKLB stock - Market Growth Review & Real-Time Chart Breakout Alerts - 뉴스영",
@@ -798,9 +798,9 @@
           "published": "2025-09-08T23:14:24Z"
         },
         {
-          "title": "Why Rocket Lab (RKLB) Stock Is Trading Up Today - MSN",
-          "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOVnotM1BiQUNVZnZSaHNRVkZMSHFYejJXVXY4Uk9yS3gyaGdQRmdZT0gtT3NNb3VQTnZWT2hBc2paVHdCSEYyVFNEQi1oZm1qWUw2REEzSUw0ZWh5RHVuVHRYaXZMME5BUUVkUGxiZXJhcTJfMHVwd1I0enFqZUlDQXkydEFVVG93ckNOd3hjTnhkVnlabmZGdW5DcDBQYTJS",
-          "published": "2025-09-08T19:03:25Z"
+          "title": "Why Rocket Lab (RKLB) Stock Is Trading Up Today - Yahoo Finance",
+          "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9GaWx2YlhBQWllamRDNTJ1MUZadU9Ud0IybU1EOF93am5qamdacHEzZ2w5MHVXT25zZUMwVDluWEV5b2dfVFVWbm5LTGY1cVI2d1NaQlBoMHRRWEp5S2xtbnZSZjFVaHhkdFdOWnB4NXE2WHR1RjhJTHRlOA",
+          "published": "2025-09-08T18:26:39Z"
         },
         {
           "title": "Planet Labs Stock Surges 38%. Here’s Why. - Barron's",
@@ -823,14 +823,29 @@
           "published": "2025-09-08T11:56:20Z"
         },
         {
+          "title": "Rocket Lab's (RKLB) Buy Rating Reaffirmed at Needham & Company LLC - MarketBeat",
+          "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQS3RMTl90TnliYi1YSUh0S0hERzR2elR3NnZmMkJuVFNsTGhxQ0R4YXc0dmxoOGVXVnB2SlpXUGZWblZicUxGV2FoNnV6LXpQRnhnMzE0XzVYd3hwQjEtOWhZREhHYTIwOTZEQmxfUXQ2WktuOVpNY1JxcjRaU2ozMHJ4VC16N29QVTV1WUpWTTE3VWQzV2NlNmpXYnk3ZzVYR1A2TTNQeHpiUDExcEZSRWx6N1JJNzU5bmRoSA",
+          "published": "2025-09-08T10:51:47Z"
+        },
+        {
           "title": "Ancora Advisors LLC Sells 12,000 Shares of Rocket Lab Corporation $RKLB - MarketBeat",
           "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPRHRyb0pkQ3VtejlvZU55dmx4RkstcHpKVzVXQ21RZE5nbWZab1VLZDZtRWFTNGRERDVpMnlGWDRRcUpZU3gwRVlVV3VQVmtzeWlRSlZfSGhJeUdycUhDT2VTSk1aTW9lbnBjWlZSZjd4bXJoN1VzWnhlVi1KWTJDZnF4Z0NtZzNaV05uM2ZHNmgyUkNNclBYVTZBWUpsUHdlejNSajYxQUwwNWJScGcxak04R3hUdnF4VGpzWjgzdHJJQ2l4VXJYZzJR",
           "published": "2025-09-08T08:49:00Z"
         },
         {
+          "title": "Rocket Lab Corporation $RKLB Shares Bought by Baird Financial Group Inc. - MarketBeat",
+          "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNWmFuUzZCY1Bhdk9PWDQwTDV6MUZhWXFSREpBcEg0TS1pSzl5YkxYRllWTUhMWVJ0S25IZTh2elQ3cXZramNlQmlmSF8zb2JRRmZrRlEtYV9HY1J2LW1HMXZwZnFFYmlSTTkyYXRCNkdLelh2NFFVZldPdnFmWnUtQ3JmdU1YdDAzMEk4aGRUWVpjTGJ3azR3S2JDYjhHNW1pQWNJYXJOUzJKTlc1Rl9JYktra0pENVVzNGUtVnk3dWVGSDF2azYwd2dGaw",
+          "published": "2025-09-08T03:45:51Z"
+        },
+        {
           "title": "Rocket Lab (NASDAQ:RKLB) Stock Price Down 2.1% - What's Next? - MarketBeat",
           "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNUEltSFN6UDBZa1BKdTVLX2tDQVlRQ3cwbmJURVRSX2F3VGZ1ME0zS24zYkxqbzNPSHBIVDZycFJ4a3ltOHNvUy1yX1dUa01DYVg5Vm9kbDFwWHhHbV9lcTc0dW1tczB2QW9BbWZvVFFjRU44QWQyZ1RHYUFDUVZTRGkxTGFoSXhoVHNOc2xfX3Z4SXBoUFkyN0R3bUp4d2hndVR3",
           "published": "2025-09-07T07:55:42Z"
+        },
+        {
+          "title": "Aug Highlights: Does Rocket Lab USA Inc. have pricing power - July 2025 Retail & Fast Gain Stock Trading Tips - خودرو بانک",
+          "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQWHFYbGlNMFlNN2N6MktlMXhjZkFfTVJ1czZRamc5M2g4NVJNcnpNTndQajVhcW42azFaY0RmYm83NHRjTXRQOTBUVHBwMnR6VmRjcktzdm1qX0VuY014SW1KcU55RjRjWDRVVERpNG1QWnpmdU1oVElTakxwLVFGekhn",
+          "published": "2025-09-06T08:58:05Z"
         },
         {
           "title": "Golden Dome, Mars, and Neutron: Rocket Lab’s Bold Path to Growth - Security Clearance Jobs",
@@ -876,33 +891,18 @@
           "title": "Rocket Lab USA Stock (RKLB) Opinions on Recent Financial Performance and Neutron Launch Milestones - Quiver Quantitative",
           "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOTHp5d0pweVhzZmNBREFJNjdfdXNzTE1fTVlRdmdCbjFXZmR6MUNNMElSMVRyeE9CS1ZpVHVBUWFJbFZnUkp2SUdOX2lFOTBxWHI3UVB3SkJET093eUhKQlJWdkxSMUt6Q2RVaHlzOEpYbzFoYmZ6Y0JVaVZjdF9ZTHFvb2x5ZzJZNVZzM3dTdUpVYmRNS3BuTWtINFdBLTNaak1BVHFSWjBHWThNU011RkdMT1ZFVWppUEo3cGFpSnZ5eC1ONmp6MUxBaGFXZkpG",
           "published": "2025-09-03T17:32:00Z"
-        },
-        {
-          "title": "What's Going On With Rocket Lab (RKLB) Stock Wednesday? - Rocket Lab (NASDAQ:RKLB) - Benzinga",
-          "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNMXhHWmJGTVR0ZDhrT25DcFJXZkVBUGxiQUVmYXpVRWJXZGVFUHVGeVFyTXJzRkpoWHZzREdTb1JuZ1N6OGQ2WFd3RlVOYXhSNmVybkNvS0o0MjROaVBoVGZUcExUZFBhTnJRRWRRTTRncjBNRWlEejA4UXNrV0dzZ3dYaUFCWnVDck5pbUFNckNFVEFJMU1YUjMxWmxlX1ZTR2pLYjFJRXNHRkdxZTZyM0lR",
-          "published": "2025-09-03T17:08:33Z"
-        },
-        {
-          "title": "Rocket Lab Stock Settles Back To Earth After Hitting Stratosphere - Investor's Business Daily",
-          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE55QmNQaFpzaGpabjY0NGcwYWhjTUpGX25qWmtHekN5SWIyWGNheThJUGUtclR2MVk4ZEZFcjhWV3ZJUjVLWE9IYkwzVmZLRnlFMzNXajl3TXNMbTN2RERzQ1p4ZndLV2hBaEN2end4MjAyQQ",
-          "published": "2025-09-03T16:05:00Z"
-        },
-        {
-          "title": "$RKLB stock is down 5% today. Here's what we see in our data. - Quiver Quantitative",
-          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNS1l3R3NTSjVRR1NXX2NUUnc4LUd0WU5HRW1hcFltbjJFa2Z4NGthU2swQ3RfVDlEc09RNHJvOWZ3TTR5c2ttOHJFb1hBVWIwWmhoTWY2NVFiUWhjRjRyQXdIZFVMSXJGcVdzZ1l4UUFMd2ZtT1VWXzE4T2FRWDIwd2wtZ19sZGNXT0I2M3ZxV3NIUHRIVkJnb0J2SVl2Y3dHV0E",
-          "published": "2025-09-03T14:47:00Z"
         }
       ],
       "components": {
-        "news": 0.477710494464
+        "news": 0.567481507516
       }
     },
     {
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
       "recent_count": 17,
-      "weighted_count": 9.213789,
-      "score_0_1": 0.349559374538,
+      "weighted_count": 9.196399,
+      "score_0_1": 0.349480816132,
       "articles": [
         {
           "title": "Why Iridium (IRDM) Shares Are Falling Today - Yahoo Finance",
@@ -1006,15 +1006,15 @@
         }
       ],
       "components": {
-        "news": 0.349559374538
+        "news": 0.349480816132
       }
     },
     {
       "symbol": "VSAT",
       "name": "Viasat, Inc.",
       "recent_count": 17,
-      "weighted_count": 6.212588,
-      "score_0_1": 0.153056472893,
+      "weighted_count": 6.200862,
+      "score_0_1": 0.153022285815,
       "articles": [
         {
           "title": "Quant Funds Rotate Into VSAT Stock - Portfolio Performance Report & Reliable Breakout Forecasts - beatles.ru",
@@ -1118,15 +1118,15 @@
         }
       ],
       "components": {
-        "news": 0.153056472893
+        "news": 0.153022285815
       }
     },
     {
       "symbol": "INOD",
       "name": "Innodata Inc.",
       "recent_count": 20,
-      "weighted_count": 12.37139,
-      "score_0_1": 0.556302527941,
+      "weighted_count": 12.348041,
+      "score_0_1": 0.556177296731,
       "articles": [
         {
           "title": "Innodata (INOD) Attracts Institutional Backing with AI Strategy - MSN",
@@ -1230,15 +1230,15 @@
         }
       ],
       "components": {
-        "news": 0.556302527941
+        "news": 0.556177296731
       }
     },
     {
       "symbol": "SOUN",
       "name": "SoundHound AI, Inc.",
       "recent_count": 20,
-      "weighted_count": 12.058317,
-      "score_0_1": 0.535804149816,
+      "weighted_count": 12.035561,
+      "score_0_1": 0.535683688556,
       "articles": [
         {
           "title": "SoundHound AI, Inc. (SOUN) is Attracting Investor Attention: Here is What You Should Know - Yahoo Finance",
@@ -1342,15 +1342,15 @@
         }
       ],
       "components": {
-        "news": 0.535804149816
+        "news": 0.535683688556
       }
     },
     {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
       "recent_count": 20,
-      "weighted_count": 9.904852,
-      "score_0_1": 0.39480655549,
+      "weighted_count": 9.886164,
+      "score_0_1": 0.394718186982,
       "articles": [
         {
           "title": "Eventide Asset Management LLC Sells 165,578 Shares of monday.com Ltd. $MNDY - MarketBeat",
@@ -1454,15 +1454,15 @@
         }
       ],
       "components": {
-        "news": 0.39480655549
+        "news": 0.394718186982
       }
     },
     {
       "symbol": "AVAV",
       "name": "AeroVironment, Inc.",
       "recent_count": 20,
-      "weighted_count": 13.273156,
-      "score_0_1": 0.615345436298,
+      "weighted_count": 14.416201,
+      "score_0_1": 0.691814971732,
       "articles": [
         {
           "title": "Why AeroVironment (AVAV) Stock Is Up Today - Yahoo Finance",
@@ -1473,6 +1473,11 @@
           "title": "AeroVironment (AVAV) Lands US$240 Million Laser Communications Order for Space Expansion - simplywall.st",
           "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxQSDFaT2txRW9VLURQTUtwVGJnZXJlUlRua1lWOTVJWmlRS2ZNWTAzTTlwekVkSE9YQkRjbTFYVjl4eTZlcGduWE9EdFBZM0pwVUU2YnNFOWJXemFoUmhQNVZ6LWtaTUdlMm1NME5oWUJOZ3lIb2dLTjlMcDh4a1ZiZXl2WWJIbGtmRU9XcnhtOFA3Mnd2Vm5obE5JUWN1a2VWd3MycmI1S1F6dm45bXVJUXF3dWNmM2hZbzBxZllNS3BBNWs0UG9tS2ZPc1pHVWhBQlHSAdcBQVVfeXFMTU1iVy14MzBua25taU5MaExSTVRWS3A4YlI3U0RSNjdfYlJyUnVwdFkxYTA3cDVSMlR0LUVraHRpWnZvZUNYcFpac09zTVJuX1hiQjVDT1dhWUYwSTEtV21seGdyMTB5Z241cXJMeWZkaHFNRTluLW9Ib1BMMTQ0c1ZVNDhiSjN6YU5tX1phT1JfRkpnc1VJOXNrM3ZEa0lJSlMtRVV0SUYzUHpqVC01d1d6YUt1eWxhald0emJmUG45R21JNWVmc0ZST3BtdDN3R1c4VlBEWWM",
           "published": "2025-09-08T17:40:24Z"
+        },
+        {
+          "title": "Can AVAV Rally Enough to Break Even - July 2025 Price Swings & Risk Managed Trade Strategies - beatles.ru",
+          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE44ZTNpUkdwbDFiWllNYjdONGpIal9hREg0Z3E5MjVFR3ZZZHJ4RXVyV1lDS29YMGlzSmY2QS1qbVQzNm4yYk5hdXhqVlB4M1JjMkN3Z1RYLUVGZlpjbjVNMVlIT2NtWDU0cDhDbjVYdGsyUQ",
+          "published": "2025-09-08T17:22:29Z"
         },
         {
           "title": "$AVAV stock is up 2% today. Here's what we see in our data. - Quiver Quantitative",
@@ -1498,6 +1503,11 @@
           "title": "Alyeska Investment Group L.P. Raises Stock Position in AeroVironment, Inc. $AVAV - MarketBeat",
           "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPbVNqR3JKNnZsM0JiLVFCY1BuRnBiRjV3TWphZlZ5WWVSTFdiQzJKbFU2dlRUWHIzOWlka0k2aXFSUmwycnpNbmhhTWhpb3FxemdDQ2VMMWRacXR3VHNIVGxaRzNnYnA5Z3pZclBhR1lsT3c0NkFxbVhIV0xKVlE2WC1FWHBUSzF1a2p3ZlpkWm8zcW02VzdCQmtfUVRWTDJjNFVJUFhlQUJWcHNkM0REUDFZbHNJaEpobHVKaDFlSFhTU1ZXQWxka3J1c2d4dEplSXJkWA",
           "published": "2025-09-08T09:45:04Z"
+        },
+        {
+          "title": "AVAV Sees Spike in Bullish Option Flow - July 2025 Trends & Capital Efficient Trade Techniques - beatles.ru",
+          "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5fMUhPUXNfZnhGYTRrTHBwMm9qcm00V2xtRHY2dWhYbEx2cngyTElKM2g3eVNoRkVGXzhzSjgtTVNhcFhwXzBHMm1XcFRsUmZNX1ozWGdvbHdzclh1QlY1RnZBaFhtVVhGa3BCSVZNbDc0TEV0",
+          "published": "2025-09-08T09:24:28Z"
         },
         {
           "title": "AeroVironment (AVAV) To Report Earnings Tomorrow: Here Is What To Expect - Yahoo Finance",
@@ -1535,6 +1545,11 @@
           "published": "2025-09-05T20:35:55Z"
         },
         {
+          "title": "Will AeroVironment Inc. benefit from government policy - 2025 Historical Comparison & Real-Time Volume Trigger Notifications - خودرو بانک",
+          "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPVUpzOGdTTU05M1ZOQng1Vmx0MTJwWEJzMlNwcVdPLWJGQVdxS1pMdlc4X3VINGcycUFabDZfN1dOZ2RWd1d6XzlCN2cydURuT1l0M0tLY3ZqQkJvdUJSNFhWNERleHEwZnVLaExBMkhSc3p0ZnVDeE9TbVg0OHllZEhYQ0pLenpkNzR4aks4Ujk",
+          "published": "2025-09-05T20:19:07Z"
+        },
+        {
           "title": "Why Is AVAV Stock Down Today? Critical Warning Signs Behind the Drop - Vocal",
           "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOT1U3OG1CRnBpYVdjOFF2S0h0c2xJWjlwVlZ6UUdXS0tLbHhNbGtBUHphbVJJdGQ3dnBIQzU2QUMtVU5QVTA1TUZLM3BCTjkxSmlYVlE5amxNSVcwQTJwY0xMN3hpdjI2eU9wV1ZINk1jWWFGbkNJVWNQS0pEUmRwbnhIZUFUeGdnVlItM0hyRGRCY0xmQi1qb2p3",
           "published": "2025-09-05T10:55:25Z"
@@ -1548,43 +1563,23 @@
           "title": "Vident Advisory LLC Increases Stock Position in AeroVironment, Inc. $AVAV - MarketBeat",
           "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxONG9wQVphUDVMVWJtZS1XSjc1d3ZCWnp5WEVudzVrVXpnZ2I3Q19Rd1JSTlQyVEhSV1RZRFJ6c2VTdVNtU2d2TDd4WEY0TXhuTGQ5QnM0S0lsVFdweDZiR3ozTWZUNnhDOGZGQUM1WC1qby1pc1ljVktzRTktUG16dHhHem9Vcmxkd3E1a3VqTmU5MGhkb0szclFZc2dLaEd2eExrQkRTcE9YNXk1bFpGZzA0R3hFRF9QbFRrb3piUQ",
           "published": "2025-09-04T23:00:20Z"
-        },
-        {
-          "title": "Why AeroVironment (AVAV) Shares Are Getting Obliterated Today - TradingView",
-          "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQTTMxRkIzcXJ1Mjc2dzV3XzZJMmVSeGxOSU0wRjVvbV90RnltYzZITnBMWEpNRUJvdVFUV3hUSXdNVnZScFRWY1IxYWp4VmlBYlNmUUQ2N3E0d1hlajFCakpYMFJZdUVBYWw0Tk9VNXVxbEdHVnlNRFk2YUNkUmdNWDFDN2wyZ2JqN2J1Sk9aUHdJcmNKTUhHRDMzTzVXcGhKOGd4TnZsdWdFcmJrNmNXVTRFZTkyZnAyaFNPTA",
-          "published": "2025-09-04T20:45:41Z"
-        },
-        {
-          "title": "How Will AeroVironment Stock React To Its Upcoming Earnings? - Trefis",
-          "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPOUNSRlNoZW0taXFnMWdmcVVUMU1jSUVNU0VPLVIxWXhaSmpwMnBSVnVCcFYxd0hCc1p5TkxKS0I3cFRzVGo4cFFsQ2pqMVZFcUxOLTBvM3VpUHEza0NBd1B1NVhCMWMzZWJtSE5PNU0tUHYyN2J6MnFRRlFfTEFTa1JPaUtXc2prR18zLU1oVFdwRWd3QnlpMWNta0NQYjhyTWpkaDduSDc2T0duZHd1ZUJHSXI2dHF5Y1R0Xw",
-          "published": "2025-09-04T16:45:30Z"
-        },
-        {
-          "title": "AeroVironment Earnings Preview: Ready For A Defense Supercycle Rerating (NASDAQ:AVAV) - Seeking Alpha",
-          "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOaHZKMEllQUNDaEdycnV5UWFqTUJJR1lMeE9tdmlPd1dfLVRZQlVkZzZteF91d0IyQlhHcWV1R251clR4XzhHQ0ZIeDZ3TzM2aWFsS0M5YlczTHNGUGw4MnhTUEhTQjVueTRZaTJ5VzladUNSWU1XbnJsUnNWYlE5RmNEZmxCNWxTbG1NeUJYTmZLZmo2a2RlLUtwSTY5U3dUNGZiVkRPRV9RY1RNamwzdw",
-          "published": "2025-09-04T16:14:50Z"
         }
       ],
       "components": {
-        "news": 0.615345436298
+        "news": 0.691814971732
       }
     },
     {
       "symbol": "PERF",
       "name": "Perfect Corp.",
       "recent_count": 20,
-      "weighted_count": 9.505735,
-      "score_0_1": 0.368674467504,
+      "weighted_count": 8.917606,
+      "score_0_1": 0.331196527524,
       "articles": [
         {
           "title": "Can Perfect Corp. Equity Warrant stock double in the next year - Earnings Miss & Precise Swing Trade Alerts - beatles.ru",
           "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPWFg1OFAtZmJsVHVwWlBfMU9sQzNMUzQtWU1hRzJFRDVFWU5pSWc5SVkxbjRaVTJ5WWlCa2F5TFowVGNBZFdaRnlFZkJPbUxNc0g1QXRKVmNWUXB1WVBWS21uZTVNd2JwbFktcUZ4WjBuZEpjaU9oMjRRcUhmd3hLSVhsdklQazRTS2QtQlhRNG9aakxTd3pfZ0d2VWo",
           "published": "2025-09-08T11:23:11Z"
-        },
-        {
-          "title": "Published on: 2025-09-08 08:23:08 - beatles.ru",
-          "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOUnhFTGJDX0V0Uk1Jb0J3U0xaT0lwNWo1bUhNSWdFbGNSY1hSalhqZWY3UThRb3FJX0cwUzl1NnVBazFNa2docW5FRGl1LTVDRWV1NW0yVkxRY2U1bldkQkRROTJIZEtZU3EwNXprTHQ3c3VXSWJVYUdQNzVBYzhmMDZDTFhUcUF4Ny1icXlqYld0QjRlOFlGOHNn",
-          "published": "2025-09-08T05:24:26Z"
         },
         {
           "title": "Is Perfect Corp. vulnerable to short sellers - July 2025 PostEarnings & Entry Point Confirmation Signals - beatles.ru",
@@ -1675,19 +1670,34 @@
           "title": "Aug Reactions: What is the PEG ratio of PERF - Trade Entry Report & Community Supported Trade Ideas - خودرو بانک",
           "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBYWUQ5X3Y4VWtZUUl1eGNKc1lpT1dpRkhvUXFnUVRDdjNiRkljdHNIdWlselJBU0R3dmRVbkppeFdENWR2VkZTUlkzaXoycU16VGR6a09jeXNRYU9qQVpXVjJZaHRFdzlkYmdEVUZnWQ",
           "published": "2025-09-03T07:00:00Z"
+        },
+        {
+          "title": "What is Perfect Corp. Equity Warrant’s valuation compared to sector - Market Activity Report & Weekly Watchlist of Top Performers - خودرو بانک",
+          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNbmJGdFJaV1g3T3A4ZHlSUXRHUnExcjR0OEtncXFTM2t6SVd0cXlnYmZ5MEhqT1ZYVDJQUVRPRDVUZlZxbG1qQ3F5U0IxX0c3WS1sa0xvWGZ5S3NxMkJfRU50WGQwRlo3Q0cyNFZzTHJJd3F5M2ZDSGpxRGNRQ1YzdE1LT3pjZjFNVTk3eHo1emJqODZqN19uZzQtYmVHU29kaWljeWpBamI4eWRt",
+          "published": "2025-09-03T06:41:06Z"
         }
       ],
       "components": {
-        "news": 0.368674467504
+        "news": 0.331196527524
       }
     },
     {
       "symbol": "GDRX",
       "name": "GoodRx Holdings, Inc.",
-      "recent_count": 19,
-      "weighted_count": 7.429064,
-      "score_0_1": 0.23270494155,
+      "recent_count": 20,
+      "weighted_count": 8.904759,
+      "score_0_1": 0.330353973171,
       "articles": [
+        {
+          "title": "Is GDRX on track to beat earnings - July 2025 Pullbacks & Fast Moving Trade Plans - beatles.ru",
+          "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBPRnJ0M3NWVldVc2xxSllRSVZRUHNybVFfV3d5VmZGakQ2dlBfVms1LW1zaWt3YUlnZkZ0a0QzS1hxTF9BRHpoRlp2TTA5VW9mWElOcGNRMlFhQmZuNWdZcmRfLXFOczFtRUppTG1WclAyMWxFTWc",
+          "published": "2025-09-08T07:41:14Z"
+        },
+        {
+          "title": "Can GoodRx Holdings Inc. be the next market leader - 2025 Price Momentum & Real-Time Chart Breakout Alerts - beatles.ru",
+          "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQNFY4UFpwaFVOZFlwUFVjdmJxdmdZNVV4cG9aODd4SHJzb0hSeFpaVmRtZ2t2UklvUXpqSTRyXzA2YmNYcjNMR2RYWF9CbmZLN25GdkhNVC02RllSaTd0bzFTSlpqWjVrVDFMTkxFREpWZjBiaGZYUnRiZ0tDeTdFSXB0LWgzY1UtOW85RTgzejZ3Zw",
+          "published": "2025-09-08T05:39:12Z"
+        },
         {
           "title": "What’s the beta of GDRX stock - Dividend Hike & Consistent Income Trade Recommendations - 강소기업뉴스",
           "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE4yb3NYR2Z1TFF6OHZwZXhBYWhYbDN4MWFBbkFONmRBLV9rNHUwTjFZUkw0dTJJYkk5M2pQU3NncXJvZWVsMDRneXFTbUdaeDRWTFJuRUNSanpzNE9pcTZwbkhlZnRJdTJ2V0lIZS1DZzF1c3VrbTBnZjltRGI",
@@ -1777,28 +1787,18 @@
           "title": "What are GoodRx Holdings Inc.’s recent SEC filings showing - Market Risk Report & Daily Growth Stock Investment Tips - خودرو بانک",
           "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOSncwZUFUQjAzMGNNb1E3OVlKY1VHa3R5MVJYamhYLUwwSEhzcUU0QndsbF9vU3B4R2FYaHVtVUpNeE4xTEVlaUdzdmFVR0dHQVZ0T1dlamRyVnhEVk1GQWJqb2F6X25mcjZsRFNKX0M0c2VKZzFqUzhkQVdWUmNrWkk3NGZ6UFpLS0JJTHpHZ3p5Szc5c1VURGl4TU1vOHBpeUhQYWl1X29ocy0y",
           "published": "2025-09-02T04:05:44Z"
-        },
-        {
-          "title": "Can GDRX disrupt its industry - Quarterly Growth Report & Low Risk High Win Rate Stock Picks - خودرو بانک",
-          "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9vdlNKYUxTX3o3bVVkR01rNENBQkFuUlRMQWw1YjFhSG5XVDRxREdXd3R0WHhjZVpJaFJhV3NjV1prbHpOcHpJSjM3Z3JUdVY2ZlhlSVh6S3BqQUtLVmZJeVR4OVlDZ2hXVGRNUzJuVTFabzF4T2U5M0w1bw",
-          "published": "2025-09-02T03:19:45Z"
-        },
-        {
-          "title": "FOMO Trade: Will GoodRx Holdings Inc. outperform during market rallies - 2025 Biggest Moves & Risk Controlled Stock Pick Alerts - خودرو بانک",
-          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPMTdwM3BuTTJKOTZwWHJNWDJrWDZvWFo5UkJFblQ4NkhQTGs3UWpUMGd0aTNwSV9EMWhHcjRfUWozMGFhTmMyUjU1UEwtd3pzNHlhTW5HYjFlM2YyYzNHOU8xOGp5TXlIbGZHR0FuckxyR0Z1UnVya0VYdjZkb0VOR0N4LXJDRF92b3FhSjVuQUJSYkVSeGVRcU1YYTJoSnZsZnc",
-          "published": null
         }
       ],
       "components": {
-        "news": 0.23270494155
+        "news": 0.330353973171
       }
     },
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
       "recent_count": 20,
-      "weighted_count": 10.586487,
-      "score_0_1": 0.439436440447,
+      "weighted_count": 10.566509,
+      "score_0_1": 0.439337758968,
       "articles": [
         {
           "title": "ABCL Added to High Probability Setup List - 2025 Risk Factors & Capital Efficient Trading Techniques - beatles.ru",
@@ -1902,15 +1902,15 @@
         }
       ],
       "components": {
-        "news": 0.439436440447
+        "news": 0.439337758968
       }
     },
     {
       "symbol": "U",
       "name": "Unity Software Inc.",
       "recent_count": 20,
-      "weighted_count": 12.067764,
-      "score_0_1": 0.536422689831,
+      "weighted_count": 12.044992,
+      "score_0_1": 0.536302208841,
       "articles": [
         {
           "title": "U of I grad's company 'turning poop into profit' - Newsbug.info",
@@ -2014,15 +2014,15 @@
         }
       ],
       "components": {
-        "news": 0.536422689831
+        "news": 0.536302208841
       }
     },
     {
       "symbol": "TEM",
       "name": "Tempus AI, Inc.",
       "recent_count": 19,
-      "weighted_count": 10.534873,
-      "score_0_1": 0.436057026417,
+      "weighted_count": 10.514997,
+      "score_0_1": 0.435959409172,
       "articles": [
         {
           "title": "After An Odd Start, Tempus AI Is Making A Beeline To The Good End Of The AI Rainbow (TEM) - Seeking Alpha",
@@ -2126,15 +2126,15 @@
         }
       ],
       "components": {
-        "news": 0.436057026417
+        "news": 0.435959409172
       }
     },
     {
       "symbol": "VRT",
       "name": "Vertiv Holdings Co",
       "recent_count": 20,
-      "weighted_count": 12.25788,
-      "score_0_1": 0.548870488446,
+      "weighted_count": 12.234755,
+      "score_0_1": 0.548747576763,
       "articles": [
         {
           "title": "Why Vertiv Holdings Co. (VRT) is a Top Growth Stock for the Long-Term - Yahoo Finance",
@@ -2238,7 +2238,7 @@
         }
       ],
       "components": {
-        "news": 0.548870488446
+        "news": 0.548747576763
       }
     }
   ],

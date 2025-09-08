@@ -56,7 +56,8 @@
     .rank-1 .rocket .flame{font-size:42px;filter:blur(.3px) drop-shadow(0 0 18px rgba(255,120,80,.75));animation:flameBig .35s infinite ease-in-out}
     @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-5px)}100%{transform:translateY(0)}}
     @keyframes flameBig{0%{transform:translateY(0) scale(1)}50%{transform:translateY(4px) scale(.85)}100%{transform:translateY(0) scale(1)}}
-    .rank-1 .card{border-color:#2e4d63;box-shadow:0 0 0 1px rgba(110,231,255,.15),0 18px 40px rgba(0,0,0,.35) inset}
+    /* ↓ ここを修正（自身に両方のクラスが付くため） */
+    .card.rank-1{border-color:#2e4d63;box-shadow:0 0 0 1px rgba(110,231,255,.15),0 18px 40px rgba(0,0,0,.35) inset}
 
     footer.note{margin:26px 0 40px;color:#b7c6d8;font-size:13px;border-top:1px solid #263246;padding-top:14px}
     footer.note h3{margin:0 0 6px 0;font-size:14px}
@@ -74,15 +75,595 @@
     </header>
 
     <section class="grid">
+
+      <article class="card rank-1" data-symbol="AI">
+        <span class="rank-badge">#1</span>
+        <div class="hd">
+          <div>
+            <div class="sym">AI</div>
+            <div class="name">C3.ai, Inc.</div>
+          </div>
+
+          <div class="scores">
+            <div class="kpi">
+              <div class="tt">Final Score</div>
+              <div class="vv">72.2<span class="sub"> /100</span></div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Points</div>
+              <div class="vv">722</div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Δ Price</div>
+              <div class="sub">
+                1D: 0.77% /
+                1W: -6.92% /
+                1M: -28.87%
+              </div>
+            </div>
+          </div>
+
+          <div class="rocket" title="Top momentum">
+            <span class="flame">🔥</span><span class="em">🚀</span>
+          </div>
+        </div>
+
+        <div class="breakdown">
+          <!-- Insider は UI から撤去。表示は Volume / Trends / News のみ -->
+          <div class="row">
+            <div class="lbl">Volume anomaly</div>
+            <div class="bar"><i style="width: 48.7%"></i></div>
+            <div class="pct">48.7%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">Trends breakout</div>
+            <div class="bar"><i style="width: 63.2%"></i></div>
+            <div class="pct">63.2%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">News</div>
+            <div class="bar"><i style="width: 100.0%"></i></div>
+            <div class="pct">100.0%</div>
+          </div>
+          <div class="medals"></div>
+        </div>
+
+        <!-- JSが読む安全なJSON。Undefinedを出さない -->
+        <script type="application/json" class="js-payload">
+        {"final_score_0_1": 0.721828, "score_components": {"insider_momo": 0.842105263158, "news": 1.0, "trends_breakout": 0.631578947368, "volume_anomaly": 0.48731315057652747}, "score_pts": 722, "score_weights": {"insider_momo": 0.25, "news": 0.2, "trends_breakout": 0.3, "volume_anomaly": 0.25}, "symbol": "AI"}
+        </script>
+      </article>
+
+      <article class="card rank-2" data-symbol="SOUN">
+        <span class="rank-badge">#2</span>
+        <div class="hd">
+          <div>
+            <div class="sym">SOUN</div>
+            <div class="name">SoundHound AI, Inc.</div>
+          </div>
+
+          <div class="scores">
+            <div class="kpi">
+              <div class="tt">Final Score</div>
+              <div class="vv">71.5<span class="sub"> /100</span></div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Points</div>
+              <div class="vv">715</div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Δ Price</div>
+              <div class="sub">
+                1D: 7.22% /
+                1W: 17.43% /
+                1M: 12.84%
+              </div>
+            </div>
+          </div>
+
+          <div class="rocket" title="Top momentum">
+            <span class="flame">🔥</span><span class="em">🚀</span>
+          </div>
+        </div>
+
+        <div class="breakdown">
+          <!-- Insider は UI から撤去。表示は Volume / Trends / News のみ -->
+          <div class="row">
+            <div class="lbl">Volume anomaly</div>
+            <div class="bar"><i style="width: 75.9%"></i></div>
+            <div class="pct">75.9%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">Trends breakout</div>
+            <div class="bar"><i style="width: 100.0%"></i></div>
+            <div class="pct">100.0%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">News</div>
+            <div class="bar"><i style="width: 53.6%"></i></div>
+            <div class="pct">53.6%</div>
+          </div>
+          <div class="medals"></div>
+        </div>
+
+        <!-- JSが読む安全なJSON。Undefinedを出さない -->
+        <script type="application/json" class="js-payload">
+        {"final_score_0_1": 0.715393, "score_components": {"insider_momo": 0.473684210526, "news": 0.535683688556, "trends_breakout": 1.0, "volume_anomaly": 0.7593396920426275}, "score_pts": 715, "score_weights": {"insider_momo": 0.25, "news": 0.2, "trends_breakout": 0.3, "volume_anomaly": 0.25}, "symbol": "SOUN"}
+        </script>
+      </article>
+
+      <article class="card rank-3" data-symbol="MSFT">
+        <span class="rank-badge">#3</span>
+        <div class="hd">
+          <div>
+            <div class="sym">MSFT</div>
+            <div class="name">Microsoft Corporation</div>
+          </div>
+
+          <div class="scores">
+            <div class="kpi">
+              <div class="tt">Final Score</div>
+              <div class="vv">69.7<span class="sub"> /100</span></div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Points</div>
+              <div class="vv">697</div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Δ Price</div>
+              <div class="sub">
+                1D: 0.65% /
+                1W: -1.68% /
+                1M: -4.57%
+              </div>
+            </div>
+          </div>
+
+          <div class="rocket" title="Top momentum">
+            <span class="flame">🔥</span><span class="em">🚀</span>
+          </div>
+        </div>
+
+        <div class="breakdown">
+          <!-- Insider は UI から撤去。表示は Volume / Trends / News のみ -->
+          <div class="row">
+            <div class="lbl">Volume anomaly</div>
+            <div class="bar"><i style="width: 33.2%"></i></div>
+            <div class="pct">33.2%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">Trends breakout</div>
+            <div class="bar"><i style="width: 89.5%"></i></div>
+            <div class="pct">89.5%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">News</div>
+            <div class="bar"><i style="width: 74.3%"></i></div>
+            <div class="pct">74.3%</div>
+          </div>
+          <div class="medals"></div>
+        </div>
+
+        <!-- JSが読む安全なJSON。Undefinedを出さない -->
+        <script type="application/json" class="js-payload">
+        {"final_score_0_1": 0.697299, "score_components": {"insider_momo": 0.789473684211, "news": 0.742537635723, "trends_breakout": 0.894736842105, "volume_anomaly": 0.332007740319223}, "score_pts": 697, "score_weights": {"insider_momo": 0.25, "news": 0.2, "trends_breakout": 0.3, "volume_anomaly": 0.25}, "symbol": "MSFT"}
+        </script>
+      </article>
+
+      <article class="card rank-4" data-symbol="U">
+        <span class="rank-badge">#4</span>
+        <div class="hd">
+          <div>
+            <div class="sym">U</div>
+            <div class="name">Unity Software Inc.</div>
+          </div>
+
+          <div class="scores">
+            <div class="kpi">
+              <div class="tt">Final Score</div>
+              <div class="vv">69.2<span class="sub"> /100</span></div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Points</div>
+              <div class="vv">692</div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Δ Price</div>
+              <div class="sub">
+                1D: 3.83% /
+                1W: 15.45% /
+                1M: 36.84%
+              </div>
+            </div>
+          </div>
+
+          <div class="rocket" title="Top momentum">
+            <span class="flame">🔥</span><span class="em">🚀</span>
+          </div>
+        </div>
+
+        <div class="breakdown">
+          <!-- Insider は UI から撤去。表示は Volume / Trends / News のみ -->
+          <div class="row">
+            <div class="lbl">Volume anomaly</div>
+            <div class="bar"><i style="width: 69.5%"></i></div>
+            <div class="pct">69.5%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">Trends breakout</div>
+            <div class="bar"><i style="width: 84.2%"></i></div>
+            <div class="pct">84.2%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">News</div>
+            <div class="bar"><i style="width: 53.6%"></i></div>
+            <div class="pct">53.6%</div>
+          </div>
+          <div class="medals"></div>
+        </div>
+
+        <!-- JSが読む安全なJSON。Undefinedを出さない -->
+        <script type="application/json" class="js-payload">
+        {"final_score_0_1": 0.691586, "score_components": {"insider_momo": 0.631578947368, "news": 0.536302208841, "trends_breakout": 0.842105263158, "volume_anomaly": 0.6951986353038342}, "score_pts": 692, "score_weights": {"insider_momo": 0.25, "news": 0.2, "trends_breakout": 0.3, "volume_anomaly": 0.25}, "symbol": "U"}
+        </script>
+      </article>
+
+      <article class="card rank-5" data-symbol="RKLB">
+        <span class="rank-badge">#5</span>
+        <div class="hd">
+          <div>
+            <div class="sym">RKLB</div>
+            <div class="name">Rocket Lab USA, Inc.</div>
+          </div>
+
+          <div class="scores">
+            <div class="kpi">
+              <div class="tt">Final Score</div>
+              <div class="vv">61.8<span class="sub"> /100</span></div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Points</div>
+              <div class="vv">618</div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Δ Price</div>
+              <div class="sub">
+                1D: 4.12% /
+                1W: -1.79% /
+                1M: 6.8%
+              </div>
+            </div>
+          </div>
+
+          <div class="rocket" title="Top momentum">
+            <span class="flame">🔥</span><span class="em">🚀</span>
+          </div>
+        </div>
+
+        <div class="breakdown">
+          <!-- Insider は UI から撤去。表示は Volume / Trends / News のみ -->
+          <div class="row">
+            <div class="lbl">Volume anomaly</div>
+            <div class="bar"><i style="width: 49.1%"></i></div>
+            <div class="pct">49.1%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">Trends breakout</div>
+            <div class="bar"><i style="width: 78.9%"></i></div>
+            <div class="pct">78.9%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">News</div>
+            <div class="bar"><i style="width: 56.7%"></i></div>
+            <div class="pct">56.7%</div>
+          </div>
+          <div class="medals"></div>
+        </div>
+
+        <!-- JSが読む安全なJSON。Undefinedを出さない -->
+        <script type="application/json" class="js-payload">
+        {"final_score_0_1": 0.617787, "score_components": {"insider_momo": 0.578947368421, "news": 0.567481507516, "trends_breakout": 0.789473684211, "volume_anomaly": 0.4908471399668075}, "score_pts": 618, "score_weights": {"insider_momo": 0.25, "news": 0.2, "trends_breakout": 0.3, "volume_anomaly": 0.25}, "symbol": "RKLB"}
+        </script>
+      </article>
+
+      <article class="card rank-6" data-symbol="AVAV">
+        <span class="rank-badge">#6</span>
+        <div class="hd">
+          <div>
+            <div class="sym">AVAV</div>
+            <div class="name">AeroVironment, Inc.</div>
+          </div>
+
+          <div class="scores">
+            <div class="kpi">
+              <div class="tt">Final Score</div>
+              <div class="vv">59.3<span class="sub"> /100</span></div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Points</div>
+              <div class="vv">593</div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Δ Price</div>
+              <div class="sub">
+                1D: 4.79% /
+                1W: -1.84% /
+                1M: -4.26%
+              </div>
+            </div>
+          </div>
+
+          <div class="rocket" title="Top momentum">
+            <span class="flame">🔥</span><span class="em">🚀</span>
+          </div>
+        </div>
+
+        <div class="breakdown">
+          <!-- Insider は UI から撤去。表示は Volume / Trends / News のみ -->
+          <div class="row">
+            <div class="lbl">Volume anomaly</div>
+            <div class="bar"><i style="width: 68.2%"></i></div>
+            <div class="pct">68.2%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">Trends breakout</div>
+            <div class="bar"><i style="width: 94.7%"></i></div>
+            <div class="pct">94.7%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">News</div>
+            <div class="bar"><i style="width: 69.2%"></i></div>
+            <div class="pct">69.2%</div>
+          </div>
+          <div class="medals"></div>
+        </div>
+
+        <!-- JSが読む安全なJSON。Undefinedを出さない -->
+        <script type="application/json" class="js-payload">
+        {"final_score_0_1": 0.592982, "score_components": {"insider_momo": 0.0, "news": 0.691814971732, "trends_breakout": 0.947368421053, "volume_anomaly": 0.6816340757639877}, "score_pts": 593, "score_weights": {"insider_momo": 0.25, "news": 0.2, "trends_breakout": 0.3, "volume_anomaly": 0.25}, "symbol": "AVAV"}
+        </script>
+      </article>
+
+      <article class="card rank-7" data-symbol="ABCL">
+        <span class="rank-badge">#7</span>
+        <div class="hd">
+          <div>
+            <div class="sym">ABCL</div>
+            <div class="name">AbCellera Biologics Inc.</div>
+          </div>
+
+          <div class="scores">
+            <div class="kpi">
+              <div class="tt">Final Score</div>
+              <div class="vv">54.4<span class="sub"> /100</span></div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Points</div>
+              <div class="vv">544</div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Δ Price</div>
+              <div class="sub">
+                1D: -1.18% /
+                1W: -0.24% /
+                1M: -1.88%
+              </div>
+            </div>
+          </div>
+
+          <div class="rocket" title="Top momentum">
+            <span class="flame">🔥</span><span class="em">🚀</span>
+          </div>
+        </div>
+
+        <div class="breakdown">
+          <!-- Insider は UI から撤去。表示は Volume / Trends / News のみ -->
+          <div class="row">
+            <div class="lbl">Volume anomaly</div>
+            <div class="bar"><i style="width: 25.7%"></i></div>
+            <div class="pct">25.7%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">Trends breakout</div>
+            <div class="bar"><i style="width: 73.7%"></i></div>
+            <div class="pct">73.7%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">News</div>
+            <div class="bar"><i style="width: 43.9%"></i></div>
+            <div class="pct">43.9%</div>
+          </div>
+          <div class="medals"></div>
+        </div>
+
+        <!-- JSが読む安全なJSON。Undefinedを出さない -->
+        <script type="application/json" class="js-payload">
+        {"final_score_0_1": 0.544179, "score_components": {"insider_momo": 0.684210526316, "news": 0.439337758968, "trends_breakout": 0.736842105263, "volume_anomaly": 0.2568246823684497}, "score_pts": 544, "score_weights": {"insider_momo": 0.25, "news": 0.2, "trends_breakout": 0.3, "volume_anomaly": 0.25}, "symbol": "ABCL"}
+        </script>
+      </article>
+
+      <article class="card rank-8" data-symbol="NVDA">
+        <span class="rank-badge">#8</span>
+        <div class="hd">
+          <div>
+            <div class="sym">NVDA</div>
+            <div class="name">NVIDIA Corporation</div>
+          </div>
+
+          <div class="scores">
+            <div class="kpi">
+              <div class="tt">Final Score</div>
+              <div class="vv">53.9<span class="sub"> /100</span></div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Points</div>
+              <div class="vv">539</div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Δ Price</div>
+              <div class="sub">
+                1D: 0.77% /
+                1W: -3.37% /
+                1M: -7.88%
+              </div>
+            </div>
+          </div>
+
+          <div class="rocket" title="Top momentum">
+            <span class="flame">🔥</span><span class="em">🚀</span>
+          </div>
+        </div>
+
+        <div class="breakdown">
+          <!-- Insider は UI から撤去。表示は Volume / Trends / News のみ -->
+          <div class="row">
+            <div class="lbl">Volume anomaly</div>
+            <div class="bar"><i style="width: 41.6%"></i></div>
+            <div class="pct">41.6%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">Trends breakout</div>
+            <div class="bar"><i style="width: 5.3%"></i></div>
+            <div class="pct">5.3%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">News</div>
+            <div class="bar"><i style="width: 91.1%"></i></div>
+            <div class="pct">91.1%</div>
+          </div>
+          <div class="medals"></div>
+        </div>
+
+        <!-- JSが読む安全なJSON。Undefinedを出さない -->
+        <script type="application/json" class="js-payload">
+        {"final_score_0_1": 0.538886, "score_components": {"insider_momo": 0.947368421053, "news": 0.910814897033, "trends_breakout": 0.052631578947, "volume_anomaly": 0.4163663767946984}, "score_pts": 539, "score_weights": {"insider_momo": 0.25, "news": 0.2, "trends_breakout": 0.3, "volume_anomaly": 0.25}, "symbol": "NVDA"}
+        </script>
+      </article>
+
+      <article class="card rank-9" data-symbol="INOD">
+        <span class="rank-badge">#9</span>
+        <div class="hd">
+          <div>
+            <div class="sym">INOD</div>
+            <div class="name">Innodata Inc.</div>
+          </div>
+
+          <div class="scores">
+            <div class="kpi">
+              <div class="tt">Final Score</div>
+              <div class="vv">53.5<span class="sub"> /100</span></div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Points</div>
+              <div class="vv">535</div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Δ Price</div>
+              <div class="sub">
+                1D: 9.75% /
+                1W: 25.65% /
+                1M: 9.63%
+              </div>
+            </div>
+          </div>
+
+          <div class="rocket" title="Top momentum">
+            <span class="flame">🔥</span><span class="em">🚀</span>
+          </div>
+        </div>
+
+        <div class="breakdown">
+          <!-- Insider は UI から撤去。表示は Volume / Trends / News のみ -->
+          <div class="row">
+            <div class="lbl">Volume anomaly</div>
+            <div class="bar"><i style="width: 82.0%"></i></div>
+            <div class="pct">82.0%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">Trends breakout</div>
+            <div class="bar"><i style="width: 42.1%"></i></div>
+            <div class="pct">42.1%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">News</div>
+            <div class="bar"><i style="width: 55.6%"></i></div>
+            <div class="pct">55.6%</div>
+          </div>
+          <div class="medals"></div>
+        </div>
+
+        <!-- JSが読む安全なJSON。Undefinedを出さない -->
+        <script type="application/json" class="js-payload">
+        {"final_score_0_1": 0.534581, "score_components": {"insider_momo": 0.368421052632, "news": 0.556177296731, "trends_breakout": 0.421052631579, "volume_anomaly": 0.8196961902337729}, "score_pts": 535, "score_weights": {"insider_momo": 0.25, "news": 0.2, "trends_breakout": 0.3, "volume_anomaly": 0.25}, "symbol": "INOD"}
+        </script>
+      </article>
+
+      <article class="card rank-10" data-symbol="IRDM">
+        <span class="rank-badge">#10</span>
+        <div class="hd">
+          <div>
+            <div class="sym">IRDM</div>
+            <div class="name">Iridium Communications Inc.</div>
+          </div>
+
+          <div class="scores">
+            <div class="kpi">
+              <div class="tt">Final Score</div>
+              <div class="vv">52.0<span class="sub"> /100</span></div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Points</div>
+              <div class="vv">520</div>
+            </div>
+            <div class="kpi">
+              <div class="tt">Δ Price</div>
+              <div class="sub">
+                1D: -14.85% /
+                1W: -14.06% /
+                1M: -10.16%
+              </div>
+            </div>
+          </div>
+
+          <div class="rocket" title="Top momentum">
+            <span class="flame">🔥</span><span class="em">🚀</span>
+          </div>
+        </div>
+
+        <div class="breakdown">
+          <!-- Insider は UI から撤去。表示は Volume / Trends / News のみ -->
+          <div class="row">
+            <div class="lbl">Volume anomaly</div>
+            <div class="bar"><i style="width: 93.9%"></i></div>
+            <div class="pct">93.9%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">Trends breakout</div>
+            <div class="bar"><i style="width: 10.5%"></i></div>
+            <div class="pct">10.5%</div>
+          </div>
+          <div class="row">
+            <div class="lbl">News</div>
+            <div class="bar"><i style="width: 34.9%"></i></div>
+            <div class="pct">34.9%</div>
+          </div>
+          <div class="medals"></div>
+        </div>
+
+        <!-- JSが読む安全なJSON。Undefinedを出さない -->
+        <script type="application/json" class="js-payload">
+        {"final_score_0_1": 0.520403, "score_components": {"insider_momo": 0.736842105263, "news": 0.349480816132, "trends_breakout": 0.105263157895, "volume_anomaly": 0.938870801125959}, "score_pts": 520, "score_weights": {"insider_momo": 0.25, "news": 0.2, "trends_breakout": 0.3, "volume_anomaly": 0.25}, "symbol": "IRDM"}
+        </script>
+      </article>
     </section>
 
     <footer class="note">
       <h3>How to read this page</h3>
       <ul>
-        <li><strong>Final Score</strong> mixes three signals: <em>Volume anomaly</em>, <em>Trends breakout</em>, and <em>News</em>. Each signal is normalized to 0–100% and then combined by weights.</li>
-        <li><strong>Volume anomaly</strong> highlights unusual trading activity. <strong>Trends breakout</strong> reflects recent search interest momentum. <strong>News</strong> counts timely, stock-specific headlines.</li>
-        <li>We track AI, Robotics, and Space themed stocks. Rankings are within our daily universe of symbols.</li>
-        <li>A big 🚀 on Rank #1 means exceptional momentum today.</li>
+        <li><strong>Final Score</strong> combines three signals: <em>Volume anomaly</em>, <em>Trends breakout</em>, and <em>News</em>. Each is normalized (0–100%) and weighted.</li>
+        <li><strong>Volume anomaly</strong> = unusual trading activity. <strong>Trends breakout</strong> = recent search interest. <strong>News</strong> = timely, stock-specific headlines.</li>
+        <li>We track AI, Robotics, and Space stocks. Rankings are within our <strong>daily list of stocks</strong>.</li>
+        <li>A big 🚀 on Rank #1 highlights exceptional momentum today.</li>
       </ul>
       <p class="muted">This page is informational and not investment advice.</p>
     </footer>

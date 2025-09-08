@@ -3,23 +3,23 @@
   "items": [
     {
       "symbol": "symbol",
-      "score_0_1": 0.052631578947,
+      "score_0_1": 0.421052631579,
       "components": {
-        "volume": 0.052631578947
+        "volume": 0.421052631579
       }
     },
     {
       "symbol": "NVDA",
-      "score_0_1": 0.736842105263,
+      "score_0_1": 0.947368421053,
       "components": {
-        "volume": 0.736842105263
+        "volume": 0.947368421053
       }
     },
     {
       "symbol": "MSFT",
-      "score_0_1": 0.631578947368,
+      "score_0_1": 0.789473684211,
       "components": {
-        "volume": 0.631578947368
+        "volume": 0.789473684211
       }
     },
     {
@@ -31,79 +31,79 @@
     },
     {
       "symbol": "AI",
-      "score_0_1": 0.578947368421,
+      "score_0_1": 0.842105263158,
       "components": {
-        "volume": 0.578947368421
+        "volume": 0.842105263158
       }
     },
     {
       "symbol": "ISRG",
-      "score_0_1": 0.0,
-      "components": {
-        "volume": 0.0
-      }
-    },
-    {
-      "symbol": "TER",
-      "score_0_1": 0.315789473684,
-      "components": {
-        "volume": 0.315789473684
-      }
-    },
-    {
-      "symbol": "SYM",
-      "score_0_1": 0.368421052632,
-      "components": {
-        "volume": 0.368421052632
-      }
-    },
-    {
-      "symbol": "RKLB",
-      "score_0_1": 0.947368421053,
-      "components": {
-        "volume": 0.947368421053
-      }
-    },
-    {
-      "symbol": "IRDM",
-      "score_0_1": 0.789473684211,
-      "components": {
-        "volume": 0.789473684211
-      }
-    },
-    {
-      "symbol": "VSAT",
-      "score_0_1": 0.684210526316,
-      "components": {
-        "volume": 0.684210526316
-      }
-    },
-    {
-      "symbol": "INOD",
       "score_0_1": 0.157894736842,
       "components": {
         "volume": 0.157894736842
       }
     },
     {
-      "symbol": "SOUN",
-      "score_0_1": 0.210526315789,
+      "symbol": "TER",
+      "score_0_1": 0.526315789474,
       "components": {
-        "volume": 0.210526315789
+        "volume": 0.526315789474
       }
     },
     {
-      "symbol": "MNDY",
+      "symbol": "SYM",
       "score_0_1": 0.894736842105,
       "components": {
         "volume": 0.894736842105
       }
     },
     {
-      "symbol": "AVAV",
-      "score_0_1": 0.526315789474,
+      "symbol": "RKLB",
+      "score_0_1": 0.578947368421,
       "components": {
-        "volume": 0.526315789474
+        "volume": 0.578947368421
+      }
+    },
+    {
+      "symbol": "IRDM",
+      "score_0_1": 0.736842105263,
+      "components": {
+        "volume": 0.736842105263
+      }
+    },
+    {
+      "symbol": "VSAT",
+      "score_0_1": 0.052631578947,
+      "components": {
+        "volume": 0.052631578947
+      }
+    },
+    {
+      "symbol": "INOD",
+      "score_0_1": 0.368421052632,
+      "components": {
+        "volume": 0.368421052632
+      }
+    },
+    {
+      "symbol": "SOUN",
+      "score_0_1": 0.473684210526,
+      "components": {
+        "volume": 0.473684210526
+      }
+    },
+    {
+      "symbol": "MNDY",
+      "score_0_1": 0.315789473684,
+      "components": {
+        "volume": 0.315789473684
+      }
+    },
+    {
+      "symbol": "AVAV",
+      "score_0_1": 0.0,
+      "components": {
+        "volume": 0.0
       }
     },
     {
@@ -122,23 +122,23 @@
     },
     {
       "symbol": "ABCL",
-      "score_0_1": 0.473684210526,
+      "score_0_1": 0.684210526316,
       "components": {
-        "volume": 0.473684210526
+        "volume": 0.684210526316
       }
     },
     {
       "symbol": "U",
-      "score_0_1": 0.842105263158,
+      "score_0_1": 0.631578947368,
       "components": {
-        "volume": 0.842105263158
+        "volume": 0.631578947368
       }
     },
     {
       "symbol": "TEM",
-      "score_0_1": 0.421052631579,
+      "score_0_1": 0.210526315789,
       "components": {
-        "volume": 0.421052631579
+        "volume": 0.210526315789
       }
     }
   ],
