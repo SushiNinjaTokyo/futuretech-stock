@@ -2,239 +2,15 @@
   "date": "2025-09-07",
   "items": [
     {
-      "symbol": "SOUN",
-      "name": "SoundHound AI, Inc.",
-      "final_score_0_1": 0.793806,
-      "score_pts": 794,
-      "score_components": {
-        "volume_anomaly": 0.7331181302866098,
-        "insider_momo": 0.631578947368,
-        "trends_breakout": 0.842105263158,
-        "news": 1.0
-      },
-      "score_weights": {
-        "volume_anomaly": 0.25,
-        "insider_momo": 0.25,
-        "trends_breakout": 0.3,
-        "news": 0.2
-      },
-      "price_delta_1d": 7.298722872934915,
-      "price_delta_1w": 13.806867779560728,
-      "price_delta_1m": 33.022386881284895,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 1.396,
-          "z60": 1.708,
-          "pct_rank_90": 0.967,
-          "dollar_vol": 1360637885.8390808,
-          "eligible": true
-        }
-      },
-      "chart_url": "/charts/2025-09-07/SOUN.png",
-      "rank": 1
-    },
-    {
-      "symbol": "GDRX",
-      "name": "GoodRx Holdings, Inc.",
-      "final_score_0_1": 0.7764,
-      "score_pts": 776,
-      "score_components": {
-        "volume_anomaly": 0.6740228075236556,
-        "insider_momo": 1.0,
-        "trends_breakout": 0.526315789474,
-        "news": 1.0
-      },
-      "score_weights": {
-        "volume_anomaly": 0.25,
-        "insider_momo": 0.25,
-        "trends_breakout": 0.3,
-        "news": 0.2
-      },
-      "price_delta_1d": -6.542060656134585,
-      "price_delta_1w": -8.256883543354942,
-      "price_delta_1m": 15.273774265703421,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 0.936,
-          "z60": 1.569,
-          "pct_rank_90": 0.944,
-          "dollar_vol": 23047200.0,
-          "eligible": true
-        }
-      },
-      "chart_url": "/charts/2025-09-07/GDRX.png",
-      "rank": 2
-    },
-    {
-      "symbol": "PLTR",
-      "name": "Palantir Technologies Inc.",
-      "final_score_0_1": 0.767925,
-      "score_pts": 768,
-      "score_components": {
-        "volume_anomaly": 0.5559103853653173,
-        "insider_momo": 0.894736842105,
-        "trends_breakout": 0.684210526316,
-        "news": 1.0
-      },
-      "score_weights": {
-        "volume_anomaly": 0.25,
-        "insider_momo": 0.25,
-        "trends_breakout": 0.3,
-        "news": 0.2
-      },
-      "price_delta_1d": -1.940565384360926,
-      "price_delta_1w": -3.1684762595159954,
-      "price_delta_1m": -15.965969717416773,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 1.038,
-          "z60": 0.546,
-          "pct_rank_90": 0.722,
-          "dollar_vol": 12509990398.869324,
-          "eligible": true
-        }
-      },
-      "chart_url": "/charts/2025-09-07/PLTR.png",
-      "rank": 3
-    },
-    {
-      "symbol": "INOD",
-      "name": "Innodata Inc.",
-      "final_score_0_1": 0.760083,
-      "score_pts": 760,
-      "score_components": {
-        "volume_anomaly": 0.619277699226498,
-        "insider_momo": 0.736842105263,
-        "trends_breakout": 0.736842105263,
-        "news": 1.0
-      },
-      "score_weights": {
-        "volume_anomaly": 0.25,
-        "insider_momo": 0.25,
-        "trends_breakout": 0.3,
-        "news": 0.2
-      },
-      "price_delta_1d": 5.790757071715746,
-      "price_delta_1w": 10.048092607838587,
-      "price_delta_1m": 1.5176224221180146,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 1.618,
-          "z60": 0.653,
-          "pct_rank_90": 0.733,
-          "dollar_vol": 127109430.66177368,
-          "eligible": true
-        }
-      },
-      "chart_url": "/charts/2025-09-07/INOD.png",
-      "rank": 4
-    },
-    {
-      "symbol": "NVDA",
-      "name": "NVIDIA Corporation",
-      "final_score_0_1": 0.685838,
-      "score_pts": 686,
-      "score_components": {
-        "volume_anomaly": 0.6591418788535581,
-        "insider_momo": 0.526315789474,
-        "trends_breakout": 0.631578947368,
-        "news": 1.0
-      },
-      "score_weights": {
-        "volume_anomaly": 0.25,
-        "insider_momo": 0.25,
-        "trends_breakout": 0.3,
-        "news": 0.2
-      },
-      "price_delta_1d": -2.7030171796929903,
-      "price_delta_1w": -7.298659060957324,
-      "price_delta_1m": -7.606350431499498,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 1.28,
-          "z60": 1.339,
-          "pct_rank_90": 0.844,
-          "dollar_vol": 37411044584.99451,
-          "eligible": true
-        }
-      },
-      "chart_url": "/charts/2025-09-07/NVDA.png",
-      "rank": 5
-    },
-    {
-      "symbol": "MNDY",
-      "name": "Monday.com Ltd.",
-      "final_score_0_1": 0.681691,
-      "score_pts": 682,
-      "score_components": {
-        "volume_anomaly": 0.4109764374953299,
-        "insider_momo": 0.315789473684,
-        "trends_breakout": 1.0,
-        "news": 1.0
-      },
-      "score_weights": {
-        "volume_anomaly": 0.25,
-        "insider_momo": 0.25,
-        "trends_breakout": 0.3,
-        "news": 0.2
-      },
-      "price_delta_1d": 1.8144927046475745,
-      "price_delta_1w": -1.9946171119542333,
-      "price_delta_1m": -24.9272432054905,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 0.46,
-          "z60": 0.371,
-          "pct_rank_90": 0.567,
-          "dollar_vol": 177576448.9151001,
-          "eligible": true
-        }
-      },
-      "chart_url": "/charts/2025-09-07/MNDY.png",
-      "rank": 6
-    },
-    {
-      "symbol": "PERF",
-      "name": "Perfect Corp.",
-      "final_score_0_1": 0.662691,
-      "score_pts": 663,
-      "score_components": {
-        "volume_anomaly": 0.47181684453447215,
-        "insider_momo": 0.684210526316,
-        "trends_breakout": 0.578947368421,
-        "news": 1.0
-      },
-      "score_weights": {
-        "volume_anomaly": 0.25,
-        "insider_momo": 0.25,
-        "trends_breakout": 0.3,
-        "news": 0.2
-      },
-      "price_delta_1d": -1.0309329662834377,
-      "price_delta_1w": -7.69230636971937,
-      "price_delta_1m": -1.0309329662834377,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 1.205,
-          "z60": -0.164,
-          "pct_rank_90": 0.556,
-          "dollar_vol": 373055.9916615486,
-          "eligible": false
-        }
-      },
-      "chart_url": "/charts/2025-09-07/PERF.png",
-      "rank": 7
-    },
-    {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
-      "final_score_0_1": 0.661337,
-      "score_pts": 661,
+      "final_score_0_1": 0.787644,
+      "score_pts": 788,
       "score_components": {
         "volume_anomaly": 0.7400854373162391,
-        "insider_momo": 0.789473684211,
-        "trends_breakout": 0.263157894737,
-        "news": 1.0
+        "insider_momo": 0.736842105263,
+        "trends_breakout": 0.894736842105,
+        "news": 0.749957095146
       },
       "score_weights": {
         "volume_anomaly": 0.25,
@@ -255,18 +31,242 @@
         }
       },
       "chart_url": "/charts/2025-09-07/MSFT.png",
+      "rank": 1
+    },
+    {
+      "symbol": "INOD",
+      "name": "Innodata Inc.",
+      "final_score_0_1": 0.760282,
+      "score_pts": 760,
+      "score_components": {
+        "volume_anomaly": 0.619277699226498,
+        "insider_momo": 0.947368421053,
+        "trends_breakout": 0.947368421053,
+        "news": 0.422048677044
+      },
+      "score_weights": {
+        "volume_anomaly": 0.25,
+        "insider_momo": 0.25,
+        "trends_breakout": 0.3,
+        "news": 0.2
+      },
+      "price_delta_1d": 5.790757071715746,
+      "price_delta_1w": 10.048092607838587,
+      "price_delta_1m": 1.5176224221180146,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 1.618,
+          "z60": 0.653,
+          "pct_rank_90": 0.733,
+          "dollar_vol": 127109430.66177368,
+          "eligible": true
+        }
+      },
+      "chart_url": "/charts/2025-09-07/INOD.png",
+      "rank": 2
+    },
+    {
+      "symbol": "TER",
+      "name": "Teradyne, Inc.",
+      "final_score_0_1": 0.696751,
+      "score_pts": 697,
+      "score_components": {
+        "volume_anomaly": 0.587003985505683,
+        "insider_momo": 1.0,
+        "trends_breakout": 1.0,
+        "news": 0.0
+      },
+      "score_weights": {
+        "volume_anomaly": 0.25,
+        "insider_momo": 0.25,
+        "trends_breakout": 0.3,
+        "news": 0.2
+      },
+      "price_delta_1d": 0.6784467398732286,
+      "price_delta_1w": 1.9594516672773787,
+      "price_delta_1m": 12.906253975136028,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 1.061,
+          "z60": -0.034,
+          "pct_rank_90": 0.833,
+          "dollar_vol": 424498309.2224121,
+          "eligible": true
+        }
+      },
+      "chart_url": "/charts/2025-09-07/TER.png",
+      "rank": 3
+    },
+    {
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "final_score_0_1": 0.665392,
+      "score_pts": 665,
+      "score_components": {
+        "volume_anomaly": 0.6591418788535581,
+        "insider_momo": 0.631578947368,
+        "trends_breakout": 0.526315789474,
+        "news": 0.924087507211
+      },
+      "score_weights": {
+        "volume_anomaly": 0.25,
+        "insider_momo": 0.25,
+        "trends_breakout": 0.3,
+        "news": 0.2
+      },
+      "price_delta_1d": -2.7030171796929903,
+      "price_delta_1w": -7.298659060957324,
+      "price_delta_1m": -7.606350431499498,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 1.28,
+          "z60": 1.339,
+          "pct_rank_90": 0.844,
+          "dollar_vol": 37411044584.99451,
+          "eligible": true
+        }
+      },
+      "chart_url": "/charts/2025-09-07/NVDA.png",
+      "rank": 4
+    },
+    {
+      "symbol": "SOUN",
+      "name": "SoundHound AI, Inc.",
+      "final_score_0_1": 0.647112,
+      "score_pts": 647,
+      "score_components": {
+        "volume_anomaly": 0.7331181302866098,
+        "insider_momo": 0.789473684211,
+        "trends_breakout": 0.578947368421,
+        "news": 0.463899105342
+      },
+      "score_weights": {
+        "volume_anomaly": 0.25,
+        "insider_momo": 0.25,
+        "trends_breakout": 0.3,
+        "news": 0.2
+      },
+      "price_delta_1d": 7.298722872934915,
+      "price_delta_1w": 13.806867779560728,
+      "price_delta_1m": 33.022386881284895,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 1.396,
+          "z60": 1.708,
+          "pct_rank_90": 0.967,
+          "dollar_vol": 1360637885.8390808,
+          "eligible": true
+        }
+      },
+      "chart_url": "/charts/2025-09-07/SOUN.png",
+      "rank": 5
+    },
+    {
+      "symbol": "AI",
+      "name": "C3.ai, Inc.",
+      "final_score_0_1": 0.627333,
+      "score_pts": 627,
+      "score_components": {
+        "volume_anomaly": 0.6145946992217807,
+        "insider_momo": 0.842105263158,
+        "trends_breakout": 0.210526315789,
+        "news": 1.0
+      },
+      "score_weights": {
+        "volume_anomaly": 0.25,
+        "insider_momo": 0.25,
+        "trends_breakout": 0.3,
+        "news": 0.2
+      },
+      "price_delta_1d": 1.034927859102952,
+      "price_delta_1w": -9.763140569174444,
+      "price_delta_1m": -31.06796120590898,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 0.98,
+          "z60": 1.185,
+          "pct_rank_90": 0.822,
+          "dollar_vol": 196521466.56017303,
+          "eligible": true
+        }
+      },
+      "chart_url": "/charts/2025-09-07/AI.png",
+      "rank": 6
+    },
+    {
+      "symbol": "PLTR",
+      "name": "Palantir Technologies Inc.",
+      "final_score_0_1": 0.621703,
+      "score_pts": 622,
+      "score_components": {
+        "volume_anomaly": 0.5559103853653173,
+        "insider_momo": 0.684210526316,
+        "trends_breakout": 0.684210526316,
+        "news": 0.532049642757
+      },
+      "score_weights": {
+        "volume_anomaly": 0.25,
+        "insider_momo": 0.25,
+        "trends_breakout": 0.3,
+        "news": 0.2
+      },
+      "price_delta_1d": -1.940565384360926,
+      "price_delta_1w": -3.1684762595159954,
+      "price_delta_1m": -15.965969717416773,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 1.038,
+          "z60": 0.546,
+          "pct_rank_90": 0.722,
+          "dollar_vol": 12509990398.869324,
+          "eligible": true
+        }
+      },
+      "chart_url": "/charts/2025-09-07/PLTR.png",
+      "rank": 7
+    },
+    {
+      "symbol": "AVAV",
+      "name": "AeroVironment, Inc.",
+      "final_score_0_1": 0.598516,
+      "score_pts": 599,
+      "score_components": {
+        "volume_anomaly": 0.4291362405057515,
+        "insider_momo": 0.421052631579,
+        "trends_breakout": 0.842105263158,
+        "news": 0.666687198693
+      },
+      "score_weights": {
+        "volume_anomaly": 0.25,
+        "insider_momo": 0.25,
+        "trends_breakout": 0.3,
+        "news": 0.2
+      },
+      "price_delta_1d": -0.2998732987536501,
+      "price_delta_1w": -9.17928394208709,
+      "price_delta_1m": -12.9155215178267,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 1.054,
+          "z60": -0.502,
+          "pct_rank_90": 0.522,
+          "dollar_vol": 175008529.41741943,
+          "eligible": true
+        }
+      },
+      "chart_url": "/charts/2025-09-07/AVAV.png",
       "rank": 8
     },
     {
-      "symbol": "VSAT",
-      "name": "Viasat, Inc.",
-      "final_score_0_1": 0.65533,
-      "score_pts": 655,
+      "symbol": "GDRX",
+      "name": "GoodRx Holdings, Inc.",
+      "final_score_0_1": 0.567397,
+      "score_pts": 567,
       "score_components": {
-        "volume_anomaly": 0.5792135517756744,
-        "insider_momo": 0.105263157895,
-        "trends_breakout": 0.947368421053,
-        "news": 1.0
+        "volume_anomaly": 0.6740228075236556,
+        "insider_momo": 0.894736842105,
+        "trends_breakout": 0.315789473684,
+        "news": 0.402353083443
       },
       "score_weights": {
         "volume_anomaly": 0.25,
@@ -274,31 +274,31 @@
         "trends_breakout": 0.3,
         "news": 0.2
       },
-      "price_delta_1d": -1.4950191270312496,
-      "price_delta_1w": -8.853363875929576,
-      "price_delta_1m": 13.081618592677824,
+      "price_delta_1d": -6.542060656134585,
+      "price_delta_1w": -8.256883543354942,
+      "price_delta_1m": 15.273774265703421,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 0.878,
-          "z60": 0.154,
-          "pct_rank_90": 0.844,
-          "dollar_vol": 109141648.59580994,
+          "rvol20": 0.936,
+          "z60": 1.569,
+          "pct_rank_90": 0.944,
+          "dollar_vol": 23047200.0,
           "eligible": true
         }
       },
-      "chart_url": "/charts/2025-09-07/VSAT.png",
+      "chart_url": "/charts/2025-09-07/GDRX.png",
       "rank": 9
     },
     {
-      "symbol": "ISRG",
-      "name": "Intuitive Surgical, Inc.",
-      "final_score_0_1": 0.652871,
-      "score_pts": 653,
+      "symbol": "MNDY",
+      "name": "Monday.com Ltd.",
+      "final_score_0_1": 0.532976,
+      "score_pts": 533,
       "score_components": {
-        "volume_anomaly": 0.6535897185708417,
-        "insider_momo": 0.210526315789,
-        "trends_breakout": 0.789473684211,
-        "news": 1.0
+        "volume_anomaly": 0.4109764374953299,
+        "insider_momo": 0.473684210526,
+        "trends_breakout": 0.736842105263,
+        "news": 0.453792746616
       },
       "score_weights": {
         "volume_anomaly": 0.25,
@@ -306,19 +306,19 @@
         "trends_breakout": 0.3,
         "news": 0.2
       },
-      "price_delta_1d": 2.7149512972287404,
-      "price_delta_1w": -1.473073408803327,
-      "price_delta_1m": -0.6279160133588535,
+      "price_delta_1d": 1.8144927046475745,
+      "price_delta_1w": -1.9946171119542333,
+      "price_delta_1m": -24.9272432054905,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 1.27,
-          "z60": 0.986,
-          "pct_rank_90": 0.856,
-          "dollar_vol": 1224620427.5756836,
+          "rvol20": 0.46,
+          "z60": 0.371,
+          "pct_rank_90": 0.567,
+          "dollar_vol": 177576448.9151001,
           "eligible": true
         }
       },
-      "chart_url": "/charts/2025-09-07/ISRG.png",
+      "chart_url": "/charts/2025-09-07/MNDY.png",
       "rank": 10
     }
   ]
