@@ -5,8 +5,8 @@
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
       "recent_count": 20,
-      "weighted_count": 16.63479,
-      "score_0_1": 0.889983415625,
+      "weighted_count": 16.62174,
+      "score_0_1": 0.889982457683,
       "articles": [
         {
           "title": "5 April Buys With Double-Digit Year-End Targets - MarketBeat",
@@ -64,7 +64,7 @@
           "published": "2026-03-27T13:14:02Z"
         },
         {
-          "title": "Nvidia Stock’s ‘Less Understood’ Part: Wolfe’s Top Analyst Decodes Rubin Ultra Pods - tipranks.com",
+          "title": "Nvidia Stock’s ‘Less Understood’ Part: Wolfe’s Top Analyst Decodes Rubin Ultra Pods - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxOcF96Y0xzN3dlamN2Sm9DLWt1NERXbDlJZzZobjFCMVJ6enRxbmpSOFlrWUNZVDc1RWJ4TUtLeFJkSW54VDNtckM4UFRJWlRoLVJOT3RwTW02cEttZTVCNDVYUDZSb1VJZVBGdVJJNXBiN2hEcVhLeTRHcGNkWmU5bi1NaDhyckoxejRCQmZsOXBiaUJYeHJKYzZnc3lPQW9SZTBn",
           "published": "2026-03-27T12:52:15Z"
         },
@@ -110,15 +110,15 @@
         }
       ],
       "components": {
-        "news": 0.889983415625
+        "news": 0.889982457683
       }
     },
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
       "recent_count": 20,
-      "weighted_count": 17.094722,
-      "score_0_1": 0.916723764784,
+      "weighted_count": 17.081309,
+      "score_0_1": 0.916722665269,
       "articles": [
         {
           "title": "MSFT Stock Today, March 27: Oversold as OpenAI Risk Tests AI Narrative - Meyka",
@@ -126,7 +126,7 @@
           "published": "2026-03-28T03:35:21Z"
         },
         {
-          "title": "MSFT stock heads for worst quarter since 2008 crisis: Retail, Wall Street still see long-term upside - msn.com",
+          "title": "MSFT stock heads for worst quarter since 2008 crisis: Retail, Wall Street still see long-term upside - MSN",
           "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxPQm1SN3NwU0VycVhOMDMyN1R2NWxON3Q0RHFSSHozb2ktaHlXZ3NYVmp3ZmpSQVRIQUVlbkZabE1BYTA1WkExNEo5R1Qxc3NMeG43MTFJVHNHZWt2RzdYcVdDWFYxQm0yeE04V2ZDRHJNck1scHAyVWdVMW43VVVBeURfRzF3WmxtZDJJZFRWSTVOdndJamkxN2Z6YmpLMlNTMkJvemRaY2xNMHRZTXV5LTRzOVNndXczLU5RWHNaRkJHWWpmSjdHN3lPUFdYSmxNdjJmcDJEYlhGR1hhaWs4UlpmUFc4dWs",
           "published": "2026-03-27T21:55:02Z"
         },
@@ -146,12 +146,12 @@
           "published": "2026-03-27T17:42:46Z"
         },
         {
-          "title": "Microsoft Stock (MSFT) Buckles under AI Worries, But Crowd Wisdom Has a Catch - tipranks.com",
+          "title": "Microsoft Stock (MSFT) Buckles under AI Worries, But Crowd Wisdom Has a Catch - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPUVh0WGl3MjZRTWstRGpqNW1iZUxaeW1Zal9tYVM4SEwxSkpxOHNtaHhnTzRPaGIwS1R3emJwYXdSemNPZHV4MUF4bWRuek8xNkM0ZEhCUjBEOGlQejc3RC1XMUpYU0d5Um9DOVVtLXpFcE43T1JGa3o0SkhUQzA4MVNoeVNMamxKV19hYUZnY1drSmV0dk5vN1lHbHFmbW1SakYxSm9scw",
           "published": "2026-03-27T17:37:01Z"
         },
         {
-          "title": "Microsoft HR Shuffle Followed by Hiring Freeze, Microsoft Stock (NASDAQ:MSFT) Slides - tipranks.com",
+          "title": "Microsoft HR Shuffle Followed by Hiring Freeze, Microsoft Stock (NASDAQ:MSFT) Slides - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQbE1GX1RucE5QSDJqVTRIcHlvRWlzTVMxU0ozeHBzN3FwbnZDbTktVDlvVFljZkMycC1XTmFwcEgtdll2dTU3MDc2blZQNTBmVnA0dFd2bzhGbmFZblFSVXVxUHUtZUFUR1FRWE9pZW9zMWNqalUyS0JMTnFZTG1MemoxTHJrVzRUVzhQb20xMnFvZ0ltcE81RmFOX0V3QmNnTmZWUUhWMXVWdWhmcU5z",
           "published": "2026-03-27T17:35:19Z"
         },
@@ -161,7 +161,7 @@
           "published": "2026-03-27T17:33:07Z"
         },
         {
-          "title": "Microsoft (MSFT) Is the Worst-Performing Mag 7 Stock YTD — Here’s Who Owns It? - tipranks.com",
+          "title": "Microsoft (MSFT) Is the Worst-Performing Mag 7 Stock YTD — Here’s Who Owns It? - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQNUhGS3BDVmxqN0IwMkFDRTZONVR1b0FXbk1lVXZ0bS1KLUN6QWpicmZUQ29CMEtaQkg1ZlNScUFZR0RnMllqak9yRXJjZk5ydlNiQ01NTTQxWTBPU0x3UW8xNmxpMmlqRF9UaE5SS1RYdTBSazhUUWNsV2ZkelhCenZNSnYtazhFLTVZa2t5bm9NNGxnNEMtbTloaVh0aFZlb0Q3Yg",
           "published": "2026-03-27T17:05:10Z"
         },
@@ -186,7 +186,7 @@
           "published": "2026-03-27T14:52:24Z"
         },
         {
-          "title": "Micron (MU) or Microsoft (MSFT): Which Beaten-Down AI Stock Is the Better Buy Right Now? - tipranks.com",
+          "title": "Micron (MU) or Microsoft (MSFT): Which Beaten-Down AI Stock Is the Better Buy Right Now? - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQeThYMTZCcXVVX2xiaVhoZ2RPcXp0NlNvU09LLXEzcHVfcm9yQ0N0bnQwRThYQmNrb0xMNnRzNkM4c3NWcldBWjlPUEU4UUNqSHR3d0lUN2o4RVBZcU1EcWJjUExHODRIQVNYNnVDdlhvME55eFBrQTV1V1NTT1ZjRkNWVnhrcVllOC1rOVFxTDlUSFhyNVRrZ2gwcDlfNWh0aGxLNWF5SHVRUkptdDFLRWVR",
           "published": "2026-03-27T13:37:40Z"
         },
@@ -201,12 +201,12 @@
           "published": "2026-03-27T09:09:17Z"
         },
         {
-          "title": "Microsoft (MSFT) Stock Moves -1.37%: What You Should Know - Yahoo! Finance Canada",
-          "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOeXBwbmh3T0pmZkpFYlB1bDNxTU51UTBQbG1vUXhteEF3M0xkNjFIZVAxaWpJQmVsWElpTlduOUY5aDFoTFNrMkwtakZpLTBGSlh5aDA4NXNUN3FST2d6WlJYSVVMRDdGOUFNS2RsSndINlU2YTFFS2hqUjRTX3B0MTlFMA",
+          "title": "Microsoft (MSFT) Stock Moves -1.37%: What You Should Know - Yahoo Finance",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNNEtxMk0tUjlZMWhCeXBpeFpacS01VWVNb3NLcWpuci15RU1UZ1RKY1FTX3RSLXVtVE9DTVdudjIyekFadE1YN2p5N2FCUTVMU0p3OWNvX0dFZ00zZDFZZEhOT1didG9XOWVQc01jdHJXZ3RvWFl2YlRBVmxhSzNxT2hfSjMzZFFsdXBBR1l3clAxU1FUdUN2Xw",
           "published": "2026-03-26T21:45:04Z"
         },
         {
-          "title": "Microsoft Stock (MSFT) Nears One-Year Low as Rout Persists — What Lies Ahead? - tipranks.com",
+          "title": "Microsoft Stock (MSFT) Nears One-Year Low as Rout Persists — What Lies Ahead? - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOaElSelJXbV9Eb0NZMEE5VmYyVVFNZjBzLTlSZlVzaUU5N3Y0SUp1SFJ4Y3lGNUYyc2hYeFFrQjcxOVlISktOdTRqSjNlZW0wamRGdmo5aHNqNEMyUFpLVlRRbTV3bW4weDRHT2JIVC1Na2p3MjVrTnBTZ0FpS2NZOHdmalpQSmU3VG56S25UZ1ZlOVZYTlJnNTgwdFFiYUM0VTB0Sw",
           "published": "2026-03-26T19:59:09Z"
         },
@@ -222,15 +222,15 @@
         }
       ],
       "components": {
-        "news": 0.916723764784
+        "news": 0.916722665269
       }
     },
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies Inc.",
       "recent_count": 20,
-      "weighted_count": 15.891943,
-      "score_0_1": 0.846794448232,
+      "weighted_count": 15.879482,
+      "score_0_1": 0.846793876638,
       "articles": [
         {
           "title": "Palantir Technologies (NASDAQ:PLTR) Stock Price Down 3% - Here's What Happened - MarketBeat",
@@ -258,7 +258,7 @@
           "published": "2026-03-27T16:16:28Z"
         },
         {
-          "title": "Palantir Wins Major Pentagon Contract, Boosting PLTR Stock - nationaltoday.com",
+          "title": "Palantir Wins Major Pentagon Contract, Boosting PLTR Stock - National Today",
           "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNaXFjNjJTV3lOTzJzNFhXd2tKdzVLWjBhSHM3WEpuTHBQNFVWdmNEa2U4VzRuQjA5b1RoY01sLVhxM0ZObzhFNGlfV2hhRWFHZkU5dVdkZ0ZRaUcxeGF5TU1mZnFybmdtSVVCcE4zOURrZGI4Mzc2Q2FOR0lyX3ExVHdtdkt2d3N5dTc2OXVmQmJhTzZYcGIwd2FEenlCTG9RbmwtMVZjT2dvaGxva25BMmVB",
           "published": "2026-03-27T16:00:27Z"
         },
@@ -288,7 +288,7 @@
           "published": "2026-03-27T08:38:16Z"
         },
         {
-          "title": "Why Palantir Stock (PLTR) Tumbled Today and Why One Analyst Still Sees Upside - tipranks.com",
+          "title": "Why Palantir Stock (PLTR) Tumbled Today and Why One Analyst Still Sees Upside - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPaDliNm9lMXJQU2JFdWx4R0Zkc0d5cm5vbG8xeVk4amVIOW4waU9rcndscGdWZC1FNVBjSFo0eGo1dWpWQ3pOVHY1dm02RHpLSWlMcWJjM0szR2RNWW9EeHFLYTlBcklaVk5pVE9lZFlmZGZ2Y3VheEl2aXN6Q0t5Q2MyZU1sbTEzdHNEa1A1YVNMY3hJNS1OMXFtclRWU3RxWjNJUUttRDM",
           "published": "2026-03-27T00:04:18Z"
         },
@@ -334,14 +334,14 @@
         }
       ],
       "components": {
-        "news": 0.846794448232
+        "news": 0.846793876638
       }
     },
     {
       "symbol": "AI",
       "name": "C3.ai, Inc.",
       "recent_count": 20,
-      "weighted_count": 18.527067,
+      "weighted_count": 18.51255,
       "score_0_1": 1.0,
       "articles": [
         {
@@ -401,7 +401,7 @@
         },
         {
           "title": "Microsoft’s stock hasn’t been this oversold in a decade, with the tech giant ‘really losing the AI narrative’ - MarketWatch",
-          "link": "https://news.google.com/rss/articles/CBMi5gNBVV95cUxNNkpCZ3FhUUtMWF9pa2Y5UnU1dm5XbllkWTM3QWpDMXBGQ2hhbXBYcFlnOTd4WTRKaXFJSFhjbzNnZ3piX0M5cDNObXpfWlNaS0twX3ljcHFVVEtnME5YNVRmZ2xJTVZhMy00U1hTNzRBVzFWanl0ekc1VHA2bFd5U3FKaXdfM2hnV1l6cXNVMHZlVVVuWWJ1d0VxQmNvcTY3aC1JbGNXLVE4TTA5dDI1Vmc4SmtSeUgtLVFYWUJyTmg1RExxLVAxb1dWYlg3QXBxZWhFeWp1YkVnUExCSnFIbkpoSmM1am9sMHlYVXZLd2Rfa0x5M3V4REpLZDZUZE9Ld2o3dV94WDk5YVFmSkRmT3k3S0lkQVN6a29EUjNhSG41V2hLNHEwdUJkcGpGSDU4aDZRZWRRcFM5bzJtaGxHM21RQ1l1TUdYc3YxMDZTVERZenBpZWp3UzlQVHlxVzd6Vk9TbS1WSF84MEt1WFNuYXgzVXk4eXZlNDgzNS1hYVNVbEFaZDRjNUNTd1pCcnRCc3Q3V2xxVWlucHlsRGVGRFdOWmJQQ1lCN1c5OXpEcTh0N0lSYkNjZVUtaGtMelo0VGhuUlZneEhDZHc0eW82M0JFeTlJZTNlLU1NOUh0cVpDNjRLdmc",
+          "link": "https://news.google.com/rss/articles/CBMi5gNBVV95cUxQX3JKNS14U0pZOUJfR21ybVVnVlZCZ1VQRFJZMlBWTmtKU04xZVptN1dlNkd6YzRtYVBmeXd0cjlZc2I2MFhMclFIMHZnelRjX1BodWRIeG1Wb2FZdVdEUTd3RThFTFdHZHFkd3g0cUNLU2M3OUxhME1OQnQ1VHk1bHhFSzM5cDFSM2pxaGw4ZnppekdUTXJiY3ZLZGx4bkNob3A4N3cyVGJxbjFubTZDZlF4VkcyN3ZSN2xYbzd4cHNxdm9kSmJWbVNZUloxc1p3c01jWGhBMTNlZXJBRjZ0LW9vQ3FLUVE1SzM1Wnl0ODhQR3RwR2I5RXV2d3h3c1VwblZ2OEg4T3RGNFg0TUlGTE5Dc3RCdGNuaTZXZmxrd2hxQzVkalBPdm11dkdEeTVmUHlLUmdMdkFmeVg1MXFEZl9GX0lyWUhsa2lPdElBOE4yQkN5Y09TZmh6dDQ2cTJMOFcxU3dPQXNZbThQdEJ1NDJRUkExQk5LbDlKMmdzQkdOWUxaeGVUNEVab29fNmxMYzNQT2FUTmFsTXV4UFNGMFVCcmdfSHpWTUcwN2pvR201OVRqM2ZKc0FnaVI0dk1vbEViel83OUpTaVd6Qlo4QW1qM3VVd2dic1J2V3hHR2gtanpmbXc",
           "published": "2026-03-27T20:52:00Z"
         },
         {
@@ -431,7 +431,7 @@
         },
         {
           "title": "Meta Stock: Mark Zuckerberg Won’t Be Deterred From AI Push, Shares Pay the Price - Barron's",
-          "link": "https://news.google.com/rss/articles/CBMi_wJBVV95cUxNRjE5am5Bd0g4elRrazFxREJyV1RQNVlpWkc2ZC1hcFlpNVljR0twUUgzY0MzTDVseG9ta0V6LWplSUZ4V3lLc2RBM1VncGIzUFRuVHdmRXg3Wm82eGNxVDJJN3ZUWjhPdkhZSVVMQS02clEwRWVGVnpsUFJOTXNIa3RsLVVDUmx0MjZCUW9HVW03bXhZdHJZWEduakhIY1pMY3V3eWFqbzZvVHpVb1cxTVZNSEZvSk1KaUczakZzY3lxWENvM1QwOENWaDVZMVUyS2dBMXh4Z1FsVTlvZVJ2UzdjVmNobG1sM0pXNVVnMjl0bFhlamdoYTE2MndtamFwXzFzN3B6MEZZQmhsamVkeDg5QmlfeVQ1YThub3VmQm0taXViQmdhVnl2MjIzLVFuNFZRalEzYjJqQ2NCWkt1cUFOVmlDMm4tWkVHWTJwNjctcllCM21oNUNhX1BkaWo1dHZzRFdUME0zcVJieEFISjd3aFJLVlB2V3R0ZDNTUQ",
+          "link": "https://news.google.com/rss/articles/CBMi_wJBVV95cUxPY0hYQUo3b1ZITHhVWVE3VEFOR3RhSXNidjhfZ1phN2FiTTQ4NmZEMjVIVkw4YlRncDI0ZHg2RHVGX0ZseHlhVFJyeWZNbHZ5N3JNSlIybGhiVnpCQnpXeERTcGQ3OGhObl9JdVdkRk5VZzdudWk5dmZ3TkF5U196WmhMQVB4RmVDd1BKa0oydWw3Rk5VWVRaeThkXy1BXzB5QnFObHZGUHA3am1WeTV6LUc1R2pOSTZzeWpmWGhIRlM1SlltamM3SDZqSF85Q2tyaUMxeWVidDZZWENwT2ZuMHNmb1RLcDZYSDRzWUtWaWRBd0J1VzlRdlVJN1JVRGRvQ09BcjVlc1FrYkhpWkx2bG9GaVg5TVU3M1hlak5DWXhwVHV6dWdqb09hM3oxdXIxbGlnNU5iRHROcVBrSzE2TWhCZHdnN1ZaMjd4MURLdU4zZTR0aU5xbTVMNHhDRTVqTm90NHA0SVBIU1l2bjFmR3dILURoMnpBNDFMOXBxQQ",
           "published": "2026-03-27T18:05:00Z"
         },
         {
@@ -452,9 +452,9 @@
     {
       "symbol": "ISRG",
       "name": "Intuitive Surgical, Inc.",
-      "recent_count": 19,
-      "weighted_count": 9.56753,
-      "score_0_1": 0.479094414656,
+      "recent_count": 17,
+      "weighted_count": 8.112363,
+      "score_0_1": 0.39486092554,
       "articles": [
         {
           "title": "What Makes Intuitive Surgical (ISRG) a Clear Leader in Robotic-Assisted Surgery? - Insider Monkey",
@@ -462,14 +462,9 @@
           "published": "2026-03-27T13:39:45Z"
         },
         {
-          "title": "Global X Japan Co. Ltd. Increases Stock Holdings in Intuitive Surgical, Inc. $ISRG - MarketBeat",
-          "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQTFFsZzNlRzg0SWJMLWxMZ1pMT3M3ZTdtcWtJUVU0enBNWW9Fc1Bla2FPbHNnREJGc2tFWGhkZVQ4bmEtSlI5aEN6MlJBRzRZU2h5VVU2dzJsQXBCMXdkTlNxcEtMT3pIQ2NHeVFWZXVRSklPZzcybkVhNXVPREYtajN6UGZtclY4REpRcWRkTWdkVmxTdFZBeXBlaUJmVnYyTTNhQnJMVWgxUHVtX0U2bHRIUWx3QkotSHIzSkhqYl8wN281WHBleUFRNnFPM1VLLS12Vg",
-          "published": "2026-03-27T11:21:58Z"
-        },
-        {
-          "title": "Norden Group LLC Boosts Stock Position in Intuitive Surgical, Inc. $ISRG - MarketBeat",
-          "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQd3hIaWg3RzBCSWpXdDFxVHpUVzhicE9RUXBoMkNqRXVZYnJjekVjclM4cmxGcHRjT0p0WnNQUXlybzdTVTB1aUFPaVBlQVdKaHJSUnJyaDhWUV9pc2pHamZnWGxDaWZENnZoNzZaNzN4MFBZejNXT3NoMW9VRV9tcHNWZHk1SksyY3EzcmpKS2VLY3lsZ2VMYm1LdFV4ZDBRY1pYVF9zRzVsR1JxbkhHLUhFZ1VsTi1JWE1IS19jVWVleDVJTy1LczVn",
-          "published": "2026-03-27T10:29:40Z"
+          "title": "Intuitive Surgical stock price forecast: persistent selling pressure as ISRG hovers near weekly lows - Traders Union",
+          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNMmtHdFhUYkRmYnBKNVM0MUlIT3pnb2l6V1JyVFFLMEdTcFdCUEVGU3dJaGVCamdadWlXTzBQQXJOYjNsUmxPZ1BXS1BDRGV6N1FwcXJRczVYSFFleXZFQ0RxdnprZEVIQmVZQmd2Tkp5ZzA3T1dCcGllZVd0OEg4Q1NyNXc5aHMwelljUUY4Q2VYUXZFaHhDNTdZQQ",
+          "published": "2026-03-26T20:51:19Z"
         },
         {
           "title": "Is Intuitive Surgical Inc. (ISRG) the best pure-play robotics stock to buy now? - Yahoo Finance",
@@ -477,24 +472,19 @@
           "published": "2026-03-26T19:41:51Z"
         },
         {
-          "title": "Intuitive Surgical, Inc. Stock: Robotic Surgery Leader's Business Model and Growth Drivers in 2026 - AD HOC NEWS",
+          "title": "Intuitive Surgical, Inc. Stock: Robotic Surgery Leader's Business Model and Growth Drivers in 2026 - ad-hoc-news.de",
           "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPZV9MNGQ2cmVxWXgzSVQ0WU92Rk53WlRSVFB1Zks3SWtueVdaaGVMY1JCd3ZOQ2wtNHpWZXQ2dHRTWFBqRTJoMTA4ZFFMUzBLeXA4MlY0OXZiRFdRMkxtdTdYWGhlV1NPbVhGWDVfVUFEMjRyLTZZX1R6aERISDRlcWxpaHBiSUNYU3BLV1J1RXFhenc0NE1RYVpVbXpGcTBoTzRrU3dXUnJpYTBjZzZYYVhRV01EUkVxUDBVNW5kMnlyVi1jdUE",
           "published": "2026-03-26T19:02:26Z"
         },
         {
-          "title": "Intuitive Surgical, Inc. Stock: Da Vinci Systems Drive Long-Term Growth in Robotic Surgery Market - AD HOC NEWS",
+          "title": "Intuitive Surgical, Inc. Stock: Da Vinci Systems Drive Long-Term Growth in Robotic Surgery Market - ad-hoc-news.de",
           "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxOQ2dzcUpXbVpPWVc3eXF0bDQxS3FWTW5kT2xqaFdjQkV0c0hmaUZUNFU5Y2wxNnd3TkdlRHh2VlFORGVTNE92a2FRNXlsWE5sOU0wdXp6OTI3R3B5YnFFc0NsYjlFZ3BveDIzVnpodW42VnREM1pXczRkdUI0RldUZDE3SEhISEU1eUdMSVRyN0c4U0k0dmIwRTFPYnFWTnk1SW9jRW5hUmJaNUNEMmFkZ2hOcUtmZ2oyM21vSGFzRXZWdlU",
           "published": "2026-03-26T16:45:49Z"
         },
         {
-          "title": "Intuitive Surgical, Inc. stock faces critical juncture amid robotic surgery market evolution and ado - AD HOC NEWS",
+          "title": "Intuitive Surgical, Inc. stock faces critical juncture amid robotic surgery market evolution and ado - ad-hoc-news.de",
           "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNcDVMZDZ0SmVLZkVEZW1yU2kwTXNYdnpyMVR4N2R4bmtlUF93SFBYWHY0Y2pPbFdYYkQyLWhNeWV5TFpfZ3EzUmx1NDNhNXlVQVBsWG9DNHpXMVNtc3pYYVpneURlR05kQTB3bnFHX3RUVlNqNHprb1ZoamYxb1ZmbnhkQ3EyVmQ1VVYwNVVpaXlHX3VZRVY5RXEtaWVEVjN1U182d0lQZ3VrWTdQbFFES0ZrZUN4YWlmaGE2a05ZRnMzZw",
           "published": "2026-03-26T10:35:28Z"
-        },
-        {
-          "title": "DEEPWATER ASSET MANAGEMENT, LLC's Intuitive Surgical Inc(ISRG) Holding History - GuruFocus",
-          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQSUM0QTlfb0JOQ3dLaEVISWNzZU90bW1GZ3RUN3hLOWRzdnRDY2FYTG9kVHp6R3RyWVljcHZiZkcwYTFTZTVwMFFUUHNRczh1X0pvLTFLbHY5dFVtTkRjMVU2dGNuOUlfaUJWRFJkVnJmNW9nTnN5UzJUUEJ4WmN1YnZZTnZOczAyb3J3",
-          "published": "2026-03-25T06:52:33Z"
         },
         {
           "title": "ISRG Intuitive Surgical NASDAQ $471.91 pre-market 25 Mar 2026: AI upside - Meyka",
@@ -502,7 +492,7 @@
           "published": "2026-03-25T06:15:53Z"
         },
         {
-          "title": "Intuitive Surgical, Inc. stock faces mounting pressure amid weakening technical structure and sector - AD HOC NEWS",
+          "title": "Intuitive Surgical, Inc. stock faces mounting pressure amid weakening technical structure and sector - ad-hoc-news.de",
           "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOMVlWbWE2SHluWF8zeGxGenZOQTltTzJ4NWJyZ2FTaF9yTGJha1JPd09qcXluMlNfZUJ1UHJTVjNZa3VaNFlBMlBlZXhfWnR1ZmRBT2xkWWs1b1JOc2lCOGU0UXBRenFsVGRXNjFRa1RIZkNnV1I3RS1nWEFIRklxQ1hNczZlNHRiZDRPekdZX2k1aFFBWWU3TTBMWFhnR0V2dW1Zb3RTaElad3BMR1FxUHdsbFpmX0Z1SG91eXVZV3VGd185",
           "published": "2026-03-24T20:13:15Z"
         },
@@ -512,7 +502,7 @@
           "published": "2026-03-24T13:00:03Z"
         },
         {
-          "title": "ISRG Stock Price, Quote & Chart | INTUITIVE SURGICAL INC (NASDAQ:ISRG) - chartmill.com",
+          "title": "ISRG Stock Price, Quote & Chart | INTUITIVE SURGICAL INC (NASDAQ:ISRG) - ChartMill",
           "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBSZXRTNHFKQTM4RGdYdFdRZFhGRFVJZElOZjhmMmx5VXBreTVPUVljVkN1WUVEaVoweGVXQnNhLWtUSlM5UU1SQ1V3S0dQdGU0MFFuN1FZVGVvWnlHMWd3",
           "published": "2026-03-24T07:00:00Z"
         },
@@ -547,7 +537,7 @@
           "published": "2026-03-21T21:10:51Z"
         },
         {
-          "title": "Intuitive Surgical, Inc. (ISRG) stock moves -1.32%: What you should know - msn.com",
+          "title": "Intuitive Surgical, Inc. (ISRG) stock moves -1.32%: What you should know - MSN",
           "link": "https://news.google.com/rss/articles/CBMi5gJBVV95cUxNUGE2MExJNDU3SG40T1FKWDhlWjd5RVhZcEExNGYzWlRUeHJTNjAtUXR3ekVJTlNBTi1iOE15amVTdmhxUXgwb0xVTXFobkRyWDRoaWlQVVk1dDZhQktJSEJlYnpTNzE1LUliUzRrdXJYR0QtNlVVSWNsWk92NWZiazB0eWdyRzY5VEFGU1pla1NyTzdEZ0g0RjJVejBkTmlEakJYeWJweEs1OWJEaGJjcEd6cjBOWFNTRlZWSE1hVF9laEotSTBhQ05TazVSdHBZb2NZR1k5eEpBSTJJbG90LTFidDVGVE1nNTFIcnFIQ3JzdkFid05TYzJ5emdJSGpQOFBpX0E3RTFNUVBtOTFqWlpndzFCVGhqNVFwR0I5dW9WNlF1R285RnFHV05YSzhxNTg3MWxwSXpsWVFFWHN4eFNnX0dQQU0yTUk1b2U0a3RyRWRRanlXdVpDSjJucDNuSEl1SkpB",
           "published": "2026-03-21T10:41:38Z"
         },
@@ -555,18 +545,28 @@
           "title": "ISRG Intuitive Surgical NASDAQ $479.93 on 20 Mar 2026: FDA alert tests AI robotics upside - Meyka",
           "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQNDdfTndYeHh2aWx3QzBuVDNNOWpGOXlydjh4MmM1Tkt1WHVnM0Y0ZEJEbzhaTUZIdjZ1VU9GaWFteFF3Q09IRFlvZGVKcDJyYWdUV1JvVTlscVBIeWJsYW4zTU8zbnZudzJ3NV90Y2M5bXJFRkRaQ09udTFtRjg4S19GWHVXRjhYR0FmODVMLTdZMm03QXFtNU1oYi11dC1oTWRwNFV2b2x4azd0T21xcGZhSmVZZw",
           "published": null
+        },
+        {
+          "title": "Robotics Is Booming — But Intuitive Surgical Stock Just Flashed A Death Cross - Benzinga",
+          "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQZl9udDVVOHplTHNLWGtVTXI3dXJvcHBiaWpVbWtQUjZBTG1CaFhDeXUyUWhXSjVzdGo4dGpLaXdNSm4xZmVGbGJHWktYam1UUm9pMElscE9NVk5tMDlvdWNMcmdJaEktOXlTc2xsZnFRTnU5RXZtaUFaSG43bllHZVQyN09wUmY5cDFuaW0yWnVoTWd4LWxJbk5ZZDJOdGlWNU1RSFhsNWVFM3JpNi0yd0NuSUpVWTRsRHlSTjc2SGl6Y2hXZzVOQldxU2E4dUxlMmh6azVQdw",
+          "published": null
+        },
+        {
+          "title": "Intuitive Surgical stock down on safety issue (ISRG:NASDAQ) - seekingalpha.com",
+          "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOMjl2eTZBdzVoeHctQ1V1a05kRXk5cUFlUkJFR0N1VkxuWUM4dTJDd1MxaGdvZEdyREVPcGNvOGZsS3Utc0pPREZGa0oydEJSX21EN2RGcnZvWG0ySm1EaEdfdi1TYlZDOE9FMDROV0JZX2swS0ZUY0p3TXRMSW1JclRIMTB1Zmc",
+          "published": null
         }
       ],
       "components": {
-        "news": 0.479094414656
+        "news": 0.39486092554
       }
     },
     {
       "symbol": "TER",
       "name": "Teradyne, Inc.",
       "recent_count": 14,
-      "weighted_count": 8.20423,
-      "score_0_1": 0.39983244113,
+      "weighted_count": 8.197804,
+      "score_0_1": 0.399832344579,
       "articles": [
         {
           "title": "Vanguard disaggregates holdings; reports 0% in Teradyne (TER) - Stock Titan",
@@ -580,7 +580,7 @@
         },
         {
           "title": "Teradyne Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
-          "link": "https://news.google.com/rss/articles/CBMizwNBVV95cUxQQXJscm81eUlEeGg4LWxOLUJsSXBia2t3WmkxYnd4Um9fNmhyajg5VlFoMmtwLUk4NVBKUi0wZzl3ZVRTRGpuVU5MQzFJZnFLTnoyNlZHeG92OFA3RHByc3A3MjdrTml5a05yQUF3UXpxS2ZtSThrWDRHNzg0VXV2ZU1LcGhrMi1ha09JZk5JSkRxdkdtYnVTLWJaMkpFakhEaEFjczNiNm1mYllSVTUtZWNuU0JENklYbFJRT2I1RGlKUTNKbFhzaktqdXdPYmVVTndIbzFNdkpaNFhGNHFFNTdxX3ItSnNlQ0o0RkJFdkUyMTNIUm5WN2lYaGpiX0RCUkxxdmcxN084SUlmYm0zVkdTYmFLNE5aOERGb3lpZWtrZUFXbkFhdXNYOTNnc20wUG9Tc1N0ZTdhb1B1X3RaMmlFNFhCQzdud0NkUFViSnhhSHY4dzh5Z0tPMzhvcWx3UklMUHk3S0Y4ekk5bGQ3Q2NmRmxtNVVXeWFKRVFWVy1DYWZOdXlzVHlpR3FzY3V0MzZYcXQzclFZeVRNUWRQY1poS0pHMDZ2bjJsVEJaZ1c5Y2t1TFN1ckVGOXUxYnp6T1VTeXUyVXA3Qy10STJB",
+          "link": "https://news.google.com/rss/articles/CBMizwNBVV95cUxNTGJ4WUZaTnlUOHBrTVc2MFFmVV8wVFk2WmlJMkgySm50WFFlcnNKR0NOWDRyUXQ4d3kyZ2pkY3JqaE5tQnNob01HV0Z5Q0RiN2I3NTdQa2FKNGNIaENqdnZ5dnBjMVhDRHA3LUVua3NDdmRLTlYtUlRxSUxMeVl2b3JZcXFyZWhMOWJBZTRZUXhBUzZfcjB0SHZDWjVuUEJ6LXdKUHBDeDBxazY4WE9YVnJNTEdIcFhQV2VUbFRfc0FfbnRRNXFTaDVyZVlIblJ1d2dlOENQelExbEhNYzE3OHg0X2pXYy1wdVBLVkpVZ05sVmNCcy1CUmxDbWZfMWZtUG16RFhHZHhEb0pEM3c1UndqaFpURUJCT0RtbnNqd1hKR05oRjJDTERqQjByMlYtQzBqN0h0c1l2ekhPdWtPY201RzJfQVB6X3c2U2VubzBxUU1ZSng5eXN2aDRFZHFuSEw4MzhRVDJicE1tdUpCOTBOWjFsOTlicDVxU2hFU2Z5NjZBS0ZfV0Q0ZEhpbkFvTkhpQURzeVZmS0ZwQWR1S19lMmY5VnZuTG1lU2Jpb3FZaUx2RkNmc2dqNU1JUkR4dUU0QlR2Yi14dGd5Q1NR",
           "published": "2026-03-26T20:30:00Z"
         },
         {
@@ -594,18 +594,18 @@
           "published": "2026-03-26T09:00:00Z"
         },
         {
-          "title": "Teradyne Inc. stock faces pressure amid slowing semiconductor test demand and robotics growth uncert - AD HOC NEWS",
+          "title": "Teradyne Inc. stock faces pressure amid slowing semiconductor test demand and robotics growth uncert - ad-hoc-news.de",
           "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPVE9hYlVORC0xMUQ5U212ek9oZlJaY2FJS2tYcWhsNUJ5SmdEdkx4djQ4RV9ta2RZUVE4bXczY3NfNmlmMm1fWlhaeDBsc2ZTMmJ3VUZSNFo2MGttQmh1WFhsVnFlVFVOZHR1MzBjRzBnX0g4THdwNlpCRU1IblBoaG43MndWSHdmVDRuaU03VkMtSHdqYUs2bkxfWTBYMmhyWUdRQVVSZE9uNnVCaUxBZGlfRmE0R21xUXM1UXduX3Zuck9u",
           "published": "2026-03-26T02:15:43Z"
         },
         {
-          "title": "Teradyne Inc. stock faces AI slowdown pressures amid robotics expansion in 2026 - AD HOC NEWS",
+          "title": "Teradyne Inc. stock faces AI slowdown pressures amid robotics expansion in 2026 - ad-hoc-news.de",
           "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQOFp5ZzlrZXBvNkFtNlJ5WmtGNzJKYTZQMmxPWXBoTW1uclJZaXhoR1hvUnlTVnRLT2V2WENmZVhjMTFYQXZDN1RaZkNFRjNCenM0YjZSVzBKb3hKSjdWY1RhSF9PZlhlTUpNdWR5cnRSMXFHQmh5U2phQWdVSkdpZDd4RGozak1TY2pMVkx4d3RxSWFVWFN3ODAyUFV5RWgwT0JOZlFweThKd2lQZm5WQUpjZ2xMeWtsakx6T096ckdYQlRZS2M0RHRhYk0",
           "published": "2026-03-25T21:32:21Z"
         },
         {
           "title": "Teradyne Inc. stock outperforms competitors on strong trading day - MarketWatch",
-          "link": "https://news.google.com/rss/articles/CBMixwNBVV95cUxQZTcxWWItMjFva1otUVpKTGJjZzNiUE5UbmpJRVZoQ3BGcU1LOEpOckVxcXhpZGxud3kwYi11RGtoMGd1RWh6a2RxLU5rWmJwUHdMUjFWaDRybkJkeGt4ME5aeXFkVEV6TzY1YXZRYnY2WmYxQUdHS1dla1dESEJpaXoxOFJxRE9pSVNVUVZGdmFaSllGZkk4N0JvY1JKQlJEb2I5aHp6Q2VHeXM4MVFrM1p3Yk8tclRORnQ4clhEYXdrYkU1cHA5a19vVEFmOWMtTXFZQ2t3WTBSelpraTNjcjlLMVdtaTdLWFFBbDBPQ2o4NF9mRnlsUVhXazBWMHNZVDNIcTA4OER1N25UcEdqWW5UV2lDMGRrS3ZpV0pXNWpIVmZjSUlpenVzWVk4VnVZVDM5UlBTbXFTRUE5T1h3MS1oeHpVbXFGci1BeTZ4OEFqaWJCWnpQcTgxRDB2b3ZKS1N5V0VFUWdxTWNkdks2Q2piekNjcW9DUlZUWVpsVzhvLXY1eE81U3ByT0g5SE9DaTVzWENCbUFXbk9qVWhyVTJvNlZzTUZzMTdFQUNqQ1BUanBfTUJNUjZsS1kxMmFFTldYa3RRRQ",
+          "link": "https://news.google.com/rss/articles/CBMixwNBVV95cUxPbnpkR1RhclpfZ3N4UW91TEtSb085UExXQXFwRVd3YkZfTWYwdGRPN2pPODhsejNhRkdOTGxKQ0w2TF91QXRxNHY4OFZnQU5qT1BQTWlJQWZtdnFyRVBqeDY5c29ZNU5IQTJKM01lV0tGakJnYXBBVmY4TTJtVHI3T3VsejlMTm5wNVgxWjZkNV8wMDhBZkwwX0FDZVBqczBRVUFxZVBjTTNOWXlTemRpQ2tQOWJ6TTVhUlk2Xy1DZE9RNm5nQlU4ekJEazlXTFdYMDN6TG4yanJpOUg2b19KSU5DT0hUZkJCcE5LRFc4M2NjS3JUWVFieGpVUkZHTGg1Sk9GNWJxbnRBVjl3WGp4dnE0MjlKRS0zXzZlWFRlTWpobGVOYVhKckp0ZFRnalNiUVJUdUFSQlNCU2tzNm80MVAwM0loVTNKb0hZeGxHUjBjay00Yk43ek9HWkM3c2M3RnJrYVJaQi1OdmRZN1lLcERaeWpJb2ljaUtmLV94d04zUEtRZzNHbzRyQjI3elhWVWZHN1YwSUI0aFVTYTBVU0M1SWRNYk5SNkdEckJsallYOTNzRnBDSGozZnU0Y3I2UV9lOWpDUQ",
           "published": "2026-03-25T20:49:00Z"
         },
         {
@@ -614,7 +614,7 @@
           "published": "2026-03-25T15:07:58Z"
         },
         {
-          "title": "TER Technical Analysis | Trend, Signals & Chart Patterns | TERADYNE INC (NASDAQ:TER) - chartmill.com",
+          "title": "TER Technical Analysis | Trend, Signals & Chart Patterns | TERADYNE INC (NASDAQ:TER) - ChartMill",
           "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE4xLXV5WlFpQUE2MVFiNFpzbHdmTnRRYUotTXBqZG5YTVZ3Z0F2Z1dXNkVEenlUZkhBRXBsN3pFYU5xVVRSNVJ0cU9nNHNvZ1p4Ql95ZVJZenFkMzdFeUtYaWJic2J6bWtrTmlDeQ",
           "published": "2026-03-25T07:00:00Z"
         },
@@ -665,20 +665,20 @@
         },
         {
           "title": "Oracle’s ‘Di-SaaS-ter’ Leaves the Stock Too Cheap. Buy It. - Barron's",
-          "link": "https://news.google.com/rss/articles/CBMi_gJBVV95cUxQNloyVmc1RXFldHpmb2tySGpfbC1OQXRBbFQ0T2xQVFFPaEtFcm56TElFLTREUk1QZ0R3ejVKYUFuSFJZbmlRbGJVblZPUmdRckwyMnVWNFRFN2tFLUFCWlp4Y1NwYThFLURBNWtjUDFOUUNCbHZMcld2YU9PVWQwUmZFWnhHbXE2a2tZQl9PWk9iSzU2dnpxM2x2M0xackozSGR6eldJSHJQczQ4SHBuemJpZnRIQUxzTC1OZTRFdlBJMnFuS0tscU9vVmtLOF9zZ2xhMmVYbVVERU41bnRoTnpzQkNscHNxM1NvQ0lpVGZRSE9TbnNwb3FJazdYTGxicXI4eGdRTTRGUGlLNTBRNXlhWlpVZldFbFJuVDRQaUFQQlMwMmFDbHc5MnFBSWRiTWQzTjdPOFRKRXB2VDlFMktTRjltZDhnWUxaT1lPS2NibkVPcGtKR1UyMjhtWkM0WWZYWDNTbVZJazlhN2Y1OFlzNVBaODFXdzJ0UE93",
+          "link": "https://news.google.com/rss/articles/CBMi_gJBVV95cUxQenBwQ21FbWg5QzIxcnBFMXpnQWRXd0FmYkI0bV80YlZyX0VmTVB6UjdWZ1d6R0s3T0JmVEF5OUI4aXdEZ2RkZERoTUlaWU9FOHVwbUU5c3ptR0VPOU1pekpOWEdGRk5LX1JyTlpXd29zOFVMUUR4MGJCM1diOGVobHJPSXlFcDU2eW41UDhLNDA3M0J3S3RzczNIemNiVTFWbTJYRnh6M1NSVVVVVlo4RmY2blRmSkQ4RHpEcUFiZWxNZVdyZWVpcncwcElRUHNjdkFKcjRwS09LdXRnNUdEbGhpTzBOaWZxVWczNEJkY3JBai1ZZk9FRVJEZjZMNjExY1FLRHl5dnFUSFo1SnBLX0p5NnlNbWh5eU5jekxtY2g3aFJqcy1rb0xZeUJ4c3R5b1VFZE1BRTZTbUpFclVUUzUwVl93VW9GNV9MVnBOcXhER3pOTU9NSHNpVDZzNHZORl9YSnpjdGVHNTcxNnllTDNsby1IaGFWTUtuZ05B",
           "published": null
         }
       ],
       "components": {
-        "news": 0.39983244113
+        "news": 0.399832344579
       }
     },
     {
       "symbol": "SYM",
       "name": "Symbotic Inc.",
-      "recent_count": 12,
-      "weighted_count": 7.294938,
-      "score_0_1": 0.346966396656,
+      "recent_count": 13,
+      "weighted_count": 8.053334,
+      "score_0_1": 0.391426299372,
       "articles": [
         {
           "title": "Vanguard (SYM) disaggregates reporting; files 13G/A showing 0 shares - Stock Titan",
@@ -691,12 +691,17 @@
           "published": "2026-03-27T04:21:38Z"
         },
         {
+          "title": "SKIL or SYM: Which is the better value stock right now? - MSN",
+          "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOZjBEWVJZXzBBaTBOdmlkN0lMU1lDN19RMC1LMkY3NlMtVkEzcHJkcWFuckE4ajlmcDg1S0FSM2ZQdGFTWU5laWNOWnRrLVNOVW5YbWo5QXhwQndSczExLXgtVlVxSWhQcHhPZ1NyREFwVnFEb1J1VXZtT1lXMTJoZlNoNEl2bVpBMFRFdGpCVVJfaXhhYlczSm9zVml5dmZYaUo2Q2RfSDVmQWFkNkl5V3NBSHlFdms",
+          "published": "2026-03-27T01:38:44Z"
+        },
+        {
           "title": "Symbotic (NASDAQ:SYM) Stock Price Down 4.8% - Here's What Happened - MarketBeat",
           "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQdVhtOGN1dmlPYjhYNlZJcHZLRmNwMEV2OXAtNnR6UU4xSkFlanVlRGRueVpjREN2aHhsdHVvRTd3Smh5UEkwTDVhUXNsQUFRYU1EaW1nZGNpS21veV8tNjIwSVpJampEME90QW03RTNnZHgtcXNPVEhyWkJfQ1VKUTVmUGs1V2FnTHhoci0wa3MzWXFEeG4yVFZYa1RVWkdiWmdxQjNBSmFOSHRUeVRWV0VR",
           "published": "2026-03-26T21:46:10Z"
         },
         {
-          "title": "Is trending stock Symbotic Inc. (SYM) a buy now? - msn.com",
+          "title": "Is trending stock Symbotic Inc. (SYM) a buy now? - MSN",
           "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPRkJMOXBaM3YwSFVSLTRHOG9LSEJBLXQxY1lWQ0VwWTQ5Y21wc3lIaFRxaFJQWTNQWUpOM3Y3bnBhUm1JOWFReTN2RjFjcHhfV2dXdjVnZXhydFlRelB4LW52dXgzV2w4LTdZR0JCbEdTWUtWdFhHLWZVT0I2dHRwbVBTVFpWdFBYUEJLSzVRSWNuNGhMYl9pLXVVQ0tjdTQ",
           "published": "2026-03-26T19:17:28Z"
         },
@@ -746,11 +751,6 @@
           "published": null
         },
         {
-          "title": "SYM Symbotic Inc. (NASDAQ) $50.06 close 18 Mar 2026: AI demand a key catalyst - Meyka",
-          "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPSEM2V3Q0OGVMamRIUWpESjVqMkZSRlNDbndrX21Pcm5DQm42RVNWbmd4YlBJZm9EZmJXZEF5R1JqT2lJSldDV19oSUlwRS1tdWgwYkpCR3Y2TlAtdEVoMFBIZDduaFJ2NkxvS2NqZGc2ZGRGLVZZdmNLbTRIZ3ExRWlNamg3b2t3Y0lyakJlTzJBMmo5V0ppckZfOElBSG5SMHc",
-          "published": null
-        },
-        {
           "title": "Symbotic Inc. Achieves #9 Ranking on The Boston Globe’s 2026 List of Fastest-Growing Companies in New England - Quiver Quantitative",
           "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQTGxMTHZHdU9IUTlLWFlhWjM5Y3dDWllVaVZLTTJrbXllT3F6b2FjeWhUeUZKR3l2Q0VOLTBVempob3pRNFV1Zy1aWGhucUFac0F4RWF3T1lST1M0YXI4RS11SS1jSER2dHRpaS00WlQ2UUM4T21GVllLLUhoQi02cmZvRmQxbjdPRHl3VlFQWVg4Q3I2dFdQNjhNMlpTZ2dSbzR0bXdsYlpFTGpNRjNJa3oxX0FyZ3hmUGpNaXJVUEdJa2lQaThySDlkcC1FR1YwWVMwZnlyclhZQkJpSl9PZkVsbS1BTVk",
           "published": null
@@ -776,21 +776,21 @@
           "published": null
         },
         {
-          "title": "Symbotic (SYM) director Merline Saintil sells 3,414 shares in planned trade - Stock Titan",
-          "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPOGg4WW96SzAydHNyZVY1Qk5WTThxbE83S05kNkwweFJQcENPZ0RfdGFOeGNGRkdHU0hNTEpUYXdER09uXzU2ME9HS3k5YmtGLWx6Umwya0lTemIwYkNuTWQtM19mVDNJd011cW1jeWVVcGFvNlZzdnJiTFR6UklOWkU1WG5sYTBRYnFpWW5LN3cxXzNlZUo5TFNqSUptaTFJOWNZWTljQ1E",
+          "title": "Is Symbotic (SYM) Fairly Priced After A 23.8% Year To Date Share Price Decline - simplywall.st",
+          "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNNng2MTFzbmt0YnBOZTVrX0RaN1ZzSjdYaVR1TTNIWmYtMVFGcmhxcXo1dnRTUTJCVVJ2MkJSdXdNcDZEUXE2R0J4Zi1QNk9VWEFReGtSNXlIV1hZOVJPc0o3cHNZYUU3VmlNTi1QWThmQTE2Sm1CN0hUeVhIMV9MYUx0UmZob0FaZVQ0R2g3MkFQc3FwMnhmT3RhNjNsdHNiWE1xOXdWSzNPaWRlS3Y0QzNSenJORG9GU2hlMGJDdGVRTWdsaXM5azQ4d9IB0AFBVV95cUxNRmZaY0RtZzBRQVoyUGk1Vm5FUHR0a0tqaHZHbEZ1TmdEV0ZtejFDd2sxb2FsNExFR2lvbVprUnM2dnBLWTRIcG1EZ1FWMElPcjhLTzI3LVNzYnBGc1JLdjBYejY2aEZPQndCalg2Z1k3TVhQQ1E5ajdReGp1cG1lTWU3NTFvTVdCejlka0E1VXg3dzFnTE5kOXM1eFlaRV8yUHlQNmNXTExDdFlLYXlGZy0tNFB4ejFDRl9leEpyN044R3hsVWVaSXBrektFTDZP",
           "published": null
         }
       ],
       "components": {
-        "news": 0.346966396656
+        "news": 0.391426299372
       }
     },
     {
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
       "recent_count": 20,
-      "weighted_count": 13.413176,
-      "score_0_1": 0.702679459358,
+      "weighted_count": 13.402685,
+      "score_0_1": 0.702680444427,
       "articles": [
         {
           "title": "CEO-led Rocket Lab (NASDAQ: RKLB) to seek votes on merger, auditor ratification - Stock Titan",
@@ -808,7 +808,7 @@
           "published": "2026-03-27T16:26:32Z"
         },
         {
-          "title": "Why Rocket Lab USA Stock Is Tumbling Today - tipranks.com",
+          "title": "Why Rocket Lab USA Stock Is Tumbling Today - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZTYwaEhMcGdyazdRd2xSVXFOTGtfUDVPMG1WUG9RSVFFaTAtZFh0RmlQWUdrLVZqUThMNlYtRDhfSWlGdUxfaXR6bExwMGZVUFRYSlNvQS12RUxtTlNFSmEzSmUtdmg3aGp0akx4VFNpMzMySk52ODZGYmlxRVMwaW0yV3h4ak9P",
           "published": "2026-03-27T15:02:50Z"
         },
@@ -863,7 +863,7 @@
           "published": "2026-03-25T16:26:13Z"
         },
         {
-          "title": "Rocket Lab USA Stock (RKLB) Soars on SpaceX IPO Report - tipranks.com",
+          "title": "Rocket Lab USA Stock (RKLB) Soars on SpaceX IPO Report - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQSFpOeGUtdXEtNktUUTQ0YURFWDVaMFBYQnljWExOeVpGZjR2WExPWVpaOXdydFN0cE9mRXdNOVFUOUgwWDVKWkN2a1NVMF9pUnhLREtCc2xRUFMzYVh6dU1RUHVyMzNlWGdqRS12bm5JbHlrWnVjaDdDSDB1eVdWM0ZsaFhDVmZzVEE",
           "published": "2026-03-25T15:53:21Z"
         },
@@ -873,7 +873,7 @@
           "published": "2026-03-25T15:05:25Z"
         },
         {
-          "title": "Why Rocket Lab USA Stock Is Taking Off Now - tipranks.com",
+          "title": "Why Rocket Lab USA Stock Is Taking Off Now - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQUFVIWHl2UjNwSTl6Yk85R19tMTJ5ZkRwSGN4Y1o4Q3d2Z2tCUUxnQ1lxd2RlNlVzallWN1djdWtLX1RPa0dWdVFVU0FJcnZQaHFjR2Z2WGRtWWxJWjI3OWdGcTRhajk1T29ycDc2bUZub3dQbUJwUU1WM2wwTVpKQVU2TFVJcEJfVEtB",
           "published": "2026-03-25T14:14:27Z"
         },
@@ -894,16 +894,21 @@
         }
       ],
       "components": {
-        "news": 0.702679459358
+        "news": 0.702680444427
       }
     },
     {
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
-      "recent_count": 6,
-      "weighted_count": 3.839485,
-      "score_0_1": 0.146067090409,
+      "recent_count": 7,
+      "weighted_count": 4.705529,
+      "score_0_1": 0.196632915448,
       "articles": [
+        {
+          "title": "Iridium’s (IRDM) 2025 results and 2026 outlook frame a steady cash-flow story even as growth moderates - MSN",
+          "link": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxQaFpiWVNYLWVsX3lINmU0YmctUjRxb09lU1FXdFRoOTl6dDFmQnFzVTRCeWhXWVIzLXNjbkNfOWZxTC1RWnhzZmxHU0p6Wi1HaHNFbDlpOGxaSDk3YVBwLTM3dDBZVExyaU14bnRvZU00UmwyWkJkeC00Zm1LSjNBbEZUQmFPVEtTSEFmNmJyUFphUnhZb3d1ZlJnR2NoWUZWcE5LZTdMbEM1eERId01Oc1RZT1lEdzFWMlJqeEdQbTRMUG1vM2ZCNGdSX0s2YWtFYmRGZXNPWFYtajRLdXRRQ3czSjJzeHpXekE",
+          "published": "2026-03-27T15:00:50Z"
+        },
         {
           "title": "Nordea Investment Management AB Has $4.63 Million Holdings in Iridium Communications Inc $IRDM - MarketBeat",
           "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQNGptbFJya0tvQWZDWFFLWkVNMzNxaWJicVo5YzB6ME54eVBvUXFiMlpUWmV1UmhzMWFpMnE4TGRkMDhuWDRsX09ramNXSlVnWEl0TzlKS0szZjk5cVNwSnN4WUlmX1ZRY2g4OEdJckpLT2lrVU15cGlmb3puUmk5UDFCVFhWZUFlWU1IbHppbGdEdlYtRS11b3ZRYUxoc21SVjRWZUZQOHVnMU5HRHJkN1dZMjNPTUl4aFVGSWZWeEVmczFCQjhmTHJfOWM4MFhOaWw2czRhRm41aEtaQTRIdklwX1dTemc",
@@ -940,7 +945,7 @@
           "published": null
         },
         {
-          "title": "IRIDIUM COMMUNICATIONS INC. (IRDM) - msn.com",
+          "title": "IRIDIUM COMMUNICATIONS INC. (IRDM) - MSN",
           "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxObmkxdHVWRllDS2l3MHgxNEpYWUpmb3d0Z0xjam5aZm9BQV9VU2NXYXVZVzZ2Szhtb1QwUnFYUDQ2Rm5mX2VUcGc3Z2hxUVZYYXZpWm5faVZnTWQxOWg0TEtZUXhjT3B2eWw3b3Q2THVOUzd5ck45SE51ZFl2cFVkQkNCbU1EUQ",
           "published": null
         },
@@ -998,23 +1003,18 @@
           "title": "Q4 Earnings Roundup: Iridium (NASDAQ:IRDM) And The Rest Of The Telecommunication Services Segment - StockStory",
           "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxPS2tIcVlzNzRPVFBkQ21HS3gxLUdpUURORXBjSER6SWUtdC0yS0VldWhyUm9YNjlmeUxtRGEzTF81bjlxeFlpb29fNVZWZ1kxTkExWXdyb0ttLTRrRUdtN2FkTXp1X3FpUWplOWhxZlVWdFZxQkZNOE9RbU5JZFRWc2lHTkV0dHU3RFNUS3J4YldKOVdwVGwtSWl4aVhJVDR0SVRCQWFTRTRpZkxxWFBrYU5GWWR4TGgweWwxQ1J6UF8xbEJiVFBrZ2JXcVNNeUFEc3FUNTBWQWp4SWRGWWh0U3ZWTzc4cDQ",
           "published": null
-        },
-        {
-          "title": "Iridium (NASDAQ: IRDM) EVP has 2,397 shares withheld to cover taxes - Stock Titan",
-          "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPSU1ud2xIOUQzQnhQb1phQm9EcU50c1FzTUxiTEhVZEh1Mnl1ZFlKQ2NpalUxLTRKWjU2WFJoVzFwRzExNEJKWUpwSTIwb1BDTTY0VkNob19qVEVvOGdIb1AwOE43LUR2SGZUY1p4d0VLTjZmdFNLUUdkU2d3dlFlWTlOZDQ5TDQtTDlMUE9hQlhzUzFGaFBhQTdVc3cxb2cwWlhvbFVLRUZad3RlNjA3NDVXbnpKTUFaQ1pLRQ",
-          "published": null
         }
       ],
       "components": {
-        "news": 0.146067090409
+        "news": 0.196632915448
       }
     },
     {
       "symbol": "VSAT",
       "name": "Viasat, Inc.",
       "recent_count": 8,
-      "weighted_count": 3.28416,
-      "score_0_1": 0.113780612415,
+      "weighted_count": 3.281594,
+      "score_0_1": 0.113780683272,
       "articles": [
         {
           "title": "Vanguard disaggregates holdings; reports 0% in Viasat (NASDAQ: VSAT) - Stock Titan",
@@ -1027,12 +1027,12 @@
           "published": "2026-03-25T17:33:00Z"
         },
         {
-          "title": "Viasat Inc Stock Surges 6% Amid Heightened Trading Activity and Satellite Sector Momentum - AD HOC NEWS",
+          "title": "Viasat Inc Stock Surges 6% Amid Heightened Trading Activity and Satellite Sector Momentum - ad-hoc-news.de",
           "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQR1BzdHcyLVNCZVF3OVE0WHFUYkZnVU4wUG92dDhnRGRDVmtNdjNxZlhEQkNndkpGVUw1b2hfYXB3RlB2Z1NiQjBTemJWN3dRMlBzVnZOek5sRmF2RDdURUhzXzRCQjI4YkRXUzhkSlZ4V0gzUXhleHdWd3hkSElVSGtTbHBsaXkwTlJQcUpqMThiWHpTSHcwdDNoRWFYZVdnaElxSWVpNkpXenI3MTlQd3RCOE9pSTV5MDhtUWhKdWp1b3dEWmlOTQ",
           "published": "2026-03-24T09:00:19Z"
         },
         {
-          "title": "VSAT Stock Price, Quote & Chart | VIASAT INC (NASDAQ:VSAT) - chartmill.com",
+          "title": "VSAT Stock Price, Quote & Chart | VIASAT INC (NASDAQ:VSAT) - ChartMill",
           "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1lWnQweWNYbnlFZk9qZ2d4elNVWFNkTWl3MUhqazJwRmVfVTZwcTNhcGVuSUROZWgzajJKTE1xbzlVdTc3QkprMENYNVZhajVyQ3lmdFBMcTNnbElTNjZN",
           "published": "2026-03-24T07:00:00Z"
         },
@@ -1067,7 +1067,7 @@
           "published": null
         },
         {
-          "title": "Here's why ViaSat (VSAT) is a strong momentum stock - msn.com",
+          "title": "Here's why ViaSat (VSAT) is a strong momentum stock - MSN",
           "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOcUNYSjhwLWFuX2NxVGFsTFpQQ3hUYjFMOTJTR29DbW03bExXR0hpeWc5TmVram5TMDJLdzdoUDJrQUdLbC1VN1J0Y3lsdmstWU9iYXNjUlpRTWc3REdVbmRJTHBTa2lQSk9pdTVRMkhSZ1Joa1gwSVhZMkhCTG85Y3R0djd4Tm90aGlNb3pOaWF0Q3J3SkhuRXFINjFUZUtWVE05VlBB",
           "published": null
         },
@@ -1118,15 +1118,15 @@
         }
       ],
       "components": {
-        "news": 0.113780612415
+        "news": 0.113780683272
       }
     },
     {
       "symbol": "INOD",
       "name": "Innodata Inc.",
-      "recent_count": 8,
-      "weighted_count": 5.192282,
-      "score_0_1": 0.224718421737,
+      "recent_count": 10,
+      "weighted_count": 5.921298,
+      "score_0_1": 0.26737292497,
       "articles": [
         {
           "title": "Bull Bear: What are the analyst revisions for GYROIs Innodata Inc. stock a good investment in YEAR - Weekly Risk Summary & Verified Momentum Watchlists - baoquankhu1.vn",
@@ -1154,6 +1154,11 @@
           "published": "2026-03-24T20:30:19Z"
         },
         {
+          "title": "Innodata vs. Snowflake: Which AI Data Stock Is the Better Investment? - TradingView",
+          "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOVklDUWd1Y2ZTV1VOSmtyUHMwZTFqeV8tUEd3WTF3MThQME9QUWNab3JlTEpZWWlNNG1CM00xczB4aFM1X0FjQU9XZ1VNU3EyT1lfZ3FWYXdhM19vSTV1djBXeHFlUHVVWm9mWFRUa1UxNHQtNGh1UnBRZEhaLV9XWDB3cTl6ZFNHVnUyTmU0MHUwVUl5ejJWTWlzdTA0dnlKMkpEbUxiTDhwOFJnenFrQ2tUcUs4WGlGVzdlV3BzUQ",
+          "published": "2026-03-24T13:25:00Z"
+        },
+        {
           "title": "Innodata shareholders can vote online at June 4 annual meeting - Stock Titan",
           "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNeERxbFZCd2E5dmg2c19sM3RmTDc0VWladk5PUUNkRk5OYzlwMUdXY1BlVWdZTG9PMFh6U2NiRFo3VlJQaHhkdU1DXzE2OFVHcG5YMG1xZ3VmMXUtQ281ZHlsdkRERGxkNkZ6Y2RzcDhEa0pDdERGNTFuRXpoUXBXOW1maU1aczh5RE1pbTdOWnI1X2dfUUczV3FHMkRVY0VDSGc",
           "published": "2026-03-24T12:30:00Z"
@@ -1164,13 +1169,28 @@
           "published": "2026-03-23T14:30:00Z"
         },
         {
-          "title": "INOD Technical Analysis | Trend, Signals & Chart Patterns | INNODATA INC (NASDAQ:INOD) - chartmill.com",
+          "title": "INOD Technical Analysis | Trend, Signals & Chart Patterns | INNODATA INC (NASDAQ:INOD) - ChartMill",
           "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5BajVXQXQ1ejJFZmpNLVduY1hCeGNUaC1RZzNhcEpLNXo4VjBkWlVVcld6c1ZKSFFZT2ZZYWdfN3NfWW80bHE2TW4zSDlpLUdkSHhLZktJLTNCRXNRNzVCNG82ellwUjYxdlE4UDh3",
           "published": "2026-03-23T07:00:00Z"
         },
         {
-          "title": "INOD EBITDA Growth Indicates Enhanced Operating Leverage, Potential for Further Gains? - Bitget",
+          "title": "INOD's Need for AI Training Stays Strong: Will Expansion Continue at a High Level? - bitget.com",
+          "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5oMEJBRDZ0Qi1ULTM3Y1R5X0ZjeXloTXJ2UzNCS1QwWXFfaTVjbjVPUXJINmtiUER2a0haZEg2eU9rWTdIb2tVSFgxNHc4UVJlcWRvMzVSaDdIaUJkT0HSAWNBVV95cUxNeUhlODUxMEtNQnVQNDFiajEwTzY0dHU0RG0wRjdfV1d2WFBEX2twQ3NiZklkZUZwQXB3YjZJXzFXLTdEOVE0cURYZTZnSHNlaDQ2WHBmVWY3UTdINVNJU251Y2s",
+          "published": "2026-03-23T02:18:42Z"
+        },
+        {
+          "title": "How Investors Are Reacting To Innodata (INOD) Surging AI Revenue And Shift To Lifecycle Partner - Sahm",
+          "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxNUUR5YjFoZ0c3UVZMVDZIcTlEQmFINV8taUF6NTgzVmRramlsTExCM3gxWU9yc25TRlNuYXJBdXlmczhFTllwX1lNbDlmaDE0OHJkaEMtNkFKb2xuNG9OMzVKRlBwTjFYRUlxWWw3Mm55amJDeEtwQUNxNkFKZnVRajhxYUtmX1FYLWJmZ1BmSzFUVjlXOFdpVUF5ZENobzVyM2Qzc2FLdURkT3czQTQ1eTRDNi1oSDBoRmRubk5iRTJQNzUybzVlT29zWTRtdGZ0R2dGMUUyZlNLeWVhZXc",
+          "published": null
+        },
+        {
+          "title": "INOD EBITDA Growth Indicates Enhanced Operating Leverage, Potential for Further Gains? - bitget.com",
           "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE5EYVpBVzVBcFkzS3l6eVpVVzZMbDdJRWlDOGMyWVIyaUpVSTNCd2V1Rnhsek1CSGRzS3hQMnEzbnIzYm1PZVZ1X1ZuWEdFendTYjJpVEZfa212QzQzV2N1Qm1Yd9IBY0FVX3lxTE5EYVpBVzVBcFkzS3l6eVpVVzZMbDdJRWlDOGMyWVIyaUpVSTNCd2V1Rnhsek1CSGRzS3hQMnEzbnIzYm1PZVZ1X1ZuWEdFendTYjJpVEZfa212QzQzV2N1Qm1Ydw",
+          "published": null
+        },
+        {
+          "title": "Responsive Playbooks and the INOD Inflection - Stock Traders Daily",
+          "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNNEt4WmdNckpRRXNCOU5Rd3FzcjRhZ0poaDEyTjZQSjBqenNYQkg4UUpmTjRYeEJRallCVlhMNk44Rlk3TjFpSkVvM0g4VEUzRjloaFIyX2IwRTh1c3luQTJJRUZZRGlHRGppMWxZc3R1X2pkOEZyNTBNVGk1M2ZfeDRXZ2ZwY01TT2dRNzRHdDlLUGR1US1Fa0lMUnBmOEdIanFEMTlyN29vZHFrVENyaXlXaDZfbExxU0QzMTJBdVpQUQ",
           "published": null
         },
         {
@@ -1181,6 +1201,11 @@
         {
           "title": "How Investors Are Reacting To Innodata (INOD) Surging AI Revenue And Shift To Lifecycle Partner - simplywall.st",
           "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNM3YzVkFLMWFnU0VndDNLUkdHWVFCZzBWY2x4LXpycm9HMzRFWE1kV1NLX3JNWWdMRWRYNmNCbjJpamVWTEJjY3l5cVRjS1phMEVVbXI5eU5xd3BIRTZrakRmRnlZME9ibHRLNXdXM0Q3OWpJVTBQcFExTlh1TExEWl9WMDdxOXBHblBkQl8xTVZHU1JORlVXdXFRVnZVRjFxRjJ0by1lSjBNZ2kzZ1JlekJIaGxsc1FZbGM3ZDhHaHg0QjFxUmpvQlVwZzc4VDZqVFRrcNIB2gFBVV95cUxPU2xKRDBfUGZJZnlaWm1mYmRkUTZNVXBUazBvLVdkUV8xSG51WE9pVEV6RkprSFpjVWNFbEtSbGV2SUt6ZnYzV2l3ZmtPZGxLUVYtQzVxX0Z6ZlpkUU5UM2xvNmtMRzAyNjZsVzdVUkNrQzA3Z1JaNTB6NEd4N2pDS0VzZDhTSWswcUZkdnlqcDA4Q2ZpYTlWNU5mcFN3RkNTcF9CN1JraC1BeWNPZGdSdmN3dWdnMGNoRFZyY0l2bGEwZW1jRVpTb29FVy1mSXhZSlRWTTByLXBFUQ",
+          "published": null
+        },
+        {
+          "title": "Innodata (INOD) reports $251.7M 2025 revenue and 48% full-year organic growth - MSN",
+          "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQNU9TZEFvSDVjbXVzTERpX1R1ckJkanJrX0lCaHpVQS1rZ2ZGZW40Tl9wX2dwUVNJMzNRNkNhTG55SXo0T19ZTVFFQjBsRVotR2FYQkVLVGpiOGw2Tkp4SVBha21nN1VRMll0dF8taHBTTzhZekxhR0l3NFBlbDJ4MWVjNUl4ZjhkcFRpMTkwbjBPQm9WREFlMlI4cFFGZkYydmp1N3JYbXhaZW5UMHl5QjlfeDZZYmhSalNINFNVUnQ0SWFqV2c2NlFobXR2SHV6eUNyV3pXZnd2U2kwa1hWX2Fpbw",
           "published": null
         },
         {
@@ -1199,49 +1224,24 @@
           "published": null
         },
         {
-          "title": "INNODATA INC (NASDAQ:INOD) Emerges as a Growth Stock with a Bullish Chart Setup - chartmill.com",
+          "title": "INNODATA INC (NASDAQ:INOD) Emerges as a Growth Stock with a Bullish Chart Setup - ChartMill",
           "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOZnhCbTFUNXR0OVlSMTZoVk5ENjBPc1RrUTBfSWdhQi1LUnNOWmVGbm5CSnVhUmZWN1hOc0h2MEtESUV4Y1BrcEpUNzNfMTJXdjBWZDZVdWV1Zl9MMmpyc0ZkSmtZM08xNEFYanpuZ0pSRlJoM29NcVB0Yk9mUnBVMFFxNXI1MWVZd1VhdU1XTm8zczBCbVQ1bXdhU0RjaUxzU016aHZOeklSdkprMHh1VTRzcnQzdmRHeGx3V3RYQk9SNVBYTm80",
-          "published": null
-        },
-        {
-          "title": "Innodata Stock Dips After Q4: Buying Opportunity or Warning? - Finviz",
-          "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOOWRsdE5ZR2wxSEVsa0FYZXdxWXBPcU15SkhfWHE1aHpZb0hUclJQaWVjRzNwOVd1YlBzNkZhaUVfRXdlbEllMjk0MUxFaW9DSFI2R2hKS29MVmhaN0xQR2tySEgyVmNheUZyWTVXeDFSZGNiejg1c3hKbmVuTHN3Z255X19zYnpndkpXbUlLeklNY3c",
-          "published": null
-        },
-        {
-          "title": "Maxim Group Analysts Raise Earnings Estimates for Innodata - MarketBeat",
-          "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPVHFKaWpQZkxWRWI4ZmRrZXpRSUpYLXZtekk5QzhLaHhXZnYtUC1pXzd0MGtLV0R0d1F5bGRzU3cxNTBwX0ZxVl9HYzFYTTU1X0pxajJiWklXdjliVFJaeWFya25Lcl9qeUJXX3ZnUHJ5QXBVb1R4bjZsZXBUSFkyRUhLUm40UmU2NlU2WWZzNFkwSGQ2QlBZRk95b1ZQSnhMRmh3LXVQU0IxX3lXV0VLSWln",
-          "published": null
-        },
-        {
-          "title": "Innodata (INOD) Margin Compression Challenges Bullish AI Growth Narrative After FY 2025 Results - simplywall.st",
-          "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNNVJuUnNYcjVvbUxiTHItR1EycGYtZEoycnVXZEJaRXM4SnpIZzBtRVk0b0t2ZGw2akN2NUNuQUlPRFJlX1Q5MVVGa0NmSVp4enA2bU53RDVKd2VVOVZwdzJQUUozbUNhNDJXMVQ1WmdLNW5Zb3pVWWdEM2VBd2FsRFdhWVYzSHpNRlNHOUpwNE85MnMtR1g1MTRhSGplSWVTYlJwcE0tc3dWam9oSzVNM0Y1bUJvdGlwX2ZqNWJ3VENZWk1LUTBzZVU0YjhnSDFscHQ4ZtIB2gFBVV95cUxQTjJDUWNlenl2YmVjTnJFcWZhUERHb19Rd01qaW1haGRsTVZDa3cxdjZ1VnM4aTNscUZCLVcwaUJQSjlxeWMzSTZFWFA5UmpnRWZPQWlTWE5ieUdHU3pYWUVvb01UR0FWX1ZMS1diWDhBclBnVm00TE9peUdSNW1ubURGamxHQnl6bWt0dUJTaTBTd1dydWYzSHJaZ3BLV0R5V0V2bTNTejA0UDJnQTQ2WGRCdnBUYjBVSkdlc19Qcjd2a2t5QmlqRzF2UEhxcHh5Q0phMnI3ZV9kZw",
-          "published": null
-        },
-        {
-          "title": "Innodata Inc. Q4 2025 Earnings Call Summary - Yahoo Finance",
-          "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNNTBpRHBzTDBWd1B0TWl2c2pURHhmWU00XzdSSjRmOE5FTUwtNW5PMkh6cWJPQTVGajFrSlg1WWRSYWhMbmlYZGpYVjVLT1FuYlFkTWlNOEp2T0RvY20zU0UwNkdRam9pak14dGlpYjlvdl84QW9sYXhLbHdYRm1BVA",
-          "published": null
-        },
-        {
-          "title": "Is Innodata (INOD) Pricing AI Hopes Too High After Recent Share Price Swings - simplywall.st",
-          "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNaWdVM1RGTlpxcDM5X2ZpNXhqbTFoaWM2dDlEMDlvV0c5STZmSHFkRUxlb3RVejJLb3NCSEg0UWNndzlTQzBKMDBHSXM5ZlBTVnBhTzJVRmw1ZEpBUXhzVDdQandYXzZXNmc2TnIzMUhjT29OMEJmQmFJU2thTklhS0JwcUJ6eHhPb1ZaVndyR1Y3SGRYLW8tOXdzc21SOFRoUFIzaktkWEwtSFM4VzNjUGwzM3hmWEJPc1ZRYXRVNlFxa1p3Ul9kd05fSmZlcEdMbWxEWg",
           "published": null
         }
       ],
       "components": {
-        "news": 0.224718421737
+        "news": 0.26737292497
       }
     },
     {
       "symbol": "SOUN",
       "name": "SoundHound AI, Inc.",
       "recent_count": 20,
-      "weighted_count": 10.855244,
-      "score_0_1": 0.553961834136,
+      "weighted_count": 10.846774,
+      "score_0_1": 0.553963732224,
       "articles": [
         {
-          "title": "SoundHound AI Stock (SOUN) Hits a New 52-Week Low — Analysts Predict 140%+ Upside - tipranks.com",
+          "title": "SoundHound AI Stock (SOUN) Hits a New 52-Week Low — Analysts Predict 140%+ Upside - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNNUxfSTk4VDRFSzBwZ0ZPLWdQaC1ueXRsd1hSRzUtN2hLNnA3aEY0RV8xcHo2WXFidFFTSktiakpwM2FYVEdwb3pRNjFPd2tfYWZ6clNfUzZUbzlOd1VLOXc0RkM3cF9RbVlrUjFoMm5OWi1LMGVYOTdCWk8yOW56MEYyUG5XaWVQZ1VqTzNzWjRXV0ZTQmxjZ0R3bkphX2R4N2t4RlJ2Qkw",
           "published": "2026-03-27T15:03:16Z"
         },
@@ -1256,12 +1256,12 @@
           "published": "2026-03-26T13:03:00Z"
         },
         {
-          "title": "Will SoundHound AI Stock (SOUN) Short Squeeze after All This Insider Selling? - tipranks.com",
+          "title": "Will SoundHound AI Stock (SOUN) Short Squeeze after All This Insider Selling? - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNMUxzWnJPZ0F5OXk4clVGekRfTGRLZThLaHI5amN5VWRXdy1lMlJIN0FyYWxmdTZkZHdpWDVlNGpneGhTbENSMDI3ZTY0aFA2d240T182b245aV9IYy1OQW1LY0tWcWZpaklqbDk5N2RQWG9yalpIdkRNSVRCa3RkQ1JiZDFHYUVTMnVXazk3SUpUYmt4S3JYZWQ1YzM3YUNSMTg4RmlQTQ",
           "published": "2026-03-26T10:29:18Z"
         },
         {
-          "title": "SoundHound AI Stock (SOUN) Rises Even as Insiders Cash Out Shares - tipranks.com",
+          "title": "SoundHound AI Stock (SOUN) Rises Even as Insiders Cash Out Shares - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPYW9CZVN0cERDbXJJMFB0WHJfTUNBaGZjeXF1eTRGOS15ejlnZndZdzlQMGV2X3hSelpTOXRvcE9EWDVWZ0dBZGhkZGhuNGRVMVpxNGl6c3NrMkZLUm9WbzdId1lTV2FaNFlWRDJFNXNHNkxiRVVuTHFOYjBEYUhQdGZYM0hMcVl6anZXSUN1TTllRXY5QUs5Vw",
           "published": "2026-03-25T17:03:44Z"
         },
@@ -1296,7 +1296,7 @@
           "published": "2026-03-25T10:34:17Z"
         },
         {
-          "title": "SoundHound AI Leadership Executes Major Wave of Insider Stock Sales - tipranks.com",
+          "title": "SoundHound AI Leadership Executes Major Wave of Insider Stock Sales - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPWTFrMlpYaXFvcUN4a18tSnMzalpfN1ZzRXdWUG1NVTNsNnVJSi03YWMtZ2RUOEEwVGJQSzVzbDg2bDlreXJmSjE5WTZRR1FoZEVvUmY0cjdLSXlSRFdtdGpYSTMybXJra1FfQVFMMXJTYVpVZUpUSzBTaExRbWtYdGd2X254dW50eFFxQ1d4bW5lZ3FSRE9FUlNzVjNEV01vWk56TzdRWTZsSjIxTDMwMXJ3UHBzbEpiT0dBOE0wSGVHZzZBT09MMk55SGlCa00",
           "published": "2026-03-25T02:29:04Z"
         },
@@ -1342,15 +1342,15 @@
         }
       ],
       "components": {
-        "news": 0.553961834136
+        "news": 0.553963732224
       }
     },
     {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
       "recent_count": 14,
-      "weighted_count": 7.293065,
-      "score_0_1": 0.346857500832,
+      "weighted_count": 7.287376,
+      "score_0_1": 0.34685872427,
       "articles": [
         {
           "title": "Aug EndMonth: Is MNDY stock influenced by commodity prices - Market Trend Report & Daily Volume Surge Signals - baoquankhu1.vn",
@@ -1393,7 +1393,7 @@
           "published": "2026-03-24T17:21:50Z"
         },
         {
-          "title": "MNDY Shareholder Alert: monday.com Ltd. Securities Class Action Lawsuit Investors With Losses May Join -- The Gross Law Firm - PR Newswire",
+          "title": "MNDY Shareholder Alert: monday.com Ltd. Securities Class Action Lawsuit Investors With Losses May Join -- The Gross Law Firm - prnewswire.com",
           "link": "https://news.google.com/rss/articles/CBMihgJBVV95cUxNYk1MX3BLcUlKN1V1dnlUOFRnWndNenFwN1pWQ0d0TWU3OEVQU3ZtN2lvQ2dPeGd3WF9pcEVhVWotd0VTeTJuWG8tWTJWVHd2YV9GRWMtWWtMMFd6YldrdUJmZHp5SUtQamVfNlA1cHRLYVotMzUxM0l1aFZhZFFITVJZOHc3VERaLXJNLVlpUlQwb0VYTVhfcWNYTnBRVnFFTnRFQ1plN3lsam1Kb2NWcXI2Y3lla2RMdDB3Vml2aHJJT2tGRDZBNHVMUDlXdTVIME10S2NNS1J6djlzYzVmVjlxRUlBaFUwbDFEOHFzUGNqWHB1Zmc4ZkhUSTB1cUNKcmhuZndR",
           "published": "2026-03-24T13:00:00Z"
         },
@@ -1403,12 +1403,12 @@
           "published": "2026-03-23T21:50:04Z"
         },
         {
-          "title": "monday.com Ltd. (MNDY) Investors: May 11, 2026, Deadline in Securities Fraud Class Action Lawsuit - FinancialContent",
+          "title": "monday.com Ltd. (MNDY) Investors: May 11, 2026, Deadline in Securities Fraud Class Action Lawsuit - markets.financialcontent.com",
           "link": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxOTVowZ1ZWQkZwb3MwQ2RfdHZoQkhkVmVqdXRDMVZPb0xQLWEtTFRzY0U4LVpwSTl3SURlWGxncXFNTnNyM292amxLaExwSlhtRkRVVVR3dmxXYWRxUWNkRUhyMTlkYXdlTmRJazNkbExMZXpKWnpGTExKOTd2bU1rQ0FMZW9zaVdtZ2g3S0Z0SVYzTm1VZVI3NGRPbGNNRU1UX0I0VlVMN2F3WHdhb0lNRVBVMzE4eV9QREdKSXF1X0ZsbHd2WkdYZEVNUHRCWkJ5MEw1RDFnZUZONUFHNzNZNzcwZkxGVDRhdVV4XzhsbWpHREdhVTBz",
           "published": "2026-03-23T21:45:00Z"
         },
         {
-          "title": "monday.com Ltd. Sued for Securities Law Violations - nationaltoday.com",
+          "title": "monday.com Ltd. Sued for Securities Law Violations - National Today",
           "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNUDQ2TTM2TmttQ05IT05sbi1fN1g5S2FPdlFxaGhGRXdmZURpNG03NGVTcTZxdWJFUjJmTzZYUGpjSWx5RjdHclZ1YjRxUmdrbENHLXBrTGJTWEpjemFnUnQ4bVJaOGVxTGlfWGl2RVRUSTVjR3NfX3RaWV8wbDlpdXhFTktlU1NnT0NuVnpQamxmdGVLYm5XT0h3RUVvUnBVTUpjOWp0Q0dTY1BTZDdJ",
           "published": "2026-03-23T05:42:56Z"
         },
@@ -1428,7 +1428,7 @@
           "published": null
         },
         {
-          "title": "MNDY Stock Price, Quote & Chart | MONDAY.COM LTD (NASDAQ:MNDY) - chartmill.com",
+          "title": "MNDY Stock Price, Quote & Chart | MONDAY.COM LTD (NASDAQ:MNDY) - ChartMill",
           "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFAxNzBqSTRVbGd4X2hvb0pHOXBxd0tuUFNTSXk4Y1UtSVFjOGU4aEpUTDllQ2U2QWp1ZmYwZ1cydFdiUWJFR3ZDOExicGJ1SkJfcDJSdHFTVVJPdmhpLUg0",
           "published": null
         },
@@ -1454,19 +1454,24 @@
         }
       ],
       "components": {
-        "news": 0.346857500832
+        "news": 0.34685872427
       }
     },
     {
       "symbol": "AVAV",
       "name": "AeroVironment, Inc.",
       "recent_count": 20,
-      "weighted_count": 9.901107,
-      "score_0_1": 0.498488510851,
+      "weighted_count": 10.217551,
+      "score_0_1": 0.517352138235,
       "articles": [
         {
-          "title": "AeroVironment (AVAV) stock up after Jim Cramer said he liked it - msn.com",
-          "link": "https://news.google.com/rss/articles/CBMi6wJBVV95cUxQVnhIandGMjRQb1ZRV0liWk5ZTEVLZFFzMVc4bjRfN08wWlJaOWVkWDhuXy11RHdlUlBzNDhFbDFHZFZmRmRrSEY2ejRUSWxzWmFQNUhiaVpZRUFkSC1FWnVIOWZYRXNvNkVIeG9Pd0EtSkcyMmI0ZzRMTXBJNTlqRG9FRUZxM2x0ZHZGSXZaeE1KejBmOVd1bzVsRUlIRHJqUEtkSnZnWkhqd215Y3paM1J1OUduNGxIcDhxd3BxLVhrWlROSmVDN1pRNGRKX053RVdBUGw0ZHdWUEItYjZBa1NKUzZOYXlxeVZSc0lxbTc3T2JjY2NuVEJXWklRa2pianJuV3ZZa3c4ajFiV250bVpRbjFyb2xMUmxvUVFDcERYQmt3c3UwaTQ0QmtaLVA2OGNBeFZVdDhnSy1ieDZFdlNRdjZIYWxlVkVDY0tQT0dIVlBrN3RZZWJhbF91OWkyb25MbmpzbTJRU2c",
+          "title": "AVAV stock declines 17.2% in 3 months: What's next for investors? - MSN",
+          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPT3czd3dNR09BVnRXdlplU1lsdUtzbFlPR0hvZlBrR2JUYkNsN3Mtcy1zeUZLWFdIRUhxZldqMF83LXlLVHVVSUZMSWd1QzZ1Mm5GZm9VTWpxZEpILUdsbU9YQThKUVZlVGE4eEd3a1BTV1dCNVJQUldHMy1EeUhiSFdHdzZEMTd2bkpmZEZkQTkzLU5DQWxWWTNwYkhTdk5OTzNBb09memRlNFBRa2JUb1JCSmg",
+          "published": "2026-03-27T14:39:58Z"
+        },
+        {
+          "title": "AeroVironment (AVAV) stock up after Jim Cramer said he liked it - MSN",
+          "link": "https://news.google.com/rss/articles/CBMi7AJBVV95cUxQdzNjLUJaNWpBd3JQbDlCVUwyMU1RMU1RVm5uVDJSeU41V2swX2JkMkNsVjd3RFNxZUxIdGdLQlU1VnA0R2FzOHNHdUNXU3MyTVNMbjJ5YnJHTHJZNDQyWFpHSzl3Y2g2QlpzTUV1VUk0OVplNUxQd2ExbjRhLW45bUJtdGtZV1lHSXFhWWRmRmRuUjRaRUQ1b04xbGF6S2lJSk1iTXlzZjdyaW5iRWVLUlM2emlBdEItMUp5d3hPYkZsOHNNMkU0UTJZbnBURUo3dzg4YTRkYmhUNHJWdVptSFdkeXZSanBJLWEwaVl0RlIyYnZjcDdhdFhURjE3Qm1LNzFOMG9HdUNZMDk2WFpDS1hpQjRxUWpDcTdaeGR5RFhSdmV1TU9qQ0dhamt3OFE1LUtNcUpaUGdrT1Utdmh5cjNpZE9kbnZzRHM4aDVfM2dsekFCcVBDU2YzMXhqb3ZlTUJzMGZFN2swQ0ZR",
           "published": "2026-03-27T11:55:53Z"
         },
         {
@@ -1480,14 +1485,9 @@
           "published": "2026-03-26T18:48:41Z"
         },
         {
-          "title": "AVAV stock plummets as Q3 revenue comes way below Wall Street expectations, triggering selloff - msn.com",
+          "title": "AVAV stock plummets as Q3 revenue comes way below Wall Street expectations, triggering selloff - MSN",
           "link": "https://news.google.com/rss/articles/CBMiogJBVV95cUxOOTVOOXdMYVhkVzFQMFFWdjRrMFdZUkxfYXoydGwydUdsNnF6a3FJX1VVSWY2MGtqY3JNU3NyQVJORV9zRVJtLW0zcEdxRzRsMGkxa0U0WWk4RkF0Snp4OFpMQl9UQWpnb3lqaHZGSnBOc3k1Y3N5aHpsN1JmaDhLSXE5LUU3N3JmUVJQejVlVzEzV0prS1paakFFQmdxd09yRFMwblduWVBnQWk5MGs3aFI0aVpmRDgwekVvYjBJWk9TWUlWLUU1VkJZcXd4SDM5SVdtU1ZTZ043N1J5dk5pMG53RFVJLUotTlNTbnl3cU9fYm1EeXV0NUJsQzNGc1lXZllTcXZlZzdiME9KdnlMa3hIMjNDQWFicXRUU1Q1N3BmQQ",
           "published": "2026-03-25T18:24:25Z"
-        },
-        {
-          "title": "The Generational Shift: A Comprehensive Research Feature on AeroVironment (AVAV) - FinancialContent",
-          "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxQMG5pMW5mNGVUZzUwT1g3MGhTM2c4NjNTb3RORmd3VEpxN0NVSl9sQ3pXM0RtbERzb2hWNXFoam8tUFM1RHptSEZOOTZwZEFRWlN2Z2JoYmEtaTNvY2RuTjdUQkVFLUkxLXh5OEV4bzRGaHBxWDAwdTllaVkwbmZxV0FQTVljZTJtdExhRUNFWFNIbS1lekRLUDZLWFJfNzJrQ3NDUW5ZYTV3M0lYWGtIdGsxLS1YUklmMTEzUG9QRU5LSnNMTVlzSndwTEpfZXRxQzhFR0R5a29ob0N4S2kxS1RB",
-          "published": "2026-03-25T13:58:00Z"
         },
         {
           "title": "Federal pilot program opens path for Archer air taxis in 3 states by late 2026 - Stock Titan",
@@ -1500,7 +1500,7 @@
           "published": "2026-03-25T12:41:00Z"
         },
         {
-          "title": "AeroVironment (AVAV) Stock Drops Despite Market Gains: Important Facts to Note - msn.com",
+          "title": "AeroVironment (AVAV) Stock Drops Despite Market Gains: Important Facts to Note - MSN",
           "link": "https://news.google.com/rss/articles/CBMi3gJBVV95cUxQTUkwWGdsS3U1aXdMLXJaVVlzUTNCX2tYX25MX0pSY0NfOTQ0bGlLZHhlUy1MUVlDLUdPeEdGZmVHVHZwVGs1Tjlyck44XzY0aUlhcHdmMUpWR0VRRGJwMm5aRHRIcHZ2UjZiZS1fRXlDaElGY2hTREthM3VWLXB6ZHQ3WXc0RUhrcGNxOXJ4YkFqRE9xdlNPd3BxX3lQTHg0SVcxTTZ6V1NIWFFkc2J3N2t0blM3UGRzU25ZX2xUS2RQVEV5bGxqbWx6N2h1S0g1U3JrOG1BSDhHb0lqMkF6ZU5tNzI0SDhndEhmckpPNEFrRFNwYnhEem9Qb2RDOHo5dDdSdnlveTJ5cVBVN0x0UWhuWlBqUW0xY1hYMWpmWDdmLVA5ckh0WlJSWE5ZVThyemNSemRYNFdZSjFCVnVtWWdvZmpyZ0hBU19uX3NjODlIWHVXVVlYZkRrV2VwQQ",
           "published": "2026-03-25T12:00:58Z"
         },
@@ -1535,7 +1535,7 @@
           "published": "2026-03-24T13:10:00Z"
         },
         {
-          "title": "AVAV Stock Price, Quote & Chart | AEROVIRONMENT INC (NASDAQ:AVAV) - chartmill.com",
+          "title": "AVAV Stock Price, Quote & Chart | AEROVIRONMENT INC (NASDAQ:AVAV) - ChartMill",
           "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1pV2VKYllGUW5LdF9mZGxLQmZybHNLa3owaWwwTUJOTUxlTWFOdS1NbTNuSHBVdmtKRE41MWg4X3hpeFFfQkNGQWtmVDVGaU1kekxRTXhsVk1RMzlBUENr",
           "published": "2026-03-24T07:00:00Z"
         },
@@ -1566,23 +1566,23 @@
         }
       ],
       "components": {
-        "news": 0.498488510851
+        "news": 0.517352138235
       }
     },
     {
       "symbol": "PERF",
       "name": "Perfect Corp.",
       "recent_count": 6,
-      "weighted_count": 2.776242,
-      "score_0_1": 0.084250367371,
+      "weighted_count": 2.774078,
+      "score_0_1": 0.084250660157,
       "articles": [
         {
-          "title": "Perfect Corp. stock surges on $1.95/share going private proposal - msn.com",
+          "title": "Perfect Corp. stock surges on $1.95/share going private proposal - MSN",
           "link": "https://news.google.com/rss/articles/CBMi8AJBVV95cUxPb0VmanlfdC1iUkM0V2YtYWpEV1ZPeldRMGpGZGs4SUJtdENxeGYwMElTUlNHUldiN0pDd0dJOFNUOG11amkxV2pIcUozVmFaYTBlN3ZBZGFJTFJ5ZElHZzJUdlF5bkxyZHpyT2FkdkpqNmpWY29FUWdGM3hiTEZkZFlPOUpqR3h2TkJQaGV3bkpKVXhtUXk4SGgtZmpFUEpGR0dtbHdLMEhyS3Ntc1ZPaDN5LWVTbE9taVdLWTVVSkRDbVdfRVBXTmh6UWRVemdULVpnMFdfNEs2WmROM0RDYUkwQjRtY2JnUWVaZk5nYnRxeWpUZ21MZDJudE9LbkZNamdPR0ZXb0RuYnZ4aE9YN3hEYV9pdlAwZTA5TGN2bnZFYU9VOEF5REh0OVlOREhlMFpVd3FWcndTVWYtc28xTmpRUVV4ZHFIOVllY0t1V1ZzRjVrcHNtVWlHeklWUnB5NXN2emJnMTRzR2lSMHZ4NA",
           "published": "2026-03-26T16:17:19Z"
         },
         {
-          "title": "PERF stock surges 27% pre-market – eyes first 50-DMA break since December on take-private offer - msn.com",
+          "title": "PERF stock surges 27% pre-market – eyes first 50-DMA break since December on take-private offer - MSN",
           "link": "https://news.google.com/rss/articles/CBMi9gJBVV95cUxNVHN6b2M2UEVBckE1anlYd3BGUEEwbmhlVlBpbW5tUjF0YlFQMkNxWE9SMTdDZFFMVmlYRzJEQ3d6U2VPN21GQ1FRNFNYM0RKbHhnbjNHS3ItVllCN2VkbmtSVUVhRnA3OHhDTHYtbHotUVFBVEppYjZZVFlXaXlyTjVaUGlGcVAzLTBLZXNaZkFPT0Z4MkwxM2lfUVA1R2NYQWpRY29tTklzNS1mb1ZiWGJvQ0xHdEVOcFlHUXdGQV9jWnA0SnBQRFRRUFpzM2d2NHVLT0hseFJGQWlzTlN1VWNKS1lNcWZJYmVnSVg2WklnaGhfTXdEXzQyeGoxbEhsZzhMd0pieVd6QVd4ZTRQWUEyQjhjRHZ6ZjF2aElmY2E0YjF4RFg3WGJybTViMVVzcmtfcVZuemg2ZlVTc1pla0pxSUV4ckZGb3lvU2RCZ1NPXzk4b01OZzdzLWh3WHVhaktfaUh1SkJqY1NfNW1Lc05NemNEQQ",
           "published": "2026-03-25T20:43:43Z"
         },
@@ -1602,7 +1602,7 @@
           "published": "2026-03-23T23:30:00Z"
         },
         {
-          "title": "PERF: Perfect Corp., with $1.69 in Cash Per Share, Receives Buyout Proposal 0f $1.95 from Majority Holders - msn.com",
+          "title": "PERF: Perfect Corp., with $1.69 in Cash Per Share, Receives Buyout Proposal 0f $1.95 from Majority Holders - MSN",
           "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxPUlBuSnFDRERDNUMzQUFvZW5lSHBiek1STl9IUXlic0o5djVtaEtXQllRUElWSWw4YW5halkyeXd5OHlsQThTWk52R3QtWjl0Sk5DYXdkX1NJcHlqQVBhdWZBUnlkT05QWEU5WjNEYUV4aGRqT1U1VGI5TVY4dERtdTM4d0FzclBLZWZ5azFUZkR5Q195SjNBUENXc1VXdE51TmJ3YU1hdmxhUkt5d1Bhbm1IckhIRGpGTUlaUlVscHBVaV9MYTFwamxxS09YN0w2YW1SdW4xTGNlRHJaU05rN0xLVTVCZnc",
           "published": "2026-03-22T21:19:05Z"
         },
@@ -1667,7 +1667,7 @@
           "published": null
         },
         {
-          "title": "Perfect Corp. at $1.95: A Risky Arbitrage Opportunity Amid an Unstable Privatization Proposal - Bitget",
+          "title": "Perfect Corp. at $1.95: A Risky Arbitrage Opportunity Amid an Unstable Privatization Proposal - bitget.com",
           "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBTQlRGU3plMVZFb0FrZzA1NHowRlpTSW5WeDVobjZDNGdWdk9FZ1VXVkEzRXlGUEJTLUlJaXoxVllOTUk0b3gxSkhIQTJYVmo1VkVxWjZzNmNmNDNFX1HSAWNBVV95cUxNUWNjdkg1S3FaNHlrRUdrQWpDQ2JWY3Q5bjFucnRpOFZna1lWX1lGNFpSMlo4MW5TbzFjV3BRLU5CUkFlS192UUVFQ2pxNS1nemZoUXhOOXN4Q3pvQUFQczhiUmM",
           "published": null
         },
@@ -1678,15 +1678,15 @@
         }
       ],
       "components": {
-        "news": 0.084250367371
+        "news": 0.084250660157
       }
     },
     {
       "symbol": "GDRX",
       "name": "GoodRx Holdings, Inc.",
-      "recent_count": 5,
-      "weighted_count": 3.352142,
-      "score_0_1": 0.11773307151,
+      "recent_count": 4,
+      "weighted_count": 2.51146,
+      "score_0_1": 0.068970125927,
       "articles": [
         {
           "title": "GoodRx (NASDAQ: GDRX) CAO Romin Nabiey to depart in 2026 - Stock Titan",
@@ -1699,11 +1699,6 @@
           "published": "2026-03-27T14:02:37Z"
         },
         {
-          "title": "GoodRx Holdings (GDRX) price target decreased by 38.27% to 2.87 - msn.com",
-          "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPdldxNDVYZnY0LWV4SE5vYlB6NkFqa0RGSzd6ZkFSMXRSNU1tSnN3M3Q5alRCNmEtVmFoSjBSMjFWSjc4UEdzWXdSUEhLMVhmSnkyZjBJUFhzVGVPNzdva1ladVRVSWlMTmR2WEJXWWotU0FWOVk3WXI1WEFQX2huWmRhdDhISHNBa0ZhN1FaZkdVelNibDVQTzFjdWQ0eThjS25ROFRJdi1UMnhtZjViWHBnZm4",
-          "published": "2026-03-27T11:14:49Z"
-        },
-        {
           "title": "How The Reset In Expectations Is Reframing The GoodRx Holdings (GDRX) Investment Story - Yahoo Finance",
           "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNSzdrejZ2cW9JLXhObTdkdjJ2ejRHUTlvQm9rTFRJTmJQNFVtRDV1R2pOVGsxR1pyeEpib3hwNXF5c2lzSmlNdFRFMXhLamVXOFg4SVYzVGNnOHRKX040VmttY2JVUUtKNWJNejd0MWdvbkdEV2ttdEEzZHo1YTV2d0o1OUZvMGREVWRLMkN5MkRGUnlGT2dkY1BZNjF3b2VnaG5qemVOZWpkQk5vX3c",
           "published": "2026-03-25T02:04:00Z"
@@ -1714,12 +1709,12 @@
           "published": "2026-03-22T06:39:14Z"
         },
         {
-          "title": "GoodRx (GDRX) reports earnings tomorrow: What to expect - msn.com",
+          "title": "GoodRx (GDRX) reports earnings tomorrow: What to expect - MSN",
           "link": "https://news.google.com/rss/articles/CBMiwAJBVV95cUxOUTZpWkE1VU5jQVkwMkJiZ2tsU2ZkWFBrR0lPd0F0R0lqZkhZYV9RSm5OM3ZjX0hfT2pRQVJOV1lYdy1VNUg5OTl0MnA5ZmpPbWF5OFBlZ0pPV2xoSUtVQUgyZ0xwM05hbzMwelJmZmpmeUIwUnVpcVdHSEVTY2xqaUpjNVM5Ti1FdS1id2pDRDA0MU5kQjZVcHk1bnFuYW1fb1VjRWZBX3RYbFRfQlBKSTUxZkVYR3ctdERHN09vNnBtNVd5RXRUOUs4Q3Q3ZDNQQWVvRFlJRzc2Yjg1LXdJTGFDcTlvU2FoZ0NldkUyQzEyRUl6bDJtZTN2cmM3SExGOVpMOFFQbFZKbGc2bkJDS0cteE9wTGJCdWNXR0c4enlLZ0UzcGVtNm5wQUhWcXhEMlF2UzFvUlF2Q04wb203NA",
           "published": null
         },
         {
-          "title": "Morgan Stanley favors GoodRx (GDRX) and healthcare tech over managed care for 2026 citing strong market-beating potential - msn.com",
+          "title": "Morgan Stanley favors GoodRx (GDRX) and healthcare tech over managed care for 2026 citing strong market-beating potential - MSN",
           "link": "https://news.google.com/rss/articles/CBMimwJBVV95cUxQWWVEY2hKaV9IQ01LcHpaczVtM2pWV0xxOUpZM01LTWEyX2RIa0JRSDZaQzQtWWw1WExJbmlzSlhQOXVUc2NSRVZQekhXaFpIeEozMlNDRXQ0ZWhJTGRqQkpFMWdPY2VEbjI5TjBBU21CeEhlNzlySGxXZV9CQXFCeXlWX3R2M3poRFNsYmpuQTk1TklVSDlHM2VnLUtIMTNPdklKNWVBRkZLR0xtZnJuSTExZWhvZDQzZ1B6eDFodm5oSzYtTGx0Ry1Fa2hKdXZqMjdiNk1uS3BEanhYdE8zLU9IOGZiNlBaSEdvNlNOTUpMMXdfcVVZa3R0YThtSXhMT1d3alhsbTMwdUVUVTFSM2ViSGdQNXBUS1Fz",
           "published": null
         },
@@ -1779,25 +1774,30 @@
           "published": null
         },
         {
-          "title": "GoodRx Holdings GDRX Margin Improvement Reinforces Bullish Profitability Narratives - simplywall.st",
-          "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPZmdUclpGc2Zmem1OMm1feW8yTHJBNDVxU2wyMUtUWnV4dk9PSGtfajBJZTYzVk5lanRIalRyRlplVWFyMWd4UmRLMVZ3M2pZb0RiNVpqUXQxYVY0SUFhMHFBN1BfRUxTV0NNODVmR2hJcmtaUmxWOFNhbTVPbFJCcmpONlRtMmdBTGJEbF81UXVsT3o4YW1aaXJBVDBYT3BxODZoTExXalhxaHR6REVMQWs4OGhObHliNTkybFg0VVUwR2JPQ1NNMFdHWjVYeWhfRHfSAdcBQVVfeXFMTTcwamVOX2xHeE1vZDBabnNVVHVaYjROWnZoQTJIeUdPNXFZZEFIcnlLQ0tVWlFrS2NUNXpJXzNQb3B3LVo4M2NFbVFWYV9ucDJMR3M5cFBiNEUyS2ZtWEJ4QU1jb1dBdUhycTJXT0tJVnFOQjBsM2pxSWUzOHNON2hwV1ZvcTlRaldoWThWWldJbUhKVjZMYUFHS1hlTjc4V0E1TVl5VVJSd25EUE1QRHAwaG5JMGJlRGl4dEdscTI2MndTb3A0SzA2RHpscTdUNUlVUTVSOTg",
+          "title": "GoodRx (NASDAQ:GDRX) Given New $3.00 Price Target at Mizuho - MarketBeat",
+          "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPaGNZNFR5R05jMG9nekU2aUQwckNqQXNFUHJOWFdNaHQwRWlnTUNLbjB4ZTdCdWZQTXktQ1BJbW5CLUc2aks4dERkM0VGbFhSeWo1TlBKSHVqbnBvUjhnSHpBYldjNDN0T1Q4dUJVSVU0U2g0VEF0Z3BWZ0JBVG4xY2E4ZWZPQ0dHaXNDZ0YzazY4Y3ZWU0c3WGJyM1VsUmQyRGZzcVQzazVUUF9u",
           "published": null
         },
         {
-          "title": "GoodRx Announces Resignation of Board Member Dipanjan Deb - tipranks.com",
+          "title": "GoodRx Announces Resignation of Board Member Dipanjan Deb - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOMTYwRUVoRVVFTlhzRFdkbE51TmFseDBSZm1IdUdNbjIyc2VnUmNWZl9TbDdpWnIwazBSSnZNQVN2bm5ycVdfQlV0RU5wMFYwN3c5cHJDMUlLUWxiQlBWNnRrZ1RQUE5GRkdRR1d3VXQyTHV1amlXSFJCcTRtOGNpa0pJcU9RRjRwWENLdFU4V1lGd1hKNXdwSkJoNmJqdXIxQV91MU9WVzJITFp5aXc",
+          "published": null
+        },
+        {
+          "title": "GoodRx (GDRX) Q4 2025 Earnings Call Transcript - AOL.com",
+          "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1IY3pSd3JqSUxGYUJUTVFQejczOV9SVmo5dUVZaktIdm9NRXVzYXZocFpqaHNMb2EtUi01d2NCSzdxTl8tTFI0bU9LMjROSnI5Vk9CVkxCZXg5VGliWHNCUU0tMkVVNDdkZV9Ja01CaGxkMzk1U3FCeTFSZGM",
           "published": null
         }
       ],
       "components": {
-        "news": 0.11773307151
+        "news": 0.068970125927
       }
     },
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
       "recent_count": 2,
-      "weighted_count": 1.327142,
+      "weighted_count": 1.326109,
       "score_0_1": 0.0,
       "articles": [
         {
@@ -1861,7 +1861,7 @@
           "published": null
         },
         {
-          "title": "AbCellera (ABCL) Earnings Call: Liquidity, Risks, Catalysts - tipranks.com",
+          "title": "AbCellera (ABCL) Earnings Call: Liquidity, Risks, Catalysts - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPMEdiOFltb0lNV3g0UFhoLXVaN045czE3akR1cmJ3UmJYRWlDSlM5R25oVzA3RVlDMWlxaDdmNXI2NWNIQ1J4cXdURzNqemNqNUwzbGQxZUQ0NE16VjRqQlQ3NGlweGd4VWJHUl80eVo1dlY2UGFDUkhNSTNId3dNVlF6REE5WHhsUldDRmRWRElVV09KdXNUcV9EMUQzanVLc2paZTRNUlZzUQ",
           "published": null
         },
@@ -1909,13 +1909,18 @@
       "symbol": "U",
       "name": "Unity Software Inc.",
       "recent_count": 20,
-      "weighted_count": 15.624605,
-      "score_0_1": 0.83125147348,
+      "weighted_count": 16.233779,
+      "score_0_1": 0.867408790453,
       "articles": [
         {
           "title": "Why Unity (U) Stock Is Trading Up Today - Yahoo Finance UK",
           "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTFAzb3RXSjJmanFoOGI1VDNOak9ac3VoeHE2a3ZuZG1MTGhpN3ljX1pqNHR3bmw1YUVUZ0tsYzMtWXRQYXZFM3U1aDJBN3Bobkd2RENWcUxkOEJaSlUzVVV4T3dVMEpNZHhZRTRjN2lSNTlac3RodkRPYTMyMHV2TkE",
           "published": "2026-03-27T23:45:08Z"
+        },
+        {
+          "title": "Blue Water Acquisition Corp. IV (BWIV.U) Stock Trends and Sentiment 2026 - MarketBeat",
+          "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBkUVpldGFWcVZlMEtNOVd6N2t5Vno1VFVOUkQ1c2hQcnc3ZnppbGxyWkpZdE9wb0JBMUR6NDJCUTJEeDR3ZDc5dk1JSndQNTVhc0o1RDZ2Zm5RMl8tNzZEc05BTFZwcjBFRS1uZTJMaUU3dGt0NkE",
+          "published": "2026-03-27T21:23:08Z"
         },
         {
           "title": "Vanguard (U) amendment shows 0 shares; subsidiaries to report holdings separately - Stock Titan",
@@ -1948,7 +1953,7 @@
           "published": "2026-03-27T13:25:22Z"
         },
         {
-          "title": "What’s Behind the Unity Software Stock (U) Rally Today? - tipranks.com",
+          "title": "What’s Behind the Unity Software Stock (U) Rally Today? - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNbGZCS09NRFVxTDhJaGlEYlJPZTcySVhDLXJjeUVOTnRZc3hpaVZsSk9mOHB2TFlSbUtiYk90QWtMVXlKejJnd3NBNV9GbmJYaXVZaW8wR1YzZ1RMTF9aX0Exb2FnOWxCeUNpS3RQZ09uSGZPc0JRclE2c3dEZW9nczdyVkV3Q1h3",
           "published": "2026-03-27T13:22:37Z"
         },
@@ -1978,6 +1983,11 @@
           "published": "2026-03-27T00:02:18Z"
         },
         {
+          "title": "Unity Software Inc. (U) Stock Declines While Market Improves: Some Information for Investors - MSN",
+          "link": "https://news.google.com/rss/articles/CBMi_AJBVV95cUxPTFVEeDNXbGNGMElMR1lURVJzTk92eGhQdG16SGhtYTJ4d2ZTUWRHb0l2aEZLUVJxcFlPZV9Dc01WYzFWeElLZWplbFhDTnlNdEVxeng4bW1DZGYzUm9XTUlhbExRODRUQldlMGRTb2hObmktSFBiLVZfOVBpUnNSS3NLOV9ZWGdvTkNRM0hEQnhJZTNtUENxTzhnVmx3VjVERXVodFI3WjdNSktUb3ItVmpQZ0o2NG0zb0FrakhKbGZueXQ1Zi12SlF5dlZ0aWtMQmM1YVd4VXRRaHVCTElnemdFb0pCbFpFYWM4cmVmemhKRmk3VzBKcENhOXdQaVh5TE9QQXU2V0NnNTJxZjhGSTVrSk45bmZud1hnbHJpVzJaUXFxNW5UcWlFRTk4WWlYczRxQktSTE9IQUdIenJaOUctWWpycjFtTi1CNmNNVldoRWhXZ0ZWWG5GUlJzTnl2ZWhJUTIzUnhiOVhGc1R3enhzTkEzalpqbVl2eQ",
+          "published": "2026-03-27T00:00:26Z"
+        },
+        {
           "title": "Unity (NYSE: U) beats Q1 guidance and plans exit of ironSource Ads Network - Stock Titan",
           "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNeTN2a1pJcmt2R3ZrMndDemo2OXRrWnl4aDlzRE5MV0loejFlMDhiVjZsODRZaTQ3QW5FY3pKaGJNckVFYkstOTFhZE5vcTFQVWhNTTNrd25sbHlJdTI1MTlvenZVNXNkQ0tBZEJyS1JpclNJbUtlcTA5MHVaU25YVUYwc3o2SnBHb2RHY0lqMnJkcVphUE9JN3VSNmhWR2p1blBuci01RQ",
           "published": "2026-03-26T20:11:32Z"
@@ -1993,7 +2003,7 @@
           "published": "2026-03-26T15:54:23Z"
         },
         {
-          "title": "Unity (U) stock rated outperform on undervalued AI growth potential - msn.com",
+          "title": "Unity (U) stock rated outperform on undervalued AI growth potential - MSN",
           "link": "https://news.google.com/rss/articles/CBMi0gJBVV95cUxQSUV6dm1JWlh2MEczVkNEWFJFTTRNS2FaY1RwLXMxTHVCYVpfUzAzT0duQ0kwdnBZWXhPSWR3XzAxUXRUQ215MEdzTTFQVXlFQzNZdExRMHN4bV9TWkJmamJvTGw1dk40MVAtV21USmZvQXdTS0poSUhPaVh1blRudFdNbHNRVlIyUm11WVZud1I1ZlRyUVhnTmdFb1Jfd1hsM3BJckhnX1JmU0VVQXZLNkxWR2puZG9qbF9LeEJrYjUxLVlRVTJ0VzA4NlV3TmFwVFFzb294c1dNcXlnb2lCSXJoWjZVYTBCY0xJc3dBTUY0R0dxeW5tVzJqYUoyeTZsWGdzM2lCRWo5YTJERFRNVGs4ejRYdHlMdnNJRmxLeVgta08tN2U0TDE2VHFMdkowY1BXYUFPdGVWMDU0bVdDR2lzRWJWeVBXV0g0bG1qcDI3Zw",
           "published": "2026-03-26T12:09:43Z"
         },
@@ -2001,28 +2011,18 @@
           "title": "Mozayyx Acquisition (MZYX.U) Stock Trends and Sentiment 2026 - MarketBeat",
           "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1SMWdQeXUzQ1JwbmJmSTVNczJzNm5yZFk1blUxRXhnWkE4TUdvXzFpYkwzZ0t4bzE1X2N0blBvel8wV2lSZnB3a2thczI0TlozTmZEdmRVYmhyQkpXUEprRmo0dG9VU1J5Qm1DUE8yY0FURGd3cWc",
           "published": "2026-03-26T10:01:41Z"
-        },
-        {
-          "title": "Unity Software Inc stock faces renewed scrutiny amid AI integration challenges and slowing growth in - AD HOC NEWS",
-          "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPenlhMDgxQkRXekRTbUNFTWFNeXZxZUNTQm5jUFdkTm5rUTliaUNrVGZ1OWkwX0FYN1RRWnoydmRZcGlGczZJb0dSSE1sRnpXdGp1MVE0MlhvR2pNaWFGdnltOHRfRlR1MjA2VTA0MWxSbTMwc3FDVkFKOV9XbmF0UmlHTkxFNW1sbWtTOEgyS2pXaU8xNy1VdEhDc24zTHBIamVkT1RmQWRDSHpJTGpBMTR5NUtEOENxQTdsVUlZU1Z6UHVh",
-          "published": "2026-03-25T15:06:50Z"
-        },
-        {
-          "title": "U Technical Analysis | Trend, Signals & Chart Patterns | UNITY SOFTWARE INC (NYSE:U) - chartmill.com",
-          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE05bmpTQURoV1hma21jVldDeXE2SkNMcFZBZFFvNHQ3SHp1SkJ4c29KWE1PTDVBTGNSS0FGYVdGQzRKM1RoUWhMcmNoMVVMRW44VjgybEZWbkZZQUNnNFE0UmJvUDZQVUZKaVE",
-          "published": "2026-03-25T07:00:00Z"
         }
       ],
       "components": {
-        "news": 0.83125147348
+        "news": 0.867408790453
       }
     },
     {
       "symbol": "TEM",
       "name": "Tempus AI, Inc.",
-      "recent_count": 7,
-      "weighted_count": 5.482113,
-      "score_0_1": 0.241569134749,
+      "recent_count": 8,
+      "weighted_count": 5.956831,
+      "score_0_1": 0.269440426904,
       "articles": [
         {
           "title": "Tempus AI (TEM) CEO-linked entities sell 166K shares under 10b5-1 plan - Stock Titan",
@@ -2060,6 +2060,11 @@
           "published": "2026-03-26T02:37:00Z"
         },
         {
+          "title": "TEM.AX Tempest Minerals (ASX) at A$0.007 intraday: model projects A$0.01 - Meyka",
+          "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPeGFHWkFESFl5RTlUNlM0QktaSUhvdS1WeWRwOTJLQlNNMkNEQWpYRElZNnZOMUZPZDFsUlU0NmV3a1BURGtqZUJ1eGExMVlPV2NfZEk2c19BdWp0OXNfcjRuenh6SXRual9Wd3ZRZ3lKUzlRS1BMTFY3MXJpSXYzRjRWODl2b09tYkFReFBNNktLa19rRzRqWQ",
+          "published": "2026-03-25T01:08:13Z"
+        },
+        {
           "title": "New Tempus AI registry turns kids’ leukemia data into research - Stock Titan",
           "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOaUVSX21HTnRIYUkzcERQY0ZlcDVpTndBSjQ4b2JkR1hwNnBEaWtGZnZaSWtOaldOU1Fxc05FSDVkM3BOOUdhbVJ6SjZsamNyMmtuVFYtcHUtdG9FR2RYTkRYZGliQ3ZMWE9Bakd5Tk94aEJtTzFpdWpDU2ZYR3Z0R2lvVGl4UElZdnBRUlBuMWZSMGNNVTIyUjJLMzB1NEJERDFDcFlPcFZqbnBvMF9vTU5tV0JEM2YxTUlwY2NvUQ",
           "published": null
@@ -2070,11 +2075,6 @@
           "published": null
         },
         {
-          "title": "Cathie Wood's weekly recap: adds JOBY, CRSP, TEM, sells TER, TXG, CRCL (ARKK:BATS) - seekingalpha.com",
-          "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPcU9nd3NhSWVtMlB5ZUl2Z2FEdWlFQURtWmhEN0lMaU84TWlNSEZlVk5DRnBwNGZHNXY2ZHVpUjFTVDAtdy1NOWFGRWcwWUg4aFpDQnplWTZHWFVLbFR4RkpCYVdZd2JLR2hSM01EOVRwTG1UcmFzVDRIY1l4LU82dXN5Z05JN2tUQy1Fem5YTUMxMXVEQXotZGJjX0huZ3Y4VTJr",
-          "published": null
-        },
-        {
           "title": "Cathie Wood buys $2 million of tumbling AI stock - thestreet.com",
           "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQU1JGQkxRYjRuQzBmVzVDVFU3Z3hycHFoR1BXS1NoVEIxdm9GQ2dLdmtGbW9waHdib0gtWS1mcWo4OHFoVU1HZDIyS1FGeWRiUzZ4dzVVcjlNWDNCVDFabk5yQkRhd0ROUGVfNDBrakRWREFTLTJSeS0tWjduaUVlekJMa0xEenhjWWxyNFhhR1k1RVhf",
           "published": null
@@ -2082,6 +2082,11 @@
         {
           "title": "$TEM stock fell 5% this week. Here's what we see in our data. - Quiver Quantitative",
           "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNSGVkSjNOVGg5SXRQOUFNMzY4ay1Ha2Y5X2NIZ3VmU1dOclpYbFFQUFJKUWxFbGRYYjdhU2lLT0dfYy1CRFIxMmhGVHlwcnpUU1AzRnoyb0c2Y042NGhjanVFeTFzMUZmekdqSWxGMEc4aGpGY0ZadVExOUlKQ3AwMmM2enFlY2EzdkZwMEpqNE1yWXJHcFdFX3kxdktaYnZUR1E",
+          "published": null
+        },
+        {
+          "title": "Tempus AI Expands Clinical Validation of AI-Powered Cancer Diagnostics - Zacks Investment Research",
+          "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQYnNLU0VJRHhPU1F4Q3I1V19SZlgxWEhEN2dXM3U4WUdfd05DZGN1YTFNb01nbGxfdkxsOVhTZUthanRFTlBTcGU2aVdvZ3JyUFBsZThxcTdiZTg2eGdTZmk1V2luSTJ2WXczWnZSWEowb3B5N19GTlczbWRMRWJEaEZ4MVVFemdCRWdSeGlUOU50NlF2eDlMMlg2Q1N3am0xdG5oUkxxbDROVUhVOVhIOA",
           "published": null
         },
         {
@@ -2100,6 +2105,16 @@
           "published": null
         },
         {
+          "title": "Should You Buy, Hold or Sell Tempus AI Stock Heading Into 2026? - TradingView",
+          "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQdWZMOHFhMEFvb3loaEp6ZzZSbExlVXo5X0xWdGhCbGtPOGFWV2daMV9FT1FTa2R4NDF5TC1GZ2hJQ1FCNjdlUkI4aDlfMHNDRzZlMUkwTjBVODhnUWo5dGxYcnpTZjNQemtWN0hyenRHYWFQXzlBWU55NFF5MDlWZ3RVN0JqbmJ0Tlg5YzQyX0llNG9QTllBejZoSi03WTdJcVNGdVpmSHVQSlBLSWh1V1dDZVVpUVdSaVdXUg",
+          "published": null
+        },
+        {
+          "title": "Should You Buy, Hold or Sell Tempus AI Stock Heading Into 2026? - The Globe and Mail",
+          "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOeUV4a3pHQUFtaEdMZVlSb0ZJSG5uQzlXVzNfalF5OTdqbVVQWHB0c0RrckE4WGZRZ3c5X2IzaTJLOTRFUlB6TjYzOThhWGZPeF8wZFNqU25ta1RSYldfd05QSExvamJ5WFA3SWtBNEpkS0JocDJVT2xacDdJd1FaQVpWdG9IOHhQaHFyUGJwM2czY1ROVHlNaE92bjI5dlpobkhYNnBrUzVXZS1tSEhMR3ZxUGVlNUxTdTNXM00yY0h0UjdxUHVEOFlhREZ0dTJDNE16U01NUDJXZ0tJ",
+          "published": null
+        },
+        {
           "title": "Tempus AI, Inc. (TEM) Announces Strategic Deal with Merck to Fast-Track AI-Driven Precision Medicine - Yahoo Finance",
           "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTFA2UGItU2EyXzZCWFlGZlZXN1dXX29LWFFWTk9wcEtUTDdjeHZTSFg1NllZUHBwOTFwVHdZQVJTb1Z5YlhaME9iTTJBNnEtSTZDMUhLQ0NHSGZka3hvMmJyazdEY0dIZ0I0cmRDNDdhNVlGY19iajd5b2pLQXBTdw",
           "published": null
@@ -2108,33 +2123,18 @@
           "title": "Is Tempus AI (TEM) Pricing Reflect Its AI Healthcare Ambitions After Recent Share Pullback - simplywall.st",
           "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNejk2cDQ4VjRyLTNpY200bmNiMFpPX0NwVlNFWnlUcWptRXd3aEVWSmQtYkR4b3FXanlHZTB5bjg2MXhPeURyT2lTRXgzWE9ROFFfbWhUSmJHaGZwcjZPUl85TUhqX0FaR0t5NjBNbHgtMWZ2Z1I0VVEwNW1TSHpiVDNFYjhObF80UnY3MlBsZzhtRTAyS1U3S2xtWE9PUmlWYkJlaFpHTzBKUXJpUTdJNmtVeW5MQkhJUER3cFlCc21ObWdMT0xGM09Ca1JUdlpLejFqcVFWSms2QdIB3wFBVV95cUxQaTlHNWZBSDZtWG5OcjJmV0hOdER6ZXYxRmNDeWQ2aW9DSFM5TXdNbzEwS0t6SWlfOFNaUW1ORTJwVnhnRnhsMTE2MGYtWnN2eDBQQXdfOVJNTno4VDdmWEdMTnAzUTk5US1MSktHdHNwWXFPQlQyYW9Ya0t3cHhqTlBqdEEzdHFaNnU2blB3WHJrc21aLURXcmlIVXJ0eFJ2dEI4aU9GMFpKX2JjSU1VRHBRSVRub1hvYUFZbDdHTDRkTW1kMzlVbjZZM1FrWkVUaXEzMnJoNjRpQ2oxbHRz",
           "published": null
-        },
-        {
-          "title": "Is Tempus AI, Inc. (TEM) A Good Stock To Buy Now? - Yahoo Finance",
-          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5xQXQ2OTNleVhnY25Mdm9jNVRVcUtkd1d5VEtfQjJlRnJpc0pGaGdtNU91M2plc0FibUdsdDBubVpuU1pEcmxQaWFxM1YxTVROekxmMWg1Q1p2VDdNWXBZaWVTNkhuS21FN05YZEpfVkNWdkdwOFRj",
-          "published": null
-        },
-        {
-          "title": "Director David R. Epstein sells Tempus AI (TEM) shares under 10b5-1 plan - Stock Titan",
-          "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOZlNURTZvckdCcWNIdW5WS0V6V0Z4YVFYOE5aTTM3WU42QUF2MEVEQVNVZXc0bnl4blkyYW9JQnVheV9zS3ZHb3lIc3A4cXRGa2JZV3dENUlKQXYtdWQyYWFQVmhhazJmUDl4cm00Slp2TGYzRjQ4U0ZHbDgtMVV0c0Y5TEFMdjZrd1NFZDNIM0N6bFlPZTlvT2wtb0FfcXNmSERaRU9QNWZWZw",
-          "published": null
-        },
-        {
-          "title": "Inside Tempus and Merck’s AI push to find new cancer drug targets - Stock Titan",
-          "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPVV94MnpFNjlIYk9ZZU9EOHVNVlFFOENpOHpEcFRqSHJSZDlRQnJaSDV3WjRhakRkYmpMZDREdHZldmVYQm5RVnhTVkZCX2gtQVdEMENfVWU1TDQwVUZtRXhLaEo1d0pfaXV5V1VVei1DSm5lY2Zfc3h2c3lXbGR1Z04wT2VFb3V6T0ZXVzhSVmNPN2k5M1FQN2N3SjRwb3YtWEU2MjJnbWc2NS15eWRvbUhuUGZPcUx0Y2c",
-          "published": null
         }
       ],
       "components": {
-        "news": 0.241569134749
+        "news": 0.269440426904
       }
     },
     {
       "symbol": "VRT",
       "name": "Vertiv Holdings Co",
       "recent_count": 20,
-      "weighted_count": 12.153608,
-      "score_0_1": 0.629448442362,
+      "weighted_count": 11.912975,
+      "score_0_1": 0.616001067353,
       "articles": [
         {
           "title": "Vanguard amends Schedule 13G for Vertiv (VRT) after internal realignment - Stock Titan",
@@ -2152,11 +2152,6 @@
           "published": "2026-03-26T23:20:15Z"
         },
         {
-          "title": "Vertiv (VRT) Stock Plunges 10% After Reaching Record Peak of $277.87 - MEXC",
-          "link": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE5SM0VXSWVyaWtXX3djd0R5dUJDVHAtUEdHOS1NWENtWXhsZXVsR2ZTNUhIT1hNeENNY1JZRFhGbEZmU0d5eTZR",
-          "published": "2026-03-26T21:06:44Z"
-        },
-        {
           "title": "Vertiv (VRT) Stock Plunges 10% After Reaching Record Peak of $277.87 - Blockonomi",
           "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNREZTZldmX1V4bm1xa3YyOEk4YnhtOVZuZ0V4NE9BbHVEcWpNek9MbGV0TVFFaTZ5MHBEcVZpdVVDcHhGdWdqOHNkYmVJYmN2ay15VE9RMzF3Y1ZqWDhrUlJYaTA0Z0ZWUTFMcGJXQzR5cm5SZmx2ZTVWNlU0ZmdZUVc5NUZFLVM2dzF6VXRVNHdNUQ",
           "published": "2026-03-26T18:58:42Z"
@@ -2167,7 +2162,7 @@
           "published": "2026-03-26T18:49:54Z"
         },
         {
-          "title": "Vertiv Stock Sinks as Rally Unravels Suddenly - tipranks.com",
+          "title": "Vertiv Stock Sinks as Rally Unravels Suddenly - TipRanks",
           "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQbzF6XzVvWWZXZENhZU9hSHp4RHNCVG8tU2JodjREcFdNeGZlZVF1OXJMNFNWREltbWRvUHQzWnozRENCZG5hcWMzRWoxOTdvcEo3WHZDak5jSXphcGtRWVhGMm0wY3RXbVRIQVRocmNiMTNXLTczSGxVcG1rRXJPMkV5ZGFWN0ZITnREYg",
           "published": "2026-03-26T15:00:05Z"
         },
@@ -2200,6 +2195,11 @@
           "title": "Vertiv’s S&P 500 Entry And ThermoKey Deal Reframe AI Valuation Story - simplywall.st",
           "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNS2hudUZpR3hraFp2S0VHc09qTHBGV0pYai1hUDJrclZxOXFlckVVZU94T2NIZmVNVnJ0TXUyR1ZZZmNHb1d3RmhfZ3BNVEJkVXYwY0lueTFFaXM3bWhCZWpheFEzZXpCRGNaN01HT2s2cnA4N29mbUxxa0FUUmVsdnBFdC1OQTNvRDlZX2RSemNYUmVKSktuM3N2NnNTY3JFUkRSb243bjRZTWppRUdnYkpNOGhoMmpfR0Fxb2NrN0JtcnFzYzRUSmpNUU4tN3JYNm95ZHhn0gHbAUFVX3lxTE1WdlhTdS1icC1HcHhvVm9FTlktclJRdWJBMzZNTURpcXNJaFNLbkdnWWZUQU9fSmxfZXYzVUtsaktjOEVJaGEwLWlXY0FVeWdvWXR6d0VrMUlEVkRCeTFyLU9CTk9iajBxLUFqME5Zb1dWVmQ0NldWbS1BR1E5YU9PUkh2X3pEU29wbXJVWnZET0c0cmJ5bEFQWFN4THR0RWhfWTNFMmpZaHl1dlB0dm5lSExEVkZCdWJJNWNuVXhyTXFUdVdpVWlySVpGampjTlBvbE9yb3hwRXpDUQ",
           "published": "2026-03-25T09:14:45Z"
+        },
+        {
+          "title": "nVent Electric or Vertiv: Which Stock Has More Upside? - Trefis",
+          "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQTU5lNE44MktVVVpfbERLSGhPWm5GUVhBcXE5dzZaN2NQNF92cTlNZ0p4N29TM3lKMGtZZG5MTnNrNDZxLVVqdEZoeFJWdWtieDBrR3k3aWc4WTl2NXQ0dEdGZUJRUjY0amZUZmxIaTJOcWF0UE56dDkwTF9QRU1ERUZtc2dKS2NYbTYtTGx0WjFaUUhQeXV2eFJTLUZncHp0NS1ZRQ",
+          "published": "2026-03-25T05:39:03Z"
         },
         {
           "title": "Vertiv vs nVent Electric: Which Stock Could Rally? - Trefis",
@@ -2238,7 +2238,7 @@
         }
       ],
       "components": {
-        "news": 0.629448442362
+        "news": 0.616001067353
       }
     }
   ],
