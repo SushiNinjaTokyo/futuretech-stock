@@ -2,168 +2,154 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>FutureTech Stock — Daily Top 10 ({{ date | default('', true) }})</title>
+  <title>FutureTech Stock — Daily Top 10 ({{ date }})</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <!-- CSS -->
+  <!-- 外部CSS -->
   <link rel="stylesheet" href="/assets/daily.css">
 </head>
+
 <body>
-  <div class="wrap">
-    <header>
-      <h1>Daily Top 10</h1>
-      <div class="sub">Date: {{ date | default('', true) }}</div>
-    </header>
+<div class="wrap">
 
-    <section class="grid">
+  <header>
+    <h1>Daily Top 10</h1>
+    <div class="sub">Date: {{ date }}</div>
+  </header>
 
-      {% for item in (top10 or []) %}
-      {% set sym = item.symbol | default('', true) %}
-      {% set name = item.name | default('', true) %}
-      {% set rank = loop.index %}
-      {% set d1 = item.price_delta_1d %}
-      {% set d5 = item.price_delta_1w %}
-      {% set d20 = item.price_delta_1m %}
-      {% set score = (item.final_score_0_1 | default(0,true) * 100) | round(1) %}
-      {% set pts = item.score_pts | default(0,true) %}
+  <section class="grid">
 
-      {% set comps = item.score_components | default({}, true) %}
-      {% set trends = comps.trends_breakout | default(0,true) %}
-      {% set news = comps.news | default(0,true) %}
+    {% for item in (top10 or []) %}
+    {% set _sym = item.symbol | default('', true) %}
+    {% set _nm  = item.name   | default('', true) %}
+    {% set _rk  = loop.index %}
+    
+    {% set d1  = item.price_delta_1d %}
+    {% set d5  = item.price_delta_1w %}
+    {% set d20 = item.price_delta_1m %}
 
-      <article class="card">
+    <article class="card">
 
-        <!-- 上段 -->
-        <div class="row">
+      <!-- 上段 -->
+      <div class="row">
+        <div class="left">
 
-          <!-- 左 -->
-          <div class="left">
-
-            <!-- Rank -->
-            {% if rank <= 3 %}
-            <div class="rank-rocket rank{{ rank }}">
-              <svg class="rocket" viewBox="0 0 24 24">
-                <path d="M12 2C9 5 9 9 9 9s-4 0-7 3c3 3 7 3 7 3s0 4 3 7c3-3 3-7 3-7s4 0 7-3c-3-3-7-3-7-3s0-4-3-7z" fill="white"/>
-                <circle cx="12" cy="9" r="2" fill="#333"/>
-                <path class="flame" d="M12 15c1 2 0 3-1 4 2-1 3-2 2-4z" fill="#ff6b00"/>
-              </svg>
-            </div>
-            {% else %}
-            <div class="rank-badge">{{ rank }}</div>
-            {% endif %}
-
-            <!-- Symbol -->
-            <div class="id-block">
-              <div class="symbol">{{ sym }}</div>
-              <div class="name">{{ name }}</div>
-            </div>
-
+          <!-- Rank -->
+          {% if _rk <= 3 %}
+          <div class="rank-rocket rank{{ _rk }}">
+            <span class="rocket">🚀</span>
           </div>
+          {% else %}
+          <div class="rank-badge">#{{ _rk }}</div>
+          {% endif %}
 
-          <!-- 右（スコア） -->
-          <div class="score">
-            <div class="num">{{ score }}</div>
-            <div class="den">pts: {{ pts }}</div>
+          <!-- 銘柄 -->
+          <div class="id-block">
+            <div class="symbol">{{ _sym }}</div>
+            <div class="name">{{ _nm }}</div>
           </div>
-
         </div>
 
-        <!-- 価格 -->
-        <div class="price-row">
-
-          {% macro chip(label, val) %}
-            {% if val is none %}
-              <div class="pch neutral"><span class="k">{{ label }}</span> —</div>
-            {% else %}
-              {% if val > 0 %}
-                <div class="pch up"><span class="k">{{ label }}</span> <span class="delta">+{{ val|round(2) }}%</span></div>
-              {% elif val < 0 %}
-                <div class="pch down"><span class="k">{{ label }}</span> <span class="delta">{{ val|round(2) }}%</span></div>
-              {% else %}
-                <div class="pch neutral"><span class="k">{{ label }}</span> 0%</div>
-              {% endif %}
-            {% endif %}
-          {% endmacro %}
-
-          {{ chip("1D", d1) }}
-          {{ chip("1W", d5) }}
-          {{ chip("1M", d20) }}
-
+        <!-- スコア -->
+        <div class="score">
+          <div class="num">{{ item.score_pts | default(0) }}</div>
+          <div class="den">pts</div>
         </div>
+      </div>
 
-        <!-- medals -->
-        <div class="medals"></div>
+      <!-- 価格 -->
+      <div class="price-row">
 
-        <!-- JS用 -->
-        <script type="application/json" class="js-payload">
-        {{ {
-          "symbol": sym,
-          "score_components": comps
-        } | tojson }}
-        </script>
+        {% macro chip(v, label) -%}
+          {% if v is none %}
+            <div class="pch neutral"><span class="k">{{ label }}</span> —</div>
+          {% else %}
+            {% set cls = 'up' if v > 0 else ('down' if v < 0 else 'neutral') %}
+            <div class="pch {{ cls }}">
+              <span class="k">{{ label }}</span>
+              <span class="delta">{{ v | round(2) }}%</span>
+            </div>
+          {% endif %}
+        {%- endmacro %}
 
-      </article>
+        {{ chip(d1, "1D") }}
+        {{ chip(d5, "1W") }}
+        {{ chip(d20, "1M") }}
 
-      {% endfor %}
+      </div>
 
-    </section>
+      <!-- medals -->
+      <div class="medals"></div>
 
-    <div class="note">
-      This page is informational and not investment advice.
-    </div>
+      <!-- JS用データ -->
+      <script type="application/json" class="js-payload">
+      {{ {
+        "symbol": _sym,
+        "score_components": item.score_components | default({})
+      } | tojson }}
+      </script>
+
+    </article>
+    {% endfor %}
+
+  </section>
+
+  <div class="note">
+    This page is informational and not investment advice.
   </div>
 
-  <script>
-    function decorateTop3Medals(){
-      const cards = [...document.querySelectorAll(".card")].map(card=>{
-        let data = {};
-        try { data = JSON.parse(card.querySelector(".js-payload")?.textContent || "{}"); } catch(_) {}
-        const comps = data.score_components || {};
-        return {
-          card,
-          symbol: data.symbol,
-          trends: Number(comps.trends_breakout || 0),
-          news: Number(comps.news || 0)
-        };
-      });
+</div>
 
-      const rankBy = (arr, key) =>
-        [...arr].sort((a,b)=>b[key]-a[key])
-                .map((o,i)=>({...o,_rank:i+1}))
-                .filter(o=>o[key]>0 && o._rank<=3);
+<script>
+function decorateTop3Medals(){
+  const cards = [...document.querySelectorAll(".card")].map(card=>{
+    let data = {};
+    try {
+      data = JSON.parse(card.querySelector(".js-payload")?.textContent || "{}");
+    } catch(_) {}
 
-      const tMap = new Map(rankBy(cards,"trends").map(o=>[o.symbol,o._rank]));
-      const nMap = new Map(rankBy(cards,"news").map(o=>[o.symbol,o._rank]));
+    const comps = data.score_components || {};
 
-      const medalInfo = r => r===1?["gold","🥇"]:r===2?["silver","🥈"]:["bronze","🥉"];
+    return {
+      card,
+      symbol: data.symbol,
+      trends: Number(comps.trends_breakout || 0),
+      news:   Number(comps.news || 0)
+    };
+  });
 
-      cards.forEach(({card,symbol})=>{
-        const box = card.querySelector(".medals");
-        if(!box) return;
-        box.innerHTML = "";
+  const rankBy = (arr, key) =>
+    [...arr].sort((a,b)=>b[key]-a[key])
+            .map((o,i)=>({...o,_rank:i+1}))
+            .filter(o=>o[key]>0 && o._rank<=3);
 
-        const t = tMap.get(symbol);
-        if(t){
-          const [cls,emoji] = medalInfo(t);
-          const el=document.createElement("span");
-          el.className=`medal ${cls}`;
-          el.innerHTML=`<span class="emoji">${emoji}</span><span class="kind">Trends</span>`;
-          box.appendChild(el);
-        }
+  const tMap = new Map(rankBy(cards,"trends").map(o=>[o.symbol,o._rank]));
+  const nMap = new Map(rankBy(cards,"news").map(o=>[o.symbol,o._rank]));
 
-        const n = nMap.get(symbol);
-        if(n){
-          const [cls,emoji] = medalInfo(n);
-          const el=document.createElement("span");
-          el.className=`medal ${cls}`;
-          el.innerHTML=`<span class="emoji">${emoji}</span><span class="kind">News</span>`;
-          box.appendChild(el);
-        }
-      });
+  const medalInfo = r => r===1?["gold","🥇"]:r===2?["silver","🥈"]:["bronze","🥉"];
+
+  cards.forEach(({card,symbol})=>{
+    const box = card.querySelector(".medals");
+    if(!box) return;
+
+    box.innerHTML = "";
+
+    const t = tMap.get(symbol);
+    if(t){
+      const [cls,emoji] = medalInfo(t);
+      box.innerHTML += `<span class="medal ${cls}"><span class="emoji">${emoji}</span><span class="kind">Trends</span></span>`;
     }
 
-    document.addEventListener("DOMContentLoaded", decorateTop3Medals);
-  </script>
+    const n = nMap.get(symbol);
+    if(n){
+      const [cls,emoji] = medalInfo(n);
+      box.innerHTML += `<span class="medal ${cls}"><span class="emoji">${emoji}</span><span class="kind">News</span></span>`;
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", decorateTop3Medals);
+</script>
 
 </body>
 </html>
