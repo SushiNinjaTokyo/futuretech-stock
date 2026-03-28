@@ -3,9 +3,9 @@
   "items": [
     {
       "symbol": "symbol",
-      "score_0_1": 0.631578947368,
+      "score_0_1": 0.789473684211,
       "components": {
-        "volume": 0.631578947368
+        "volume": 0.789473684211
       }
     },
     {
@@ -17,16 +17,16 @@
     },
     {
       "symbol": "MSFT",
-      "score_0_1": 0.789473684211,
+      "score_0_1": 0.894736842105,
       "components": {
-        "volume": 0.789473684211
+        "volume": 0.894736842105
       }
     },
     {
       "symbol": "PLTR",
-      "score_0_1": 0.894736842105,
+      "score_0_1": 1.0,
       "components": {
-        "volume": 0.894736842105
+        "volume": 1.0
       }
     },
     {
@@ -38,107 +38,107 @@
     },
     {
       "symbol": "ISRG",
-      "score_0_1": 0.263157894737,
-      "components": {
-        "volume": 0.263157894737
-      }
-    },
-    {
-      "symbol": "TER",
-      "score_0_1": 0.210526315789,
-      "components": {
-        "volume": 0.210526315789
-      }
-    },
-    {
-      "symbol": "SYM",
-      "score_0_1": 0.947368421053,
-      "components": {
-        "volume": 0.947368421053
-      }
-    },
-    {
-      "symbol": "RKLB",
-      "score_0_1": 0.315789473684,
-      "components": {
-        "volume": 0.315789473684
-      }
-    },
-    {
-      "symbol": "IRDM",
-      "score_0_1": 0.157894736842,
-      "components": {
-        "volume": 0.157894736842
-      }
-    },
-    {
-      "symbol": "VSAT",
-      "score_0_1": 0.578947368421,
-      "components": {
-        "volume": 0.578947368421
-      }
-    },
-    {
-      "symbol": "INOD",
-      "score_0_1": 0.526315789474,
-      "components": {
-        "volume": 0.526315789474
-      }
-    },
-    {
-      "symbol": "SOUN",
-      "score_0_1": 0.842105263158,
-      "components": {
-        "volume": 0.842105263158
-      }
-    },
-    {
-      "symbol": "MNDY",
-      "score_0_1": 0.368421052632,
-      "components": {
-        "volume": 0.368421052632
-      }
-    },
-    {
-      "symbol": "AVAV",
-      "score_0_1": 0.105263157895,
-      "components": {
-        "volume": 0.105263157895
-      }
-    },
-    {
-      "symbol": "PERF",
       "score_0_1": 0.473684210526,
       "components": {
         "volume": 0.473684210526
       }
     },
     {
-      "symbol": "GDRX",
-      "score_0_1": 0.0,
+      "symbol": "TER",
+      "score_0_1": 0.368421052632,
       "components": {
-        "volume": 0.0
+        "volume": 0.368421052632
       }
     },
     {
-      "symbol": "ABCL",
+      "symbol": "SYM",
+      "score_0_1": 0.157894736842,
+      "components": {
+        "volume": 0.157894736842
+      }
+    },
+    {
+      "symbol": "RKLB",
+      "score_0_1": 0.947368421053,
+      "components": {
+        "volume": 0.947368421053
+      }
+    },
+    {
+      "symbol": "IRDM",
+      "score_0_1": 0.105263157895,
+      "components": {
+        "volume": 0.105263157895
+      }
+    },
+    {
+      "symbol": "VSAT",
       "score_0_1": 0.684210526316,
       "components": {
         "volume": 0.684210526316
       }
     },
     {
-      "symbol": "U",
+      "symbol": "INOD",
+      "score_0_1": 0.0,
+      "components": {
+        "volume": 0.0
+      }
+    },
+    {
+      "symbol": "SOUN",
+      "score_0_1": 0.315789473684,
+      "components": {
+        "volume": 0.315789473684
+      }
+    },
+    {
+      "symbol": "MNDY",
+      "score_0_1": 0.210526315789,
+      "components": {
+        "volume": 0.210526315789
+      }
+    },
+    {
+      "symbol": "AVAV",
+      "score_0_1": 0.842105263158,
+      "components": {
+        "volume": 0.842105263158
+      }
+    },
+    {
+      "symbol": "PERF",
+      "score_0_1": 0.631578947368,
+      "components": {
+        "volume": 0.631578947368
+      }
+    },
+    {
+      "symbol": "GDRX",
       "score_0_1": 0.421052631579,
       "components": {
         "volume": 0.421052631579
       }
     },
     {
-      "symbol": "TEM",
-      "score_0_1": 1.0,
+      "symbol": "ABCL",
+      "score_0_1": 0.526315789474,
       "components": {
-        "volume": 1.0
+        "volume": 0.526315789474
+      }
+    },
+    {
+      "symbol": "U",
+      "score_0_1": 0.263157894737,
+      "components": {
+        "volume": 0.263157894737
+      }
+    },
+    {
+      "symbol": "TEM",
+      "score_0_1": 0.578947368421,
+      "components": {
+        "volume": 0.578947368421
       }
     }
   ],
