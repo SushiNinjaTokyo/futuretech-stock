@@ -4,154 +4,166 @@
   <meta charset="utf-8"/>
   <title>FutureTech Stock — Daily Top 10 ({{ date | default('', true) }})</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <!-- CSS -->
   <link rel="stylesheet" href="/assets/daily.css">
 </head>
 <body>
-<div class="wrap">
+  <div class="wrap">
+    <header>
+      <h1>Daily Top 10</h1>
+      <div class="sub">Date: {{ date | default('', true) }}</div>
+    </header>
 
-<header class="page">
-  <h1>Daily Top 10</h1>
-  <div class="date">Date: {{ date }}</div>
-</header>
+    <section class="grid">
 
-<section class="grid">
+      {% for item in (top10 or []) %}
+      {% set sym = item.symbol | default('', true) %}
+      {% set name = item.name | default('', true) %}
+      {% set rank = loop.index %}
+      {% set d1 = item.price_delta_1d %}
+      {% set d5 = item.price_delta_1w %}
+      {% set d20 = item.price_delta_1m %}
+      {% set score = (item.final_score_0_1 | default(0,true) * 100) | round(1) %}
+      {% set pts = item.score_pts | default(0,true) %}
 
-{% for item in (top10 or []) %}
+      {% set comps = item.score_components | default({}, true) %}
+      {% set trends = comps.trends_breakout | default(0,true) %}
+      {% set news = comps.news | default(0,true) %}
 
-{% set rk = loop.index %}
-{% set sym = item.symbol or '' %}
-{% set nm  = item.name or '' %}
+      <article class="card">
 
-{% set comps = item.score_components or {} %}
+        <!-- 上段 -->
+        <div class="row">
 
-{% set vol = (comps.get("volume_anomaly") or 0) | float %}
-{% set trd = (comps.get("trends_breakout") or 0) | float %}
-{% set nws = (comps.get("news") or 0) | float %}
+          <!-- 左 -->
+          <div class="left">
 
-<article class="card rank-{{ rk }}" data-symbol="{{ sym }}">
-  <span class="rank-badge">#{{ rk }}</span>
+            <!-- Rank -->
+            {% if rank <= 3 %}
+            <div class="rank-rocket rank{{ rank }}">
+              <svg class="rocket" viewBox="0 0 24 24">
+                <path d="M12 2C9 5 9 9 9 9s-4 0-7 3c3 3 7 3 7 3s0 4 3 7c3-3 3-7 3-7s4 0 7-3c-3-3-7-3-7-3s0-4-3-7z" fill="white"/>
+                <circle cx="12" cy="9" r="2" fill="#333"/>
+                <path class="flame" d="M12 15c1 2 0 3-1 4 2-1 3-2 2-4z" fill="#ff6b00"/>
+              </svg>
+            </div>
+            {% else %}
+            <div class="rank-badge">{{ rank }}</div>
+            {% endif %}
 
-  <div class="hd">
-    <div>
-      <div class="sym">{{ sym }}</div>
-      <div class="name">{{ nm }}</div>
-    </div>
+            <!-- Symbol -->
+            <div class="id-block">
+              <div class="symbol">{{ sym }}</div>
+              <div class="name">{{ name }}</div>
+            </div>
 
-    <div class="scores">
-      <div class="kpi">
-        <div class="tt">Final Score</div>
-        <div class="vv">
-          {{ ((item.final_score_0_1 or 0) * 100) | round(1) }}
-          <span class="sub">/100</span>
+          </div>
+
+          <!-- 右（スコア） -->
+          <div class="score">
+            <div class="num">{{ score }}</div>
+            <div class="den">pts: {{ pts }}</div>
+          </div>
+
         </div>
-      </div>
 
-      <div class="kpi">
-        <div class="tt">Points</div>
-        <div class="vv">{{ item.score_pts or 0 }}</div>
-      </div>
+        <!-- 価格 -->
+        <div class="price-row">
 
-      <div class="kpi">
-        <div class="tt">Δ Price</div>
-        <div class="sub">
-          1D: {{ item.price_delta_1d is not none and (item.price_delta_1d|round(2)|string + '%') or '—' }} /
-          1W: {{ item.price_delta_1w is not none and (item.price_delta_1w|round(2)|string + '%') or '—' }} /
-          1M: {{ item.price_delta_1m is not none and (item.price_delta_1m|round(2)|string + '%') or '—' }}
+          {% macro chip(label, val) %}
+            {% if val is none %}
+              <div class="pch neutral"><span class="k">{{ label }}</span> —</div>
+            {% else %}
+              {% if val > 0 %}
+                <div class="pch up"><span class="k">{{ label }}</span> <span class="delta">+{{ val|round(2) }}%</span></div>
+              {% elif val < 0 %}
+                <div class="pch down"><span class="k">{{ label }}</span> <span class="delta">{{ val|round(2) }}%</span></div>
+              {% else %}
+                <div class="pch neutral"><span class="k">{{ label }}</span> 0%</div>
+              {% endif %}
+            {% endif %}
+          {% endmacro %}
+
+          {{ chip("1D", d1) }}
+          {{ chip("1W", d5) }}
+          {{ chip("1M", d20) }}
+
         </div>
-      </div>
-    </div>
 
-    <div class="rocket">
-      <span class="flame">🔥</span><span class="em">🚀</span>
+        <!-- medals -->
+        <div class="medals"></div>
+
+        <!-- JS用 -->
+        <script type="application/json" class="js-payload">
+        {{ {
+          "symbol": sym,
+          "score_components": comps
+        } | tojson }}
+        </script>
+
+      </article>
+
+      {% endfor %}
+
+    </section>
+
+    <div class="note">
+      This page is informational and not investment advice.
     </div>
   </div>
 
-  <div class="breakdown">
+  <script>
+    function decorateTop3Medals(){
+      const cards = [...document.querySelectorAll(".card")].map(card=>{
+        let data = {};
+        try { data = JSON.parse(card.querySelector(".js-payload")?.textContent || "{}"); } catch(_) {}
+        const comps = data.score_components || {};
+        return {
+          card,
+          symbol: data.symbol,
+          trends: Number(comps.trends_breakout || 0),
+          news: Number(comps.news || 0)
+        };
+      });
 
-    <div class="row">
-      <div class="lbl">Volume anomaly</div>
-      <div class="bar"><i style="width: {{ (vol * 100) | round(1) }}%"></i></div>
-      <div class="pct">{{ (vol * 100) | round(1) }}%</div>
-    </div>
+      const rankBy = (arr, key) =>
+        [...arr].sort((a,b)=>b[key]-a[key])
+                .map((o,i)=>({...o,_rank:i+1}))
+                .filter(o=>o[key]>0 && o._rank<=3);
 
-    <div class="row">
-      <div class="lbl">Trends breakout</div>
-      <div class="bar"><i style="width: {{ (trd * 100) | round(1) }}%"></i></div>
-      <div class="pct">{{ (trd * 100) | round(1) }}%</div>
-    </div>
+      const tMap = new Map(rankBy(cards,"trends").map(o=>[o.symbol,o._rank]));
+      const nMap = new Map(rankBy(cards,"news").map(o=>[o.symbol,o._rank]));
 
-    <div class="row">
-      <div class="lbl">News</div>
-      <div class="bar"><i style="width: {{ (nws * 100) | round(1) }}%"></i></div>
-      <div class="pct">{{ (nws * 100) | round(1) }}%</div>
-    </div>
+      const medalInfo = r => r===1?["gold","🥇"]:r===2?["silver","🥈"]:["bronze","🥉"];
 
-    <div class="medals"></div>
-  </div>
+      cards.forEach(({card,symbol})=>{
+        const box = card.querySelector(".medals");
+        if(!box) return;
+        box.innerHTML = "";
 
-  <!-- JS用 -->
-  <script type="application/json" class="js-payload">
-  {{ {
-    "symbol": sym,
-    "score_components": {
-      "trends_breakout": trd,
-      "news": nws
+        const t = tMap.get(symbol);
+        if(t){
+          const [cls,emoji] = medalInfo(t);
+          const el=document.createElement("span");
+          el.className=`medal ${cls}`;
+          el.innerHTML=`<span class="emoji">${emoji}</span><span class="kind">Trends</span>`;
+          box.appendChild(el);
+        }
+
+        const n = nMap.get(symbol);
+        if(n){
+          const [cls,emoji] = medalInfo(n);
+          const el=document.createElement("span");
+          el.className=`medal ${cls}`;
+          el.innerHTML=`<span class="emoji">${emoji}</span><span class="kind">News</span>`;
+          box.appendChild(el);
+        }
+      });
     }
-  } | tojson }}
+
+    document.addEventListener("DOMContentLoaded", decorateTop3Medals);
   </script>
-
-</article>
-
-{% endfor %}
-</section>
-
-<footer class="note">
-  <h3>How to read</h3>
-  <ul>
-    <li>Score = Volume + Trends + News</li>
-    <li>All normalized to 0–100%</li>
-  </ul>
-</footer>
-
-</div>
-
-<script>
-function decorateTop3Medals(){
-  const cards=[...document.querySelectorAll(".card")].map(card=>{
-    let data={};
-    try{data=JSON.parse(card.querySelector(".js-payload")?.textContent||"{}")}catch{}
-    const c=data.score_components||{}
-    return {
-      card,
-      symbol:data.symbol,
-      trends:Number(c.trends_breakout||0),
-      news:Number(c.news||0)
-    }
-  })
-
-  const rank=(k)=>[...cards]
-    .sort((a,b)=>b[k]-a[k])
-    .slice(0,3)
-
-  const t=rank("trends")
-  const n=rank("news")
-
-  const medal=(i)=>["🥇","🥈","🥉"][i]
-
-  t.forEach((x,i)=>{
-    const el=document.createElement("span")
-    el.textContent=`${medal(i)} Trends`
-    x.card.querySelector(".medals").appendChild(el)
-  })
-
-  n.forEach((x,i)=>{
-    const el=document.createElement("span")
-    el.textContent=`${medal(i)} News`
-    x.card.querySelector(".medals").appendChild(el)
-  })
-}
-document.addEventListener("DOMContentLoaded",decorateTop3Medals)
-</script>
 
 </body>
 </html>
