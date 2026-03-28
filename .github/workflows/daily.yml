@@ -5,17 +5,21 @@ on:
     - cron: '10 22 * * *'  # 18:10 ET / 07:10 JST
   workflow_dispatch:
 
+concurrency:
+  group: daily-report
+  cancel-in-progress: true   # ← 競合防止（重要）
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    concurrency:
-      group: daily-report
-      cancel-in-progress: false
 
     steps:
+      # ★ shallow clone禁止（rebase安定化）
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -26,7 +30,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ET市場日付を一意に決める
+      # ★ 先に最新化（コンフリクト防止）
+      - name: Sync latest main
+        run: |
+          git pull --rebase origin main
+
+      # ET市場日付
       - name: Set ET market date
         id: set_date
         run: |
@@ -35,17 +44,17 @@ jobs:
           echo "REPORT_DATE=${REPORT_DATE}" >> "$GITHUB_OUTPUT"
           echo "Resolved REPORT_DATE=${REPORT_DATE}"
 
-      # まずインサイダー(DII)とTrends/Newsを取得（Top10に反映させるため）
+      # ---- データ生成 ----
+
       - name: Build DII (dark activity)
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-          DII_SOURCE: finra_api     # ダメなら "skip" で latest.json を使用
+          DII_SOURCE: finra_api
           DII_LOOKBACK_WEEKS: "12"
           DII_RECENT_WEEKS: "4"
-        run: |
-          python scripts/fetch_dii.py
+        run: python scripts/fetch_dii.py
 
       - name: Google Trends breakout
         env:
@@ -60,8 +69,7 @@ jobs:
           TRENDS_COOLDOWN_BASE: "45"
           TRENDS_COOLDOWN_MAX: "180"
           TRENDS_BATCH_RETRIES: "4"
-        run: |
-          python scripts/fetch_trends.py
+        run: python scripts/fetch_trends.py
 
       - name: Fetch News
         env:
@@ -71,10 +79,8 @@ jobs:
           NEWS_LOOKBACK_DAYS: "7"
           NEWS_MAX_PER_SYMBOL: "20"
           NEWS_SLEEP_SEC: "1.0"
-        run: |
-          python scripts/fetch_news.py
+        run: python scripts/fetch_news.py
 
-      # スコアを合算しTop10を1回で生成
       - name: Generate Top10 JSON
         env:
           OUT_DIR: site
@@ -90,30 +96,32 @@ jobs:
           WEIGHT_DII: ${{ vars.WEIGHT_DII || '0.25' }}
           WEIGHT_TRENDS: ${{ vars.WEIGHT_TRENDS || '0.30' }}
           WEIGHT_NEWS: ${{ vars.WEIGHT_NEWS || '0.20' }}
-        run: |
-          python scripts/fetch_daily.py
+        run: python scripts/fetch_daily.py
 
       - name: Render HTML
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-        run: |
-          python scripts/render.py
+        run: python scripts/render.py
 
-      - name: Verify outputs (ET market date)
-        shell: bash
+      # ★ 成果物確認
+      - name: Verify outputs
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
           set -euo pipefail
           echo "REPORT_DATE=$REPORT_DATE"
-          ls -la site/daily || true
-          echo "Checking file: site/daily/${REPORT_DATE}.html"
-          test -f "site/daily/${REPORT_DATE}.html" || (echo "Expected file missing: site/daily/${REPORT_DATE}.html" && exit 1)
+          test -f "site/daily/${REPORT_DATE}.html"
 
+      # ★ commit & push（完全版）
       - name: Commit & Push
         run: |
+          set -e
+
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
+
           git add -A
           git commit -m "chore: publish daily report" || echo "no changes"
-          git push
+
+          # push競合耐性
+          git push || (git pull --rebase origin main && git push)
