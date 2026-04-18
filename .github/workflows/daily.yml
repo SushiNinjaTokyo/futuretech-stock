@@ -19,15 +19,18 @@ jobs:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Sync latest main before build
+        shell: bash
         run: |
           set -euo pipefail
           git fetch origin main
@@ -35,12 +38,15 @@ jobs:
           git reset --hard origin/main
 
       - name: Install dependencies
+        shell: bash
         run: |
+          set -euo pipefail
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Set ET market date
         id: set_date
+        shell: bash
         run: |
           set -euo pipefail
           REPORT_DATE="$(python scripts/et_market_date.py)"
@@ -49,6 +55,7 @@ jobs:
 
       - name: Skip if daily output already exists on remote
         id: skipcheck
+        shell: bash
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
@@ -62,19 +69,58 @@ jobs:
             echo "Daily output does not exist yet: ${TARGET}"
           fi
 
-      - name: Build DII (dark activity)
+      - name: Fetch Form4
         if: steps.skipcheck.outputs.exists != 'true'
+        shell: bash
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-          DII_SOURCE: finra_api
+          SEC_USER_AGENT: "futuretech-stock/1.0 (contact: your-email@example.com)"
+          FORM4_MAX_FILINGS: "8"
+          FORM4_MAX_AGE_DAYS: "95"
+          SEC_SLEEP: "0.7"
+        run: |
+          set -euo pipefail
+          python scripts/fetch_form4.py
+
+      - name: Verify Form4 output
+        if: steps.skipcheck.outputs.exists != 'true'
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          test -f "site/data/${REPORT_DATE}/form4.json"
+          test -f "site/data/form4/latest.json"
+
+      - name: Build DII
+        if: steps.skipcheck.outputs.exists != 'true'
+        shell: bash
+        env:
+          OUT_DIR: site
+          UNIVERSE_CSV: data/universe.csv
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+          DII_SOURCE: form4
           DII_LOOKBACK_WEEKS: "12"
           DII_RECENT_WEEKS: "4"
-        run: python scripts/fetch_dii.py
+        run: |
+          set -euo pipefail
+          python scripts/fetch_dii.py
+
+      - name: Verify DII output
+        if: steps.skipcheck.outputs.exists != 'true'
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          test -f "site/data/${REPORT_DATE}/dii.json"
+          test -f "site/data/dii/latest.json"
 
       - name: Google Trends breakout
         if: steps.skipcheck.outputs.exists != 'true'
+        shell: bash
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
@@ -87,10 +133,13 @@ jobs:
           TRENDS_COOLDOWN_BASE: "45"
           TRENDS_COOLDOWN_MAX: "180"
           TRENDS_BATCH_RETRIES: "4"
-        run: python scripts/fetch_trends.py
+        run: |
+          set -euo pipefail
+          python scripts/fetch_trends.py
 
       - name: Fetch News
         if: steps.skipcheck.outputs.exists != 'true'
+        shell: bash
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
@@ -98,10 +147,13 @@ jobs:
           NEWS_LOOKBACK_DAYS: "7"
           NEWS_MAX_PER_SYMBOL: "20"
           NEWS_SLEEP_SEC: "1.0"
-        run: python scripts/fetch_news.py
+        run: |
+          set -euo pipefail
+          python scripts/fetch_news.py
 
       - name: Generate Top10 JSON
         if: steps.skipcheck.outputs.exists != 'true'
+        shell: bash
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
@@ -116,27 +168,33 @@ jobs:
           WEIGHT_DII: ${{ vars.WEIGHT_DII || '0.25' }}
           WEIGHT_TRENDS: ${{ vars.WEIGHT_TRENDS || '0.30' }}
           WEIGHT_NEWS: ${{ vars.WEIGHT_NEWS || '0.20' }}
-        run: python scripts/fetch_daily.py
+        run: |
+          set -euo pipefail
+          python scripts/fetch_daily.py
 
       - name: Render HTML
         if: steps.skipcheck.outputs.exists != 'true'
-        env:
-          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-        run: python scripts/render.py
-
-      - name: Verify outputs
-        if: steps.skipcheck.outputs.exists != 'true'
+        shell: bash
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
           set -euo pipefail
-          echo "REPORT_DATE=$REPORT_DATE"
-          test -f "site/daily/${REPORT_DATE}.html"
+          python scripts/render.py
+
+      - name: Verify outputs
+        if: steps.skipcheck.outputs.exists != 'true'
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
           test -f "site/data/${REPORT_DATE}/top10.json"
+          test -f "site/daily/${REPORT_DATE}.html"
 
       - name: Commit changes
         if: steps.skipcheck.outputs.exists != 'true'
         id: commitstep
+        shell: bash
         run: |
           set -euo pipefail
 
@@ -156,6 +214,7 @@ jobs:
 
       - name: Push changes
         if: steps.skipcheck.outputs.exists != 'true' && steps.commitstep.outputs.committed == 'true'
+        shell: bash
         run: |
           set -euo pipefail
           git push origin HEAD:main
