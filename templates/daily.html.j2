@@ -4,152 +4,234 @@
   <meta charset="utf-8"/>
   <title>FutureTech Stock — Daily Top 10 ({{ date }})</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
-  <!-- 外部CSS -->
   <link rel="stylesheet" href="/assets/daily.css">
 </head>
 
 <body>
-<div class="wrap">
+<div class="page-shell">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <div class="grid-overlay"></div>
 
-  <header>
-    <h1>Daily Top 10</h1>
-    <div class="sub">Date: {{ date }}</div>
-  </header>
-
-  <section class="grid">
-
-    {% for item in (top10 or []) %}
-    {% set _sym = item.symbol | default('', true) %}
-    {% set _nm  = item.name   | default('', true) %}
-    {% set _rk  = loop.index %}
-    
-    {% set d1  = item.price_delta_1d %}
-    {% set d5  = item.price_delta_1w %}
-    {% set d20 = item.price_delta_1m %}
-
-    <article class="card">
-
-      <!-- 上段 -->
-      <div class="row">
-        <div class="left">
-
-          <!-- Rank -->
-          {% if _rk <= 3 %}
-          <div class="rank-rocket rank{{ _rk }}">
-            <span class="rocket">🚀</span>
-          </div>
-          {% else %}
-          <div class="rank-badge">#{{ _rk }}</div>
-          {% endif %}
-
-          <!-- 銘柄 -->
-          <div class="id-block">
-            <div class="symbol">{{ _sym }}</div>
-            <div class="name">{{ _nm }}</div>
-          </div>
-        </div>
-
-        <!-- スコア -->
-        <div class="score">
-          <div class="num">{{ item.score_pts | default(0) }}</div>
-          <div class="den">pts</div>
-        </div>
+  <main class="wrap">
+    <header class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">FutureTech Stock Intelligence</div>
+        <h1>Daily Top 10</h1>
+        <p class="hero-sub">
+          Ranked by blended momentum signals across volume anomaly, search breakout, and news intensity.
+        </p>
       </div>
 
-      <!-- 価格 -->
-      <div class="price-row">
+      <div class="hero-meta">
+        <div class="meta-card">
+          <div class="meta-label">Market Date</div>
+          <div class="meta-value">{{ date }}</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">Universe Slice</div>
+          <div class="meta-value">{{ (top10 or [])|length }} names</div>
+        </div>
+      </div>
+    </header>
 
-        {% macro chip(v, label) -%}
-          {% if v is none %}
-            <div class="pch neutral"><span class="k">{{ label }}</span> —</div>
-          {% else %}
-            {% set cls = 'up' if v > 0 else ('down' if v < 0 else 'neutral') %}
-            <div class="pch {{ cls }}">
-              <span class="k">{{ label }}</span>
-              <span class="delta">{{ v | round(2) }}%</span>
+    <section class="cards">
+      {% for item in (top10 or []) %}
+      {% set sym = item.symbol | default('', true) %}
+      {% set nm = item.name | default('', true) %}
+      {% set rk = loop.index %}
+      {% set d1 = item.price_delta_1d %}
+      {% set d5 = item.price_delta_1w %}
+      {% set d20 = item.price_delta_1m %}
+      {% set score_pts = item.score_pts | default(0, true) %}
+      {% set score01 = item.final_score_0_1 | default(0, true) %}
+      {% set score100 = (score01 * 100) | round(1) %}
+      {% set chart_url = item.chart_url | default('', true) %}
+      {% set comps = item.score_components | default({}, true) %}
+      {% set vol = comps.volume_anomaly | default(0, true) %}
+      {% set dii = comps.dii | default(0, true) %}
+      {% set trends = comps.trends_breakout | default(0, true) %}
+      {% set news = comps.news | default(0, true) %}
+
+      <article class="stock-card rank-{{ rk }}" data-symbol="{{ sym }}">
+        <div class="card-topline"></div>
+
+        <div class="card-head">
+          <div class="identity-zone">
+            {% if rk <= 3 %}
+            <div class="rank-orb rank{{ rk }}" aria-label="Rank {{ rk }}">
+              <span class="orb-rank">#{{ rk }}</span>
+              <span class="orb-rocket">🚀</span>
             </div>
-          {% endif %}
-        {%- endmacro %}
+            {% else %}
+            <div class="rank-pill">#{{ rk }}</div>
+            {% endif %}
 
-        {{ chip(d1, "1D") }}
-        {{ chip(d5, "1W") }}
-        {{ chip(d20, "1M") }}
+            <div class="identity-copy">
+              <div class="symbol-row">
+                <span class="symbol">{{ sym }}</span>
+                <span class="company">{{ nm }}</span>
+              </div>
+              <div class="microline">Signal blend • Daily momentum view</div>
+            </div>
+          </div>
 
-      </div>
+          <div class="score-stack">
+            <div class="score-ring" style="--score: {{ score100 }};">
+              <div class="score-ring-inner">
+                <div class="score-number">{{ score_pts }}</div>
+                <div class="score-label">pts</div>
+              </div>
+            </div>
+            <div class="score-mini">{{ score100 }} / 100</div>
+          </div>
+        </div>
 
-      <!-- medals -->
-      <div class="medals"></div>
+        <div class="price-strip">
+          {% macro chip(v, label) -%}
+            {% if v is none %}
+              <div class="metric-chip neutral">
+                <span class="metric-k">{{ label }}</span>
+                <span class="metric-v">—</span>
+              </div>
+            {% else %}
+              {% set cls = 'up' if v > 0 else ('down' if v < 0 else 'neutral') %}
+              <div class="metric-chip {{ cls }}">
+                <span class="metric-k">{{ label }}</span>
+                <span class="metric-v">
+                  {% if v > 0 %}+{% endif %}{{ v | round(2) }}%
+                </span>
+              </div>
+            {% endif %}
+          {%- endmacro %}
 
-      <!-- JS用データ -->
-      <script type="application/json" class="js-payload">
-      {{ {
-        "symbol": _sym,
-        "score_components": item.score_components | default({})
-      } | tojson }}
-      </script>
+          {{ chip(d1, "1D") }}
+          {{ chip(d5, "1W") }}
+          {{ chip(d20, "1M") }}
+        </div>
 
-    </article>
-    {% endfor %}
+        <div class="signal-panel">
+          <div class="signal-head">
+            <div class="signal-title">Signal Breakdown</div>
+            <div class="medals"></div>
+          </div>
 
-  </section>
+          <div class="signal-grid">
+            <div class="signal-row">
+              <div class="signal-label">Volume</div>
+              <div class="signal-bar"><i style="width: {{ (vol * 100) | round(1) }}%"></i></div>
+              <div class="signal-value">{{ (vol * 100) | round(1) }}%</div>
+            </div>
 
-  <div class="note">
-    This page is informational and not investment advice.
-  </div>
+            <div class="signal-row">
+              <div class="signal-label">DII</div>
+              <div class="signal-bar"><i style="width: {{ (dii * 100) | round(1) }}%"></i></div>
+              <div class="signal-value">{{ (dii * 100) | round(1) }}%</div>
+            </div>
 
+            <div class="signal-row">
+              <div class="signal-label">Trends</div>
+              <div class="signal-bar"><i style="width: {{ (trends * 100) | round(1) }}%"></i></div>
+              <div class="signal-value">{{ (trends * 100) | round(1) }}%</div>
+            </div>
+
+            <div class="signal-row">
+              <div class="signal-label">News</div>
+              <div class="signal-bar"><i style="width: {{ (news * 100) | round(1) }}%"></i></div>
+              <div class="signal-value">{{ (news * 100) | round(1) }}%</div>
+            </div>
+          </div>
+        </div>
+
+        {% if chart_url %}
+        <div class="chart-panel">
+          <div class="chart-head">
+            <span>Weekly Chart · 3M</span>
+            <span class="chart-symbol">{{ sym }}</span>
+          </div>
+          <img class="chart" src="{{ chart_url }}" alt="{{ sym }} weekly chart" loading="lazy">
+        </div>
+        {% endif %}
+
+        <script type="application/json" class="js-payload">
+        {{ {
+          "symbol": sym,
+          "score_components": {
+            "volume_anomaly": vol,
+            "dii": dii,
+            "trends_breakout": trends,
+            "news": news
+          }
+        } | tojson }}
+        </script>
+      </article>
+      {% endfor %}
+    </section>
+
+    <footer class="footer-note">
+      <div class="footer-title">Method</div>
+      <p>
+        This dashboard blends normalized signal components without changing the underlying source data.
+        It is informational only and not investment advice.
+      </p>
+    </footer>
+  </main>
 </div>
 
 <script>
 function decorateTop3Medals(){
-  const cards = [...document.querySelectorAll(".card")].map(card=>{
+  const cards = [...document.querySelectorAll(".stock-card")].map(card => {
     let data = {};
     try {
       data = JSON.parse(card.querySelector(".js-payload")?.textContent || "{}");
-    } catch(_) {}
+    } catch (_) {}
 
     const comps = data.score_components || {};
-
     return {
       card,
-      symbol: data.symbol,
+      symbol: data.symbol || "",
       trends: Number(comps.trends_breakout || 0),
-      news:   Number(comps.news || 0)
+      news: Number(comps.news || 0),
+      volume: Number(comps.volume_anomaly || 0)
     };
   });
 
   const rankBy = (arr, key) =>
-    [...arr].sort((a,b)=>b[key]-a[key])
-            .map((o,i)=>({...o,_rank:i+1}))
-            .filter(o=>o[key]>0 && o._rank<=3);
+    [...arr]
+      .sort((a, b) => Number(b[key]) - Number(a[key]))
+      .map((o, i) => ({ ...o, _rank: i + 1 }))
+      .filter(o => o[key] > 0 && o._rank <= 3);
 
-  const tMap = new Map(rankBy(cards,"trends").map(o=>[o.symbol,o._rank]));
-  const nMap = new Map(rankBy(cards,"news").map(o=>[o.symbol,o._rank]));
+  const tMap = new Map(rankBy(cards, "trends").map(o => [o.symbol, o._rank]));
+  const nMap = new Map(rankBy(cards, "news").map(o => [o.symbol, o._rank]));
+  const vMap = new Map(rankBy(cards, "volume").map(o => [o.symbol, o._rank]));
 
-  const medalInfo = r => r===1?["gold","🥇"]:r===2?["silver","🥈"]:["bronze","🥉"];
+  const medalInfo = r =>
+    r === 1 ? ["gold", "🥇"] :
+    r === 2 ? ["silver", "🥈"] :
+              ["bronze", "🥉"];
 
-  cards.forEach(({card,symbol})=>{
+  cards.forEach(({ card, symbol }) => {
     const box = card.querySelector(".medals");
-    if(!box) return;
-
+    if (!box) return;
     box.innerHTML = "";
 
-    const t = tMap.get(symbol);
-    if(t){
-      const [cls,emoji] = medalInfo(t);
-      box.innerHTML += `<span class="medal ${cls}"><span class="emoji">${emoji}</span><span class="kind">Trends</span></span>`;
-    }
+    const addMedal = (rank, label) => {
+      if (!rank) return;
+      const [cls, emoji] = medalInfo(rank);
+      const el = document.createElement("span");
+      el.className = `medal ${cls}`;
+      el.innerHTML = `<span class="emoji">${emoji}</span><span class="kind">${label}</span>`;
+      box.appendChild(el);
+    };
 
-    const n = nMap.get(symbol);
-    if(n){
-      const [cls,emoji] = medalInfo(n);
-      box.innerHTML += `<span class="medal ${cls}"><span class="emoji">${emoji}</span><span class="kind">News</span></span>`;
-    }
+    addMedal(vMap.get(symbol), "Volume");
+    addMedal(tMap.get(symbol), "Trends");
+    addMedal(nMap.get(symbol), "News");
   });
 }
 
 document.addEventListener("DOMContentLoaded", decorateTop3Medals);
 </script>
-
 </body>
 </html>
