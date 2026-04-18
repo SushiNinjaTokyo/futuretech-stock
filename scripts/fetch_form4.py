@@ -1,380 +1,351 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+from __future__ import annotations
 
-import os, sys, re, json, time, pathlib, datetime, bisect
-from zoneinfo import ZoneInfo
+import json
+import os
+import re
+import sys
+import time
+from datetime import date, datetime, timedelta
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import quote_plus
+from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
+
 import pandas as pd
 import requests
 
-# ---------------- Config ----------------
-OUT_DIR = os.getenv("OUT_DIR", "site")
-UNIVERSE_CSV = os.getenv("UNIVERSE_CSV", "data/universe.csv")
-DATE = os.getenv("REPORT_DATE") or datetime.datetime.now(ZoneInfo("America/New_York")).date().isoformat()
-SEC_UA = os.getenv("SEC_USER_AGENT", "futuretech-stock/1.0 (contact@example.com)")
 
-MAX_FILINGS_PER_SYMBOL = int(os.getenv("FORM4_MAX_FILINGS", "12"))
-MAX_AGE_DAYS = int(os.getenv("FORM4_MAX_AGE_DAYS", "95"))
+OUT_DIR = Path(os.getenv("OUT_DIR", "site"))
+UNIVERSE_CSV = Path(os.getenv("UNIVERSE_CSV", "data/universe.csv"))
+REPORT_DATE = os.getenv("REPORT_DATE") or datetime.now(ZoneInfo("America/New_York")).date().isoformat()
+SEC_UA = os.getenv("SEC_USER_AGENT", "futuretech-stock/1.0 (contact: example@example.com)")
+FORM4_MAX_FILINGS = int(os.getenv("FORM4_MAX_FILINGS", "8"))
+FORM4_MAX_AGE_DAYS = int(os.getenv("FORM4_MAX_AGE_DAYS", "95"))
 SEC_SLEEP = float(os.getenv("SEC_SLEEP", "0.7"))
-SEC_XML_SLEEP = float(os.getenv("SEC_XML_SLEEP", "0.25"))
-RETRY = int(os.getenv("SEC_RETRY", "3"))
-DEBUG_DUMP = os.getenv("FORM4_DEBUG_DUMP", "0") == "1"
 
-WINDOW_SHORT = 30
-WINDOW_LONG = 90
-
-# -------------- Caches --------------
-CACHE_DIR = pathlib.Path(OUT_DIR) / "cache"
-CACHE_DIR.mkdir(parents=True, exist_ok=True)
+CACHE_DIR = OUT_DIR / "cache"
 CIK_CACHE = CACHE_DIR / "cik_map.json"
-SECTICKERS_CACHE = CACHE_DIR / "sec_company_tickers.json"
-DUMP_DIR = CACHE_DIR / "form4_dumps"
+COMPANY_CACHE = CACHE_DIR / "sec_company_tickers.json"
 
-def headers():
-    return {"User-Agent": SEC_UA, "Accept-Encoding": "gzip, deflate", "Connection": "keep-alive"}
 
-# -------------- Utils --------------
-def load_json(p: pathlib.Path):
-    if p.exists():
-        try: return json.loads(p.read_text())
-        except Exception: return {}
-    return {}
+def log(level: str, msg: str) -> None:
+    from datetime import timezone
+    print(f"{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%SZ')} [{level}] {msg}", flush=True)
 
-def save_json(p: pathlib.Path, obj):
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(obj, indent=2))
 
-def load_universe_symbols():
-    df = pd.read_csv(UNIVERSE_CSV)
-    return [str(s).strip().upper() for s in df["symbol"].tolist()]
+def headers() -> Dict[str, str]:
+    return {
+        "User-Agent": SEC_UA,
+        "Accept-Encoding": "gzip, deflate",
+        "Connection": "keep-alive",
+    }
 
-def normalize_symbol(sym: str):
-    s = sym.upper().strip()
-    alts = {s}
-    if "." in s: alts.add(s.replace(".", "-"))
-    if "-" in s: alts.add(s.replace("-", "."))
-    return list(alts)
 
-# -------------- CIK resolve --------------
-def build_cik_map_from_sec(max_retry=3, backoff=0.8):
-    url = "https://www.sec.gov/files/company_tickers.json"
-    last = None
-    for i in range(max_retry):
-        try:
-            r = requests.get(url, headers=headers(), timeout=30)
-            r.raise_for_status()
-            data = r.json()
-            mapping = {}
-            for _, rec in data.items():
-                t = str(rec.get("ticker","")).upper().strip()
-                cik = int(rec.get("cik_str", 0))
-                if t and cik: mapping[t] = cik
-            save_json(SECTICKERS_CACHE, mapping)
-            return mapping
-        except Exception as e:
-            last = e; time.sleep(backoff*(i+1))
-    raise last
+def ensure_dir(p: Path) -> None:
+    p.mkdir(parents=True, exist_ok=True)
 
-def get_cik_map():
-    cache = load_json(SECTICKERS_CACHE)
-    if cache: return cache
+
+def read_json(path: Path) -> Any:
+    if not path.exists():
+        return {}
     try:
-        return build_cik_map_from_sec()
-    except Exception as e:
-        print(f"[WARN] company_tickers fetch failed, fallback to HTML search: {e}", file=sys.stderr)
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
         return {}
 
-def search_cik_by_ticker_via_html(sym: str) -> str|None:
+
+def write_json(path: Path, obj: Any) -> None:
+    ensure_dir(path.parent)
+    path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def load_universe() -> List[Dict[str, str]]:
+    df = pd.read_csv(UNIVERSE_CSV)
+    cols = {c.lower(): c for c in df.columns}
+    sym_col = cols.get("symbol", list(df.columns)[0])
+    name_col = cols.get("name")
+    out: List[Dict[str, str]] = []
+    for _, row in df.iterrows():
+        sym = str(row.get(sym_col, "")).strip().upper()
+        if not sym:
+            continue
+        nm = str(row.get(name_col, "")).strip() if name_col else ""
+        out.append({"symbol": sym, "name": nm})
+    return out
+
+
+def load_company_tickers() -> Dict[str, int]:
+    cache = read_json(COMPANY_CACHE)
+    if cache:
+        return {str(k).upper(): int(v) for k, v in cache.items()}
+
+    url = "https://www.sec.gov/files/company_tickers.json"
+    r = requests.get(url, headers=headers(), timeout=30)
+    r.raise_for_status()
+    data = r.json()
+
+    mapping: Dict[str, int] = {}
+    for _, rec in data.items():
+        t = str(rec.get("ticker", "")).strip().upper()
+        cik = rec.get("cik_str")
+        if t and cik:
+            mapping[t] = int(cik)
+
+    write_json(COMPANY_CACHE, mapping)
+    return mapping
+
+
+def search_cik_html(sym: str) -> Optional[int]:
     url = f"https://www.sec.gov/cgi-bin/browse-edgar?CIK={quote_plus(sym)}&owner=exclude&action=getcompany"
     try:
         r = requests.get(url, headers=headers(), timeout=30)
         r.raise_for_status()
         m = re.search(r"CIK=0*([0-9]{1,10})", r.text, flags=re.IGNORECASE)
         if m:
-            return str(int(m.group(1))).zfill(10)
+            return int(m.group(1))
     except Exception:
-        pass
+        return None
     return None
 
-def resolve_cik_for_symbol(sym: str) -> str|None:
-    cmap = load_json(CIK_CACHE)
-    if sym in cmap: return str(cmap[sym]).zfill(10)
-    secmap = get_cik_map()
-    for alt in normalize_symbol(sym):
-        if alt in secmap:
-            cmap[sym] = int(secmap[alt]); save_json(CIK_CACHE, cmap)
-            return str(secmap[alt]).zfill(10)
-    cik = search_cik_by_ticker_via_html(sym)
-    if cik:
-        cmap[sym] = int(cik); save_json(CIK_CACHE, cmap)
-        return cik
-    try:
-        import yfinance as yf
-        info = yf.Ticker(sym).get_info()
-        cik2 = info.get("cik")
-        if cik2:
-            cmap[sym] = int(cik2); save_json(CIK_CACHE, cmap)
-            return str(cik2).zfill(10)
-    except Exception:
-        pass
-    return None
 
-# -------------- Submissions + file picking --------------
-def get_recent_submissions(cik10: str):
+def resolve_cik(sym: str) -> Optional[str]:
+    cache = read_json(CIK_CACHE)
+    if sym in cache:
+        return str(int(cache[sym])).zfill(10)
+
+    company = load_company_tickers()
+    alts = {sym}
+    if "." in sym:
+        alts.add(sym.replace(".", "-"))
+    if "-" in sym:
+        alts.add(sym.replace("-", "."))
+
+    cik_num: Optional[int] = None
+    for alt in alts:
+        if alt in company:
+            cik_num = int(company[alt])
+            break
+
+    if cik_num is None:
+        cik_num = search_cik_html(sym)
+
+    if cik_num is None:
+        return None
+
+    cache[sym] = cik_num
+    write_json(CIK_CACHE, cache)
+    return str(cik_num).zfill(10)
+
+
+def get_submissions(cik10: str) -> Dict[str, Any]:
     url = f"https://data.sec.gov/submissions/CIK{cik10}.json"
     r = requests.get(url, headers=headers(), timeout=30)
     r.raise_for_status()
     return r.json()
 
-def pick_xml_from_dir(base_url: str, primary_doc: str|None) -> list[str]:
-    cands: list[str] = []
-    # index.json 優先
+
+def filing_xml_candidates(cik10: str, accession_no_dash: str, primary_doc: str) -> List[str]:
+    base = f"https://www.sec.gov/Archives/edgar/data/{int(cik10)}/{accession_no_dash}"
+    cands = []
+    if primary_doc and primary_doc.lower().endswith(".xml"):
+        cands.append(f"{base}/{primary_doc}")
+    cands.append(f"{base}/primary_doc.xml")
+    cands.append(f"{base}/form4.xml")
+    cands.append(f"{base}/ownership.xml")
+    return cands
+
+
+def parse_text(root: ET.Element, tag_name: str) -> Optional[str]:
+    for el in root.iter():
+        if el.tag.split("}")[-1].lower() == tag_name.lower():
+            txt = (el.text or "").strip()
+            if txt:
+                return txt
+    return None
+
+
+def to_float(x: Optional[str]) -> float:
     try:
-        jr = requests.get(f"{base_url}/index.json", headers=headers(), timeout=20)
-        if jr.ok:
-            j = jr.json()
-            items = j.get("directory", {}).get("item", [])
-            xmls = [it["name"] for it in items if str(it.get("name","")).lower().endswith(".xml")]
-            xmls.sort(key=lambda nm: (
-                0 if "form4" in nm.lower() else
-                1 if "ownership" in nm.lower() else
-                2 if "primary" in nm.lower() else
-                9))
-            cands.extend([f"{base_url}/{nm}" for nm in xmls])
+        return float(str(x).replace(",", ""))
     except Exception:
-        pass
-    # -index.html or {acc}-index.html
-    try:
-        ir = requests.get(f"{base_url}/-index.html", headers=headers(), timeout=20)
-        if not ir.ok:
-            acc_nodash = base_url.rstrip("/").split("/")[-1]
-            acc = f"{acc_nodash[:10]}-{acc_nodash[10:12]}-{acc_nodash[12:]}"
-            ir = requests.get(f"{base_url}/{acc}-index.html", headers=headers(), timeout=20)
-        if ir.ok:
-            ms = re.findall(r'href="([^"]+\.xml)"', ir.text, flags=re.IGNORECASE)
-            for m in ms:
-                cands.append(m if m.startswith("http") else f"{base_url}/{m}")
-    except Exception:
-        pass
-    # primary が .xml
-    if primary_doc and str(primary_doc).lower().endswith(".xml"):
-        cands.append(f"{base_url}/{primary_doc}")
-    # uniq
-    uniq, seen = [], set()
-    for u in cands:
-        if u not in seen:
-            uniq.append(u); seen.add(u)
-    return uniq
+        return 0.0
 
-def fetch_text_with_retry(url: str, expect_xml: bool = False, dump_path: pathlib.Path|None = None) -> str|None:
-    last = None
-    for i in range(RETRY):
-        try:
-            r = requests.get(url, headers=headers(), timeout=30)
-            if not r.ok:
-                last = Exception(f"HTTP {r.status_code}")
-                time.sleep(SEC_XML_SLEEP*(i+1)); continue
-            txt = r.text
-            if expect_xml:
-                ctype = r.headers.get("Content-Type","").lower()
-                if ("xml" not in ctype) and ("text/xml" not in ctype) and not re.search(r"<ownershipDocument", txt, re.IGNORECASE):
-                    last = Exception("not-xml"); 
-                    if DEBUG_DUMP and dump_path:
-                        dump_path.parent.mkdir(parents=True, exist_ok=True)
-                        dump_path.write_text(txt[:2000])
-                    time.sleep(SEC_XML_SLEEP*(i+1)); continue
-            return txt
-        except Exception as e:
-            last = e
-        time.sleep(SEC_XML_SLEEP*(i+1))
-    return None
 
-def is_form4_xml(text: str) -> bool:
-    return bool(re.search(r"<ownershipDocument", text, re.IGNORECASE))
-
-# -------------- Parse Form4 XML --------------
-def find_text(elem: ET.Element, qname: str):
-    for x in elem.iter():
-        if x.tag.split("}")[-1].lower() == qname.lower():
-            if x.text and x.text.strip(): return x.text.strip()
-    return None
-
-def find_text_in(elem: ET.Element, qname: str):
-    for x in elem.iter():
-        if x.tag.split("}")[-1].lower() == qname.lower():
-            if x.text and x.text.strip(): return x.text.strip()
-    return None
-
-def to_float(x):
-    try: return float(str(x).replace(",", ""))
-    except Exception: return 0.0
-
-def parse_form4_xml(xml_text: str):
-    if not is_form4_xml(xml_text):
-        raise ET.ParseError("not a Form4 XML")
+def parse_form4_xml(xml_text: str) -> Dict[str, Any]:
     root = ET.fromstring(xml_text)
-    tx_date = find_text(root, "transactionDate") or find_text(root, "periodOfReport")
-    buys = 0.0; sells = 0.0
+    out = {
+        "date": parse_text(root, "periodOfReport") or parse_text(root, "transactionDate"),
+        "buy_shares": 0.0,
+        "sell_shares": 0.0,
+        "buyers": [],
+    }
+    buyers = set()
+
     for tx in root.iter():
         tag = tx.tag.split("}")[-1].lower()
-        if tag not in ("nonderivativetransaction","derivativetransaction"): continue
-        code = (find_text_in(tx, "transactionCode") or "").upper()
-        shares = to_float(find_text_in(tx, "transactionShares") or find_text_in(tx, "shares"))
-        if code == "P": buys += shares
-        elif code == "S": sells += shares
-    buyers = set()
-    if buys > 0:
-        for ro in root.iter():
-            if ro.tag.split("}")[-1] == "rptOwnerName":
-                if ro.text and ro.text.strip(): buyers.add(ro.text.strip())
-    return {"date": tx_date, "buy_shares": buys, "sell_shares": sells, "buyers": sorted(list(buyers))}
-
-def within_days(date_iso: str, days: int, ref_date: datetime.date) -> bool:
-    try: d = datetime.date.fromisoformat(date_iso)
-    except Exception: return False
-    return (ref_date - d).days <= days
-
-def pct_rank_positive(values, x):
-    pos = sorted([v for v in values if v > 0])
-    if not pos or x <= 0: return 0.0
-    k = bisect.bisect_right(pos, x)
-    return k / len(pos)
-
-# -------------- Main --------------
-def main():
-    syms = load_universe_symbols()
-    ref_date = datetime.date.fromisoformat(DATE)
-    per_symbol = {}
-    total_xml = 0
-    total_parsed = 0
-
-    for sym in syms:
-        cik10 = resolve_cik_for_symbol(sym)
-        if not cik10:
-            print(f"[WARN] no CIK for {sym}", file=sys.stderr); 
-            per_symbol[sym] = {"cik": None, "net_buy_shares_30":0.0,"net_buy_shares_90":0.0,"buyers_30":0,"buyers_90":0,
-                               "debug":{"skipped_old":0,"bad_xml":0,"taken":0}}
+        if tag not in {"nonderivativetransaction", "derivativetransaction"}:
             continue
+
+        code = ""
+        shares = 0.0
+        for ch in tx.iter():
+            nm = ch.tag.split("}")[-1].lower()
+            txt = (ch.text or "").strip()
+            if nm == "transactioncode" and txt:
+                code = txt.upper()
+            elif nm in {"transactionshares", "shares"} and txt:
+                shares = to_float(txt)
+
+        if code == "P":
+            out["buy_shares"] += shares
+        elif code == "S":
+            out["sell_shares"] += shares
+
+    for ro in root.iter():
+        if ro.tag.split("}")[-1].lower() == "rptownername":
+            txt = (ro.text or "").strip()
+            if txt:
+                buyers.add(txt)
+
+    out["buyers"] = sorted(buyers)
+    return out
+
+
+def fetch_recent_form4_events(sym: str, cik10: str, ref_date: date) -> List[Dict[str, Any]]:
+    try:
+        j = get_submissions(cik10)
+    except Exception as e:
+        log("WARN", f"{sym}: submissions fetch failed: {e}")
+        return []
+
+    recent = j.get("filings", {}).get("recent", {})
+    forms = recent.get("form", []) or []
+    accs = recent.get("accessionNumber", []) or []
+    docs = recent.get("primaryDocument", []) or []
+    dates = recent.get("filingDate", []) or []
+
+    events: List[Dict[str, Any]] = []
+    for form, acc, doc, fdate in zip(forms, accs, docs, dates):
+        if str(form).strip() != "4":
+            continue
+        try:
+            filing_date = date.fromisoformat(str(fdate))
+        except Exception:
+            continue
+        if (ref_date - filing_date).days > FORM4_MAX_AGE_DAYS:
+            continue
+
+        acc_no_dash = str(acc).replace("-", "").strip()
+        xmls = filing_xml_candidates(cik10, acc_no_dash, str(doc))
+        parsed: Optional[Dict[str, Any]] = None
+
+        for u in xmls:
+            try:
+                r = requests.get(u, headers=headers(), timeout=30)
+                if not r.ok:
+                    continue
+                txt = r.text
+                if "<ownershipDocument" not in txt:
+                    continue
+                parsed = parse_form4_xml(txt)
+                break
+            except Exception:
+                continue
 
         time.sleep(SEC_SLEEP)
-        try:
-            subs = get_recent_submissions(cik10)
-        except Exception as e:
-            print(f"[WARN] submissions fetch failed {sym}: {e}", file=sys.stderr)
-            per_symbol[sym] = {"cik": cik10, "net_buy_shares_30":0.0,"net_buy_shares_90":0.0,"buyers_30":0,"buyers_90":0,
-                               "debug":{"skipped_old":0,"bad_xml":0,"taken":0}}
+
+        if parsed:
+            events.append(parsed)
+            if len(events) >= FORM4_MAX_FILINGS:
+                break
+
+    return events
+
+
+def percentile_rank(values: List[float], x: float) -> float:
+    pos = sorted(v for v in values if v > 0)
+    if not pos or x <= 0:
+        return 0.0
+    le = sum(1 for v in pos if v <= x)
+    return le / len(pos)
+
+
+def main() -> None:
+    ref_date = date.fromisoformat(REPORT_DATE)
+    universe = load_universe()
+
+    raw_items: List[Dict[str, Any]] = []
+    for u in universe:
+        sym = u["symbol"]
+        nm = u.get("name", "")
+        cik10 = resolve_cik(sym)
+        if not cik10:
+            raw_items.append({
+                "symbol": sym,
+                "name": nm,
+                "cik": None,
+                "net_buy_shares_30": 0.0,
+                "net_buy_shares_90": 0.0,
+                "buyers_30": 0,
+                "buyers_90": 0,
+                "score_0_1": 0.0,
+            })
             continue
 
-        recent = subs.get("filings", {}).get("recent", {})
-        forms = recent.get("form", [])
-        accs  = recent.get("accessionNumber", [])
-        prims = recent.get("primaryDocument", [])
-        fdates= recent.get("filingDate", [])
+        events = fetch_recent_form4_events(sym, cik10, ref_date)
 
-        net30=0.0; net90=0.0; buyers30=set(); buyers90=set()
-        taken = 0; skipped_old = 0; bad_xml = 0
+        net30 = 0.0
+        net90 = 0.0
+        buyers30 = set()
+        buyers90 = set()
 
-        for form, acc, prim, fdate in zip(forms, accs, prims, fdates):
-            if str(form).strip().upper() != "4":
-                continue
+        for ev in events:
             try:
-                fd = datetime.date.fromisoformat(str(fdate))
-                if (ref_date - fd).days > MAX_AGE_DAYS:
-                    skipped_old += 1
-                    break
+                d = date.fromisoformat(str(ev.get("date")))
             except Exception:
-                pass
-
-            acc_nodash = str(acc).replace("-", "")
-            base = f"https://www.sec.gov/Archives/edgar/data/{int(cik10)}/{acc_nodash}"
-            xml_candidates = pick_xml_from_dir(base, prim)
-            if not xml_candidates:
-                bad_xml += 1
                 continue
+            age = (ref_date - d).days
+            net = float(ev.get("buy_shares", 0.0)) - float(ev.get("sell_shares", 0.0))
+            if age <= 90:
+                net90 += net
+                buyers90.update(ev.get("buyers", []))
+            if age <= 30:
+                net30 += net
+                buyers30.update(ev.get("buyers", []))
 
-            parsed_one = False
-            for xml_url in xml_candidates:
-                time.sleep(SEC_XML_SLEEP)
-                dump_path = None
-                if DEBUG_DUMP:
-                    dump_path = DUMP_DIR / sym / f"{acc_nodash}.txt"
-                txt = fetch_text_with_retry(xml_url, expect_xml=True, dump_path=dump_path)
-                if not txt:
-                    continue
-                try:
-                    parsed = parse_form4_xml(txt)
-                except Exception:
-                    if DEBUG_DUMP and dump_path and not dump_path.exists():
-                        dump_path.parent.mkdir(parents=True, exist_ok=True)
-                        dump_path.write_text(txt[:2000])
-                    continue
-
-                total_xml += 1
-                parsed_one = True
-                dt = parsed.get("date")
-                if dt:
-                    net = float(parsed["buy_shares"]) - float(parsed["sell_shares"])
-                    if within_days(dt, WINDOW_LONG, ref_date):
-                        net90 += net; buyers90.update(parsed.get("buyers", []))
-                    if within_days(dt, WINDOW_SHORT, ref_date):
-                        net30 += net; buyers30.update(parsed.get("buyers", []))
-                break
-
-            if not parsed_one:
-                bad_xml += 1
-
-            taken += 1
-            if taken >= MAX_FILINGS_PER_SYMBOL:
-                break
-
-        per_symbol[sym] = {
+        raw_items.append({
+            "symbol": sym,
+            "name": nm,
             "cik": cik10,
-            "net_buy_shares_30": net30,
-            "net_buy_shares_90": net90,
+            "net_buy_shares_30": round(net30, 2),
+            "net_buy_shares_90": round(net90, 2),
             "buyers_30": len(buyers30),
             "buyers_90": len(buyers90),
-            "debug": {"skipped_old": skipped_old, "bad_xml": bad_xml, "taken": taken}
-        }
-
-    # 正規化
-    nets30 = [v["net_buy_shares_30"] for v in per_symbol.values()]
-    nets90 = [v["net_buy_shares_90"] for v in per_symbol.values()]
-    b30 =   [v["buyers_30"]          for v in per_symbol.values()]
-    b90 =   [v["buyers_90"]          for v in per_symbol.values()]
-
-    for sym, rec in per_symbol.items():
-        net30_pct = pct_rank_positive(nets30, rec["net_buy_shares_30"])
-        net90_pct = pct_rank_positive(nets90, rec["net_buy_shares_90"])
-        b30_pct   = pct_rank_positive(b30,   rec["buyers_30"])
-        b90_pct   = pct_rank_positive(b90,   rec["buyers_90"])
-        score30 = 0.7*net30_pct + 0.3*b30_pct
-        score90 = 0.7*net90_pct + 0.3*b90_pct
-        insider_momo = max(score30, 0.9*score90)
-        rec.update({
-            "score_30": round(score30, 6),
-            "score_90": round(score90, 6),
-            "insider_momo": round(insider_momo, 6),
         })
 
-    out_latest = (pathlib.Path(OUT_DIR) / "data" / "insider" / "form4_latest.json").resolve()
-    out_today  = (pathlib.Path(OUT_DIR) / "data" / DATE / "insider.json").resolve()
-    payload = {"as_of": DATE, "window_days": {"short": WINDOW_SHORT, "long": WINDOW_LONG}, "items": per_symbol}
-    out_latest.parent.mkdir(parents=True, exist_ok=True)
-    out_today.parent.mkdir(parents=True, exist_ok=True)
-    save_json(out_latest, payload)
-    save_json(out_today, payload)
+    vals = [max(0.0, float(x["net_buy_shares_30"])) for x in raw_items]
+    items: List[Dict[str, Any]] = []
+    for row in raw_items:
+        score = percentile_rank(vals, max(0.0, float(row["net_buy_shares_30"])))
+        items.append({
+            **row,
+            "score_0_1": round(score, 6),
+        })
 
-    # サマリ
-    sym_ok = sum(1 for v in per_symbol.values() if (v["net_buy_shares_30"]>0 or v["net_buy_shares_90"]>0 or v["buyers_30"]>0 or v["buyers_90"]>0))
-    print(f"Form4 saved:")
-    print(f"  latest: {out_latest}")
-    print(f"  today : {out_today}")
-    print(f"[INFO] symbols processed: {len(per_symbol)}, with any activity: {sym_ok}")
-    # 代表例のデバッグ
-    for s, rec in list(per_symbol.items())[:5]:
-        dbg = rec.get('debug', {})
-        print(f"[DEBUG] {s} -> taken={dbg.get('taken')} bad_xml={dbg.get('bad_xml')} skipped_old={dbg.get('skipped_old')}")
+    payload = {"date": REPORT_DATE, "items": items}
+    day_path = OUT_DIR / "data" / REPORT_DATE / "form4.json"
+    latest_path = OUT_DIR / "data" / "form4" / "latest.json"
+    write_json(day_path, payload)
+    write_json(latest_path, payload)
+    log("INFO", f"Wrote Form4: {day_path} ({len(items)} items)")
+
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        log("ERROR", f"FATAL in fetch_form4: {e}")
+        sys.exit(1)
