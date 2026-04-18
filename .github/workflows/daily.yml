@@ -7,7 +7,7 @@ on:
 
 concurrency:
   group: daily-report
-  cancel-in-progress: true   # ← 競合防止（重要）
+  cancel-in-progress: true
 
 jobs:
   build-and-publish:
@@ -15,8 +15,10 @@ jobs:
     permissions:
       contents: write
 
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     steps:
-      # ★ shallow clone禁止（rebase安定化）
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -25,17 +27,18 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Sync latest main before build
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ★ 先に最新化（コンフリクト防止）
-      - name: Sync latest main
-        run: |
-          git pull --rebase origin main
-
-      # ET市場日付
       - name: Set ET market date
         id: set_date
         run: |
@@ -44,9 +47,23 @@ jobs:
           echo "REPORT_DATE=${REPORT_DATE}" >> "$GITHUB_OUTPUT"
           echo "Resolved REPORT_DATE=${REPORT_DATE}"
 
-      # ---- データ生成 ----
+      - name: Skip if daily output already exists on remote
+        id: skipcheck
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          TARGET="site/data/${REPORT_DATE}/top10.json"
+          if git cat-file -e "origin/main:${TARGET}" 2>/dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Daily output already exists on origin/main: ${TARGET}"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Daily output does not exist yet: ${TARGET}"
+          fi
 
       - name: Build DII (dark activity)
+        if: steps.skipcheck.outputs.exists != 'true'
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
@@ -57,6 +74,7 @@ jobs:
         run: python scripts/fetch_dii.py
 
       - name: Google Trends breakout
+        if: steps.skipcheck.outputs.exists != 'true'
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
@@ -72,6 +90,7 @@ jobs:
         run: python scripts/fetch_trends.py
 
       - name: Fetch News
+        if: steps.skipcheck.outputs.exists != 'true'
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
@@ -82,6 +101,7 @@ jobs:
         run: python scripts/fetch_news.py
 
       - name: Generate Top10 JSON
+        if: steps.skipcheck.outputs.exists != 'true'
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
@@ -99,29 +119,43 @@ jobs:
         run: python scripts/fetch_daily.py
 
       - name: Render HTML
+        if: steps.skipcheck.outputs.exists != 'true'
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: python scripts/render.py
 
-      # ★ 成果物確認
       - name: Verify outputs
+        if: steps.skipcheck.outputs.exists != 'true'
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
           set -euo pipefail
           echo "REPORT_DATE=$REPORT_DATE"
           test -f "site/daily/${REPORT_DATE}.html"
+          test -f "site/data/${REPORT_DATE}/top10.json"
 
-      # ★ commit & push（完全版）
-      - name: Commit & Push
+      - name: Commit changes
+        if: steps.skipcheck.outputs.exists != 'true'
+        id: commitstep
         run: |
-          set -e
+          set -euo pipefail
 
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
 
           git add -A
-          git commit -m "chore: publish daily report" || echo "no changes"
 
-          # push競合耐性
-          git push || (git pull --rebase origin main && git push)
+          if git diff --cached --quiet; then
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "chore: publish daily report"
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Push changes
+        if: steps.skipcheck.outputs.exists != 'true' && steps.commitstep.outputs.committed == 'true'
+        run: |
+          set -euo pipefail
+          git push origin HEAD:main
