@@ -2,110 +2,119 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-import os, json, math
+import json
+import os
 from pathlib import Path
-from datetime import datetime
-from typing import Dict, List
+from typing import Any, Dict, List, Optional
+
+import pandas as pd
+
 
 OUT_DIR = Path(os.getenv("OUT_DIR", "site"))
 UNIVERSE_CSV = Path(os.getenv("UNIVERSE_CSV", "data/universe.csv"))
-REPORT_DATE = os.getenv("REPORT_DATE") or datetime.utcnow().date().isoformat()
-LOOKBACK_WEEKS = int(os.getenv("DII_LOOKBACK_WEEKS", "12"))
-RECENT_WEEKS = int(os.getenv("DII_RECENT_WEEKS", "4"))
+REPORT_DATE = os.getenv("REPORT_DATE")
+DII_SOURCE = os.getenv("DII_SOURCE", "skip").strip().lower()
 
-# 今回は“高速な代替データ”を使って出来高アノマリーの擬似スコアを作る前提
-SOURCE_USED = "fast_volume"
 
-def load_universe(csv_path: Path) -> List[str]:
-    if not csv_path.exists():
-        # デフォルト20銘柄（READMEと合わせる）
-        return ["NVDA","MSFT","PLTR","AI","ISRG","TER","SYM","RKLB","IRDM","VSAT",
-                "INOD","SOUN","MNDY","AVAV","PERF","GDRX","ABCL","U","TEM","VRT"]
-    syms: List[str] = []
-    for line in csv_path.read_text().splitlines():
-        t = line.strip()
-        if not t or t.startswith("#"): 
+def log(level: str, msg: str) -> None:
+    from datetime import datetime, timezone
+    print(f"{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%SZ')} [{level}] {msg}", flush=True)
+
+
+def ensure_dir(p: Path) -> None:
+    p.mkdir(parents=True, exist_ok=True)
+
+
+def read_json(path: Path) -> Optional[Any]:
+    if not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception as e:
+        log("WARN", f"read_json failed: {path}: {e}")
+        return None
+
+
+def write_json(path: Path, obj: Any) -> None:
+    ensure_dir(path.parent)
+    path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def load_universe() -> List[Dict[str, str]]:
+    if not UNIVERSE_CSV.exists():
+        log("WARN", f"Universe CSV missing: {UNIVERSE_CSV}")
+        return []
+    df = pd.read_csv(UNIVERSE_CSV)
+    cols = {c.lower(): c for c in df.columns}
+    sym_col = cols.get("symbol", list(df.columns)[0])
+    name_col = cols.get("name")
+    items: List[Dict[str, str]] = []
+    for _, row in df.iterrows():
+        sym = str(row.get(sym_col, "")).strip().upper()
+        if not sym:
             continue
-        syms.append(t.split(",")[0].strip())
-    return syms[:20]  # 20銘柄まで
+        nm = str(row.get(name_col, "")).strip() if name_col else ""
+        items.append({"symbol": sym, "name": nm})
+    return items
 
-def robust_volume_score(symbols: List[str]) -> List[Dict]:
+
+def extract_form4_map() -> Dict[str, float]:
     """
-    外部APIに依存しない “擬似” 出来高アノマリー（0..1）を構築。
-    - 現状は universe 内で適当なシードを使って再現性のある擬似スコアを生成
-    - 将来的に実データ接続した時も JSON 形は維持される
+    fetch_form4.py の latest.json があればそれを DII に流用する。
+    無ければ空。
     """
-    # 過去に実データが来たときのため、キーがない時のゼロ埋めを全体デフォルトに
-    out: List[Dict] = []
-    # 疑似スコア：銘柄名からハッシュして 0..1 を作る（安定して同じ値）
-    for s in symbols:
-        h = abs(hash(("volume", s, REPORT_DATE))) % 10_000
-        score = (h / 10_000.0)
-        # 0 と 1 も出るがダメではない。のちの合成で利用
-        out.append({
-            "symbol": s,
-            "score_0_1": round(score, 12),
-            "components": {"volume": round(score, 12)}
-        })
+    latest = OUT_DIR / "data" / "form4" / "latest.json"
+    j = read_json(latest)
+    if not j:
+        return {}
+    payload = j.get("items", j) if isinstance(j, dict) else j
+    out: Dict[str, float] = {}
+    if isinstance(payload, list):
+        for row in payload:
+            if not isinstance(row, dict):
+                continue
+            sym = str(row.get("symbol", "")).upper()
+            if not sym:
+                continue
+            try:
+                score = float(row.get("score_0_1", 0.0))
+            except Exception:
+                score = 0.0
+            out[sym] = max(0.0, min(1.0, score))
     return out
 
-def to_rank_percentiles(values: List[float]) -> List[float]:
-    if not values:
-        return []
-    # 降順ソートでパーセンタイル
-    order = sorted(values, reverse=True)
-    # 同値の扱い: 平均順位パーセンタイルにする
-    percentile_map: Dict[float, float] = {}
-    i = 0
-    n = len(order)
-    while i < n:
-        j = i
-        while j < n and order[j] == order[i]:
-            j += 1
-        # [i, j) が同値
-        avg_rank = (i + j - 1) / 2.0  # 0-based
-        pct = 1.0 - (avg_rank / max(1, n - 1)) if n > 1 else 1.0
-        percentile_map[order[i]] = pct
-        i = j
-    return [percentile_map[v] for v in values]
+
+def build_items() -> List[Dict[str, Any]]:
+    universe = load_universe()
+    form4_map = extract_form4_map() if DII_SOURCE in {"form4", "auto", "finra_api"} else {}
+
+    items: List[Dict[str, Any]] = []
+    for u in universe:
+        sym = u["symbol"]
+        nm = u.get("name", "")
+        score = float(form4_map.get(sym, 0.0))
+        items.append({
+            "symbol": sym,
+            "name": nm,
+            "score_0_1": round(score, 6),
+            "source": "form4" if sym in form4_map else "neutral",
+        })
+    return items
+
 
 def main() -> None:
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    (OUT_DIR / "data").mkdir(parents=True, exist_ok=True)
-    day_dir = OUT_DIR / "data" / REPORT_DATE
-    day_dir.mkdir(parents=True, exist_ok=True)
+    if not REPORT_DATE:
+        raise SystemExit("REPORT_DATE is required")
 
-    universe = load_universe(UNIVERSE_CSV)
+    items = build_items()
+    payload = {"date": REPORT_DATE, "items": items}
 
-    # 不整合対策:
-    #  - 以前、FINRAのレスポンスに 'Volume' がなくて KeyError 連発 → 以降はデータ欠損でもゼロ埋め継続
-    items = robust_volume_score(universe)
+    out_day = OUT_DIR / "data" / REPORT_DATE / "dii.json"
+    out_latest = OUT_DIR / "data" / "dii" / "latest.json"
+    write_json(out_day, payload)
+    write_json(out_latest, payload)
+    log("INFO", f"Wrote DII: {out_day} ({len(items)} items)")
 
-    # 追加で universe 内順位→パーセンタイルを一応計算し直しておく（擬似値でも安定化）
-    vals = [x["score_0_1"] for x in items]
-    pcts = to_rank_percentiles(vals)
-    for x, p in zip(items, pcts):
-        x["score_0_1"] = round(p, 12)
-        x["components"]["volume"] = round(p, 12)
-
-    payload = {
-        "date": REPORT_DATE,
-        "items": items,
-        "meta": {
-            "source_used": SOURCE_USED,
-            "lookback_weeks": LOOKBACK_WEEKS,
-            "recent_weeks": RECENT_WEEKS
-        }
-    }
-
-    # 出力
-    (OUT_DIR / "data" / "dii").mkdir(parents=True, exist_ok=True)
-    latest = OUT_DIR / "data" / "dii" / "latest.json"
-    byday = day_dir / "dii.json"
-    for p in (latest, byday):
-        p.parent.mkdir(parents=True, exist_ok=True)
-        p.write_text(json.dumps(payload, ensure_ascii=False, indent=2))
-    print(f"[DII] saved: {latest} and {byday} (symbols={len(items)}) source={SOURCE_USED}")
 
 if __name__ == "__main__":
     main()
