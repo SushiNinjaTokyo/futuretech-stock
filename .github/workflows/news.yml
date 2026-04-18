@@ -3,57 +3,116 @@ name: fetch-news
 on:
   workflow_dispatch:
   schedule:
-    - cron: '5 22 * * *'   # 18:05 ET / 07:05 JST 相当（dailyより先行/後行はお好みで）
+    - cron: '5 22 * * *'   # 18:05 ET / 07:05 JST
+
+concurrency:
+  group: fetch-news
+  cancel-in-progress: true
 
 jobs:
   fetch-news:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    concurrency:
-      group: fetch-news
-      cancel-in-progress: false
+
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
+      - name: Sync latest main before build
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+
       - name: Install dependencies
         run: |
+          set -euo pipefail
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ET市場日付を固定（いつ実行しても同じ基準日で保存）
       - name: Set ET market date
         id: set_date
         env:
-          MARKET_CUTOFF_HOUR_ET: "20"  # 20:00 ET より前は「前営業日」
+          MARKET_CUTOFF_HOUR_ET: "20"
         run: |
-          echo "REPORT_DATE=$(python scripts/et_market_date.py)" >> "$GITHUB_OUTPUT"
-          echo "REPORT_DATE=$REPORT_DATE"
+          set -euo pipefail
+          REPORT_DATE="$(python scripts/et_market_date.py)"
+          echo "REPORT_DATE=${REPORT_DATE}" >> "$GITHUB_OUTPUT"
+          echo "Resolved REPORT_DATE=${REPORT_DATE}"
+
+      - name: Skip if news output already exists on remote
+        id: skipcheck
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          TARGET="site/data/${REPORT_DATE}/news.json"
+          if git cat-file -e "origin/main:${TARGET}" 2>/dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "News output already exists on origin/main: ${TARGET}"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "News output does not exist yet: ${TARGET}"
+          fi
 
       - name: Fetch News
+        if: steps.skipcheck.outputs.exists != 'true'
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
           NEWS_USER_AGENT: "futuretech-stock/1.0 (news-fetcher)"
-          NEWS_SLEEP: "1.5"          # リクエスト間スリープ
-          NEWS_JITTER: "0.7"         # ジッタ
-          NEWS_DAYS_KEEP: "60"       # latest のローリング保持（任意）
-          NEWS_RECENT_DAYS: "7"      # スコア対象の「直近N日」(REPORT_DATE基準)
-          NEWS_LOOKBACK_DAYS: "31"   # 取得の最大過去範囲（キャッシュ/冪等性を想定）
-          NEWS_MAX_PER_SYMBOL: "60"  # シンボル毎の最大取り込み数（負荷制御）
+          NEWS_SLEEP: "1.5"
+          NEWS_JITTER: "0.7"
+          NEWS_DAYS_KEEP: "60"
+          NEWS_RECENT_DAYS: "7"
+          NEWS_LOOKBACK_DAYS: "31"
+          NEWS_MAX_PER_SYMBOL: "60"
         run: |
+          set -euo pipefail
           python scripts/fetch_news.py
 
-      - name: Commit & Push
+      - name: Verify outputs
+        if: steps.skipcheck.outputs.exists != 'true'
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
+          set -euo pipefail
+          test -f "site/data/${REPORT_DATE}/news.json"
+
+      - name: Commit changes
+        if: steps.skipcheck.outputs.exists != 'true'
+        id: commitstep
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
+
           git add -A
-          git commit -m "news: update for ${{ steps.set_date.outputs.REPORT_DATE }}" || echo "no changes"
-          git push
+
+          if git diff --cached --quiet; then
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "news: update for ${REPORT_DATE}"
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Push changes
+        if: steps.skipcheck.outputs.exists != 'true' && steps.commitstep.outputs.committed == 'true'
+        run: |
+          set -euo pipefail
+          git push origin HEAD:main
