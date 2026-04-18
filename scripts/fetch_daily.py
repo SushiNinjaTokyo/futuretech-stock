@@ -71,7 +71,10 @@ def read_json(path: Path) -> Any:
 
 def write_json(path: Path, obj: Any) -> None:
     ensure_dir(path.parent)
-    path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
+    path.write_text(
+        json.dumps(obj, ensure_ascii=False, indent=2, default=sanitize),
+        encoding="utf-8",
+    )
 
 
 def sanitize(obj: Any) -> Any:
@@ -86,10 +89,12 @@ def load_universe(csv_path: Path) -> List[Dict[str, str]]:
     if not csv_path.exists():
         log("WARN", f"Universe CSV missing: {csv_path}")
         return []
+
     df = pd.read_csv(csv_path)
     cols = {c.lower(): c for c in df.columns}
     sym_col = cols.get("symbol", list(df.columns)[0])
     name_col = cols.get("name")
+
     out: List[Dict[str, str]] = []
     for _, row in df.iterrows():
         sym = str(row.get(sym_col, "")).strip().upper()
@@ -100,12 +105,91 @@ def load_universe(csv_path: Path) -> List[Dict[str, str]]:
     return out
 
 
+def first_series(x: Any) -> pd.Series:
+    """
+    DataFrame / MultiIndex / 1列DataFrame / Series を
+    必ず1次元の数値Seriesに正規化する。
+    """
+    if isinstance(x, pd.Series):
+        return pd.to_numeric(x, errors="coerce")
+
+    if isinstance(x, pd.DataFrame):
+        if x.shape[1] == 0:
+            return pd.Series(dtype=float)
+
+        s = x.iloc[:, 0]
+        if isinstance(s, pd.DataFrame):
+            if s.shape[1] == 0:
+                return pd.Series(dtype=float)
+            s = s.iloc[:, 0]
+
+        if isinstance(s, pd.Series):
+            return pd.to_numeric(s, errors="coerce")
+
+    return pd.Series(dtype=float)
+
+
+def normalize_ohlcv(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    yfinance / tiingo の返り値を Close, Volume の1次元列に統一する。
+    """
+    if df is None or df.empty:
+        return pd.DataFrame(columns=["Close", "Volume"])
+
+    out = pd.DataFrame(index=pd.to_datetime(df.index))
+
+    if isinstance(df.columns, pd.MultiIndex):
+        close_col = None
+        volume_col = None
+
+        for col in df.columns:
+            parts = [str(c).strip().lower() for c in col if c is not None]
+            if "close" in parts and close_col is None:
+                close_col = col
+            if "volume" in parts and volume_col is None:
+                volume_col = col
+
+        if close_col is not None:
+            out["Close"] = first_series(df.loc[:, close_col]).to_numpy()
+        if volume_col is not None:
+            out["Volume"] = first_series(df.loc[:, volume_col]).to_numpy()
+
+    else:
+        close_src = None
+        volume_src = None
+
+        for c in df.columns:
+            cl = str(c).strip().lower()
+            if cl == "close" and close_src is None:
+                close_src = c
+            if cl == "volume" and volume_src is None:
+                volume_src = c
+
+        if close_src is not None:
+            out["Close"] = first_series(df[[close_src]] if isinstance(df[close_src], pd.DataFrame) else df[close_src]).to_numpy()
+        if volume_src is not None:
+            out["Volume"] = first_series(df[[volume_src]] if isinstance(df[volume_src], pd.DataFrame) else df[volume_src]).to_numpy()
+
+    if "Close" not in out.columns:
+        out["Close"] = np.nan
+    if "Volume" not in out.columns:
+        out["Volume"] = np.nan
+
+    out = out[["Close", "Volume"]].dropna()
+    return out
+
+
 def pct(series: pd.Series, lag: int) -> Optional[float]:
     try:
-        cur = float(series.iloc[-1])
-        prev = float(series.iloc[-1 - lag])
+        s = first_series(series).dropna()
+        if len(s) <= lag:
+            return None
+
+        cur = float(s.iloc[-1])
+        prev = float(s.iloc[-1 - lag])
         if prev == 0:
             return None
+
         return (cur / prev - 1.0) * 100.0
     except Exception:
         return None
@@ -117,17 +201,26 @@ def fetch_history(symbol: str, provider: str, token: Optional[str], months: int 
             if provider == "tiingo" and token and pdr is not None:
                 end = pd.Timestamp.utcnow().normalize()
                 start = end - pd.DateOffset(months=months)
-                df = pdr.get_data_tiingo(symbol, api_key=token, start=start.date(), end=end.date())
-                if isinstance(df.index, pd.MultiIndex):
-                    df = df.reset_index(level=0, drop=True)
-                if "close" in df.columns:
-                    df["Close"] = df["close"]
-                if "volume" in df.columns:
-                    df["Volume"] = df["volume"]
+                raw = pdr.get_data_tiingo(
+                    symbol,
+                    api_key=token,
+                    start=start.date(),
+                    end=end.date(),
+                )
+
+                if isinstance(raw.index, pd.MultiIndex):
+                    raw = raw.reset_index(level=0, drop=True)
+
+                if "close" in raw.columns:
+                    raw["Close"] = raw["close"]
+                if "volume" in raw.columns:
+                    raw["Volume"] = raw["volume"]
+
             else:
                 if yf is None:
                     return None
-                df = yf.download(
+
+                raw = yf.download(
                     symbol,
                     period=f"{months}mo",
                     interval="1d",
@@ -136,40 +229,57 @@ def fetch_history(symbol: str, provider: str, token: Optional[str], months: int 
                     auto_adjust=False,
                 )
 
-            if df is None or len(df) < 30:
+            if raw is None or len(raw) < 30:
                 raise ValueError("empty dataframe")
 
-            df = df.copy()
-            df.index = pd.to_datetime(df.index)
-            df = df[["Close", "Volume"]].dropna()
+            df = normalize_ohlcv(raw)
             if len(df) < 30:
                 raise ValueError("not enough clean rows")
+
             return df.sort_index()
+
         except Exception as e:
             log("WARN", f"{symbol}: fetch_history attempt {attempt + 1} failed: {e}")
             time.sleep(1.5 + attempt * 0.8)
+
     return None
 
 
 def fetch_weekly_history(symbol: str, provider: str, token: Optional[str]) -> Optional[pd.DataFrame]:
     try:
         if provider == "tiingo" and token and pdr is not None:
-            # Tiingo weeklyを直接扱わず日足→週足変換
             df = fetch_history(symbol, provider, token, months=6)
             if df is None or df.empty:
                 return None
+
             out = pd.DataFrame(index=df.index)
-            out["Close"] = df["Close"]
+            out["Close"] = first_series(df["Close"]).to_numpy()
             return out.resample("W-FRI").last().dropna()
+
         if yf is None:
             return None
-        df = yf.download(symbol, period="6mo", interval="1wk", progress=False, threads=False, auto_adjust=False)
-        if df is None or df.empty or "Close" not in df.columns:
+
+        raw = yf.download(
+            symbol,
+            period="6mo",
+            interval="1wk",
+            progress=False,
+            threads=False,
+            auto_adjust=False,
+        )
+        if raw is None or raw.empty:
             return None
-        out = pd.DataFrame(index=pd.to_datetime(df.index))
-        out["Close"] = pd.to_numeric(df["Close"], errors="coerce")
+
+        norm = normalize_ohlcv(raw)
+        if norm.empty:
+            return None
+
+        out = pd.DataFrame(index=norm.index)
+        out["Close"] = first_series(norm["Close"]).to_numpy()
         return out.dropna()
-    except Exception:
+
+    except Exception as e:
+        log("WARN", f"{symbol}: weekly history failed: {e}")
         return None
 
 
@@ -177,13 +287,15 @@ def compute_vol_anomaly(df: pd.DataFrame) -> Tuple[Dict[str, Any], float]:
     if df is None or len(df) < 30:
         return {"eligible": False}, 0.0
 
-    vol = pd.to_numeric(df["Volume"], errors="coerce").dropna()
-    close = pd.to_numeric(df["Close"], errors="coerce").dropna()
-    if len(vol) < 30 or len(close) < 30:
+    close = first_series(df["Close"]).dropna()
+    vol = first_series(df["Volume"]).dropna()
+
+    n = min(len(close), len(vol))
+    if n < 30:
         return {"eligible": False}, 0.0
 
-    vol = vol.iloc[-min(len(vol), len(close)):]
-    close = close.iloc[-len(vol):]
+    close = close.iloc[-n:]
+    vol = vol.iloc[-n:]
     dv = close * vol
 
     rvol20 = float(vol.iloc[-1] / (vol.tail(21).iloc[:-1].mean() + 1e-9))
@@ -199,7 +311,10 @@ def compute_vol_anomaly(df: pd.DataFrame) -> Tuple[Dict[str, Any], float]:
     pct_rank_90 = float((ref <= last.iloc[-1]).mean()) if len(ref) else 0.0
     dollar_vol = float(dv.iloc[-1])
 
-    eligible = bool(float(close.iloc[-1]) >= 2.0 and float(dv.tail(21).iloc[:-1].mean()) >= 1_000_000)
+    eligible = bool(
+        float(close.iloc[-1]) >= 2.0 and
+        float(dv.tail(21).iloc[:-1].mean()) >= 1_000_000
+    )
 
     s_rvol = 1.0 - math.exp(-max(0.0, rvol20) / 2.5)
     s_z = 1.0 / (1.0 + math.exp(-z60))
@@ -228,6 +343,7 @@ def extract_component_map(base_dir: Path, report_date: str, kind: str) -> Dict[s
                 return max(0.0, min(1.0, float(obj)))
             except Exception:
                 return None
+
         if isinstance(obj, dict):
             for key in ("score_0_1", "score01", "normalized", "score", "value"):
                 if key in obj:
@@ -242,6 +358,7 @@ def extract_component_map(base_dir: Path, report_date: str, kind: str) -> Dict[s
         j = read_json(path)
         if not j:
             continue
+
         payload = j.get("items", j) if isinstance(j, dict) else j
         if isinstance(payload, list):
             for row in payload:
@@ -253,8 +370,10 @@ def extract_component_map(base_dir: Path, report_date: str, kind: str) -> Dict[s
                 s = extract_score(row)
                 if s is not None:
                     out[sym] = s
+
         if out:
             break
+
     return out
 
 
@@ -269,24 +388,31 @@ def normalize_weights(w_vol: float, w_dii: float, w_tr: float, w_news: float) ->
 def render_chart(chart_dir: Path, symbol: str, weekly_df: Optional[pd.DataFrame]) -> Optional[str]:
     if plt is None or weekly_df is None or weekly_df.empty:
         return None
+
     try:
         ensure_dir(chart_dir)
         path = chart_dir / f"{symbol}.png"
 
-        x = weekly_df.index
-        y = pd.to_numeric(weekly_df["Close"], errors="coerce").dropna()
+        x = pd.to_datetime(weekly_df.index)
+        y = first_series(weekly_df["Close"]).dropna()
         if y.empty:
             return None
 
+        x = x[-len(y):]
+        x = x[-13:]
+        y = y.tail(13)
+
         fig = plt.figure(figsize=(6.4, 3.0))
         ax = fig.add_subplot(111)
-        ax.plot(x[-13:], y.tail(13).values, linewidth=2.0)
+        ax.plot(x, y.to_numpy(), linewidth=2.0)
         ax.set_title(f"{symbol} · Weekly · 3M")
         ax.grid(True, alpha=0.25)
         fig.tight_layout()
         fig.savefig(path, dpi=130)
         plt.close(fig)
+
         return f"/charts/{chart_dir.name}/{symbol}.png"
+
     except Exception as e:
         log("WARN", f"{symbol}: chart render failed: {e}")
         return None
@@ -313,13 +439,26 @@ def load_config() -> Config:
     provider = env_s("DATA_PROVIDER", "yfinance").lower()
     tiingo_token = os.getenv("TIINGO_TOKEN") or None
     mock_mode = env_b("MOCK_MODE", False)
+
     w_vol, w_dii, w_tr, w_news = normalize_weights(
         env_f("WEIGHT_VOL_ANOM", 0.25),
         env_f("WEIGHT_DII", 0.25),
         env_f("WEIGHT_TRENDS", 0.30),
         env_f("WEIGHT_NEWS", 0.20),
     )
-    return Config(out_dir, universe_csv, report_date, provider, tiingo_token, mock_mode, w_vol, w_dii, w_tr, w_news)
+
+    return Config(
+        out_dir=out_dir,
+        universe_csv=universe_csv,
+        report_date=report_date,
+        provider=provider,
+        tiingo_token=tiingo_token,
+        mock_mode=mock_mode,
+        w_vol=w_vol,
+        w_dii=w_dii,
+        w_tr=w_tr,
+        w_news=w_news,
+    )
 
 
 def aggregate() -> None:
@@ -368,6 +507,7 @@ def aggregate() -> None:
             "trends_breakout": cfg.w_tr,
             "news": cfg.w_news,
         }
+
         final01 = (
             comps["volume_anomaly"] * weights["volume_anomaly"]
             + comps["dii"] * weights["dii"]
@@ -398,8 +538,7 @@ def aggregate() -> None:
         item["rank"] = idx
         if not cfg.mock_mode:
             weekly = fetch_weekly_history(item["symbol"], cfg.provider, cfg.tiingo_token)
-            chart_url = render_chart(chart_dir, item["symbol"], weekly)
-            item["chart_url"] = chart_url
+            item["chart_url"] = render_chart(chart_dir, item["symbol"], weekly)
 
     payload = {"date": cfg.report_date, "items": top10}
     write_json(out_day_dir / "top10.json", payload)
