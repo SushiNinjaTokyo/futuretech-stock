@@ -22,15 +22,18 @@ jobs:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Sync latest main
+        shell: bash
         run: |
           set -euo pipefail
           git fetch origin main
@@ -38,6 +41,7 @@ jobs:
           git reset --hard origin/main
 
       - name: Install dependencies
+        shell: bash
         run: |
           set -euo pipefail
           python -m pip install --upgrade pip
@@ -45,6 +49,7 @@ jobs:
 
       - name: Resolve report date
         id: resolve_date
+        shell: bash
         env:
           INPUT_REPORT_DATE: ${{ github.event.inputs.report_date }}
         run: |
@@ -53,21 +58,19 @@ jobs:
           if [ -n "${INPUT_REPORT_DATE}" ]; then
             REPORT_DATE="${INPUT_REPORT_DATE}"
           else
-            REPORT_DATE="$(python - <<'PY'
-from pathlib import Path
-data_dir = Path("site/data")
-dates = sorted([p.name for p in data_dir.iterdir() if p.is_dir() and len(p.name) == 10], reverse=True)
-if not dates:
-    raise SystemExit("No site/data/YYYY-MM-DD directories found")
-print(dates[0])
-PY
-)"
+            REPORT_DATE=$(python -c "from pathlib import Path; data_dir=Path('site/data'); dates=sorted([p.name for p in data_dir.iterdir() if p.is_dir() and len(p.name)==10], reverse=True); print(dates[0] if dates else '')")
+          fi
+
+          if [ -z "${REPORT_DATE}" ]; then
+            echo "No site/data/YYYY-MM-DD directories found"
+            exit 1
           fi
 
           echo "REPORT_DATE=${REPORT_DATE}" >> "$GITHUB_OUTPUT"
           echo "Resolved REPORT_DATE=${REPORT_DATE}"
 
       - name: Verify source data exists
+        shell: bash
         env:
           REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
         run: |
@@ -75,6 +78,7 @@ PY
           test -f "site/data/${REPORT_DATE}/top10.json"
 
       - name: Render HTML
+        shell: bash
         env:
           REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
         run: |
@@ -82,6 +86,7 @@ PY
           python scripts/render.py
 
       - name: Verify rendered outputs
+        shell: bash
         env:
           REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
         run: |
@@ -91,14 +96,16 @@ PY
 
       - name: Commit changes
         id: commitstep
+        shell: bash
         env:
           REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
         run: |
           set -euo pipefail
+
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
 
-          git add templates/daily.html.j2 templates/daily.css site/daily/${REPORT_DATE}.html site/assets/daily.css
+          git add "templates/daily.html.j2" "templates/daily.css" "site/daily/${REPORT_DATE}.html" "site/assets/daily.css"
 
           if git diff --cached --quiet; then
             echo "committed=false" >> "$GITHUB_OUTPUT"
@@ -111,6 +118,7 @@ PY
 
       - name: Push changes
         if: steps.commitstep.outputs.committed == 'true'
+        shell: bash
         run: |
           set -euo pipefail
           git push origin HEAD:main
