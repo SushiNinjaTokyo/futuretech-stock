@@ -2,236 +2,145 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-import os, json, re, csv, math, time
-from pathlib import Path
+import json
+import math
+import os
+import time
 from datetime import datetime, timedelta, timezone
-from typing import List, Dict, Tuple, Optional
-from urllib.parse import quote_plus, urlparse, urlunparse, parse_qsl, urlencode
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
-import feedparser
+import pandas as pd
 
-# ===================== Env & Const =====================
+try:
+    import feedparser
+except Exception:
+    feedparser = None
+
 
 OUT_DIR = Path(os.getenv("OUT_DIR", "site"))
 UNIVERSE_CSV = Path(os.getenv("UNIVERSE_CSV", "data/universe.csv"))
-REPORT_DATE = os.getenv("REPORT_DATE") or datetime.utcnow().date().isoformat()
+REPORT_DATE = os.getenv("REPORT_DATE")
+NEWS_SLEEP_SEC = float(os.getenv("NEWS_SLEEP_SEC", "1.0"))
+NEWS_LOOKBACK_DAYS = int(os.getenv("NEWS_LOOKBACK_DAYS", "7"))
+NEWS_MAX_PER_SYMBOL = int(os.getenv("NEWS_MAX_PER_SYMBOL", "20"))
 
-LOOKBACK_DAYS = int(os.getenv("NEWS_LOOKBACK_DAYS", "7"))
-MAX_PER = int(os.getenv("NEWS_MAX_PER_SYMBOL", "20"))
-SLEEP_SEC = float(os.getenv("NEWS_SLEEP_SEC", "1.0"))
 
-# 新しさの半減期（例: 3日で重みが1/2）
-DECAY_HALF_LIFE_DAYS = float(os.getenv("NEWS_DECAY_HALF_LIFE_DAYS", "3"))
+def log(level: str, msg: str) -> None:
+    print(f"{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%SZ')} [{level}] {msg}", flush=True)
 
-# Google News RSS（q= はエンコード済みの検索式を入れる）
-GOOGLE_NEWS_RSS = "https://news.google.com/rss/search?q={q}&hl=en-US&gl=US&ceid=US:en"
 
-# 曖昧ティッカーなどに備え、社名も含めて検索（stock/company を付加）
-# 例: ("NVDA" OR "NVIDIA Corporation") (stock OR company)
-def build_query(symbol: str, name: Optional[str]) -> str:
-    terms = [f'"{symbol}"']
-    if name:
-        terms.append(f'"{name}"')
-    base = "(" + " OR ".join(terms) + ") (stock OR company)"
-    return quote_plus(base)
+def ensure_dir(p: Path) -> None:
+    p.mkdir(parents=True, exist_ok=True)
 
-# ===================== Helpers =====================
 
-def load_universe(csv_path: Path) -> List[Tuple[str, str]]:
-    """CSV から (symbol, name) のリストを返す。区切りはカンマ/タブ等を自動判定。"""
-    if not csv_path.exists():
-        # フォールバック（20銘柄）
-        return [
-            ("NVDA","NVIDIA Corporation"), ("MSFT","Microsoft Corporation"),
-            ("PLTR","Palantir Technologies Inc."), ("AI","C3.ai, Inc."),
-            ("ISRG","Intuitive Surgical, Inc."), ("TER","Teradyne, Inc."),
-            ("SYM","Symbotic Inc."), ("RKLB","Rocket Lab USA, Inc."),
-            ("IRDM","Iridium Communications Inc."), ("VSAT","Viasat, Inc."),
-            ("INOD","Innodata Inc."), ("SOUN","SoundHound AI, Inc."),
-            ("MNDY","Monday.com Ltd."), ("AVAV","AeroVironment, Inc."),
-            ("PERF","Perfect Corp."), ("GDRX","GoodRx Holdings, Inc."),
-            ("ABCL","AbCellera Biologics Inc."), ("U","Unity Software Inc."),
-            ("TEM","Tempus AI, Inc."), ("VRT","Vertiv Holdings Co"),
-        ]
-    txt = csv_path.read_text(encoding="utf-8", errors="ignore")
-    # Sniffer で区切り推定
-    try:
-        dialect = csv.Sniffer().sniff(txt[:4096], delimiters=",\t;|")
-    except Exception:
-        dialect = csv.excel
-    rows: List[Tuple[str, str]] = []
-    r = csv.DictReader(txt.splitlines(), dialect=dialect)
-    # ヘッダ想定: symbol,name,(theme…)
-    for row in r:
-        sym = (row.get("symbol") or row.get("Symbol") or "").strip()
-        if not sym or sym.startswith("#"):
-            continue
-        name = (row.get("name") or row.get("Name") or "").strip()
-        rows.append((sym, name))
-        if len(rows) >= 20:
-            # 仕様上 20銘柄に丸める
-            break
-    return rows
+def write_json(path: Path, obj: Any) -> None:
+    ensure_dir(path.parent)
+    path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
 
-def sanitize_text(s: str) -> str:
-    return re.sub(r"\s+", " ", (s or "").strip())
 
-def normalize_url(u: str) -> str:
-    """utm 等のクエリノイズを落として重複検出を安定化。"""
-    try:
-        p = urlparse(u)
-        # 許すクエリのみ残す（ほぼ全部消す）
-        whitelist = set(["id"])
-        q = [(k, v) for (k, v) in parse_qsl(p.query, keep_blank_values=True) if k in whitelist]
-        return urlunparse((p.scheme, p.netloc.lower(), p.path, "", urlencode(q), ""))
-    except Exception:
-        return u.strip()
-
-def parse_entry_time(e) -> Optional[datetime]:
-    """feedparser entry から日時を取得。UTZ naive に寄せる。"""
-    tm = getattr(e, "published_parsed", None) or getattr(e, "updated_parsed", None)
-    if not tm:
-        return None
-    try:
-        dt = datetime(*tm[:6])
-        # UTCに寄せる（タイムゾーンがあれば消えるので“近似”扱い）
-        return dt.replace(tzinfo=None)
-    except Exception:
-        return None
-
-def decay_weight(age_days: float, half_life_days: float) -> float:
-    if age_days <= 0:
-        return 1.0
-    if half_life_days <= 0:
-        return 0.0
-    # 2^(-age/half_life)
-    return 2.0 ** (-age_days / half_life_days)
-
-def safe_minmax_normalize(values: List[float]) -> List[float]:
-    if not values:
+def load_universe() -> List[Dict[str, str]]:
+    if not UNIVERSE_CSV.exists():
         return []
-    vmin, vmax = min(values), max(values)
-    if not math.isfinite(vmin) or not math.isfinite(vmax) or vmax <= vmin:
-        # 全部同じ or 無効なら 0 で返す
-        return [0.0 for _ in values]
-    return [(v - vmin) / (vmax - vmin) for v in values]
+    df = pd.read_csv(UNIVERSE_CSV)
+    cols = {c.lower(): c for c in df.columns}
+    sym_col = cols.get("symbol", list(df.columns)[0])
+    name_col = cols.get("name")
+    out: List[Dict[str, str]] = []
+    for _, row in df.iterrows():
+        sym = str(row.get(sym_col, "")).strip().upper()
+        if not sym:
+            continue
+        nm = str(row.get(name_col, "")).strip() if name_col else ""
+        out.append({"symbol": sym, "name": nm})
+    return out
 
-# ===================== Main =====================
+
+def parse_dt(entry: Any) -> Optional[datetime]:
+    for attr in ("published_parsed", "updated_parsed"):
+        st = getattr(entry, attr, None)
+        if st:
+            try:
+                return datetime(*st[:6], tzinfo=timezone.utc)
+            except Exception:
+                pass
+    return None
+
+
+def yahoo_rss_url(sym: str) -> str:
+    return f"https://feeds.finance.yahoo.com/rss/2.0/headline?s={sym}&region=US&lang=en-US"
+
+
+def fetch_symbol_news(sym: str) -> List[Dict[str, Any]]:
+    if feedparser is None:
+        return []
+    url = yahoo_rss_url(sym)
+    feed = feedparser.parse(url)
+    items: List[Dict[str, Any]] = []
+    for e in getattr(feed, "entries", [])[:NEWS_MAX_PER_SYMBOL]:
+        dt = parse_dt(e)
+        items.append({
+            "title": getattr(e, "title", "") or "",
+            "link": getattr(e, "link", "") or "",
+            "published_at": dt.isoformat() if dt else None,
+            "source": "Yahoo Finance RSS",
+        })
+    return items
+
+
+def score_from_headlines(headlines: List[Dict[str, Any]], ref_date: datetime) -> float:
+    cutoff = ref_date - timedelta(days=NEWS_LOOKBACK_DAYS)
+    recent = 0
+    for h in headlines:
+        try:
+            dt = datetime.fromisoformat(str(h.get("published_at")))
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            if dt >= cutoff:
+                recent += 1
+        except Exception:
+            continue
+
+    # 0件=0, 5件以上でほぼ頭打ち
+    return max(0.0, min(1.0, 1.0 - math.exp(-recent / 2.5)))
+
 
 def main() -> None:
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    day_dir = OUT_DIR / "data" / REPORT_DATE
-    day_dir.mkdir(parents=True, exist_ok=True)
+    if not REPORT_DATE:
+        raise SystemExit("REPORT_DATE is required")
 
-    universe = load_universe(UNIVERSE_CSV)  # List[(symbol, name)]
-    cutoff = datetime.utcnow() - timedelta(days=LOOKBACK_DAYS)
+    ref_date = datetime.fromisoformat(f"{REPORT_DATE}T23:59:59+00:00")
+    universe = load_universe()
 
-    per_symbol_recent_count: Dict[str, int] = {}
-    per_symbol_weighted: Dict[str, float] = {}
-    articles_by_sym: Dict[str, List[Dict]] = {}
-
-    for (sym, name) in universe:
-        q = build_query(sym, name or None)
-        url = GOOGLE_NEWS_RSS.format(q=q)
-
-        recent_count = 0
-        weighted_sum = 0.0
-        seen_keys = set()
-        arts: List[Dict] = []
-
+    items: List[Dict[str, Any]] = []
+    for u in universe:
+        sym = u["symbol"]
+        nm = u.get("name", "")
         try:
-            feed = feedparser.parse(url)
-            entries = list(getattr(feed, "entries", []) or [])
-        except Exception:
-            entries = []
+            headlines = fetch_symbol_news(sym)
+            score = score_from_headlines(headlines, ref_date)
+        except Exception as e:
+            log("WARN", f"{sym}: news fetch failed: {e}")
+            headlines = []
+            score = 0.0
 
-        # 新しい順に来る保証はないので、日付あり→降順に
-        def sort_key(e):
-            dt = parse_entry_time(e)
-            return dt or datetime(1970, 1, 1)
-        entries.sort(key=sort_key, reverse=True)
-
-        for e in entries:
-            title = sanitize_text(getattr(e, "title", ""))
-            link_raw = sanitize_text(getattr(e, "link", ""))
-            if not title or not link_raw:
-                continue
-            link = normalize_url(link_raw)
-
-            # タイトル+ドメインで緩い重複除外
-            dom = urlparse(link).netloc.lower()
-            dup_key = (title.lower(), dom)
-            if dup_key in seen_keys:
-                continue
-            seen_keys.add(dup_key)
-
-            dt = parse_entry_time(e)
-            if not dt or dt < cutoff:
-                # 期間外（または日付不明）はスコアには寄与させない（記事自体は残す）
-                arts.append({"title": title, "link": link, "published": None})
-                continue
-
-            age_days = (datetime.utcnow() - dt).total_seconds() / 86400.0
-            w = decay_weight(age_days, DECAY_HALF_LIFE_DAYS)
-
-            recent_count += 1
-            weighted_sum += w
-
-            arts.append({
-                "title": title,
-                "link": link,
-                "published": dt.isoformat(timespec="seconds") + "Z"
-            })
-
-            if recent_count >= MAX_PER:
-                break
-
-        per_symbol_recent_count[sym] = recent_count
-        per_symbol_weighted[sym] = round(weighted_sum, 6)
-        articles_by_sym[sym] = arts
-
-        # レート制御
-        if SLEEP_SEC > 0:
-            time.sleep(SLEEP_SEC)
-
-    # 正規化（weighted_sum ベース）
-    weighted_list = [per_symbol_weighted.get(sym, 0.0) for (sym, _name) in universe]
-    normalized = safe_minmax_normalize(weighted_list)
-
-    # items を組み立て
-    items = []
-    for (i, (sym, name)) in enumerate(universe):
-        score01 = round(float(normalized[i]), 12) if i < len(normalized) else 0.0
         items.append({
             "symbol": sym,
-            "name": name,
-            "recent_count": int(per_symbol_recent_count.get(sym, 0)),
-            "weighted_count": float(per_symbol_weighted.get(sym, 0.0)),
-            "score_0_1": score01,
-            "articles": articles_by_sym.get(sym, [])[:MAX_PER],
-            "components": { "news": score01 },  # 互換用（fetch_daily 側で参照してもOK）
+            "name": nm,
+            "score_0_1": round(score, 6),
+            "headline_count": len(headlines),
+            "headlines": headlines[:NEWS_MAX_PER_SYMBOL],
         })
 
-    payload = {
-        "date": REPORT_DATE,
-        "items": items,
-        "meta": {
-            "lookback_days": LOOKBACK_DAYS,
-            "max_per_symbol": MAX_PER,
-            "decay_half_life_days": DECAY_HALF_LIFE_DAYS,
-            "source": "google_news_rss",
-            "query_mode": '("SYMBOL" OR "NAME") AND (stock OR company)',
-        }
-    }
+        time.sleep(NEWS_SLEEP_SEC)
 
-    # 保存
-    (OUT_DIR / "data" / "news").mkdir(parents=True, exist_ok=True)
-    latest = OUT_DIR / "data" / "news" / "latest.json"
-    byday = day_dir / "news.json"
-    for p in (latest, byday):
-        p.write_text(json.dumps(payload, ensure_ascii=False, indent=2))
+    payload = {"date": REPORT_DATE, "items": items}
+    day_path = OUT_DIR / "data" / REPORT_DATE / "news.json"
+    latest_path = OUT_DIR / "data" / "news" / "latest.json"
+    write_json(day_path, payload)
+    write_json(latest_path, payload)
+    log("INFO", f"Wrote News: {day_path} ({len(items)} items)")
 
-    print(f"[NEWS] saved: {latest} and {byday} (symbols={len(items)})")
 
 if __name__ == "__main__":
     main()
