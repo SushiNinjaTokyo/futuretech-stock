@@ -1,0 +1,169 @@
+name: build-top10
+
+on:
+  workflow_dispatch:
+    inputs:
+      report_date:
+        description: "Target date (YYYY-MM-DD). Empty = latest available component date"
+        required: false
+        default: ""
+      render_html:
+        description: "Also render daily HTML"
+        required: true
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+concurrency:
+  group: build-top10
+  cancel-in-progress: true
+
+jobs:
+  build-top10:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Sync latest main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Resolve report date
+        id: resolve_date
+        shell: bash
+        env:
+          INPUT_REPORT_DATE: ${{ github.event.inputs.report_date }}
+        run: |
+          set -euo pipefail
+
+          if [ -n "${INPUT_REPORT_DATE}" ]; then
+            REPORT_DATE="${INPUT_REPORT_DATE}"
+          else
+            REPORT_DATE=$(python -c "from pathlib import Path; base=Path('site/data'); dates=sorted([p.name for p in base.iterdir() if p.is_dir() and len(p.name)==10], reverse=True); print(dates[0] if dates else '')")
+          fi
+
+          if [ -z "${REPORT_DATE}" ]; then
+            echo "No site/data/YYYY-MM-DD directories found"
+            exit 1
+          fi
+
+          echo "REPORT_DATE=${REPORT_DATE}" >> "$GITHUB_OUTPUT"
+          echo "Resolved REPORT_DATE=${REPORT_DATE}"
+
+      - name: Verify component inputs
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+
+          echo "Checking component inputs for ${REPORT_DATE}"
+          test -f "site/data/${REPORT_DATE}/news.json" || (echo "Missing news.json" && exit 1)
+          test -f "site/data/${REPORT_DATE}/trends.json" || (echo "Missing trends.json" && exit 1)
+          test -f "site/data/${REPORT_DATE}/dii.json" || (echo "Missing dii.json" && exit 1)
+
+      - name: Build Top10 JSON
+        shell: bash
+        env:
+          OUT_DIR: site
+          UNIVERSE_CSV: data/universe.csv
+          REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
+          DATA_PROVIDER: ${{ vars.DATA_PROVIDER || 'yfinance' }}
+          MOCK_MODE: ${{ vars.MOCK_MODE || 'false' }}
+          TIINGO_TOKEN: ${{ secrets.TIINGO_TOKEN }}
+          WEIGHT_VOL_ANOM: ${{ vars.WEIGHT_VOL_ANOM || '0.25' }}
+          WEIGHT_DII: ${{ vars.WEIGHT_DII || '0.25' }}
+          WEIGHT_TRENDS: ${{ vars.WEIGHT_TRENDS || '0.30' }}
+          WEIGHT_NEWS: ${{ vars.WEIGHT_NEWS || '0.20' }}
+        run: |
+          set -euo pipefail
+          python scripts/fetch_daily.py
+
+      - name: Verify Top10 outputs
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          test -f "site/data/${REPORT_DATE}/top10.json"
+          test -f "site/data/top10/latest.json"
+
+      - name: Render HTML
+        if: github.event.inputs.render_html == 'true'
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          python scripts/render.py
+
+      - name: Verify rendered HTML
+        if: github.event.inputs.render_html == 'true'
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          test -f "site/daily/${REPORT_DATE}.html"
+          test -f "site/assets/daily.css"
+
+      - name: Commit changes
+        id: commitstep
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
+          RENDER_HTML: ${{ github.event.inputs.render_html }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+
+          git add "site/data/${REPORT_DATE}/top10.json" "site/data/top10/latest.json"
+
+          if [ "${RENDER_HTML}" = "true" ]; then
+            git add "site/daily/${REPORT_DATE}.html" "site/assets/daily.css" "templates/daily.html.j2" "templates/daily.css"
+          fi
+
+          if git diff --cached --quiet; then
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "top10: rebuild for ${REPORT_DATE}"
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Push changes
+        if: steps.commitstep.outputs.committed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git push origin HEAD:main
