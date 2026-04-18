@@ -7,15 +7,20 @@ import os
 import re
 import sys
 import time
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 from urllib.parse import quote_plus
 from zoneinfo import ZoneInfo
 import xml.etree.ElementTree as ET
 
 import pandas as pd
 import requests
+
+try:
+    import numpy as np
+except Exception:
+    np = None
 
 
 OUT_DIR = Path(os.getenv("OUT_DIR", "site"))
@@ -32,7 +37,6 @@ COMPANY_CACHE = CACHE_DIR / "sec_company_tickers.json"
 
 
 def log(level: str, msg: str) -> None:
-    from datetime import timezone
     print(f"{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%SZ')} [{level}] {msg}", flush=True)
 
 
@@ -48,25 +52,40 @@ def ensure_dir(p: Path) -> None:
     p.mkdir(parents=True, exist_ok=True)
 
 
+def json_default(obj: Any) -> Any:
+    if np is not None and isinstance(obj, np.generic):
+        return obj.item()
+    raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
+
+
 def read_json(path: Path) -> Any:
     if not path.exists():
         return {}
     try:
         return json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
+    except Exception as e:
+        log("WARN", f"read_json failed: {path}: {e}")
         return {}
 
 
 def write_json(path: Path, obj: Any) -> None:
     ensure_dir(path.parent)
-    path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
+    path.write_text(
+        json.dumps(obj, ensure_ascii=False, indent=2, default=json_default),
+        encoding="utf-8",
+    )
 
 
 def load_universe() -> List[Dict[str, str]]:
+    if not UNIVERSE_CSV.exists():
+        log("ERROR", f"Universe CSV missing: {UNIVERSE_CSV}")
+        return []
+
     df = pd.read_csv(UNIVERSE_CSV)
     cols = {c.lower(): c for c in df.columns}
     sym_col = cols.get("symbol", list(df.columns)[0])
     name_col = cols.get("name")
+
     out: List[Dict[str, str]] = []
     for _, row in df.iterrows():
         sym = str(row.get(sym_col, "")).strip().upper()
@@ -77,46 +96,64 @@ def load_universe() -> List[Dict[str, str]]:
     return out
 
 
-def load_company_tickers() -> Dict[str, int]:
+def session_get_json(sess: requests.Session, url: str, timeout: int = 30) -> Dict[str, Any]:
+    r = sess.get(url, headers=headers(), timeout=timeout)
+    r.raise_for_status()
+    return r.json()
+
+
+def session_get_text(sess: requests.Session, url: str, timeout: int = 30) -> str:
+    r = sess.get(url, headers=headers(), timeout=timeout)
+    r.raise_for_status()
+    return r.text
+
+
+def load_company_tickers(sess: requests.Session) -> Dict[str, int]:
     cache = read_json(COMPANY_CACHE)
     if cache:
-        return {str(k).upper(): int(v) for k, v in cache.items()}
+        try:
+            return {str(k).upper(): int(v) for k, v in cache.items()}
+        except Exception:
+            pass
 
     url = "https://www.sec.gov/files/company_tickers.json"
-    r = requests.get(url, headers=headers(), timeout=30)
-    r.raise_for_status()
-    data = r.json()
+    data = session_get_json(sess, url)
 
     mapping: Dict[str, int] = {}
     for _, rec in data.items():
         t = str(rec.get("ticker", "")).strip().upper()
         cik = rec.get("cik_str")
         if t and cik:
-            mapping[t] = int(cik)
+            try:
+                mapping[t] = int(cik)
+            except Exception:
+                continue
 
     write_json(COMPANY_CACHE, mapping)
     return mapping
 
 
-def search_cik_html(sym: str) -> Optional[int]:
+def search_cik_html(sess: requests.Session, sym: str) -> Optional[int]:
     url = f"https://www.sec.gov/cgi-bin/browse-edgar?CIK={quote_plus(sym)}&owner=exclude&action=getcompany"
     try:
-        r = requests.get(url, headers=headers(), timeout=30)
-        r.raise_for_status()
-        m = re.search(r"CIK=0*([0-9]{1,10})", r.text, flags=re.IGNORECASE)
+        html = session_get_text(sess, url)
+        m = re.search(r"CIK=0*([0-9]{1,10})", html, flags=re.IGNORECASE)
         if m:
             return int(m.group(1))
-    except Exception:
-        return None
+    except Exception as e:
+        log("WARN", f"{sym}: search_cik_html failed: {e}")
     return None
 
 
-def resolve_cik(sym: str) -> Optional[str]:
+def resolve_cik(sess: requests.Session, sym: str) -> Optional[str]:
     cache = read_json(CIK_CACHE)
     if sym in cache:
-        return str(int(cache[sym])).zfill(10)
+        try:
+            return str(int(cache[sym])).zfill(10)
+        except Exception:
+            pass
 
-    company = load_company_tickers()
+    company = load_company_tickers(sess)
     alts = {sym}
     if "." in sym:
         alts.add(sym.replace(".", "-"))
@@ -130,7 +167,7 @@ def resolve_cik(sym: str) -> Optional[str]:
             break
 
     if cik_num is None:
-        cik_num = search_cik_html(sym)
+        cik_num = search_cik_html(sess, sym)
 
     if cik_num is None:
         return None
@@ -140,16 +177,14 @@ def resolve_cik(sym: str) -> Optional[str]:
     return str(cik_num).zfill(10)
 
 
-def get_submissions(cik10: str) -> Dict[str, Any]:
+def get_submissions(sess: requests.Session, cik10: str) -> Dict[str, Any]:
     url = f"https://data.sec.gov/submissions/CIK{cik10}.json"
-    r = requests.get(url, headers=headers(), timeout=30)
-    r.raise_for_status()
-    return r.json()
+    return session_get_json(sess, url)
 
 
 def filing_xml_candidates(cik10: str, accession_no_dash: str, primary_doc: str) -> List[str]:
     base = f"https://www.sec.gov/Archives/edgar/data/{int(cik10)}/{accession_no_dash}"
-    cands = []
+    cands: List[str] = []
     if primary_doc and primary_doc.lower().endswith(".xml"):
         cands.append(f"{base}/{primary_doc}")
     cands.append(f"{base}/primary_doc.xml")
@@ -158,12 +193,81 @@ def filing_xml_candidates(cik10: str, accession_no_dash: str, primary_doc: str) 
     return cands
 
 
+def local_name(tag: str) -> str:
+    return tag.split("}")[-1] if "}" in tag else tag
+
+
+def element_text(el: ET.Element) -> Optional[str]:
+    txt = (el.text or "").strip()
+    if txt:
+        return txt
+    return None
+
+
+def child_element(parent: ET.Element, name: str) -> Optional[ET.Element]:
+    for ch in list(parent):
+        if local_name(ch.tag).lower() == name.lower():
+            return ch
+    return None
+
+
+def child_text(parent: ET.Element, name: str) -> Optional[str]:
+    ch = child_element(parent, name)
+    if ch is None:
+        return None
+
+    txt = element_text(ch)
+    if txt:
+        return txt
+
+    val = child_element(ch, "value")
+    if val is not None:
+        vtxt = element_text(val)
+        if vtxt:
+            return vtxt
+
+    return None
+
+
+def nested_element(parent: ET.Element, path: List[str]) -> Optional[ET.Element]:
+    cur = parent
+    for name in path:
+        nxt = child_element(cur, name)
+        if nxt is None:
+            return None
+        cur = nxt
+    return cur
+
+
+def nested_text(parent: ET.Element, path: List[str]) -> Optional[str]:
+    el = nested_element(parent, path)
+    if el is None:
+        return None
+
+    txt = element_text(el)
+    if txt:
+        return txt
+
+    val = child_element(el, "value")
+    if val is not None:
+        vtxt = element_text(val)
+        if vtxt:
+            return vtxt
+
+    return None
+
+
 def parse_text(root: ET.Element, tag_name: str) -> Optional[str]:
     for el in root.iter():
-        if el.tag.split("}")[-1].lower() == tag_name.lower():
-            txt = (el.text or "").strip()
+        if local_name(el.tag).lower() == tag_name.lower():
+            txt = element_text(el)
             if txt:
                 return txt
+            val = child_element(el, "value")
+            if val is not None:
+                vtxt = element_text(val)
+                if vtxt:
+                    return vtxt
     return None
 
 
@@ -176,47 +280,69 @@ def to_float(x: Optional[str]) -> float:
 
 def parse_form4_xml(xml_text: str) -> Dict[str, Any]:
     root = ET.fromstring(xml_text)
-    out = {
-        "date": parse_text(root, "periodOfReport") or parse_text(root, "transactionDate"),
+
+    period_of_report = parse_text(root, "periodOfReport")
+
+    out: Dict[str, Any] = {
+        "date": period_of_report,
         "buy_shares": 0.0,
         "sell_shares": 0.0,
         "buyers": [],
     }
+
     buyers = set()
 
+    # owner names
+    for ro in root.iter():
+        if local_name(ro.tag).lower() == "rptownername":
+            txt = element_text(ro)
+            if txt:
+                buyers.add(txt)
+
+    # transactions
     for tx in root.iter():
-        tag = tx.tag.split("}")[-1].lower()
+        tag = local_name(tx.tag).lower()
         if tag not in {"nonderivativetransaction", "derivativetransaction"}:
             continue
 
-        code = ""
-        shares = 0.0
-        for ch in tx.iter():
-            nm = ch.tag.split("}")[-1].lower()
-            txt = (ch.text or "").strip()
-            if nm == "transactioncode" and txt:
-                code = txt.upper()
-            elif nm in {"transactionshares", "shares"} and txt:
-                shares = to_float(txt)
+        code = (
+            nested_text(tx, ["transactionCoding", "transactionCode"])
+            or child_text(tx, "transactionCode")
+            or ""
+        ).strip().upper()
+
+        shares_txt = (
+            nested_text(tx, ["transactionAmounts", "transactionShares", "value"])
+            or nested_text(tx, ["transactionShares", "value"])
+            or child_text(tx, "transactionShares")
+            or child_text(tx, "shares")
+        )
+        shares = to_float(shares_txt)
+
+        if shares == 0.0:
+            underlying_txt = (
+                nested_text(tx, ["underlyingSecurity", "underlyingSecurityShares", "value"])
+                or nested_text(tx, ["underlyingSecurityShares", "value"])
+            )
+            shares = to_float(underlying_txt)
 
         if code == "P":
             out["buy_shares"] += shares
         elif code == "S":
             out["sell_shares"] += shares
 
-    for ro in root.iter():
-        if ro.tag.split("}")[-1].lower() == "rptownername":
-            txt = (ro.text or "").strip()
-            if txt:
-                buyers.add(txt)
+        if not out["date"]:
+            tx_date = nested_text(tx, ["transactionDate", "value"]) or child_text(tx, "transactionDate")
+            if tx_date:
+                out["date"] = tx_date
 
     out["buyers"] = sorted(buyers)
     return out
 
 
-def fetch_recent_form4_events(sym: str, cik10: str, ref_date: date) -> List[Dict[str, Any]]:
+def fetch_recent_form4_events(sess: requests.Session, sym: str, cik10: str, ref_date: date) -> List[Dict[str, Any]]:
     try:
-        j = get_submissions(cik10)
+        j = get_submissions(sess, cik10)
     except Exception as e:
         log("WARN", f"{sym}: submissions fetch failed: {e}")
         return []
@@ -228,14 +354,20 @@ def fetch_recent_form4_events(sym: str, cik10: str, ref_date: date) -> List[Dict
     dates = recent.get("filingDate", []) or []
 
     events: List[Dict[str, Any]] = []
+
     for form, acc, doc, fdate in zip(forms, accs, docs, dates):
         if str(form).strip() != "4":
             continue
+
         try:
             filing_date = date.fromisoformat(str(fdate))
         except Exception:
             continue
-        if (ref_date - filing_date).days > FORM4_MAX_AGE_DAYS:
+
+        age_days = (ref_date - filing_date).days
+        if age_days < 0:
+            continue
+        if age_days > FORM4_MAX_AGE_DAYS:
             continue
 
         acc_no_dash = str(acc).replace("-", "").strip()
@@ -244,10 +376,7 @@ def fetch_recent_form4_events(sym: str, cik10: str, ref_date: date) -> List[Dict
 
         for u in xmls:
             try:
-                r = requests.get(u, headers=headers(), timeout=30)
-                if not r.ok:
-                    continue
-                txt = r.text
+                txt = session_get_text(sess, u)
                 if "<ownershipDocument" not in txt:
                     continue
                 parsed = parse_form4_xml(txt)
@@ -258,6 +387,12 @@ def fetch_recent_form4_events(sym: str, cik10: str, ref_date: date) -> List[Dict
         time.sleep(SEC_SLEEP)
 
         if parsed:
+            log(
+                "INFO",
+                f"{sym}: parsed Form4 event date={parsed.get('date')} "
+                f"buy={parsed.get('buy_shares')} sell={parsed.get('sell_shares')} "
+                f"buyers={len(parsed.get('buyers', []))}"
+            )
             events.append(parsed)
             if len(events) >= FORM4_MAX_FILINGS:
                 break
@@ -276,12 +411,18 @@ def percentile_rank(values: List[float], x: float) -> float:
 def main() -> None:
     ref_date = date.fromisoformat(REPORT_DATE)
     universe = load_universe()
+    if not universe:
+        raise SystemExit("Universe is empty")
+
+    sess = requests.Session()
 
     raw_items: List[Dict[str, Any]] = []
+
     for u in universe:
         sym = u["symbol"]
         nm = u.get("name", "")
-        cik10 = resolve_cik(sym)
+
+        cik10 = resolve_cik(sess, sym)
         if not cik10:
             raw_items.append({
                 "symbol": sym,
@@ -295,7 +436,7 @@ def main() -> None:
             })
             continue
 
-        events = fetch_recent_form4_events(sym, cik10, ref_date)
+        events = fetch_recent_form4_events(sess, sym, cik10, ref_date)
 
         net30 = 0.0
         net90 = 0.0
@@ -307,11 +448,17 @@ def main() -> None:
                 d = date.fromisoformat(str(ev.get("date")))
             except Exception:
                 continue
+
             age = (ref_date - d).days
+            if age < 0:
+                continue
+
             net = float(ev.get("buy_shares", 0.0)) - float(ev.get("sell_shares", 0.0))
+
             if age <= 90:
                 net90 += net
                 buyers90.update(ev.get("buyers", []))
+
             if age <= 30:
                 net30 += net
                 buyers30.update(ev.get("buyers", []))
@@ -327,6 +474,7 @@ def main() -> None:
         })
 
     vals = [max(0.0, float(x["net_buy_shares_30"])) for x in raw_items]
+
     items: List[Dict[str, Any]] = []
     for row in raw_items:
         score = percentile_rank(vals, max(0.0, float(row["net_buy_shares_30"])))
@@ -336,10 +484,13 @@ def main() -> None:
         })
 
     payload = {"date": REPORT_DATE, "items": items}
+
     day_path = OUT_DIR / "data" / REPORT_DATE / "form4.json"
     latest_path = OUT_DIR / "data" / "form4" / "latest.json"
+
     write_json(day_path, payload)
     write_json(latest_path, payload)
+
     log("INFO", f"Wrote Form4: {day_path} ({len(items)} items)")
 
 
