@@ -8,6 +8,12 @@
       "headline_count": 20,
       "headlines": [
         {
+          "title": "Prediction: Buying United Parcel Service Stock Today Could Set You Up for Life",
+          "link": "https://www.fool.com/investing/2026/04/20/prediction-buying-united-parcel-service-stock-toda/?.tsrc=rss",
+          "published_at": "2026-04-21T00:35:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
           "title": "3 Artificial Intelligence (AI) Stocks Warren Buffett Might Buy If He Were a Tech Investor",
           "link": "https://www.fool.com/investing/2026/04/20/3-artificial-intelligence-ai-stocks-warren-buffett/?.tsrc=rss",
           "published_at": "2026-04-21T00:20:00+00:00",
@@ -41,6 +47,12 @@
           "title": "Which AI Stock Is the Best Buy Today: Nvidia, Alphabet, or Palantir?",
           "link": "https://www.fool.com/investing/2026/04/20/which-ai-stock-is-the-best-buy-today-nvidia-alphab/?.tsrc=rss",
           "published_at": "2026-04-20T22:50:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "The 3 Mag 7 Stocks with the Best Earnings Charts",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/3-mag-7-stocks-best-223900045.html?.tsrc=rss",
+          "published_at": "2026-04-20T22:39:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -114,18 +126,6 @@
           "link": "https://www.fool.com/investing/2026/04/20/prediction-the-best-pick-and-shovel-ai-stock-of-20/?.tsrc=rss",
           "published_at": "2026-04-20T19:50:00+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Why Cohu Stock Is Soaring Today",
-          "link": "https://www.fool.com/investing/2026/04/20/why-cohu-stock-is-soaring-today/?.tsrc=rss",
-          "published_at": "2026-04-20T19:38:27+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "1 Nuclear Stock That Could Power Your Retirement Income for Decades",
-          "link": "https://www.fool.com/investing/2026/04/20/1-nuclear-stock-that-could-power-your-retirement-i/?.tsrc=rss",
-          "published_at": "2026-04-20T19:35:00+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
@@ -151,6 +151,12 @@
           "title": "Bank of America resets Microsoft stock forecast ahead of earnings",
           "link": "https://www.thestreet.com/investing/stocks/bank-of-america-resets-microsoft-stock-forecast-ahead-of-earnings?.tsrc=rss",
           "published_at": "2026-04-20T23:00:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "The 3 Mag 7 Stocks with the Best Earnings Charts",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/3-mag-7-stocks-best-223900045.html?.tsrc=rss",
+          "published_at": "2026-04-20T22:39:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -247,12 +253,6 @@
           "title": "Motley Fool Asset Management’s Top AI Stock Pick: Amazon.com (AMZN)",
           "link": "https://finance.yahoo.com/markets/stocks/articles/motley-fool-asset-management-top-154250967.html?.tsrc=rss",
           "published_at": "2026-04-20T15:42:50+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Dear Apple Stock Fans, Mark Your Calendars for April 30",
-          "link": "https://www.barchart.com/story/news/1402649/dear-apple-stock-fans-mark-your-calendars-for-april-30?.tsrc=rss",
-          "published_at": "2026-04-20T14:41:03+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -388,7 +388,7 @@
     {
       "symbol": "AI",
       "name": "C3.ai, Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.959238,
       "headline_count": 20,
       "headlines": [
         {
@@ -516,7 +516,7 @@
     {
       "symbol": "ISRG",
       "name": "Intuitive Surgical, Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.998338,
       "headline_count": 20,
       "headlines": [
         {
@@ -644,7 +644,7 @@
     {
       "symbol": "TER",
       "name": "Teradyne, Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.909282,
       "headline_count": 20,
       "headlines": [
         {
@@ -772,7 +772,7 @@
     {
       "symbol": "SYM",
       "name": "Symbotic Inc.",
-      "score_0_1": 0.9995,
+      "score_0_1": 0.698806,
       "headline_count": 20,
       "headlines": [
         {
@@ -900,9 +900,15 @@
     {
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.9995,
       "headline_count": 20,
       "headlines": [
+        {
+          "title": "Why Are Rocket Lab (RKLB) Shares Soaring Today",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/why-rocket-lab-rklb-shares-002932262.html?.tsrc=rss",
+          "published_at": "2026-04-21T00:29:32+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "3 Momentum  Stocks to Target This Week",
           "link": "https://finance.yahoo.com/markets/stocks/articles/3-momentum-stocks-target-week-120532318.html?.tsrc=rss",
@@ -1016,19 +1022,13 @@
           "link": "https://finance.yahoo.com/markets/stocks/articles/space-stocks-taking-off-heres-204400440.html?.tsrc=rss",
           "published_at": "2026-04-13T20:44:00+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Rocket Lab Repeat iQPS Launches Extend Backlog And Test Valuation Gap",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/rocket-lab-repeat-iqps-launches-090738848.html?.tsrc=rss",
-          "published_at": "2026-04-13T09:07:38+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.972676,
       "headline_count": 20,
       "headlines": [
         {
@@ -1156,7 +1156,7 @@
     {
       "symbol": "VSAT",
       "name": "Viasat, Inc.",
-      "score_0_1": 0.9995,
+      "score_0_1": 0.798103,
       "headline_count": 20,
       "headlines": [
         {
@@ -1284,7 +1284,7 @@
     {
       "symbol": "INOD",
       "name": "Innodata Inc.",
-      "score_0_1": 0.987723,
+      "score_0_1": 0.798103,
       "headline_count": 20,
       "headlines": [
         {
@@ -1412,7 +1412,7 @@
     {
       "symbol": "SOUN",
       "name": "SoundHound AI, Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.994483,
       "headline_count": 20,
       "headlines": [
         {
@@ -1540,7 +1540,7 @@
     {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.981684,
       "headline_count": 20,
       "headlines": [
         {
@@ -1668,7 +1668,7 @@
     {
       "symbol": "AVAV",
       "name": "AeroVironment, Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.972676,
       "headline_count": 20,
       "headlines": [
         {
@@ -1796,7 +1796,7 @@
     {
       "symbol": "PERF",
       "name": "Perfect Corp.",
-      "score_0_1": 0.32968,
+      "score_0_1": 0.0,
       "headline_count": 15,
       "headlines": [
         {
@@ -1894,7 +1894,7 @@
     {
       "symbol": "GDRX",
       "name": "GoodRx Holdings, Inc.",
-      "score_0_1": 0.981684,
+      "score_0_1": 0.864665,
       "headline_count": 20,
       "headlines": [
         {
@@ -2022,7 +2022,7 @@
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
-      "score_0_1": 0.864665,
+      "score_0_1": 0.698806,
       "headline_count": 20,
       "headlines": [
         {
@@ -2150,7 +2150,7 @@
     {
       "symbol": "U",
       "name": "Unity Software Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.864665,
       "headline_count": 20,
       "headlines": [
         {
@@ -2278,7 +2278,7 @@
     {
       "symbol": "TEM",
       "name": "Tempus AI, Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.864665,
       "headline_count": 20,
       "headlines": [
         {
@@ -2534,7 +2534,7 @@
     {
       "symbol": "OII",
       "name": "Oceaneering International Inc.",
-      "score_0_1": 0.987723,
+      "score_0_1": 0.698806,
       "headline_count": 20,
       "headlines": [
         {
@@ -2662,7 +2662,7 @@
     {
       "symbol": "CGNX",
       "name": "Cognex Corporation",
-      "score_0_1": 0.997521,
+      "score_0_1": 0.550671,
       "headline_count": 20,
       "headlines": [
         {
@@ -2790,7 +2790,7 @@
     {
       "symbol": "KTOS",
       "name": "Kratos Defense & Security Solutions Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.909282,
       "headline_count": 20,
       "headlines": [
         {
@@ -2918,7 +2918,7 @@
     {
       "symbol": "OUST",
       "name": "Ouster Inc.",
-      "score_0_1": 0.972676,
+      "score_0_1": 0.32968,
       "headline_count": 20,
       "headlines": [
         {
@@ -3046,7 +3046,7 @@
     {
       "symbol": "FTI",
       "name": "TechnipFMC plc",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.987723,
       "headline_count": 20,
       "headlines": [
         {
@@ -3174,7 +3174,7 @@
     {
       "symbol": "LNG",
       "name": "Cheniere Energy Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.798103,
       "headline_count": 20,
       "headlines": [
         {
@@ -3302,7 +3302,7 @@
     {
       "symbol": "PR",
       "name": "Permian Resources Corporation",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.959238,
       "headline_count": 20,
       "headlines": [
         {
@@ -3430,7 +3430,7 @@
     {
       "symbol": "MTDR",
       "name": "Matador Resources Company",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.959238,
       "headline_count": 20,
       "headlines": [
         {
@@ -3558,7 +3558,7 @@
     {
       "symbol": "ROK",
       "name": "Rockwell Automation Inc.",
-      "score_0_1": 0.996302,
+      "score_0_1": 0.864665,
       "headline_count": 20,
       "headlines": [
         {
@@ -3942,7 +3942,7 @@
     {
       "symbol": "RCAT",
       "name": "Red Cat Holdings Inc.",
-      "score_0_1": 0.997521,
+      "score_0_1": 0.864665,
       "headline_count": 20,
       "headlines": [
         {
