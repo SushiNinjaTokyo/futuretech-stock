@@ -236,10 +236,11 @@ def fetch_history(symbol: str, provider: str, token: Optional[str], months: int 
 
     return None
 
+
 def fetch_weekly_history(symbol: str, provider: str, token: Optional[str]) -> Optional[pd.DataFrame]:
     """
     週足チャート描画用。
-    20週移動平均をできるだけ自然に出したいので、最低6か月分を取得する。
+    20週移動平均をできるだけ自然に出したいので、最低9か月分を取得する。
     """
     try:
         if provider == "tiingo" and token and pdr is not None:
@@ -277,15 +278,8 @@ def fetch_weekly_history(symbol: str, provider: str, token: Optional[str]) -> Op
         log("WARN", f"{symbol}: weekly history failed: {e}")
         return None
 
+
 def price_direction_metrics(df: pd.DataFrame) -> Dict[str, float]:
-    """
-    出来高異常に「上方向」を掛けるための方向性指標。
-    意図:
-    - 直近で上昇している
-    - 3か月レンジの上側にいる
-    - 20日線より上にいる
-    を高く評価
-    """
     close = first_series(df["Close"]).dropna()
     if len(close) < 30:
         return {
@@ -310,10 +304,8 @@ def price_direction_metrics(df: pd.DataFrame) -> Dict[str, float]:
     sma20 = float(close.tail(20).mean()) if len(close) >= 20 else float(close.mean())
     above_sma20 = 1.0 if float(close.iloc[-1]) >= sma20 else 0.0
 
-    # 上方向性スコア
-    # ret5, ret20 はプラスで加点、マイナスは0
-    s5 = max(0.0, min(1.0, ret_5d / 0.08))     # +8%で満点近辺
-    s20 = max(0.0, min(1.0, ret_20d / 0.15))   # +15%で満点近辺
+    s5 = max(0.0, min(1.0, ret_5d / 0.08))
+    s20 = max(0.0, min(1.0, ret_20d / 0.15))
     srange = max(0.0, min(1.0, range_pos_63d))
 
     direction_score = 0.35 * s5 + 0.35 * s20 + 0.20 * srange + 0.10 * above_sma20
@@ -329,12 +321,6 @@ def price_direction_metrics(df: pd.DataFrame) -> Dict[str, float]:
 
 
 def compute_vol_anomaly(df: pd.DataFrame) -> Tuple[Dict[str, Any], float]:
-    """
-    従来の出来高異常 + 上方向性を加味したスコア。
-    あなたの意図:
-    「普段より出来高が急増して、上方向に向かっている銘柄」
-    に合わせている。
-    """
     if df is None or len(df) < 30:
         return {"eligible": False}, 0.0
 
@@ -367,18 +353,14 @@ def compute_vol_anomaly(df: pd.DataFrame) -> Tuple[Dict[str, Any], float]:
         float(dv.tail(21).iloc[:-1].mean()) >= 1_000_000
     )
 
-    # 既存の出来高異常
     s_rvol = 1.0 - math.exp(-max(0.0, rvol20) / 2.5)
     s_z = 1.0 / (1.0 + math.exp(-z60))
     s_pr = max(0.0, min(1.0, pct_rank_90))
     vol_only_score = max(0.0, min(1.0, 0.45 * s_pr + 0.40 * s_rvol + 0.15 * s_z))
 
-    # 上方向性
     pdm = price_direction_metrics(pd.DataFrame({"Close": close, "Volume": vol}))
     direction_score = float(pdm["direction_score"])
 
-    # 最終的に「出来高異常があり、かつ上方向」を評価
-    # 出来高主体 70%、方向性 30%
     score = 0.70 * vol_only_score + 0.30 * direction_score
     score = max(0.0, min(1.0, score))
 
@@ -444,12 +426,12 @@ def extract_component_map(base_dir: Path, report_date: str, kind: str) -> Dict[s
     return out
 
 
-def normalize_weights(w_vol: float, w_dii: float, w_tr: float, w_news: float) -> Tuple[float, float, float, float]:
-    ws = np.array([w_vol, w_dii, w_tr, w_news], dtype=float)
+def normalize_weights(w_vol: float, w_comp: float, w_tr: float, w_news: float) -> Tuple[float, float, float, float]:
+    ws = np.array([w_vol, w_comp, w_tr, w_news], dtype=float)
     if np.all(np.isfinite(ws)) and ws.sum() > 0:
         ws = ws / ws.sum()
         return tuple(float(x) for x in ws.tolist())
-    return (0.40, 0.10, 0.30, 0.20)
+    return (0.35, 0.15, 0.25, 0.25)
 
 
 def render_chart(chart_dir: Path, symbol: str, weekly_df: Optional[pd.DataFrame]) -> Optional[str]:
@@ -477,16 +459,9 @@ def render_chart(chart_dir: Path, symbol: str, weekly_df: Optional[pd.DataFrame]
         fig = plt.figure(figsize=(6.4, 3.0))
         ax = fig.add_subplot(111)
 
-        # 終値ライン
         ax.plot(x, y.to_numpy(), linewidth=2.0, label="Close")
-
-        # 20週移動平均
         ax.plot(x, ma20.to_numpy(), linewidth=1.6, linestyle="--", label="20W MA")
-
-        # 3か月高値ライン
         ax.axhline(high_3m, linewidth=1.2, linestyle=":", label="3M High")
-
-        # 直近終値マーカー
         ax.scatter([last_x], [last_y], s=35, zorder=5)
 
         ax.set_title(f"{symbol} · Weekly · 3M")
@@ -512,7 +487,7 @@ class Config:
     tiingo_token: Optional[str]
     mock_mode: bool
     w_vol: float
-    w_dii: float
+    w_comp: float
     w_tr: float
     w_news: float
 
@@ -525,12 +500,11 @@ def load_config() -> Config:
     tiingo_token = os.getenv("TIINGO_TOKEN") or None
     mock_mode = env_b("MOCK_MODE", False)
 
-    # DIIを0.10へ。Volumeを0.40へ。
-    w_vol, w_dii, w_tr, w_news = normalize_weights(
-        env_f("WEIGHT_VOL_ANOM", 0.40),
-        env_f("WEIGHT_DII", 0.10),
-        env_f("WEIGHT_TRENDS", 0.30),
-        env_f("WEIGHT_NEWS", 0.20),
+    w_vol, w_comp, w_tr, w_news = normalize_weights(
+        env_f("WEIGHT_VOL_ANOM", 0.35),
+        env_f("WEIGHT_COMPRESSION", 0.15),
+        env_f("WEIGHT_TRENDS", 0.25),
+        env_f("WEIGHT_NEWS", 0.25),
     )
 
     return Config(
@@ -541,7 +515,7 @@ def load_config() -> Config:
         tiingo_token=tiingo_token,
         mock_mode=mock_mode,
         w_vol=w_vol,
-        w_dii=w_dii,
+        w_comp=w_comp,
         w_tr=w_tr,
         w_news=w_news,
     )
@@ -556,7 +530,7 @@ def aggregate() -> None:
     if not universe:
         raise SystemExit("Universe is empty")
 
-    dii_map = extract_component_map(cfg.out_dir, cfg.report_date, "dii")
+    compression_map = extract_component_map(cfg.out_dir, cfg.report_date, "compression")
     trends_map = extract_component_map(cfg.out_dir, cfg.report_date, "trends")
     news_map = extract_component_map(cfg.out_dir, cfg.report_date, "news")
 
@@ -577,26 +551,26 @@ def aggregate() -> None:
         d20 = pct(df["Close"], 20) if df is not None else None
         vol_detail, vol_score = compute_vol_anomaly(df) if df is not None else ({"eligible": False}, 0.0)
 
-        dii_val = float(dii_map.get(sym, 0.0))
+        comp_val = float(compression_map.get(sym, 0.0))
         trends_val = float(trends_map.get(sym, 0.0))
         news_val = float(news_map.get(sym, 0.0))
 
         comps = {
             "volume_anomaly": round(vol_score, 6),
-            "dii": round(dii_val, 6),
+            "compression_release": round(comp_val, 6),
             "trends_breakout": round(trends_val, 6),
             "news": round(news_val, 6),
         }
         weights = {
             "volume_anomaly": cfg.w_vol,
-            "dii": cfg.w_dii,
+            "compression_release": cfg.w_comp,
             "trends_breakout": cfg.w_tr,
             "news": cfg.w_news,
         }
 
         final01 = (
             comps["volume_anomaly"] * weights["volume_anomaly"]
-            + comps["dii"] * weights["dii"]
+            + comps["compression_release"] * weights["compression_release"]
             + comps["trends_breakout"] * weights["trends_breakout"]
             + comps["news"] * weights["news"]
         )
