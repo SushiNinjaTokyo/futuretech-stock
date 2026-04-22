@@ -2,51 +2,19 @@
   "date": "2026-04-21",
   "items": [
     {
-      "symbol": "ISRG",
-      "name": "Intuitive Surgical, Inc.",
-      "final_score_0_1": 0.664745,
-      "score_pts": 665,
-      "score_components": {
-        "volume_anomaly": 0.705654,
-        "dii": 0.0,
-        "trends_breakout": 0.96133,
-        "news": 0.999665
-      },
-      "score_weights": {
-        "volume_anomaly": 0.25,
-        "dii": 0.25,
-        "trends_breakout": 0.3,
-        "news": 0.2
-      },
-      "price_delta_1d": -3.07,
-      "price_delta_1w": -3.41,
-      "price_delta_1m": -5.6,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 1.587,
-          "z60": 1.742,
-          "pct_rank_90": 0.867,
-          "dollar_vol": 1303806619.83,
-          "eligible": true
-        }
-      },
-      "chart_url": "/charts/2026-04-21/ISRG.png",
-      "rank": 1
-    },
-    {
       "symbol": "VRT",
       "name": "Vertiv Holdings Co",
-      "final_score_0_1": 0.657532,
-      "score_pts": 658,
+      "final_score_0_1": 0.758575,
+      "score_pts": 759,
       "score_components": {
-        "volume_anomaly": 0.670863,
+        "volume_anomaly": 0.671897,
         "dii": 0.0,
         "trends_breakout": 0.966277,
         "news": 0.999665
       },
       "score_weights": {
-        "volume_anomaly": 0.25,
-        "dii": 0.25,
+        "volume_anomaly": 0.4,
+        "dii": 0.1,
         "trends_breakout": 0.3,
         "news": 0.2
       },
@@ -59,58 +27,70 @@
           "z60": 0.295,
           "pct_rank_90": 0.933,
           "dollar_vol": 2252992672.44,
-          "eligible": true
+          "eligible": true,
+          "ret_5d": 0.62,
+          "ret_20d": 22.05,
+          "range_pos_63d": 0.986,
+          "above_sma20": 1.0,
+          "direction_score": 0.67431,
+          "vol_only_score": 0.670863
         }
       },
       "chart_url": "/charts/2026-04-21/VRT.png",
-      "rank": 2
+      "rank": 1
     },
     {
-      "symbol": "MTDR",
-      "name": "Matador Resources Company",
-      "final_score_0_1": 0.544124,
-      "score_pts": 544,
+      "symbol": "ISRG",
+      "name": "Intuitive Surgical, Inc.",
+      "final_score_0_1": 0.686121,
+      "score_pts": 686,
       "score_components": {
-        "volume_anomaly": 0.532634,
+        "volume_anomaly": 0.494472,
         "dii": 0.0,
-        "trends_breakout": 0.721433,
-        "news": 0.972676
+        "trends_breakout": 0.96133,
+        "news": 0.999665
       },
       "score_weights": {
-        "volume_anomaly": 0.25,
-        "dii": 0.25,
+        "volume_anomaly": 0.4,
+        "dii": 0.1,
         "trends_breakout": 0.3,
         "news": 0.2
       },
-      "price_delta_1d": 4.48,
-      "price_delta_1w": 2.86,
-      "price_delta_1m": 0.2,
+      "price_delta_1d": -3.07,
+      "price_delta_1w": -3.41,
+      "price_delta_1m": -5.6,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 1.008,
-          "z60": -0.002,
-          "pct_rank_90": 0.722,
-          "dollar_vol": 109186259.58,
-          "eligible": true
+          "rvol20": 1.587,
+          "z60": 1.742,
+          "pct_rank_90": 0.867,
+          "dollar_vol": 1303806619.83,
+          "eligible": true,
+          "ret_5d": -3.41,
+          "ret_20d": -5.6,
+          "range_pos_63d": 0.009,
+          "above_sma20": 0.0,
+          "direction_score": 0.001714,
+          "vol_only_score": 0.705654
         }
       },
-      "chart_url": "/charts/2026-04-21/MTDR.png",
-      "rank": 3
+      "chart_url": "/charts/2026-04-21/ISRG.png",
+      "rank": 2
     },
     {
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
-      "final_score_0_1": 0.540541,
-      "score_pts": 541,
+      "final_score_0_1": 0.678923,
+      "score_pts": 679,
       "score_components": {
-        "volume_anomaly": 0.628145,
+        "volume_anomaly": 0.738547,
         "dii": 0.0,
         "trends_breakout": 0.615359,
         "news": 0.994483
       },
       "score_weights": {
-        "volume_anomaly": 0.25,
-        "dii": 0.25,
+        "volume_anomaly": 0.4,
+        "dii": 0.1,
         "trends_breakout": 0.3,
         "news": 0.2
       },
@@ -123,26 +103,32 @@
           "z60": 0.414,
           "pct_rank_90": 0.9,
           "dollar_vol": 109461455.16,
-          "eligible": true
+          "eligible": true,
+          "ret_5d": 18.85,
+          "ret_20d": 63.23,
+          "range_pos_63d": 0.981,
+          "above_sma20": 1.0,
+          "direction_score": 0.996152,
+          "vol_only_score": 0.628145
         }
       },
       "chart_url": "/charts/2026-04-21/IRDM.png",
-      "rank": 4
+      "rank": 3
     },
     {
       "symbol": "SOUN",
       "name": "SoundHound AI, Inc.",
-      "final_score_0_1": 0.50452,
-      "score_pts": 505,
+      "final_score_0_1": 0.631815,
+      "score_pts": 632,
       "score_components": {
-        "volume_anomaly": 0.830755,
+        "volume_anomaly": 0.837461,
         "dii": 0.0,
         "trends_breakout": 0.323878,
         "news": 0.998338
       },
       "score_weights": {
-        "volume_anomaly": 0.25,
-        "dii": 0.25,
+        "volume_anomaly": 0.4,
+        "dii": 0.1,
         "trends_breakout": 0.3,
         "news": 0.2
       },
@@ -155,26 +141,32 @@
           "z60": 2.608,
           "pct_rank_90": 0.978,
           "dollar_vol": 433601456.48,
-          "eligible": true
+          "eligible": true,
+          "ret_5d": 12.63,
+          "ret_20d": 13.93,
+          "range_pos_63d": 0.39,
+          "above_sma20": 1.0,
+          "direction_score": 0.853109,
+          "vol_only_score": 0.830755
         }
       },
       "chart_url": "/charts/2026-04-21/SOUN.png",
-      "rank": 5
+      "rank": 4
     },
     {
       "symbol": "IONQ",
       "name": "IonQ Inc.",
-      "final_score_0_1": 0.475602,
-      "score_pts": 476,
+      "final_score_0_1": 0.613218,
+      "score_pts": 613,
       "score_components": {
-        "volume_anomaly": 0.694483,
+        "volume_anomaly": 0.778091,
         "dii": 0.0,
         "trends_breakout": 0.340162,
         "news": 0.999665
       },
       "score_weights": {
-        "volume_anomaly": 0.25,
-        "dii": 0.25,
+        "volume_anomaly": 0.4,
+        "dii": 0.1,
         "trends_breakout": 0.3,
         "news": 0.2
       },
@@ -187,58 +179,70 @@
           "z60": 1.192,
           "pct_rank_90": 0.933,
           "dollar_vol": 1762873740.46,
-          "eligible": true
+          "eligible": true,
+          "ret_5d": 29.42,
+          "ret_20d": 39.78,
+          "range_pos_63d": 0.866,
+          "above_sma20": 1.0,
+          "direction_score": 0.973175,
+          "vol_only_score": 0.694483
         }
       },
       "chart_url": "/charts/2026-04-21/IONQ.png",
-      "rank": 6
+      "rank": 5
     },
     {
-      "symbol": "CGNX",
-      "name": "Cognex Corporation",
-      "final_score_0_1": 0.450514,
-      "score_pts": 451,
+      "symbol": "MTDR",
+      "name": "Matador Resources Company",
+      "final_score_0_1": 0.592901,
+      "score_pts": 593,
       "score_components": {
-        "volume_anomaly": 0.505482,
+        "volume_anomaly": 0.454839,
         "dii": 0.0,
-        "trends_breakout": 0.713365,
-        "news": 0.550671
+        "trends_breakout": 0.721433,
+        "news": 0.972676
       },
       "score_weights": {
-        "volume_anomaly": 0.25,
-        "dii": 0.25,
+        "volume_anomaly": 0.4,
+        "dii": 0.1,
         "trends_breakout": 0.3,
         "news": 0.2
       },
-      "price_delta_1d": -3.17,
-      "price_delta_1w": -3.35,
-      "price_delta_1m": 5.75,
+      "price_delta_1d": 4.48,
+      "price_delta_1w": 2.86,
+      "price_delta_1m": 0.2,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 1.084,
-          "z60": -0.275,
-          "pct_rank_90": 0.667,
-          "dollar_vol": 94712767.19,
-          "eligible": true
+          "rvol20": 1.008,
+          "z60": -0.002,
+          "pct_rank_90": 0.722,
+          "dollar_vol": 109186259.58,
+          "eligible": true,
+          "ret_5d": 2.86,
+          "ret_20d": 0.2,
+          "range_pos_63d": 0.717,
+          "above_sma20": 0.0,
+          "direction_score": 0.273317,
+          "vol_only_score": 0.532634
         }
       },
-      "chart_url": "/charts/2026-04-21/CGNX.png",
-      "rank": 7
+      "chart_url": "/charts/2026-04-21/MTDR.png",
+      "rank": 6
     },
     {
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
-      "final_score_0_1": 0.446355,
-      "score_pts": 446,
+      "final_score_0_1": 0.582208,
+      "score_pts": 582,
       "score_components": {
-        "volume_anomaly": 0.598764,
+        "volume_anomaly": 0.713861,
         "dii": 0.0,
         "trends_breakout": 0.322435,
         "news": 0.999665
       },
       "score_weights": {
-        "volume_anomaly": 0.25,
-        "dii": 0.25,
+        "volume_anomaly": 0.4,
+        "dii": 0.1,
         "trends_breakout": 0.3,
         "news": 0.2
       },
@@ -251,58 +255,70 @@
           "z60": 0.909,
           "pct_rank_90": 0.789,
           "dollar_vol": 2276296602.76,
-          "eligible": true
+          "eligible": true,
+          "ret_5d": 19.97,
+          "ret_20d": 27.41,
+          "range_pos_63d": 0.912,
+          "above_sma20": 1.0,
+          "direction_score": 0.982419,
+          "vol_only_score": 0.598764
         }
       },
       "chart_url": "/charts/2026-04-21/RKLB.png",
-      "rank": 8
+      "rank": 7
     },
     {
-      "symbol": "GDRX",
-      "name": "GoodRx Holdings, Inc.",
-      "final_score_0_1": 0.446323,
-      "score_pts": 446,
+      "symbol": "OUST",
+      "name": "Ouster Inc.",
+      "final_score_0_1": 0.549342,
+      "score_pts": 549,
       "score_components": {
-        "volume_anomaly": 0.143244,
+        "volume_anomaly": 0.876797,
         "dii": 0.0,
-        "trends_breakout": 0.728882,
-        "news": 0.959238
+        "trends_breakout": 0.035949,
+        "news": 0.93919
       },
       "score_weights": {
-        "volume_anomaly": 0.25,
-        "dii": 0.25,
+        "volume_anomaly": 0.4,
+        "dii": 0.1,
         "trends_breakout": 0.3,
         "news": 0.2
       },
-      "price_delta_1d": -2.53,
-      "price_delta_1w": 3.59,
-      "price_delta_1m": 11.06,
+      "price_delta_1d": 1.73,
+      "price_delta_1w": 17.89,
+      "price_delta_1m": 30.36,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 0.632,
-          "z60": -1.433,
-          "pct_rank_90": 0.056,
-          "dollar_vol": 2111681.83,
-          "eligible": true
+          "rvol20": 2.367,
+          "z60": 2.138,
+          "pct_rank_90": 0.989,
+          "dollar_vol": 109104203.0,
+          "eligible": true,
+          "ret_5d": 17.89,
+          "ret_20d": 30.36,
+          "range_pos_63d": 1.0,
+          "above_sma20": 1.0,
+          "direction_score": 1.0,
+          "vol_only_score": 0.823995
         }
       },
-      "chart_url": "/charts/2026-04-21/GDRX.png",
-      "rank": 9
+      "chart_url": "/charts/2026-04-21/OUST.png",
+      "rank": 8
     },
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
-      "final_score_0_1": 0.426064,
-      "score_pts": 426,
+      "final_score_0_1": 0.544196,
+      "score_pts": 544,
       "score_components": {
-        "volume_anomaly": 0.546818,
+        "volume_anomaly": 0.63709,
         "dii": 0.0,
         "trends_breakout": 0.597418,
         "news": 0.550671
       },
       "score_weights": {
-        "volume_anomaly": 0.25,
-        "dii": 0.25,
+        "volume_anomaly": 0.4,
+        "dii": 0.1,
         "trends_breakout": 0.3,
         "news": 0.2
       },
@@ -315,10 +331,54 @@
           "z60": 0.435,
           "pct_rank_90": 0.644,
           "dollar_vol": 15312131.77,
-          "eligible": true
+          "eligible": true,
+          "ret_5d": 6.12,
+          "ret_20d": 18.4,
+          "range_pos_63d": 0.651,
+          "above_sma20": 1.0,
+          "direction_score": 0.847727,
+          "vol_only_score": 0.546818
         }
       },
       "chart_url": "/charts/2026-04-21/ABCL.png",
+      "rank": 9
+    },
+    {
+      "symbol": "GDRX",
+      "name": "GoodRx Holdings, Inc.",
+      "final_score_0_1": 0.527289,
+      "score_pts": 527,
+      "score_components": {
+        "volume_anomaly": 0.291943,
+        "dii": 0.0,
+        "trends_breakout": 0.728882,
+        "news": 0.959238
+      },
+      "score_weights": {
+        "volume_anomaly": 0.4,
+        "dii": 0.1,
+        "trends_breakout": 0.3,
+        "news": 0.2
+      },
+      "price_delta_1d": -2.53,
+      "price_delta_1w": 3.59,
+      "price_delta_1m": 11.06,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 0.632,
+          "z60": -1.433,
+          "pct_rank_90": 0.056,
+          "dollar_vol": 2111681.83,
+          "eligible": true,
+          "ret_5d": 3.59,
+          "ret_20d": 11.06,
+          "range_pos_63d": 0.62,
+          "above_sma20": 1.0,
+          "direction_score": 0.638907,
+          "vol_only_score": 0.143244
+        }
+      },
+      "chart_url": "/charts/2026-04-21/GDRX.png",
       "rank": 10
     }
   ]
