@@ -4,8 +4,34 @@
     {
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
-      "score_0_1": 0.999665,
+      "score_0_1": 1.0,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 20,
+      "prev_daily_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "avg_prev_7d_excl_today": 0.0,
+      "max_prev_7d_excl_today": 0,
+      "baseline_used": 0.5,
+      "spike_ratio": 40.0,
+      "raw_news_strength": 3.54630966,
+      "day_counts": {
+        "2026-04-14": 0,
+        "2026-04-15": 0,
+        "2026-04-16": 0,
+        "2026-04-17": 0,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 0,
+        "2026-04-21": 20
+      },
       "headlines": [
         {
           "title": "Why Lucid Stock Surged Today",
@@ -122,9 +148,9 @@
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "NVIDIA Sparks April Rally in 2 Quantum Stocks, 40%+ Upside Still Left",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/nvidia-sparks-april-rally-2-190000321.html?.tsrc=rss",
-          "published_at": "2026-04-21T19:00:00+00:00",
+          "title": "Missed Nvidia? AMD Could Be Your Second Chance to Earn Massive AI Gains",
+          "link": "https://www.barchart.com/story/news/1431810/missed-nvidia-amd-could-be-your-second-chance-to-earn-massive-ai-gains?.tsrc=rss",
+          "published_at": "2026-04-21T19:01:31+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -132,9 +158,41 @@
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.972581,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 19,
+      "prev_daily_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "avg_prev_7d_excl_today": 0.0,
+      "max_prev_7d_excl_today": 0,
+      "baseline_used": 0.5,
+      "spike_ratio": 38.0,
+      "raw_news_strength": 3.4966043,
+      "day_counts": {
+        "2026-04-14": 0,
+        "2026-04-15": 0,
+        "2026-04-16": 0,
+        "2026-04-17": 0,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 0,
+        "2026-04-21": 19
+      },
       "headlines": [
+        {
+          "title": "SpaceX partners with AI startup Cursor, may buy it for $60 bn",
+          "link": "https://finance.yahoo.com/sectors/technology/articles/spacex-partners-ai-startup-cursor-235318333.html?.tsrc=rss",
+          "published_at": "2026-04-22T00:46:14+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "US Equity Indexes Fall as Vance's Trip to Pakistan on Hold Ahead of Iran Ceasefire Deadline",
           "link": "https://finance.yahoo.com/markets/stocks/articles/us-equity-indexes-fall-vance-210530947.html?.tsrc=rss",
@@ -248,20 +306,40 @@
           "link": "https://www.barchart.com/story/news/1427249/is-microsoft-stock-a-buy-before-q3-cloud-and-ai-trends-point-to-strong-growth?.tsrc=rss",
           "published_at": "2026-04-21T15:30:48+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Microsoft vs. Alibaba: Which Cloud Titan Is the Smarter Buy Right Now?",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/microsoft-vs-alibaba-cloud-titan-152300909.html?.tsrc=rss",
-          "published_at": "2026-04-21T15:23:00+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.780645,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 5,
+      "prev_daily_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        15
+      ],
+      "avg_prev_7d_excl_today": 2.1429,
+      "max_prev_7d_excl_today": 15,
+      "baseline_used": 2.1429,
+      "spike_ratio": 2.333287,
+      "raw_news_strength": 1.35090897,
+      "day_counts": {
+        "2026-04-14": 0,
+        "2026-04-15": 0,
+        "2026-04-16": 0,
+        "2026-04-17": 0,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 15,
+        "2026-04-21": 5
+      },
       "headlines": [
         {
           "title": "Palantir’s FAA Win And Manifesto Reframe Long Term Government Risk Profile",
@@ -388,8 +466,34 @@
     {
       "symbol": "AI",
       "name": "C3.ai, Inc.",
-      "score_0_1": 0.981684,
+      "score_0_1": 0.640359,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 2,
+      "prev_daily_counts": [
+        0,
+        2,
+        2,
+        3,
+        0,
+        0,
+        1
+      ],
+      "avg_prev_7d_excl_today": 1.1429,
+      "max_prev_7d_excl_today": 3,
+      "baseline_used": 1.1429,
+      "spike_ratio": 1.749934,
+      "raw_news_strength": 1.03333586,
+      "day_counts": {
+        "2026-04-14": 0,
+        "2026-04-15": 2,
+        "2026-04-16": 2,
+        "2026-04-17": 3,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 1,
+        "2026-04-21": 2
+      },
       "headlines": [
         {
           "title": "Stock Market Today, April 21: SoundHound AI Falls After Announcing All-Stock LivePerson Acquisition",
@@ -516,8 +620,34 @@
     {
       "symbol": "ISRG",
       "name": "Intuitive Surgical, Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.862903,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 7,
+      "prev_daily_counts": [
+        0,
+        1,
+        3,
+        3,
+        0,
+        2,
+        4
+      ],
+      "avg_prev_7d_excl_today": 1.8571,
+      "max_prev_7d_excl_today": 4,
+      "baseline_used": 1.8571,
+      "spike_ratio": 3.769318,
+      "raw_news_strength": 1.69151283,
+      "day_counts": {
+        "2026-04-14": 0,
+        "2026-04-15": 1,
+        "2026-04-16": 3,
+        "2026-04-17": 3,
+        "2026-04-18": 0,
+        "2026-04-19": 2,
+        "2026-04-20": 4,
+        "2026-04-21": 7
+      },
       "headlines": [
         {
           "title": "Intuitive Surgical Q1 Earnings Call Highlights",
@@ -644,8 +774,34 @@
     {
       "symbol": "TER",
       "name": "Teradyne, Inc.",
-      "score_0_1": 0.972676,
+      "score_0_1": 0.792801,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 4,
+      "prev_daily_counts": [
+        5,
+        0,
+        1,
+        0,
+        2,
+        0,
+        2
+      ],
+      "avg_prev_7d_excl_today": 1.4286,
+      "max_prev_7d_excl_today": 5,
+      "baseline_used": 1.4286,
+      "spike_ratio": 2.799944,
+      "raw_news_strength": 1.40359923,
+      "day_counts": {
+        "2026-04-14": 5,
+        "2026-04-15": 0,
+        "2026-04-16": 1,
+        "2026-04-17": 0,
+        "2026-04-18": 2,
+        "2026-04-19": 0,
+        "2026-04-20": 2,
+        "2026-04-21": 4
+      },
       "headlines": [
         {
           "title": "Teradyne (TER) Q4 2025 Earnings Transcript",
@@ -772,8 +928,34 @@
     {
       "symbol": "SYM",
       "name": "Symbotic Inc.",
-      "score_0_1": 0.864665,
+      "score_0_1": 0.469318,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 1,
+      "prev_daily_counts": [
+        0,
+        3,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "avg_prev_7d_excl_today": 0.5714,
+      "max_prev_7d_excl_today": 3,
+      "baseline_used": 0.5714,
+      "spike_ratio": 1.750088,
+      "raw_news_strength": 0.93201134,
+      "day_counts": {
+        "2026-04-14": 0,
+        "2026-04-15": 3,
+        "2026-04-16": 0,
+        "2026-04-17": 1,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 0,
+        "2026-04-21": 1
+      },
       "headlines": [
         {
           "title": "Symbotic Inc. (SYM) Suffers a Larger Drop Than the General Market: Key Insights",
@@ -900,8 +1082,34 @@
     {
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.737962,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 4,
+      "prev_daily_counts": [
+        0,
+        0,
+        6,
+        2,
+        2,
+        2,
+        4
+      ],
+      "avg_prev_7d_excl_today": 2.2857,
+      "max_prev_7d_excl_today": 6,
+      "baseline_used": 2.2857,
+      "spike_ratio": 1.750011,
+      "raw_news_strength": 1.16106314,
+      "day_counts": {
+        "2026-04-14": 0,
+        "2026-04-15": 0,
+        "2026-04-16": 6,
+        "2026-04-17": 2,
+        "2026-04-18": 2,
+        "2026-04-19": 2,
+        "2026-04-20": 4,
+        "2026-04-21": 4
+      },
       "headlines": [
         {
           "title": "Rocket Lab Corporation (RKLB) Suffers a Larger Drop Than the General Market: Key Insights",
@@ -1028,8 +1236,34 @@
     {
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
-      "score_0_1": 0.994483,
+      "score_0_1": 0.246774,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 0,
+      "prev_daily_counts": [
+        0,
+        5,
+        1,
+        2,
+        1,
+        1,
+        3
+      ],
+      "avg_prev_7d_excl_today": 1.8571,
+      "max_prev_7d_excl_today": 5,
+      "baseline_used": 1.8571,
+      "spike_ratio": 0.0,
+      "raw_news_strength": 0.0,
+      "day_counts": {
+        "2026-04-14": 0,
+        "2026-04-15": 5,
+        "2026-04-16": 1,
+        "2026-04-17": 2,
+        "2026-04-18": 1,
+        "2026-04-19": 1,
+        "2026-04-20": 3,
+        "2026-04-21": 0
+      },
       "headlines": [
         {
           "title": "Stock Market Today, April 20: AST SpaceMobile Falls After BlueBird 7 Satellite Fails to Reach Planned Orbit",
@@ -1156,8 +1390,34 @@
     {
       "symbol": "VSAT",
       "name": "Viasat, Inc.",
-      "score_0_1": 0.909282,
+      "score_0_1": 0.246774,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 0,
+      "prev_daily_counts": [
+        1,
+        1,
+        0,
+        1,
+        2,
+        0,
+        2
+      ],
+      "avg_prev_7d_excl_today": 1.0,
+      "max_prev_7d_excl_today": 2,
+      "baseline_used": 1.0,
+      "spike_ratio": 0.0,
+      "raw_news_strength": 0.0,
+      "day_counts": {
+        "2026-04-14": 1,
+        "2026-04-15": 1,
+        "2026-04-16": 0,
+        "2026-04-17": 1,
+        "2026-04-18": 2,
+        "2026-04-19": 0,
+        "2026-04-20": 2,
+        "2026-04-21": 0
+      },
       "headlines": [
         {
           "title": "Can AST SpaceMobile Regain its Mojo Amid BlueBird 7 Launch Failure?",
@@ -1284,8 +1544,34 @@
     {
       "symbol": "INOD",
       "name": "Innodata Inc.",
-      "score_0_1": 0.864665,
+      "score_0_1": 0.246774,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 0,
+      "prev_daily_counts": [
+        0,
+        2,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "avg_prev_7d_excl_today": 0.7143,
+      "max_prev_7d_excl_today": 2,
+      "baseline_used": 0.7143,
+      "spike_ratio": 0.0,
+      "raw_news_strength": 0.0,
+      "day_counts": {
+        "2026-04-14": 0,
+        "2026-04-15": 2,
+        "2026-04-16": 0,
+        "2026-04-17": 1,
+        "2026-04-18": 0,
+        "2026-04-19": 1,
+        "2026-04-20": 1,
+        "2026-04-21": 0
+      },
       "headlines": [
         {
           "title": "Innodata Inc. (INOD): Pivot to Data Engineering Turning Heads on Wall Street",
@@ -1412,8 +1698,34 @@
     {
       "symbol": "SOUN",
       "name": "SoundHound AI, Inc.",
-      "score_0_1": 0.998338,
+      "score_0_1": 0.835484,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 5,
+      "prev_daily_counts": [
+        2,
+        3,
+        3,
+        2,
+        1,
+        0,
+        2
+      ],
+      "avg_prev_7d_excl_today": 1.8571,
+      "max_prev_7d_excl_today": 3,
+      "baseline_used": 1.8571,
+      "spike_ratio": 2.69237,
+      "raw_news_strength": 1.42764123,
+      "day_counts": {
+        "2026-04-14": 2,
+        "2026-04-15": 3,
+        "2026-04-16": 3,
+        "2026-04-17": 2,
+        "2026-04-18": 1,
+        "2026-04-19": 0,
+        "2026-04-20": 2,
+        "2026-04-21": 5
+      },
       "headlines": [
         {
           "title": "SoundHound AI, Inc. (SOUN) Declines More Than Market: Some Information for Investors",
@@ -1540,8 +1852,34 @@
     {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
-      "score_0_1": 0.93919,
+      "score_0_1": 0.475843,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 2,
+      "prev_daily_counts": [
+        5,
+        1,
+        3,
+        1,
+        0,
+        0,
+        0
+      ],
+      "avg_prev_7d_excl_today": 1.4286,
+      "max_prev_7d_excl_today": 5,
+      "baseline_used": 1.4286,
+      "spike_ratio": 1.399972,
+      "raw_news_strength": 0.93124588,
+      "day_counts": {
+        "2026-04-14": 5,
+        "2026-04-15": 1,
+        "2026-04-16": 3,
+        "2026-04-17": 1,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 0,
+        "2026-04-21": 2
+      },
       "headlines": [
         {
           "title": "monday.com to Announce First Quarter 2026 Financial Results on Monday, May 11, 2026",
@@ -1668,9 +2006,41 @@
     {
       "symbol": "AVAV",
       "name": "AeroVironment, Inc.",
-      "score_0_1": 0.99177,
+      "score_0_1": 0.421004,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 2,
+      "prev_daily_counts": [
+        2,
+        5,
+        0,
+        2,
+        1,
+        0,
+        2
+      ],
+      "avg_prev_7d_excl_today": 1.7143,
+      "max_prev_7d_excl_today": 5,
+      "baseline_used": 1.7143,
+      "spike_ratio": 1.166657,
+      "raw_news_strength": 0.85454212,
+      "day_counts": {
+        "2026-04-14": 2,
+        "2026-04-15": 5,
+        "2026-04-16": 0,
+        "2026-04-17": 2,
+        "2026-04-18": 1,
+        "2026-04-19": 0,
+        "2026-04-20": 2,
+        "2026-04-21": 2
+      },
       "headlines": [
+        {
+          "title": "Is It Too Late To Consider AeroVironment (AVAV) After Strong Multi‑Year Share Gains?",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/too-consider-aerovironment-avav-strong-011121550.html?.tsrc=rss",
+          "published_at": "2026-04-22T01:11:21+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Why AeroVironment Stock Jumped Today",
           "link": "https://www.fool.com/investing/2026/04/21/why-aerovironment-stock-is-up-today/?.tsrc=rss",
@@ -1784,20 +2154,40 @@
           "link": "https://finance.yahoo.com/markets/stocks/articles/3-industrials-stocks-warning-signs-155044686.html?.tsrc=rss",
           "published_at": "2026-04-10T15:50:44+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Ondas Trades at a Premium Valuation: How to Approach the Stock?",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/ondas-trades-premium-valuation-approach-132000540.html?.tsrc=rss",
-          "published_at": "2026-04-10T13:20:00+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "PERF",
       "name": "Perfect Corp.",
-      "score_0_1": 0.698806,
+      "score_0_1": 0.551576,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 1,
+      "prev_daily_counts": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "avg_prev_7d_excl_today": 0.4286,
+      "max_prev_7d_excl_today": 1,
+      "baseline_used": 0.5,
+      "spike_ratio": 2.0,
+      "raw_news_strength": 0.99724601,
+      "day_counts": {
+        "2026-04-14": 1,
+        "2026-04-15": 1,
+        "2026-04-16": 0,
+        "2026-04-17": 0,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 1,
+        "2026-04-21": 1
+      },
       "headlines": [
         {
           "title": "What’s Next For Perfect Corp. (PERF) After Buyout Offer?",
@@ -1924,8 +2314,34 @@
     {
       "symbol": "GDRX",
       "name": "GoodRx Holdings, Inc.",
-      "score_0_1": 0.959238,
+      "score_0_1": 0.246774,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 0,
+      "prev_daily_counts": [
+        1,
+        3,
+        3,
+        1,
+        0,
+        0,
+        1
+      ],
+      "avg_prev_7d_excl_today": 1.2857,
+      "max_prev_7d_excl_today": 3,
+      "baseline_used": 1.2857,
+      "spike_ratio": 0.0,
+      "raw_news_strength": 0.0,
+      "day_counts": {
+        "2026-04-14": 1,
+        "2026-04-15": 3,
+        "2026-04-16": 3,
+        "2026-04-17": 1,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 1,
+        "2026-04-21": 0
+      },
       "headlines": [
         {
           "title": "1 Cash-Producing Stock with Exciting Potential and 2 We Ignore",
@@ -2052,8 +2468,34 @@
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
-      "score_0_1": 0.550671,
+      "score_0_1": 0.246774,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 0,
+      "prev_daily_counts": [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2
+      ],
+      "avg_prev_7d_excl_today": 0.5714,
+      "max_prev_7d_excl_today": 2,
+      "baseline_used": 0.5714,
+      "spike_ratio": 0.0,
+      "raw_news_strength": 0.0,
+      "day_counts": {
+        "2026-04-14": 2,
+        "2026-04-15": 0,
+        "2026-04-16": 0,
+        "2026-04-17": 0,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 2,
+        "2026-04-21": 0
+      },
       "headlines": [
         {
           "title": "JonesResearch Initiates Coverage of AbCellera Biologics Inc. (ABCL)",
@@ -2180,8 +2622,34 @@
     {
       "symbol": "U",
       "name": "Unity Software Inc.",
-      "score_0_1": 0.698806,
+      "score_0_1": 0.246774,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 0,
+      "prev_daily_counts": [
+        2,
+        0,
+        2,
+        0,
+        0,
+        0,
+        1
+      ],
+      "avg_prev_7d_excl_today": 0.7143,
+      "max_prev_7d_excl_today": 2,
+      "baseline_used": 0.7143,
+      "spike_ratio": 0.0,
+      "raw_news_strength": 0.0,
+      "day_counts": {
+        "2026-04-14": 2,
+        "2026-04-15": 0,
+        "2026-04-16": 2,
+        "2026-04-17": 0,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 1,
+        "2026-04-21": 0
+      },
       "headlines": [
         {
           "title": "Why the Market Dipped But Unity Software Inc. (U) Gained Today",
@@ -2308,8 +2776,34 @@
     {
       "symbol": "TEM",
       "name": "Tempus AI, Inc.",
-      "score_0_1": 0.959238,
+      "score_0_1": 0.667779,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 2,
+      "prev_daily_counts": [
+        1,
+        1,
+        4,
+        0,
+        0,
+        1,
+        0
+      ],
+      "avg_prev_7d_excl_today": 1.0,
+      "max_prev_7d_excl_today": 4,
+      "baseline_used": 1.0,
+      "spike_ratio": 2.0,
+      "raw_news_strength": 1.09861229,
+      "day_counts": {
+        "2026-04-14": 1,
+        "2026-04-15": 1,
+        "2026-04-16": 4,
+        "2026-04-17": 0,
+        "2026-04-18": 0,
+        "2026-04-19": 1,
+        "2026-04-20": 0,
+        "2026-04-21": 2
+      },
       "headlines": [
         {
           "title": "Tempus AI Inc. (TEM): Nancy Pelosi Likes This AI-Powered Medicine Company",
@@ -2436,13 +2930,45 @@
     {
       "symbol": "VRT",
       "name": "Vertiv Holdings Co",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.890323,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 7,
+      "prev_daily_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        12
+      ],
+      "avg_prev_7d_excl_today": 1.7143,
+      "max_prev_7d_excl_today": 12,
+      "baseline_used": 1.7143,
+      "spike_ratio": 4.083299,
+      "raw_news_strength": 1.73933078,
+      "day_counts": {
+        "2026-04-14": 0,
+        "2026-04-15": 0,
+        "2026-04-16": 0,
+        "2026-04-17": 0,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 12,
+        "2026-04-21": 7
+      },
       "headlines": [
         {
           "title": "Dow Jones Futures Rise As Trump Extends Iran Ceasefire; Tesla Earnings Due",
           "link": "https://finance.yahoo.com/m/f46ecdb3-fa89-3d35-b084-1638a1ef6475/dow-jones-futures-rise-as.html?.tsrc=rss",
-          "published_at": "2026-04-22T00:00:22+00:00",
+          "published_at": "2026-04-22T01:13:22+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "5 Top Earnings Charts to Watch This Week",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/5-top-earnings-charts-watch-233500499.html?.tsrc=rss",
+          "published_at": "2026-04-21T23:35:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -2552,20 +3078,40 @@
           "link": "https://finance.yahoo.com/m/2e86a733-79d1-31a8-aaf2-9bbf4acaa122/dow-jones-futures-fall%2C-oil.html?.tsrc=rss",
           "published_at": "2026-04-20T04:15:26+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Jim Cramer on Vertiv: “I Like the Company Very Much”",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/jim-cramer-vertiv-company-very-185128472.html?.tsrc=rss",
-          "published_at": "2026-04-19T18:51:28+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "OII",
       "name": "Oceaneering International Inc.",
-      "score_0_1": 0.698806,
+      "score_0_1": 0.551576,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 1,
+      "prev_daily_counts": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "avg_prev_7d_excl_today": 0.4286,
+      "max_prev_7d_excl_today": 1,
+      "baseline_used": 0.5,
+      "spike_ratio": 2.0,
+      "raw_news_strength": 0.99724601,
+      "day_counts": {
+        "2026-04-14": 1,
+        "2026-04-15": 0,
+        "2026-04-16": 1,
+        "2026-04-17": 0,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 1,
+        "2026-04-21": 1
+      },
       "headlines": [
         {
           "title": "Earnings To Watch: Oceaneering (OII) Reports Q1 Results Tomorrow",
@@ -2692,8 +3238,34 @@
     {
       "symbol": "CGNX",
       "name": "Cognex Corporation",
-      "score_0_1": 0.550671,
+      "score_0_1": 0.246774,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 0,
+      "prev_daily_counts": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0
+      ],
+      "avg_prev_7d_excl_today": 0.4286,
+      "max_prev_7d_excl_today": 1,
+      "baseline_used": 0.5,
+      "spike_ratio": 0.0,
+      "raw_news_strength": 0.0,
+      "day_counts": {
+        "2026-04-14": 1,
+        "2026-04-15": 0,
+        "2026-04-16": 1,
+        "2026-04-17": 0,
+        "2026-04-18": 1,
+        "2026-04-19": 0,
+        "2026-04-20": 0,
+        "2026-04-21": 0
+      },
       "headlines": [
         {
           "title": "Is It Too Late To Consider Cognex (CGNX) After A 135% One Year Share Price Surge",
@@ -2805,7 +3377,7 @@
         },
         {
           "title": "New Cognex Research Reveals Manufacturers Increasingly Expect AI Vision Systems to Deliver Both High Performance and Simplicity",
-          "link": "https://finance.yahoo.com/sectors/technology/articles/cognex-research-reveals-manufacturers-increasingly-130000389.html?.tsrc=rss",
+          "link": "https://finance.yahoo.com/sectors/technology/articles/cognex-research-reveals-manufacturers-increasingly-130000785.html?.tsrc=rss",
           "published_at": "2026-03-23T13:00:00+00:00",
           "source": "Yahoo Finance RSS"
         },
@@ -2820,8 +3392,34 @@
     {
       "symbol": "KTOS",
       "name": "Kratos Defense & Security Solutions Inc.",
-      "score_0_1": 0.93919,
+      "score_0_1": 0.359641,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 1,
+      "prev_daily_counts": [
+        1,
+        2,
+        0,
+        2,
+        0,
+        1,
+        1
+      ],
+      "avg_prev_7d_excl_today": 1.0,
+      "max_prev_7d_excl_today": 2,
+      "baseline_used": 1.0,
+      "spike_ratio": 1.0,
+      "raw_news_strength": 0.69314718,
+      "day_counts": {
+        "2026-04-14": 1,
+        "2026-04-15": 2,
+        "2026-04-16": 0,
+        "2026-04-17": 2,
+        "2026-04-18": 0,
+        "2026-04-19": 1,
+        "2026-04-20": 1,
+        "2026-04-21": 1
+      },
       "headlines": [
         {
           "title": "Kratos and U.S. Army Integrate Kratos J85 Engine into Kratos Firejet Drone System",
@@ -2948,8 +3546,34 @@
     {
       "symbol": "OUST",
       "name": "Ouster Inc.",
-      "score_0_1": 0.93919,
+      "score_0_1": 0.945161,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 6,
+      "prev_daily_counts": [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "avg_prev_7d_excl_today": 0.2857,
+      "max_prev_7d_excl_today": 1,
+      "baseline_used": 0.5,
+      "spike_ratio": 12.0,
+      "raw_news_strength": 2.41018956,
+      "day_counts": {
+        "2026-04-14": 1,
+        "2026-04-15": 0,
+        "2026-04-16": 1,
+        "2026-04-17": 0,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 0,
+        "2026-04-21": 6
+      },
       "headlines": [
         {
           "title": "Ouster's Chief Technology Officer Dumped 30,000 Company Shares. Here's What That Means for Investors.",
@@ -3076,8 +3700,34 @@
     {
       "symbol": "FTI",
       "name": "TechnipFMC plc",
-      "score_0_1": 0.981684,
+      "score_0_1": 0.332221,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 1,
+      "prev_daily_counts": [
+        2,
+        2,
+        4,
+        2,
+        1,
+        0,
+        0
+      ],
+      "avg_prev_7d_excl_today": 1.5714,
+      "max_prev_7d_excl_today": 4,
+      "baseline_used": 1.5714,
+      "spike_ratio": 0.636375,
+      "raw_news_strength": 0.54264946,
+      "day_counts": {
+        "2026-04-14": 2,
+        "2026-04-15": 2,
+        "2026-04-16": 4,
+        "2026-04-17": 2,
+        "2026-04-18": 1,
+        "2026-04-19": 0,
+        "2026-04-20": 0,
+        "2026-04-21": 1
+      },
       "headlines": [
         {
           "title": "Halliburton Q1 Earnings and Revenues Beat Estimates, Both down Y/Y",
@@ -3204,8 +3854,34 @@
     {
       "symbol": "LNG",
       "name": "Cheniere Energy Inc.",
-      "score_0_1": 0.864665,
+      "score_0_1": 0.246774,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 0,
+      "prev_daily_counts": [
+        1,
+        1,
+        3,
+        0,
+        0,
+        0,
+        1
+      ],
+      "avg_prev_7d_excl_today": 0.8571,
+      "max_prev_7d_excl_today": 3,
+      "baseline_used": 0.8571,
+      "spike_ratio": 0.0,
+      "raw_news_strength": 0.0,
+      "day_counts": {
+        "2026-04-14": 1,
+        "2026-04-15": 1,
+        "2026-04-16": 3,
+        "2026-04-17": 0,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 1,
+        "2026-04-21": 0
+      },
       "headlines": [
         {
           "title": "Natural Gas Stuck Below $2.70: Can Demand Lift Prices Higher?",
@@ -3332,8 +4008,34 @@
     {
       "symbol": "PR",
       "name": "Permian Resources Corporation",
-      "score_0_1": 0.959238,
+      "score_0_1": 0.246774,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 0,
+      "prev_daily_counts": [
+        1,
+        4,
+        1,
+        0,
+        1,
+        0,
+        2
+      ],
+      "avg_prev_7d_excl_today": 1.2857,
+      "max_prev_7d_excl_today": 4,
+      "baseline_used": 1.2857,
+      "spike_ratio": 0.0,
+      "raw_news_strength": 0.0,
+      "day_counts": {
+        "2026-04-14": 1,
+        "2026-04-15": 4,
+        "2026-04-16": 1,
+        "2026-04-17": 0,
+        "2026-04-18": 1,
+        "2026-04-19": 0,
+        "2026-04-20": 2,
+        "2026-04-21": 0
+      },
       "headlines": [
         {
           "title": "Goldman Sachs Bullish on 3 Energy Dividend Stocks Into Q1 Earnings",
@@ -3460,8 +4162,34 @@
     {
       "symbol": "MTDR",
       "name": "Matador Resources Company",
-      "score_0_1": 0.972676,
+      "score_0_1": 0.475843,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 2,
+      "prev_daily_counts": [
+        3,
+        1,
+        3,
+        2,
+        1,
+        0,
+        0
+      ],
+      "avg_prev_7d_excl_today": 1.4286,
+      "max_prev_7d_excl_today": 3,
+      "baseline_used": 1.4286,
+      "spike_ratio": 1.399972,
+      "raw_news_strength": 0.93124588,
+      "day_counts": {
+        "2026-04-14": 3,
+        "2026-04-15": 1,
+        "2026-04-16": 3,
+        "2026-04-17": 2,
+        "2026-04-18": 1,
+        "2026-04-19": 0,
+        "2026-04-20": 0,
+        "2026-04-21": 2
+      },
       "headlines": [
         {
           "title": "A Look At Matador Resources (MTDR) Valuation After Recent Share Price Momentum",
@@ -3588,8 +4316,34 @@
     {
       "symbol": "ROK",
       "name": "Rockwell Automation Inc.",
-      "score_0_1": 0.972676,
+      "score_0_1": 0.640359,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 2,
+      "prev_daily_counts": [
+        1,
+        0,
+        3,
+        2,
+        0,
+        0,
+        2
+      ],
+      "avg_prev_7d_excl_today": 1.1429,
+      "max_prev_7d_excl_today": 3,
+      "baseline_used": 1.1429,
+      "spike_ratio": 1.749934,
+      "raw_news_strength": 1.03333586,
+      "day_counts": {
+        "2026-04-14": 1,
+        "2026-04-15": 0,
+        "2026-04-16": 3,
+        "2026-04-17": 2,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 2,
+        "2026-04-21": 2
+      },
       "headlines": [
         {
           "title": "Rockwell Automation to Report Second Quarter Fiscal 2026 Results",
@@ -3716,8 +4470,34 @@
     {
       "symbol": "IONQ",
       "name": "IonQ Inc.",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.917742,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 10,
+      "prev_daily_counts": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        7
+      ],
+      "avg_prev_7d_excl_today": 1.4286,
+      "max_prev_7d_excl_today": 7,
+      "baseline_used": 1.4286,
+      "spike_ratio": 6.99986,
+      "raw_news_strength": 2.15904185,
+      "day_counts": {
+        "2026-04-14": 0,
+        "2026-04-15": 0,
+        "2026-04-16": 0,
+        "2026-04-17": 0,
+        "2026-04-18": 1,
+        "2026-04-19": 2,
+        "2026-04-20": 7,
+        "2026-04-21": 10
+      },
       "headlines": [
         {
           "title": "IonQ, Inc. (IONQ) Declines More Than Market: Some Information for Investors",
@@ -3844,8 +4624,34 @@
     {
       "symbol": "OXY",
       "name": "Occidental Petroleum Corporation",
-      "score_0_1": 0.999665,
+      "score_0_1": 0.554766,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 3,
+      "prev_daily_counts": [
+        0,
+        0,
+        4,
+        8,
+        0,
+        0,
+        5
+      ],
+      "avg_prev_7d_excl_today": 2.4286,
+      "max_prev_7d_excl_today": 8,
+      "baseline_used": 2.4286,
+      "spike_ratio": 1.23528,
+      "raw_news_strength": 0.94984833,
+      "day_counts": {
+        "2026-04-14": 0,
+        "2026-04-15": 0,
+        "2026-04-16": 4,
+        "2026-04-17": 8,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 5,
+        "2026-04-21": 3
+      },
       "headlines": [
         {
           "title": "2 Reasons to Like OXY and 1 to Stay Skeptical",
@@ -3972,8 +4778,34 @@
     {
       "symbol": "RCAT",
       "name": "Red Cat Holdings Inc.",
-      "score_0_1": 0.909282,
+      "score_0_1": 0.246774,
       "headline_count": 20,
+      "deduped_headline_count": 20,
+      "today_count": 0,
+      "prev_daily_counts": [
+        1,
+        0,
+        4,
+        1,
+        0,
+        0,
+        1
+      ],
+      "avg_prev_7d_excl_today": 1.0,
+      "max_prev_7d_excl_today": 4,
+      "baseline_used": 1.0,
+      "spike_ratio": 0.0,
+      "raw_news_strength": 0.0,
+      "day_counts": {
+        "2026-04-14": 1,
+        "2026-04-15": 0,
+        "2026-04-16": 4,
+        "2026-04-17": 1,
+        "2026-04-18": 0,
+        "2026-04-19": 0,
+        "2026-04-20": 1,
+        "2026-04-21": 0
+      },
       "headlines": [
         {
           "title": "Thermal Imaging Market to Cross $8.78 Billion by 2034 at CAGR of 7.2%: New Research by The Insight Partners",
