@@ -4,11 +4,11 @@
     {
       "symbol": "VRT",
       "name": "Vertiv Holdings Co",
-      "final_score_0_1": 0.695176,
-      "score_pts": 695,
+      "final_score_0_1": 0.795485,
+      "score_pts": 795,
       "score_components": {
-        "volume_anomaly": 0.671897,
-        "dii": 0.0,
+        "volume_anomaly": 0.67267,
+        "dii": 1.0,
         "trends_breakout": 0.966277,
         "news": 0.682669
       },
@@ -23,17 +23,17 @@
       "price_delta_1m": 22.05,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 1.328,
-          "z60": 0.295,
+          "rvol20": 1.336,
+          "z60": 0.306,
           "pct_rank_90": 0.933,
-          "dollar_vol": 2252992672.44,
+          "dollar_vol": 2265596189.7,
           "eligible": true,
           "ret_5d": 0.62,
           "ret_20d": 22.05,
           "range_pos_63d": 0.986,
           "above_sma20": 1.0,
           "direction_score": 0.67431,
-          "vol_only_score": 0.670863
+          "vol_only_score": 0.671967
         }
       },
       "chart_url": "/charts/2026-04-21/VRT.png",
@@ -42,11 +42,11 @@
     {
       "symbol": "ISRG",
       "name": "Intuitive Surgical, Inc.",
-      "final_score_0_1": 0.664252,
-      "score_pts": 664,
+      "final_score_0_1": 0.77821,
+      "score_pts": 778,
       "score_components": {
-        "volume_anomaly": 0.494472,
-        "dii": 0.0,
+        "volume_anomaly": 0.529365,
+        "dii": 1.0,
         "trends_breakout": 0.96133,
         "news": 0.890323
       },
@@ -61,17 +61,17 @@
       "price_delta_1m": -5.6,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 1.587,
-          "z60": 1.742,
-          "pct_rank_90": 0.867,
-          "dollar_vol": 1303806619.83,
+          "rvol20": 1.846,
+          "z60": 2.323,
+          "pct_rank_90": 0.911,
+          "dollar_vol": 1516560073.72,
           "eligible": true,
           "ret_5d": -3.41,
           "ret_20d": -5.6,
           "range_pos_63d": 0.009,
           "above_sma20": 0.0,
           "direction_score": 0.001714,
-          "vol_only_score": 0.705654
+          "vol_only_score": 0.755501
         }
       },
       "chart_url": "/charts/2026-04-21/ISRG.png",
@@ -80,11 +80,11 @@
     {
       "symbol": "SOUN",
       "name": "SoundHound AI, Inc.",
-      "final_score_0_1": 0.618804,
-      "score_pts": 619,
+      "final_score_0_1": 0.71901,
+      "score_pts": 719,
       "score_components": {
-        "volume_anomaly": 0.837461,
-        "dii": 0.0,
+        "volume_anomaly": 0.837978,
+        "dii": 1.0,
         "trends_breakout": 0.323878,
         "news": 0.933279
       },
@@ -99,17 +99,17 @@
       "price_delta_1m": 13.93,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 2.47,
-          "z60": 2.608,
+          "rvol20": 2.48,
+          "z60": 2.622,
           "pct_rank_90": 0.978,
-          "dollar_vol": 433601456.48,
+          "dollar_vol": 435404954.71,
           "eligible": true,
           "ret_5d": 12.63,
           "ret_20d": 13.93,
           "range_pos_63d": 0.39,
           "above_sma20": 1.0,
           "direction_score": 0.853109,
-          "vol_only_score": 0.830755
+          "vol_only_score": 0.831493
         }
       },
       "chart_url": "/charts/2026-04-21/SOUN.png",
@@ -118,11 +118,11 @@
     {
       "symbol": "IONQ",
       "name": "IonQ Inc.",
-      "final_score_0_1": 0.599941,
-      "score_pts": 600,
+      "final_score_0_1": 0.700095,
+      "score_pts": 700,
       "score_components": {
-        "volume_anomaly": 0.778091,
-        "dii": 0.0,
+        "volume_anomaly": 0.778476,
+        "dii": 1.0,
         "trends_breakout": 0.340162,
         "news": 0.933279
       },
@@ -137,17 +137,17 @@
       "price_delta_1m": 39.78,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 1.271,
-          "z60": 1.192,
+          "rvol20": 1.275,
+          "z60": 1.198,
           "pct_rank_90": 0.933,
-          "dollar_vol": 1762873740.46,
+          "dollar_vol": 1768289333.36,
           "eligible": true,
           "ret_5d": 29.42,
           "ret_20d": 39.78,
           "range_pos_63d": 0.866,
           "above_sma20": 1.0,
           "direction_score": 0.973175,
-          "vol_only_score": 0.694483
+          "vol_only_score": 0.695034
         }
       },
       "chart_url": "/charts/2026-04-21/IONQ.png",
@@ -156,11 +156,11 @@
     {
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
-      "final_score_0_1": 0.551317,
-      "score_pts": 551,
+      "final_score_0_1": 0.6517,
+      "score_pts": 652,
       "score_components": {
-        "volume_anomaly": 0.738547,
-        "dii": 0.0,
+        "volume_anomaly": 0.739504,
+        "dii": 1.0,
         "trends_breakout": 0.615359,
         "news": 0.356452
       },
@@ -175,17 +175,17 @@
       "price_delta_1m": 63.23,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 1.009,
-          "z60": 0.414,
+          "rvol20": 1.016,
+          "z60": 0.432,
           "pct_rank_90": 0.9,
-          "dollar_vol": 109461455.16,
+          "dollar_vol": 110192724.78,
           "eligible": true,
           "ret_5d": 18.85,
           "ret_20d": 63.23,
           "range_pos_63d": 0.981,
           "above_sma20": 1.0,
           "direction_score": 0.996152,
-          "vol_only_score": 0.628145
+          "vol_only_score": 0.629512
         }
       },
       "chart_url": "/charts/2026-04-21/IRDM.png",
@@ -194,11 +194,11 @@
     {
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
-      "final_score_0_1": 0.519857,
-      "score_pts": 520,
+      "final_score_0_1": 0.625103,
+      "score_pts": 625,
       "score_components": {
-        "volume_anomaly": 0.713861,
-        "dii": 0.0,
+        "volume_anomaly": 0.726976,
+        "dii": 1.0,
         "trends_breakout": 0.322435,
         "news": 0.687912
       },
@@ -213,17 +213,17 @@
       "price_delta_1m": 27.41,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 1.047,
-          "z60": 0.909,
-          "pct_rank_90": 0.789,
-          "dollar_vol": 2276296602.76,
+          "rvol20": 1.089,
+          "z60": 1.054,
+          "pct_rank_90": 0.811,
+          "dollar_vol": 2368538311.31,
           "eligible": true,
           "ret_5d": 19.97,
           "ret_20d": 27.41,
           "range_pos_63d": 0.912,
           "above_sma20": 1.0,
           "direction_score": 0.982419,
-          "vol_only_score": 0.598764
+          "vol_only_score": 0.617501
         }
       },
       "chart_url": "/charts/2026-04-21/RKLB.png",
@@ -232,11 +232,11 @@
     {
       "symbol": "OUST",
       "name": "Ouster Inc.",
-      "final_score_0_1": 0.515537,
-      "score_pts": 516,
+      "final_score_0_1": 0.615652,
+      "score_pts": 616,
       "score_components": {
-        "volume_anomaly": 0.876797,
-        "dii": 0.0,
+        "volume_anomaly": 0.877084,
+        "dii": 1.0,
         "trends_breakout": 0.035949,
         "news": 0.77017
       },
@@ -251,17 +251,17 @@
       "price_delta_1m": 30.36,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 2.367,
-          "z60": 2.138,
+          "rvol20": 2.372,
+          "z60": 2.144,
           "pct_rank_90": 0.989,
-          "dollar_vol": 109104203.0,
+          "dollar_vol": 109349407.42,
           "eligible": true,
           "ret_5d": 17.89,
           "ret_20d": 30.36,
           "range_pos_63d": 1.0,
           "above_sma20": 1.0,
           "direction_score": 1.0,
-          "vol_only_score": 0.823995
+          "vol_only_score": 0.824406
         }
       },
       "chart_url": "/charts/2026-04-21/OUST.png",
@@ -270,11 +270,11 @@
     {
       "symbol": "MTDR",
       "name": "Matador Resources Company",
-      "final_score_0_1": 0.507761,
-      "score_pts": 508,
+      "final_score_0_1": 0.607763,
+      "score_pts": 608,
       "score_components": {
-        "volume_anomaly": 0.454839,
-        "dii": 0.0,
+        "volume_anomaly": 0.454843,
+        "dii": 1.0,
         "trends_breakout": 0.721433,
         "news": 0.546979
       },
@@ -292,14 +292,14 @@
           "rvol20": 1.008,
           "z60": -0.002,
           "pct_rank_90": 0.722,
-          "dollar_vol": 109186259.58,
+          "dollar_vol": 109188854.26,
           "eligible": true,
           "ret_5d": 2.86,
           "ret_20d": 0.2,
           "range_pos_63d": 0.717,
           "above_sma20": 0.0,
           "direction_score": 0.273317,
-          "vol_only_score": 0.532634
+          "vol_only_score": 0.532639
         }
       },
       "chart_url": "/charts/2026-04-21/MTDR.png",
@@ -308,11 +308,11 @@
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
-      "final_score_0_1": 0.505352,
-      "score_pts": 505,
+      "final_score_0_1": 0.605567,
+      "score_pts": 606,
       "score_components": {
-        "volume_anomaly": 0.63709,
-        "dii": 0.0,
+        "volume_anomaly": 0.637628,
+        "dii": 1.0,
         "trends_breakout": 0.597418,
         "news": 0.356452
       },
@@ -327,17 +327,17 @@
       "price_delta_1m": 18.4,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 1.338,
-          "z60": 0.435,
+          "rvol20": 1.343,
+          "z60": 0.444,
           "pct_rank_90": 0.644,
-          "dollar_vol": 15312131.77,
+          "dollar_vol": 15369081.04,
           "eligible": true,
           "ret_5d": 6.12,
           "ret_20d": 18.4,
           "range_pos_63d": 0.651,
           "above_sma20": 1.0,
           "direction_score": 0.847727,
-          "vol_only_score": 0.546818
+          "vol_only_score": 0.547586
         }
       },
       "chart_url": "/charts/2026-04-21/ABCL.png",
@@ -346,11 +346,11 @@
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
-      "final_score_0_1": 0.49444,
-      "score_pts": 494,
+      "final_score_0_1": 0.599044,
+      "score_pts": 599,
       "score_components": {
-        "volume_anomaly": 0.541617,
-        "dii": 0.0,
+        "volume_anomaly": 0.553129,
+        "dii": 1.0,
         "trends_breakout": 0.277589,
         "news": 0.972581
       },
@@ -365,17 +365,17 @@
       "price_delta_1m": 10.75,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 0.925,
-          "z60": -0.396,
-          "pct_rank_90": 0.544,
-          "dollar_vol": 13479602167.9,
+          "rvol20": 0.931,
+          "z60": -0.374,
+          "pct_rank_90": 0.578,
+          "dollar_vol": 13569769253.16,
           "eligible": true,
           "ret_5d": 7.9,
           "ret_20d": 10.75,
           "range_pos_63d": 0.54,
           "above_sma20": 1.0,
           "direction_score": 0.804264,
-          "vol_only_score": 0.429054
+          "vol_only_score": 0.4455
         }
       },
       "chart_url": "/charts/2026-04-21/MSFT.png",
