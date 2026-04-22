@@ -50,10 +50,15 @@ def copy_asset(src: Path, dst: Path) -> None:
 def pick_date_dir() -> str:
     if REPORT_DATE:
         return REPORT_DATE
+
     data_dir = OUT_DIR / "data"
     if not data_dir.exists():
         raise SystemExit("site/data not found")
-    cand = sorted([d.name for d in data_dir.iterdir() if d.is_dir() and len(d.name) == 10], reverse=True)
+
+    cand = sorted(
+        [d.name for d in data_dir.iterdir() if d.is_dir() and len(d.name) == 10],
+        reverse=True,
+    )
     if not cand:
         raise SystemExit("no date directories under site/data")
     return cand[0]
@@ -64,11 +69,59 @@ def to_float(x: Any) -> Optional[float]:
         if x is None:
             return None
         f = float(x)
-        if f != f:
+        if f != f:  # NaN
             return None
         return f
     except Exception:
         return None
+
+
+def clamp01(x: Any) -> float:
+    f = to_float(x)
+    if f is None:
+        return 0.0
+    return max(0.0, min(1.0, f))
+
+
+def canonicalize_score_components(comps_raw: Dict[str, Any]) -> Dict[str, float]:
+    """
+    score_components の互換吸収。
+    旧: dii
+    新: compression_release
+
+    重要:
+    - compression_release が存在する場合はそれを最優先
+    - 無い場合のみ旧 dii を compression_release にフォールバック
+    """
+    comps_raw = comps_raw or {}
+
+    return {
+        "volume_anomaly": clamp01(comps_raw.get("volume_anomaly")),
+        "compression_release": clamp01(
+            comps_raw.get("compression_release", comps_raw.get("dii"))
+        ),
+        "trends_breakout": clamp01(comps_raw.get("trends_breakout")),
+        "news": clamp01(comps_raw.get("news")),
+    }
+
+
+def canonicalize_score_weights(weights_raw: Dict[str, Any]) -> Dict[str, float]:
+    """
+    score_weights の互換吸収。
+    旧: dii
+    新: compression_release
+    """
+    weights_raw = weights_raw or {}
+
+    return {
+        "volume_anomaly": max(0.0, to_float(weights_raw.get("volume_anomaly")) or 0.0),
+        "compression_release": max(
+            0.0,
+            to_float(weights_raw.get("compression_release", weights_raw.get("dii"))) or 0.0,
+        ),
+        "trends_breakout": max(0.0, to_float(weights_raw.get("trends_breakout")) or 0.0),
+        "news": max(0.0, to_float(weights_raw.get("news")) or 0.0),
+    }
 
 
 def normalize_item(item: Dict[str, Any], date: str, rank: int) -> Dict[str, Any]:
@@ -78,20 +131,11 @@ def normalize_item(item: Dict[str, Any], date: str, rank: int) -> Dict[str, Any]
     comps_raw = item.get("score_components") or {}
     weights_raw = item.get("score_weights") or {}
 
-    comps = {
-        "volume_anomaly": to_float(comps_raw.get("volume_anomaly")) or 0.0,
-        "dii": to_float(comps_raw.get("dii")) or 0.0,
-        "trends_breakout": to_float(comps_raw.get("trends_breakout")) or 0.0,
-        "news": to_float(comps_raw.get("news")) or 0.0,
-    }
-    weights = {
-        "volume_anomaly": to_float(weights_raw.get("volume_anomaly")) or 0.0,
-        "dii": to_float(weights_raw.get("dii")) or 0.0,
-        "trends_breakout": to_float(weights_raw.get("trends_breakout")) or 0.0,
-        "news": to_float(weights_raw.get("news")) or 0.0,
-    }
+    comps = canonicalize_score_components(comps_raw)
+    weights = canonicalize_score_weights(weights_raw)
 
-    final01 = to_float(item.get("final_score_0_1")) or 0.0
+    final01 = clamp01(item.get("final_score_0_1"))
+
     score_pts = item.get("score_pts")
     try:
         score_pts_int = int(score_pts) if score_pts is not None else int(round(final01 * 1000))
