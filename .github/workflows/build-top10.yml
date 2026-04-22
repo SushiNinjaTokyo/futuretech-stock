@@ -98,8 +98,8 @@ jobs:
           DATA_PROVIDER: ${{ vars.DATA_PROVIDER || 'yfinance' }}
           MOCK_MODE: ${{ vars.MOCK_MODE || 'false' }}
           TIINGO_TOKEN: ${{ secrets.TIINGO_TOKEN }}
-          WEIGHT_VOL_ANOM: ${{ vars.WEIGHT_VOL_ANOM || '0.25' }}
-          WEIGHT_DII: ${{ vars.WEIGHT_DII || '0.25' }}
+          WEIGHT_VOL_ANOM: ${{ vars.WEIGHT_VOL_ANOM || '0.4' }}
+          WEIGHT_DII: ${{ vars.WEIGHT_DII || '0.1' }}
           WEIGHT_TRENDS: ${{ vars.WEIGHT_TRENDS || '0.30' }}
           WEIGHT_NEWS: ${{ vars.WEIGHT_NEWS || '0.20' }}
         run: |
