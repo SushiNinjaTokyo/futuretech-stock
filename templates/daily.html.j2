@@ -19,7 +19,7 @@
         <div class="eyebrow">FutureTech Stock Intelligence</div>
         <h1>Daily Top 10</h1>
         <p class="hero-sub">
-          Ranked by blended momentum signals across volume anomaly, search breakout, and news intensity.
+          Ranked by blended momentum signals across volume anomaly, compression release, search breakout, and news intensity.
         </p>
       </div>
 
@@ -49,7 +49,7 @@
       {% set chart_url = item.chart_url | default('', true) %}
       {% set comps = item.score_components | default({}, true) %}
       {% set vol = comps.volume_anomaly | default(0, true) %}
-      {% set dii = comps.dii | default(0, true) %}
+      {% set comp = comps.compression_release | default(0, true) %}
       {% set trends = comps.trends_breakout | default(0, true) %}
       {% set news = comps.news | default(0, true) %}
 
@@ -124,9 +124,9 @@
             </div>
 
             <div class="signal-row">
-              <div class="signal-label">DII</div>
-              <div class="signal-bar"><i style="width: {{ (dii * 100) | round(1) }}%"></i></div>
-              <div class="signal-value">{{ (dii * 100) | round(1) }}%</div>
+              <div class="signal-label">Compression</div>
+              <div class="signal-bar"><i style="width: {{ (comp * 100) | round(1) }}%"></i></div>
+              <div class="signal-value">{{ (comp * 100) | round(1) }}%</div>
             </div>
 
             <div class="signal-row">
@@ -158,7 +158,7 @@
           "symbol": sym,
           "score_components": {
             "volume_anomaly": vol,
-            "dii": dii,
+            "compression_release": comp,
             "trends_breakout": trends,
             "news": news
           }
