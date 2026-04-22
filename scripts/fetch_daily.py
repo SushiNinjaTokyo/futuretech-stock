@@ -69,20 +69,20 @@ def read_json(path: Path) -> Any:
         return None
 
 
-def write_json(path: Path, obj: Any) -> None:
-    ensure_dir(path.parent)
-    path.write_text(
-        json.dumps(obj, ensure_ascii=False, indent=2, default=sanitize),
-        encoding="utf-8",
-    )
-
-
 def sanitize(obj: Any) -> Any:
     if isinstance(obj, np.generic):
         return obj.item()
     if isinstance(obj, pd.Timestamp):
         return obj.isoformat()
     raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
+
+
+def write_json(path: Path, obj: Any) -> None:
+    ensure_dir(path.parent)
+    path.write_text(
+        json.dumps(obj, ensure_ascii=False, indent=2, default=sanitize),
+        encoding="utf-8",
+    )
 
 
 def load_universe(csv_path: Path) -> List[Dict[str, str]]:
@@ -106,10 +106,6 @@ def load_universe(csv_path: Path) -> List[Dict[str, str]]:
 
 
 def first_series(x: Any) -> pd.Series:
-    """
-    DataFrame / MultiIndex / 1列DataFrame / Series を
-    必ず1次元の数値Seriesに正規化する。
-    """
     if isinstance(x, pd.Series):
         return pd.to_numeric(x, errors="coerce")
 
@@ -130,9 +126,6 @@ def first_series(x: Any) -> pd.Series:
 
 
 def normalize_ohlcv(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    yfinance / tiingo の返り値を Close, Volume の1次元列に統一する。
-    """
     if df is None or df.empty:
         return pd.DataFrame(columns=["Close", "Volume"])
 
@@ -175,8 +168,7 @@ def normalize_ohlcv(df: pd.DataFrame) -> pd.DataFrame:
     if "Volume" not in out.columns:
         out["Volume"] = np.nan
 
-    out = out[["Close", "Volume"]].dropna()
-    return out
+    return out[["Close", "Volume"]].dropna()
 
 
 def pct(series: pd.Series, lag: int) -> Optional[float]:
@@ -245,45 +237,64 @@ def fetch_history(symbol: str, provider: str, token: Optional[str], months: int 
     return None
 
 
-def fetch_weekly_history(symbol: str, provider: str, token: Optional[str]) -> Optional[pd.DataFrame]:
-    try:
-        if provider == "tiingo" and token and pdr is not None:
-            df = fetch_history(symbol, provider, token, months=6)
-            if df is None or df.empty:
-                return None
+def price_direction_metrics(df: pd.DataFrame) -> Dict[str, float]:
+    """
+    出来高異常に「上方向」を掛けるための方向性指標。
+    意図:
+    - 直近で上昇している
+    - 3か月レンジの上側にいる
+    - 20日線より上にいる
+    を高く評価
+    """
+    close = first_series(df["Close"]).dropna()
+    if len(close) < 30:
+        return {
+            "ret_5d": 0.0,
+            "ret_20d": 0.0,
+            "range_pos_63d": 0.0,
+            "above_sma20": 0.0,
+            "direction_score": 0.0,
+        }
 
-            out = pd.DataFrame(index=df.index)
-            out["Close"] = first_series(df["Close"]).to_numpy()
-            return out.resample("W-FRI").last().dropna()
+    ret_5d = 0.0 if len(close) <= 5 else float(close.iloc[-1] / close.iloc[-6] - 1.0)
+    ret_20d = 0.0 if len(close) <= 20 else float(close.iloc[-1] / close.iloc[-21] - 1.0)
 
-        if yf is None:
-            return None
+    lookback = close.tail(min(63, len(close)))
+    cmin = float(lookback.min())
+    cmax = float(lookback.max())
+    if cmax > cmin:
+        range_pos_63d = float((close.iloc[-1] - cmin) / (cmax - cmin))
+    else:
+        range_pos_63d = 0.5
 
-        raw = yf.download(
-            symbol,
-            period="6mo",
-            interval="1wk",
-            progress=False,
-            threads=False,
-            auto_adjust=False,
-        )
-        if raw is None or raw.empty:
-            return None
+    sma20 = float(close.tail(20).mean()) if len(close) >= 20 else float(close.mean())
+    above_sma20 = 1.0 if float(close.iloc[-1]) >= sma20 else 0.0
 
-        norm = normalize_ohlcv(raw)
-        if norm.empty:
-            return None
+    # 上方向性スコア
+    # ret5, ret20 はプラスで加点、マイナスは0
+    s5 = max(0.0, min(1.0, ret_5d / 0.08))     # +8%で満点近辺
+    s20 = max(0.0, min(1.0, ret_20d / 0.15))   # +15%で満点近辺
+    srange = max(0.0, min(1.0, range_pos_63d))
 
-        out = pd.DataFrame(index=norm.index)
-        out["Close"] = first_series(norm["Close"]).to_numpy()
-        return out.dropna()
+    direction_score = 0.35 * s5 + 0.35 * s20 + 0.20 * srange + 0.10 * above_sma20
+    direction_score = max(0.0, min(1.0, direction_score))
 
-    except Exception as e:
-        log("WARN", f"{symbol}: weekly history failed: {e}")
-        return None
+    return {
+        "ret_5d": round(ret_5d * 100.0, 2),
+        "ret_20d": round(ret_20d * 100.0, 2),
+        "range_pos_63d": round(range_pos_63d, 3),
+        "above_sma20": above_sma20,
+        "direction_score": round(direction_score, 6),
+    }
 
 
 def compute_vol_anomaly(df: pd.DataFrame) -> Tuple[Dict[str, Any], float]:
+    """
+    従来の出来高異常 + 上方向性を加味したスコア。
+    あなたの意図:
+    「普段より出来高が急増して、上方向に向かっている銘柄」
+    に合わせている。
+    """
     if df is None or len(df) < 30:
         return {"eligible": False}, 0.0
 
@@ -316,10 +327,20 @@ def compute_vol_anomaly(df: pd.DataFrame) -> Tuple[Dict[str, Any], float]:
         float(dv.tail(21).iloc[:-1].mean()) >= 1_000_000
     )
 
+    # 既存の出来高異常
     s_rvol = 1.0 - math.exp(-max(0.0, rvol20) / 2.5)
     s_z = 1.0 / (1.0 + math.exp(-z60))
     s_pr = max(0.0, min(1.0, pct_rank_90))
-    score = max(0.0, min(1.0, 0.45 * s_pr + 0.40 * s_rvol + 0.15 * s_z))
+    vol_only_score = max(0.0, min(1.0, 0.45 * s_pr + 0.40 * s_rvol + 0.15 * s_z))
+
+    # 上方向性
+    pdm = price_direction_metrics(pd.DataFrame({"Close": close, "Volume": vol}))
+    direction_score = float(pdm["direction_score"])
+
+    # 最終的に「出来高異常があり、かつ上方向」を評価
+    # 出来高主体 70%、方向性 30%
+    score = 0.70 * vol_only_score + 0.30 * direction_score
+    score = max(0.0, min(1.0, score))
 
     detail = {
         "rvol20": round(rvol20, 3),
@@ -327,6 +348,12 @@ def compute_vol_anomaly(df: pd.DataFrame) -> Tuple[Dict[str, Any], float]:
         "pct_rank_90": round(pct_rank_90, 3),
         "dollar_vol": round(dollar_vol, 2),
         "eligible": eligible,
+        "ret_5d": pdm["ret_5d"],
+        "ret_20d": pdm["ret_20d"],
+        "range_pos_63d": pdm["range_pos_63d"],
+        "above_sma20": pdm["above_sma20"],
+        "direction_score": pdm["direction_score"],
+        "vol_only_score": round(vol_only_score, 6),
     }
     return detail, round(score, 6)
 
@@ -382,7 +409,7 @@ def normalize_weights(w_vol: float, w_dii: float, w_tr: float, w_news: float) ->
     if np.all(np.isfinite(ws)) and ws.sum() > 0:
         ws = ws / ws.sum()
         return tuple(float(x) for x in ws.tolist())
-    return (0.25, 0.25, 0.30, 0.20)
+    return (0.40, 0.10, 0.30, 0.20)
 
 
 def render_chart(chart_dir: Path, symbol: str, weekly_df: Optional[pd.DataFrame]) -> Optional[str]:
@@ -402,11 +429,29 @@ def render_chart(chart_dir: Path, symbol: str, weekly_df: Optional[pd.DataFrame]
         x = x[-13:]
         y = y.tail(13)
 
+        ma20 = y.rolling(20, min_periods=1).mean()
+        high_3m = float(y.max())
+        last_x = x[-1]
+        last_y = float(y.iloc[-1])
+
         fig = plt.figure(figsize=(6.4, 3.0))
         ax = fig.add_subplot(111)
-        ax.plot(x, y.to_numpy(), linewidth=2.0)
+
+        # 終値ライン
+        ax.plot(x, y.to_numpy(), linewidth=2.0, label="Close")
+
+        # 20週移動平均
+        ax.plot(x, ma20.to_numpy(), linewidth=1.6, linestyle="--", label="20W MA")
+
+        # 3か月高値ライン
+        ax.axhline(high_3m, linewidth=1.2, linestyle=":", label="3M High")
+
+        # 直近終値マーカー
+        ax.scatter([last_x], [last_y], s=35, zorder=5)
+
         ax.set_title(f"{symbol} · Weekly · 3M")
         ax.grid(True, alpha=0.25)
+        ax.legend(loc="best", fontsize=8)
         fig.tight_layout()
         fig.savefig(path, dpi=130)
         plt.close(fig)
@@ -440,9 +485,10 @@ def load_config() -> Config:
     tiingo_token = os.getenv("TIINGO_TOKEN") or None
     mock_mode = env_b("MOCK_MODE", False)
 
+    # DIIを0.10へ。Volumeを0.40へ。
     w_vol, w_dii, w_tr, w_news = normalize_weights(
-        env_f("WEIGHT_VOL_ANOM", 0.25),
-        env_f("WEIGHT_DII", 0.25),
+        env_f("WEIGHT_VOL_ANOM", 0.40),
+        env_f("WEIGHT_DII", 0.10),
         env_f("WEIGHT_TRENDS", 0.30),
         env_f("WEIGHT_NEWS", 0.20),
     )
