@@ -63,10 +63,10 @@ jobs:
         run: |
           set -euo pipefail
 
-          if [ -n "${INPUT_REPORT_DATE}" ]; then
+          if [ -n "${INPUT_REPORT_DATE:-}" ]; then
             REPORT_DATE="${INPUT_REPORT_DATE}"
           else
-            REPORT_DATE=$(python -c "from pathlib import Path; base=Path('site/data'); dates=sorted([p.name for p in base.iterdir() if p.is_dir() and len(p.name)==10], reverse=True); print(dates[0] if dates else '')")
+            REPORT_DATE="$(python -c "from pathlib import Path; base=Path('site/data'); dates=sorted([p.name for p in base.iterdir() if p.is_dir() and len(p.name)==10], reverse=True); print(dates[0] if dates else '')")"
           fi
 
           if [ -z "${REPORT_DATE}" ]; then
@@ -87,7 +87,7 @@ jobs:
           echo "Checking component inputs for ${REPORT_DATE}"
           test -f "site/data/${REPORT_DATE}/news.json" || (echo "Missing news.json" && exit 1)
           test -f "site/data/${REPORT_DATE}/trends.json" || (echo "Missing trends.json" && exit 1)
-          test -f "site/data/${REPORT_DATE}/dii.json" || (echo "Missing dii.json" && exit 1)
+          test -f "site/data/${REPORT_DATE}/compression.json" || (echo "Missing compression.json" && exit 1)
 
       - name: Build Top10 JSON
         shell: bash
@@ -98,10 +98,10 @@ jobs:
           DATA_PROVIDER: ${{ vars.DATA_PROVIDER || 'yfinance' }}
           MOCK_MODE: ${{ vars.MOCK_MODE || 'false' }}
           TIINGO_TOKEN: ${{ secrets.TIINGO_TOKEN }}
-          WEIGHT_VOL_ANOM: ${{ vars.WEIGHT_VOL_ANOM || '0.4' }}
-          WEIGHT_DII: ${{ vars.WEIGHT_DII || '0.1' }}
-          WEIGHT_TRENDS: ${{ vars.WEIGHT_TRENDS || '0.30' }}
-          WEIGHT_NEWS: ${{ vars.WEIGHT_NEWS || '0.20' }}
+          WEIGHT_VOL_ANOM: ${{ vars.WEIGHT_VOL_ANOM || '0.35' }}
+          WEIGHT_COMPRESSION: ${{ vars.WEIGHT_COMPRESSION || '0.15' }}
+          WEIGHT_TRENDS: ${{ vars.WEIGHT_TRENDS || '0.25' }}
+          WEIGHT_NEWS: ${{ vars.WEIGHT_NEWS || '0.25' }}
         run: |
           set -euo pipefail
           python scripts/fetch_daily.py
@@ -146,10 +146,16 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
 
-          git add "site/data/${REPORT_DATE}/top10.json" "site/data/top10/latest.json"
+          git add \
+            "site/data/${REPORT_DATE}/top10.json" \
+            "site/data/top10/latest.json"
 
           if [ "${RENDER_HTML}" = "true" ]; then
-            git add "site/daily/${REPORT_DATE}.html" "site/assets/daily.css" "templates/daily.html.j2" "templates/daily.css"
+            git add \
+              "site/daily/${REPORT_DATE}.html" \
+              "site/assets/daily.css" \
+              "templates/daily.html.j2" \
+              "templates/daily.css"
           fi
 
           if git diff --cached --quiet; then
