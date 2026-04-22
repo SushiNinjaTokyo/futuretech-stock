@@ -4,19 +4,19 @@
     {
       "symbol": "VRT",
       "name": "Vertiv Holdings Co",
-      "final_score_0_1": 0.795485,
-      "score_pts": 795,
+      "final_score_0_1": 0.771809,
+      "score_pts": 772,
       "score_components": {
         "volume_anomaly": 0.67267,
-        "dii": 1.0,
+        "compression_release": 0.827586,
         "trends_breakout": 0.966277,
         "news": 0.682669
       },
       "score_weights": {
-        "volume_anomaly": 0.4,
-        "dii": 0.1,
-        "trends_breakout": 0.3,
-        "news": 0.2
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
       },
       "price_delta_1d": -0.63,
       "price_delta_1w": 0.62,
@@ -42,19 +42,19 @@
     {
       "symbol": "ISRG",
       "name": "Intuitive Surgical, Inc.",
-      "final_score_0_1": 0.77821,
-      "score_pts": 778,
+      "final_score_0_1": 0.679226,
+      "score_pts": 679,
       "score_components": {
         "volume_anomaly": 0.529365,
-        "dii": 1.0,
+        "compression_release": 0.206897,
         "trends_breakout": 0.96133,
         "news": 0.890323
       },
       "score_weights": {
-        "volume_anomaly": 0.4,
-        "dii": 0.1,
-        "trends_breakout": 0.3,
-        "news": 0.2
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
       },
       "price_delta_1d": -3.07,
       "price_delta_1w": -3.41,
@@ -78,97 +78,21 @@
       "rank": 2
     },
     {
-      "symbol": "SOUN",
-      "name": "SoundHound AI, Inc.",
-      "final_score_0_1": 0.71901,
-      "score_pts": 719,
-      "score_components": {
-        "volume_anomaly": 0.837978,
-        "dii": 1.0,
-        "trends_breakout": 0.323878,
-        "news": 0.933279
-      },
-      "score_weights": {
-        "volume_anomaly": 0.4,
-        "dii": 0.1,
-        "trends_breakout": 0.3,
-        "news": 0.2
-      },
-      "price_delta_1d": -5.65,
-      "price_delta_1w": 12.63,
-      "price_delta_1m": 13.93,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 2.48,
-          "z60": 2.622,
-          "pct_rank_90": 0.978,
-          "dollar_vol": 435404954.71,
-          "eligible": true,
-          "ret_5d": 12.63,
-          "ret_20d": 13.93,
-          "range_pos_63d": 0.39,
-          "above_sma20": 1.0,
-          "direction_score": 0.853109,
-          "vol_only_score": 0.831493
-        }
-      },
-      "chart_url": "/charts/2026-04-21/SOUN.png",
-      "rank": 3
-    },
-    {
-      "symbol": "IONQ",
-      "name": "IonQ Inc.",
-      "final_score_0_1": 0.700095,
-      "score_pts": 700,
-      "score_components": {
-        "volume_anomaly": 0.778476,
-        "dii": 1.0,
-        "trends_breakout": 0.340162,
-        "news": 0.933279
-      },
-      "score_weights": {
-        "volume_anomaly": 0.4,
-        "dii": 0.1,
-        "trends_breakout": 0.3,
-        "news": 0.2
-      },
-      "price_delta_1d": -4.22,
-      "price_delta_1w": 29.42,
-      "price_delta_1m": 39.78,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 1.275,
-          "z60": 1.198,
-          "pct_rank_90": 0.933,
-          "dollar_vol": 1768289333.36,
-          "eligible": true,
-          "ret_5d": 29.42,
-          "ret_20d": 39.78,
-          "range_pos_63d": 0.866,
-          "above_sma20": 1.0,
-          "direction_score": 0.973175,
-          "vol_only_score": 0.695034
-        }
-      },
-      "chart_url": "/charts/2026-04-21/IONQ.png",
-      "rank": 4
-    },
-    {
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
-      "final_score_0_1": 0.6517,
-      "score_pts": 652,
+      "final_score_0_1": 0.615572,
+      "score_pts": 616,
       "score_components": {
         "volume_anomaly": 0.739504,
-        "dii": 1.0,
+        "compression_release": 0.758621,
         "trends_breakout": 0.615359,
         "news": 0.356452
       },
       "score_weights": {
-        "volume_anomaly": 0.4,
-        "dii": 0.1,
-        "trends_breakout": 0.3,
-        "news": 0.2
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
       },
       "price_delta_1d": 2.85,
       "price_delta_1w": 18.85,
@@ -189,138 +113,62 @@
         }
       },
       "chart_url": "/charts/2026-04-21/IRDM.png",
-      "rank": 5
+      "rank": 3
     },
     {
-      "symbol": "RKLB",
-      "name": "Rocket Lab USA, Inc.",
-      "final_score_0_1": 0.625103,
-      "score_pts": 625,
+      "symbol": "SOUN",
+      "name": "SoundHound AI, Inc.",
+      "final_score_0_1": 0.612754,
+      "score_pts": 613,
       "score_components": {
-        "volume_anomaly": 0.726976,
-        "dii": 1.0,
-        "trends_breakout": 0.322435,
-        "news": 0.687912
+        "volume_anomaly": 0.837978,
+        "compression_release": 0.034483,
+        "trends_breakout": 0.323878,
+        "news": 0.933279
       },
       "score_weights": {
-        "volume_anomaly": 0.4,
-        "dii": 0.1,
-        "trends_breakout": 0.3,
-        "news": 0.2
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
       },
-      "price_delta_1d": -3.15,
-      "price_delta_1w": 19.97,
-      "price_delta_1m": 27.41,
+      "price_delta_1d": -5.65,
+      "price_delta_1w": 12.63,
+      "price_delta_1m": 13.93,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 1.089,
-          "z60": 1.054,
-          "pct_rank_90": 0.811,
-          "dollar_vol": 2368538311.31,
+          "rvol20": 2.48,
+          "z60": 2.622,
+          "pct_rank_90": 0.978,
+          "dollar_vol": 435404954.71,
           "eligible": true,
-          "ret_5d": 19.97,
-          "ret_20d": 27.41,
-          "range_pos_63d": 0.912,
+          "ret_5d": 12.63,
+          "ret_20d": 13.93,
+          "range_pos_63d": 0.39,
           "above_sma20": 1.0,
-          "direction_score": 0.982419,
-          "vol_only_score": 0.617501
+          "direction_score": 0.853109,
+          "vol_only_score": 0.831493
         }
       },
-      "chart_url": "/charts/2026-04-21/RKLB.png",
-      "rank": 6
-    },
-    {
-      "symbol": "OUST",
-      "name": "Ouster Inc.",
-      "final_score_0_1": 0.615652,
-      "score_pts": 616,
-      "score_components": {
-        "volume_anomaly": 0.877084,
-        "dii": 1.0,
-        "trends_breakout": 0.035949,
-        "news": 0.77017
-      },
-      "score_weights": {
-        "volume_anomaly": 0.4,
-        "dii": 0.1,
-        "trends_breakout": 0.3,
-        "news": 0.2
-      },
-      "price_delta_1d": 1.73,
-      "price_delta_1w": 17.89,
-      "price_delta_1m": 30.36,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 2.372,
-          "z60": 2.144,
-          "pct_rank_90": 0.989,
-          "dollar_vol": 109349407.42,
-          "eligible": true,
-          "ret_5d": 17.89,
-          "ret_20d": 30.36,
-          "range_pos_63d": 1.0,
-          "above_sma20": 1.0,
-          "direction_score": 1.0,
-          "vol_only_score": 0.824406
-        }
-      },
-      "chart_url": "/charts/2026-04-21/OUST.png",
-      "rank": 7
-    },
-    {
-      "symbol": "MTDR",
-      "name": "Matador Resources Company",
-      "final_score_0_1": 0.607763,
-      "score_pts": 608,
-      "score_components": {
-        "volume_anomaly": 0.454843,
-        "dii": 1.0,
-        "trends_breakout": 0.721433,
-        "news": 0.546979
-      },
-      "score_weights": {
-        "volume_anomaly": 0.4,
-        "dii": 0.1,
-        "trends_breakout": 0.3,
-        "news": 0.2
-      },
-      "price_delta_1d": 4.48,
-      "price_delta_1w": 2.86,
-      "price_delta_1m": 0.2,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 1.008,
-          "z60": -0.002,
-          "pct_rank_90": 0.722,
-          "dollar_vol": 109188854.26,
-          "eligible": true,
-          "ret_5d": 2.86,
-          "ret_20d": 0.2,
-          "range_pos_63d": 0.717,
-          "above_sma20": 0.0,
-          "direction_score": 0.273317,
-          "vol_only_score": 0.532639
-        }
-      },
-      "chart_url": "/charts/2026-04-21/MTDR.png",
-      "rank": 8
+      "chart_url": "/charts/2026-04-21/SOUN.png",
+      "rank": 4
     },
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
-      "final_score_0_1": 0.605567,
-      "score_pts": 606,
+      "final_score_0_1": 0.611637,
+      "score_pts": 612,
       "score_components": {
         "volume_anomaly": 0.637628,
-        "dii": 1.0,
+        "compression_release": 1.0,
         "trends_breakout": 0.597418,
         "news": 0.356452
       },
       "score_weights": {
-        "volume_anomaly": 0.4,
-        "dii": 0.1,
-        "trends_breakout": 0.3,
-        "news": 0.2
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
       },
       "price_delta_1d": 2.05,
       "price_delta_1w": 6.12,
@@ -341,24 +189,100 @@
         }
       },
       "chart_url": "/charts/2026-04-21/ABCL.png",
-      "rank": 9
+      "rank": 5
+    },
+    {
+      "symbol": "MTDR",
+      "name": "Matador Resources Company",
+      "final_score_0_1": 0.595263,
+      "score_pts": 595,
+      "score_components": {
+        "volume_anomaly": 0.454843,
+        "compression_release": 0.793103,
+        "trends_breakout": 0.721433,
+        "news": 0.546979
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "price_delta_1d": 4.48,
+      "price_delta_1w": 2.86,
+      "price_delta_1m": 0.2,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 1.008,
+          "z60": -0.002,
+          "pct_rank_90": 0.722,
+          "dollar_vol": 109188854.26,
+          "eligible": true,
+          "ret_5d": 2.86,
+          "ret_20d": 0.2,
+          "range_pos_63d": 0.717,
+          "above_sma20": 0.0,
+          "direction_score": 0.273317,
+          "vol_only_score": 0.532639
+        }
+      },
+      "chart_url": "/charts/2026-04-21/MTDR.png",
+      "rank": 6
+    },
+    {
+      "symbol": "IONQ",
+      "name": "IonQ Inc.",
+      "final_score_0_1": 0.590827,
+      "score_pts": 591,
+      "score_components": {
+        "volume_anomaly": 0.778476,
+        "compression_release": 0.0,
+        "trends_breakout": 0.340162,
+        "news": 0.933279
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "price_delta_1d": -4.22,
+      "price_delta_1w": 29.42,
+      "price_delta_1m": 39.78,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 1.275,
+          "z60": 1.198,
+          "pct_rank_90": 0.933,
+          "dollar_vol": 1768289333.36,
+          "eligible": true,
+          "ret_5d": 29.42,
+          "ret_20d": 39.78,
+          "range_pos_63d": 0.866,
+          "above_sma20": 1.0,
+          "direction_score": 0.973175,
+          "vol_only_score": 0.695034
+        }
+      },
+      "chart_url": "/charts/2026-04-21/IONQ.png",
+      "rank": 7
     },
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
-      "final_score_0_1": 0.599044,
-      "score_pts": 599,
+      "final_score_0_1": 0.583724,
+      "score_pts": 584,
       "score_components": {
         "volume_anomaly": 0.553129,
-        "dii": 1.0,
+        "compression_release": 0.517241,
         "trends_breakout": 0.277589,
         "news": 0.972581
       },
       "score_weights": {
-        "volume_anomaly": 0.4,
-        "dii": 0.1,
-        "trends_breakout": 0.3,
-        "news": 0.2
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
       },
       "price_delta_1d": 1.46,
       "price_delta_1w": 7.9,
@@ -379,6 +303,82 @@
         }
       },
       "chart_url": "/charts/2026-04-21/MSFT.png",
+      "rank": 8
+    },
+    {
+      "symbol": "OII",
+      "name": "Oceaneering International Inc.",
+      "final_score_0_1": 0.547305,
+      "score_pts": 547,
+      "score_components": {
+        "volume_anomaly": 0.567956,
+        "compression_release": 0.655172,
+        "trends_breakout": 0.508839,
+        "news": 0.492141
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "price_delta_1d": 1.94,
+      "price_delta_1w": 5.26,
+      "price_delta_1m": 4.22,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 1.095,
+          "z60": -0.178,
+          "pct_rank_90": 0.756,
+          "dollar_vol": 44748623.64,
+          "eligible": true,
+          "ret_5d": 5.26,
+          "ret_20d": 4.22,
+          "range_pos_63d": 0.904,
+          "above_sma20": 1.0,
+          "direction_score": 0.609241,
+          "vol_only_score": 0.550262
+        }
+      },
+      "chart_url": "/charts/2026-04-21/OII.png",
+      "rank": 9
+    },
+    {
+      "symbol": "MNDY",
+      "name": "Monday.com Ltd.",
+      "final_score_0_1": 0.544846,
+      "score_pts": 545,
+      "score_components": {
+        "volume_anomaly": 0.351354,
+        "compression_release": 0.689655,
+        "trends_breakout": 0.503525,
+        "news": 0.77017
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "price_delta_1d": -0.8,
+      "price_delta_1w": 10.0,
+      "price_delta_1m": -10.08,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 1.016,
+          "z60": -0.417,
+          "pct_rank_90": 0.233,
+          "dollar_vol": 105420510.95,
+          "eligible": true,
+          "ret_5d": 10.0,
+          "ret_20d": -10.08,
+          "range_pos_63d": 0.127,
+          "above_sma20": 1.0,
+          "direction_score": 0.475404,
+          "vol_only_score": 0.298189
+        }
+      },
+      "chart_url": "/charts/2026-04-21/MNDY.png",
       "rank": 10
     }
   ]
