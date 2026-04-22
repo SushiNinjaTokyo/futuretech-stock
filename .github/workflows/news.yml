@@ -16,7 +16,7 @@ on:
           - "false"
           - "true"
   schedule:
-    - cron: '5 22 * * *'   # 18:05 ET / 07:05 JST
+    - cron: "5 22 * * *"
 
 concurrency:
   group: fetch-news
@@ -40,7 +40,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Sync latest main before build
         shell: bash
@@ -140,20 +140,7 @@ jobs:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
           set -euo pipefail
-          python - <<'PY'
-from pathlib import Path
-import json
-import os
-
-report_date = os.environ["REPORT_DATE"]
-p = Path(f"site/data/{report_date}/news.json")
-j = json.loads(p.read_text(encoding="utf-8"))
-items = j.get("items", [])
-print(f"items={len(items)}")
-if items:
-    sample = items[0]
-    print("sample_keys=", sorted(sample.keys()))
-PY
+          python -c "from pathlib import Path; import json, os; report_date=os.environ['REPORT_DATE']; p=Path(f'site/data/{report_date}/news.json'); j=json.loads(p.read_text(encoding='utf-8')); items=j.get('items', []); print(f'items={len(items)}'); print('sample_keys=', sorted(items[0].keys()) if items else [])"
 
       - name: Commit changes
         if: steps.skipcheck.outputs.exists != 'true'
