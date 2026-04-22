@@ -4,6 +4,15 @@ on:
   schedule:
     - cron: '10 22 * * *'  # 18:10 ET / 07:10 JST
   workflow_dispatch:
+    inputs:
+      force_rebuild:
+        description: "Rebuild even if top10.json already exists"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
 
 concurrency:
   group: daily-report
@@ -58,9 +67,18 @@ jobs:
         shell: bash
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+          FORCE_REBUILD: ${{ github.event.inputs.force_rebuild }}
         run: |
           set -euo pipefail
+
           TARGET="site/data/${REPORT_DATE}/top10.json"
+
+          if [ "${FORCE_REBUILD:-false}" = "true" ]; then
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "force_rebuild=true, skip existing check bypassed"
+            exit 0
+          fi
+
           if git cat-file -e "origin/main:${TARGET}" 2>/dev/null; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
             echo "Daily output already exists on origin/main: ${TARGET}"
@@ -69,54 +87,28 @@ jobs:
             echo "Daily output does not exist yet: ${TARGET}"
           fi
 
-      - name: Fetch Form4
+      - name: Fetch Compression Release
         if: steps.skipcheck.outputs.exists != 'true'
         shell: bash
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-          SEC_USER_AGENT: "futuretech-stock/1.0 (contact: your-email@example.com)"
-          FORM4_MAX_FILINGS: "8"
-          FORM4_MAX_AGE_DAYS: "95"
-          SEC_SLEEP: "0.7"
+          DATA_PROVIDER: ${{ vars.DATA_PROVIDER || 'yfinance' }}
+          TIINGO_TOKEN: ${{ secrets.TIINGO_TOKEN }}
         run: |
           set -euo pipefail
-          python scripts/fetch_form4.py
+          python scripts/fetch_compression.py
 
-      - name: Verify Form4 output
+      - name: Verify Compression output
         if: steps.skipcheck.outputs.exists != 'true'
         shell: bash
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
           set -euo pipefail
-          test -f "site/data/${REPORT_DATE}/form4.json"
-          test -f "site/data/form4/latest.json"
-
-      - name: Build DII
-        if: steps.skipcheck.outputs.exists != 'true'
-        shell: bash
-        env:
-          OUT_DIR: site
-          UNIVERSE_CSV: data/universe.csv
-          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-          DII_SOURCE: form4
-          DII_LOOKBACK_WEEKS: "12"
-          DII_RECENT_WEEKS: "4"
-        run: |
-          set -euo pipefail
-          python scripts/fetch_dii.py
-
-      - name: Verify DII output
-        if: steps.skipcheck.outputs.exists != 'true'
-        shell: bash
-        env:
-          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-        run: |
-          set -euo pipefail
-          test -f "site/data/${REPORT_DATE}/dii.json"
-          test -f "site/data/dii/latest.json"
+          test -f "site/data/${REPORT_DATE}/compression.json"
+          test -f "site/data/compression/latest.json"
 
       - name: Google Trends breakout
         if: steps.skipcheck.outputs.exists != 'true'
@@ -144,12 +136,28 @@ jobs:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-          NEWS_LOOKBACK_DAYS: "7"
-          NEWS_MAX_PER_SYMBOL: "20"
           NEWS_SLEEP_SEC: "1.0"
+          NEWS_LOOKBACK_DAYS: "10"
+          NEWS_MAX_PER_SYMBOL: "50"
+          NEWS_WEIGHT_TODAY: "0.55"
+          NEWS_WEIGHT_VS_YDAY: "0.20"
+          NEWS_WEIGHT_VS_3DAY: "0.25"
+          NEWS_BASELINE_FLOOR: "0.5"
+          NEWS_STRICT_FILTER: "true"
         run: |
           set -euo pipefail
           python scripts/fetch_news.py
+
+      - name: Verify component inputs
+        if: steps.skipcheck.outputs.exists != 'true'
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          test -f "site/data/${REPORT_DATE}/news.json"
+          test -f "site/data/${REPORT_DATE}/trends.json"
+          test -f "site/data/${REPORT_DATE}/compression.json"
 
       - name: Generate Top10 JSON
         if: steps.skipcheck.outputs.exists != 'true'
@@ -160,14 +168,11 @@ jobs:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
           DATA_PROVIDER: ${{ vars.DATA_PROVIDER || 'yfinance' }}
           MOCK_MODE: ${{ vars.MOCK_MODE || 'false' }}
-          BUDGET_JPY_MAX: ${{ vars.BUDGET_JPY_MAX || '10000' }}
-          MANUAL_DAILY_COST_JPY: ${{ vars.MANUAL_DAILY_COST_JPY || '0' }}
-          TIINGO_MONTHLY_JPY: ${{ vars.TIINGO_MONTHLY_JPY || '1600' }}
           TIINGO_TOKEN: ${{ secrets.TIINGO_TOKEN }}
-          WEIGHT_VOL_ANOM: ${{ vars.WEIGHT_VOL_ANOM || '0.4' }}
-          WEIGHT_DII: ${{ vars.WEIGHT_DII || '0.1' }}
-          WEIGHT_TRENDS: ${{ vars.WEIGHT_TRENDS || '0.30' }}
-          WEIGHT_NEWS: ${{ vars.WEIGHT_NEWS || '0.20' }}
+          WEIGHT_VOL_ANOM: ${{ vars.WEIGHT_VOL_ANOM || '0.35' }}
+          WEIGHT_COMPRESSION: ${{ vars.WEIGHT_COMPRESSION || '0.15' }}
+          WEIGHT_TRENDS: ${{ vars.WEIGHT_TRENDS || '0.25' }}
+          WEIGHT_NEWS: ${{ vars.WEIGHT_NEWS || '0.25' }}
         run: |
           set -euo pipefail
           python scripts/fetch_daily.py
@@ -189,19 +194,35 @@ jobs:
         run: |
           set -euo pipefail
           test -f "site/data/${REPORT_DATE}/top10.json"
+          test -f "site/data/top10/latest.json"
           test -f "site/daily/${REPORT_DATE}.html"
+          test -f "site/assets/daily.css"
 
       - name: Commit changes
         if: steps.skipcheck.outputs.exists != 'true'
         id: commitstep
         shell: bash
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
           set -euo pipefail
 
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
 
-          git add -A
+          git add \
+            "site/data/${REPORT_DATE}/compression.json" \
+            "site/data/compression/latest.json" \
+            "site/data/${REPORT_DATE}/news.json" \
+            "site/data/news/latest.json" \
+            "site/data/${REPORT_DATE}/trends.json" \
+            "site/data/trends/latest.json" \
+            "site/data/${REPORT_DATE}/top10.json" \
+            "site/data/top10/latest.json" \
+            "site/daily/${REPORT_DATE}.html" \
+            "site/assets/daily.css" \
+            "templates/daily.html.j2" \
+            "templates/daily.css"
 
           if git diff --cached --quiet; then
             echo "committed=false" >> "$GITHUB_OUTPUT"
