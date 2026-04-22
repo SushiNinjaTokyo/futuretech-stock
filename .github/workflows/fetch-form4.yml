@@ -55,7 +55,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          if [ -n "${INPUT_REPORT_DATE}" ]; then
+          if [ -n "${INPUT_REPORT_DATE:-}" ]; then
             REPORT_DATE="${INPUT_REPORT_DATE}"
           else
             REPORT_DATE="$(python scripts/et_market_date.py)"
@@ -64,16 +64,22 @@ jobs:
           echo "REPORT_DATE=${REPORT_DATE}" >> "$GITHUB_OUTPUT"
           echo "Resolved REPORT_DATE=${REPORT_DATE}"
 
-      - name: Fetch Form4
+      - name: Fetch DII from Form4
         shell: bash
         env:
           OUT_DIR: site
           UNIVERSE_CSV: data/universe.csv
           REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
           SEC_USER_AGENT: "futuretech-stock/1.0 (contact: your-email@example.com)"
-          FORM4_MAX_FILINGS: "8"
-          FORM4_MAX_AGE_DAYS: "95"
+          FORM4_MAX_FILINGS: "12"
+          FORM4_MAX_AGE_DAYS: "120"
           SEC_SLEEP: "0.7"
+          DII_LOOKBACK_DAYS: "30"
+          DII_LONG_LOOKBACK_DAYS: "90"
+          DII_WEIGHT_UNIQUE_BUYERS: "0.40"
+          DII_WEIGHT_BUY_EVENTS: "0.30"
+          DII_WEIGHT_CLUSTER: "0.20"
+          DII_WEIGHT_OFFICER: "0.10"
         run: |
           set -euo pipefail
           python scripts/fetch_form4.py
@@ -84,8 +90,8 @@ jobs:
           REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
         run: |
           set -euo pipefail
-          test -f "site/data/${REPORT_DATE}/form4.json"
-          test -f "site/data/form4/latest.json"
+          test -f "site/data/${REPORT_DATE}/dii.json"
+          test -f "site/data/dii/latest.json"
 
       - name: Commit changes
         id: commitstep
@@ -98,7 +104,11 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
 
-          git add "site/data/${REPORT_DATE}/form4.json" "site/data/form4/latest.json" "site/cache/cik_map.json" "site/cache/sec_company_tickers.json"
+          git add \
+            "site/data/${REPORT_DATE}/dii.json" \
+            "site/data/dii/latest.json" \
+            "site/cache/cik_map.json" \
+            "site/cache/sec_company_tickers.json"
 
           if git diff --cached --quiet; then
             echo "committed=false" >> "$GITHUB_OUTPUT"
@@ -106,7 +116,7 @@ jobs:
             exit 0
           fi
 
-          git commit -m "form4: update for ${REPORT_DATE}"
+          git commit -m "dii: update for ${REPORT_DATE}"
           echo "committed=true" >> "$GITHUB_OUTPUT"
 
       - name: Push changes
