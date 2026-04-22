@@ -236,6 +236,46 @@ def fetch_history(symbol: str, provider: str, token: Optional[str], months: int 
 
     return None
 
+def fetch_weekly_history(symbol: str, provider: str, token: Optional[str]) -> Optional[pd.DataFrame]:
+    """
+    週足チャート描画用。
+    20週移動平均をできるだけ自然に出したいので、最低6か月分を取得する。
+    """
+    try:
+        if provider == "tiingo" and token and pdr is not None:
+            df = fetch_history(symbol, provider, token, months=9)
+            if df is None or df.empty:
+                return None
+
+            out = pd.DataFrame(index=df.index)
+            out["Close"] = first_series(df["Close"]).to_numpy()
+            return out.resample("W-FRI").last().dropna()
+
+        if yf is None:
+            return None
+
+        raw = yf.download(
+            symbol,
+            period="9mo",
+            interval="1wk",
+            progress=False,
+            threads=False,
+            auto_adjust=False,
+        )
+        if raw is None or raw.empty:
+            return None
+
+        norm = normalize_ohlcv(raw)
+        if norm.empty:
+            return None
+
+        out = pd.DataFrame(index=norm.index)
+        out["Close"] = first_series(norm["Close"]).to_numpy()
+        return out.dropna()
+
+    except Exception as e:
+        log("WARN", f"{symbol}: weekly history failed: {e}")
+        return None
 
 def price_direction_metrics(df: pd.DataFrame) -> Dict[str, float]:
     """
