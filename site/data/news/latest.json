@@ -88,6 +88,12 @@
       },
       "headlines": [
         {
+          "title": "Microsoft and Meta announce large staff reductions as they spend big on AI",
+          "link": "https://finance.yahoo.com/sectors/technology/articles/microsoft-meta-announce-sweeping-layoffs-212338173.html?.tsrc=rss",
+          "published_at": "2026-04-23T22:51:49+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
           "title": "Prediction: Microsoft's April 29 Earnings Will Be the Most Important Tech Event of 2026",
           "link": "https://www.fool.com/investing/2026/04/23/prediction-microsofts-april-29-earnings-will-be-th/?.tsrc=rss",
           "published_at": "2026-04-23T22:20:00+00:00",
@@ -97,12 +103,6 @@
           "title": "Why Microsoft Stock Sank Today",
           "link": "https://www.fool.com/investing/2026/04/23/why-microsoft-stock-sank-today/?.tsrc=rss",
           "published_at": "2026-04-23T22:02:58+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Microsoft and Meta announce sweeping layoffs as they spend big on AI",
-          "link": "https://finance.yahoo.com/sectors/technology/articles/microsoft-meta-announce-sweeping-layoffs-212338173.html?.tsrc=rss",
-          "published_at": "2026-04-23T21:23:38+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -588,8 +588,8 @@
       "name": "Symbotic Inc.",
       "score_0_1": 0.356452,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 14,
-      "deduped_headline_count": 14,
+      "headline_count_relevant": 13,
+      "deduped_headline_count": 13,
       "today_count": 0,
       "prev1_count": 1,
       "prev3_daily_counts": [
@@ -656,12 +656,6 @@
           "title": "Here is What to Know Beyond Why Symbotic Inc. (SYM) is a Trending Stock",
           "link": "https://finance.yahoo.com/markets/stocks/articles/know-beyond-why-symbotic-inc-130003973.html?.tsrc=rss",
           "published_at": "2026-04-09T13:00:03+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "VNT vs. SYM: Which Stock Is the Better Value Option?",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/vnt-vs-sym-stock-better-154003395.html?.tsrc=rss",
-          "published_at": "2026-04-08T15:40:03+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -1248,7 +1242,7 @@
         },
         {
           "title": "Monday.com (MNDY) Outperforms Broader Market: What You Need to Know",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/monday-com-mndy-outperforms-broader-215004923.html?.tsrc=rss",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/monday-com-mndy-outperforms-broader-215004250.html?.tsrc=rss",
           "published_at": "2026-04-22T21:50:04+00:00",
           "source": "Yahoo Finance RSS"
         },
@@ -1824,32 +1818,44 @@
       "name": "Tempus AI, Inc.",
       "score_0_1": 0.356452,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 10,
-      "deduped_headline_count": 10,
+      "headline_count_relevant": 17,
+      "deduped_headline_count": 17,
       "today_count": 0,
-      "prev1_count": 1,
+      "prev1_count": 2,
       "prev3_daily_counts": [
         1,
         0,
-        1
+        2
       ],
-      "avg_prev_3d_excl_today": 0.6667,
-      "baseline_prev1_used": 1.0,
-      "baseline_prev3_used": 0.6667,
+      "avg_prev_3d_excl_today": 1.0,
+      "baseline_prev1_used": 2.0,
+      "baseline_prev3_used": 1.0,
       "ratio_vs_prev1": 0.0,
       "ratio_vs_prev3avg": 0.0,
       "raw_news_strength": 0.0,
       "day_counts": {
         "2026-04-19": 1,
         "2026-04-20": 0,
-        "2026-04-21": 1,
+        "2026-04-21": 2,
         "2026-04-22": 0
       },
       "headlines": [
         {
+          "title": "Tempus and USC Announce Strategic Collaboration to Accelerate AI-Driven Precision Medicine",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-usc-announce-strategic-collaboration-123000280.html?.tsrc=rss",
+          "published_at": "2026-04-23T12:30:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
           "title": "Tempus AI Inc. (TEM): Nancy Pelosi Likes This AI-Powered Medicine Company",
           "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-ai-inc-tem-nancy-144756083.html?.tsrc=rss",
           "published_at": "2026-04-21T14:47:56+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Tempus to Report First Quarter 2026 Financial Results on May 5",
+          "link": "https://finance.yahoo.com/sectors/technology/articles/tempus-report-first-quarter-2026-123000077.html?.tsrc=rss",
+          "published_at": "2026-04-21T12:30:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -1883,6 +1889,24 @@
           "source": "Yahoo Finance RSS"
         },
         {
+          "title": "Tempus and Predicta Biosciences Announce Collaboration to Expand Life Sciences Access to Ultrasensitive Whole-Genome Sequencing Assay for Hematologic Malignancies and MRD Monitoring",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-predicta-biosciences-announce-collaboration-123000463.html?.tsrc=rss",
+          "published_at": "2026-04-15T12:30:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Tempus Announces 31 Abstracts for Presentation at the American Association for Cancer Research Annual Meeting 2026",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-announces-31-abstracts-presentation-123000142.html?.tsrc=rss",
+          "published_at": "2026-04-14T12:30:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Tempus Launches Automated \"Active Follow-Up\" Service to Support Guideline-Concordant Care",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-launches-automated-active-support-123000147.html?.tsrc=rss",
+          "published_at": "2026-04-13T12:30:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
           "title": "Is Tempus AI (TEM) Offering A Compelling Entry Point After Recent Share Price Weakness",
           "link": "https://finance.yahoo.com/markets/stocks/articles/tempus-ai-tem-offering-compelling-071008112.html?.tsrc=rss",
           "published_at": "2026-04-10T07:10:08+00:00",
@@ -1892,6 +1916,18 @@
           "title": "TEM Stock Gains 17.9% in a Year: Time to Buy, Hold or Sell?",
           "link": "https://finance.yahoo.com/markets/stocks/articles/tem-stock-gains-17-9-160200691.html?.tsrc=rss",
           "published_at": "2026-04-09T16:02:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Tempus Announces Strategic Collaboration with Gilead to Advance Oncology R&D Through RWE",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-announces-strategic-collaboration-gilead-123000730.html?.tsrc=rss",
+          "published_at": "2026-04-09T12:30:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Tempus to Present at the 25th Annual Needham Virtual Healthcare Conference",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-present-25th-annual-needham-200100126.html?.tsrc=rss",
+          "published_at": "2026-04-08T20:01:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
