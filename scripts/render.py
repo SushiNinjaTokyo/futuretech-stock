@@ -150,6 +150,29 @@ def normalize_relative_strength(detail_raw: Dict[str, Any]) -> Dict[str, Any]:
     return out
 
 
+def normalize_hero_index_lines(raw: Any) -> Dict[str, Any]:
+    raw = raw or {}
+    out: Dict[str, Any] = {}
+
+    for key in ("sp500", "nasdaq", "russell"):
+        row = raw.get(key) or {}
+        pts = row.get("points") or []
+        clean_points: List[float] = []
+        for p in pts:
+            fp = to_float(p)
+            if fp is not None:
+                clean_points.append(max(0.0, min(100.0, fp)))
+
+        out[key] = {
+            "label": str(row.get("label", key.upper())),
+            "symbol": str(row.get("symbol", "")),
+            "points": clean_points,
+            "change_1m": to_float(row.get("change_1m")),
+        }
+
+    return out
+
+
 def normalize_item(item: Dict[str, Any], date: str, rank: int) -> Dict[str, Any]:
     sym = str(item.get("symbol", "")).strip().upper()
     nm = str(item.get("name", "")).strip()
@@ -194,7 +217,7 @@ def normalize_item(item: Dict[str, Any], date: str, rank: int) -> Dict[str, Any]
     }
 
 
-def load_top10_for(date: str) -> List[Dict[str, Any]]:
+def load_payload_for(date: str) -> Dict[str, Any]:
     day_path = OUT_DIR / "data" / date / "top10.json"
     latest_path = OUT_DIR / "data" / "top10" / "latest.json"
 
@@ -202,19 +225,27 @@ def load_top10_for(date: str) -> List[Dict[str, Any]]:
     if not j:
         j = read_json(latest_path)
     if not j:
-        return []
+        return {"hero_index_lines": {}, "items": []}
 
-    payload = j.get("items", j) if isinstance(j, dict) else j
-    if not isinstance(payload, list):
-        return []
+    payload = j if isinstance(j, dict) else {"items": j}
+    items_raw = payload.get("items", [])
+    if not isinstance(items_raw, list):
+        items_raw = []
 
-    items = payload[:10]
-    return [normalize_item(x, date, i + 1) for i, x in enumerate(items)]
+    items = [normalize_item(x, date, i + 1) for i, x in enumerate(items_raw[:10])]
+    hero_index_lines = normalize_hero_index_lines(payload.get("hero_index_lines"))
+
+    return {
+        "hero_index_lines": hero_index_lines,
+        "items": items,
+    }
 
 
 def main() -> None:
     date = pick_date_dir()
-    items = load_top10_for(date)
+    payload = load_payload_for(date)
+    items = payload["items"]
+    hero_index_lines = payload["hero_index_lines"]
 
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATES_DIR)),
@@ -228,6 +259,7 @@ def main() -> None:
         date=date,
         top10=items,
         items=items,
+        hero_index_lines=hero_index_lines,
         generated_at=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ"),
     )
 
