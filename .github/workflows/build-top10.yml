@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       report_date:
-        description: "Target date (YYYY-MM-DD). Empty = latest available component date"
+        description: "Target date (YYYY-MM-DD). Empty = latest date with all component files"
         required: false
         default: ""
       render_html:
@@ -66,11 +66,37 @@ jobs:
           if [ -n "${INPUT_REPORT_DATE:-}" ]; then
             REPORT_DATE="${INPUT_REPORT_DATE}"
           else
-            REPORT_DATE="$(python -c "from pathlib import Path; base=Path('site/data'); dates=sorted([p.name for p in base.iterdir() if p.is_dir() and len(p.name)==10], reverse=True); print(dates[0] if dates else '')")"
+            REPORT_DATE="$(python - <<'PY'
+from pathlib import Path
+
+base = Path("site/data")
+if not base.exists():
+    print("")
+    raise SystemExit(0)
+
+dates = sorted(
+    [p.name for p in base.iterdir() if p.is_dir() and len(p.name) == 10],
+    reverse=True,
+)
+
+picked = ""
+for d in dates:
+    day = base / d
+    if (
+        (day / "news.json").exists()
+        and (day / "trends.json").exists()
+        and (day / "compression.json").exists()
+    ):
+        picked = d
+        break
+
+print(picked)
+PY
+)"
           fi
 
           if [ -z "${REPORT_DATE}" ]; then
-            echo "No site/data/YYYY-MM-DD directories found"
+            echo "No date directory with news.json, trends.json, and compression.json found"
             exit 1
           fi
 
