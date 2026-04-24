@@ -14,25 +14,80 @@
   <div class="grid-overlay"></div>
 
   <main class="wrap">
-    <header class="hero">
+    <header class="hero hero-terminal">
+      <div class="hero-noise"></div>
+      <div class="hero-scan"></div>
+
       <div class="hero-copy">
-        <div class="eyebrow">FutureTech Stock Intelligence</div>
-        <h1>Daily Top 10</h1>
+        <div class="hero-kicker">MARKET SIGNALS</div>
+
+        <h1 class="hero-title">
+          <span class="hero-title-line">Top 10</span>
+          <span class="hero-title-line hero-title-accent">
+            <span class="glitch-text" data-text="Movers">Movers</span>
+          </span>
+        </h1>
+
         <p class="hero-sub">
-          Ranked by blended momentum signals across volume anomaly, compression release, search breakout, and news intensity.
+          Breakout candidates ranked by volume, structure, and momentum.
         </p>
+
+        <div class="hero-meta-inline">
+          <span class="hero-date-label">Market date</span>
+          <span class="hero-date-value">{{ date }}</span>
+        </div>
       </div>
 
-      <div class="hero-meta">
-        <div class="meta-card">
-          <div class="meta-label">Market Date</div>
-          <div class="meta-value">{{ date }}</div>
+      <div class="hero-visual">
+        <div class="hero-visual-head">
+          <div class="pulse-dot"></div>
+          <span>Market Pulse</span>
         </div>
-        <div class="meta-card">
-          <div class="meta-label">Universe Slice</div>
-          <div class="meta-value">{{ (top10 or [])|length }} names</div>
+
+        <div class="hero-lines">
+          {% for key in ['sp500', 'nasdaq', 'russell'] %}
+            {% set row = hero_index_lines[key] | default({}, true) %}
+            <div class="hero-line-row" data-line-key="{{ key }}">
+              <div class="hero-line-meta">
+                <div class="hero-line-label">{{ row.label | default(key|upper, true) }}</div>
+                <div class="hero-line-change {% if row.change_1m is not none and row.change_1m > 0 %}up{% elif row.change_1m is not none and row.change_1m < 0 %}down{% else %}flat{% endif %}">
+                  {% if row.change_1m is not none %}
+                    {% if row.change_1m > 0 %}+{% endif %}{{ row.change_1m | round(2) }}%
+                  {% else %}
+                    —
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="hero-line-canvas-wrap">
+                <svg class="hero-line-svg {{ key }}" viewBox="0 0 520 120" preserveAspectRatio="none" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="hero-grad-{{ key }}" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
+                      <stop offset="22%" stop-color="var(--hero-line-mid, rgba(255,255,255,.35))"/>
+                      <stop offset="100%" stop-color="var(--hero-line-end, rgba(255,255,255,1))"/>
+                    </linearGradient>
+                    <filter id="hero-glow-{{ key }}" x="-30%" y="-100%" width="160%" height="300%">
+                      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+                      <feMerge>
+                        <feMergeNode in="blur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  <path class="hero-line-track" d="" />
+                  <path class="hero-line-core" d="" />
+                </svg>
+              </div>
+            </div>
+          {% endfor %}
         </div>
       </div>
+
+      <script type="application/json" id="hero-index-data">
+      {{ hero_index_lines | tojson }}
+      </script>
     </header>
 
     {% macro signal_tier(v) -%}
@@ -312,7 +367,65 @@ function decorateTop3Medals(){
   });
 }
 
-document.addEventListener("DOMContentLoaded", decorateTop3Medals);
+function buildHeroPath(points, width = 520, height = 120){
+  if (!Array.isArray(points) || points.length < 2){
+    return "";
+  }
+
+  const maxIndex = points.length - 1;
+  const coords = points.map((p, i) => {
+    const x = (i / maxIndex) * width;
+    const y = height - (Math.max(0, Math.min(100, Number(p))) / 100) * (height - 12) - 6;
+    return [x, y];
+  });
+
+  let d = `M ${coords[0][0].toFixed(2)} ${coords[0][1].toFixed(2)}`;
+  for (let i = 1; i < coords.length; i++) {
+    const prev = coords[i - 1];
+    const curr = coords[i];
+    const cx1 = (prev[0] + curr[0]) / 2;
+    const cy1 = prev[1];
+    const cx2 = (prev[0] + curr[0]) / 2;
+    const cy2 = curr[1];
+    d += ` C ${cx1.toFixed(2)} ${cy1.toFixed(2)}, ${cx2.toFixed(2)} ${cy2.toFixed(2)}, ${curr[0].toFixed(2)} ${curr[1].toFixed(2)}`;
+  }
+  return d;
+}
+
+function initHeroIndexLines(){
+  const el = document.getElementById("hero-index-data");
+  if (!el) return;
+
+  let data = {};
+  try {
+    data = JSON.parse(el.textContent || "{}");
+  } catch (_) {
+    return;
+  }
+
+  document.querySelectorAll(".hero-line-row").forEach((row) => {
+    const key = row.getAttribute("data-line-key");
+    const series = data[key] || {};
+    const points = Array.isArray(series.points) ? series.points : [];
+    const svg = row.querySelector(".hero-line-svg");
+    const track = row.querySelector(".hero-line-track");
+    const core = row.querySelector(".hero-line-core");
+    if (!svg || !track || !core || points.length < 2) return;
+
+    const d = buildHeroPath(points, 520, 120);
+    track.setAttribute("d", d);
+    core.setAttribute("d", d);
+
+    const len = core.getTotalLength();
+    core.style.setProperty("--hero-line-length", `${len}`);
+    track.style.setProperty("--hero-line-length", `${len}`);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  decorateTop3Medals();
+  initHeroIndexLines();
+});
 </script>
 </body>
 </html>
