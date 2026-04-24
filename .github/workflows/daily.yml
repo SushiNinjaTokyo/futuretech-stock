@@ -2,7 +2,7 @@ name: daily-report
 
 on:
   schedule:
-    - cron: '10 22 * * *'  # 18:10 ET / 07:10 JST
+    - cron: '30 23 * * *'  # 19:30 ET / 08:30 JST
   workflow_dispatch:
     inputs:
       force_rebuild:
