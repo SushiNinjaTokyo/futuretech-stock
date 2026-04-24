@@ -14,25 +14,133 @@
   <div class="grid-overlay"></div>
 
   <main class="wrap">
-    <header class="hero">
+    <header class="hero hero-terminal">
+      <div class="hero-noise"></div>
+      <div class="hero-scan"></div>
+
       <div class="hero-copy">
-        <div class="eyebrow">FutureTech Stock Intelligence</div>
-        <h1>Daily Top 10</h1>
+        <div class="hero-kicker">MARKET SIGNALS</div>
+
+        <h1 class="hero-title">
+          <span class="hero-title-line">Top 10</span>
+          <span class="hero-title-line hero-title-accent">
+            <span class="glitch-text" data-text="Movers">Movers</span>
+          </span>
+        </h1>
+
         <p class="hero-sub">
-          Ranked by blended momentum signals across volume anomaly, compression release, search breakout, and news intensity.
+          Breakout candidates ranked by volume, structure, and momentum.
         </p>
+
+        <div class="hero-meta-inline">
+          <span class="hero-date-label">Market date</span>
+          <span class="hero-date-value">2026-04-23</span>
+        </div>
       </div>
 
-      <div class="hero-meta">
-        <div class="meta-card">
-          <div class="meta-label">Market Date</div>
-          <div class="meta-value">2026-04-23</div>
+      <div class="hero-visual">
+        <div class="hero-visual-head">
+          <div class="pulse-dot"></div>
+          <span>Market Pulse</span>
         </div>
-        <div class="meta-card">
-          <div class="meta-label">Universe Slice</div>
-          <div class="meta-value">10 names</div>
+
+        <div class="hero-lines">
+            <div class="hero-line-row" data-line-key="sp500">
+              <div class="hero-line-meta">
+                <div class="hero-line-label">SP500</div>
+                <div class="hero-line-change up">
++7.86%
+                </div>
+              </div>
+
+              <div class="hero-line-canvas-wrap">
+                <svg class="hero-line-svg sp500" viewBox="0 0 520 120" preserveAspectRatio="none" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="hero-grad-sp500" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
+                      <stop offset="22%" stop-color="var(--hero-line-mid, rgba(255,255,255,.35))"/>
+                      <stop offset="100%" stop-color="var(--hero-line-end, rgba(255,255,255,1))"/>
+                    </linearGradient>
+                    <filter id="hero-glow-sp500" x="-30%" y="-100%" width="160%" height="300%">
+                      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+                      <feMerge>
+                        <feMergeNode in="blur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  <path class="hero-line-track" d="" />
+                  <path class="hero-line-core" d="" />
+                </svg>
+              </div>
+            </div>
+            <div class="hero-line-row" data-line-key="nasdaq">
+              <div class="hero-line-meta">
+                <div class="hero-line-label">NASDAQ</div>
+                <div class="hero-line-change up">
++10.82%
+                </div>
+              </div>
+
+              <div class="hero-line-canvas-wrap">
+                <svg class="hero-line-svg nasdaq" viewBox="0 0 520 120" preserveAspectRatio="none" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="hero-grad-nasdaq" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
+                      <stop offset="22%" stop-color="var(--hero-line-mid, rgba(255,255,255,.35))"/>
+                      <stop offset="100%" stop-color="var(--hero-line-end, rgba(255,255,255,1))"/>
+                    </linearGradient>
+                    <filter id="hero-glow-nasdaq" x="-30%" y="-100%" width="160%" height="300%">
+                      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+                      <feMerge>
+                        <feMergeNode in="blur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  <path class="hero-line-track" d="" />
+                  <path class="hero-line-core" d="" />
+                </svg>
+              </div>
+            </div>
+            <div class="hero-line-row" data-line-key="russell">
+              <div class="hero-line-meta">
+                <div class="hero-line-label">Russell</div>
+                <div class="hero-line-change up">
++9.41%
+                </div>
+              </div>
+
+              <div class="hero-line-canvas-wrap">
+                <svg class="hero-line-svg russell" viewBox="0 0 520 120" preserveAspectRatio="none" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="hero-grad-russell" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
+                      <stop offset="22%" stop-color="var(--hero-line-mid, rgba(255,255,255,.35))"/>
+                      <stop offset="100%" stop-color="var(--hero-line-end, rgba(255,255,255,1))"/>
+                    </linearGradient>
+                    <filter id="hero-glow-russell" x="-30%" y="-100%" width="160%" height="300%">
+                      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+                      <feMerge>
+                        <feMergeNode in="blur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+
+                  <path class="hero-line-track" d="" />
+                  <path class="hero-line-core" d="" />
+                </svg>
+              </div>
+            </div>
         </div>
       </div>
+
+      <script type="application/json" id="hero-index-data">
+      {"nasdaq": {"change_1m": 10.82, "label": "NASDAQ", "points": [77.393, 73.479, 65.672, 70.082, 60.147, 49.024, 40.019, 53.052, 57.875, 54.931, 56.625, 43.747, 45.069, 44.428, 49.065, 46.669, 52.184, 44.542, 51.213, 60.312, 52.628, 50.614, 51.441, 44.718, 54.188, 52.287, 42.828, 51.1, 51.11, 51.028, 40.256, 36.6, 43.478, 46.504, 37.819, 35.877, 24.558, 30.693, 26.541, 30.507, 16.018, 4.441, 0.0, 19.519, 26.882, 27.574, 31.209, 31.302, 49.375, 53.609, 54.518, 61.045, 72.622, 81.71, 84.881, 93.535, 91.408, 88.867, 100.0, 96.189], "symbol": "QQQ"}, "russell": {"change_1m": 9.41, "label": "Russell", "points": [62.772, 62.957, 53.1, 59.804, 61.394, 55.405, 42.978, 67.329, 72.258, 70.35, 67.144, 52.809, 61.871, 62.083, 64.6, 66.216, 66.243, 55.326, 62.851, 66.163, 69.899, 57.764, 64.123, 52.014, 58.691, 45.443, 29.889, 37.122, 36.433, 35.082, 20.668, 18.495, 24.669, 27.663, 16.985, 21.251, 6.916, 20.774, 24.298, 32.353, 20.747, 9.247, 0.0, 22.231, 26.365, 30.949, 33.784, 35.241, 55.273, 59.221, 57.472, 67.462, 77.133, 78.908, 80.392, 95.84, 100.0, 92.475, 97.695, 95.151], "symbol": "IWM"}, "sp500": {"change_1m": 7.86, "label": "SP500", "points": [80.073, 78.332, 75.719, 80.061, 72.64, 68.425, 57.61, 74.016, 78.218, 75.909, 75.707, 62.216, 62.822, 64.21, 68.551, 66.267, 72.514, 63.629, 69.889, 77.208, 72.35, 68.173, 68.665, 61.03, 67.087, 62.267, 50.997, 58.43, 57.055, 55.982, 43.021, 38.263, 46.769, 48.99, 37.178, 35.121, 20.949, 29.543, 26.767, 31.36, 16.557, 2.675, 0.0, 23.183, 29.366, 30.111, 34.023, 34.389, 55.578, 60.5, 59.932, 68.311, 78.862, 85.777, 87.948, 98.65, 96.858, 91.002, 100.0, 96.517], "symbol": "SPY"}}
+      </script>
     </header>
 
 
@@ -1902,7 +2010,65 @@ function decorateTop3Medals(){
   });
 }
 
-document.addEventListener("DOMContentLoaded", decorateTop3Medals);
+function buildHeroPath(points, width = 520, height = 120){
+  if (!Array.isArray(points) || points.length < 2){
+    return "";
+  }
+
+  const maxIndex = points.length - 1;
+  const coords = points.map((p, i) => {
+    const x = (i / maxIndex) * width;
+    const y = height - (Math.max(0, Math.min(100, Number(p))) / 100) * (height - 12) - 6;
+    return [x, y];
+  });
+
+  let d = `M ${coords[0][0].toFixed(2)} ${coords[0][1].toFixed(2)}`;
+  for (let i = 1; i < coords.length; i++) {
+    const prev = coords[i - 1];
+    const curr = coords[i];
+    const cx1 = (prev[0] + curr[0]) / 2;
+    const cy1 = prev[1];
+    const cx2 = (prev[0] + curr[0]) / 2;
+    const cy2 = curr[1];
+    d += ` C ${cx1.toFixed(2)} ${cy1.toFixed(2)}, ${cx2.toFixed(2)} ${cy2.toFixed(2)}, ${curr[0].toFixed(2)} ${curr[1].toFixed(2)}`;
+  }
+  return d;
+}
+
+function initHeroIndexLines(){
+  const el = document.getElementById("hero-index-data");
+  if (!el) return;
+
+  let data = {};
+  try {
+    data = JSON.parse(el.textContent || "{}");
+  } catch (_) {
+    return;
+  }
+
+  document.querySelectorAll(".hero-line-row").forEach((row) => {
+    const key = row.getAttribute("data-line-key");
+    const series = data[key] || {};
+    const points = Array.isArray(series.points) ? series.points : [];
+    const svg = row.querySelector(".hero-line-svg");
+    const track = row.querySelector(".hero-line-track");
+    const core = row.querySelector(".hero-line-core");
+    if (!svg || !track || !core || points.length < 2) return;
+
+    const d = buildHeroPath(points, 520, 120);
+    track.setAttribute("d", d);
+    core.setAttribute("d", d);
+
+    const len = core.getTotalLength();
+    core.style.setProperty("--hero-line-length", `${len}`);
+    track.style.setProperty("--hero-line-length", `${len}`);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  decorateTop3Medals();
+  initHeroIndexLines();
+});
 </script>
 </body>
 </html>
