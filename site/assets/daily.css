@@ -74,8 +74,6 @@ body{
   padding:32px 18px 64px;
 }
 
-/* HERO */
-
 .hero{
   position:relative;
   display:grid;
@@ -186,19 +184,22 @@ body{
 .hero-title{
   margin:0;
   font-size:clamp(40px, 6vw, 76px);
-  line-height:.92;
+  line-height:1.06;
   letter-spacing:-.055em;
   font-weight:950;
   color:transparent;
   text-wrap:balance;
   overflow:visible;
+  padding:.08em .04em .14em 0;
 }
 
 .glitch-title{
   position:relative;
-  display:inline-block;
+  display:block;
+  width:100%;
   max-width:100%;
   white-space:normal;
+  overflow:visible;
   color:transparent;
   background:linear-gradient(
     90deg,
@@ -224,6 +225,7 @@ body{
   pointer-events:none;
   opacity:0;
   white-space:normal;
+  overflow:visible;
 }
 
 .glitch-title::before{
@@ -382,19 +384,19 @@ body{
   overflow:visible;
 }
 
-.hero-line-svg.sp{
+.hero-line-svg.sp500{
   --hero-line-mid:#8af8ff;
-  --hero-line-core:#d7ffff;
+  --hero-line-core-color:#d7ffff;
   --hero-line-end:#f3ffff;
 }
 .hero-line-svg.nasdaq{
   --hero-line-mid:#9bbcff;
-  --hero-line-core:#dce6ff;
+  --hero-line-core-color:#dce6ff;
   --hero-line-end:#eef3ff;
 }
 .hero-line-svg.russell{
   --hero-line-mid:#ccb3ff;
-  --hero-line-core:#ede0ff;
+  --hero-line-core-color:#ede0ff;
   --hero-line-end:#f7efff;
 }
 
@@ -423,9 +425,9 @@ body{
   stroke-width:2.9;
 }
 
-.hero-line-svg.sp .hero-line-core{
-  stroke:url(#hero-grad-sp);
-  filter:url(#hero-glow-sp);
+.hero-line-svg.sp500 .hero-line-core{
+  stroke:url(#hero-grad-sp500);
+  filter:url(#hero-glow-sp500);
   opacity:1;
 }
 .hero-line-svg.nasdaq .hero-line-core{
@@ -439,11 +441,11 @@ body{
   opacity:1;
 }
 
-.hero-line-svg.sp .hero-line-ghost{stroke:#bfffff}
+.hero-line-svg.sp500 .hero-line-ghost{stroke:#bfffff}
 .hero-line-svg.nasdaq .hero-line-ghost{stroke:#c8d8ff}
 .hero-line-svg.russell .hero-line-ghost{stroke:#e1d2ff}
 
-.hero-line-svg.sp{
+.hero-line-svg.sp500{
   filter:
     drop-shadow(0 0 10px rgba(94,231,255,.34))
     drop-shadow(0 0 22px rgba(94,231,255,.24))
@@ -462,51 +464,7 @@ body{
     drop-shadow(0 0 42px rgba(157,123,255,.16));
 }
 
-.hero-mask-window{
-  fill:#fff;
-  animation:heroMaskSweep 1.6s linear infinite;
-}
-
-.hero-line-ghost{
-  animation:heroGhostFade 1.6s linear infinite;
-}
-
-.hero-line-row:nth-child(2) .hero-mask-window,
-.hero-line-row:nth-child(2) .hero-line-ghost{
-  animation-delay:.08s;
-}
-.hero-line-row:nth-child(3) .hero-mask-window,
-.hero-line-row:nth-child(3) .hero-line-ghost{
-  animation-delay:.16s;
-}
-
-/* 0→50% までは右に伸びる
-   50→100% では幅を保ったまま右へ流れて消える
-   = 描画と消去の見かけ速度を揃える */
-@keyframes heroMaskSweep{
-  0%{
-    x:0;
-    width:0;
-  }
-  50%{
-    x:0;
-    width:260px;
-  }
-  100%{
-    x:520px;
-    width:260px;
-  }
-}
-
-@keyframes heroGhostFade{
-  0%{opacity:0}
-  20%{opacity:.00}
-  50%{opacity:.16}
-  100%{opacity:.05}
-}
-
-/* CARDS */
-
+/* 以下カード群は既存のまま */
 .cards{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
