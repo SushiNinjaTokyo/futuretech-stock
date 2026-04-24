@@ -385,18 +385,22 @@ body{
 
 .hero-line-svg.sp{
   --hero-line-mid:#8af8ff;
-  --hero-line-end:#dbffff;
+  --hero-line-core:#d7ffff;
+  --hero-line-end:#f3ffff;
 }
 .hero-line-svg.nasdaq{
-  --hero-line-mid:#91b3ff;
-  --hero-line-end:#e2eaff;
+  --hero-line-mid:#9bbcff;
+  --hero-line-core:#dce6ff;
+  --hero-line-end:#eef3ff;
 }
 .hero-line-svg.russell{
-  --hero-line-mid:#c4a8ff;
-  --hero-line-end:#f1e7ff;
+  --hero-line-mid:#ccb3ff;
+  --hero-line-core:#ede0ff;
+  --hero-line-end:#f7efff;
 }
 
 .hero-line-track,
+.hero-line-ghost,
 .hero-line-core{
   fill:none;
   stroke-linecap:round;
@@ -410,12 +414,18 @@ body{
   opacity:.55;
 }
 
+.hero-line-ghost{
+  stroke:rgba(255,255,255,.18);
+  stroke-width:2.2;
+  opacity:.0;
+  filter:blur(5px);
+}
+
 .hero-line-core{
-  stroke-width:2.8;
+  stroke-width:2.9;
   transform-origin:left center;
 }
 
-/* SP500 を他と同じように確実表示 */
 .hero-line-svg.sp .hero-line-core{
   stroke:url(#hero-grad-sp);
   filter:url(#hero-glow-sp);
@@ -432,28 +442,57 @@ body{
   opacity:1;
 }
 
-/* グラデーションを強調した発光 */
+.hero-line-svg.sp .hero-line-ghost{
+  stroke:#bfffff;
+}
+.hero-line-svg.nasdaq .hero-line-ghost{
+  stroke:#c8d8ff;
+}
+.hero-line-svg.russell .hero-line-ghost{
+  stroke:#e1d2ff;
+}
+
+/* 発光を強化 */
 .hero-line-svg.sp{
-  filter:drop-shadow(0 0 10px rgba(94,231,255,.20));
+  filter:
+    drop-shadow(0 0 10px rgba(94,231,255,.32))
+    drop-shadow(0 0 22px rgba(94,231,255,.22))
+    drop-shadow(0 0 42px rgba(94,231,255,.14));
 }
 .hero-line-svg.nasdaq{
-  filter:drop-shadow(0 0 10px rgba(91,140,255,.20));
+  filter:
+    drop-shadow(0 0 10px rgba(91,140,255,.32))
+    drop-shadow(0 0 22px rgba(91,140,255,.22))
+    drop-shadow(0 0 42px rgba(91,140,255,.14));
 }
 .hero-line-svg.russell{
-  filter:drop-shadow(0 0 10px rgba(157,123,255,.20));
+  filter:
+    drop-shadow(0 0 10px rgba(157,123,255,.32))
+    drop-shadow(0 0 22px rgba(157,123,255,.22))
+    drop-shadow(0 0 42px rgba(157,123,255,.14));
 }
 
-/* 速度2倍 */
+/*
+  左から右へ描画
+  50%時点から左からも消失開始
+  さらに残像を少し残す
+*/
 .hero-line-core{
   clip-path:inset(0 100% 0 0);
-  animation:heroLineSweep 3.2s linear infinite;
+  animation:heroLineSweep 1.6s linear infinite;
+}
+.hero-line-ghost{
+  clip-path:inset(0 100% 0 0);
+  animation:heroLineGhost 1.6s linear infinite;
 }
 
-.hero-line-row:nth-child(2) .hero-line-core{
-  animation-delay:.15s;
+.hero-line-row:nth-child(2) .hero-line-core,
+.hero-line-row:nth-child(2) .hero-line-ghost{
+  animation-delay:.08s;
 }
-.hero-line-row:nth-child(3) .hero-line-core{
-  animation-delay:.30s;
+.hero-line-row:nth-child(3) .hero-line-core,
+.hero-line-row:nth-child(3) .hero-line-ghost{
+  animation-delay:.16s;
 }
 
 @keyframes heroLineSweep{
@@ -461,16 +500,34 @@ body{
     clip-path:inset(0 100% 0 0);
     opacity:0;
   }
-  8%{
+  6%{
     opacity:1;
   }
-  35%{
-    clip-path:inset(0 0 0 0);
+  50%{
+    clip-path:inset(0 50% 0 0);
     opacity:1;
   }
   100%{
     clip-path:inset(0 0 0 100%);
     opacity:1;
+  }
+}
+
+@keyframes heroLineGhost{
+  0%{
+    clip-path:inset(0 100% 0 0);
+    opacity:0;
+  }
+  12%{
+    opacity:.0;
+  }
+  50%{
+    clip-path:inset(0 50% 0 0);
+    opacity:.16;
+  }
+  100%{
+    clip-path:inset(0 0 0 100%);
+    opacity:.06;
   }
 }
 
