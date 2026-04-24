@@ -60,27 +60,31 @@
                 <svg class="hero-line-svg {{ key }}" viewBox="0 0 520 120" preserveAspectRatio="none" aria-hidden="true">
                   <defs>
                     <linearGradient id="hero-grad-{{ key }}" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
-                      <stop offset="14%" stop-color="var(--hero-line-mid, rgba(255,255,255,.62))"/>
-                      <stop offset="46%" stop-color="var(--hero-line-core, rgba(255,255,255,1))"/>
-                      <stop offset="78%" stop-color="var(--hero-line-end, rgba(255,255,255,.96))"/>
-                      <stop offset="100%" stop-color="rgba(255,255,255,.92)"/>
+                      <stop offset="0%" stop-color="rgba(255,255,255,0.00)"/>
+                      <stop offset="10%" stop-color="var(--hero-line-mid)"/>
+                      <stop offset="45%" stop-color="var(--hero-line-core)"/>
+                      <stop offset="78%" stop-color="var(--hero-line-end)"/>
+                      <stop offset="100%" stop-color="rgba(255,255,255,0.96)"/>
                     </linearGradient>
 
-                    <filter id="hero-glow-{{ key }}" x="-60%" y="-180%" width="220%" height="460%">
-                      <feGaussianBlur stdDeviation="7.5" result="blur1"/>
-                      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur2"/>
+                    <filter id="hero-glow-{{ key }}" x="-80%" y="-220%" width="260%" height="520%">
+                      <feGaussianBlur stdDeviation="8" result="blur1"/>
+                      <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur2"/>
                       <feMerge>
                         <feMergeNode in="blur2"/>
                         <feMergeNode in="blur1"/>
                         <feMergeNode in="SourceGraphic"/>
                       </feMerge>
                     </filter>
+
+                    <mask id="hero-mask-{{ key }}" maskUnits="userSpaceOnUse">
+                      <rect class="hero-mask-window" x="0" y="0" width="0" height="120" rx="0" ry="0"></rect>
+                    </mask>
                   </defs>
 
                   <path class="hero-line-track" d="" />
                   <path class="hero-line-ghost" d="" />
-                  <path class="hero-line-core" d="" />
+                  <path class="hero-line-core" d="" mask="url(#hero-mask-{{ key }})" />
                 </svg>
               </div>
             </div>
@@ -414,7 +418,9 @@ function initHeroIndexLines(){
     const track = row.querySelector(".hero-line-track");
     const ghost = row.querySelector(".hero-line-ghost");
     const core = row.querySelector(".hero-line-core");
-    if (!svg || !track || !ghost || !core || points.length < 2) return;
+    const maskWindow = row.querySelector(".hero-mask-window");
+
+    if (!svg || !track || !ghost || !core || !maskWindow || points.length < 2) return;
 
     const d = buildHeroPath(points, 520, 120);
     track.setAttribute("d", d);
