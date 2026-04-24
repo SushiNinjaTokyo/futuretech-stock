@@ -7,6 +7,7 @@ import math
 import os
 import sys
 import time
+from collections import OrderedDict
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -614,6 +615,56 @@ def fetch_index_snapshots(provider: str, token: Optional[str]) -> Dict[str, Dict
     return out
 
 
+def build_hero_index_lines(provider: str, token: Optional[str]) -> Dict[str, Any]:
+    specs = OrderedDict({
+        "sp500": {"symbol": "SPY", "label": "SP500"},
+        "nasdaq": {"symbol": "QQQ", "label": "NASDAQ"},
+        "russell": {"symbol": "IWM", "label": "Russell"},
+    })
+
+    out: Dict[str, Any] = {}
+
+    for key, meta in specs.items():
+        df = fetch_history(meta["symbol"], provider, token, months=6)
+        if df is None or df.empty or "Close" not in df.columns:
+            out[key] = {
+                "label": meta["label"],
+                "symbol": meta["symbol"],
+                "points": [],
+                "change_1m": None,
+            }
+            continue
+
+        close = first_series(df["Close"]).dropna().tail(60)
+        if len(close) < 10:
+            out[key] = {
+                "label": meta["label"],
+                "symbol": meta["symbol"],
+                "points": [],
+                "change_1m": None,
+            }
+            continue
+
+        vmin = float(close.min())
+        vmax = float(close.max())
+
+        if vmax <= vmin:
+            norm = [50.0 for _ in close]
+        else:
+            norm = [round((float(v) - vmin) / (vmax - vmin) * 100.0, 3) for v in close]
+
+        change_1m = pct(close, min(20, len(close) - 1)) if len(close) >= 21 else None
+
+        out[key] = {
+            "label": meta["label"],
+            "symbol": meta["symbol"],
+            "points": norm,
+            "change_1m": None if change_1m is None else round(float(change_1m), 2),
+        }
+
+    return out
+
+
 def render_chart(chart_dir: Path, symbol: str, daily_df: Optional[pd.DataFrame]) -> Optional[str]:
     if plt is None or daily_df is None or daily_df.empty:
         return None
@@ -792,6 +843,7 @@ def aggregate() -> None:
     trends_map = extract_component_map(cfg.out_dir, cfg.report_date, "trends")
     news_map = extract_component_map(cfg.out_dir, cfg.report_date, "news")
     index_snapshots = {} if cfg.mock_mode else fetch_index_snapshots(cfg.provider, cfg.tiingo_token)
+    hero_index_lines = {} if cfg.mock_mode else build_hero_index_lines(cfg.provider, cfg.tiingo_token)
 
     rows: List[Dict[str, Any]] = []
     failed: List[str] = []
@@ -880,7 +932,12 @@ def aggregate() -> None:
     for item in rows[10:]:
         item.pop("_chart_df", None)
 
-    payload = {"date": cfg.report_date, "items": top10}
+    payload = {
+        "date": cfg.report_date,
+        "hero_index_lines": hero_index_lines,
+        "items": top10,
+    }
+
     write_json(out_day_dir / "top10.json", payload)
     write_json(cfg.out_dir / "data" / "top10" / "latest.json", payload)
 
