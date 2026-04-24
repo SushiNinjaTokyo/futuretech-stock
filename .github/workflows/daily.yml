@@ -197,6 +197,8 @@ jobs:
           test -f "site/data/top10/latest.json"
           test -f "site/daily/${REPORT_DATE}.html"
           test -f "site/assets/daily.css"
+          test -d "site/charts/${REPORT_DATE}"
+          find "site/charts/${REPORT_DATE}" -maxdepth 1 -name '*.png' | grep -q .
 
       - name: Commit changes
         if: steps.skipcheck.outputs.exists != 'true'
