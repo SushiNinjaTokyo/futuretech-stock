@@ -126,49 +126,42 @@ def first_series(x: Any) -> pd.Series:
 
 
 def normalize_ohlcv(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Open / High / Low / Close / Volume の1次元列へ正規化。
+    yfinance / tiingo の返り値差異を吸収する。
+    """
     if df is None or df.empty:
-        return pd.DataFrame(columns=["Close", "Volume"])
+        return pd.DataFrame(columns=["Open", "High", "Low", "Close", "Volume"])
 
     out = pd.DataFrame(index=pd.to_datetime(df.index))
 
-    if isinstance(df.columns, pd.MultiIndex):
-        close_col = None
-        volume_col = None
+    targets = ["open", "high", "low", "close", "volume"]
 
+    if isinstance(df.columns, pd.MultiIndex):
+        chosen: Dict[str, Any] = {}
         for col in df.columns:
             parts = [str(c).strip().lower() for c in col if c is not None]
-            if "close" in parts and close_col is None:
-                close_col = col
-            if "volume" in parts and volume_col is None:
-                volume_col = col
+            for t in targets:
+                if t in parts and t not in chosen:
+                    chosen[t] = col
 
-        if close_col is not None:
-            out["Close"] = first_series(df.loc[:, close_col]).to_numpy()
-        if volume_col is not None:
-            out["Volume"] = first_series(df.loc[:, volume_col]).to_numpy()
+        for t in targets:
+            if t in chosen:
+                out[t.capitalize()] = first_series(df.loc[:, chosen[t]]).to_numpy()
+            else:
+                out[t.capitalize()] = np.nan
 
     else:
-        close_src = None
-        volume_src = None
+        src_map = {str(c).strip().lower(): c for c in df.columns}
+        for t in targets:
+            src = src_map.get(t)
+            if src is not None:
+                ser = df[[src]] if isinstance(df[src], pd.DataFrame) else df[src]
+                out[t.capitalize()] = first_series(ser).to_numpy()
+            else:
+                out[t.capitalize()] = np.nan
 
-        for c in df.columns:
-            cl = str(c).strip().lower()
-            if cl == "close" and close_src is None:
-                close_src = c
-            if cl == "volume" and volume_src is None:
-                volume_src = c
-
-        if close_src is not None:
-            out["Close"] = first_series(df[[close_src]] if isinstance(df[close_src], pd.DataFrame) else df[close_src]).to_numpy()
-        if volume_src is not None:
-            out["Volume"] = first_series(df[[volume_src]] if isinstance(df[volume_src], pd.DataFrame) else df[volume_src]).to_numpy()
-
-    if "Close" not in out.columns:
-        out["Close"] = np.nan
-    if "Volume" not in out.columns:
-        out["Volume"] = np.nan
-
-    return out[["Close", "Volume"]].dropna()
+    return out[["Open", "High", "Low", "Close", "Volume"]].dropna()
 
 
 def pct(series: pd.Series, lag: int) -> Optional[float]:
@@ -187,6 +180,10 @@ def pct(series: pd.Series, lag: int) -> Optional[float]:
         return None
 
 
+def clamp(x: float, lo: float = 0.0, hi: float = 1.0) -> float:
+    return max(lo, min(hi, x))
+
+
 def fetch_history(symbol: str, provider: str, token: Optional[str], months: int = 12) -> Optional[pd.DataFrame]:
     for attempt in range(3):
         try:
@@ -203,10 +200,16 @@ def fetch_history(symbol: str, provider: str, token: Optional[str], months: int 
                 if isinstance(raw.index, pd.MultiIndex):
                     raw = raw.reset_index(level=0, drop=True)
 
-                if "close" in raw.columns:
-                    raw["Close"] = raw["close"]
-                if "volume" in raw.columns:
-                    raw["Volume"] = raw["volume"]
+                rename_map = {
+                    "open": "Open",
+                    "high": "High",
+                    "low": "Low",
+                    "close": "Close",
+                    "volume": "Volume",
+                }
+                for src, dst in rename_map.items():
+                    if src in raw.columns:
+                        raw[dst] = raw[src]
 
             else:
                 if yf is None:
@@ -221,11 +224,11 @@ def fetch_history(symbol: str, provider: str, token: Optional[str], months: int 
                     auto_adjust=False,
                 )
 
-            if raw is None or len(raw) < 30:
+            if raw is None or len(raw) < 60:
                 raise ValueError("empty dataframe")
 
             df = normalize_ohlcv(raw)
-            if len(df) < 30:
+            if len(df) < 60:
                 raise ValueError("not enough clean rows")
 
             return df.sort_index()
@@ -235,48 +238,6 @@ def fetch_history(symbol: str, provider: str, token: Optional[str], months: int 
             time.sleep(1.5 + attempt * 0.8)
 
     return None
-
-
-def fetch_weekly_history(symbol: str, provider: str, token: Optional[str]) -> Optional[pd.DataFrame]:
-    """
-    週足チャート描画用。
-    20週移動平均をできるだけ自然に出したいので、最低9か月分を取得する。
-    """
-    try:
-        if provider == "tiingo" and token and pdr is not None:
-            df = fetch_history(symbol, provider, token, months=9)
-            if df is None or df.empty:
-                return None
-
-            out = pd.DataFrame(index=df.index)
-            out["Close"] = first_series(df["Close"]).to_numpy()
-            return out.resample("W-FRI").last().dropna()
-
-        if yf is None:
-            return None
-
-        raw = yf.download(
-            symbol,
-            period="9mo",
-            interval="1wk",
-            progress=False,
-            threads=False,
-            auto_adjust=False,
-        )
-        if raw is None or raw.empty:
-            return None
-
-        norm = normalize_ohlcv(raw)
-        if norm.empty:
-            return None
-
-        out = pd.DataFrame(index=norm.index)
-        out["Close"] = first_series(norm["Close"]).to_numpy()
-        return out.dropna()
-
-    except Exception as e:
-        log("WARN", f"{symbol}: weekly history failed: {e}")
-        return None
 
 
 def price_direction_metrics(df: pd.DataFrame) -> Dict[str, float]:
@@ -434,41 +395,209 @@ def normalize_weights(w_vol: float, w_comp: float, w_tr: float, w_news: float) -
     return (0.35, 0.15, 0.25, 0.25)
 
 
-def render_chart(chart_dir: Path, symbol: str, weekly_df: Optional[pd.DataFrame]) -> Optional[str]:
-    if plt is None or weekly_df is None or weekly_df.empty:
+def classify_badge_close_pos(v: float) -> Tuple[str, str]:
+    if v >= 0.8:
+        return "Buy", "buy"
+    if v >= 0.55:
+        return "Hold", "hold"
+    return "Sell", "sell"
+
+
+def classify_badge_rvol(v: float) -> Tuple[str, str]:
+    if v >= 1.8:
+        return "Buy", "buy"
+    if v >= 1.1:
+        return "Hold", "hold"
+    return "Sell", "sell"
+
+
+def classify_badge_thrust(v: float) -> Tuple[str, str]:
+    if v >= 0.7:
+        return "Buy", "buy"
+    if v >= 0.25:
+        return "Hold", "hold"
+    return "Sell", "sell"
+
+
+def build_chart_badges(df: pd.DataFrame) -> Dict[str, Any]:
+    if df is None or len(df) < 25:
+        return {
+            "close_pos": {"value": None, "label": "N/A", "tone": "hold"},
+            "rvol": {"value": None, "label": "N/A", "tone": "hold"},
+            "thrust": {"value": None, "label": "N/A", "tone": "hold"},
+        }
+
+    close = first_series(df["Close"]).dropna()
+    high = first_series(df["High"]).dropna()
+    low = first_series(df["Low"]).dropna()
+    vol = first_series(df["Volume"]).dropna()
+
+    n = min(len(close), len(high), len(low), len(vol))
+    close = close.iloc[-n:]
+    high = high.iloc[-n:]
+    low = low.iloc[-n:]
+    vol = vol.iloc[-n:]
+
+    hi10 = float(high.tail(10).max())
+    lo10 = float(low.tail(10).min())
+    close_pos = 0.5 if hi10 <= lo10 else float((close.iloc[-1] - lo10) / (hi10 - lo10))
+    close_pos = clamp(close_pos)
+
+    avg_vol20 = float(vol.tail(21).iloc[:-1].mean()) if len(vol) >= 21 else float(vol.mean())
+    rvol20 = float(vol.iloc[-1] / (avg_vol20 + 1e-9))
+
+    tr = pd.concat(
+        [
+            (high - low).abs(),
+            (high - close.shift(1)).abs(),
+            (low - close.shift(1)).abs(),
+        ],
+        axis=1,
+    ).max(axis=1).dropna()
+    atr10 = float(tr.tail(10).mean()) if len(tr) >= 10 else 0.0
+    thrust_atr = 0.0 if atr10 <= 0 else max(0.0, float(close.iloc[-1] - close.iloc[-2]) / atr10)
+
+    cp_label, cp_tone = classify_badge_close_pos(close_pos)
+    rv_label, rv_tone = classify_badge_rvol(rvol20)
+    th_label, th_tone = classify_badge_thrust(thrust_atr)
+
+    return {
+        "close_pos": {
+            "value": round(close_pos, 3),
+            "display": f"{round(close_pos * 100)}%",
+            "label": cp_label,
+            "tone": cp_tone,
+        },
+        "rvol": {
+            "value": round(rvol20, 2),
+            "display": f"{round(rvol20, 2)}x",
+            "label": rv_label,
+            "tone": rv_tone,
+        },
+        "thrust": {
+            "value": round(thrust_atr, 2),
+            "display": f"{round(thrust_atr, 2)} ATR",
+            "label": th_label,
+            "tone": th_tone,
+        },
+    }
+
+
+def render_chart(chart_dir: Path, symbol: str, daily_df: Optional[pd.DataFrame]) -> Optional[str]:
+    """
+    追加APIを叩かず、既に取得済みの日足OHLCVをそのまま流用して描画する。
+    20WMAは廃止し、以下を表示:
+    - 10日高値ライン
+    - 10DMA / 20DMA
+    - 出来高バー + 20日平均出来高
+    """
+    if plt is None or daily_df is None or daily_df.empty:
         return None
 
     try:
         ensure_dir(chart_dir)
         path = chart_dir / f"{symbol}.png"
 
-        x = pd.to_datetime(weekly_df.index)
-        y = first_series(weekly_df["Close"]).dropna()
-        if y.empty:
+        df = daily_df.copy().sort_index()
+        need_cols = {"High", "Low", "Close", "Volume"}
+        if not need_cols.issubset(set(df.columns)):
             return None
 
-        x = x[-len(y):]
-        x = x[-13:]
-        y = y.tail(13)
+        df = df.tail(65).copy()
+        if len(df) < 25:
+            return None
 
-        ma20 = y.rolling(20, min_periods=1).mean()
-        high_3m = float(y.max())
-        last_x = x[-1]
-        last_y = float(y.iloc[-1])
+        close = first_series(df["Close"]).dropna()
+        high = first_series(df["High"]).dropna()
+        vol = first_series(df["Volume"]).dropna()
 
-        fig = plt.figure(figsize=(6.4, 3.0))
-        ax = fig.add_subplot(111)
+        n = min(len(close), len(high), len(vol), len(df.index))
+        x = pd.to_datetime(df.index[-n:])
+        close = close.iloc[-n:]
+        high = high.iloc[-n:]
+        vol = vol.iloc[-n:]
 
-        ax.plot(x, y.to_numpy(), linewidth=2.0, label="Close")
-        ax.plot(x, ma20.to_numpy(), linewidth=1.6, linestyle="--", label="20W MA")
-        ax.axhline(high_3m, linewidth=1.2, linestyle=":", label="3M High")
-        ax.scatter([last_x], [last_y], s=35, zorder=5)
+        close_plot = close.tail(60)
+        high_plot = high.tail(60)
+        vol_plot = vol.tail(60)
+        x_plot = x[-len(close_plot):]
 
-        ax.set_title(f"{symbol} · Weekly · 3M")
-        ax.grid(True, alpha=0.25)
-        ax.legend(loc="best", fontsize=8)
+        ma10 = close_plot.rolling(10, min_periods=10).mean()
+        ma20 = close_plot.rolling(20, min_periods=20).mean()
+        high10 = high_plot.rolling(10, min_periods=10).max()
+        vol_ma20 = vol_plot.rolling(20, min_periods=20).mean()
+
+        last_x = x_plot[-1]
+        last_y = float(close_plot.iloc[-1])
+
+        bg = "#0b1730"
+        line_main = "#5ee7ff"
+        line_10dma = "#5b8cff"
+        line_20dma = "#9d7bff"
+        line_high10 = "#ffcf5a"
+        volume_fill = "#2f6fff"
+        volume_ma = "#f6c453"
+        grid = (1.0, 1.0, 1.0, 0.10)
+        tick = "#b9cae1"
+        border = "#28405f"
+
+        fig = plt.figure(figsize=(7.2, 4.6), facecolor=bg)
+        gs = fig.add_gridspec(100, 1)
+
+        ax = fig.add_subplot(gs[:68, 0])
+        axv = fig.add_subplot(gs[74:, 0], sharex=ax)
+
+        ax.set_facecolor(bg)
+        axv.set_facecolor(bg)
+
+        ax.plot(x_plot, close_plot.to_numpy(), linewidth=2.2, color=line_main, label="Close", zorder=4)
+        if ma10.notna().any():
+            ax.plot(x_plot, ma10.to_numpy(), linewidth=1.5, color=line_10dma, label="10DMA", zorder=3)
+        if ma20.notna().any():
+            ax.plot(x_plot, ma20.to_numpy(), linewidth=1.5, color=line_20dma, label="20DMA", zorder=2)
+        if high10.notna().any():
+            ax.plot(x_plot, high10.to_numpy(), linewidth=1.2, linestyle="--", color=line_high10, label="10D High", zorder=1)
+
+        ax.scatter([last_x], [last_y], s=28, color=line_main, edgecolors="white", linewidths=0.8, zorder=5)
+
+        axv.bar(x_plot, vol_plot.to_numpy(), width=0.8, color=volume_fill, alpha=0.45)
+        if vol_ma20.notna().any():
+            axv.plot(x_plot, vol_ma20.to_numpy(), linewidth=1.4, color=volume_ma, label="20D Avg Vol")
+
+        ax.set_title(f"{symbol} · Daily · 3M", color="white", fontsize=12, pad=10, fontweight="bold")
+
+        for axis in (ax, axv):
+            axis.grid(True, alpha=0.10, color=grid)
+            axis.tick_params(colors=tick, labelsize=8)
+            for spine in axis.spines.values():
+                spine.set_color(border)
+
+        ax.legend(
+            loc="upper left",
+            fontsize=7.5,
+            frameon=False,
+            labelcolor=tick,
+            ncol=4,
+            handlelength=2.4,
+            borderaxespad=0.8,
+        )
+
+        axv.legend(
+            loc="upper left",
+            fontsize=7.0,
+            frameon=False,
+            labelcolor=tick,
+            handlelength=2.0,
+            borderaxespad=0.6,
+        )
+
+        ax.tick_params(axis="x", labelbottom=False)
+        axv.set_ylabel("Vol", color=tick, fontsize=8)
+        axv.set_yticks([])
+        axv.tick_params(axis="x", rotation=0)
+
         fig.tight_layout()
-        fig.savefig(path, dpi=130)
+        fig.savefig(path, dpi=150, facecolor=fig.get_facecolor(), bbox_inches="tight")
         plt.close(fig)
 
         return f"/charts/{chart_dir.name}/{symbol}.png"
@@ -576,6 +705,12 @@ def aggregate() -> None:
         )
         final01 = round(max(0.0, min(1.0, final01)), 6)
 
+        chart_badges = build_chart_badges(df) if df is not None else {
+            "close_pos": {"value": None, "display": "N/A", "label": "N/A", "tone": "hold"},
+            "rvol": {"value": None, "display": "N/A", "label": "N/A", "tone": "hold"},
+            "thrust": {"value": None, "display": "N/A", "label": "N/A", "tone": "hold"},
+        }
+
         rows.append({
             "symbol": sym,
             "name": nm,
@@ -586,9 +721,15 @@ def aggregate() -> None:
             "price_delta_1d": None if d1 is None else round(float(d1), 2),
             "price_delta_1w": None if d5 is None else round(float(d5), 2),
             "price_delta_1m": None if d20 is None else round(float(d20), 2),
-            "detail": {"vol_anomaly": vol_detail},
+            "detail": {
+                "vol_anomaly": vol_detail,
+                "chart_badges": chart_badges,
+            },
             "chart_url": None,
         })
+
+        # API再取得せず、その場で描画できるよう一時保持
+        rows[-1]["_chart_df"] = df
 
     rows.sort(key=lambda r: (r["score_pts"], r["final_score_0_1"]), reverse=True)
     top10 = rows[:10]
@@ -596,9 +737,14 @@ def aggregate() -> None:
     chart_dir = cfg.out_dir / "charts" / cfg.report_date
     for idx, item in enumerate(top10, start=1):
         item["rank"] = idx
-        if not cfg.mock_mode:
-            weekly = fetch_weekly_history(item["symbol"], cfg.provider, cfg.tiingo_token)
-            item["chart_url"] = render_chart(chart_dir, item["symbol"], weekly)
+        chart_df = item.pop("_chart_df", None)
+        if not cfg.mock_mode and chart_df is not None:
+            item["chart_url"] = render_chart(chart_dir, item["symbol"], chart_df)
+        else:
+            item["chart_url"] = None
+
+    for item in rows[10:]:
+        item.pop("_chart_df", None)
 
     payload = {"date": cfg.report_date, "items": top10}
     write_json(out_day_dir / "top10.json", payload)
