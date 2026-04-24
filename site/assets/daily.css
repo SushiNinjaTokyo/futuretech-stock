@@ -79,7 +79,7 @@ body{
 .hero{
   position:relative;
   display:grid;
-  grid-template-columns:minmax(320px, 1.02fr) minmax(420px, 1.18fr);
+  grid-template-columns:minmax(340px, 1.02fr) minmax(420px, 1.18fr);
   gap:24px;
   align-items:stretch;
   margin-bottom:28px;
@@ -163,10 +163,6 @@ body{
   justify-content:center;
   min-width:0;
   padding-right:10px;
-  background:none;
-  border:none;
-  box-shadow:none;
-  backdrop-filter:none;
 }
 
 .hero-kicker{
@@ -195,12 +191,14 @@ body{
   font-weight:950;
   color:transparent;
   text-wrap:balance;
+  overflow:visible;
 }
 
 .glitch-title{
   position:relative;
   display:inline-block;
-  width:max-content;
+  max-width:100%;
+  white-space:normal;
   color:transparent;
   background:linear-gradient(
     90deg,
@@ -225,6 +223,7 @@ body{
   inset:0;
   pointer-events:none;
   opacity:0;
+  white-space:normal;
 }
 
 .glitch-title::before{
@@ -415,15 +414,13 @@ body{
 }
 
 .hero-line-ghost{
-  stroke:rgba(255,255,255,.18);
-  stroke-width:2.2;
-  opacity:.0;
-  filter:blur(5px);
+  stroke-width:2.4;
+  opacity:.10;
+  filter:blur(6px);
 }
 
 .hero-line-core{
   stroke-width:2.9;
-  transform-origin:left center;
 }
 
 .hero-line-svg.sp .hero-line-core{
@@ -442,93 +439,70 @@ body{
   opacity:1;
 }
 
-.hero-line-svg.sp .hero-line-ghost{
-  stroke:#bfffff;
-}
-.hero-line-svg.nasdaq .hero-line-ghost{
-  stroke:#c8d8ff;
-}
-.hero-line-svg.russell .hero-line-ghost{
-  stroke:#e1d2ff;
-}
+.hero-line-svg.sp .hero-line-ghost{stroke:#bfffff}
+.hero-line-svg.nasdaq .hero-line-ghost{stroke:#c8d8ff}
+.hero-line-svg.russell .hero-line-ghost{stroke:#e1d2ff}
 
-/* 発光を強化 */
 .hero-line-svg.sp{
   filter:
-    drop-shadow(0 0 10px rgba(94,231,255,.32))
-    drop-shadow(0 0 22px rgba(94,231,255,.22))
-    drop-shadow(0 0 42px rgba(94,231,255,.14));
+    drop-shadow(0 0 10px rgba(94,231,255,.34))
+    drop-shadow(0 0 22px rgba(94,231,255,.24))
+    drop-shadow(0 0 42px rgba(94,231,255,.16));
 }
 .hero-line-svg.nasdaq{
   filter:
-    drop-shadow(0 0 10px rgba(91,140,255,.32))
-    drop-shadow(0 0 22px rgba(91,140,255,.22))
-    drop-shadow(0 0 42px rgba(91,140,255,.14));
+    drop-shadow(0 0 10px rgba(91,140,255,.34))
+    drop-shadow(0 0 22px rgba(91,140,255,.24))
+    drop-shadow(0 0 42px rgba(91,140,255,.16));
 }
 .hero-line-svg.russell{
   filter:
-    drop-shadow(0 0 10px rgba(157,123,255,.32))
-    drop-shadow(0 0 22px rgba(157,123,255,.22))
-    drop-shadow(0 0 42px rgba(157,123,255,.14));
+    drop-shadow(0 0 10px rgba(157,123,255,.34))
+    drop-shadow(0 0 22px rgba(157,123,255,.24))
+    drop-shadow(0 0 42px rgba(157,123,255,.16));
 }
 
-/*
-  左から右へ描画
-  50%時点から左からも消失開始
-  さらに残像を少し残す
-*/
-.hero-line-core{
-  clip-path:inset(0 100% 0 0);
-  animation:heroLineSweep 1.6s linear infinite;
+.hero-mask-window{
+  fill:#fff;
+  animation:heroMaskSweep 1.6s linear infinite;
 }
+
 .hero-line-ghost{
-  clip-path:inset(0 100% 0 0);
-  animation:heroLineGhost 1.6s linear infinite;
+  animation:heroGhostFade 1.6s linear infinite;
 }
 
-.hero-line-row:nth-child(2) .hero-line-core,
+.hero-line-row:nth-child(2) .hero-mask-window,
 .hero-line-row:nth-child(2) .hero-line-ghost{
   animation-delay:.08s;
 }
-.hero-line-row:nth-child(3) .hero-line-core,
+.hero-line-row:nth-child(3) .hero-mask-window,
 .hero-line-row:nth-child(3) .hero-line-ghost{
   animation-delay:.16s;
 }
 
-@keyframes heroLineSweep{
+/* 0→50% までは右に伸びる
+   50→100% では幅を保ったまま右へ流れて消える
+   = 描画と消去の見かけ速度を揃える */
+@keyframes heroMaskSweep{
   0%{
-    clip-path:inset(0 100% 0 0);
-    opacity:0;
-  }
-  6%{
-    opacity:1;
+    x:0;
+    width:0;
   }
   50%{
-    clip-path:inset(0 50% 0 0);
-    opacity:1;
+    x:0;
+    width:260px;
   }
   100%{
-    clip-path:inset(0 0 0 100%);
-    opacity:1;
+    x:520px;
+    width:260px;
   }
 }
 
-@keyframes heroLineGhost{
-  0%{
-    clip-path:inset(0 100% 0 0);
-    opacity:0;
-  }
-  12%{
-    opacity:.0;
-  }
-  50%{
-    clip-path:inset(0 50% 0 0);
-    opacity:.16;
-  }
-  100%{
-    clip-path:inset(0 0 0 100%);
-    opacity:.06;
-  }
+@keyframes heroGhostFade{
+  0%{opacity:0}
+  20%{opacity:.00}
+  50%{opacity:.16}
+  100%{opacity:.05}
 }
 
 /* CARDS */
