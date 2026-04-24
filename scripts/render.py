@@ -69,7 +69,7 @@ def to_float(x: Any) -> Optional[float]:
         if x is None:
             return None
         f = float(x)
-        if f != f:  # NaN
+        if f != f:
             return None
         return f
     except Exception:
@@ -84,15 +84,6 @@ def clamp01(x: Any) -> float:
 
 
 def canonicalize_score_components(comps_raw: Dict[str, Any]) -> Dict[str, float]:
-    """
-    score_components の互換吸収。
-    旧: dii
-    新: compression_release
-
-    重要:
-    - compression_release が存在する場合はそれを最優先
-    - 無い場合のみ旧 dii を compression_release にフォールバック
-    """
     comps_raw = comps_raw or {}
 
     return {
@@ -106,11 +97,6 @@ def canonicalize_score_components(comps_raw: Dict[str, Any]) -> Dict[str, float]
 
 
 def canonicalize_score_weights(weights_raw: Dict[str, Any]) -> Dict[str, float]:
-    """
-    score_weights の互換吸収。
-    旧: dii
-    新: compression_release
-    """
     weights_raw = weights_raw or {}
 
     return {
@@ -121,6 +107,29 @@ def canonicalize_score_weights(weights_raw: Dict[str, Any]) -> Dict[str, float]:
         ),
         "trends_breakout": max(0.0, to_float(weights_raw.get("trends_breakout")) or 0.0),
         "news": max(0.0, to_float(weights_raw.get("news")) or 0.0),
+    }
+
+
+def normalize_chart_badges(detail_raw: Dict[str, Any]) -> Dict[str, Any]:
+    detail_raw = detail_raw or {}
+    badges = detail_raw.get("chart_badges") or {}
+
+    def norm_badge(raw: Dict[str, Any]) -> Dict[str, Any]:
+        raw = raw or {}
+        tone = str(raw.get("tone", "hold")).strip().lower()
+        if tone not in {"buy", "hold", "sell"}:
+            tone = "hold"
+        return {
+            "value": to_float(raw.get("value")),
+            "display": str(raw.get("display", "N/A")),
+            "label": str(raw.get("label", "N/A")),
+            "tone": tone,
+        }
+
+    return {
+        "close_pos": norm_badge(badges.get("close_pos")),
+        "rvol": norm_badge(badges.get("rvol")),
+        "thrust": norm_badge(badges.get("thrust")),
     }
 
 
@@ -149,6 +158,9 @@ def normalize_item(item: Dict[str, Any], date: str, rank: int) -> Dict[str, Any]
         candidate = OUT_DIR / "charts" / date / f"{sym}.png"
         chart_url = f"/charts/{date}/{sym}.png" if candidate.exists() else None
 
+    detail = item.get("detail") or {}
+    detail["chart_badges"] = normalize_chart_badges(detail)
+
     return {
         "rank": rank,
         "symbol": sym,
@@ -161,7 +173,7 @@ def normalize_item(item: Dict[str, Any], date: str, rank: int) -> Dict[str, Any]
         "score_components": comps,
         "score_weights": weights,
         "chart_url": chart_url,
-        "detail": item.get("detail") or {},
+        "detail": detail,
     }
 
 
