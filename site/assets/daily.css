@@ -189,7 +189,7 @@ body{
 
 .hero-title{
   margin:0;
-  font-size:clamp(54px, 8vw, 102px);
+  font-size:clamp(81px, 12vw, 153px); /* 以前の約1.5倍 */
   line-height:.90;
   letter-spacing:-.065em;
   font-weight:950;
@@ -365,25 +365,25 @@ body{
 .hero-line-canvas-wrap{
   position:relative;
   min-width:0;
+  overflow:hidden;
 }
 
 .hero-line-svg{
   width:100%;
   height:78px;
   overflow:visible;
-  --hero-line-length:700;
 }
 
 .hero-line-svg.sp{
-  --hero-line-mid:rgba(94,231,255,.38);
+  --hero-line-mid:rgba(94,231,255,.55);
   --hero-line-end:rgba(94,231,255,1);
 }
 .hero-line-svg.nasdaq{
-  --hero-line-mid:rgba(91,140,255,.42);
+  --hero-line-mid:rgba(91,140,255,.55);
   --hero-line-end:rgba(91,140,255,1);
 }
 .hero-line-svg.russell{
-  --hero-line-mid:rgba(157,123,255,.42);
+  --hero-line-mid:rgba(157,123,255,.55);
   --hero-line-end:rgba(157,123,255,1);
 }
 
@@ -396,15 +396,17 @@ body{
 }
 
 .hero-line-track{
-  stroke:rgba(255,255,255,.06);
-  stroke-width:1.4;
+  stroke:rgba(255,255,255,.07);
+  stroke-width:1.5;
   opacity:.55;
 }
 
 .hero-line-core{
-  stroke-width:2.6;
+  stroke-width:2.8;
+  transform-origin:left center;
 }
 
+/* SP500 が消えないように明示 */
 .hero-line-svg.sp .hero-line-core{
   stroke:url(#hero-grad-sp);
   filter:url(#hero-glow-sp);
@@ -418,44 +420,37 @@ body{
   filter:url(#hero-glow-russell);
 }
 
+/*
+  左から右へ描く + 左から右へ消す
+  擬似的に「表示窓」を左→右へ流す
+*/
 .hero-line-core{
-  stroke-dasharray:var(--hero-line-length);
-  stroke-dashoffset:var(--hero-line-length);
-  animation:heroLineDrawErase 6.8s linear infinite;
+  clip-path:inset(0 100% 0 0);
+  animation:heroLineSweep 6.4s linear infinite;
 }
 
 .hero-line-row:nth-child(2) .hero-line-core{
-  animation-delay:.35s;
+  animation-delay:.30s;
 }
 .hero-line-row:nth-child(3) .hero-line-core{
-  animation-delay:.7s;
+  animation-delay:.60s;
 }
 
-@keyframes heroLineDrawErase{
+@keyframes heroLineSweep{
   0%{
+    clip-path:inset(0 100% 0 0);
     opacity:0;
-    stroke-dasharray:0 var(--hero-line-length);
-    stroke-dashoffset:var(--hero-line-length);
   }
-  28%{
+  8%{
     opacity:1;
-    stroke-dasharray:var(--hero-line-length) var(--hero-line-length);
-    stroke-dashoffset:0;
   }
-  58%{
+  35%{
+    clip-path:inset(0 0 0 0);   /* 全体が描かれた状態 */
     opacity:1;
-    stroke-dasharray:var(--hero-line-length) var(--hero-line-length);
-    stroke-dashoffset:0;
-  }
-  88%{
-    opacity:1;
-    stroke-dasharray:0 var(--hero-line-length);
-    stroke-dashoffset:0;
   }
   100%{
-    opacity:0;
-    stroke-dasharray:0 var(--hero-line-length);
-    stroke-dashoffset:0;
+    clip-path:inset(0 0 0 100%); /* 左から右へ消える */
+    opacity:1;
   }
 }
 
@@ -1121,7 +1116,7 @@ body{
   }
 
   .hero-title{
-    font-size:clamp(46px, 15vw, 76px);
+    font-size:clamp(62px, 16vw, 108px);
   }
 
   .hero-sub{
