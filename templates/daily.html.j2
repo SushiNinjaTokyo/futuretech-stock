@@ -127,6 +127,7 @@
       {% set detail = item.detail | default({}, true) %}
       {% set badges = detail.chart_badges | default({}, true) %}
       {% set rs = detail.relative_strength | default({}, true) %}
+
       {% set vol = comps.volume_anomaly | default(0, true) %}
       {% set comp = comps.compression_release | default(0, true) %}
       {% set trends = comps.trends_breakout | default(0, true) %}
@@ -137,19 +138,34 @@
       {% set thrust = badges.thrust | default({}, true) %}
       {% set vol_setup = badges.vol_setup | default({}, true) %}
 
+      {% set wsum = vol + comp + trends + news %}
+      {% if wsum > 0 %}
+        {% set p1 = (vol / wsum * 100) | round(3) %}
+        {% set p2 = (comp / wsum * 100) | round(3) %}
+        {% set p3 = (trends / wsum * 100) | round(3) %}
+        {% set p4 = (news / wsum * 100) | round(3) %}
+      {% else %}
+        {% set p1 = 25 %}
+        {% set p2 = 25 %}
+        {% set p3 = 25 %}
+        {% set p4 = 25 %}
+      {% endif %}
+
       <article class="stock-card rank-{{ rk }}" data-symbol="{{ sym }}">
         <div class="card-topline"></div>
 
         <div class="card-head">
           <div class="identity-zone">
-            {% if rk <= 3 %}
-            <div class="rank-orb rank{{ rk }}" aria-label="Rank {{ rk }}">
-              <span class="orb-rank">#{{ rk }}</span>
-              <span class="orb-rocket">🚀</span>
+            <div class="rank-module rank-variant-{{ rk if rk <= 3 else 4 }}">
+              <div class="rank-core">
+                <div class="rank-noise"></div>
+                <div class="rank-number">{{ "%02d"|format(rk) }}</div>
+                <div class="rank-caption">{% if rk == 1 %}Prime{% elif rk == 2 %}Vector{% elif rk == 3 %}Apex{% else %}Rank{% endif %}</div>
+              </div>
+              <div class="rank-traces">
+                <span></span><span></span><span></span>
+              </div>
             </div>
-            {% else %}
-            <div class="rank-pill">#{{ rk }}</div>
-            {% endif %}
 
             <div class="identity-copy">
               <div class="symbol-row">
@@ -161,13 +177,30 @@
           </div>
 
           <div class="score-stack">
-            <div class="score-ring" style="--score: {{ score100 }};">
-              <div class="score-ring-inner">
+            <div
+              class="score-donut"
+              style="
+                --score: {{ score100 }};
+                --p1: {{ p1 }};
+                --p2: {{ p2 }};
+                --p3: {{ p3 }};
+                --p4: {{ p4 }};
+              "
+            >
+              <div class="score-donut-inner">
                 <div class="score-number">{{ score_pts }}</div>
-                <div class="score-label">pts</div>
+                <div class="score-label">score</div>
               </div>
             </div>
+
             <div class="score-mini">{{ score100 }} / 100</div>
+
+            <div class="score-legend-mini">
+              <span class="lg volume">Vol</span>
+              <span class="lg compression">Comp</span>
+              <span class="lg trends">Trend</span>
+              <span class="lg news">News</span>
+            </div>
           </div>
         </div>
 
@@ -203,25 +236,25 @@
           <div class="signal-grid">
             <div class="signal-row">
               <div class="signal-label">Volume</div>
-              <div class="signal-bar"><i style="width: {{ (vol * 100) | round(1) }}%"></i></div>
+              <div class="signal-bar"><i class="volume" style="width: {{ (vol * 100) | round(1) }}%"></i></div>
               <div class="signal-tag {{ signal_tone(vol) }}">{{ signal_tier(vol) }} · {{ (vol * 100) | round(0) }}</div>
             </div>
 
             <div class="signal-row">
               <div class="signal-label">Compression</div>
-              <div class="signal-bar"><i style="width: {{ (comp * 100) | round(1) }}%"></i></div>
+              <div class="signal-bar"><i class="compression" style="width: {{ (comp * 100) | round(1) }}%"></i></div>
               <div class="signal-tag {{ signal_tone(comp) }}">{{ signal_tier(comp) }} · {{ (comp * 100) | round(0) }}</div>
             </div>
 
             <div class="signal-row">
               <div class="signal-label">Trends</div>
-              <div class="signal-bar"><i style="width: {{ (trends * 100) | round(1) }}%"></i></div>
+              <div class="signal-bar"><i class="trends" style="width: {{ (trends * 100) | round(1) }}%"></i></div>
               <div class="signal-tag {{ signal_tone(trends) }}">{{ signal_tier(trends) }} · {{ (trends * 100) | round(0) }}</div>
             </div>
 
             <div class="signal-row">
               <div class="signal-label">News</div>
-              <div class="signal-bar"><i style="width: {{ (news * 100) | round(1) }}%"></i></div>
+              <div class="signal-bar"><i class="news" style="width: {{ (news * 100) | round(1) }}%"></i></div>
               <div class="signal-tag {{ signal_tone(news) }}">{{ signal_tier(news) }} · {{ (news * 100) | round(0) }}</div>
             </div>
           </div>
