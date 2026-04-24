@@ -119,6 +119,8 @@ jobs:
           set -euo pipefail
           test -f "site/data/${REPORT_DATE}/top10.json"
           test -f "site/data/top10/latest.json"
+          test -d "site/charts/${REPORT_DATE}"
+          find "site/charts/${REPORT_DATE}" -maxdepth 1 -name '*.png' | grep -q .
 
       - name: Render HTML
         if: github.event.inputs.render_html == 'true'
