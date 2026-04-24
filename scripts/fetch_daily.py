@@ -126,15 +126,10 @@ def first_series(x: Any) -> pd.Series:
 
 
 def normalize_ohlcv(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Open / High / Low / Close / Volume の1次元列へ正規化。
-    yfinance / tiingo の返り値差異を吸収する。
-    """
     if df is None or df.empty:
         return pd.DataFrame(columns=["Open", "High", "Low", "Close", "Volume"])
 
     out = pd.DataFrame(index=pd.to_datetime(df.index))
-
     targets = ["open", "high", "low", "close", "volume"]
 
     if isinstance(df.columns, pd.MultiIndex):
@@ -150,7 +145,6 @@ def normalize_ohlcv(df: pd.DataFrame) -> pd.DataFrame:
                 out[t.capitalize()] = first_series(df.loc[:, chosen[t]]).to_numpy()
             else:
                 out[t.capitalize()] = np.nan
-
     else:
         src_map = {str(c).strip().lower(): c for c in df.columns}
         for t in targets:
@@ -210,7 +204,6 @@ def fetch_history(symbol: str, provider: str, token: Optional[str], months: int 
                 for src, dst in rename_map.items():
                     if src in raw.columns:
                         raw[dst] = raw[src]
-
             else:
                 if yf is None:
                     return None
@@ -257,10 +250,7 @@ def price_direction_metrics(df: pd.DataFrame) -> Dict[str, float]:
     lookback = close.tail(min(63, len(close)))
     cmin = float(lookback.min())
     cmax = float(lookback.max())
-    if cmax > cmin:
-        range_pos_63d = float((close.iloc[-1] - cmin) / (cmax - cmin))
-    else:
-        range_pos_63d = 0.5
+    range_pos_63d = 0.5 if cmax <= cmin else float((close.iloc[-1] - cmin) / (cmax - cmin))
 
     sma20 = float(close.tail(20).mean()) if len(close) >= 20 else float(close.mean())
     above_sma20 = 1.0 if float(close.iloc[-1]) >= sma20 else 0.0
@@ -419,12 +409,24 @@ def classify_badge_thrust(v: float) -> Tuple[str, str]:
     return "Sell", "sell"
 
 
+def classify_vol_setup(today_vs_5: float, ma5_vs_20: float, today_vs_20: float) -> Tuple[str, str]:
+    if today_vs_5 >= 2.2 and ma5_vs_20 >= 1.25:
+        return "Igniting", "igniting"
+    if today_vs_5 >= 1.4 and ma5_vs_20 >= 1.10:
+        return "Rising", "rising"
+    if today_vs_20 >= 1.2:
+        return "Watch", "watch"
+    return "Flat", "flat"
+
+
 def build_chart_badges(df: pd.DataFrame) -> Dict[str, Any]:
     if df is None or len(df) < 25:
+        na = {"value": None, "display": "N/A", "label": "N/A", "tone": "hold"}
         return {
-            "close_pos": {"value": None, "label": "N/A", "tone": "hold"},
-            "rvol": {"value": None, "label": "N/A", "tone": "hold"},
-            "thrust": {"value": None, "label": "N/A", "tone": "hold"},
+            "close_pos": na,
+            "rvol": na,
+            "thrust": na,
+            "vol_setup": {"value": None, "display": "N/A", "label": "N/A", "tone": "flat"},
         }
 
     close = first_series(df["Close"]).dropna()
@@ -443,7 +445,8 @@ def build_chart_badges(df: pd.DataFrame) -> Dict[str, Any]:
     close_pos = 0.5 if hi10 <= lo10 else float((close.iloc[-1] - lo10) / (hi10 - lo10))
     close_pos = clamp(close_pos)
 
-    avg_vol20 = float(vol.tail(21).iloc[:-1].mean()) if len(vol) >= 21 else float(vol.mean())
+    avg_vol20 = float(vol.tail(20).mean()) if len(vol) >= 20 else float(vol.mean())
+    avg_vol5 = float(vol.tail(5).mean()) if len(vol) >= 5 else float(vol.mean())
     rvol20 = float(vol.iloc[-1] / (avg_vol20 + 1e-9))
 
     tr = pd.concat(
@@ -457,9 +460,14 @@ def build_chart_badges(df: pd.DataFrame) -> Dict[str, Any]:
     atr10 = float(tr.tail(10).mean()) if len(tr) >= 10 else 0.0
     thrust_atr = 0.0 if atr10 <= 0 else max(0.0, float(close.iloc[-1] - close.iloc[-2]) / atr10)
 
+    today_vs_5 = float(vol.iloc[-1] / (avg_vol5 + 1e-9))
+    ma5_vs_20 = float(avg_vol5 / (avg_vol20 + 1e-9))
+    today_vs_20 = float(vol.iloc[-1] / (avg_vol20 + 1e-9))
+
     cp_label, cp_tone = classify_badge_close_pos(close_pos)
     rv_label, rv_tone = classify_badge_rvol(rvol20)
     th_label, th_tone = classify_badge_thrust(thrust_atr)
+    vs_label, vs_tone = classify_vol_setup(today_vs_5, ma5_vs_20, today_vs_20)
 
     return {
         "close_pos": {
@@ -480,17 +488,133 @@ def build_chart_badges(df: pd.DataFrame) -> Dict[str, Any]:
             "label": th_label,
             "tone": th_tone,
         },
+        "vol_setup": {
+            "value": round(today_vs_5, 2),
+            "display": f"{round(today_vs_5, 2)}x / {round(ma5_vs_20, 2)}x",
+            "label": vs_label,
+            "tone": vs_tone,
+        },
     }
 
 
+def compute_return_snapshot(df: pd.DataFrame) -> Dict[str, Optional[float]]:
+    close = first_series(df["Close"]).dropna()
+    return {
+        "d1": pct(close, 1),
+        "d5": pct(close, 5),
+        "d20": pct(close, 20),
+    }
+
+
+def compute_vol_accel(df: pd.DataFrame) -> Optional[float]:
+    vol = first_series(df["Volume"]).dropna()
+    if len(vol) < 20:
+        return None
+    ma5 = float(vol.tail(5).mean())
+    ma20 = float(vol.tail(20).mean())
+    if ma20 <= 0:
+        return None
+    return ma5 / ma20
+
+
+def classify_price_rel(v: Optional[float]) -> Tuple[str, str]:
+    if v is None:
+        return "N/A", "neutral"
+    if v >= 8.0:
+        return "Elite", "elite"
+    if v >= 4.0:
+        return "Strong", "strong"
+    if v >= 1.5:
+        return "Good", "good"
+    if v > -1.5:
+        return "Neutral", "neutral"
+    return "Weak", "weak"
+
+
+def classify_vol_accel_rel(v: Optional[float]) -> Tuple[str, str]:
+    if v is None:
+        return "N/A", "neutral"
+    if v >= 0.50:
+        return "Strong", "strong"
+    if v >= 0.20:
+        return "Good", "good"
+    if v > -0.20:
+        return "Neutral", "neutral"
+    return "Weak", "weak"
+
+
+def build_relative_strength_badges(
+    stock_ret: Dict[str, Optional[float]],
+    stock_vol_accel: Optional[float],
+    index_snapshots: Dict[str, Dict[str, Any]],
+) -> Dict[str, Any]:
+    out: Dict[str, Any] = {}
+
+    for key, meta in index_snapshots.items():
+        idx_ret = meta.get("returns", {})
+        idx_vol_accel = meta.get("vol_accel")
+
+        d1 = None if stock_ret["d1"] is None or idx_ret.get("d1") is None else stock_ret["d1"] - idx_ret["d1"]
+        d5 = None if stock_ret["d5"] is None or idx_ret.get("d5") is None else stock_ret["d5"] - idx_ret["d5"]
+        d20 = None if stock_ret["d20"] is None or idx_ret.get("d20") is None else stock_ret["d20"] - idx_ret["d20"]
+
+        price_rel = None
+        if d1 is not None and d5 is not None and d20 is not None:
+            price_rel = 0.5 * d1 + 0.3 * d5 + 0.2 * d20
+
+        vol_accel_rel = None
+        if stock_vol_accel is not None and idx_vol_accel is not None:
+            vol_accel_rel = stock_vol_accel - idx_vol_accel
+
+        price_label, price_tone = classify_price_rel(price_rel)
+        vol_label, vol_tone = classify_vol_accel_rel(vol_accel_rel)
+
+        out[key] = {
+            "name": meta.get("label", key),
+            "price": {
+                "value": None if price_rel is None else round(price_rel, 2),
+                "display": "N/A" if price_rel is None else f"{price_rel:+.1f}",
+                "label": price_label,
+                "tone": price_tone,
+            },
+            "vol_accel": {
+                "value": None if vol_accel_rel is None else round(vol_accel_rel, 2),
+                "display": "N/A" if vol_accel_rel is None else f"{vol_accel_rel:+.2f}",
+                "label": vol_label,
+                "tone": vol_tone,
+            },
+        }
+
+    return out
+
+
+def fetch_index_snapshots(provider: str, token: Optional[str]) -> Dict[str, Dict[str, Any]]:
+    symbols = {
+        "sp500": {"symbol": "SPY", "label": "SP500"},
+        "nasdaq": {"symbol": "QQQ", "label": "NASDAQ"},
+        "russell": {"symbol": "IWM", "label": "Russell"},
+    }
+
+    out: Dict[str, Dict[str, Any]] = {}
+    for key, meta in symbols.items():
+        df = fetch_history(meta["symbol"], provider, token, months=12)
+        if df is None or df.empty:
+            out[key] = {
+                "label": meta["label"],
+                "returns": {"d1": None, "d5": None, "d20": None},
+                "vol_accel": None,
+            }
+            continue
+
+        out[key] = {
+            "label": meta["label"],
+            "returns": compute_return_snapshot(df),
+            "vol_accel": compute_vol_accel(df),
+        }
+    return out
+
+
 def render_chart(chart_dir: Path, symbol: str, daily_df: Optional[pd.DataFrame]) -> Optional[str]:
-    """
-    追加APIを叩かず、既に取得済みの日足OHLCVをそのまま流用して描画する。
-    20WMAは廃止し、以下を表示:
-    - 10日高値ライン
-    - 10DMA / 20DMA
-    - 出来高バー + 20日平均出来高
-    """
     if plt is None or daily_df is None or daily_df.empty:
         return None
 
@@ -525,6 +649,7 @@ def render_chart(chart_dir: Path, symbol: str, daily_df: Optional[pd.DataFrame])
         ma10 = close_plot.rolling(10, min_periods=10).mean()
         ma20 = close_plot.rolling(20, min_periods=20).mean()
         high10 = high_plot.rolling(10, min_periods=10).max()
+        vol_ma5 = vol_plot.rolling(5, min_periods=5).mean()
         vol_ma20 = vol_plot.rolling(20, min_periods=20).mean()
 
         last_x = x_plot[-1]
@@ -536,12 +661,13 @@ def render_chart(chart_dir: Path, symbol: str, daily_df: Optional[pd.DataFrame])
         line_20dma = "#9d7bff"
         line_high10 = "#ffcf5a"
         volume_fill = "#2f6fff"
-        volume_ma = "#f6c453"
+        volume_ma5 = "#39d98a"
+        volume_ma20 = "#f6c453"
         grid = (1.0, 1.0, 1.0, 0.10)
         tick = "#b9cae1"
         border = "#28405f"
 
-        fig = plt.figure(figsize=(7.2, 4.6), facecolor=bg)
+        fig = plt.figure(figsize=(7.3, 4.8), facecolor=bg)
         gs = fig.add_gridspec(100, 1)
 
         ax = fig.add_subplot(gs[:68, 0])
@@ -560,9 +686,11 @@ def render_chart(chart_dir: Path, symbol: str, daily_df: Optional[pd.DataFrame])
 
         ax.scatter([last_x], [last_y], s=28, color=line_main, edgecolors="white", linewidths=0.8, zorder=5)
 
-        axv.bar(x_plot, vol_plot.to_numpy(), width=0.8, color=volume_fill, alpha=0.45)
+        axv.bar(x_plot, vol_plot.to_numpy(), width=0.8, color=volume_fill, alpha=0.42)
+        if vol_ma5.notna().any():
+            axv.plot(x_plot, vol_ma5.to_numpy(), linewidth=1.35, color=volume_ma5, label="5D Avg Vol")
         if vol_ma20.notna().any():
-            axv.plot(x_plot, vol_ma20.to_numpy(), linewidth=1.4, color=volume_ma, label="20D Avg Vol")
+            axv.plot(x_plot, vol_ma20.to_numpy(), linewidth=1.35, color=volume_ma20, label="20D Avg Vol")
 
         ax.set_title(f"{symbol} · Daily · 3M", color="white", fontsize=12, pad=10, fontweight="bold")
 
@@ -574,11 +702,11 @@ def render_chart(chart_dir: Path, symbol: str, daily_df: Optional[pd.DataFrame])
 
         ax.legend(
             loc="upper left",
-            fontsize=7.5,
+            fontsize=7.4,
             frameon=False,
             labelcolor=tick,
             ncol=4,
-            handlelength=2.4,
+            handlelength=2.2,
             borderaxespad=0.8,
         )
 
@@ -587,6 +715,7 @@ def render_chart(chart_dir: Path, symbol: str, daily_df: Optional[pd.DataFrame])
             fontsize=7.0,
             frameon=False,
             labelcolor=tick,
+            ncol=2,
             handlelength=2.0,
             borderaxespad=0.6,
         )
@@ -662,6 +791,7 @@ def aggregate() -> None:
     compression_map = extract_component_map(cfg.out_dir, cfg.report_date, "compression")
     trends_map = extract_component_map(cfg.out_dir, cfg.report_date, "trends")
     news_map = extract_component_map(cfg.out_dir, cfg.report_date, "news")
+    index_snapshots = {} if cfg.mock_mode else fetch_index_snapshots(cfg.provider, cfg.tiingo_token)
 
     rows: List[Dict[str, Any]] = []
     failed: List[str] = []
@@ -709,7 +839,12 @@ def aggregate() -> None:
             "close_pos": {"value": None, "display": "N/A", "label": "N/A", "tone": "hold"},
             "rvol": {"value": None, "display": "N/A", "label": "N/A", "tone": "hold"},
             "thrust": {"value": None, "display": "N/A", "label": "N/A", "tone": "hold"},
+            "vol_setup": {"value": None, "display": "N/A", "label": "N/A", "tone": "flat"},
         }
+
+        stock_ret = compute_return_snapshot(df) if df is not None else {"d1": None, "d5": None, "d20": None}
+        stock_vol_accel = compute_vol_accel(df) if df is not None else None
+        relative_strength = build_relative_strength_badges(stock_ret, stock_vol_accel, index_snapshots) if index_snapshots else {}
 
         rows.append({
             "symbol": sym,
@@ -724,12 +859,11 @@ def aggregate() -> None:
             "detail": {
                 "vol_anomaly": vol_detail,
                 "chart_badges": chart_badges,
+                "relative_strength": relative_strength,
             },
             "chart_url": None,
+            "_chart_df": df,
         })
-
-        # API再取得せず、その場で描画できるよう一時保持
-        rows[-1]["_chart_df"] = df
 
     rows.sort(key=lambda r: (r["score_pts"], r["final_score_0_1"]), reverse=True)
     top10 = rows[:10]
