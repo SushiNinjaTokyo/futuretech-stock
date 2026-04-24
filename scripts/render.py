@@ -85,12 +85,9 @@ def clamp01(x: Any) -> float:
 
 def canonicalize_score_components(comps_raw: Dict[str, Any]) -> Dict[str, float]:
     comps_raw = comps_raw or {}
-
     return {
         "volume_anomaly": clamp01(comps_raw.get("volume_anomaly")),
-        "compression_release": clamp01(
-            comps_raw.get("compression_release", comps_raw.get("dii"))
-        ),
+        "compression_release": clamp01(comps_raw.get("compression_release", comps_raw.get("dii"))),
         "trends_breakout": clamp01(comps_raw.get("trends_breakout")),
         "news": clamp01(comps_raw.get("news")),
     }
@@ -98,13 +95,9 @@ def canonicalize_score_components(comps_raw: Dict[str, Any]) -> Dict[str, float]
 
 def canonicalize_score_weights(weights_raw: Dict[str, Any]) -> Dict[str, float]:
     weights_raw = weights_raw or {}
-
     return {
         "volume_anomaly": max(0.0, to_float(weights_raw.get("volume_anomaly")) or 0.0),
-        "compression_release": max(
-            0.0,
-            to_float(weights_raw.get("compression_release", weights_raw.get("dii"))) or 0.0,
-        ),
+        "compression_release": max(0.0, to_float(weights_raw.get("compression_release", weights_raw.get("dii"))) or 0.0),
         "trends_breakout": max(0.0, to_float(weights_raw.get("trends_breakout")) or 0.0),
         "news": max(0.0, to_float(weights_raw.get("news")) or 0.0),
     }
@@ -114,11 +107,9 @@ def normalize_chart_badges(detail_raw: Dict[str, Any]) -> Dict[str, Any]:
     detail_raw = detail_raw or {}
     badges = detail_raw.get("chart_badges") or {}
 
-    def norm_badge(raw: Dict[str, Any]) -> Dict[str, Any]:
+    def norm_badge(raw: Dict[str, Any], default_tone: str = "hold") -> Dict[str, Any]:
         raw = raw or {}
-        tone = str(raw.get("tone", "hold")).strip().lower()
-        if tone not in {"buy", "hold", "sell"}:
-            tone = "hold"
+        tone = str(raw.get("tone", default_tone)).strip().lower()
         return {
             "value": to_float(raw.get("value")),
             "display": str(raw.get("display", "N/A")),
@@ -127,10 +118,36 @@ def normalize_chart_badges(detail_raw: Dict[str, Any]) -> Dict[str, Any]:
         }
 
     return {
-        "close_pos": norm_badge(badges.get("close_pos")),
-        "rvol": norm_badge(badges.get("rvol")),
-        "thrust": norm_badge(badges.get("thrust")),
+        "close_pos": norm_badge(badges.get("close_pos"), "hold"),
+        "rvol": norm_badge(badges.get("rvol"), "hold"),
+        "thrust": norm_badge(badges.get("thrust"), "hold"),
+        "vol_setup": norm_badge(badges.get("vol_setup"), "flat"),
     }
+
+
+def normalize_relative_strength(detail_raw: Dict[str, Any]) -> Dict[str, Any]:
+    detail_raw = detail_raw or {}
+    rel = detail_raw.get("relative_strength") or {}
+
+    def norm_inner(raw: Dict[str, Any], default_tone: str = "neutral") -> Dict[str, Any]:
+        raw = raw or {}
+        tone = str(raw.get("tone", default_tone)).strip().lower()
+        return {
+            "value": to_float(raw.get("value")),
+            "display": str(raw.get("display", "N/A")),
+            "label": str(raw.get("label", "N/A")),
+            "tone": tone,
+        }
+
+    out: Dict[str, Any] = {}
+    for key in ("sp500", "nasdaq", "russell"):
+        row = rel.get(key) or {}
+        out[key] = {
+            "name": str(row.get("name", key)),
+            "price": norm_inner(row.get("price"), "neutral"),
+            "vol_accel": norm_inner(row.get("vol_accel"), "neutral"),
+        }
+    return out
 
 
 def normalize_item(item: Dict[str, Any], date: str, rank: int) -> Dict[str, Any]:
@@ -142,7 +159,6 @@ def normalize_item(item: Dict[str, Any], date: str, rank: int) -> Dict[str, Any]
 
     comps = canonicalize_score_components(comps_raw)
     weights = canonicalize_score_weights(weights_raw)
-
     final01 = clamp01(item.get("final_score_0_1"))
 
     score_pts = item.get("score_pts")
@@ -160,6 +176,7 @@ def normalize_item(item: Dict[str, Any], date: str, rank: int) -> Dict[str, Any]
 
     detail = item.get("detail") or {}
     detail["chart_badges"] = normalize_chart_badges(detail)
+    detail["relative_strength"] = normalize_relative_strength(detail)
 
     return {
         "rank": rank,
