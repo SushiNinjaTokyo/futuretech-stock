@@ -66,33 +66,13 @@ jobs:
           if [ -n "${INPUT_REPORT_DATE:-}" ]; then
             REPORT_DATE="${INPUT_REPORT_DATE}"
           else
-            REPORT_DATE="$(python - <<'PY'
-from pathlib import Path
-
-base = Path("site/data")
-if not base.exists():
-    print("")
-    raise SystemExit(0)
-
-dates = sorted(
-    [p.name for p in base.iterdir() if p.is_dir() and len(p.name) == 10],
-    reverse=True,
-)
-
-picked = ""
-for d in dates:
-    day = base / d
-    if (
-        (day / "news.json").exists()
-        and (day / "trends.json").exists()
-        and (day / "compression.json").exists()
-    ):
-        picked = d
-        break
-
-print(picked)
-PY
-)"
+            REPORT_DATE=""
+            for d in $(find site/data -maxdepth 1 -mindepth 1 -type d -printf '%f\n' | grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' | sort -r); do
+              if [ -f "site/data/${d}/news.json" ] && [ -f "site/data/${d}/trends.json" ] && [ -f "site/data/${d}/compression.json" ]; then
+                REPORT_DATE="${d}"
+                break
+              fi
+            done
           fi
 
           if [ -z "${REPORT_DATE}" ]; then
@@ -109,7 +89,6 @@ PY
           REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
         run: |
           set -euo pipefail
-
           echo "Checking component inputs for ${REPORT_DATE}"
           test -f "site/data/${REPORT_DATE}/news.json" || (echo "Missing news.json" && exit 1)
           test -f "site/data/${REPORT_DATE}/trends.json" || (echo "Missing trends.json" && exit 1)
