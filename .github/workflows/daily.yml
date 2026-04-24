@@ -219,6 +219,7 @@ jobs:
             "site/data/trends/latest.json" \
             "site/data/${REPORT_DATE}/top10.json" \
             "site/data/top10/latest.json" \
+            "site/charts/${REPORT_DATE}" \
             "site/daily/${REPORT_DATE}.html" \
             "site/assets/daily.css" \
             "templates/daily.html.j2" \
