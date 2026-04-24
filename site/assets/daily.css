@@ -189,9 +189,9 @@ body{
 
 .hero-title{
   margin:0;
-  font-size:clamp(81px, 12vw, 153px); /* 以前の約1.5倍 */
-  line-height:.90;
-  letter-spacing:-.065em;
+  font-size:clamp(40px, 6vw, 76px);
+  line-height:.92;
+  letter-spacing:-.055em;
   font-weight:950;
   color:transparent;
   text-wrap:balance;
@@ -202,10 +202,19 @@ body{
   display:inline-block;
   width:max-content;
   color:transparent;
-  background:linear-gradient(90deg, #f7fbff 0%, var(--cyan) 46%, #9ad8ff 68%, var(--violet) 100%);
+  background:linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #dffbff 12%,
+    #8ff5ff 35%,
+    #5ee7ff 52%,
+    #7fb7ff 72%,
+    #b69aff 88%,
+    #eadfff 100%
+  );
   -webkit-background-clip:text;
   background-clip:text;
-  filter:drop-shadow(0 0 18px rgba(94,231,255,.14));
+  filter:drop-shadow(0 0 14px rgba(94,231,255,.16));
   isolation:isolate;
 }
 
@@ -375,16 +384,16 @@ body{
 }
 
 .hero-line-svg.sp{
-  --hero-line-mid:rgba(94,231,255,.55);
-  --hero-line-end:rgba(94,231,255,1);
+  --hero-line-mid:#8af8ff;
+  --hero-line-end:#dbffff;
 }
 .hero-line-svg.nasdaq{
-  --hero-line-mid:rgba(91,140,255,.55);
-  --hero-line-end:rgba(91,140,255,1);
+  --hero-line-mid:#91b3ff;
+  --hero-line-end:#e2eaff;
 }
 .hero-line-svg.russell{
-  --hero-line-mid:rgba(157,123,255,.55);
-  --hero-line-end:rgba(157,123,255,1);
+  --hero-line-mid:#c4a8ff;
+  --hero-line-end:#f1e7ff;
 }
 
 .hero-line-track,
@@ -406,34 +415,45 @@ body{
   transform-origin:left center;
 }
 
-/* SP500 が消えないように明示 */
+/* SP500 を他と同じように確実表示 */
 .hero-line-svg.sp .hero-line-core{
   stroke:url(#hero-grad-sp);
   filter:url(#hero-glow-sp);
+  opacity:1;
 }
 .hero-line-svg.nasdaq .hero-line-core{
   stroke:url(#hero-grad-nasdaq);
   filter:url(#hero-glow-nasdaq);
+  opacity:1;
 }
 .hero-line-svg.russell .hero-line-core{
   stroke:url(#hero-grad-russell);
   filter:url(#hero-glow-russell);
+  opacity:1;
 }
 
-/*
-  左から右へ描く + 左から右へ消す
-  擬似的に「表示窓」を左→右へ流す
-*/
+/* グラデーションを強調した発光 */
+.hero-line-svg.sp{
+  filter:drop-shadow(0 0 10px rgba(94,231,255,.20));
+}
+.hero-line-svg.nasdaq{
+  filter:drop-shadow(0 0 10px rgba(91,140,255,.20));
+}
+.hero-line-svg.russell{
+  filter:drop-shadow(0 0 10px rgba(157,123,255,.20));
+}
+
+/* 速度2倍 */
 .hero-line-core{
   clip-path:inset(0 100% 0 0);
-  animation:heroLineSweep 6.4s linear infinite;
+  animation:heroLineSweep 3.2s linear infinite;
 }
 
 .hero-line-row:nth-child(2) .hero-line-core{
-  animation-delay:.30s;
+  animation-delay:.15s;
 }
 .hero-line-row:nth-child(3) .hero-line-core{
-  animation-delay:.60s;
+  animation-delay:.30s;
 }
 
 @keyframes heroLineSweep{
@@ -445,11 +465,11 @@ body{
     opacity:1;
   }
   35%{
-    clip-path:inset(0 0 0 0);   /* 全体が描かれた状態 */
+    clip-path:inset(0 0 0 0);
     opacity:1;
   }
   100%{
-    clip-path:inset(0 0 0 100%); /* 左から右へ消える */
+    clip-path:inset(0 0 0 100%);
     opacity:1;
   }
 }
@@ -1116,7 +1136,7 @@ body{
   }
 
   .hero-title{
-    font-size:clamp(62px, 16vw, 108px);
+    font-size:clamp(34px, 9vw, 56px);
   }
 
   .hero-sub{
