@@ -35,6 +35,24 @@
       </div>
     </header>
 
+    {% macro signal_tier(v) -%}
+      {%- if v >= 0.90 -%}Elite
+      {%- elif v >= 0.75 -%}Strong
+      {%- elif v >= 0.55 -%}Good
+      {%- elif v >= 0.35 -%}Watch
+      {%- else -%}Weak
+      {%- endif -%}
+    {%- endmacro %}
+
+    {% macro signal_tone(v) -%}
+      {%- if v >= 0.90 -%}elite
+      {%- elif v >= 0.75 -%}strong
+      {%- elif v >= 0.55 -%}good
+      {%- elif v >= 0.35 -%}watch
+      {%- else -%}weak
+      {%- endif -%}
+    {%- endmacro %}
+
     <section class="cards">
       {% for item in (top10 or []) %}
       {% set sym = item.symbol | default('', true) %}
@@ -50,6 +68,7 @@
       {% set comps = item.score_components | default({}, true) %}
       {% set detail = item.detail | default({}, true) %}
       {% set badges = detail.chart_badges | default({}, true) %}
+      {% set rs = detail.relative_strength | default({}, true) %}
       {% set vol = comps.volume_anomaly | default(0, true) %}
       {% set comp = comps.compression_release | default(0, true) %}
       {% set trends = comps.trends_breakout | default(0, true) %}
@@ -58,6 +77,7 @@
       {% set close_pos = badges.close_pos | default({}, true) %}
       {% set rvol = badges.rvol | default({}, true) %}
       {% set thrust = badges.thrust | default({}, true) %}
+      {% set vol_setup = badges.vol_setup | default({}, true) %}
 
       <article class="stock-card rank-{{ rk }}" data-symbol="{{ sym }}">
         <div class="card-topline"></div>
@@ -126,25 +146,25 @@
             <div class="signal-row">
               <div class="signal-label">Volume</div>
               <div class="signal-bar"><i style="width: {{ (vol * 100) | round(1) }}%"></i></div>
-              <div class="signal-value">{{ (vol * 100) | round(1) }}%</div>
+              <div class="signal-tag {{ signal_tone(vol) }}">{{ signal_tier(vol) }} · {{ (vol * 100) | round(0) }}</div>
             </div>
 
             <div class="signal-row">
               <div class="signal-label">Compression</div>
               <div class="signal-bar"><i style="width: {{ (comp * 100) | round(1) }}%"></i></div>
-              <div class="signal-value">{{ (comp * 100) | round(1) }}%</div>
+              <div class="signal-tag {{ signal_tone(comp) }}">{{ signal_tier(comp) }} · {{ (comp * 100) | round(0) }}</div>
             </div>
 
             <div class="signal-row">
               <div class="signal-label">Trends</div>
               <div class="signal-bar"><i style="width: {{ (trends * 100) | round(1) }}%"></i></div>
-              <div class="signal-value">{{ (trends * 100) | round(1) }}%</div>
+              <div class="signal-tag {{ signal_tone(trends) }}">{{ signal_tier(trends) }} · {{ (trends * 100) | round(0) }}</div>
             </div>
 
             <div class="signal-row">
               <div class="signal-label">News</div>
               <div class="signal-bar"><i style="width: {{ (news * 100) | round(1) }}%"></i></div>
-              <div class="signal-value">{{ (news * 100) | round(1) }}%</div>
+              <div class="signal-tag {{ signal_tone(news) }}">{{ signal_tier(news) }} · {{ (news * 100) | round(0) }}</div>
             </div>
           </div>
         </div>
@@ -169,6 +189,38 @@
               <div class="badge-main">{{ thrust.label | default('N/A', true) }}</div>
               <div class="badge-v">{{ thrust.display | default('N/A', true) }}</div>
             </div>
+
+            <div class="chart-badge {{ vol_setup.tone | default('flat', true) }}">
+              <div class="badge-k">Vol Setup</div>
+              <div class="badge-main">{{ vol_setup.label | default('N/A', true) }}</div>
+              <div class="badge-v">{{ vol_setup.display | default('N/A', true) }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative-panel">
+          <div class="relative-title">Relative Strength</div>
+          <div class="relative-list">
+            {% for key in ['sp500', 'nasdaq', 'russell'] %}
+              {% set row = rs[key] | default({}, true) %}
+              {% set price = row.price | default({}, true) %}
+              {% set vacc = row.vol_accel | default({}, true) %}
+              <div class="relative-row">
+                <div class="relative-index">vs {{ row.name | default(key, true) }}</div>
+                <div class="relative-badges">
+                  <div class="relative-badge {{ price.tone | default('neutral', true) }}">
+                    <span class="relative-type">Price</span>
+                    <span class="relative-value">{{ price.display | default('N/A', true) }}</span>
+                    <span class="relative-label">{{ price.label | default('N/A', true) }}</span>
+                  </div>
+                  <div class="relative-badge vol {{ vacc.tone | default('neutral', true) }}">
+                    <span class="relative-type">VolAccel</span>
+                    <span class="relative-value">{{ vacc.display | default('N/A', true) }}</span>
+                    <span class="relative-label">{{ vacc.label | default('N/A', true) }}</span>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
           </div>
         </div>
 
