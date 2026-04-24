@@ -22,10 +22,7 @@
         <div class="hero-kicker">MARKET SIGNALS</div>
 
         <h1 class="hero-title">
-          <span class="hero-title-line">Top 10</span>
-          <span class="hero-title-line hero-title-accent">
-            <span class="glitch-text" data-text="Movers">Movers</span>
-          </span>
+          <span class="glitch-title" data-text="Top 10 Movers">Top 10 Movers</span>
         </h1>
 
         <p class="hero-sub">
@@ -64,7 +61,8 @@
                   <defs>
                     <linearGradient id="hero-grad-{{ key }}" x1="0%" y1="0%" x2="100%" y2="0%">
                       <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
-                      <stop offset="22%" stop-color="var(--hero-line-mid, rgba(255,255,255,.35))"/>
+                      <stop offset="18%" stop-color="var(--hero-line-mid, rgba(255,255,255,.28))"/>
+                      <stop offset="70%" stop-color="var(--hero-line-end, rgba(255,255,255,1))"/>
                       <stop offset="100%" stop-color="var(--hero-line-end, rgba(255,255,255,1))"/>
                     </linearGradient>
                     <filter id="hero-glow-{{ key }}" x="-30%" y="-100%" width="160%" height="300%">
@@ -417,8 +415,8 @@ function initHeroIndexLines(){
     core.setAttribute("d", d);
 
     const len = core.getTotalLength();
-    core.style.setProperty("--hero-line-length", `${len}`);
     track.style.setProperty("--hero-line-length", `${len}`);
+    core.style.setProperty("--hero-line-length", `${len}`);
   });
 }
 
