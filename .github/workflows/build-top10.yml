@@ -148,7 +148,8 @@ jobs:
 
           git add \
             "site/data/${REPORT_DATE}/top10.json" \
-            "site/data/top10/latest.json"
+            "site/data/top10/latest.json" \
+            "site/charts/${REPORT_DATE}"
 
           if [ "${RENDER_HTML}" = "true" ]; then
             git add \
