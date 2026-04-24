@@ -60,11 +60,11 @@
                 <svg class="hero-line-svg {{ key }}" viewBox="0 0 520 120" preserveAspectRatio="none" aria-hidden="true">
                   <defs>
                     <linearGradient id="hero-grad-{{ key }}" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="rgba(255,255,255,0.00)"/>
-                      <stop offset="10%" stop-color="var(--hero-line-mid)"/>
-                      <stop offset="45%" stop-color="var(--hero-line-core)"/>
+                      <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
+                      <stop offset="12%" stop-color="var(--hero-line-mid)"/>
+                      <stop offset="46%" stop-color="var(--hero-line-core-color)"/>
                       <stop offset="78%" stop-color="var(--hero-line-end)"/>
-                      <stop offset="100%" stop-color="rgba(255,255,255,0.96)"/>
+                      <stop offset="100%" stop-color="rgba(255,255,255,.96)"/>
                     </linearGradient>
 
                     <filter id="hero-glow-{{ key }}" x="-80%" y="-220%" width="260%" height="520%">
@@ -76,15 +76,11 @@
                         <feMergeNode in="SourceGraphic"/>
                       </feMerge>
                     </filter>
-
-                    <mask id="hero-mask-{{ key }}" maskUnits="userSpaceOnUse">
-                      <rect class="hero-mask-window" x="0" y="0" width="0" height="120" rx="0" ry="0"></rect>
-                    </mask>
                   </defs>
 
                   <path class="hero-line-track" d="" />
                   <path class="hero-line-ghost" d="" />
-                  <path class="hero-line-core" d="" mask="url(#hero-mask-{{ key }})" />
+                  <path class="hero-line-core" d="" />
                 </svg>
               </div>
             </div>
@@ -414,18 +410,56 @@ function initHeroIndexLines(){
     const key = row.getAttribute("data-line-key");
     const series = data[key] || {};
     const points = Array.isArray(series.points) ? series.points : [];
-    const svg = row.querySelector(".hero-line-svg");
     const track = row.querySelector(".hero-line-track");
     const ghost = row.querySelector(".hero-line-ghost");
     const core = row.querySelector(".hero-line-core");
-    const maskWindow = row.querySelector(".hero-mask-window");
 
-    if (!svg || !track || !ghost || !core || !maskWindow || points.length < 2) return;
+    if (!track || !ghost || !core || points.length < 2) return;
 
     const d = buildHeroPath(points, 520, 120);
     track.setAttribute("d", d);
     ghost.setAttribute("d", d);
     core.setAttribute("d", d);
+
+    const length = core.getTotalLength();
+
+    track.style.strokeDasharray = `${length} ${length}`;
+    track.style.strokeDashoffset = "0";
+
+    ghost.style.strokeDasharray = `0 ${length}`;
+    ghost.style.strokeDashoffset = "0";
+
+    core.style.strokeDasharray = `0 ${length}`;
+    core.style.strokeDashoffset = "0";
+
+    const duration = 1600;
+    const delay =
+      key === "nasdaq" ? 80 :
+      key === "russell" ? 160 : 0;
+
+    const animate = (ts) => {
+      const t = ((ts + delay) % duration) / duration;
+      let visible, start;
+
+      if (t < 0.5) {
+        visible = length * (t / 0.5) * 0.5;
+        start = 0;
+      } else {
+        visible = length * 0.5;
+        start = length * ((t - 0.5) / 0.5) * 0.5;
+      }
+
+      core.style.strokeDasharray = `${visible} ${length}`;
+      core.style.strokeDashoffset = `${-start}`;
+
+      ghost.style.strokeDasharray = `${visible} ${length}`;
+      ghost.style.strokeDashoffset = `${-(Math.max(0, start - length * 0.03))}`;
+      ghost.style.opacity = t < 0.12 ? "0" : (t < 0.5 ? "0.16" : "0.08");
+
+      requestAnimationFrame(animate);
+    };
+
+    requestAnimationFrame(animate);
   });
 }
 
