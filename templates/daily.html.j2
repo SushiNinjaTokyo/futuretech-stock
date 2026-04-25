@@ -156,15 +156,9 @@
 
         <div class="card-head">
           <div class="identity-zone">
-            <div class="rank-module rank-variant-{{ rk if rk <= 3 else 4 }}">
-              <div class="rank-core">
-                <div class="rank-noise"></div>
-                <div class="rank-number">{{ "%02d"|format(rk) }}</div>
-                <div class="rank-caption">{% if rk == 1 %}Prime{% elif rk == 2 %}Vector{% elif rk == 3 %}Apex{% else %}Rank{% endif %}</div>
-              </div>
-              <div class="rank-traces">
-                <span></span><span></span><span></span>
-              </div>
+            <div class="rank-chip {% if rk <= 3 %}top3{% endif %}">
+              <span class="rank-chip-label">Rank</span>
+              <span class="rank-chip-number">{{ rk }}</span>
             </div>
 
             <div class="identity-copy">
@@ -194,13 +188,6 @@
             </div>
 
             <div class="score-mini">{{ score100 }} / 100</div>
-
-            <div class="score-legend-mini">
-              <span class="lg volume">Vol</span>
-              <span class="lg compression">Comp</span>
-              <span class="lg trends">Trend</span>
-              <span class="lg news">News</span>
-            </div>
           </div>
         </div>
 
