@@ -1,1 +1,152 @@
-###
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>FutureTech Stock — Backtest</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="/assets/backtest.css">
+</head>
+
+<body>
+<div class="page">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <div class="grid"></div>
+
+  <main class="wrap">
+    <header class="hero">
+      <div>
+        <a class="back-link" href="/">← Home</a>
+        <div class="kicker">Signal Outcome Tracker</div>
+        <h1>Backtest</h1>
+        <p>
+          Track how daily signals performed after 5D, 10D, and 20D.
+          This page turns the ranking system into a measurable strategy.
+        </p>
+      </div>
+
+      <div class="asof-card">
+        <div class="asof-label">As of</div>
+        <div class="asof-value">{{ summary.as_of | default('No data yet', true) }}</div>
+      </div>
+    </header>
+
+    <section class="kpi-grid">
+      {% macro pct(v) -%}
+        {% if v is none %}—{% else %}{% if v > 0 %}+{% endif %}{{ v | round(2) }}%{% endif %}
+      {%- endmacro %}
+
+      {% macro rate(v) -%}
+        {% if v is none %}—{% else %}{{ (v * 100) | round(1) }}%{% endif %}
+      {%- endmacro %}
+
+      <div class="kpi-card">
+        <div class="kpi-label">Total Signals</div>
+        <div class="kpi-value">{{ summary.total_signals | default(0, true) }}</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label">20D Avg Return</div>
+        <div class="kpi-value {% if summary.avg_return_20d is not none and summary.avg_return_20d > 0 %}up{% elif summary.avg_return_20d is not none and summary.avg_return_20d < 0 %}down{% endif %}">
+          {{ pct(summary.avg_return_20d) }}
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label">20D Win Rate</div>
+        <div class="kpi-value">{{ rate(summary.win_rate_20d) }}</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-label">Avg Max Drawdown</div>
+        <div class="kpi-value down">{{ pct(summary.avg_max_drawdown_20d) }}</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Completion</div>
+          <h2>Signal Coverage</h2>
+        </div>
+      </div>
+
+      <div class="coverage-grid">
+        <div class="coverage-card">
+          <span>Completed 5D</span>
+          <strong>{{ summary.completed_5d | default(0, true) }}</strong>
+        </div>
+        <div class="coverage-card">
+          <span>Completed 10D</span>
+          <strong>{{ summary.completed_10d | default(0, true) }}</strong>
+        </div>
+        <div class="coverage-card">
+          <span>Completed 20D</span>
+          <strong>{{ summary.completed_20d | default(0, true) }}</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Recent Outcomes</div>
+          <h2>Completed Signals</h2>
+        </div>
+      </div>
+
+      {% if recent %}
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Symbol</th>
+              <th>Rank</th>
+              <th>5D</th>
+              <th>10D</th>
+              <th>20D</th>
+              <th>Max Gain</th>
+              <th>Max DD</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in recent %}
+            <tr>
+              <td>{{ row.signal_date | default('—', true) }}</td>
+              <td class="symbol">{{ row.symbol | default('—', true) }}</td>
+              <td>#{{ row.rank | default('—', true) }}</td>
+              <td class="{% if row.d5_return_pct is not none and row.d5_return_pct > 0 %}up{% elif row.d5_return_pct is not none and row.d5_return_pct < 0 %}down{% endif %}">
+                {{ pct(row.d5_return_pct) }}
+              </td>
+              <td class="{% if row.d10_return_pct is not none and row.d10_return_pct > 0 %}up{% elif row.d10_return_pct is not none and row.d10_return_pct < 0 %}down{% endif %}">
+                {{ pct(row.d10_return_pct) }}
+              </td>
+              <td class="{% if row.d20_return_pct is not none and row.d20_return_pct > 0 %}up{% elif row.d20_return_pct is not none and row.d20_return_pct < 0 %}down{% endif %}">
+                {{ pct(row.d20_return_pct) }}
+              </td>
+              <td class="up">{{ pct(row.max_gain_20d_pct) }}</td>
+              <td class="down">{{ pct(row.max_drawdown_20d_pct) }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="empty">
+        <h3>No completed signals yet</h3>
+        <p>
+          The page is ready. Once Signal Outcome Tracker is added, this table will show
+          5D / 10D / 20D results automatically.
+        </p>
+      </div>
+      {% endif %}
+    </section>
+
+    <footer class="footer">
+      Generated at {{ generated_at }} · Informational only, not investment advice.
+    </footer>
+  </main>
+</div>
+</body>
+</html>
