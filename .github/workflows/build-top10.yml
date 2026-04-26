@@ -122,6 +122,23 @@ jobs:
           test -d "site/charts/${REPORT_DATE}"
           find "site/charts/${REPORT_DATE}" -maxdepth 1 -name '*.png' | grep -q .
 
+      - name: Track signal outcomes
+        shell: bash
+        env:
+          OUT_DIR: site
+          REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          python scripts/track_signal_outcomes.py
+
+      - name: Verify signal outcome outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "site/data/signals/registry.json"
+          test -f "site/data/signals/outcomes_latest.json"
+          test -f "site/data/signals/summary_latest.json"
+
       - name: Render daily page
         if: github.event.inputs.render_html == 'true'
         shell: bash
@@ -183,7 +200,10 @@ jobs:
           git add \
             "site/data/${REPORT_DATE}/top10.json" \
             "site/data/top10/latest.json" \
-            "site/charts/${REPORT_DATE}"
+            "site/charts/${REPORT_DATE}" \
+            "site/data/signals/registry.json" \
+            "site/data/signals/outcomes_latest.json" \
+            "site/data/signals/summary_latest.json"
 
           if [ "${RENDER_HTML}" = "true" ]; then
             git add \
@@ -202,7 +222,7 @@ jobs:
             exit 0
           fi
 
-          git commit -m "top10: rebuild site pages for ${REPORT_DATE}"
+          git commit -m "top10: rebuild site pages and signal outcomes for ${REPORT_DATE}"
           echo "committed=true" >> "$GITHUB_OUTPUT"
 
       - name: Push changes
