@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>FutureTech Stock — Backtest</title>
+  <title>FutureTech Stock — Top3 Signal Tracker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="stylesheet" href="/assets/backtest.css">
 </head>
@@ -14,84 +14,183 @@
   <div class="grid"></div>
 
   <main class="wrap">
+    {% macro pct(v) -%}
+      {% if v is none %}
+        —
+      {% else %}
+        {% if v > 0 %}+{% endif %}{{ v | round(2) }}%
+      {% endif %}
+    {%- endmacro %}
+
+    {% macro rate(v) -%}
+      {% if v is none %}
+        —
+      {% else %}
+        {{ (v * 100) | round(1) }}%
+      {% endif %}
+    {%- endmacro %}
+
+    {% macro tone(v) -%}
+      {% if v is none %}
+        neutral
+      {% elif v > 0 %}
+        up
+      {% elif v < 0 %}
+        down
+      {% else %}
+        neutral
+      {% endif %}
+    {%- endmacro %}
+
     <header class="hero">
-      <div>
+      <div class="hero-main">
         <a class="back-link" href="/">← Home</a>
+
         <div class="kicker">Signal Outcome Tracker</div>
-        <h1>Backtest</h1>
+        <h1>Top3 Signal Tracker</h1>
+
         <p>
-          Track how daily signals performed after 5D, 10D, and 20D.
-          This page turns the ranking system into a measurable strategy.
+          Tracks only the daily Top 3 signals. Entry is the next trading day’s open.
+          Performance is fixed at 1W, 1M, and 3M, while current performance updates until 3M completion.
         </p>
+
+        <div class="policy-row">
+          <span>Top 3 only</span>
+          <span>Entry: Next Open</span>
+          <span>1W / 1M / 3M</span>
+          <span>Stop after 3M</span>
+        </div>
       </div>
 
-      <div class="asof-card">
-        <div class="asof-label">As of</div>
-        <div class="asof-value">{{ summary.as_of | default('No data yet', true) }}</div>
+      <div class="status-card">
+        <div class="status-label">Tracking Status</div>
+        <div class="status-value">
+          {{ summary.active_signals | default(0, true) }}
+        </div>
+        <div class="status-sub">active signals</div>
+
+        <div class="status-meta">
+          <div>
+            <span>Total</span>
+            <strong>{{ summary.total_signals | default(0, true) }}</strong>
+          </div>
+          <div>
+            <span>As of</span>
+            <strong>{{ summary.as_of | default('—', true) }}</strong>
+          </div>
+        </div>
       </div>
     </header>
 
     <section class="kpi-grid">
-      {% macro pct(v) -%}
-        {% if v is none %}—{% else %}{% if v > 0 %}+{% endif %}{{ v | round(2) }}%{% endif %}
-      {%- endmacro %}
-
-      {% macro rate(v) -%}
-        {% if v is none %}—{% else %}{{ (v * 100) | round(1) }}%{% endif %}
-      {%- endmacro %}
-
-      <div class="kpi-card">
-        <div class="kpi-label">Total Signals</div>
-        <div class="kpi-value">{{ summary.total_signals | default(0, true) }}</div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-label">20D Avg Return</div>
-        <div class="kpi-value {% if summary.avg_return_20d is not none and summary.avg_return_20d > 0 %}up{% elif summary.avg_return_20d is not none and summary.avg_return_20d < 0 %}down{% endif %}">
-          {{ pct(summary.avg_return_20d) }}
+      <article class="kpi-card">
+        <div class="kpi-label">Current Avg</div>
+        <div class="kpi-value {{ tone(summary.avg_current_return) }}">
+          {{ pct(summary.avg_current_return) }}
         </div>
-      </div>
+        <div class="kpi-note">open positions until 3M</div>
+      </article>
 
-      <div class="kpi-card">
-        <div class="kpi-label">20D Win Rate</div>
-        <div class="kpi-value">{{ rate(summary.win_rate_20d) }}</div>
-      </div>
+      <article class="kpi-card">
+        <div class="kpi-label">1M Avg Return</div>
+        <div class="kpi-value {{ tone(summary.avg_return_1m) }}">
+          {{ pct(summary.avg_return_1m) }}
+        </div>
+        <div class="kpi-note">20 trading days</div>
+      </article>
 
-      <div class="kpi-card">
-        <div class="kpi-label">Avg Max Drawdown</div>
-        <div class="kpi-value down">{{ pct(summary.avg_max_drawdown_20d) }}</div>
-      </div>
+      <article class="kpi-card">
+        <div class="kpi-label">3M Avg Return</div>
+        <div class="kpi-value {{ tone(summary.avg_return_3m) }}">
+          {{ pct(summary.avg_return_3m) }}
+        </div>
+        <div class="kpi-note">63 trading days</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">3M Win Rate</div>
+        <div class="kpi-value">
+          {{ rate(summary.win_rate_3m) }}
+        </div>
+        <div class="kpi-note">completed 3M signals</div>
+      </article>
     </section>
 
-    <section class="panel">
+    <section class="panel coverage-panel">
       <div class="section-head">
         <div>
-          <div class="section-kicker">Completion</div>
-          <h2>Signal Coverage</h2>
+          <div class="section-kicker">Progress</div>
+          <h2>Completion</h2>
         </div>
       </div>
 
       <div class="coverage-grid">
         <div class="coverage-card">
-          <span>Completed 5D</span>
-          <strong>{{ summary.completed_5d | default(0, true) }}</strong>
+          <span>Completed 1W</span>
+          <strong>{{ summary.completed_1w | default(0, true) }}</strong>
         </div>
         <div class="coverage-card">
-          <span>Completed 10D</span>
-          <strong>{{ summary.completed_10d | default(0, true) }}</strong>
+          <span>Completed 1M</span>
+          <strong>{{ summary.completed_1m | default(0, true) }}</strong>
         </div>
         <div class="coverage-card">
-          <span>Completed 20D</span>
-          <strong>{{ summary.completed_20d | default(0, true) }}</strong>
+          <span>Completed 3M</span>
+          <strong>{{ summary.completed_3m | default(0, true) }}</strong>
+        </div>
+        <div class="coverage-card">
+          <span>Avg Max Gain</span>
+          <strong class="{{ tone(summary.avg_max_gain) }}">{{ pct(summary.avg_max_gain) }}</strong>
+        </div>
+        <div class="coverage-card">
+          <span>Avg Max DD</span>
+          <strong class="{{ tone(summary.avg_max_drawdown) }}">{{ pct(summary.avg_max_drawdown) }}</strong>
         </div>
       </div>
     </section>
 
+    {% if summary.rank_buckets %}
     <section class="panel">
       <div class="section-head">
         <div>
-          <div class="section-kicker">Recent Outcomes</div>
-          <h2>Completed Signals</h2>
+          <div class="section-kicker">Rank Quality</div>
+          <h2>Rank Bucket Performance</h2>
+        </div>
+      </div>
+
+      <div class="bucket-grid">
+        {% for b in summary.rank_buckets %}
+        <article class="bucket-card">
+          <div class="bucket-label">{{ b.label }}</div>
+          <div class="bucket-main {{ tone(b.avg_current_return) }}">
+            {{ pct(b.avg_current_return) }}
+          </div>
+          <div class="bucket-sub">Current Avg</div>
+
+          <div class="bucket-stats">
+            <div>
+              <span>1M</span>
+              <strong class="{{ tone(b.avg_return_1m) }}">{{ pct(b.avg_return_1m) }}</strong>
+            </div>
+            <div>
+              <span>3M</span>
+              <strong class="{{ tone(b.avg_return_3m) }}">{{ pct(b.avg_return_3m) }}</strong>
+            </div>
+            <div>
+              <span>Count</span>
+              <strong>{{ b.count }}</strong>
+            </div>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Signals</div>
+          <h2>Tracked Top3 Signals</h2>
         </div>
       </div>
 
@@ -101,32 +200,57 @@
           <thead>
             <tr>
               <th>Date</th>
-              <th>Symbol</th>
               <th>Rank</th>
-              <th>5D</th>
-              <th>10D</th>
-              <th>20D</th>
+              <th>Symbol</th>
+              <th>Entry</th>
+              <th>1W</th>
+              <th>1M</th>
+              <th>3M</th>
+              <th>Current</th>
               <th>Max Gain</th>
               <th>Max DD</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
             {% for row in recent %}
             <tr>
               <td>{{ row.signal_date | default('—', true) }}</td>
-              <td class="symbol">{{ row.symbol | default('—', true) }}</td>
-              <td>#{{ row.rank | default('—', true) }}</td>
-              <td class="{% if row.d5_return_pct is not none and row.d5_return_pct > 0 %}up{% elif row.d5_return_pct is not none and row.d5_return_pct < 0 %}down{% endif %}">
-                {{ pct(row.d5_return_pct) }}
+
+              <td>
+                <span class="rank-pill">#{{ row.rank | default('—', true) }}</span>
               </td>
-              <td class="{% if row.d10_return_pct is not none and row.d10_return_pct > 0 %}up{% elif row.d10_return_pct is not none and row.d10_return_pct < 0 %}down{% endif %}">
-                {{ pct(row.d10_return_pct) }}
+
+              <td>
+                <div class="symbol-cell">
+                  <strong>{{ row.symbol | default('—', true) }}</strong>
+                  <span>{{ row.profile | default('—', true) }}</span>
+                </div>
               </td>
-              <td class="{% if row.d20_return_pct is not none and row.d20_return_pct > 0 %}up{% elif row.d20_return_pct is not none and row.d20_return_pct < 0 %}down{% endif %}">
-                {{ pct(row.d20_return_pct) }}
+
+              <td>
+                {% if row.entry_price is none %}
+                  —
+                {% else %}
+                  <div class="entry-cell">
+                    <strong>{{ row.entry_price | round(2) }}</strong>
+                    <span>{{ row.entry_date | default('', true) }}</span>
+                  </div>
+                {% endif %}
               </td>
-              <td class="up">{{ pct(row.max_gain_20d_pct) }}</td>
-              <td class="down">{{ pct(row.max_drawdown_20d_pct) }}</td>
+
+              <td class="{{ tone(row.return_1w_pct) }}">{{ pct(row.return_1w_pct) }}</td>
+              <td class="{{ tone(row.return_1m_pct) }}">{{ pct(row.return_1m_pct) }}</td>
+              <td class="{{ tone(row.return_3m_pct) }}">{{ pct(row.return_3m_pct) }}</td>
+              <td class="{{ tone(row.current_return_pct) }}">{{ pct(row.current_return_pct) }}</td>
+              <td class="{{ tone(row.max_gain_since_entry_pct) }}">{{ pct(row.max_gain_since_entry_pct) }}</td>
+              <td class="{{ tone(row.max_drawdown_since_entry_pct) }}">{{ pct(row.max_drawdown_since_entry_pct) }}</td>
+
+              <td>
+                <span class="status-pill {{ row.status | default('pending_entry', true) }}">
+                  {{ row.status | default('pending_entry', true) | replace('_', ' ') }}
+                </span>
+              </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -134,10 +258,10 @@
       </div>
       {% else %}
       <div class="empty">
-        <h3>No completed signals yet</h3>
+        <h3>No tracked signals yet</h3>
         <p>
-          The page is ready. Once Signal Outcome Tracker is added, this table will show
-          5D / 10D / 20D results automatically.
+          Once Daily Top 3 signals are generated, this page will track 1W, 1M, 3M,
+          current performance, max gain, and max drawdown automatically.
         </p>
       </div>
       {% endif %}
