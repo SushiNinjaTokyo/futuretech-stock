@@ -1,1 +1,153 @@
-###
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>FutureTech Stock Intelligence</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="/assets/index.css">
+</head>
+
+<body>
+<div class="page">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <div class="grid"></div>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="kicker">FutureTech Stock Intelligence</div>
+        <h1>Market first.<br/>Signals second.</h1>
+        <p>
+          A focused dashboard for identifying early momentum in future technology stocks,
+          while tracking whether the strategy is actually working.
+        </p>
+      </div>
+
+      <div class="regime-card {{ market.regime_tone | default('neutral', true) }}">
+        <div class="regime-label">Market Regime</div>
+        <div class="regime-value">{{ market.regime | default('Unknown', true) }}</div>
+        <div class="regime-date">As of {{ market.date }}</div>
+      </div>
+    </section>
+
+    <section class="market-panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Market Pulse</div>
+          <h2>Index Performance</h2>
+        </div>
+      </div>
+
+      <div class="index-grid">
+        {% for row in indices %}
+        <article class="index-card {{ row.tone | default('', true) }}">
+          <div class="index-top">
+            <div>
+              <div class="index-label">{{ row.label }}</div>
+              <div class="index-symbol">{{ row.symbol }}</div>
+            </div>
+            <div class="index-status {% if row.above_20dma %}up{% elif row.above_20dma is not none %}down{% else %}flat{% endif %}">
+              {% if row.above_20dma is none %}
+                N/A
+              {% elif row.above_20dma %}
+                Above 20D
+              {% else %}
+                Below 20D
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="spark-wrap">
+            <svg class="spark" viewBox="0 0 520 120" preserveAspectRatio="none" data-points="{{ row.points | join(',') }}">
+              <path class="spark-track" d=""></path>
+              <path class="spark-line" d=""></path>
+            </svg>
+          </div>
+
+          <div class="perf-row">
+            {% for key, label in [('return_1d','1D'), ('return_5d','5D'), ('return_20d','20D')] %}
+              {% set v = row[key] %}
+              <div class="perf-chip {% if v is not none and v > 0 %}up{% elif v is not none and v < 0 %}down{% else %}flat{% endif %}">
+                <span>{{ label }}</span>
+                <strong>
+                  {% if v is none %}
+                    —
+                  {% else %}
+                    {% if v > 0 %}+{% endif %}{{ v | round(2) }}%
+                  {% endif %}
+                </strong>
+              </div>
+            {% endfor %}
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="nav-grid">
+      <a class="nav-card primary" href="{{ market.links.daily_latest | default('/daily/', true) }}">
+        <div class="nav-kicker">Today</div>
+        <h3>Daily Top 10</h3>
+        <p>
+          Open the latest ranked movers and review volume, compression, relative strength,
+          and chart signals.
+        </p>
+        <div class="nav-meta">
+          {% if top10.top_symbol %}
+            #1 {{ top10.top_symbol }} / {{ top10.top_score }} pts
+          {% else %}
+            Latest ranking
+          {% endif %}
+        </div>
+      </a>
+
+      <a class="nav-card" href="/backtest/">
+        <div class="nav-kicker">Validation</div>
+        <h3>Backtest</h3>
+        <p>
+          Track how daily signals performed after 5D, 10D, and 20D.
+          This is where the strategy becomes measurable.
+        </p>
+        <div class="nav-meta">Signal Outcome Tracker</div>
+      </a>
+    </section>
+
+    <footer class="footer">
+      Generated at {{ generated_at }} · Informational only, not investment advice.
+    </footer>
+  </main>
+</div>
+
+<script>
+function buildPath(points, width = 520, height = 120){
+  if (!points || points.length < 2) return "";
+  const coords = points.map((p, i) => {
+    const x = (i / (points.length - 1)) * width;
+    const y = height - (Math.max(0, Math.min(100, Number(p))) / 100) * (height - 16) - 8;
+    return [x, y];
+  });
+
+  let d = `M ${coords[0][0].toFixed(2)} ${coords[0][1].toFixed(2)}`;
+  for (let i = 1; i < coords.length; i++) {
+    const prev = coords[i - 1];
+    const curr = coords[i];
+    const cx1 = (prev[0] + curr[0]) / 2;
+    const cx2 = (prev[0] + curr[0]) / 2;
+    d += ` C ${cx1.toFixed(2)} ${prev[1].toFixed(2)}, ${cx2.toFixed(2)} ${curr[1].toFixed(2)}, ${curr[0].toFixed(2)} ${curr[1].toFixed(2)}`;
+  }
+  return d;
+}
+
+document.querySelectorAll(".spark").forEach(svg => {
+  const raw = svg.getAttribute("data-points") || "";
+  const points = raw.split(",").map(Number).filter(v => Number.isFinite(v));
+  const d = buildPath(points);
+  const track = svg.querySelector(".spark-track");
+  const line = svg.querySelector(".spark-line");
+  if (track) track.setAttribute("d", d);
+  if (line) line.setAttribute("d", d);
+});
+</script>
+</body>
+</html>
