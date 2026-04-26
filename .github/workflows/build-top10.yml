@@ -8,7 +8,7 @@ on:
         required: false
         default: ""
       render_html:
-        description: "Also render daily HTML"
+        description: "Also render HTML pages"
         required: true
         default: "true"
         type: choice
@@ -122,7 +122,7 @@ jobs:
           test -d "site/charts/${REPORT_DATE}"
           find "site/charts/${REPORT_DATE}" -maxdepth 1 -name '*.png' | grep -q .
 
-      - name: Render HTML
+      - name: Render daily page
         if: github.event.inputs.render_html == 'true'
         shell: bash
         env:
@@ -131,6 +131,25 @@ jobs:
           set -euo pipefail
           python scripts/render.py
 
+      - name: Render top page
+        if: github.event.inputs.render_html == 'true'
+        shell: bash
+        env:
+          OUT_DIR: site
+          REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          python scripts/render_index.py
+
+      - name: Render backtest page
+        if: github.event.inputs.render_html == 'true'
+        shell: bash
+        env:
+          OUT_DIR: site
+        run: |
+          set -euo pipefail
+          python scripts/render_backtest.py
+
       - name: Verify rendered HTML
         if: github.event.inputs.render_html == 'true'
         shell: bash
@@ -138,8 +157,16 @@ jobs:
           REPORT_DATE: ${{ steps.resolve_date.outputs.REPORT_DATE }}
         run: |
           set -euo pipefail
+
           test -f "site/daily/${REPORT_DATE}.html"
           test -f "site/assets/daily.css"
+
+          test -f "site/index.html"
+          test -f "site/assets/index.css"
+          test -f "site/data/index/market_pulse_latest.json"
+
+          test -f "site/backtest/index.html"
+          test -f "site/assets/backtest.css"
 
       - name: Commit changes
         id: commitstep
@@ -162,8 +189,11 @@ jobs:
             git add \
               "site/daily/${REPORT_DATE}.html" \
               "site/assets/daily.css" \
-              "templates/daily.html.j2" \
-              "templates/daily.css"
+              "site/index.html" \
+              "site/assets/index.css" \
+              "site/data/index/market_pulse_latest.json" \
+              "site/backtest/index.html" \
+              "site/assets/backtest.css"
           fi
 
           if git diff --cached --quiet; then
@@ -172,7 +202,7 @@ jobs:
             exit 0
           fi
 
-          git commit -m "top10: rebuild for ${REPORT_DATE}"
+          git commit -m "top10: rebuild site pages for ${REPORT_DATE}"
           echo "committed=true" >> "$GITHUB_OUTPUT"
 
       - name: Push changes
