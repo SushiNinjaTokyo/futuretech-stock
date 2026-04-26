@@ -1,0 +1,446 @@
+{
+  "created_at": "2026-04-26 05:56:54Z",
+  "updated_at": "2026-04-26 05:56:57Z",
+  "signals": [
+    {
+      "id": "2026-04-23_VRT",
+      "signal_date": "2026-04-23",
+      "symbol": "VRT",
+      "name": "Vertiv Holdings Co",
+      "rank": 1,
+      "rank_bucket": "#1",
+      "score_pts": 750,
+      "final_score_0_1": 0.74975,
+      "score_components": {
+        "volume_anomaly": 0.628438,
+        "compression_release": 0.962963,
+        "trends_breakout": 0.678505,
+        "news": 0.862903
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Compression + News",
+      "signal_close": 321.75,
+      "entry": {
+        "method": "next_open",
+        "entry_date": "2026-04-24",
+        "entry_price": 328.0,
+        "gap_pct": 1.94
+      },
+      "outcome": {
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": 0.7,
+        "max_drawdown_20d_pct": -3.54,
+        "status": "pending",
+        "last_updated": "2026-04-26 05:56:57Z"
+      },
+      "source_snapshot": {
+        "price_delta_1d": 0.53,
+        "price_delta_1w": 5.25,
+        "price_delta_1m": 28.15
+      }
+    },
+    {
+      "id": "2026-04-23_IRDM",
+      "signal_date": "2026-04-23",
+      "symbol": "IRDM",
+      "name": "Iridium Communications Inc.",
+      "rank": 2,
+      "rank_bucket": "#2-3",
+      "score_pts": 688,
+      "final_score_0_1": 0.688161,
+      "score_components": {
+        "volume_anomaly": 0.667431,
+        "compression_release": 0.62963,
+        "trends_breakout": 0.534604,
+        "news": 0.905859
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "News",
+      "signal_close": 40.93,
+      "entry": {
+        "method": "next_open",
+        "entry_date": "2026-04-24",
+        "entry_price": 38.21,
+        "gap_pct": -6.65
+      },
+      "outcome": {
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": 3.93,
+        "max_drawdown_20d_pct": -3.61,
+        "status": "pending",
+        "last_updated": "2026-04-26 05:56:57Z"
+      },
+      "source_snapshot": {
+        "price_delta_1d": -4.81,
+        "price_delta_1w": -6.91,
+        "price_delta_1m": 37.62
+      }
+    },
+    {
+      "id": "2026-04-23_NVDA",
+      "signal_date": "2026-04-23",
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "rank": 3,
+      "rank_bucket": "#2-3",
+      "score_pts": 662,
+      "final_score_0_1": 0.661923,
+      "score_components": {
+        "volume_anomaly": 0.737306,
+        "compression_release": 0.555556,
+        "trends_breakout": 0.321431,
+        "news": 0.960698
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "News",
+      "signal_close": 199.64,
+      "entry": {
+        "method": "next_open",
+        "entry_date": "2026-04-24",
+        "entry_price": 199.96,
+        "gap_pct": 0.16
+      },
+      "outcome": {
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": 5.5,
+        "max_drawdown_20d_pct": -0.08,
+        "status": "pending",
+        "last_updated": "2026-04-26 05:56:57Z"
+      },
+      "source_snapshot": {
+        "price_delta_1d": 4.32,
+        "price_delta_1w": 3.27,
+        "price_delta_1m": 21.62
+      }
+    },
+    {
+      "id": "2026-04-23_ABCL",
+      "signal_date": "2026-04-23",
+      "symbol": "ABCL",
+      "name": "AbCellera Biologics Inc.",
+      "rank": 4,
+      "rank_bucket": "#4-10",
+      "score_pts": 644,
+      "final_score_0_1": 0.644076,
+      "score_components": {
+        "volume_anomaly": 0.838398,
+        "compression_release": 0.777778,
+        "trends_breakout": 0.60685,
+        "news": 0.329032
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Volume + Compression",
+      "signal_close": 4.05,
+      "entry": {
+        "method": "next_open",
+        "entry_date": "2026-04-24",
+        "entry_price": 4.08,
+        "gap_pct": 0.74
+      },
+      "outcome": {
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": 5.15,
+        "max_drawdown_20d_pct": -2.7,
+        "status": "pending",
+        "last_updated": "2026-04-26 05:56:57Z"
+      },
+      "source_snapshot": {
+        "price_delta_1d": 2.47,
+        "price_delta_1w": 3.49,
+        "price_delta_1m": 23.88
+      }
+    },
+    {
+      "id": "2026-04-23_TER",
+      "signal_date": "2026-04-23",
+      "symbol": "TER",
+      "name": "Teradyne, Inc.",
+      "rank": 5,
+      "rank_bucket": "#4-10",
+      "score_pts": 605,
+      "final_score_0_1": 0.604723,
+      "score_components": {
+        "volume_anomaly": 0.725382,
+        "compression_release": 1.0,
+        "trends_breakout": 0.120687,
+        "news": 0.682669
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Compression",
+      "signal_close": 400.99,
+      "entry": {
+        "method": "next_open",
+        "entry_date": "2026-04-24",
+        "entry_price": 408.83,
+        "gap_pct": 1.96
+      },
+      "outcome": {
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": 3.25,
+        "max_drawdown_20d_pct": -1.88,
+        "status": "pending",
+        "last_updated": "2026-04-26 05:56:57Z"
+      },
+      "source_snapshot": {
+        "price_delta_1d": 4.26,
+        "price_delta_1w": 9.91,
+        "price_delta_1m": 40.61
+      }
+    },
+    {
+      "id": "2026-04-23_OII",
+      "signal_date": "2026-04-23",
+      "symbol": "OII",
+      "name": "Oceaneering International Inc.",
+      "rank": 6,
+      "rank_bucket": "#4-10",
+      "score_pts": 548,
+      "final_score_0_1": 0.548156,
+      "score_components": {
+        "volume_anomaly": 0.538509,
+        "compression_release": 0.481481,
+        "trends_breakout": 0.571586,
+        "news": 0.578235
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Good Trends + News",
+      "signal_close": 38.01,
+      "entry": {
+        "method": "next_open",
+        "entry_date": "2026-04-24",
+        "entry_price": 37.67,
+        "gap_pct": -0.89
+      },
+      "outcome": {
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": 1.88,
+        "max_drawdown_20d_pct": -1.67,
+        "status": "pending",
+        "last_updated": "2026-04-26 05:56:57Z"
+      },
+      "source_snapshot": {
+        "price_delta_1d": -1.74,
+        "price_delta_1w": -0.27,
+        "price_delta_1m": 2.27
+      }
+    },
+    {
+      "id": "2026-04-23_VSAT",
+      "signal_date": "2026-04-23",
+      "symbol": "VSAT",
+      "name": "Viasat, Inc.",
+      "rank": 7,
+      "rank_bucket": "#4-10",
+      "score_pts": 546,
+      "final_score_0_1": 0.546478,
+      "score_components": {
+        "volume_anomaly": 0.534694,
+        "compression_release": 0.888889,
+        "trends_breakout": 0.188677,
+        "news": 0.715331
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Compression",
+      "signal_close": 62.58,
+      "entry": {
+        "method": "next_open",
+        "entry_date": "2026-04-24",
+        "entry_price": 63.6,
+        "gap_pct": 1.63
+      },
+      "outcome": {
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": 0.44,
+        "max_drawdown_20d_pct": -4.75,
+        "status": "pending",
+        "last_updated": "2026-04-26 05:56:57Z"
+      },
+      "source_snapshot": {
+        "price_delta_1d": -0.94,
+        "price_delta_1w": -1.37,
+        "price_delta_1m": 29.6
+      }
+    },
+    {
+      "id": "2026-04-23_MSFT",
+      "signal_date": "2026-04-23",
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "rank": 8,
+      "rank_bucket": "#4-10",
+      "score_pts": 535,
+      "final_score_0_1": 0.535344,
+      "score_components": {
+        "volume_anomaly": 0.400131,
+        "compression_release": 0.37037,
+        "trends_breakout": 0.35897,
+        "news": 1.0
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "News",
+      "signal_close": 415.75,
+      "entry": {
+        "method": "next_open",
+        "entry_date": "2026-04-24",
+        "entry_price": 416.97,
+        "gap_pct": 0.29
+      },
+      "outcome": {
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": 1.91,
+        "max_drawdown_20d_pct": -0.28,
+        "status": "pending",
+        "last_updated": "2026-04-26 05:56:57Z"
+      },
+      "source_snapshot": {
+        "price_delta_1d": 2.13,
+        "price_delta_1w": 0.43,
+        "price_delta_1m": 16.03
+      }
+    },
+    {
+      "id": "2026-04-23_SOUN",
+      "signal_date": "2026-04-23",
+      "symbol": "SOUN",
+      "name": "SoundHound AI, Inc.",
+      "rank": 9,
+      "rank_bucket": "#4-10",
+      "score_pts": 504,
+      "final_score_0_1": 0.504365,
+      "score_components": {
+        "volume_anomaly": 0.543098,
+        "compression_release": 0.0,
+        "trends_breakout": 0.547034,
+        "news": 0.710088
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Good News",
+      "signal_close": 7.82,
+      "entry": {
+        "method": "next_open",
+        "entry_date": "2026-04-24",
+        "entry_price": 7.995,
+        "gap_pct": 2.24
+      },
+      "outcome": {
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": 4.88,
+        "max_drawdown_20d_pct": -2.81,
+        "status": "pending",
+        "last_updated": "2026-04-26 05:56:57Z"
+      },
+      "source_snapshot": {
+        "price_delta_1d": 4.73,
+        "price_delta_1w": 1.36,
+        "price_delta_1m": 35.15
+      }
+    },
+    {
+      "id": "2026-04-23_FTI",
+      "signal_date": "2026-04-23",
+      "symbol": "FTI",
+      "name": "TechnipFMC plc",
+      "rank": 10,
+      "rank_bucket": "#4-10",
+      "score_pts": 499,
+      "final_score_0_1": 0.498761,
+      "score_components": {
+        "volume_anomaly": 0.557114,
+        "compression_release": 0.592593,
+        "trends_breakout": 0.012342,
+        "news": 0.847185
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "News",
+      "signal_close": 72.44,
+      "entry": {
+        "method": "next_open",
+        "entry_date": "2026-04-24",
+        "entry_price": 73.02,
+        "gap_pct": 0.8
+      },
+      "outcome": {
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": 2.53,
+        "max_drawdown_20d_pct": -1.14,
+        "status": "pending",
+        "last_updated": "2026-04-26 05:56:57Z"
+      },
+      "source_snapshot": {
+        "price_delta_1d": 3.2,
+        "price_delta_1w": 6.13,
+        "price_delta_1m": 6.3
+      }
+    }
+  ]
+}
