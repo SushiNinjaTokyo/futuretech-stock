@@ -9,7 +9,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 import numpy as np
 import pandas as pd
@@ -24,11 +24,19 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = Path(os.getenv("OUT_DIR", str(ROOT / "site")))
 REPORT_DATE = os.getenv("REPORT_DATE")
 
-
-HORIZONS = [5, 10, 20]
 REGISTRY_PATH = OUT_DIR / "data" / "signals" / "registry.json"
 SUMMARY_PATH = OUT_DIR / "data" / "signals" / "summary_latest.json"
 OUTCOMES_PATH = OUT_DIR / "data" / "signals" / "outcomes_latest.json"
+
+# Top3だけ追跡
+TRACK_TOP_N = 3
+
+# 取引日ベース
+HORIZONS = {
+    "1w": 5,
+    "1m": 20,
+    "3m": 63,
+}
 
 
 def log(level: str, msg: str) -> None:
@@ -76,6 +84,15 @@ def to_float(x: Any) -> Optional[float]:
         if not math.isfinite(f):
             return None
         return f
+    except Exception:
+        return None
+
+
+def to_int(x: Any) -> Optional[int]:
+    try:
+        if x is None:
+            return None
+        return int(x)
     except Exception:
         return None
 
@@ -148,6 +165,12 @@ def load_registry() -> Dict[str, Any]:
     return {
         "created_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ"),
         "updated_at": None,
+        "policy": {
+            "track_top_n": TRACK_TOP_N,
+            "entry_method": "next_open",
+            "horizons": HORIZONS,
+            "stop_tracking_after": "3m",
+        },
         "signals": [],
     }
 
@@ -156,9 +179,17 @@ def signal_id(signal_date: str, symbol: str) -> str:
     return f"{signal_date}_{symbol.upper()}"
 
 
+def rank_bucket(rank: Optional[int]) -> str:
+    if rank == 1:
+        return "#1"
+    if rank is not None and 2 <= rank <= 3:
+        return "#2-3"
+    return "Other"
+
+
 def classify_profile(comps: Dict[str, Any]) -> str:
     vol = to_float(comps.get("volume_anomaly")) or 0.0
-    comp = to_float(comps.get("compression_release")) or 0.0
+    comp = to_float(comps.get("compression_release", comps.get("dii"))) or 0.0
     trends = to_float(comps.get("trends_breakout")) or 0.0
     news = to_float(comps.get("news")) or 0.0
 
@@ -191,22 +222,32 @@ def classify_profile(comps: Dict[str, Any]) -> str:
     return "Mixed / Weak"
 
 
-def rank_bucket(rank: Optional[int]) -> str:
-    if rank == 1:
-        return "#1"
-    if rank is not None and 2 <= rank <= 3:
-        return "#2-3"
-    if rank is not None and 4 <= rank <= 10:
-        return "#4-10"
-    return "Other"
+def normalize_components(item: Dict[str, Any]) -> Dict[str, float]:
+    comps = item.get("score_components") or {}
+    return {
+        "volume_anomaly": to_float(comps.get("volume_anomaly")) or 0.0,
+        "compression_release": to_float(comps.get("compression_release", comps.get("dii"))) or 0.0,
+        "trends_breakout": to_float(comps.get("trends_breakout")) or 0.0,
+        "news": to_float(comps.get("news")) or 0.0,
+    }
+
+
+def normalize_weights(item: Dict[str, Any]) -> Dict[str, float]:
+    weights = item.get("score_weights") or {}
+    return {
+        "volume_anomaly": to_float(weights.get("volume_anomaly")) or 0.0,
+        "compression_release": to_float(weights.get("compression_release", weights.get("dii"))) or 0.0,
+        "trends_breakout": to_float(weights.get("trends_breakout")) or 0.0,
+        "news": to_float(weights.get("news")) or 0.0,
+    }
 
 
 def make_new_signal(item: Dict[str, Any], signal_date: str, rank: int) -> Dict[str, Any]:
     symbol = str(item.get("symbol", "")).strip().upper()
     name = str(item.get("name", "")).strip()
 
-    comps = item.get("score_components") or {}
-    weights = item.get("score_weights") or {}
+    comps = normalize_components(item)
+    weights = normalize_weights(item)
 
     final01 = to_float(item.get("final_score_0_1")) or 0.0
     score_pts = item.get("score_pts")
@@ -224,18 +265,8 @@ def make_new_signal(item: Dict[str, Any], signal_date: str, rank: int) -> Dict[s
         "rank_bucket": rank_bucket(rank),
         "score_pts": score_pts_int,
         "final_score_0_1": round(final01, 6),
-        "score_components": {
-            "volume_anomaly": to_float(comps.get("volume_anomaly")) or 0.0,
-            "compression_release": to_float(comps.get("compression_release", comps.get("dii"))) or 0.0,
-            "trends_breakout": to_float(comps.get("trends_breakout")) or 0.0,
-            "news": to_float(comps.get("news")) or 0.0,
-        },
-        "score_weights": {
-            "volume_anomaly": to_float(weights.get("volume_anomaly")) or 0.0,
-            "compression_release": to_float(weights.get("compression_release", weights.get("dii"))) or 0.0,
-            "trends_breakout": to_float(weights.get("trends_breakout")) or 0.0,
-            "news": to_float(weights.get("news")) or 0.0,
-        },
+        "score_components": comps,
+        "score_weights": weights,
         "profile": classify_profile(comps),
         "signal_close": None,
         "entry": {
@@ -245,13 +276,23 @@ def make_new_signal(item: Dict[str, Any], signal_date: str, rank: int) -> Dict[s
             "gap_pct": None,
         },
         "outcome": {
+            "return_1w_pct": None,
+            "return_1m_pct": None,
+            "return_3m_pct": None,
+            "current_return_pct": None,
+            "current_close": None,
+            "current_date": None,
+            "max_gain_since_entry_pct": None,
+            "max_drawdown_since_entry_pct": None,
+            "status": "pending_entry",
+            "last_updated": None,
+
+            # 旧Backtestテンプレート互換用
             "d5_return_pct": None,
             "d10_return_pct": None,
             "d20_return_pct": None,
             "max_gain_20d_pct": None,
             "max_drawdown_20d_pct": None,
-            "status": "pending",
-            "last_updated": None,
         },
         "source_snapshot": {
             "price_delta_1d": to_float(item.get("price_delta_1d")),
@@ -261,11 +302,36 @@ def make_new_signal(item: Dict[str, Any], signal_date: str, rank: int) -> Dict[s
     }
 
 
+def cleanup_existing_registry_to_top3(registry: Dict[str, Any]) -> int:
+    """
+    既にTop10で登録済みの初期ログをTop3だけに整理する。
+    まだ初期段階なので、rank > 3 は削除してよい設計。
+    """
+    signals = registry.get("signals", [])
+    if not isinstance(signals, list):
+        registry["signals"] = []
+        return 0
+
+    before = len(signals)
+    cleaned = []
+
+    for s in signals:
+        if not isinstance(s, dict):
+            continue
+        r = to_int(s.get("rank"))
+        if r is not None and r <= TRACK_TOP_N:
+            s["rank_bucket"] = rank_bucket(r)
+            cleaned.append(s)
+
+    registry["signals"] = cleaned
+    return before - len(cleaned)
+
+
 def add_today_signals(registry: Dict[str, Any], date: str, top10: List[Dict[str, Any]]) -> int:
     existing_ids = {str(s.get("id")) for s in registry.get("signals", []) if isinstance(s, dict)}
     added = 0
 
-    for i, item in enumerate(top10, start=1):
+    for i, item in enumerate(top10[:TRACK_TOP_N], start=1):
         sym = str(item.get("symbol", "")).strip().upper()
         if not sym:
             continue
@@ -368,17 +434,32 @@ def locate_signal_index(df: pd.DataFrame, signal_date: str) -> Optional[int]:
     target = pd.Timestamp(signal_date)
     dates = pd.to_datetime(df.index).tz_localize(None)
 
-    # 原則：signal_date当日の足
     exact = np.where(dates == target)[0]
     if len(exact) > 0:
         return int(exact[-1])
 
-    # 念のため、signal_date以前の最後の取引日を使う
     before = np.where(dates <= target)[0]
     if len(before) > 0:
         return int(before[-1])
 
     return None
+
+
+def get_status(outcome: Dict[str, Any], has_entry: bool) -> str:
+    if not has_entry:
+        return "pending_entry"
+    if outcome.get("return_3m_pct") is not None:
+        return "completed_3m"
+    if outcome.get("return_1m_pct") is not None:
+        return "completed_1m"
+    if outcome.get("return_1w_pct") is not None:
+        return "completed_1w"
+    return "active"
+
+
+def needs_update(signal: Dict[str, Any]) -> bool:
+    outcome = signal.get("outcome") or {}
+    return outcome.get("status") != "completed_3m"
 
 
 def update_signal_with_history(signal: Dict[str, Any], df: pd.DataFrame) -> bool:
@@ -399,6 +480,10 @@ def update_signal_with_history(signal: Dict[str, Any], df: pd.DataFrame) -> bool
 
     entry_idx = sig_idx + 1
     if entry_idx >= len(df):
+        outcome = signal.setdefault("outcome", {})
+        if outcome.get("status") != "pending_entry":
+            outcome["status"] = "pending_entry"
+            changed = True
         return changed
 
     entry_date = pd.Timestamp(df.index[entry_idx]).strftime("%Y-%m-%d")
@@ -418,20 +503,43 @@ def update_signal_with_history(signal: Dict[str, Any], df: pd.DataFrame) -> bool
 
     outcome = signal.setdefault("outcome", {})
 
-    completed_any = False
-    for h in HORIZONS:
+    # 1W / 1M / 3M の固定評価
+    for label, h in HORIZONS.items():
         target_idx = entry_idx + h
-        key = f"d{h}_return_pct"
+        key = f"return_{label}_pct"
 
         if target_idx < len(df):
             target_close = to_float(df["Close"].iloc[target_idx])
             ret = pct_return(target_close, entry_price)
             if ret is not None and outcome.get(key) is None:
                 outcome[key] = ret
-                completed_any = True
                 changed = True
 
-    max_window_end = min(entry_idx + 20, len(df) - 1)
+    # current は3M到達までは最新値、3M到達後は3M時点で固定
+    if outcome.get("return_3m_pct") is not None and entry_idx + HORIZONS["3m"] < len(df):
+        current_idx = entry_idx + HORIZONS["3m"]
+    else:
+        current_idx = len(df) - 1
+
+    current_close = to_float(df["Close"].iloc[current_idx])
+    current_date = pd.Timestamp(df.index[current_idx]).strftime("%Y-%m-%d")
+    current_return = pct_return(current_close, entry_price)
+
+    if current_close is not None and outcome.get("current_close") != round(current_close, 4):
+        outcome["current_close"] = round(current_close, 4)
+        changed = True
+
+    if outcome.get("current_date") != current_date:
+        outcome["current_date"] = current_date
+        changed = True
+
+    if current_return is not None and outcome.get("current_return_pct") != current_return:
+        outcome["current_return_pct"] = current_return
+        changed = True
+
+    # Max Gain / Max Drawdown
+    # 3M到達前はentryから現在まで、3M到達後はentryから3Mまでで固定
+    max_window_end = current_idx
     if max_window_end >= entry_idx:
         high_window = df["High"].iloc[entry_idx:max_window_end + 1]
         low_window = df["Low"].iloc[entry_idx:max_window_end + 1]
@@ -442,52 +550,55 @@ def update_signal_with_history(signal: Dict[str, Any], df: pd.DataFrame) -> bool
         max_gain = pct_return(max_high, entry_price)
         max_dd = pct_return(min_low, entry_price)
 
-        if max_gain is not None:
-            if outcome.get("max_gain_20d_pct") is None or max_window_end >= entry_idx + 20:
-                outcome["max_gain_20d_pct"] = max_gain
-                changed = True
+        if max_gain is not None and outcome.get("max_gain_since_entry_pct") != max_gain:
+            outcome["max_gain_since_entry_pct"] = max_gain
+            changed = True
 
-        if max_dd is not None:
-            if outcome.get("max_drawdown_20d_pct") is None or max_window_end >= entry_idx + 20:
-                outcome["max_drawdown_20d_pct"] = max_dd
-                changed = True
+        if max_dd is not None and outcome.get("max_drawdown_since_entry_pct") != max_dd:
+            outcome["max_drawdown_since_entry_pct"] = max_dd
+            changed = True
 
-    if outcome.get("d20_return_pct") is not None:
-        status = "completed_20d"
-    elif outcome.get("d10_return_pct") is not None:
-        status = "completed_10d"
-    elif outcome.get("d5_return_pct") is not None:
-        status = "completed_5d"
-    else:
-        status = "pending"
+    # 旧Backtestテンプレート互換
+    # d5 = 1W, d20 = 1M として出す。d10は廃止扱いでNone。
+    if outcome.get("d5_return_pct") != outcome.get("return_1w_pct"):
+        outcome["d5_return_pct"] = outcome.get("return_1w_pct")
+        changed = True
 
+    if outcome.get("d10_return_pct") is not None:
+        outcome["d10_return_pct"] = None
+        changed = True
+
+    if outcome.get("d20_return_pct") != outcome.get("return_1m_pct"):
+        outcome["d20_return_pct"] = outcome.get("return_1m_pct")
+        changed = True
+
+    if outcome.get("max_gain_20d_pct") != outcome.get("max_gain_since_entry_pct"):
+        outcome["max_gain_20d_pct"] = outcome.get("max_gain_since_entry_pct")
+        changed = True
+
+    if outcome.get("max_drawdown_20d_pct") != outcome.get("max_drawdown_since_entry_pct"):
+        outcome["max_drawdown_20d_pct"] = outcome.get("max_drawdown_since_entry_pct")
+        changed = True
+
+    status = get_status(outcome, has_entry=True)
     if outcome.get("status") != status:
         outcome["status"] = status
         changed = True
 
-    if changed or completed_any:
+    if changed:
         outcome["last_updated"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ")
 
     return changed
 
 
-def needs_update(signal: Dict[str, Any]) -> bool:
-    outcome = signal.get("outcome") or {}
-    return outcome.get("status") != "completed_20d"
-
-
-def flatten_recent_outcomes(signals: List[Dict[str, Any]], limit: int = 80) -> List[Dict[str, Any]]:
+def flatten_recent_outcomes(signals: List[Dict[str, Any]], limit: int = 120) -> List[Dict[str, Any]]:
     rows: List[Dict[str, Any]] = []
 
     for s in signals:
         outcome = s.get("outcome") or {}
-        if (
-            outcome.get("d5_return_pct") is None
-            and outcome.get("d10_return_pct") is None
-            and outcome.get("d20_return_pct") is None
-        ):
-            continue
+        entry = s.get("entry") or {}
 
+        # entryがまだないものも表示対象にする
         rows.append({
             "id": s.get("id"),
             "signal_date": s.get("signal_date"),
@@ -497,82 +608,120 @@ def flatten_recent_outcomes(signals: List[Dict[str, Any]], limit: int = 80) -> L
             "rank_bucket": s.get("rank_bucket"),
             "profile": s.get("profile"),
             "score_pts": s.get("score_pts"),
-            "entry_date": (s.get("entry") or {}).get("entry_date"),
-            "entry_price": (s.get("entry") or {}).get("entry_price"),
-            "gap_pct": (s.get("entry") or {}).get("gap_pct"),
+            "entry_date": entry.get("entry_date"),
+            "entry_price": entry.get("entry_price"),
+            "gap_pct": entry.get("gap_pct"),
+
+            "return_1w_pct": outcome.get("return_1w_pct"),
+            "return_1m_pct": outcome.get("return_1m_pct"),
+            "return_3m_pct": outcome.get("return_3m_pct"),
+            "current_return_pct": outcome.get("current_return_pct"),
+            "current_close": outcome.get("current_close"),
+            "current_date": outcome.get("current_date"),
+            "max_gain_since_entry_pct": outcome.get("max_gain_since_entry_pct"),
+            "max_drawdown_since_entry_pct": outcome.get("max_drawdown_since_entry_pct"),
+            "status": outcome.get("status"),
+
+            # 旧Backtestテンプレート互換
             "d5_return_pct": outcome.get("d5_return_pct"),
             "d10_return_pct": outcome.get("d10_return_pct"),
             "d20_return_pct": outcome.get("d20_return_pct"),
             "max_gain_20d_pct": outcome.get("max_gain_20d_pct"),
             "max_drawdown_20d_pct": outcome.get("max_drawdown_20d_pct"),
-            "status": outcome.get("status"),
         })
 
-    rows.sort(key=lambda r: str(r.get("signal_date") or ""), reverse=True)
+    rows.sort(
+        key=lambda r: (
+            str(r.get("signal_date") or ""),
+            int(r.get("rank") or 999),
+        ),
+        reverse=True,
+    )
     return rows[:limit]
 
 
-def mean(xs: List[float]) -> Optional[float]:
-    vals = [x for x in xs if x is not None and math.isfinite(float(x))]
+def mean(xs: List[Optional[float]]) -> Optional[float]:
+    vals = [float(x) for x in xs if x is not None and math.isfinite(float(x))]
     if not vals:
         return None
     return round(float(np.mean(vals)), 2)
 
 
-def median(xs: List[float]) -> Optional[float]:
-    vals = [x for x in xs if x is not None and math.isfinite(float(x))]
+def median(xs: List[Optional[float]]) -> Optional[float]:
+    vals = [float(x) for x in xs if x is not None and math.isfinite(float(x))]
     if not vals:
         return None
     return round(float(np.median(vals)), 2)
 
 
-def win_rate(xs: List[float]) -> Optional[float]:
-    vals = [x for x in xs if x is not None and math.isfinite(float(x))]
+def win_rate(xs: List[Optional[float]]) -> Optional[float]:
+    vals = [float(x) for x in xs if x is not None and math.isfinite(float(x))]
     if not vals:
         return None
     return round(sum(1 for x in vals if x > 0) / len(vals), 4)
 
 
 def summarize_group(rows: List[Dict[str, Any]], label: str) -> Dict[str, Any]:
-    d5 = [to_float(r.get("d5_return_pct")) for r in rows]
-    d10 = [to_float(r.get("d10_return_pct")) for r in rows]
-    d20 = [to_float(r.get("d20_return_pct")) for r in rows]
-    gain = [to_float(r.get("max_gain_20d_pct")) for r in rows]
-    dd = [to_float(r.get("max_drawdown_20d_pct")) for r in rows]
+    r1w = [to_float(r.get("return_1w_pct")) for r in rows]
+    r1m = [to_float(r.get("return_1m_pct")) for r in rows]
+    r3m = [to_float(r.get("return_3m_pct")) for r in rows]
+    cur = [to_float(r.get("current_return_pct")) for r in rows]
+    gain = [to_float(r.get("max_gain_since_entry_pct")) for r in rows]
+    dd = [to_float(r.get("max_drawdown_since_entry_pct")) for r in rows]
 
     return {
         "label": label,
         "count": len(rows),
-        "completed_5d": sum(1 for x in d5 if x is not None),
-        "completed_10d": sum(1 for x in d10 if x is not None),
-        "completed_20d": sum(1 for x in d20 if x is not None),
-        "win_rate_5d": win_rate([x for x in d5 if x is not None]),
-        "win_rate_10d": win_rate([x for x in d10 if x is not None]),
-        "win_rate_20d": win_rate([x for x in d20 if x is not None]),
-        "avg_return_5d": mean([x for x in d5 if x is not None]),
-        "avg_return_10d": mean([x for x in d10 if x is not None]),
-        "avg_return_20d": mean([x for x in d20 if x is not None]),
-        "median_return_20d": median([x for x in d20 if x is not None]),
-        "avg_max_gain_20d": mean([x for x in gain if x is not None]),
-        "avg_max_drawdown_20d": mean([x for x in dd if x is not None]),
+
+        "completed_1w": sum(1 for x in r1w if x is not None),
+        "completed_1m": sum(1 for x in r1m if x is not None),
+        "completed_3m": sum(1 for x in r3m if x is not None),
+
+        "win_rate_1w": win_rate(r1w),
+        "win_rate_1m": win_rate(r1m),
+        "win_rate_3m": win_rate(r3m),
+
+        "avg_return_1w": mean(r1w),
+        "avg_return_1m": mean(r1m),
+        "avg_return_3m": mean(r3m),
+        "median_return_3m": median(r3m),
+
+        "avg_current_return": mean(cur),
+        "avg_max_gain": mean(gain),
+        "avg_max_drawdown": mean(dd),
+
+        # 旧テンプレート互換
+        "completed_5d": sum(1 for x in r1w if x is not None),
+        "completed_10d": 0,
+        "completed_20d": sum(1 for x in r1m if x is not None),
+        "win_rate_5d": win_rate(r1w),
+        "win_rate_10d": None,
+        "win_rate_20d": win_rate(r1m),
+        "avg_return_5d": mean(r1w),
+        "avg_return_10d": None,
+        "avg_return_20d": mean(r1m),
+        "median_return_20d": median(r1m),
+        "avg_max_gain_20d": mean(gain),
+        "avg_max_drawdown_20d": mean(dd),
     }
 
 
 def build_summary(signals: List[Dict[str, Any]]) -> Dict[str, Any]:
     rows = flatten_recent_outcomes(signals, limit=100000)
 
-    d5_rows = [r for r in rows if r.get("d5_return_pct") is not None]
-    d10_rows = [r for r in rows if r.get("d10_return_pct") is not None]
-    d20_rows = [r for r in rows if r.get("d20_return_pct") is not None]
+    r1w = [to_float(r.get("return_1w_pct")) for r in rows]
+    r1m = [to_float(r.get("return_1m_pct")) for r in rows]
+    r3m = [to_float(r.get("return_3m_pct")) for r in rows]
+    cur = [to_float(r.get("current_return_pct")) for r in rows]
+    gain = [to_float(r.get("max_gain_since_entry_pct")) for r in rows]
+    dd = [to_float(r.get("max_drawdown_since_entry_pct")) for r in rows]
 
-    d5 = [to_float(r.get("d5_return_pct")) for r in d5_rows]
-    d10 = [to_float(r.get("d10_return_pct")) for r in d10_rows]
-    d20 = [to_float(r.get("d20_return_pct")) for r in d20_rows]
-    gain = [to_float(r.get("max_gain_20d_pct")) for r in rows if r.get("max_gain_20d_pct") is not None]
-    dd = [to_float(r.get("max_drawdown_20d_pct")) for r in rows if r.get("max_drawdown_20d_pct") is not None]
+    completed_1w = sum(1 for x in r1w if x is not None)
+    completed_1m = sum(1 for x in r1m if x is not None)
+    completed_3m = sum(1 for x in r3m if x is not None)
 
     buckets: List[Dict[str, Any]] = []
-    for b in ["#1", "#2-3", "#4-10", "Other"]:
+    for b in ["#1", "#2-3", "Other"]:
         br = [r for r in rows if r.get("rank_bucket") == b]
         if br:
             buckets.append(summarize_group(br, b))
@@ -589,37 +738,76 @@ def build_summary(signals: List[Dict[str, Any]]) -> Dict[str, Any]:
     ]
     profiles.sort(
         key=lambda x: (
-            x.get("completed_20d") or 0,
-            x.get("avg_return_20d") if x.get("avg_return_20d") is not None else -999,
+            x.get("completed_3m") or 0,
+            x.get("avg_return_3m") if x.get("avg_return_3m") is not None else -999,
+            x.get("count") or 0,
         ),
         reverse=True,
     )
 
-    as_of = None
     signal_dates = [normalize_date_str(s.get("signal_date")) for s in signals]
     signal_dates = [d for d in signal_dates if d]
-    if signal_dates:
-        as_of = max(signal_dates)
+    as_of = max(signal_dates) if signal_dates else None
 
-    return {
+    active_count = sum(
+        1
+        for s in signals
+        if (s.get("outcome") or {}).get("status") != "completed_3m"
+    )
+
+    summary = {
         "as_of": as_of,
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ"),
+        "tracking_policy": {
+            "track_top_n": TRACK_TOP_N,
+            "entry_method": "next_open",
+            "horizons": {
+                "1w_trading_days": HORIZONS["1w"],
+                "1m_trading_days": HORIZONS["1m"],
+                "3m_trading_days": HORIZONS["3m"],
+            },
+            "stop_tracking_after": "3m",
+        },
+
         "total_signals": len(signals),
-        "completed_5d": len(d5_rows),
-        "completed_10d": len(d10_rows),
-        "completed_20d": len(d20_rows),
-        "win_rate_5d": win_rate([x for x in d5 if x is not None]),
-        "win_rate_10d": win_rate([x for x in d10 if x is not None]),
-        "win_rate_20d": win_rate([x for x in d20 if x is not None]),
-        "avg_return_5d": mean([x for x in d5 if x is not None]),
-        "avg_return_10d": mean([x for x in d10 if x is not None]),
-        "avg_return_20d": mean([x for x in d20 if x is not None]),
-        "median_return_20d": median([x for x in d20 if x is not None]),
-        "avg_max_gain_20d": mean([x for x in gain if x is not None]),
-        "avg_max_drawdown_20d": mean([x for x in dd if x is not None]),
+        "active_signals": active_count,
+
+        "completed_1w": completed_1w,
+        "completed_1m": completed_1m,
+        "completed_3m": completed_3m,
+
+        "win_rate_1w": win_rate(r1w),
+        "win_rate_1m": win_rate(r1m),
+        "win_rate_3m": win_rate(r3m),
+
+        "avg_return_1w": mean(r1w),
+        "avg_return_1m": mean(r1m),
+        "avg_return_3m": mean(r3m),
+        "median_return_3m": median(r3m),
+
+        "avg_current_return": mean(cur),
+        "avg_max_gain": mean(gain),
+        "avg_max_drawdown": mean(dd),
+
         "rank_buckets": buckets,
         "profiles": profiles[:20],
+
+        # 旧Backtestテンプレート互換
+        "completed_5d": completed_1w,
+        "completed_10d": 0,
+        "completed_20d": completed_1m,
+        "win_rate_5d": win_rate(r1w),
+        "win_rate_10d": None,
+        "win_rate_20d": win_rate(r1m),
+        "avg_return_5d": mean(r1w),
+        "avg_return_10d": None,
+        "avg_return_20d": mean(r1m),
+        "median_return_20d": median(r1m),
+        "avg_max_gain_20d": mean(gain),
+        "avg_max_drawdown_20d": mean(dd),
     }
+
+    return summary
 
 
 def main() -> None:
@@ -630,6 +818,11 @@ def main() -> None:
         raise SystemExit(f"No top10 items found for {date}")
 
     registry = load_registry()
+
+    removed = cleanup_existing_registry_to_top3(registry)
+    if removed:
+        log("INFO", f"Removed non-Top3 existing signals: {removed}")
+
     added = add_today_signals(registry, date, top10)
 
     signals = registry.get("signals", [])
@@ -642,8 +835,8 @@ def main() -> None:
         if isinstance(s, dict) and s.get("symbol") and needs_update(s)
     })
 
-    log("INFO", f"Added today signals: {added}")
-    log("INFO", f"Pending symbols to update: {len(pending_symbols)}")
+    log("INFO", f"Added today Top{TRACK_TOP_N} signals: {added}")
+    log("INFO", f"Symbols to update until 3M completion: {len(pending_symbols)}")
 
     history_cache: Dict[str, Optional[pd.DataFrame]] = {}
 
@@ -667,9 +860,15 @@ def main() -> None:
             changed += 1
 
     registry["updated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ")
+    registry["policy"] = {
+        "track_top_n": TRACK_TOP_N,
+        "entry_method": "next_open",
+        "horizons": HORIZONS,
+        "stop_tracking_after": "3m",
+    }
     registry["signals"] = signals
 
-    recent = flatten_recent_outcomes(signals, limit=80)
+    recent = flatten_recent_outcomes(signals, limit=120)
     summary = build_summary(signals)
 
     write_json(REGISTRY_PATH, registry)
