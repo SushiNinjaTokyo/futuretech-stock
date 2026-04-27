@@ -422,7 +422,9 @@ body{
 
 .hero-line-track,
 .hero-line-ghost,
-.hero-line-core{
+.hero-line-core,
+.hero-line-lightning,
+.hero-line-branch{
   fill:none;
   stroke-linecap:round;
   stroke-linejoin:round;
@@ -486,6 +488,53 @@ body{
     drop-shadow(0 0 10px rgba(157,123,255,.34))
     drop-shadow(0 0 22px rgba(157,123,255,.24))
     drop-shadow(0 0 42px rgba(157,123,255,.16));
+}
+
+/* Electric Market Pulse */
+.hero-line-lightning{
+  stroke:white;
+  stroke-width:1.35;
+  opacity:0;
+  filter:
+    drop-shadow(0 0 4px rgba(255,255,255,.96))
+    drop-shadow(0 0 12px rgba(94,231,255,.78))
+    drop-shadow(0 0 28px rgba(94,231,255,.46));
+}
+
+.hero-line-branch{
+  stroke:rgba(255,255,255,.96);
+  stroke-width:1.15;
+  opacity:0;
+  filter:
+    drop-shadow(0 0 4px rgba(255,255,255,.95))
+    drop-shadow(0 0 12px rgba(94,231,255,.68));
+}
+
+.hero-line-spark{
+  fill:white;
+  opacity:0;
+  filter:
+    drop-shadow(0 0 5px rgba(255,255,255,.96))
+    drop-shadow(0 0 14px rgba(94,231,255,.86))
+    drop-shadow(0 0 30px rgba(94,231,255,.52));
+}
+
+.hero-line-svg.nasdaq .hero-line-lightning,
+.hero-line-svg.nasdaq .hero-line-branch,
+.hero-line-svg.nasdaq .hero-line-spark{
+  filter:
+    drop-shadow(0 0 4px rgba(255,255,255,.96))
+    drop-shadow(0 0 12px rgba(122,166,255,.72))
+    drop-shadow(0 0 28px rgba(122,166,255,.48));
+}
+
+.hero-line-svg.russell .hero-line-lightning,
+.hero-line-svg.russell .hero-line-branch,
+.hero-line-svg.russell .hero-line-spark{
+  filter:
+    drop-shadow(0 0 4px rgba(255,255,255,.96))
+    drop-shadow(0 0 12px rgba(190,160,255,.72))
+    drop-shadow(0 0 28px rgba(190,160,255,.48));
 }
 
 /* =========================================================
