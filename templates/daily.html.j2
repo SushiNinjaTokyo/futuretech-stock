@@ -452,6 +452,8 @@ function initHeroIndexLines(){
     return;
   }
 
+  const randomBetween = (min, max) => min + Math.random() * (max - min);
+
   document.querySelectorAll(".hero-line-row").forEach((row) => {
     const key = row.getAttribute("data-line-key");
     const series = data[key] || {};
@@ -476,44 +478,36 @@ function initHeroIndexLines(){
     if (lightning) lightning.setAttribute("d", d);
 
     const length = core.getTotalLength();
+    if (!Number.isFinite(length) || length <= 0) return;
 
     track.style.strokeDasharray = `${length} ${length}`;
     track.style.strokeDashoffset = "0";
 
-    ghost.style.strokeDasharray = `0 ${length}`;
-    ghost.style.strokeDashoffset = "0";
+    const resetLine = () => {
+      core.style.strokeDasharray = `0 ${length}`;
+      core.style.strokeDashoffset = "0";
 
-    core.style.strokeDasharray = `0 ${length}`;
-    core.style.strokeDashoffset = "0";
+      ghost.style.strokeDasharray = `0 ${length}`;
+      ghost.style.strokeDashoffset = "0";
+      ghost.style.opacity = "0";
 
-    if (lightning) {
-      lightning.style.strokeDasharray = `0 ${length}`;
-      lightning.style.strokeDashoffset = "0";
-    }
+      if (lightning) {
+        lightning.style.strokeDasharray = `0 ${length}`;
+        lightning.style.strokeDashoffset = "0";
+        lightning.style.opacity = "0";
+      }
+
+      if (branchA) branchA.style.opacity = "0";
+      if (branchB) branchB.style.opacity = "0";
+      if (spark) spark.style.opacity = "0";
+    };
+
+    resetLine();
 
     if (branchA) branchA.setAttribute("d", buildBranch(core, 0.58, 1));
     if (branchB) branchB.setAttribute("d", buildBranch(core, 0.72, -1));
 
-    /*
-      Electric Market Pulse animation:
-      - Each index draws once.
-      - After each draw cycle, the next cycle starts after a random delay.
-      - This avoids mechanical synchronized looping.
-    */
-
     const duration = 540;
-
-    const randomDelay = () => {
-      // 再描画までのランダム待機時間
-      // 300ms〜1800ms
-      return 300 + Math.random() * 1500;
-    };
-
-    const randomInitialDelay = () => {
-      // 初回開始も完全ランダム
-      // 0ms〜1600ms
-      return Math.random() * 1600;
-    };
 
     const runCycle = () => {
       const cycleStart = performance.now();
@@ -582,42 +576,20 @@ function initHeroIndexLines(){
         if (t < 1) {
           requestAnimationFrame(animate);
         } else {
-          // 1サイクル終了後は完全に消す
-          core.style.strokeDasharray = `0 ${length}`;
-          core.style.strokeDashoffset = "0";
+          resetLine();
 
-          ghost.style.strokeDasharray = `0 ${length}`;
-          ghost.style.strokeDashoffset = "0";
-          ghost.style.opacity = "0";
-
-          if (lightning) {
-            lightning.style.strokeDasharray = `0 ${length}`;
-            lightning.style.strokeDashoffset = "0";
-            lightning.style.opacity = "0";
-          }
-
-          if (branchA) branchA.style.opacity = "0";
-          if (branchB) branchB.style.opacity = "0";
-          if (spark) spark.style.opacity = "0";
-
-          // 次回開始タイミングをランダム化
-          setTimeout(runCycle, randomDelay());
+          const nextDelay = randomBetween(300, 1800);
+          window.setTimeout(runCycle, nextDelay);
         }
       };
 
       requestAnimationFrame(animate);
     };
 
-    // 初回開始も指数ごとに完全ランダム化
-    setTimeout(runCycle, randomInitialDelay());
-
-      requestAnimationFrame(animate);
-    };
-
-    requestAnimationFrame(animate);
+    const initialDelay = randomBetween(0, 1800);
+    window.setTimeout(runCycle, initialDelay);
   });
 }
-
 document.addEventListener("DOMContentLoaded", () => {
   decorateTop3Medals();
   initHeroIndexLines();
