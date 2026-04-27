@@ -496,76 +496,120 @@ function initHeroIndexLines(){
 
     /*
       Electric Market Pulse animation:
-      - Main line remains readable.
-      - Lightning core flashes briefly on the active segment.
-      - Branch sparks appear only in the middle of each cycle.
-      - Different offsets keep SP500 / NASDAQ / Russell out of sync.
+      - Each index draws once.
+      - After each draw cycle, the next cycle starts after a random delay.
+      - This avoids mechanical synchronized looping.
     */
+
     const duration = 540;
-    const seedMap = {
-      sp500: 0.13,
-      nasdaq: 0.47,
-      russell: 0.81
+
+    const randomDelay = () => {
+      // 再描画までのランダム待機時間
+      // 300ms〜1800ms
+      return 300 + Math.random() * 1500;
     };
 
-    const randomOffset = Math.floor(duration * (seedMap[key] ?? Math.random()));
+    const randomInitialDelay = () => {
+      // 初回開始も完全ランダム
+      // 0ms〜1600ms
+      return Math.random() * 1600;
+    };
 
-    const animate = (ts) => {
-      const t = ((ts + randomOffset) % duration) / duration;
+    const runCycle = () => {
+      const cycleStart = performance.now();
 
-      let visible;
-      let start;
+      const animate = (now) => {
+        const elapsed = now - cycleStart;
+        const t = Math.min(1, elapsed / duration);
 
-      if (t < 0.5) {
-        visible = length * (t / 0.5) * 0.5;
-        start = 0;
-      } else {
-        visible = length * 0.5;
-        start = length * ((t - 0.5) / 0.5) * 0.5;
-      }
+        let visible;
+        let start;
 
-      core.style.strokeDasharray = `${visible} ${length}`;
-      core.style.strokeDashoffset = `${-start}`;
+        if (t < 0.5) {
+          visible = length * (t / 0.5) * 0.5;
+          start = 0;
+        } else {
+          visible = length * 0.5;
+          start = length * ((t - 0.5) / 0.5) * 0.5;
+        }
 
-      ghost.style.strokeDasharray = `${visible} ${length}`;
-      ghost.style.strokeDashoffset = `${-(Math.max(0, start - length * 0.04))}`;
+        core.style.strokeDasharray = `${visible} ${length}`;
+        core.style.strokeDashoffset = `${-start}`;
 
-      if (t < 0.10) {
-        ghost.style.opacity = "0";
-      } else if (t < 0.5) {
-        ghost.style.opacity = "0.22";
-      } else {
-        ghost.style.opacity = "0.12";
-      }
+        ghost.style.strokeDasharray = `${visible} ${length}`;
+        ghost.style.strokeDashoffset = `${-(Math.max(0, start - length * 0.04))}`;
 
-      const flashA = t > 0.39 && t < 0.44;
-      const flashB = t > 0.57 && t < 0.62;
-      const flash = flashA || flashB;
+        if (t < 0.10) {
+          ghost.style.opacity = "0";
+        } else if (t < 0.5) {
+          ghost.style.opacity = "0.22";
+        } else {
+          ghost.style.opacity = "0.12";
+        }
 
-      if (lightning) {
-        const sparkVisible = length * 0.13;
-        const sparkStart = Math.max(0, Math.min(length, start + visible * (flashA ? 0.72 : 0.42)));
+        const flashA = t > 0.39 && t < 0.44;
+        const flashB = t > 0.57 && t < 0.62;
+        const flash = flashA || flashB;
 
-        lightning.style.strokeDasharray = `${sparkVisible} ${length}`;
-        lightning.style.strokeDashoffset = `${-sparkStart}`;
-        lightning.style.opacity = flash ? "1" : "0";
-      }
+        if (lightning) {
+          const sparkVisible = length * 0.13;
+          const sparkStart = Math.max(
+            0,
+            Math.min(length, start + visible * (flashA ? 0.72 : 0.42))
+          );
 
-      if (branchA) {
-        branchA.style.opacity = flashA ? ".95" : "0";
-      }
+          lightning.style.strokeDasharray = `${sparkVisible} ${length}`;
+          lightning.style.strokeDashoffset = `${-sparkStart}`;
+          lightning.style.opacity = flash ? "1" : "0";
+        }
 
-      if (branchB) {
-        branchB.style.opacity = flashB ? ".72" : "0";
-      }
+        if (branchA) {
+          branchA.style.opacity = flashA ? ".95" : "0";
+        }
 
-      if (spark) {
-        const head = Math.max(0, Math.min(length, start + visible));
-        const p = core.getPointAtLength(head);
-        spark.setAttribute("cx", p.x.toFixed(2));
-        spark.setAttribute("cy", p.y.toFixed(2));
-        spark.style.opacity = t > 0.08 && t < 0.94 ? ".92" : "0";
-      }
+        if (branchB) {
+          branchB.style.opacity = flashB ? ".72" : "0";
+        }
+
+        if (spark) {
+          const head = Math.max(0, Math.min(length, start + visible));
+          const p = core.getPointAtLength(head);
+          spark.setAttribute("cx", p.x.toFixed(2));
+          spark.setAttribute("cy", p.y.toFixed(2));
+          spark.style.opacity = t > 0.08 && t < 0.94 ? ".92" : "0";
+        }
+
+        if (t < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          // 1サイクル終了後は完全に消す
+          core.style.strokeDasharray = `0 ${length}`;
+          core.style.strokeDashoffset = "0";
+
+          ghost.style.strokeDasharray = `0 ${length}`;
+          ghost.style.strokeDashoffset = "0";
+          ghost.style.opacity = "0";
+
+          if (lightning) {
+            lightning.style.strokeDasharray = `0 ${length}`;
+            lightning.style.strokeDashoffset = "0";
+            lightning.style.opacity = "0";
+          }
+
+          if (branchA) branchA.style.opacity = "0";
+          if (branchB) branchB.style.opacity = "0";
+          if (spark) spark.style.opacity = "0";
+
+          // 次回開始タイミングをランダム化
+          setTimeout(runCycle, randomDelay());
+        }
+      };
+
+      requestAnimationFrame(animate);
+    };
+
+    // 初回開始も指数ごとに完全ランダム化
+    setTimeout(runCycle, randomInitialDelay());
 
       requestAnimationFrame(animate);
     };
