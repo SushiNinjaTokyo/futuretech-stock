@@ -75,6 +75,12 @@
                   <path class="hero-line-track" d="" />
                   <path class="hero-line-ghost" d="" />
                   <path class="hero-line-core" d="" />
+
+                  <!-- Electric effect layers -->
+                  <path class="hero-line-lightning" d="" />
+                  <path class="hero-line-branch branch-a" d="" />
+                  <path class="hero-line-branch branch-b" d="" />
+                  <circle class="hero-line-spark" cx="0" cy="0" r="3.2" />
                 </svg>
               </div>
             </div>
@@ -111,6 +117,12 @@
                   <path class="hero-line-track" d="" />
                   <path class="hero-line-ghost" d="" />
                   <path class="hero-line-core" d="" />
+
+                  <!-- Electric effect layers -->
+                  <path class="hero-line-lightning" d="" />
+                  <path class="hero-line-branch branch-a" d="" />
+                  <path class="hero-line-branch branch-b" d="" />
+                  <circle class="hero-line-spark" cx="0" cy="0" r="3.2" />
                 </svg>
               </div>
             </div>
@@ -147,6 +159,12 @@
                   <path class="hero-line-track" d="" />
                   <path class="hero-line-ghost" d="" />
                   <path class="hero-line-core" d="" />
+
+                  <!-- Electric effect layers -->
+                  <path class="hero-line-lightning" d="" />
+                  <path class="hero-line-branch branch-a" d="" />
+                  <path class="hero-line-branch branch-b" d="" />
+                  <circle class="hero-line-spark" cx="0" cy="0" r="3.2" />
                 </svg>
               </div>
             </div>
@@ -2191,6 +2209,26 @@ function buildHeroPath(points, width = 520, height = 120){
   return d;
 }
 
+function buildBranch(path, pos, direction = 1){
+  const length = path.getTotalLength();
+  const p = path.getPointAtLength(Math.max(0, Math.min(length, length * pos)));
+  const p2 = path.getPointAtLength(Math.max(0, Math.min(length, length * pos + 12)));
+
+  const dx = p2.x - p.x;
+  const dy = p2.y - p.y;
+  const mag = Math.max(1, Math.hypot(dx, dy));
+
+  const nx = -dy / mag;
+  const ny = dx / mag;
+
+  const midX = p.x + nx * 14 * direction;
+  const midY = p.y + ny * 14 * direction;
+  const endX = midX + 18;
+  const endY = midY - 9 * direction;
+
+  return `M ${p.x.toFixed(2)} ${p.y.toFixed(2)} L ${midX.toFixed(2)} ${midY.toFixed(2)} L ${endX.toFixed(2)} ${endY.toFixed(2)}`;
+}
+
 function initHeroIndexLines(){
   const el = document.getElementById("hero-index-data");
   if (!el) return;
@@ -2206,16 +2244,24 @@ function initHeroIndexLines(){
     const key = row.getAttribute("data-line-key");
     const series = data[key] || {};
     const points = Array.isArray(series.points) ? series.points : [];
+
     const track = row.querySelector(".hero-line-track");
     const ghost = row.querySelector(".hero-line-ghost");
     const core = row.querySelector(".hero-line-core");
+    const lightning = row.querySelector(".hero-line-lightning");
+    const branchA = row.querySelector(".hero-line-branch.branch-a");
+    const branchB = row.querySelector(".hero-line-branch.branch-b");
+    const spark = row.querySelector(".hero-line-spark");
 
     if (!track || !ghost || !core || points.length < 2) return;
 
     const d = buildHeroPath(points, 520, 120);
+
     track.setAttribute("d", d);
     ghost.setAttribute("d", d);
     core.setAttribute("d", d);
+
+    if (lightning) lightning.setAttribute("d", d);
 
     const length = core.getTotalLength();
 
@@ -2228,11 +2274,20 @@ function initHeroIndexLines(){
     core.style.strokeDasharray = `0 ${length}`;
     core.style.strokeDashoffset = "0";
 
+    if (lightning) {
+      lightning.style.strokeDasharray = `0 ${length}`;
+      lightning.style.strokeDashoffset = "0";
+    }
+
+    if (branchA) branchA.setAttribute("d", buildBranch(core, 0.58, 1));
+    if (branchB) branchB.setAttribute("d", buildBranch(core, 0.72, -1));
+
     /*
-      Faster Market Pulse animation:
-      - Previous duration was 1600ms.
-      - New duration is 540ms, approximately 3x faster.
-      - Each index uses a different pseudo-random offset so the timing is not synchronized.
+      Electric Market Pulse animation:
+      - Main line remains readable.
+      - Lightning core flashes briefly on the active segment.
+      - Branch sparks appear only in the middle of each cycle.
+      - Different offsets keep SP500 / NASDAQ / Russell out of sync.
     */
     const duration = 540;
     const seedMap = {
@@ -2261,14 +2316,43 @@ function initHeroIndexLines(){
       core.style.strokeDashoffset = `${-start}`;
 
       ghost.style.strokeDasharray = `${visible} ${length}`;
-      ghost.style.strokeDashoffset = `${-(Math.max(0, start - length * 0.035))}`;
+      ghost.style.strokeDashoffset = `${-(Math.max(0, start - length * 0.04))}`;
 
       if (t < 0.10) {
         ghost.style.opacity = "0";
       } else if (t < 0.5) {
-        ghost.style.opacity = "0.18";
+        ghost.style.opacity = "0.22";
       } else {
-        ghost.style.opacity = "0.10";
+        ghost.style.opacity = "0.12";
+      }
+
+      const flashA = t > 0.39 && t < 0.44;
+      const flashB = t > 0.57 && t < 0.62;
+      const flash = flashA || flashB;
+
+      if (lightning) {
+        const sparkVisible = length * 0.13;
+        const sparkStart = Math.max(0, Math.min(length, start + visible * (flashA ? 0.72 : 0.42)));
+
+        lightning.style.strokeDasharray = `${sparkVisible} ${length}`;
+        lightning.style.strokeDashoffset = `${-sparkStart}`;
+        lightning.style.opacity = flash ? "1" : "0";
+      }
+
+      if (branchA) {
+        branchA.style.opacity = flashA ? ".95" : "0";
+      }
+
+      if (branchB) {
+        branchB.style.opacity = flashB ? ".72" : "0";
+      }
+
+      if (spark) {
+        const head = Math.max(0, Math.min(length, start + visible));
+        const p = core.getPointAtLength(head);
+        spark.setAttribute("cx", p.x.toFixed(2));
+        spark.setAttribute("cy", p.y.toFixed(2));
+        spark.style.opacity = t > 0.08 && t < 0.94 ? ".92" : "0";
       }
 
       requestAnimationFrame(animate);
