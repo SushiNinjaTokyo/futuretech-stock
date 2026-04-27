@@ -2228,14 +2228,26 @@ function initHeroIndexLines(){
     core.style.strokeDasharray = `0 ${length}`;
     core.style.strokeDashoffset = "0";
 
-    const duration = 1600;
-    const delay =
-      key === "nasdaq" ? 80 :
-      key === "russell" ? 160 : 0;
+    /*
+      Faster Market Pulse animation:
+      - Previous duration was 1600ms.
+      - New duration is 540ms, approximately 3x faster.
+      - Each index uses a different pseudo-random offset so the timing is not synchronized.
+    */
+    const duration = 540;
+    const seedMap = {
+      sp500: 0.13,
+      nasdaq: 0.47,
+      russell: 0.81
+    };
+
+    const randomOffset = Math.floor(duration * (seedMap[key] ?? Math.random()));
 
     const animate = (ts) => {
-      const t = ((ts + delay) % duration) / duration;
-      let visible, start;
+      const t = ((ts + randomOffset) % duration) / duration;
+
+      let visible;
+      let start;
 
       if (t < 0.5) {
         visible = length * (t / 0.5) * 0.5;
@@ -2249,8 +2261,15 @@ function initHeroIndexLines(){
       core.style.strokeDashoffset = `${-start}`;
 
       ghost.style.strokeDasharray = `${visible} ${length}`;
-      ghost.style.strokeDashoffset = `${-(Math.max(0, start - length * 0.03))}`;
-      ghost.style.opacity = t < 0.12 ? "0" : (t < 0.5 ? "0.16" : "0.08");
+      ghost.style.strokeDashoffset = `${-(Math.max(0, start - length * 0.035))}`;
+
+      if (t < 0.10) {
+        ghost.style.opacity = "0";
+      } else if (t < 0.5) {
+        ghost.style.opacity = "0.18";
+      } else {
+        ghost.style.opacity = "0.10";
+      }
 
       requestAnimationFrame(animate);
     };
