@@ -2,17 +2,8 @@ name: daily-report
 
 on:
   schedule:
-    - cron: '30 23 * * *'  # 19:30 ET / 08:30 JST
+    - cron: '30 23 * * *'  # UTC 23:30 / JST 08:30
   workflow_dispatch:
-    inputs:
-      force_rebuild:
-        description: "Rebuild even if top10.json already exists"
-        required: true
-        default: "false"
-        type: choice
-        options:
-          - "false"
-          - "true"
 
 concurrency:
   group: daily-report
@@ -21,6 +12,7 @@ concurrency:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+
     permissions:
       contents: write
 
@@ -62,33 +54,7 @@ jobs:
           echo "REPORT_DATE=${REPORT_DATE}" >> "$GITHUB_OUTPUT"
           echo "Resolved REPORT_DATE=${REPORT_DATE}"
 
-      - name: Skip if daily output already exists on remote
-        id: skipcheck
-        shell: bash
-        env:
-          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-          FORCE_REBUILD: ${{ github.event.inputs.force_rebuild }}
-        run: |
-          set -euo pipefail
-
-          TARGET="site/data/${REPORT_DATE}/top10.json"
-
-          if [ "${FORCE_REBUILD:-false}" = "true" ]; then
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-            echo "force_rebuild=true, skip existing check bypassed"
-            exit 0
-          fi
-
-          if git cat-file -e "origin/main:${TARGET}" 2>/dev/null; then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
-            echo "Daily output already exists on origin/main: ${TARGET}"
-          else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
-            echo "Daily output does not exist yet: ${TARGET}"
-          fi
-
       - name: Fetch Compression Release
-        if: steps.skipcheck.outputs.exists != 'true'
         shell: bash
         env:
           OUT_DIR: site
@@ -101,7 +67,6 @@ jobs:
           python scripts/fetch_compression.py
 
       - name: Verify Compression output
-        if: steps.skipcheck.outputs.exists != 'true'
         shell: bash
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
@@ -111,7 +76,6 @@ jobs:
           test -f "site/data/compression/latest.json"
 
       - name: Google Trends breakout
-        if: steps.skipcheck.outputs.exists != 'true'
         shell: bash
         env:
           OUT_DIR: site
@@ -129,8 +93,16 @@ jobs:
           set -euo pipefail
           python scripts/fetch_trends.py
 
+      - name: Verify Trends output
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          test -f "site/data/${REPORT_DATE}/trends.json"
+          test -f "site/data/trends/latest.json"
+
       - name: Fetch News
-        if: steps.skipcheck.outputs.exists != 'true'
         shell: bash
         env:
           OUT_DIR: site
@@ -148,8 +120,16 @@ jobs:
           set -euo pipefail
           python scripts/fetch_news.py
 
+      - name: Verify News output
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          test -f "site/data/${REPORT_DATE}/news.json"
+          test -f "site/data/news/latest.json"
+
       - name: Verify component inputs
-        if: steps.skipcheck.outputs.exists != 'true'
         shell: bash
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
@@ -160,7 +140,6 @@ jobs:
           test -f "site/data/${REPORT_DATE}/compression.json"
 
       - name: Generate Top10 JSON
-        if: steps.skipcheck.outputs.exists != 'true'
         shell: bash
         env:
           OUT_DIR: site
@@ -177,17 +156,7 @@ jobs:
           set -euo pipefail
           python scripts/fetch_daily.py
 
-      - name: Render HTML
-        if: steps.skipcheck.outputs.exists != 'true'
-        shell: bash
-        env:
-          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
-        run: |
-          set -euo pipefail
-          python scripts/render.py
-
-      - name: Verify outputs
-        if: steps.skipcheck.outputs.exists != 'true'
+      - name: Verify Top10 outputs
         shell: bash
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
@@ -195,13 +164,69 @@ jobs:
           set -euo pipefail
           test -f "site/data/${REPORT_DATE}/top10.json"
           test -f "site/data/top10/latest.json"
-          test -f "site/daily/${REPORT_DATE}.html"
-          test -f "site/assets/daily.css"
           test -d "site/charts/${REPORT_DATE}"
           find "site/charts/${REPORT_DATE}" -maxdepth 1 -name '*.png' | grep -q .
 
+      - name: Track signal outcomes
+        shell: bash
+        env:
+          OUT_DIR: site
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          python scripts/track_signal_outcomes.py
+
+      - name: Verify signal outcome outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "site/data/signals/registry.json"
+          test -f "site/data/signals/outcomes_latest.json"
+          test -f "site/data/signals/summary_latest.json"
+
+      - name: Render daily page
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          python scripts/render.py
+
+      - name: Render top page
+        shell: bash
+        env:
+          OUT_DIR: site
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          python scripts/render_index.py
+
+      - name: Render backtest page
+        shell: bash
+        env:
+          OUT_DIR: site
+        run: |
+          set -euo pipefail
+          python scripts/render_backtest.py
+
+      - name: Verify rendered outputs
+        shell: bash
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+
+          test -f "site/daily/${REPORT_DATE}.html"
+          test -f "site/assets/daily.css"
+
+          test -f "site/index.html"
+          test -f "site/assets/index.css"
+          test -f "site/data/index/market_pulse_latest.json"
+
+          test -f "site/backtest/index.html"
+          test -f "site/assets/backtest.css"
+
       - name: Commit changes
-        if: steps.skipcheck.outputs.exists != 'true'
         id: commitstep
         shell: bash
         env:
@@ -222,10 +247,22 @@ jobs:
             "site/data/${REPORT_DATE}/top10.json" \
             "site/data/top10/latest.json" \
             "site/charts/${REPORT_DATE}" \
+            "site/data/signals/registry.json" \
+            "site/data/signals/outcomes_latest.json" \
+            "site/data/signals/summary_latest.json" \
             "site/daily/${REPORT_DATE}.html" \
             "site/assets/daily.css" \
+            "site/index.html" \
+            "site/assets/index.css" \
+            "site/data/index/market_pulse_latest.json" \
+            "site/backtest/index.html" \
+            "site/assets/backtest.css" \
             "templates/daily.html.j2" \
-            "templates/daily.css"
+            "templates/daily.css" \
+            "templates/index.html.j2" \
+            "templates/index.css" \
+            "templates/backtest.html.j2" \
+            "templates/backtest.css"
 
           if git diff --cached --quiet; then
             echo "committed=false" >> "$GITHUB_OUTPUT"
@@ -237,7 +274,7 @@ jobs:
           echo "committed=true" >> "$GITHUB_OUTPUT"
 
       - name: Push changes
-        if: steps.skipcheck.outputs.exists != 'true' && steps.commitstep.outputs.committed == 'true'
+        if: steps.commitstep.outputs.committed == 'true'
         shell: bash
         run: |
           set -euo pipefail
