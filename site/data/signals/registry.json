@@ -1,6 +1,6 @@
 {
   "created_at": "2026-04-26 05:56:54Z",
-  "updated_at": "2026-04-26 05:56:57Z",
+  "updated_at": "2026-04-28 00:15:27Z",
   "signals": [
     {
       "id": "2026-04-23_VRT",
@@ -36,9 +36,14 @@
         "d10_return_pct": null,
         "d20_return_pct": null,
         "max_gain_20d_pct": 0.7,
-        "max_drawdown_20d_pct": -3.54,
-        "status": "pending",
-        "last_updated": "2026-04-26 05:56:57Z"
+        "max_drawdown_20d_pct": -6.36,
+        "status": "active",
+        "last_updated": "2026-04-28 00:15:27Z",
+        "current_close": 322.43,
+        "current_date": "2026-04-27",
+        "current_return_pct": -1.7,
+        "max_gain_since_entry_pct": 0.7,
+        "max_drawdown_since_entry_pct": -6.36
       },
       "source_snapshot": {
         "price_delta_1d": 0.53,
@@ -79,10 +84,15 @@
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": 3.93,
-        "max_drawdown_20d_pct": -3.61,
-        "status": "pending",
-        "last_updated": "2026-04-26 05:56:57Z"
+        "max_gain_20d_pct": 4.19,
+        "max_drawdown_20d_pct": -6.25,
+        "status": "active",
+        "last_updated": "2026-04-28 00:15:27Z",
+        "current_close": 37.4,
+        "current_date": "2026-04-27",
+        "current_return_pct": -2.12,
+        "max_gain_since_entry_pct": 4.19,
+        "max_drawdown_since_entry_pct": -6.25
       },
       "source_snapshot": {
         "price_delta_1d": -4.81,
@@ -123,10 +133,15 @@
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": 5.5,
+        "max_gain_20d_pct": 8.43,
         "max_drawdown_20d_pct": -0.08,
-        "status": "pending",
-        "last_updated": "2026-04-26 05:56:57Z"
+        "status": "active",
+        "last_updated": "2026-04-28 00:15:27Z",
+        "current_close": 216.61,
+        "current_date": "2026-04-27",
+        "current_return_pct": 8.33,
+        "max_gain_since_entry_pct": 8.43,
+        "max_drawdown_since_entry_pct": -0.08
       },
       "source_snapshot": {
         "price_delta_1d": 4.32,
@@ -135,194 +150,18 @@
       }
     },
     {
-      "id": "2026-04-23_ABCL",
-      "signal_date": "2026-04-23",
-      "symbol": "ABCL",
-      "name": "AbCellera Biologics Inc.",
-      "rank": 4,
-      "rank_bucket": "#4-10",
-      "score_pts": 644,
-      "final_score_0_1": 0.644076,
+      "id": "2026-04-27_NVDA",
+      "signal_date": "2026-04-27",
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "rank": 1,
+      "rank_bucket": "#1",
+      "score_pts": 752,
+      "final_score_0_1": 0.75165,
       "score_components": {
-        "volume_anomaly": 0.838398,
-        "compression_release": 0.777778,
-        "trends_breakout": 0.60685,
-        "news": 0.329032
-      },
-      "score_weights": {
-        "volume_anomaly": 0.35,
-        "compression_release": 0.15,
-        "trends_breakout": 0.25,
-        "news": 0.25
-      },
-      "profile": "Volume + Compression",
-      "signal_close": 4.05,
-      "entry": {
-        "method": "next_open",
-        "entry_date": "2026-04-24",
-        "entry_price": 4.08,
-        "gap_pct": 0.74
-      },
-      "outcome": {
-        "d5_return_pct": null,
-        "d10_return_pct": null,
-        "d20_return_pct": null,
-        "max_gain_20d_pct": 5.15,
-        "max_drawdown_20d_pct": -2.7,
-        "status": "pending",
-        "last_updated": "2026-04-26 05:56:57Z"
-      },
-      "source_snapshot": {
-        "price_delta_1d": 2.47,
-        "price_delta_1w": 3.49,
-        "price_delta_1m": 23.88
-      }
-    },
-    {
-      "id": "2026-04-23_TER",
-      "signal_date": "2026-04-23",
-      "symbol": "TER",
-      "name": "Teradyne, Inc.",
-      "rank": 5,
-      "rank_bucket": "#4-10",
-      "score_pts": 605,
-      "final_score_0_1": 0.604723,
-      "score_components": {
-        "volume_anomaly": 0.725382,
-        "compression_release": 1.0,
-        "trends_breakout": 0.120687,
-        "news": 0.682669
-      },
-      "score_weights": {
-        "volume_anomaly": 0.35,
-        "compression_release": 0.15,
-        "trends_breakout": 0.25,
-        "news": 0.25
-      },
-      "profile": "Compression",
-      "signal_close": 400.99,
-      "entry": {
-        "method": "next_open",
-        "entry_date": "2026-04-24",
-        "entry_price": 408.83,
-        "gap_pct": 1.96
-      },
-      "outcome": {
-        "d5_return_pct": null,
-        "d10_return_pct": null,
-        "d20_return_pct": null,
-        "max_gain_20d_pct": 3.25,
-        "max_drawdown_20d_pct": -1.88,
-        "status": "pending",
-        "last_updated": "2026-04-26 05:56:57Z"
-      },
-      "source_snapshot": {
-        "price_delta_1d": 4.26,
-        "price_delta_1w": 9.91,
-        "price_delta_1m": 40.61
-      }
-    },
-    {
-      "id": "2026-04-23_OII",
-      "signal_date": "2026-04-23",
-      "symbol": "OII",
-      "name": "Oceaneering International Inc.",
-      "rank": 6,
-      "rank_bucket": "#4-10",
-      "score_pts": 548,
-      "final_score_0_1": 0.548156,
-      "score_components": {
-        "volume_anomaly": 0.538509,
-        "compression_release": 0.481481,
-        "trends_breakout": 0.571586,
-        "news": 0.578235
-      },
-      "score_weights": {
-        "volume_anomaly": 0.35,
-        "compression_release": 0.15,
-        "trends_breakout": 0.25,
-        "news": 0.25
-      },
-      "profile": "Good Trends + News",
-      "signal_close": 38.01,
-      "entry": {
-        "method": "next_open",
-        "entry_date": "2026-04-24",
-        "entry_price": 37.67,
-        "gap_pct": -0.89
-      },
-      "outcome": {
-        "d5_return_pct": null,
-        "d10_return_pct": null,
-        "d20_return_pct": null,
-        "max_gain_20d_pct": 1.88,
-        "max_drawdown_20d_pct": -1.67,
-        "status": "pending",
-        "last_updated": "2026-04-26 05:56:57Z"
-      },
-      "source_snapshot": {
-        "price_delta_1d": -1.74,
-        "price_delta_1w": -0.27,
-        "price_delta_1m": 2.27
-      }
-    },
-    {
-      "id": "2026-04-23_VSAT",
-      "signal_date": "2026-04-23",
-      "symbol": "VSAT",
-      "name": "Viasat, Inc.",
-      "rank": 7,
-      "rank_bucket": "#4-10",
-      "score_pts": 546,
-      "final_score_0_1": 0.546478,
-      "score_components": {
-        "volume_anomaly": 0.534694,
-        "compression_release": 0.888889,
-        "trends_breakout": 0.188677,
-        "news": 0.715331
-      },
-      "score_weights": {
-        "volume_anomaly": 0.35,
-        "compression_release": 0.15,
-        "trends_breakout": 0.25,
-        "news": 0.25
-      },
-      "profile": "Compression",
-      "signal_close": 62.58,
-      "entry": {
-        "method": "next_open",
-        "entry_date": "2026-04-24",
-        "entry_price": 63.6,
-        "gap_pct": 1.63
-      },
-      "outcome": {
-        "d5_return_pct": null,
-        "d10_return_pct": null,
-        "d20_return_pct": null,
-        "max_gain_20d_pct": 0.44,
-        "max_drawdown_20d_pct": -4.75,
-        "status": "pending",
-        "last_updated": "2026-04-26 05:56:57Z"
-      },
-      "source_snapshot": {
-        "price_delta_1d": -0.94,
-        "price_delta_1w": -1.37,
-        "price_delta_1m": 29.6
-      }
-    },
-    {
-      "id": "2026-04-23_MSFT",
-      "signal_date": "2026-04-23",
-      "symbol": "MSFT",
-      "name": "Microsoft Corporation",
-      "rank": 8,
-      "rank_bucket": "#4-10",
-      "score_pts": 535,
-      "final_score_0_1": 0.535344,
-      "score_components": {
-        "volume_anomaly": 0.400131,
-        "compression_release": 0.37037,
-        "trends_breakout": 0.35897,
+        "volume_anomaly": 0.749749,
+        "compression_release": 0.633333,
+        "trends_breakout": 0.576952,
         "news": 1.0
       },
       "score_weights": {
@@ -332,42 +171,50 @@
         "news": 0.25
       },
       "profile": "News",
-      "signal_close": 415.75,
+      "signal_close": 216.61,
       "entry": {
         "method": "next_open",
-        "entry_date": "2026-04-24",
-        "entry_price": 416.97,
-        "gap_pct": 0.29
+        "entry_date": null,
+        "entry_price": null,
+        "gap_pct": null
       },
       "outcome": {
+        "return_1w_pct": null,
+        "return_1m_pct": null,
+        "return_3m_pct": null,
+        "current_return_pct": null,
+        "current_close": null,
+        "current_date": null,
+        "max_gain_since_entry_pct": null,
+        "max_drawdown_since_entry_pct": null,
+        "status": "pending_entry",
+        "last_updated": null,
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": 1.91,
-        "max_drawdown_20d_pct": -0.28,
-        "status": "pending",
-        "last_updated": "2026-04-26 05:56:57Z"
+        "max_gain_20d_pct": null,
+        "max_drawdown_20d_pct": null
       },
       "source_snapshot": {
-        "price_delta_1d": 2.13,
-        "price_delta_1w": 0.43,
-        "price_delta_1m": 16.03
+        "price_delta_1d": 4.0,
+        "price_delta_1w": 7.2,
+        "price_delta_1m": 29.3
       }
     },
     {
-      "id": "2026-04-23_SOUN",
-      "signal_date": "2026-04-23",
-      "symbol": "SOUN",
-      "name": "SoundHound AI, Inc.",
-      "rank": 9,
-      "rank_bucket": "#4-10",
-      "score_pts": 504,
-      "final_score_0_1": 0.504365,
+      "id": "2026-04-27_CGNX",
+      "signal_date": "2026-04-27",
+      "symbol": "CGNX",
+      "name": "Cognex Corporation",
+      "rank": 2,
+      "rank_bucket": "#2-3",
+      "score_pts": 719,
+      "final_score_0_1": 0.718746,
       "score_components": {
-        "volume_anomaly": 0.543098,
-        "compression_release": 0.0,
-        "trends_breakout": 0.547034,
-        "news": 0.710088
+        "volume_anomaly": 0.634411,
+        "compression_release": 0.966667,
+        "trends_breakout": 0.667894,
+        "news": 0.738915
       },
       "score_weights": {
         "volume_anomaly": 0.35,
@@ -375,43 +222,51 @@
         "trends_breakout": 0.25,
         "news": 0.25
       },
-      "profile": "Good News",
-      "signal_close": 7.82,
+      "profile": "Compression",
+      "signal_close": 55.09,
       "entry": {
         "method": "next_open",
-        "entry_date": "2026-04-24",
-        "entry_price": 7.995,
-        "gap_pct": 2.24
+        "entry_date": null,
+        "entry_price": null,
+        "gap_pct": null
       },
       "outcome": {
+        "return_1w_pct": null,
+        "return_1m_pct": null,
+        "return_3m_pct": null,
+        "current_return_pct": null,
+        "current_close": null,
+        "current_date": null,
+        "max_gain_since_entry_pct": null,
+        "max_drawdown_since_entry_pct": null,
+        "status": "pending_entry",
+        "last_updated": null,
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": 4.88,
-        "max_drawdown_20d_pct": -2.81,
-        "status": "pending",
-        "last_updated": "2026-04-26 05:56:57Z"
+        "max_gain_20d_pct": null,
+        "max_drawdown_20d_pct": null
       },
       "source_snapshot": {
-        "price_delta_1d": 4.73,
-        "price_delta_1w": 1.36,
-        "price_delta_1m": 35.15
+        "price_delta_1d": 1.53,
+        "price_delta_1w": -0.7,
+        "price_delta_1m": 15.76
       }
     },
     {
-      "id": "2026-04-23_FTI",
-      "signal_date": "2026-04-23",
-      "symbol": "FTI",
-      "name": "TechnipFMC plc",
-      "rank": 10,
-      "rank_bucket": "#4-10",
-      "score_pts": 499,
-      "final_score_0_1": 0.498761,
+      "id": "2026-04-27_ABCL",
+      "signal_date": "2026-04-27",
+      "symbol": "ABCL",
+      "name": "AbCellera Biologics Inc.",
+      "rank": 3,
+      "rank_bucket": "#2-3",
+      "score_pts": 704,
+      "final_score_0_1": 0.703908,
       "score_components": {
-        "volume_anomaly": 0.557114,
-        "compression_release": 0.592593,
-        "trends_breakout": 0.012342,
-        "news": 0.847185
+        "volume_anomaly": 0.892019,
+        "compression_release": 0.9,
+        "trends_breakout": 0.615516,
+        "news": 0.41129
       },
       "score_weights": {
         "volume_anomaly": 0.35,
@@ -419,28 +274,46 @@
         "trends_breakout": 0.25,
         "news": 0.25
       },
-      "profile": "News",
-      "signal_close": 72.44,
+      "profile": "Volume + Compression",
+      "signal_close": 4.16,
       "entry": {
         "method": "next_open",
-        "entry_date": "2026-04-24",
-        "entry_price": 73.02,
-        "gap_pct": 0.8
+        "entry_date": null,
+        "entry_price": null,
+        "gap_pct": null
       },
       "outcome": {
+        "return_1w_pct": null,
+        "return_1m_pct": null,
+        "return_3m_pct": null,
+        "current_return_pct": null,
+        "current_close": null,
+        "current_date": null,
+        "max_gain_since_entry_pct": null,
+        "max_drawdown_since_entry_pct": null,
+        "status": "pending_entry",
+        "last_updated": null,
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": 2.53,
-        "max_drawdown_20d_pct": -1.14,
-        "status": "pending",
-        "last_updated": "2026-04-26 05:56:57Z"
+        "max_gain_20d_pct": null,
+        "max_drawdown_20d_pct": null
       },
       "source_snapshot": {
-        "price_delta_1d": 3.2,
-        "price_delta_1w": 6.13,
-        "price_delta_1m": 6.3
+        "price_delta_1d": 0.24,
+        "price_delta_1w": 6.39,
+        "price_delta_1m": 27.22
       }
     }
-  ]
+  ],
+  "policy": {
+    "track_top_n": 3,
+    "entry_method": "next_open",
+    "horizons": {
+      "1w": 5,
+      "1m": 20,
+      "3m": 63
+    },
+    "stop_tracking_after": "3m"
+  }
 }

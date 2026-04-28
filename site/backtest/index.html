@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>FutureTech Stock — Backtest</title>
+  <title>FutureTech Stock — Top3 Signal Tracker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="stylesheet" href="/assets/backtest.css">
 </head>
@@ -14,69 +14,122 @@
   <div class="grid"></div>
 
   <main class="wrap">
+
+
+
     <header class="hero">
-      <div>
+      <div class="hero-main">
         <a class="back-link" href="/">← Home</a>
+
         <div class="kicker">Signal Outcome Tracker</div>
-        <h1>Backtest</h1>
+        <h1>Top3 Signal Tracker</h1>
+
         <p>
-          Track how daily signals performed after 5D, 10D, and 20D.
-          This page turns the ranking system into a measurable strategy.
+          Tracks only the daily Top 3 signals. Entry is the next trading day’s open.
+          Performance is fixed at 1W, 1M, and 3M, while current performance updates until 3M completion.
         </p>
+
+        <div class="policy-row">
+          <span>Top 3 only</span>
+          <span>Entry: Next Open</span>
+          <span>1W / 1M / 3M</span>
+          <span>Stop after 3M</span>
+        </div>
       </div>
 
-      <div class="asof-card">
-        <div class="asof-label">As of</div>
-        <div class="asof-value">2026-04-23</div>
+      <div class="status-card">
+        <div class="status-label">Tracking Status</div>
+        <div class="status-value">
+          6
+        </div>
+        <div class="status-sub">active signals</div>
+
+        <div class="status-meta">
+          <div>
+            <span>Total</span>
+            <strong>6</strong>
+          </div>
+          <div>
+            <span>As of</span>
+            <strong>2026-04-27</strong>
+          </div>
+        </div>
       </div>
     </header>
 
     <section class="kpi-grid">
+      <article class="kpi-card">
+        <div class="kpi-label">Current Avg</div>
+        <div class="kpi-value         up
+">
+          +1.5%
 
-
-      <div class="kpi-card">
-        <div class="kpi-label">Total Signals</div>
-        <div class="kpi-value">10</div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-label">20D Avg Return</div>
-        <div class="kpi-value ">
-          —
         </div>
-      </div>
+        <div class="kpi-note">open positions until 3M</div>
+      </article>
 
-      <div class="kpi-card">
-        <div class="kpi-label">20D Win Rate</div>
-        <div class="kpi-value">—</div>
-      </div>
+      <article class="kpi-card">
+        <div class="kpi-label">1M Avg Return</div>
+        <div class="kpi-value         neutral
+">
+                  —
 
-      <div class="kpi-card">
-        <div class="kpi-label">Avg Max Drawdown</div>
-        <div class="kpi-value down">—</div>
-      </div>
+        </div>
+        <div class="kpi-note">20 trading days</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">3M Avg Return</div>
+        <div class="kpi-value         neutral
+">
+                  —
+
+        </div>
+        <div class="kpi-note">63 trading days</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">3M Win Rate</div>
+        <div class="kpi-value">
+                  —
+
+        </div>
+        <div class="kpi-note">completed 3M signals</div>
+      </article>
     </section>
 
-    <section class="panel">
+    <section class="panel coverage-panel">
       <div class="section-head">
         <div>
-          <div class="section-kicker">Completion</div>
-          <h2>Signal Coverage</h2>
+          <div class="section-kicker">Progress</div>
+          <h2>Completion</h2>
         </div>
       </div>
 
       <div class="coverage-grid">
         <div class="coverage-card">
-          <span>Completed 5D</span>
+          <span>Completed 1W</span>
           <strong>0</strong>
         </div>
         <div class="coverage-card">
-          <span>Completed 10D</span>
+          <span>Completed 1M</span>
           <strong>0</strong>
         </div>
         <div class="coverage-card">
-          <span>Completed 20D</span>
+          <span>Completed 3M</span>
           <strong>0</strong>
+        </div>
+        <div class="coverage-card">
+          <span>Avg Max Gain</span>
+          <strong class="        up
+">+4.44%
+</strong>
+        </div>
+        <div class="coverage-card">
+          <span>Avg Max DD</span>
+          <strong class="        down
+">-4.23%
+</strong>
         </div>
       </div>
     </section>
@@ -84,22 +137,371 @@
     <section class="panel">
       <div class="section-head">
         <div>
-          <div class="section-kicker">Recent Outcomes</div>
-          <h2>Completed Signals</h2>
+          <div class="section-kicker">Rank Quality</div>
+          <h2>Rank Bucket Performance</h2>
         </div>
       </div>
 
-      <div class="empty">
-        <h3>No completed signals yet</h3>
-        <p>
-          The page is ready. Once Signal Outcome Tracker is added, this table will show
-          5D / 10D / 20D results automatically.
-        </p>
+      <div class="bucket-grid">
+        <article class="bucket-card">
+          <div class="bucket-label">#1</div>
+          <div class="bucket-main         down
+">
+            -1.7%
+
+          </div>
+          <div class="bucket-sub">Current Avg</div>
+
+          <div class="bucket-stats">
+            <div>
+              <span>1M</span>
+              <strong class="        neutral
+">        —
+</strong>
+            </div>
+            <div>
+              <span>3M</span>
+              <strong class="        neutral
+">        —
+</strong>
+            </div>
+            <div>
+              <span>Count</span>
+              <strong>2</strong>
+            </div>
+          </div>
+        </article>
+        <article class="bucket-card">
+          <div class="bucket-label">#2-3</div>
+          <div class="bucket-main         up
+">
+            +3.1%
+
+          </div>
+          <div class="bucket-sub">Current Avg</div>
+
+          <div class="bucket-stats">
+            <div>
+              <span>1M</span>
+              <strong class="        neutral
+">        —
+</strong>
+            </div>
+            <div>
+              <span>3M</span>
+              <strong class="        neutral
+">        —
+</strong>
+            </div>
+            <div>
+              <span>Count</span>
+              <strong>4</strong>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Signals</div>
+          <h2>Tracked Top3 Signals</h2>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Rank</th>
+              <th>Symbol</th>
+              <th>Entry</th>
+              <th>1W</th>
+              <th>1M</th>
+              <th>3M</th>
+              <th>Current</th>
+              <th>Max Gain</th>
+              <th>Max DD</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2026-04-27</td>
+
+              <td>
+                <span class="rank-pill">#3</span>
+              </td>
+
+              <td>
+                <div class="symbol-cell">
+                  <strong>ABCL</strong>
+                  <span>Volume + Compression</span>
+                </div>
+              </td>
+
+              <td>
+                  —
+              </td>
+
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+
+              <td>
+                <span class="status-pill pending_entry">
+                  pending entry
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>2026-04-27</td>
+
+              <td>
+                <span class="rank-pill">#2</span>
+              </td>
+
+              <td>
+                <div class="symbol-cell">
+                  <strong>CGNX</strong>
+                  <span>Compression</span>
+                </div>
+              </td>
+
+              <td>
+                  —
+              </td>
+
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+
+              <td>
+                <span class="status-pill pending_entry">
+                  pending entry
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>2026-04-27</td>
+
+              <td>
+                <span class="rank-pill">#1</span>
+              </td>
+
+              <td>
+                <div class="symbol-cell">
+                  <strong>NVDA</strong>
+                  <span>News</span>
+                </div>
+              </td>
+
+              <td>
+                  —
+              </td>
+
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+
+              <td>
+                <span class="status-pill pending_entry">
+                  pending entry
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>2026-04-23</td>
+
+              <td>
+                <span class="rank-pill">#3</span>
+              </td>
+
+              <td>
+                <div class="symbol-cell">
+                  <strong>NVDA</strong>
+                  <span>News</span>
+                </div>
+              </td>
+
+              <td>
+                  <div class="entry-cell">
+                    <strong>199.96</strong>
+                    <span>2026-04-24</span>
+                  </div>
+              </td>
+
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        up
+">+8.33%
+</td>
+              <td class="        up
+">+8.43%
+</td>
+              <td class="        down
+">-0.08%
+</td>
+
+              <td>
+                <span class="status-pill active">
+                  active
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>2026-04-23</td>
+
+              <td>
+                <span class="rank-pill">#2</span>
+              </td>
+
+              <td>
+                <div class="symbol-cell">
+                  <strong>IRDM</strong>
+                  <span>News</span>
+                </div>
+              </td>
+
+              <td>
+                  <div class="entry-cell">
+                    <strong>38.21</strong>
+                    <span>2026-04-24</span>
+                  </div>
+              </td>
+
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        down
+">-2.12%
+</td>
+              <td class="        up
+">+4.19%
+</td>
+              <td class="        down
+">-6.25%
+</td>
+
+              <td>
+                <span class="status-pill active">
+                  active
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td>2026-04-23</td>
+
+              <td>
+                <span class="rank-pill">#1</span>
+              </td>
+
+              <td>
+                <div class="symbol-cell">
+                  <strong>VRT</strong>
+                  <span>Compression + News</span>
+                </div>
+              </td>
+
+              <td>
+                  <div class="entry-cell">
+                    <strong>328.0</strong>
+                    <span>2026-04-24</span>
+                  </div>
+              </td>
+
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        neutral
+">        —
+</td>
+              <td class="        down
+">-1.7%
+</td>
+              <td class="        up
+">+0.7%
+</td>
+              <td class="        down
+">-6.36%
+</td>
+
+              <td>
+                <span class="status-pill active">
+                  active
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
     <footer class="footer">
-      Generated at 2026-04-26 05:56:58Z · Informational only, not investment advice.
+      Generated at 2026-04-28 00:15:28Z · Informational only, not investment advice.
     </footer>
   </main>
 </div>
