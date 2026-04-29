@@ -1,6 +1,6 @@
 {
   "created_at": "2026-04-26 05:56:54Z",
-  "updated_at": "2026-04-28 00:15:27Z",
+  "updated_at": "2026-04-29 00:16:35Z",
   "signals": [
     {
       "id": "2026-04-23_VRT",
@@ -36,14 +36,14 @@
         "d10_return_pct": null,
         "d20_return_pct": null,
         "max_gain_20d_pct": 0.7,
-        "max_drawdown_20d_pct": -6.36,
+        "max_drawdown_20d_pct": -10.4,
         "status": "active",
-        "last_updated": "2026-04-28 00:15:27Z",
-        "current_close": 322.43,
-        "current_date": "2026-04-27",
-        "current_return_pct": -1.7,
+        "last_updated": "2026-04-29 00:16:35Z",
+        "current_close": 305.03,
+        "current_date": "2026-04-28",
+        "current_return_pct": -7.0,
         "max_gain_since_entry_pct": 0.7,
-        "max_drawdown_since_entry_pct": -6.36
+        "max_drawdown_since_entry_pct": -10.4
       },
       "source_snapshot": {
         "price_delta_1d": 0.53,
@@ -87,10 +87,10 @@
         "max_gain_20d_pct": 4.19,
         "max_drawdown_20d_pct": -6.25,
         "status": "active",
-        "last_updated": "2026-04-28 00:15:27Z",
-        "current_close": 37.4,
-        "current_date": "2026-04-27",
-        "current_return_pct": -2.12,
+        "last_updated": "2026-04-29 00:16:35Z",
+        "current_close": 37.35,
+        "current_date": "2026-04-28",
+        "current_return_pct": -2.25,
         "max_gain_since_entry_pct": 4.19,
         "max_drawdown_since_entry_pct": -6.25
       },
@@ -133,14 +133,14 @@
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": 8.43,
+        "max_gain_20d_pct": 8.44,
         "max_drawdown_20d_pct": -0.08,
         "status": "active",
-        "last_updated": "2026-04-28 00:15:27Z",
-        "current_close": 216.61,
-        "current_date": "2026-04-27",
-        "current_return_pct": 8.33,
-        "max_gain_since_entry_pct": 8.43,
+        "last_updated": "2026-04-29 00:16:35Z",
+        "current_close": 213.17,
+        "current_date": "2026-04-28",
+        "current_return_pct": 6.61,
+        "max_gain_since_entry_pct": 8.44,
         "max_drawdown_since_entry_pct": -0.08
       },
       "source_snapshot": {
@@ -174,26 +174,26 @@
       "signal_close": 216.61,
       "entry": {
         "method": "next_open",
-        "entry_date": null,
-        "entry_price": null,
-        "gap_pct": null
+        "entry_date": "2026-04-28",
+        "entry_price": 209.505,
+        "gap_pct": -3.28
       },
       "outcome": {
         "return_1w_pct": null,
         "return_1m_pct": null,
         "return_3m_pct": null,
-        "current_return_pct": null,
-        "current_close": null,
-        "current_date": null,
-        "max_gain_since_entry_pct": null,
-        "max_drawdown_since_entry_pct": null,
-        "status": "pending_entry",
-        "last_updated": null,
+        "current_return_pct": 1.75,
+        "current_close": 213.17,
+        "current_date": "2026-04-28",
+        "max_gain_since_entry_pct": 2.49,
+        "max_drawdown_since_entry_pct": -0.62,
+        "status": "active",
+        "last_updated": "2026-04-29 00:16:35Z",
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": null,
-        "max_drawdown_20d_pct": null
+        "max_gain_20d_pct": 2.49,
+        "max_drawdown_20d_pct": -0.62
       },
       "source_snapshot": {
         "price_delta_1d": 4.0,
@@ -226,26 +226,26 @@
       "signal_close": 55.09,
       "entry": {
         "method": "next_open",
-        "entry_date": null,
-        "entry_price": null,
-        "gap_pct": null
+        "entry_date": "2026-04-28",
+        "entry_price": 54.29,
+        "gap_pct": -1.45
       },
       "outcome": {
         "return_1w_pct": null,
         "return_1m_pct": null,
         "return_3m_pct": null,
-        "current_return_pct": null,
-        "current_close": null,
-        "current_date": null,
-        "max_gain_since_entry_pct": null,
-        "max_drawdown_since_entry_pct": null,
-        "status": "pending_entry",
-        "last_updated": null,
+        "current_return_pct": -1.01,
+        "current_close": 53.74,
+        "current_date": "2026-04-28",
+        "max_gain_since_entry_pct": 0.81,
+        "max_drawdown_since_entry_pct": -2.36,
+        "status": "active",
+        "last_updated": "2026-04-29 00:16:35Z",
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": null,
-        "max_drawdown_20d_pct": null
+        "max_gain_20d_pct": 0.81,
+        "max_drawdown_20d_pct": -2.36
       },
       "source_snapshot": {
         "price_delta_1d": 1.53,
@@ -267,6 +267,58 @@
         "compression_release": 0.9,
         "trends_breakout": 0.615516,
         "news": 0.41129
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Volume + Compression",
+      "signal_close": 4.16,
+      "entry": {
+        "method": "next_open",
+        "entry_date": "2026-04-28",
+        "entry_price": 4.03,
+        "gap_pct": -3.12
+      },
+      "outcome": {
+        "return_1w_pct": null,
+        "return_1m_pct": null,
+        "return_3m_pct": null,
+        "current_return_pct": 3.23,
+        "current_close": 4.16,
+        "current_date": "2026-04-28",
+        "max_gain_since_entry_pct": 6.64,
+        "max_drawdown_since_entry_pct": -1.74,
+        "status": "active",
+        "last_updated": "2026-04-29 00:16:35Z",
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": 6.64,
+        "max_drawdown_20d_pct": -1.74
+      },
+      "source_snapshot": {
+        "price_delta_1d": 0.24,
+        "price_delta_1w": 6.39,
+        "price_delta_1m": 27.22
+      }
+    },
+    {
+      "id": "2026-04-28_ABCL",
+      "signal_date": "2026-04-28",
+      "symbol": "ABCL",
+      "name": "AbCellera Biologics Inc.",
+      "rank": 1,
+      "rank_bucket": "#1",
+      "score_pts": 675,
+      "final_score_0_1": 0.674773,
+      "score_components": {
+        "volume_anomaly": 0.859448,
+        "compression_release": 0.903226,
+        "trends_breakout": 0.597477,
+        "news": 0.356452
       },
       "score_weights": {
         "volume_anomaly": 0.35,
@@ -300,9 +352,113 @@
         "max_drawdown_20d_pct": null
       },
       "source_snapshot": {
-        "price_delta_1d": 0.24,
-        "price_delta_1w": 6.39,
-        "price_delta_1m": 27.22
+        "price_delta_1d": 0.0,
+        "price_delta_1w": 4.26,
+        "price_delta_1m": 26.83
+      }
+    },
+    {
+      "id": "2026-04-28_NVDA",
+      "signal_date": "2026-04-28",
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "rank": 2,
+      "rank_bucket": "#2-3",
+      "score_pts": 666,
+      "final_score_0_1": 0.666037,
+      "score_components": {
+        "volume_anomaly": 0.715284,
+        "compression_release": 0.741935,
+        "trends_breakout": 0.342986,
+        "news": 0.874604
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "News",
+      "signal_close": 213.17,
+      "entry": {
+        "method": "next_open",
+        "entry_date": null,
+        "entry_price": null,
+        "gap_pct": null
+      },
+      "outcome": {
+        "return_1w_pct": null,
+        "return_1m_pct": null,
+        "return_3m_pct": null,
+        "current_return_pct": null,
+        "current_close": null,
+        "current_date": null,
+        "max_gain_since_entry_pct": null,
+        "max_drawdown_since_entry_pct": null,
+        "status": "pending_entry",
+        "last_updated": null,
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": null,
+        "max_drawdown_20d_pct": null
+      },
+      "source_snapshot": {
+        "price_delta_1d": -1.59,
+        "price_delta_1w": 6.65,
+        "price_delta_1m": 29.06
+      }
+    },
+    {
+      "id": "2026-04-28_OXY",
+      "signal_date": "2026-04-28",
+      "symbol": "OXY",
+      "name": "Occidental Petroleum Corporation",
+      "rank": 3,
+      "rank_bucket": "#2-3",
+      "score_pts": 605,
+      "final_score_0_1": 0.605444,
+      "score_components": {
+        "volume_anomaly": 0.37774,
+        "compression_release": 0.967742,
+        "trends_breakout": 0.514705,
+        "news": 0.797589
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Compression + News",
+      "signal_close": 58.61,
+      "entry": {
+        "method": "next_open",
+        "entry_date": null,
+        "entry_price": null,
+        "gap_pct": null
+      },
+      "outcome": {
+        "return_1w_pct": null,
+        "return_1m_pct": null,
+        "return_3m_pct": null,
+        "current_return_pct": null,
+        "current_close": null,
+        "current_date": null,
+        "max_gain_since_entry_pct": null,
+        "max_drawdown_since_entry_pct": null,
+        "status": "pending_entry",
+        "last_updated": null,
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": null,
+        "max_drawdown_20d_pct": null
+      },
+      "source_snapshot": {
+        "price_delta_1d": 2.34,
+        "price_delta_1w": 4.05,
+        "price_delta_1m": -11.52
       }
     }
   ],
