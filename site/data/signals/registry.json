@@ -1,6 +1,6 @@
 {
   "created_at": "2026-04-26 05:56:54Z",
-  "updated_at": "2026-04-29 00:16:35Z",
+  "updated_at": "2026-04-30 00:16:52Z",
   "signals": [
     {
       "id": "2026-04-23_VRT",
@@ -38,10 +38,10 @@
         "max_gain_20d_pct": 0.7,
         "max_drawdown_20d_pct": -10.4,
         "status": "active",
-        "last_updated": "2026-04-29 00:16:35Z",
-        "current_close": 305.03,
-        "current_date": "2026-04-28",
-        "current_return_pct": -7.0,
+        "last_updated": "2026-04-30 00:16:52Z",
+        "current_close": 306.18,
+        "current_date": "2026-04-29",
+        "current_return_pct": -6.65,
         "max_gain_since_entry_pct": 0.7,
         "max_drawdown_since_entry_pct": -10.4
       },
@@ -87,10 +87,10 @@
         "max_gain_20d_pct": 4.19,
         "max_drawdown_20d_pct": -6.25,
         "status": "active",
-        "last_updated": "2026-04-29 00:16:35Z",
-        "current_close": 37.35,
-        "current_date": "2026-04-28",
-        "current_return_pct": -2.25,
+        "last_updated": "2026-04-30 00:16:52Z",
+        "current_close": 36.39,
+        "current_date": "2026-04-29",
+        "current_return_pct": -4.76,
         "max_gain_since_entry_pct": 4.19,
         "max_drawdown_since_entry_pct": -6.25
       },
@@ -136,10 +136,10 @@
         "max_gain_20d_pct": 8.44,
         "max_drawdown_20d_pct": -0.08,
         "status": "active",
-        "last_updated": "2026-04-29 00:16:35Z",
-        "current_close": 213.17,
-        "current_date": "2026-04-28",
-        "current_return_pct": 6.61,
+        "last_updated": "2026-04-30 00:16:52Z",
+        "current_close": 209.25,
+        "current_date": "2026-04-29",
+        "current_return_pct": 4.65,
         "max_gain_since_entry_pct": 8.44,
         "max_drawdown_since_entry_pct": -0.08
       },
@@ -182,18 +182,18 @@
         "return_1w_pct": null,
         "return_1m_pct": null,
         "return_3m_pct": null,
-        "current_return_pct": 1.75,
-        "current_close": 213.17,
-        "current_date": "2026-04-28",
+        "current_return_pct": -0.12,
+        "current_close": 209.25,
+        "current_date": "2026-04-29",
         "max_gain_since_entry_pct": 2.49,
-        "max_drawdown_since_entry_pct": -0.62,
+        "max_drawdown_since_entry_pct": -0.92,
         "status": "active",
-        "last_updated": "2026-04-29 00:16:35Z",
+        "last_updated": "2026-04-30 00:16:52Z",
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
         "max_gain_20d_pct": 2.49,
-        "max_drawdown_20d_pct": -0.62
+        "max_drawdown_20d_pct": -0.92
       },
       "source_snapshot": {
         "price_delta_1d": 4.0,
@@ -234,18 +234,18 @@
         "return_1w_pct": null,
         "return_1m_pct": null,
         "return_3m_pct": null,
-        "current_return_pct": -1.01,
-        "current_close": 53.74,
-        "current_date": "2026-04-28",
+        "current_return_pct": -1.42,
+        "current_close": 53.52,
+        "current_date": "2026-04-29",
         "max_gain_since_entry_pct": 0.81,
-        "max_drawdown_since_entry_pct": -2.36,
+        "max_drawdown_since_entry_pct": -3.55,
         "status": "active",
-        "last_updated": "2026-04-29 00:16:35Z",
+        "last_updated": "2026-04-30 00:16:52Z",
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
         "max_gain_20d_pct": 0.81,
-        "max_drawdown_20d_pct": -2.36
+        "max_drawdown_20d_pct": -3.55
       },
       "source_snapshot": {
         "price_delta_1d": 1.53,
@@ -286,18 +286,18 @@
         "return_1w_pct": null,
         "return_1m_pct": null,
         "return_3m_pct": null,
-        "current_return_pct": 3.23,
-        "current_close": 4.16,
-        "current_date": "2026-04-28",
-        "max_gain_since_entry_pct": 6.64,
-        "max_drawdown_since_entry_pct": -1.74,
+        "current_return_pct": -5.21,
+        "current_close": 3.82,
+        "current_date": "2026-04-29",
+        "max_gain_since_entry_pct": 6.65,
+        "max_drawdown_since_entry_pct": -6.7,
         "status": "active",
-        "last_updated": "2026-04-29 00:16:35Z",
+        "last_updated": "2026-04-30 00:16:52Z",
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": 6.64,
-        "max_drawdown_20d_pct": -1.74
+        "max_gain_20d_pct": 6.65,
+        "max_drawdown_20d_pct": -6.7
       },
       "source_snapshot": {
         "price_delta_1d": 0.24,
@@ -330,26 +330,26 @@
       "signal_close": 4.16,
       "entry": {
         "method": "next_open",
-        "entry_date": null,
-        "entry_price": null,
-        "gap_pct": null
+        "entry_date": "2026-04-29",
+        "entry_price": 4.09,
+        "gap_pct": -1.68
       },
       "outcome": {
         "return_1w_pct": null,
         "return_1m_pct": null,
         "return_3m_pct": null,
-        "current_return_pct": null,
-        "current_close": null,
-        "current_date": null,
-        "max_gain_since_entry_pct": null,
-        "max_drawdown_since_entry_pct": null,
-        "status": "pending_entry",
-        "last_updated": null,
+        "current_return_pct": -6.6,
+        "current_close": 3.82,
+        "current_date": "2026-04-29",
+        "max_gain_since_entry_pct": 0.24,
+        "max_drawdown_since_entry_pct": -8.07,
+        "status": "active",
+        "last_updated": "2026-04-30 00:16:52Z",
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": null,
-        "max_drawdown_20d_pct": null
+        "max_gain_20d_pct": 0.24,
+        "max_drawdown_20d_pct": -8.07
       },
       "source_snapshot": {
         "price_delta_1d": 0.0,
@@ -382,26 +382,26 @@
       "signal_close": 213.17,
       "entry": {
         "method": "next_open",
-        "entry_date": null,
-        "entry_price": null,
-        "gap_pct": null
+        "entry_date": "2026-04-29",
+        "entry_price": 212.715,
+        "gap_pct": -0.21
       },
       "outcome": {
         "return_1w_pct": null,
         "return_1m_pct": null,
         "return_3m_pct": null,
-        "current_return_pct": null,
-        "current_close": null,
-        "current_date": null,
-        "max_gain_since_entry_pct": null,
-        "max_drawdown_since_entry_pct": null,
-        "status": "pending_entry",
-        "last_updated": null,
+        "current_return_pct": -1.63,
+        "current_close": 209.25,
+        "current_date": "2026-04-29",
+        "max_gain_since_entry_pct": -0.0,
+        "max_drawdown_since_entry_pct": -2.42,
+        "status": "active",
+        "last_updated": "2026-04-30 00:16:52Z",
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": null,
-        "max_drawdown_20d_pct": null
+        "max_gain_20d_pct": -0.0,
+        "max_drawdown_20d_pct": -2.42
       },
       "source_snapshot": {
         "price_delta_1d": -1.59,
@@ -434,6 +434,58 @@
       "signal_close": 58.61,
       "entry": {
         "method": "next_open",
+        "entry_date": "2026-04-29",
+        "entry_price": 59.34,
+        "gap_pct": 1.25
+      },
+      "outcome": {
+        "return_1w_pct": null,
+        "return_1m_pct": null,
+        "return_3m_pct": null,
+        "current_return_pct": 2.39,
+        "current_close": 60.76,
+        "current_date": "2026-04-29",
+        "max_gain_since_entry_pct": 2.44,
+        "max_drawdown_since_entry_pct": -1.23,
+        "status": "active",
+        "last_updated": "2026-04-30 00:16:52Z",
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": 2.44,
+        "max_drawdown_20d_pct": -1.23
+      },
+      "source_snapshot": {
+        "price_delta_1d": 2.34,
+        "price_delta_1w": 4.05,
+        "price_delta_1m": -11.52
+      }
+    },
+    {
+      "id": "2026-04-29_MSFT",
+      "signal_date": "2026-04-29",
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "rank": 1,
+      "rank_bucket": "#1",
+      "score_pts": 773,
+      "final_score_0_1": 0.773131,
+      "score_components": {
+        "volume_anomaly": 0.481276,
+        "compression_release": 0.7,
+        "trends_breakout": 0.998736,
+        "news": 1.0
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Trends + News",
+      "signal_close": 424.46,
+      "entry": {
+        "method": "next_open",
         "entry_date": null,
         "entry_price": null,
         "gap_pct": null
@@ -456,9 +508,113 @@
         "max_drawdown_20d_pct": null
       },
       "source_snapshot": {
-        "price_delta_1d": 2.34,
-        "price_delta_1w": 4.05,
-        "price_delta_1m": -11.52
+        "price_delta_1d": -1.12,
+        "price_delta_1w": -1.95,
+        "price_delta_1m": 14.67
+      }
+    },
+    {
+      "id": "2026-04-29_U",
+      "signal_date": "2026-04-29",
+      "symbol": "U",
+      "name": "Unity Software Inc.",
+      "rank": 2,
+      "rank_bucket": "#2-3",
+      "score_pts": 643,
+      "final_score_0_1": 0.64252,
+      "score_components": {
+        "volume_anomaly": 0.270592,
+        "compression_release": 0.766667,
+        "trends_breakout": 0.906241,
+        "news": 0.825009
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Compression + Trends + News",
+      "signal_close": 26.11,
+      "entry": {
+        "method": "next_open",
+        "entry_date": null,
+        "entry_price": null,
+        "gap_pct": null
+      },
+      "outcome": {
+        "return_1w_pct": null,
+        "return_1m_pct": null,
+        "return_3m_pct": null,
+        "current_return_pct": null,
+        "current_close": null,
+        "current_date": null,
+        "max_gain_since_entry_pct": null,
+        "max_drawdown_since_entry_pct": null,
+        "status": "pending_entry",
+        "last_updated": null,
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": null,
+        "max_drawdown_20d_pct": null
+      },
+      "source_snapshot": {
+        "price_delta_1d": -1.62,
+        "price_delta_1w": 1.12,
+        "price_delta_1m": 19.01
+      }
+    },
+    {
+      "id": "2026-04-29_FTI",
+      "signal_date": "2026-04-29",
+      "symbol": "FTI",
+      "name": "TechnipFMC plc",
+      "rank": 3,
+      "rank_bucket": "#2-3",
+      "score_pts": 631,
+      "final_score_0_1": 0.630742,
+      "score_components": {
+        "volume_anomaly": 0.706152,
+        "compression_release": 0.9,
+        "trends_breakout": 0.584471,
+        "news": 0.409883
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Compression",
+      "signal_close": 76.99,
+      "entry": {
+        "method": "next_open",
+        "entry_date": null,
+        "entry_price": null,
+        "gap_pct": null
+      },
+      "outcome": {
+        "return_1w_pct": null,
+        "return_1m_pct": null,
+        "return_3m_pct": null,
+        "current_return_pct": null,
+        "current_close": null,
+        "current_date": null,
+        "max_gain_since_entry_pct": null,
+        "max_drawdown_since_entry_pct": null,
+        "status": "pending_entry",
+        "last_updated": null,
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": null,
+        "max_drawdown_20d_pct": null
+      },
+      "source_snapshot": {
+        "price_delta_1d": 2.04,
+        "price_delta_1w": 6.59,
+        "price_delta_1m": 11.37
       }
     }
   ],

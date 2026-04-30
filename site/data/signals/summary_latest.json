@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-04-28",
-  "generated_at": "2026-04-29 00:16:35Z",
+  "as_of": "2026-04-29",
+  "generated_at": "2026-04-30 00:16:52Z",
   "tracking_policy": {
     "track_top_n": 3,
     "entry_method": "next_open",
@@ -11,8 +11,8 @@
     },
     "stop_tracking_after": "3m"
   },
-  "total_signals": 9,
-  "active_signals": 9,
+  "total_signals": 12,
+  "active_signals": 12,
   "completed_1w": 0,
   "completed_1m": 0,
   "completed_3m": 0,
@@ -23,13 +23,13 @@
   "avg_return_1m": null,
   "avg_return_3m": null,
   "median_return_3m": null,
-  "avg_current_return": 0.22,
-  "avg_max_gain": 3.88,
-  "avg_max_drawdown": -3.58,
+  "avg_current_return": -2.15,
+  "avg_max_gain": 2.88,
+  "avg_max_drawdown": -4.4,
   "rank_buckets": [
     {
       "label": "#1",
-      "count": 3,
+      "count": 4,
       "completed_1w": 0,
       "completed_1m": 0,
       "completed_3m": 0,
@@ -40,9 +40,9 @@
       "avg_return_1m": null,
       "avg_return_3m": null,
       "median_return_3m": null,
-      "avg_current_return": -2.62,
-      "avg_max_gain": 1.6,
-      "avg_max_drawdown": -5.51,
+      "avg_current_return": -4.46,
+      "avg_max_gain": 1.14,
+      "avg_max_drawdown": -6.46,
       "completed_5d": 0,
       "completed_10d": 0,
       "completed_20d": 0,
@@ -53,12 +53,12 @@
       "avg_return_10d": null,
       "avg_return_20d": null,
       "median_return_20d": null,
-      "avg_max_gain_20d": 1.6,
-      "avg_max_drawdown_20d": -5.51
+      "avg_max_gain_20d": 1.14,
+      "avg_max_drawdown_20d": -6.46
     },
     {
       "label": "#2-3",
-      "count": 6,
+      "count": 8,
       "completed_1w": 0,
       "completed_1m": 0,
       "completed_3m": 0,
@@ -69,9 +69,9 @@
       "avg_return_1m": null,
       "avg_return_3m": null,
       "median_return_3m": null,
-      "avg_current_return": 1.65,
-      "avg_max_gain": 5.02,
-      "avg_max_drawdown": -2.61,
+      "avg_current_return": -1.0,
+      "avg_max_gain": 3.76,
+      "avg_max_drawdown": -3.37,
       "completed_5d": 0,
       "completed_10d": 0,
       "completed_20d": 0,
@@ -82,8 +82,8 @@
       "avg_return_10d": null,
       "avg_return_20d": null,
       "median_return_20d": null,
-      "avg_max_gain_20d": 5.02,
-      "avg_max_drawdown_20d": -2.61
+      "avg_max_gain_20d": 3.76,
+      "avg_max_drawdown_20d": -3.37
     }
   ],
   "profiles": [
@@ -100,9 +100,9 @@
       "avg_return_1m": null,
       "avg_return_3m": null,
       "median_return_3m": null,
-      "avg_current_return": 2.04,
-      "avg_max_gain": 5.04,
-      "avg_max_drawdown": -2.32,
+      "avg_current_return": -0.46,
+      "avg_max_gain": 3.78,
+      "avg_max_drawdown": -2.42,
       "completed_5d": 0,
       "completed_10d": 0,
       "completed_20d": 0,
@@ -113,8 +113,37 @@
       "avg_return_10d": null,
       "avg_return_20d": null,
       "median_return_20d": null,
-      "avg_max_gain_20d": 5.04,
-      "avg_max_drawdown_20d": -2.32
+      "avg_max_gain_20d": 3.78,
+      "avg_max_drawdown_20d": -2.42
+    },
+    {
+      "label": "Compression",
+      "count": 2,
+      "completed_1w": 0,
+      "completed_1m": 0,
+      "completed_3m": 0,
+      "win_rate_1w": null,
+      "win_rate_1m": null,
+      "win_rate_3m": null,
+      "avg_return_1w": null,
+      "avg_return_1m": null,
+      "avg_return_3m": null,
+      "median_return_3m": null,
+      "avg_current_return": -1.42,
+      "avg_max_gain": 0.81,
+      "avg_max_drawdown": -3.55,
+      "completed_5d": 0,
+      "completed_10d": 0,
+      "completed_20d": 0,
+      "win_rate_5d": null,
+      "win_rate_10d": null,
+      "win_rate_20d": null,
+      "avg_return_5d": null,
+      "avg_return_10d": null,
+      "avg_return_20d": null,
+      "median_return_20d": null,
+      "avg_max_gain_20d": 0.81,
+      "avg_max_drawdown_20d": -3.55
     },
     {
       "label": "Compression + News",
@@ -129,9 +158,9 @@
       "avg_return_1m": null,
       "avg_return_3m": null,
       "median_return_3m": null,
-      "avg_current_return": -7.0,
-      "avg_max_gain": 0.7,
-      "avg_max_drawdown": -10.4,
+      "avg_current_return": -2.13,
+      "avg_max_gain": 1.57,
+      "avg_max_drawdown": -5.82,
       "completed_5d": 0,
       "completed_10d": 0,
       "completed_20d": 0,
@@ -142,8 +171,8 @@
       "avg_return_10d": null,
       "avg_return_20d": null,
       "median_return_20d": null,
-      "avg_max_gain_20d": 0.7,
-      "avg_max_drawdown_20d": -10.4
+      "avg_max_gain_20d": 1.57,
+      "avg_max_drawdown_20d": -5.82
     },
     {
       "label": "Volume + Compression",
@@ -158,9 +187,9 @@
       "avg_return_1m": null,
       "avg_return_3m": null,
       "median_return_3m": null,
-      "avg_current_return": 3.23,
-      "avg_max_gain": 6.64,
-      "avg_max_drawdown": -1.74,
+      "avg_current_return": -5.9,
+      "avg_max_gain": 3.45,
+      "avg_max_drawdown": -7.38,
       "completed_5d": 0,
       "completed_10d": 0,
       "completed_20d": 0,
@@ -171,8 +200,8 @@
       "avg_return_10d": null,
       "avg_return_20d": null,
       "median_return_20d": null,
-      "avg_max_gain_20d": 6.64,
-      "avg_max_drawdown_20d": -1.74
+      "avg_max_gain_20d": 3.45,
+      "avg_max_drawdown_20d": -7.38
     }
   ],
   "completed_5d": 0,
@@ -185,6 +214,6 @@
   "avg_return_10d": null,
   "avg_return_20d": null,
   "median_return_20d": null,
-  "avg_max_gain_20d": 3.88,
-  "avg_max_drawdown_20d": -3.58
+  "avg_max_gain_20d": 2.88,
+  "avg_max_drawdown_20d": -4.4
 }
