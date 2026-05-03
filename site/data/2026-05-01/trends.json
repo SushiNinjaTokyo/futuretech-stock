@@ -4,219 +4,219 @@
     {
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
-      "score_0_1": 0.24388,
+      "score_0_1": 0.10177,
       "points_observed": 90,
-      "last_value": 12.0
+      "last_value": 7.0
     },
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
-      "score_0_1": 0.240826,
+      "score_0_1": 0.051671,
       "points_observed": 90,
-      "last_value": 16.0
+      "last_value": 7.0
     },
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies Inc.",
-      "score_0_1": 0.285102,
+      "score_0_1": 0.043305,
       "points_observed": 90,
-      "last_value": 16.0
+      "last_value": 0.0
     },
     {
       "symbol": "AI",
       "name": "C3.ai, Inc.",
-      "score_0_1": 0.052955,
+      "score_0_1": 0.015477,
       "points_observed": 90,
-      "last_value": 48.0
+      "last_value": 37.0
     },
     {
       "symbol": "ISRG",
       "name": "Intuitive Surgical, Inc.",
-      "score_0_1": 0.094852,
+      "score_0_1": 0.1058,
       "points_observed": 90,
       "last_value": 0.0
     },
     {
       "symbol": "TER",
       "name": "Teradyne, Inc.",
-      "score_0_1": 0.053556,
+      "score_0_1": 0.073457,
       "points_observed": 90,
-      "last_value": 58.0
+      "last_value": 59.0
     },
     {
       "symbol": "SYM",
       "name": "Symbotic Inc.",
-      "score_0_1": 0.006238,
+      "score_0_1": 0.005678,
       "points_observed": 90,
       "last_value": 0.0
     },
     {
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
-      "score_0_1": 0.154462,
+      "score_0_1": 0.033698,
       "points_observed": 90,
-      "last_value": 15.0
+      "last_value": 0.0
     },
     {
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
-      "score_0_1": 0.559952,
+      "score_0_1": 0.559887,
       "points_observed": 90,
       "last_value": 0.0
     },
     {
       "symbol": "VSAT",
       "name": "Viasat, Inc.",
-      "score_0_1": 0.219203,
+      "score_0_1": 0.28545,
       "points_observed": 90,
       "last_value": 0.0
     },
     {
       "symbol": "INOD",
       "name": "Innodata Inc.",
-      "score_0_1": 0.297421,
-      "points_observed": 90,
-      "last_value": 0.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "SOUN",
       "name": "SoundHound AI, Inc.",
-      "score_0_1": 0.833905,
-      "points_observed": 90,
-      "last_value": 67.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
-      "score_0_1": 0.519338,
+      "score_0_1": 0.493548,
       "points_observed": 90,
       "last_value": 0.0
     },
     {
       "symbol": "AVAV",
       "name": "AeroVironment, Inc.",
-      "score_0_1": 0.117358,
+      "score_0_1": 0.134712,
       "points_observed": 90,
       "last_value": 0.0
     },
     {
       "symbol": "PERF",
       "name": "Perfect Corp.",
-      "score_0_1": 0.174838,
+      "score_0_1": 0.012508,
       "points_observed": 90,
-      "last_value": 36.0
+      "last_value": 0.0
     },
     {
       "symbol": "GDRX",
       "name": "GoodRx Holdings, Inc.",
-      "score_0_1": 0.719827,
+      "score_0_1": 0.711922,
       "points_observed": 90,
       "last_value": 0.0
     },
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
-      "score_0_1": 0.630266,
+      "score_0_1": 0.603213,
       "points_observed": 90,
       "last_value": 0.0
     },
     {
       "symbol": "U",
       "name": "Unity Software Inc.",
-      "score_0_1": 0.320723,
+      "score_0_1": 0.078334,
       "points_observed": 90,
-      "last_value": 80.0
+      "last_value": 77.0
     },
     {
       "symbol": "TEM",
       "name": "Tempus AI, Inc.",
-      "score_0_1": 0.046073,
+      "score_0_1": 0.095026,
       "points_observed": 90,
-      "last_value": 43.0
+      "last_value": 47.0
     },
     {
       "symbol": "VRT",
       "name": "Vertiv Holdings Co",
-      "score_0_1": 0.588192,
+      "score_0_1": 0.022302,
       "points_observed": 90,
-      "last_value": 34.0
+      "last_value": 0.0
     },
     {
       "symbol": "OII",
       "name": "Oceaneering International Inc.",
-      "score_0_1": 0.523692,
+      "score_0_1": 0.532636,
       "points_observed": 90,
       "last_value": 0.0
     },
     {
       "symbol": "CGNX",
       "name": "Cognex Corporation",
-      "score_0_1": 0.692864,
+      "score_0_1": 0.683692,
       "points_observed": 90,
       "last_value": 0.0
     },
     {
       "symbol": "KTOS",
       "name": "Kratos Defense & Security Solutions Inc.",
-      "score_0_1": 0.08073,
+      "score_0_1": 0.073996,
       "points_observed": 90,
       "last_value": 0.0
     },
     {
       "symbol": "OUST",
       "name": "Ouster Inc.",
-      "score_0_1": 0.022894,
+      "score_0_1": 0.034323,
       "points_observed": 90,
       "last_value": 0.0
     },
     {
       "symbol": "FTI",
       "name": "TechnipFMC plc",
-      "score_0_1": 0.012106,
+      "score_0_1": 0.011298,
       "points_observed": 90,
       "last_value": 0.0
     },
     {
       "symbol": "LNG",
       "name": "Cheniere Energy Inc.",
-      "score_0_1": 0.16351,
+      "score_0_1": 0.100024,
       "points_observed": 90,
-      "last_value": 11.0
+      "last_value": 9.0
     },
     {
       "symbol": "PR",
       "name": "Permian Resources Corporation",
-      "score_0_1": 0.01822,
+      "score_0_1": 0.023054,
       "points_observed": 90,
-      "last_value": 46.0
+      "last_value": 51.0
     },
     {
       "symbol": "MTDR",
       "name": "Matador Resources Company",
-      "score_0_1": 0.680226,
+      "score_0_1": 0.724061,
       "points_observed": 90,
       "last_value": 0.0
     },
     {
       "symbol": "ROK",
       "name": "Rockwell Automation Inc.",
-      "score_0_1": 0.482342,
+      "score_0_1": 0.989493,
       "points_observed": 90,
-      "last_value": 76.0
+      "last_value": 100.0
     },
     {
       "symbol": "IONQ",
       "name": "IonQ Inc.",
-      "score_0_1": 0.343455,
+      "score_0_1": 0.039258,
       "points_observed": 90,
-      "last_value": 26.0
+      "last_value": 0.0
     },
     {
       "symbol": "OXY",
       "name": "Occidental Petroleum Corporation",
-      "score_0_1": 0.0,
-      "points_observed": 0,
-      "last_value": null
+      "score_0_1": 0.245255,
+      "points_observed": 90,
+      "last_value": 56.0
     },
     {
       "symbol": "RCAT",
