@@ -1,6 +1,6 @@
 {
   "as_of": "2026-05-01",
-  "generated_at": "2026-05-03 00:09:51Z",
+  "generated_at": "2026-05-04 00:13:01Z",
   "tracking_policy": {
     "track_top_n": 3,
     "entry_method": "next_open",
@@ -11,8 +11,8 @@
     },
     "stop_tracking_after": "3m"
   },
-  "total_signals": 19,
-  "active_signals": 19,
+  "total_signals": 20,
+  "active_signals": 20,
   "completed_1w": 3,
   "completed_1m": 0,
   "completed_3m": 0,
@@ -29,7 +29,7 @@
   "rank_buckets": [
     {
       "label": "#1",
-      "count": 6,
+      "count": 7,
       "completed_1w": 1,
       "completed_1m": 0,
       "completed_3m": 0,
@@ -202,6 +202,35 @@
       "median_return_20d": null,
       "avg_max_gain_20d": 2.83,
       "avg_max_drawdown_20d": -2.01
+    },
+    {
+      "label": "Trends + News",
+      "count": 2,
+      "completed_1w": 0,
+      "completed_1m": 0,
+      "completed_3m": 0,
+      "win_rate_1w": null,
+      "win_rate_1m": null,
+      "win_rate_3m": null,
+      "avg_return_1w": null,
+      "avg_return_1m": null,
+      "avg_return_3m": null,
+      "median_return_3m": null,
+      "avg_current_return": 0.89,
+      "avg_max_gain": 1.54,
+      "avg_max_drawdown": -3.11,
+      "completed_5d": 0,
+      "completed_10d": 0,
+      "completed_20d": 0,
+      "win_rate_5d": null,
+      "win_rate_10d": null,
+      "win_rate_20d": null,
+      "avg_return_5d": null,
+      "avg_return_10d": null,
+      "avg_return_20d": null,
+      "median_return_20d": null,
+      "avg_max_gain_20d": 1.54,
+      "avg_max_drawdown_20d": -3.11
     },
     {
       "label": "Compression + Trends + News",

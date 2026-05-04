@@ -1,6 +1,6 @@
 {
   "created_at": "2026-04-26 05:56:54Z",
-  "updated_at": "2026-05-03 00:09:51Z",
+  "updated_at": "2026-05-04 00:13:01Z",
   "signals": [
     {
       "id": "2026-04-23_VRT",
@@ -982,6 +982,58 @@
         "price_delta_1d": 10.43,
         "price_delta_1w": 7.3,
         "price_delta_1m": 6.44
+      }
+    },
+    {
+      "id": "2026-05-01_FTI",
+      "signal_date": "2026-05-01",
+      "symbol": "FTI",
+      "name": "TechnipFMC plc",
+      "rank": 1,
+      "rank_bucket": "#1",
+      "score_pts": 733,
+      "final_score_0_1": 0.733103,
+      "score_components": {
+        "volume_anomaly": 0.670929,
+        "compression_release": 0.6,
+        "trends_breakout": 0.868184,
+        "news": 0.764927
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Trends + News",
+      "signal_close": 75.79,
+      "entry": {
+        "method": "next_open",
+        "entry_date": null,
+        "entry_price": null,
+        "gap_pct": null
+      },
+      "outcome": {
+        "return_1w_pct": null,
+        "return_1m_pct": null,
+        "return_3m_pct": null,
+        "current_return_pct": null,
+        "current_close": null,
+        "current_date": null,
+        "max_gain_since_entry_pct": null,
+        "max_drawdown_since_entry_pct": null,
+        "status": "pending_entry",
+        "last_updated": null,
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": null,
+        "max_drawdown_20d_pct": null
+      },
+      "source_snapshot": {
+        "price_delta_1d": 0.29,
+        "price_delta_1w": 1.38,
+        "price_delta_1m": 6.72
       }
     }
   ],

@@ -205,902 +205,14 @@
   },
   "items": [
     {
-      "symbol": "ABCL",
-      "name": "AbCellera Biologics Inc.",
-      "final_score_0_1": 0.697772,
-      "score_pts": 698,
-      "score_components": {
-        "volume_anomaly": 0.759856,
-        "compression_release": 0.733333,
-        "trends_breakout": 0.603213,
-        "news": 0.684076
-      },
-      "score_weights": {
-        "volume_anomaly": 0.35,
-        "compression_release": 0.15,
-        "trends_breakout": 0.25,
-        "news": 0.25
-      },
-      "price_delta_1d": 6.75,
-      "price_delta_1w": 6.75,
-      "price_delta_1m": 25.85,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 1.227,
-          "z60": 1.199,
-          "pct_rank_90": 0.911,
-          "dollar_vol": 29724855.85,
-          "eligible": true,
-          "ret_5d": 6.75,
-          "ret_20d": 25.85,
-          "range_pos_63d": 1.0,
-          "above_sma20": 1.0,
-          "direction_score": 0.94518,
-          "vol_only_score": 0.680431
-        },
-        "chart_badges": {
-          "close_pos": {
-            "value": 0.944,
-            "display": "94%",
-            "label": "Buy",
-            "tone": "buy"
-          },
-          "rvol": {
-            "value": 1.19,
-            "display": "1.19x",
-            "label": "Hold",
-            "tone": "hold"
-          },
-          "thrust": {
-            "value": 0.93,
-            "display": "0.93 ATR",
-            "label": "Buy",
-            "tone": "buy"
-          },
-          "vol_setup": {
-            "value": 0.68,
-            "display": "0.68x / 1.76x",
-            "label": "Flat",
-            "tone": "flat"
-          }
-        },
-        "relative_strength": {
-          "sp500": {
-            "name": "SP500",
-            "price": {
-              "value": 8.17,
-              "display": "+8.2",
-              "label": "Elite",
-              "tone": "elite"
-            },
-            "vol_accel": {
-              "value": 0.91,
-              "display": "+0.91",
-              "label": "Strong",
-              "tone": "strong"
-            }
-          },
-          "nasdaq": {
-            "name": "NASDAQ",
-            "price": {
-              "value": 6.58,
-              "display": "+6.6",
-              "label": "Strong",
-              "tone": "strong"
-            },
-            "vol_accel": {
-              "value": 0.9,
-              "display": "+0.90",
-              "label": "Strong",
-              "tone": "strong"
-            }
-          },
-          "russell": {
-            "name": "Russell",
-            "price": {
-              "value": 7.82,
-              "display": "+7.8",
-              "label": "Strong",
-              "tone": "strong"
-            },
-            "vol_accel": {
-              "value": 0.81,
-              "display": "+0.81",
-              "label": "Strong",
-              "tone": "strong"
-            }
-          }
-        }
-      },
-      "chart_url": "/charts/2026-05-01/ABCL.png",
-      "rank": 1
-    },
-    {
-      "symbol": "GDRX",
-      "name": "GoodRx Holdings, Inc.",
-      "final_score_0_1": 0.677663,
-      "score_pts": 678,
-      "score_components": {
-        "volume_anomaly": 0.801626,
-        "compression_release": 0.866667,
-        "trends_breakout": 0.711922,
-        "news": 0.356452
-      },
-      "score_weights": {
-        "volume_anomaly": 0.35,
-        "compression_release": 0.15,
-        "trends_breakout": 0.25,
-        "news": 0.25
-      },
-      "price_delta_1d": 8.05,
-      "price_delta_1w": 10.39,
-      "price_delta_1m": 24.39,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 2.571,
-          "z60": 0.683,
-          "pct_rank_90": 0.8,
-          "dollar_vol": 8224259.85,
-          "eligible": true,
-          "ret_5d": 10.39,
-          "ret_20d": 24.39,
-          "range_pos_63d": 1.0,
-          "above_sma20": 1.0,
-          "direction_score": 1.0,
-          "vol_only_score": 0.716609
-        },
-        "chart_badges": {
-          "close_pos": {
-            "value": 0.863,
-            "display": "86%",
-            "label": "Buy",
-            "tone": "buy"
-          },
-          "rvol": {
-            "value": 2.36,
-            "display": "2.36x",
-            "label": "Buy",
-            "tone": "buy"
-          },
-          "thrust": {
-            "value": 1.66,
-            "display": "1.66 ATR",
-            "label": "Buy",
-            "tone": "buy"
-          },
-          "vol_setup": {
-            "value": 2.16,
-            "display": "2.16x / 1.1x",
-            "label": "Watch",
-            "tone": "watch"
-          }
-        },
-        "relative_strength": {
-          "sp500": {
-            "name": "SP500",
-            "price": {
-              "value": 9.62,
-              "display": "+9.6",
-              "label": "Elite",
-              "tone": "elite"
-            },
-            "vol_accel": {
-              "value": 0.24,
-              "display": "+0.24",
-              "label": "Good",
-              "tone": "good"
-            }
-          },
-          "nasdaq": {
-            "name": "NASDAQ",
-            "price": {
-              "value": 8.03,
-              "display": "+8.0",
-              "label": "Elite",
-              "tone": "elite"
-            },
-            "vol_accel": {
-              "value": 0.23,
-              "display": "+0.23",
-              "label": "Good",
-              "tone": "good"
-            }
-          },
-          "russell": {
-            "name": "Russell",
-            "price": {
-              "value": 9.27,
-              "display": "+9.3",
-              "label": "Elite",
-              "tone": "elite"
-            },
-            "vol_accel": {
-              "value": 0.14,
-              "display": "+0.14",
-              "label": "Neutral",
-              "tone": "neutral"
-            }
-          }
-        }
-      },
-      "chart_url": "/charts/2026-05-01/GDRX.png",
-      "rank": 2
-    },
-    {
-      "symbol": "MNDY",
-      "name": "Monday.com Ltd.",
-      "final_score_0_1": 0.655293,
-      "score_pts": 655,
-      "score_components": {
-        "volume_anomaly": 0.516154,
-        "compression_release": 0.966667,
-        "trends_breakout": 0.493548,
-        "news": 0.825009
-      },
-      "score_weights": {
-        "volume_anomaly": 0.35,
-        "compression_release": 0.15,
-        "trends_breakout": 0.25,
-        "news": 0.25
-      },
-      "price_delta_1d": 10.43,
-      "price_delta_1w": 7.3,
-      "price_delta_1m": 6.44,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 1.317,
-          "z60": 0.062,
-          "pct_rank_90": 0.511,
-          "dollar_vol": 145058103.74,
-          "eligible": true,
-          "ret_5d": 7.3,
-          "ret_20d": 6.44,
-          "range_pos_63d": 0.258,
-          "above_sma20": 1.0,
-          "direction_score": 0.621273,
-          "vol_only_score": 0.471103
-        },
-        "chart_badges": {
-          "close_pos": {
-            "value": 0.926,
-            "display": "93%",
-            "label": "Buy",
-            "tone": "buy"
-          },
-          "rvol": {
-            "value": 1.27,
-            "display": "1.27x",
-            "label": "Hold",
-            "tone": "hold"
-          },
-          "thrust": {
-            "value": 1.62,
-            "display": "1.62 ATR",
-            "label": "Buy",
-            "tone": "buy"
-          },
-          "vol_setup": {
-            "value": 1.71,
-            "display": "1.71x / 0.74x",
-            "label": "Watch",
-            "tone": "watch"
-          }
-        },
-        "relative_strength": {
-          "sp500": {
-            "name": "SP500",
-            "price": {
-              "value": 6.3,
-              "display": "+6.3",
-              "label": "Strong",
-              "tone": "strong"
-            },
-            "vol_accel": {
-              "value": -0.11,
-              "display": "-0.11",
-              "label": "Neutral",
-              "tone": "neutral"
-            }
-          },
-          "nasdaq": {
-            "name": "NASDAQ",
-            "price": {
-              "value": 4.7,
-              "display": "+4.7",
-              "label": "Strong",
-              "tone": "strong"
-            },
-            "vol_accel": {
-              "value": -0.12,
-              "display": "-0.12",
-              "label": "Neutral",
-              "tone": "neutral"
-            }
-          },
-          "russell": {
-            "name": "Russell",
-            "price": {
-              "value": 5.94,
-              "display": "+5.9",
-              "label": "Strong",
-              "tone": "strong"
-            },
-            "vol_accel": {
-              "value": -0.22,
-              "display": "-0.22",
-              "label": "Weak",
-              "tone": "weak"
-            }
-          }
-        }
-      },
-      "chart_url": "/charts/2026-05-01/MNDY.png",
-      "rank": 3
-    },
-    {
-      "symbol": "ROK",
-      "name": "Rockwell Automation Inc.",
-      "final_score_0_1": 0.60018,
-      "score_pts": 600,
-      "score_components": {
-        "volume_anomaly": 0.413633,
-        "compression_release": 0.566667,
-        "trends_breakout": 0.989493,
-        "news": 0.492141
-      },
-      "score_weights": {
-        "volume_anomaly": 0.35,
-        "compression_release": 0.15,
-        "trends_breakout": 0.25,
-        "news": 0.25
-      },
-      "price_delta_1d": -0.36,
-      "price_delta_1w": 1.56,
-      "price_delta_1m": 11.62,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 1.029,
-          "z60": -0.818,
-          "pct_rank_90": 0.356,
-          "dollar_vol": 271307632.12,
-          "eligible": true,
-          "ret_5d": 1.56,
-          "ret_20d": 11.62,
-          "range_pos_63d": 0.72,
-          "above_sma20": 1.0,
-          "direction_score": 0.583316,
-          "vol_only_score": 0.340911
-        },
-        "chart_badges": {
-          "close_pos": {
-            "value": 0.45,
-            "display": "45%",
-            "label": "Sell",
-            "tone": "sell"
-          },
-          "rvol": {
-            "value": 1.02,
-            "display": "1.02x",
-            "label": "Sell",
-            "tone": "sell"
-          },
-          "thrust": {
-            "value": 0.0,
-            "display": "0.0 ATR",
-            "label": "Sell",
-            "tone": "sell"
-          },
-          "vol_setup": {
-            "value": 1.07,
-            "display": "1.07x / 0.95x",
-            "label": "Flat",
-            "tone": "flat"
-          }
-        },
-        "relative_strength": {
-          "sp500": {
-            "name": "SP500",
-            "price": {
-              "value": 0.21,
-              "display": "+0.2",
-              "label": "Neutral",
-              "tone": "neutral"
-            },
-            "vol_accel": {
-              "value": 0.1,
-              "display": "+0.10",
-              "label": "Neutral",
-              "tone": "neutral"
-            }
-          },
-          "nasdaq": {
-            "name": "NASDAQ",
-            "price": {
-              "value": -1.38,
-              "display": "-1.4",
-              "label": "Neutral",
-              "tone": "neutral"
-            },
-            "vol_accel": {
-              "value": 0.09,
-              "display": "+0.09",
-              "label": "Neutral",
-              "tone": "neutral"
-            }
-          },
-          "russell": {
-            "name": "Russell",
-            "price": {
-              "value": -0.14,
-              "display": "-0.1",
-              "label": "Neutral",
-              "tone": "neutral"
-            },
-            "vol_accel": {
-              "value": -0.01,
-              "display": "-0.01",
-              "label": "Neutral",
-              "tone": "neutral"
-            }
-          }
-        }
-      },
-      "chart_url": "/charts/2026-05-01/ROK.png",
-      "rank": 4
-    },
-    {
-      "symbol": "CGNX",
-      "name": "Cognex Corporation",
-      "final_score_0_1": 0.587042,
-      "score_pts": 587,
-      "score_components": {
-        "volume_anomaly": 0.534304,
-        "compression_release": 0.933333,
-        "trends_breakout": 0.683692,
-        "news": 0.356452
-      },
-      "score_weights": {
-        "volume_anomaly": 0.35,
-        "compression_release": 0.15,
-        "trends_breakout": 0.25,
-        "news": 0.25
-      },
-      "price_delta_1d": 0.77,
-      "price_delta_1w": 3.1,
-      "price_delta_1m": 13.77,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 0.978,
-          "z60": -0.485,
-          "pct_rank_90": 0.589,
-          "dollar_vol": 90046615.79,
-          "eligible": true,
-          "ret_5d": 3.1,
-          "ret_20d": 13.77,
-          "range_pos_63d": 0.852,
-          "above_sma20": 1.0,
-          "direction_score": 0.727192,
-          "vol_only_score": 0.451638
-        },
-        "chart_badges": {
-          "close_pos": {
-            "value": 0.725,
-            "display": "72%",
-            "label": "Hold",
-            "tone": "hold"
-          },
-          "rvol": {
-            "value": 0.96,
-            "display": "0.96x",
-            "label": "Sell",
-            "tone": "sell"
-          },
-          "thrust": {
-            "value": 0.21,
-            "display": "0.21 ATR",
-            "label": "Sell",
-            "tone": "sell"
-          },
-          "vol_setup": {
-            "value": 0.84,
-            "display": "0.84x / 1.14x",
-            "label": "Flat",
-            "tone": "flat"
-          }
-        },
-        "relative_strength": {
-          "sp500": {
-            "name": "SP500",
-            "price": {
-              "value": 1.67,
-              "display": "+1.7",
-              "label": "Good",
-              "tone": "good"
-            },
-            "vol_accel": {
-              "value": 0.29,
-              "display": "+0.29",
-              "label": "Good",
-              "tone": "good"
-            }
-          },
-          "nasdaq": {
-            "name": "NASDAQ",
-            "price": {
-              "value": 0.08,
-              "display": "+0.1",
-              "label": "Neutral",
-              "tone": "neutral"
-            },
-            "vol_accel": {
-              "value": 0.28,
-              "display": "+0.28",
-              "label": "Good",
-              "tone": "good"
-            }
-          },
-          "russell": {
-            "name": "Russell",
-            "price": {
-              "value": 1.32,
-              "display": "+1.3",
-              "label": "Neutral",
-              "tone": "neutral"
-            },
-            "vol_accel": {
-              "value": 0.19,
-              "display": "+0.19",
-              "label": "Neutral",
-              "tone": "neutral"
-            }
-          }
-        }
-      },
-      "chart_url": "/charts/2026-05-01/CGNX.png",
-      "rank": 5
-    },
-    {
-      "symbol": "SOUN",
-      "name": "SoundHound AI, Inc.",
-      "final_score_0_1": 0.583818,
-      "score_pts": 584,
-      "score_components": {
-        "volume_anomaly": 0.898344,
-        "compression_release": 0.466667,
-        "trends_breakout": 0.0,
-        "news": 0.797589
-      },
-      "score_weights": {
-        "volume_anomaly": 0.35,
-        "compression_release": 0.15,
-        "trends_breakout": 0.25,
-        "news": 0.25
-      },
-      "price_delta_1d": 20.1,
-      "price_delta_1w": 16.73,
-      "price_delta_1m": 41.0,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 2.656,
-          "z60": 3.023,
-          "pct_rank_90": 1.0,
-          "dollar_vol": 650914616.57,
-          "eligible": true,
-          "ret_5d": 16.73,
-          "ret_20d": 41.0,
-          "range_pos_63d": 1.0,
-          "above_sma20": 1.0,
-          "direction_score": 1.0,
-          "vol_only_score": 0.854778
-        },
-        "chart_badges": {
-          "close_pos": {
-            "value": 0.98,
-            "display": "98%",
-            "label": "Buy",
-            "tone": "buy"
-          },
-          "rvol": {
-            "value": 2.4,
-            "display": "2.4x",
-            "label": "Buy",
-            "tone": "buy"
-          },
-          "thrust": {
-            "value": 2.49,
-            "display": "2.49 ATR",
-            "label": "Buy",
-            "tone": "buy"
-          },
-          "vol_setup": {
-            "value": 2.22,
-            "display": "2.22x / 1.08x",
-            "label": "Watch",
-            "tone": "watch"
-          }
-        },
-        "relative_strength": {
-          "sp500": {
-            "name": "SP500",
-            "price": {
-              "value": 20.87,
-              "display": "+20.9",
-              "label": "Elite",
-              "tone": "elite"
-            },
-            "vol_accel": {
-              "value": 0.23,
-              "display": "+0.23",
-              "label": "Good",
-              "tone": "good"
-            }
-          },
-          "nasdaq": {
-            "name": "NASDAQ",
-            "price": {
-              "value": 19.28,
-              "display": "+19.3",
-              "label": "Elite",
-              "tone": "elite"
-            },
-            "vol_accel": {
-              "value": 0.22,
-              "display": "+0.22",
-              "label": "Good",
-              "tone": "good"
-            }
-          },
-          "russell": {
-            "name": "Russell",
-            "price": {
-              "value": 20.52,
-              "display": "+20.5",
-              "label": "Elite",
-              "tone": "elite"
-            },
-            "vol_accel": {
-              "value": 0.12,
-              "display": "+0.12",
-              "label": "Neutral",
-              "tone": "neutral"
-            }
-          }
-        }
-      },
-      "chart_url": "/charts/2026-05-01/SOUN.png",
-      "rank": 6
-    },
-    {
-      "symbol": "IONQ",
-      "name": "IonQ Inc.",
-      "final_score_0_1": 0.545597,
-      "score_pts": 546,
-      "score_components": {
-        "volume_anomaly": 0.616024,
-        "compression_release": 0.533333,
-        "trends_breakout": 0.039258,
-        "news": 0.960698
-      },
-      "score_weights": {
-        "volume_anomaly": 0.35,
-        "compression_release": 0.15,
-        "trends_breakout": 0.25,
-        "news": 0.25
-      },
-      "price_delta_1d": 2.39,
-      "price_delta_1w": 8.22,
-      "price_delta_1m": 57.68,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 0.609,
-          "z60": -0.177,
-          "pct_rank_90": 0.678,
-          "dollar_vol": 949114335.67,
-          "eligible": true,
-          "ret_5d": 8.22,
-          "ret_20d": 57.68,
-          "range_pos_63d": 0.902,
-          "above_sma20": 1.0,
-          "direction_score": 0.980488,
-          "vol_only_score": 0.459825
-        },
-        "chart_badges": {
-          "close_pos": {
-            "value": 0.687,
-            "display": "69%",
-            "label": "Hold",
-            "tone": "hold"
-          },
-          "rvol": {
-            "value": 0.6,
-            "display": "0.6x",
-            "label": "Sell",
-            "tone": "sell"
-          },
-          "thrust": {
-            "value": 0.33,
-            "display": "0.33 ATR",
-            "label": "Hold",
-            "tone": "hold"
-          },
-          "vol_setup": {
-            "value": 0.91,
-            "display": "0.91x / 0.66x",
-            "label": "Flat",
-            "tone": "flat"
-          }
-        },
-        "relative_strength": {
-          "sp500": {
-            "name": "SP500",
-            "price": {
-              "value": 12.8,
-              "display": "+12.8",
-              "label": "Elite",
-              "tone": "elite"
-            },
-            "vol_accel": {
-              "value": -0.19,
-              "display": "-0.19",
-              "label": "Neutral",
-              "tone": "neutral"
-            }
-          },
-          "nasdaq": {
-            "name": "NASDAQ",
-            "price": {
-              "value": 11.21,
-              "display": "+11.2",
-              "label": "Elite",
-              "tone": "elite"
-            },
-            "vol_accel": {
-              "value": -0.2,
-              "display": "-0.20",
-              "label": "Neutral",
-              "tone": "neutral"
-            }
-          },
-          "russell": {
-            "name": "Russell",
-            "price": {
-              "value": 12.45,
-              "display": "+12.5",
-              "label": "Elite",
-              "tone": "elite"
-            },
-            "vol_accel": {
-              "value": -0.29,
-              "display": "-0.29",
-              "label": "Weak",
-              "tone": "weak"
-            }
-          }
-        }
-      },
-      "chart_url": "/charts/2026-05-01/IONQ.png",
-      "rank": 7
-    },
-    {
-      "symbol": "VRT",
-      "name": "Vertiv Holdings Co",
-      "final_score_0_1": 0.529747,
-      "score_pts": 530,
-      "score_components": {
-        "volume_anomaly": 0.498187,
-        "compression_release": 0.8,
-        "trends_breakout": 0.022302,
-        "news": 0.919224
-      },
-      "score_weights": {
-        "volume_anomaly": 0.35,
-        "compression_release": 0.15,
-        "trends_breakout": 0.25,
-        "news": 0.25
-      },
-      "price_delta_1d": -0.05,
-      "price_delta_1w": 1.5,
-      "price_delta_1m": 25.65,
-      "detail": {
-        "vol_anomaly": {
-          "rvol20": 0.8,
-          "z60": -0.83,
-          "pct_rank_90": 0.556,
-          "dollar_vol": 1445647412.25,
-          "eligible": true,
-          "ret_5d": 1.5,
-          "ret_20d": 25.65,
-          "range_pos_63d": 0.999,
-          "above_sma20": 1.0,
-          "direction_score": 0.715361,
-          "vol_only_score": 0.405113
-        },
-        "chart_badges": {
-          "close_pos": {
-            "value": 0.904,
-            "display": "90%",
-            "label": "Buy",
-            "tone": "buy"
-          },
-          "rvol": {
-            "value": 0.8,
-            "display": "0.8x",
-            "label": "Sell",
-            "tone": "sell"
-          },
-          "thrust": {
-            "value": 0.0,
-            "display": "0.0 ATR",
-            "label": "Sell",
-            "tone": "sell"
-          },
-          "vol_setup": {
-            "value": 0.76,
-            "display": "0.76x / 1.05x",
-            "label": "Flat",
-            "tone": "flat"
-          }
-        },
-        "relative_strength": {
-          "sp500": {
-            "name": "SP500",
-            "price": {
-              "value": 3.16,
-              "display": "+3.2",
-              "label": "Good",
-              "tone": "good"
-            },
-            "vol_accel": {
-              "value": 0.19,
-              "display": "+0.19",
-              "label": "Neutral",
-              "tone": "neutral"
-            }
-          },
-          "nasdaq": {
-            "name": "NASDAQ",
-            "price": {
-              "value": 1.56,
-              "display": "+1.6",
-              "label": "Good",
-              "tone": "good"
-            },
-            "vol_accel": {
-              "value": 0.18,
-              "display": "+0.18",
-              "label": "Neutral",
-              "tone": "neutral"
-            }
-          },
-          "russell": {
-            "name": "Russell",
-            "price": {
-              "value": 2.8,
-              "display": "+2.8",
-              "label": "Good",
-              "tone": "good"
-            },
-            "vol_accel": {
-              "value": 0.09,
-              "display": "+0.09",
-              "label": "Neutral",
-              "tone": "neutral"
-            }
-          }
-        }
-      },
-      "chart_url": "/charts/2026-05-01/VRT.png",
-      "rank": 8
-    },
-    {
       "symbol": "FTI",
       "name": "TechnipFMC plc",
-      "final_score_0_1": 0.518881,
-      "score_pts": 519,
+      "final_score_0_1": 0.733103,
+      "score_pts": 733,
       "score_components": {
         "volume_anomaly": 0.670929,
         "compression_release": 0.6,
-        "trends_breakout": 0.011298,
+        "trends_breakout": 0.868184,
         "news": 0.764927
       },
       "score_weights": {
@@ -1201,18 +313,18 @@
         }
       },
       "chart_url": "/charts/2026-05-01/FTI.png",
-      "rank": 9
+      "rank": 1
     },
     {
-      "symbol": "OXY",
-      "name": "Occidental Petroleum Corporation",
-      "final_score_0_1": 0.489692,
-      "score_pts": 490,
+      "symbol": "ABCL",
+      "name": "AbCellera Biologics Inc.",
+      "final_score_0_1": 0.706782,
+      "score_pts": 707,
       "score_components": {
-        "volume_anomaly": 0.439946,
-        "compression_release": 0.5,
-        "trends_breakout": 0.245255,
-        "news": 0.797589
+        "volume_anomaly": 0.759856,
+        "compression_release": 0.733333,
+        "trends_breakout": 0.639252,
+        "news": 0.684076
       },
       "score_weights": {
         "volume_anomaly": 0.35,
@@ -1220,33 +332,366 @@
         "trends_breakout": 0.25,
         "news": 0.25
       },
-      "price_delta_1d": -3.09,
-      "price_delta_1w": 2.78,
-      "price_delta_1m": -6.77,
+      "price_delta_1d": 6.75,
+      "price_delta_1w": 6.75,
+      "price_delta_1m": 25.85,
       "detail": {
         "vol_anomaly": {
-          "rvol20": 0.995,
-          "z60": -0.263,
-          "pct_rank_90": 0.622,
-          "dollar_vol": 810820313.36,
+          "rvol20": 1.227,
+          "z60": 1.199,
+          "pct_rank_90": 0.911,
+          "dollar_vol": 29724855.85,
           "eligible": true,
-          "ret_5d": 2.78,
-          "ret_20d": -6.77,
-          "range_pos_63d": 0.664,
+          "ret_5d": 6.75,
+          "ret_20d": 25.85,
+          "range_pos_63d": 1.0,
           "above_sma20": 1.0,
-          "direction_score": 0.354671,
-          "vol_only_score": 0.476493
+          "direction_score": 0.94518,
+          "vol_only_score": 0.680431
         },
         "chart_badges": {
           "close_pos": {
-            "value": 0.699,
-            "display": "70%",
+            "value": 0.944,
+            "display": "94%",
+            "label": "Buy",
+            "tone": "buy"
+          },
+          "rvol": {
+            "value": 1.19,
+            "display": "1.19x",
+            "label": "Hold",
+            "tone": "hold"
+          },
+          "thrust": {
+            "value": 0.93,
+            "display": "0.93 ATR",
+            "label": "Buy",
+            "tone": "buy"
+          },
+          "vol_setup": {
+            "value": 0.68,
+            "display": "0.68x / 1.76x",
+            "label": "Flat",
+            "tone": "flat"
+          }
+        },
+        "relative_strength": {
+          "sp500": {
+            "name": "SP500",
+            "price": {
+              "value": 8.17,
+              "display": "+8.2",
+              "label": "Elite",
+              "tone": "elite"
+            },
+            "vol_accel": {
+              "value": 0.91,
+              "display": "+0.91",
+              "label": "Strong",
+              "tone": "strong"
+            }
+          },
+          "nasdaq": {
+            "name": "NASDAQ",
+            "price": {
+              "value": 6.58,
+              "display": "+6.6",
+              "label": "Strong",
+              "tone": "strong"
+            },
+            "vol_accel": {
+              "value": 0.9,
+              "display": "+0.90",
+              "label": "Strong",
+              "tone": "strong"
+            }
+          },
+          "russell": {
+            "name": "Russell",
+            "price": {
+              "value": 7.82,
+              "display": "+7.8",
+              "label": "Strong",
+              "tone": "strong"
+            },
+            "vol_accel": {
+              "value": 0.81,
+              "display": "+0.81",
+              "label": "Strong",
+              "tone": "strong"
+            }
+          }
+        }
+      },
+      "chart_url": "/charts/2026-05-01/ABCL.png",
+      "rank": 2
+    },
+    {
+      "symbol": "GDRX",
+      "name": "GoodRx Holdings, Inc.",
+      "final_score_0_1": 0.677134,
+      "score_pts": 677,
+      "score_components": {
+        "volume_anomaly": 0.801626,
+        "compression_release": 0.866667,
+        "trends_breakout": 0.709806,
+        "news": 0.356452
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "price_delta_1d": 8.05,
+      "price_delta_1w": 10.39,
+      "price_delta_1m": 24.39,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 2.571,
+          "z60": 0.683,
+          "pct_rank_90": 0.8,
+          "dollar_vol": 8224259.85,
+          "eligible": true,
+          "ret_5d": 10.39,
+          "ret_20d": 24.39,
+          "range_pos_63d": 1.0,
+          "above_sma20": 1.0,
+          "direction_score": 1.0,
+          "vol_only_score": 0.716609
+        },
+        "chart_badges": {
+          "close_pos": {
+            "value": 0.863,
+            "display": "86%",
+            "label": "Buy",
+            "tone": "buy"
+          },
+          "rvol": {
+            "value": 2.36,
+            "display": "2.36x",
+            "label": "Buy",
+            "tone": "buy"
+          },
+          "thrust": {
+            "value": 1.66,
+            "display": "1.66 ATR",
+            "label": "Buy",
+            "tone": "buy"
+          },
+          "vol_setup": {
+            "value": 2.16,
+            "display": "2.16x / 1.1x",
+            "label": "Watch",
+            "tone": "watch"
+          }
+        },
+        "relative_strength": {
+          "sp500": {
+            "name": "SP500",
+            "price": {
+              "value": 9.62,
+              "display": "+9.6",
+              "label": "Elite",
+              "tone": "elite"
+            },
+            "vol_accel": {
+              "value": 0.24,
+              "display": "+0.24",
+              "label": "Good",
+              "tone": "good"
+            }
+          },
+          "nasdaq": {
+            "name": "NASDAQ",
+            "price": {
+              "value": 8.03,
+              "display": "+8.0",
+              "label": "Elite",
+              "tone": "elite"
+            },
+            "vol_accel": {
+              "value": 0.23,
+              "display": "+0.23",
+              "label": "Good",
+              "tone": "good"
+            }
+          },
+          "russell": {
+            "name": "Russell",
+            "price": {
+              "value": 9.27,
+              "display": "+9.3",
+              "label": "Elite",
+              "tone": "elite"
+            },
+            "vol_accel": {
+              "value": 0.14,
+              "display": "+0.14",
+              "label": "Neutral",
+              "tone": "neutral"
+            }
+          }
+        }
+      },
+      "chart_url": "/charts/2026-05-01/GDRX.png",
+      "rank": 3
+    },
+    {
+      "symbol": "IONQ",
+      "name": "IonQ Inc.",
+      "final_score_0_1": 0.609049,
+      "score_pts": 609,
+      "score_components": {
+        "volume_anomaly": 0.616024,
+        "compression_release": 0.533333,
+        "trends_breakout": 0.293065,
+        "news": 0.960698
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "price_delta_1d": 2.39,
+      "price_delta_1w": 8.22,
+      "price_delta_1m": 57.68,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 0.609,
+          "z60": -0.177,
+          "pct_rank_90": 0.678,
+          "dollar_vol": 949114335.67,
+          "eligible": true,
+          "ret_5d": 8.22,
+          "ret_20d": 57.68,
+          "range_pos_63d": 0.902,
+          "above_sma20": 1.0,
+          "direction_score": 0.980488,
+          "vol_only_score": 0.459825
+        },
+        "chart_badges": {
+          "close_pos": {
+            "value": 0.687,
+            "display": "69%",
             "label": "Hold",
             "tone": "hold"
           },
           "rvol": {
-            "value": 1.03,
-            "display": "1.03x",
+            "value": 0.6,
+            "display": "0.6x",
+            "label": "Sell",
+            "tone": "sell"
+          },
+          "thrust": {
+            "value": 0.33,
+            "display": "0.33 ATR",
+            "label": "Hold",
+            "tone": "hold"
+          },
+          "vol_setup": {
+            "value": 0.91,
+            "display": "0.91x / 0.66x",
+            "label": "Flat",
+            "tone": "flat"
+          }
+        },
+        "relative_strength": {
+          "sp500": {
+            "name": "SP500",
+            "price": {
+              "value": 12.8,
+              "display": "+12.8",
+              "label": "Elite",
+              "tone": "elite"
+            },
+            "vol_accel": {
+              "value": -0.19,
+              "display": "-0.19",
+              "label": "Neutral",
+              "tone": "neutral"
+            }
+          },
+          "nasdaq": {
+            "name": "NASDAQ",
+            "price": {
+              "value": 11.21,
+              "display": "+11.2",
+              "label": "Elite",
+              "tone": "elite"
+            },
+            "vol_accel": {
+              "value": -0.2,
+              "display": "-0.20",
+              "label": "Neutral",
+              "tone": "neutral"
+            }
+          },
+          "russell": {
+            "name": "Russell",
+            "price": {
+              "value": 12.45,
+              "display": "+12.5",
+              "label": "Elite",
+              "tone": "elite"
+            },
+            "vol_accel": {
+              "value": -0.29,
+              "display": "-0.29",
+              "label": "Weak",
+              "tone": "weak"
+            }
+          }
+        }
+      },
+      "chart_url": "/charts/2026-05-01/IONQ.png",
+      "rank": 4
+    },
+    {
+      "symbol": "VRT",
+      "name": "Vertiv Holdings Co",
+      "final_score_0_1": 0.605915,
+      "score_pts": 606,
+      "score_components": {
+        "volume_anomaly": 0.498187,
+        "compression_release": 0.8,
+        "trends_breakout": 0.326974,
+        "news": 0.919224
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "price_delta_1d": -0.05,
+      "price_delta_1w": 1.5,
+      "price_delta_1m": 25.65,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 0.8,
+          "z60": -0.83,
+          "pct_rank_90": 0.556,
+          "dollar_vol": 1445647412.25,
+          "eligible": true,
+          "ret_5d": 1.5,
+          "ret_20d": 25.65,
+          "range_pos_63d": 0.999,
+          "above_sma20": 1.0,
+          "direction_score": 0.715361,
+          "vol_only_score": 0.405113
+        },
+        "chart_badges": {
+          "close_pos": {
+            "value": 0.904,
+            "display": "90%",
+            "label": "Buy",
+            "tone": "buy"
+          },
+          "rvol": {
+            "value": 0.8,
+            "display": "0.8x",
             "label": "Sell",
             "tone": "sell"
           },
@@ -1257,8 +702,8 @@
             "tone": "sell"
           },
           "vol_setup": {
-            "value": 1.13,
-            "display": "1.13x / 0.9x",
+            "value": 0.76,
+            "display": "0.76x / 1.05x",
             "label": "Flat",
             "tone": "flat"
           }
@@ -1267,14 +712,14 @@
           "sp500": {
             "name": "SP500",
             "price": {
-              "value": -4.46,
-              "display": "-4.5",
-              "label": "Weak",
-              "tone": "weak"
+              "value": 3.16,
+              "display": "+3.2",
+              "label": "Good",
+              "tone": "good"
             },
             "vol_accel": {
-              "value": 0.05,
-              "display": "+0.05",
+              "value": 0.19,
+              "display": "+0.19",
               "label": "Neutral",
               "tone": "neutral"
             }
@@ -1282,14 +727,14 @@
           "nasdaq": {
             "name": "NASDAQ",
             "price": {
-              "value": -6.05,
-              "display": "-6.1",
-              "label": "Weak",
-              "tone": "weak"
+              "value": 1.56,
+              "display": "+1.6",
+              "label": "Good",
+              "tone": "good"
             },
             "vol_accel": {
-              "value": 0.04,
-              "display": "+0.04",
+              "value": 0.18,
+              "display": "+0.18",
               "label": "Neutral",
               "tone": "neutral"
             }
@@ -1297,10 +742,328 @@
           "russell": {
             "name": "Russell",
             "price": {
-              "value": -4.81,
-              "display": "-4.8",
-              "label": "Weak",
-              "tone": "weak"
+              "value": 2.8,
+              "display": "+2.8",
+              "label": "Good",
+              "tone": "good"
+            },
+            "vol_accel": {
+              "value": 0.09,
+              "display": "+0.09",
+              "label": "Neutral",
+              "tone": "neutral"
+            }
+          }
+        }
+      },
+      "chart_url": "/charts/2026-05-01/VRT.png",
+      "rank": 5
+    },
+    {
+      "symbol": "CGNX",
+      "name": "Cognex Corporation",
+      "final_score_0_1": 0.590076,
+      "score_pts": 590,
+      "score_components": {
+        "volume_anomaly": 0.534304,
+        "compression_release": 0.933333,
+        "trends_breakout": 0.695825,
+        "news": 0.356452
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "price_delta_1d": 0.77,
+      "price_delta_1w": 3.1,
+      "price_delta_1m": 13.77,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 0.978,
+          "z60": -0.485,
+          "pct_rank_90": 0.589,
+          "dollar_vol": 90046615.79,
+          "eligible": true,
+          "ret_5d": 3.1,
+          "ret_20d": 13.77,
+          "range_pos_63d": 0.852,
+          "above_sma20": 1.0,
+          "direction_score": 0.727192,
+          "vol_only_score": 0.451638
+        },
+        "chart_badges": {
+          "close_pos": {
+            "value": 0.725,
+            "display": "72%",
+            "label": "Hold",
+            "tone": "hold"
+          },
+          "rvol": {
+            "value": 0.96,
+            "display": "0.96x",
+            "label": "Sell",
+            "tone": "sell"
+          },
+          "thrust": {
+            "value": 0.21,
+            "display": "0.21 ATR",
+            "label": "Sell",
+            "tone": "sell"
+          },
+          "vol_setup": {
+            "value": 0.84,
+            "display": "0.84x / 1.14x",
+            "label": "Flat",
+            "tone": "flat"
+          }
+        },
+        "relative_strength": {
+          "sp500": {
+            "name": "SP500",
+            "price": {
+              "value": 1.67,
+              "display": "+1.7",
+              "label": "Good",
+              "tone": "good"
+            },
+            "vol_accel": {
+              "value": 0.29,
+              "display": "+0.29",
+              "label": "Good",
+              "tone": "good"
+            }
+          },
+          "nasdaq": {
+            "name": "NASDAQ",
+            "price": {
+              "value": 0.08,
+              "display": "+0.1",
+              "label": "Neutral",
+              "tone": "neutral"
+            },
+            "vol_accel": {
+              "value": 0.28,
+              "display": "+0.28",
+              "label": "Good",
+              "tone": "good"
+            }
+          },
+          "russell": {
+            "name": "Russell",
+            "price": {
+              "value": 1.32,
+              "display": "+1.3",
+              "label": "Neutral",
+              "tone": "neutral"
+            },
+            "vol_accel": {
+              "value": 0.19,
+              "display": "+0.19",
+              "label": "Neutral",
+              "tone": "neutral"
+            }
+          }
+        }
+      },
+      "chart_url": "/charts/2026-05-01/CGNX.png",
+      "rank": 6
+    },
+    {
+      "symbol": "SOUN",
+      "name": "SoundHound AI, Inc.",
+      "final_score_0_1": 0.576963,
+      "score_pts": 577,
+      "score_components": {
+        "volume_anomaly": 0.898344,
+        "compression_release": 0.466667,
+        "trends_breakout": 0.0,
+        "news": 0.77017
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "price_delta_1d": 20.1,
+      "price_delta_1w": 16.73,
+      "price_delta_1m": 41.0,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 2.656,
+          "z60": 3.023,
+          "pct_rank_90": 1.0,
+          "dollar_vol": 650914616.57,
+          "eligible": true,
+          "ret_5d": 16.73,
+          "ret_20d": 41.0,
+          "range_pos_63d": 1.0,
+          "above_sma20": 1.0,
+          "direction_score": 1.0,
+          "vol_only_score": 0.854778
+        },
+        "chart_badges": {
+          "close_pos": {
+            "value": 0.98,
+            "display": "98%",
+            "label": "Buy",
+            "tone": "buy"
+          },
+          "rvol": {
+            "value": 2.4,
+            "display": "2.4x",
+            "label": "Buy",
+            "tone": "buy"
+          },
+          "thrust": {
+            "value": 2.49,
+            "display": "2.49 ATR",
+            "label": "Buy",
+            "tone": "buy"
+          },
+          "vol_setup": {
+            "value": 2.22,
+            "display": "2.22x / 1.08x",
+            "label": "Watch",
+            "tone": "watch"
+          }
+        },
+        "relative_strength": {
+          "sp500": {
+            "name": "SP500",
+            "price": {
+              "value": 20.87,
+              "display": "+20.9",
+              "label": "Elite",
+              "tone": "elite"
+            },
+            "vol_accel": {
+              "value": 0.23,
+              "display": "+0.23",
+              "label": "Good",
+              "tone": "good"
+            }
+          },
+          "nasdaq": {
+            "name": "NASDAQ",
+            "price": {
+              "value": 19.28,
+              "display": "+19.3",
+              "label": "Elite",
+              "tone": "elite"
+            },
+            "vol_accel": {
+              "value": 0.22,
+              "display": "+0.22",
+              "label": "Good",
+              "tone": "good"
+            }
+          },
+          "russell": {
+            "name": "Russell",
+            "price": {
+              "value": 20.52,
+              "display": "+20.5",
+              "label": "Elite",
+              "tone": "elite"
+            },
+            "vol_accel": {
+              "value": 0.12,
+              "display": "+0.12",
+              "label": "Neutral",
+              "tone": "neutral"
+            }
+          }
+        }
+      },
+      "chart_url": "/charts/2026-05-01/SOUN.png",
+      "rank": 7
+    },
+    {
+      "symbol": "U",
+      "name": "Unity Software Inc.",
+      "final_score_0_1": 0.548084,
+      "score_pts": 548,
+      "score_components": {
+        "volume_anomaly": 0.470113,
+        "compression_release": 0.9,
+        "trends_breakout": 0.529457,
+        "news": 0.464721
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "price_delta_1d": 2.69,
+      "price_delta_1w": 4.31,
+      "price_delta_1m": 19.25,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 0.851,
+          "z60": -0.986,
+          "pct_rank_90": 0.378,
+          "dollar_vol": 249278571.29,
+          "eligible": true,
+          "ret_5d": 4.31,
+          "ret_20d": 19.25,
+          "range_pos_63d": 0.838,
+          "above_sma20": 1.0,
+          "direction_score": 0.806033,
+          "vol_only_score": 0.326147
+        },
+        "chart_badges": {
+          "close_pos": {
+            "value": 0.873,
+            "display": "87%",
+            "label": "Buy",
+            "tone": "buy"
+          },
+          "rvol": {
+            "value": 0.88,
+            "display": "0.88x",
+            "label": "Sell",
+            "tone": "sell"
+          },
+          "thrust": {
+            "value": 0.47,
+            "display": "0.47 ATR",
+            "label": "Hold",
+            "tone": "hold"
+          },
+          "vol_setup": {
+            "value": 1.09,
+            "display": "1.09x / 0.81x",
+            "label": "Flat",
+            "tone": "flat"
+          }
+        },
+        "relative_strength": {
+          "sp500": {
+            "name": "SP500",
+            "price": {
+              "value": 4.09,
+              "display": "+4.1",
+              "label": "Strong",
+              "tone": "strong"
+            },
+            "vol_accel": {
+              "value": -0.04,
+              "display": "-0.04",
+              "label": "Neutral",
+              "tone": "neutral"
+            }
+          },
+          "nasdaq": {
+            "name": "NASDAQ",
+            "price": {
+              "value": 2.49,
+              "display": "+2.5",
+              "label": "Good",
+              "tone": "good"
             },
             "vol_accel": {
               "value": -0.05,
@@ -1308,10 +1071,247 @@
               "label": "Neutral",
               "tone": "neutral"
             }
+          },
+          "russell": {
+            "name": "Russell",
+            "price": {
+              "value": 3.74,
+              "display": "+3.7",
+              "label": "Good",
+              "tone": "good"
+            },
+            "vol_accel": {
+              "value": -0.14,
+              "display": "-0.14",
+              "label": "Neutral",
+              "tone": "neutral"
+            }
           }
         }
       },
-      "chart_url": "/charts/2026-05-01/OXY.png",
+      "chart_url": "/charts/2026-05-01/U.png",
+      "rank": 8
+    },
+    {
+      "symbol": "MNDY",
+      "name": "Monday.com Ltd.",
+      "final_score_0_1": 0.525051,
+      "score_pts": 525,
+      "score_components": {
+        "volume_anomaly": 0.516154,
+        "compression_release": 0.966667,
+        "trends_breakout": 0.0,
+        "news": 0.797589
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "price_delta_1d": 10.43,
+      "price_delta_1w": 7.3,
+      "price_delta_1m": 6.44,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 1.317,
+          "z60": 0.062,
+          "pct_rank_90": 0.511,
+          "dollar_vol": 145058103.74,
+          "eligible": true,
+          "ret_5d": 7.3,
+          "ret_20d": 6.44,
+          "range_pos_63d": 0.258,
+          "above_sma20": 1.0,
+          "direction_score": 0.621273,
+          "vol_only_score": 0.471103
+        },
+        "chart_badges": {
+          "close_pos": {
+            "value": 0.926,
+            "display": "93%",
+            "label": "Buy",
+            "tone": "buy"
+          },
+          "rvol": {
+            "value": 1.27,
+            "display": "1.27x",
+            "label": "Hold",
+            "tone": "hold"
+          },
+          "thrust": {
+            "value": 1.62,
+            "display": "1.62 ATR",
+            "label": "Buy",
+            "tone": "buy"
+          },
+          "vol_setup": {
+            "value": 1.71,
+            "display": "1.71x / 0.74x",
+            "label": "Watch",
+            "tone": "watch"
+          }
+        },
+        "relative_strength": {
+          "sp500": {
+            "name": "SP500",
+            "price": {
+              "value": 6.3,
+              "display": "+6.3",
+              "label": "Strong",
+              "tone": "strong"
+            },
+            "vol_accel": {
+              "value": -0.11,
+              "display": "-0.11",
+              "label": "Neutral",
+              "tone": "neutral"
+            }
+          },
+          "nasdaq": {
+            "name": "NASDAQ",
+            "price": {
+              "value": 4.7,
+              "display": "+4.7",
+              "label": "Strong",
+              "tone": "strong"
+            },
+            "vol_accel": {
+              "value": -0.12,
+              "display": "-0.12",
+              "label": "Neutral",
+              "tone": "neutral"
+            }
+          },
+          "russell": {
+            "name": "Russell",
+            "price": {
+              "value": 5.94,
+              "display": "+5.9",
+              "label": "Strong",
+              "tone": "strong"
+            },
+            "vol_accel": {
+              "value": -0.22,
+              "display": "-0.22",
+              "label": "Weak",
+              "tone": "weak"
+            }
+          }
+        }
+      },
+      "chart_url": "/charts/2026-05-01/MNDY.png",
+      "rank": 9
+    },
+    {
+      "symbol": "PERF",
+      "name": "Perfect Corp.",
+      "final_score_0_1": 0.518338,
+      "score_pts": 518,
+      "score_components": {
+        "volume_anomaly": 0.237409,
+        "compression_release": 1.0,
+        "trends_breakout": 0.784528,
+        "news": 0.356452
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "price_delta_1d": 3.01,
+      "price_delta_1w": 3.01,
+      "price_delta_1m": 1.18,
+      "detail": {
+        "vol_anomaly": {
+          "rvol20": 0.441,
+          "z60": -1.007,
+          "pct_rank_90": 0.1,
+          "dollar_vol": 55917.0,
+          "eligible": false,
+          "ret_5d": 3.01,
+          "ret_20d": 1.18,
+          "range_pos_63d": 0.911,
+          "above_sma20": 1.0,
+          "direction_score": 0.441613,
+          "vol_only_score": 0.149893
+        },
+        "chart_badges": {
+          "close_pos": {
+            "value": 0.727,
+            "display": "73%",
+            "label": "Hold",
+            "tone": "hold"
+          },
+          "rvol": {
+            "value": 0.47,
+            "display": "0.47x",
+            "label": "Sell",
+            "tone": "sell"
+          },
+          "thrust": {
+            "value": 1.0,
+            "display": "1.0 ATR",
+            "label": "Buy",
+            "tone": "buy"
+          },
+          "vol_setup": {
+            "value": 0.72,
+            "display": "0.72x / 0.66x",
+            "label": "Flat",
+            "tone": "flat"
+          }
+        },
+        "relative_strength": {
+          "sp500": {
+            "name": "SP500",
+            "price": {
+              "value": 0.25,
+              "display": "+0.2",
+              "label": "Neutral",
+              "tone": "neutral"
+            },
+            "vol_accel": {
+              "value": -0.19,
+              "display": "-0.19",
+              "label": "Neutral",
+              "tone": "neutral"
+            }
+          },
+          "nasdaq": {
+            "name": "NASDAQ",
+            "price": {
+              "value": -1.35,
+              "display": "-1.3",
+              "label": "Neutral",
+              "tone": "neutral"
+            },
+            "vol_accel": {
+              "value": -0.21,
+              "display": "-0.21",
+              "label": "Weak",
+              "tone": "weak"
+            }
+          },
+          "russell": {
+            "name": "Russell",
+            "price": {
+              "value": -0.1,
+              "display": "-0.1",
+              "label": "Neutral",
+              "tone": "neutral"
+            },
+            "vol_accel": {
+              "value": -0.3,
+              "display": "-0.30",
+              "label": "Weak",
+              "tone": "weak"
+            }
+          }
+        }
+      },
+      "chart_url": "/charts/2026-05-01/PERF.png",
       "rank": 10
     }
   ]
