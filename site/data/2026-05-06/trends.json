@@ -39,44 +39,44 @@
     {
       "symbol": "TER",
       "name": "Teradyne, Inc.",
-      "score_0_1": 0.0,
-      "points_observed": 0,
-      "last_value": null
+      "score_0_1": 0.021474,
+      "points_observed": 90,
+      "last_value": 54.0
     },
     {
       "symbol": "SYM",
       "name": "Symbotic Inc.",
-      "score_0_1": 0.0,
-      "points_observed": 0,
-      "last_value": null
+      "score_0_1": 0.97709,
+      "points_observed": 90,
+      "last_value": 83.0
     },
     {
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
-      "score_0_1": 0.0,
-      "points_observed": 0,
-      "last_value": null
+      "score_0_1": 0.403717,
+      "points_observed": 90,
+      "last_value": 45.0
     },
     {
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
-      "score_0_1": 0.0,
-      "points_observed": 0,
-      "last_value": null
+      "score_0_1": 0.579731,
+      "points_observed": 90,
+      "last_value": 17.0
     },
     {
       "symbol": "VSAT",
       "name": "Viasat, Inc.",
-      "score_0_1": 0.0,
-      "points_observed": 0,
-      "last_value": null
+      "score_0_1": 0.297979,
+      "points_observed": 90,
+      "last_value": 27.0
     },
     {
       "symbol": "INOD",
       "name": "Innodata Inc.",
-      "score_0_1": 0.0,
-      "points_observed": 0,
-      "last_value": null
+      "score_0_1": 0.475175,
+      "points_observed": 90,
+      "last_value": 33.0
     },
     {
       "symbol": "SOUN",
@@ -88,9 +88,9 @@
     {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
-      "score_0_1": 0.0,
-      "points_observed": 0,
-      "last_value": null
+      "score_0_1": 0.591524,
+      "points_observed": 90,
+      "last_value": 8.0
     },
     {
       "symbol": "AVAV",
@@ -130,9 +130,9 @@
     {
       "symbol": "TEM",
       "name": "Tempus AI, Inc.",
-      "score_0_1": 0.919074,
-      "points_observed": 90,
-      "last_value": 75.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "VRT",
@@ -165,9 +165,9 @@
     {
       "symbol": "OUST",
       "name": "Ouster Inc.",
-      "score_0_1": 0.059089,
-      "points_observed": 90,
-      "last_value": 0.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "FTI",
@@ -221,6 +221,111 @@
     {
       "symbol": "RCAT",
       "name": "Red Cat Holdings Inc.",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "HIMS",
+      "name": "Hims & Hers Health Inc.",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "RBRK",
+      "name": "Rubrik Inc.",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "CRDO",
+      "name": "Credo Technology Group Holding Ltd",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "ALAB",
+      "name": "Astera Labs Inc.",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "SERV",
+      "name": "Serve Robotics Inc.",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "PDYN",
+      "name": "Palladyne AI Corp.",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "AEVA",
+      "name": "Aeva Technologies Inc.",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "PRCT",
+      "name": "PROCEPT BioRobotics Corporation",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "LUNR",
+      "name": "Intuitive Machines Inc.",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "ASTS",
+      "name": "AST SpaceMobile Inc.",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "NBIS",
+      "name": "Nebius Group N.V.",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "S",
+      "name": "SentinelOne Inc.",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "ESTC",
+      "name": "Elastic N.V.",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "RXRX",
+      "name": "Recursion Pharmaceuticals Inc.",
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
+    },
+    {
+      "symbol": "TMDX",
+      "name": "TransMedics Group Inc.",
       "score_0_1": 0.0,
       "points_observed": 0,
       "last_value": null

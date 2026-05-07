@@ -1,6 +1,6 @@
 {
   "as_of": "2026-05-06",
-  "generated_at": "2026-05-07 00:13:16Z",
+  "generated_at": "2026-05-07 05:55:48Z",
   "tracking_policy": {
     "track_top_n": 3,
     "entry_method": "next_open",
@@ -11,8 +11,8 @@
     },
     "stop_tracking_after": "3m"
   },
-  "total_signals": 29,
-  "active_signals": 29,
+  "total_signals": 30,
+  "active_signals": 30,
   "completed_1w": 9,
   "completed_1m": 0,
   "completed_3m": 0,
@@ -29,7 +29,7 @@
   "rank_buckets": [
     {
       "label": "#1",
-      "count": 10,
+      "count": 11,
       "completed_1w": 3,
       "completed_1m": 0,
       "completed_3m": 0,
@@ -159,7 +159,7 @@
       "avg_return_3m": null,
       "median_return_3m": null,
       "avg_current_return": 7.82,
-      "avg_max_gain": 9.85,
+      "avg_max_gain": 9.86,
       "avg_max_drawdown": -2.57,
       "completed_5d": 1,
       "completed_10d": 0,
@@ -171,7 +171,7 @@
       "avg_return_10d": null,
       "avg_return_20d": null,
       "median_return_20d": null,
-      "avg_max_gain_20d": 9.85,
+      "avg_max_gain_20d": 9.86,
       "avg_max_drawdown_20d": -2.57
     },
     {
@@ -188,7 +188,7 @@
       "avg_return_3m": null,
       "median_return_3m": null,
       "avg_current_return": 0.03,
-      "avg_max_gain": 1.48,
+      "avg_max_gain": 1.49,
       "avg_max_drawdown": -2.98,
       "completed_5d": 0,
       "completed_10d": 0,
@@ -200,7 +200,7 @@
       "avg_return_10d": null,
       "avg_return_20d": null,
       "median_return_20d": null,
-      "avg_max_gain_20d": 1.48,
+      "avg_max_gain_20d": 1.49,
       "avg_max_drawdown_20d": -2.98
     },
     {
@@ -246,8 +246,8 @@
       "avg_return_3m": null,
       "median_return_3m": null,
       "avg_current_return": 1.39,
-      "avg_max_gain": 6.82,
-      "avg_max_drawdown": -6.32,
+      "avg_max_gain": 6.83,
+      "avg_max_drawdown": -6.33,
       "completed_5d": 2,
       "completed_10d": 0,
       "completed_20d": 0,
@@ -258,8 +258,8 @@
       "avg_return_10d": null,
       "avg_return_20d": null,
       "median_return_20d": null,
-      "avg_max_gain_20d": 6.82,
-      "avg_max_drawdown_20d": -6.32
+      "avg_max_gain_20d": 6.83,
+      "avg_max_drawdown_20d": -6.33
     },
     {
       "label": "Volume + Trends + News",

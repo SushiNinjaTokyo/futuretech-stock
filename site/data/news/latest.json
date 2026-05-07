@@ -472,7 +472,7 @@
     {
       "symbol": "SYM",
       "name": "Symbotic Inc.",
-      "score_0_1": 0.789281,
+      "score_0_1": 0.807759,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -852,7 +852,7 @@
     {
       "symbol": "INOD",
       "name": "Innodata Inc.",
-      "score_0_1": 0.675991,
+      "score_0_1": 0.694469,
       "headline_count_fetched": 20,
       "headline_count_relevant": 19,
       "deduped_headline_count": 19,
@@ -995,7 +995,7 @@
     {
       "symbol": "SOUN",
       "name": "SoundHound AI, Inc.",
-      "score_0_1": 0.639034,
+      "score_0_1": 0.657512,
       "headline_count_fetched": 20,
       "headline_count_relevant": 11,
       "deduped_headline_count": 11,
@@ -1090,7 +1090,7 @@
     {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
-      "score_0_1": 0.712947,
+      "score_0_1": 0.731425,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -1176,7 +1176,7 @@
         },
         {
           "title": "Monday.com (MNDY) Outperforms Broader Market: What You Need to Know",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/monday-com-mndy-outperforms-broader-215004250.html?.tsrc=rss",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/monday-com-mndy-outperforms-broader-215004923.html?.tsrc=rss",
           "published_at": "2026-04-22T21:50:04+00:00",
           "source": "Yahoo Finance RSS"
         },
@@ -1738,11 +1738,11 @@
     {
       "symbol": "TEM",
       "name": "Tempus AI, Inc.",
-      "score_0_1": 0.790558,
+      "score_0_1": 0.657512,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 13,
-      "deduped_headline_count": 13,
-      "today_count": 3,
+      "headline_count_relevant": 15,
+      "deduped_headline_count": 15,
+      "today_count": 2,
       "prev1_count": 1,
       "prev3_daily_counts": [
         1,
@@ -1752,22 +1752,16 @@
       "avg_prev_3d_excl_today": 0.6667,
       "baseline_prev1_used": 1.0,
       "baseline_prev3_used": 0.6667,
-      "ratio_vs_prev1": 3.0,
-      "ratio_vs_prev3avg": 4.499775,
-      "raw_news_strength": 1.46589757,
+      "ratio_vs_prev1": 2.0,
+      "ratio_vs_prev3avg": 2.99985,
+      "raw_news_strength": 1.17052343,
       "day_counts": {
         "2026-05-03": 1,
         "2026-05-04": 0,
         "2026-05-05": 1,
-        "2026-05-06": 3
+        "2026-05-06": 2
       },
       "headlines": [
-        {
-          "title": "Why The Dip In TEM Stock Is A Buying Window",
-          "link": "https://www.trefis.com/articles/598465/why-the-dip-in-tem-stock-is-a-buying-window/2026-05-06?.tsrc=rss",
-          "published_at": "2026-05-06T13:31:10+00:00",
-          "source": "Yahoo Finance RSS"
-        },
         {
           "title": "Tempus AI Q1 Earnings Call Highlights",
           "link": "https://www.marketbeat.com/instant-alerts/tempus-ai-q1-earnings-call-highlights-2026-05-05/?utm_source=yahoofinance&utm_medium=yahoofinance&.tsrc=rss",
@@ -1829,6 +1823,18 @@
           "source": "Yahoo Finance RSS"
         },
         {
+          "title": "Tempus to Host Inaugural Investor Day on May 29, 2026",
+          "link": "https://finance.yahoo.com/sectors/technology/articles/tempus-host-inaugural-investor-day-123000047.html?.tsrc=rss",
+          "published_at": "2026-04-29T12:30:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Tempus Named to TIME's 10 Most Influential Health and Life Science Companies of 2026",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-named-times-10-most-123000008.html?.tsrc=rss",
+          "published_at": "2026-04-28T12:30:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
           "title": "Tempus AI Stock Before Q1 Earnings Release: To Buy or Not to Buy?",
           "link": "https://finance.yahoo.com/markets/stocks/articles/tempus-ai-stock-q1-earnings-122000042.html?.tsrc=rss",
           "published_at": "2026-04-27T12:20:00+00:00",
@@ -1838,6 +1844,12 @@
           "title": "Is It Time To Reassess Tempus AI (TEM) After Recent Share Price Volatility?",
           "link": "https://finance.yahoo.com/markets/stocks/articles/time-reassess-tempus-ai-tem-080813005.html?.tsrc=rss",
           "published_at": "2026-04-24T08:08:13+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Tempus and USC Announce Strategic Collaboration to Accelerate AI-Driven Precision Medicine",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-usc-announce-strategic-collaboration-123000280.html?.tsrc=rss",
+          "published_at": "2026-04-23T12:30:00+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -2053,7 +2065,7 @@
     {
       "symbol": "CGNX",
       "name": "Cognex Corporation",
-      "score_0_1": 0.679688,
+      "score_0_1": 0.698167,
       "headline_count_fetched": 20,
       "headline_count_relevant": 15,
       "deduped_headline_count": 15,
@@ -4501,7 +4513,7 @@
     {
       "symbol": "RXRX",
       "name": "Recursion Pharmaceuticals Inc.",
-      "score_0_1": 0.712947,
+      "score_0_1": 0.731425,
       "headline_count_fetched": 20,
       "headline_count_relevant": 15,
       "deduped_headline_count": 15,
@@ -4620,7 +4632,7 @@
     {
       "symbol": "TMDX",
       "name": "TransMedics Group Inc.",
-      "score_0_1": 0.753601,
+      "score_0_1": 0.77208,
       "headline_count_fetched": 20,
       "headline_count_relevant": 12,
       "deduped_headline_count": 12,

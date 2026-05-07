@@ -1,6 +1,6 @@
 {
   "created_at": "2026-04-26 05:56:54Z",
-  "updated_at": "2026-05-07 00:13:16Z",
+  "updated_at": "2026-05-07 05:55:48Z",
   "signals": [
     {
       "id": "2026-04-23_VRT",
@@ -35,14 +35,14 @@
         "d5_return_pct": 0.09,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": 9.7,
+        "max_gain_20d_pct": 9.71,
         "max_drawdown_20d_pct": -10.4,
         "status": "completed_1w",
-        "last_updated": "2026-05-07 00:13:16Z",
+        "last_updated": "2026-05-07 05:55:48Z",
         "current_close": 358.92,
         "current_date": "2026-05-06",
         "current_return_pct": 9.43,
-        "max_gain_since_entry_pct": 9.7,
+        "max_gain_since_entry_pct": 9.71,
         "max_drawdown_since_entry_pct": -10.4,
         "return_1w_pct": 0.09
       },
@@ -760,14 +760,14 @@
         "current_return_pct": 8.55,
         "current_close": 358.92,
         "current_date": "2026-05-06",
-        "max_gain_since_entry_pct": 8.82,
+        "max_gain_since_entry_pct": 8.83,
         "max_drawdown_since_entry_pct": -2.78,
         "status": "active",
-        "last_updated": "2026-05-07 00:13:16Z",
+        "last_updated": "2026-05-07 05:55:48Z",
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": 8.82,
+        "max_gain_20d_pct": 8.83,
         "max_drawdown_20d_pct": -2.78
       },
       "source_snapshot": {
@@ -969,14 +969,14 @@
         "current_close": 73.97,
         "current_date": "2026-05-06",
         "max_gain_since_entry_pct": 8.33,
-        "max_drawdown_since_entry_pct": -0.82,
+        "max_drawdown_since_entry_pct": -0.83,
         "status": "active",
-        "last_updated": "2026-05-07 00:13:16Z",
+        "last_updated": "2026-05-07 05:55:48Z",
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
         "max_gain_20d_pct": 8.33,
-        "max_drawdown_20d_pct": -0.82
+        "max_drawdown_20d_pct": -0.83
       },
       "source_snapshot": {
         "price_delta_1d": 10.43,
@@ -1021,14 +1021,14 @@
         "current_close": 73.94,
         "current_date": "2026-05-06",
         "max_gain_since_entry_pct": 1.06,
-        "max_drawdown_since_entry_pct": -4.29,
+        "max_drawdown_since_entry_pct": -4.3,
         "status": "active",
-        "last_updated": "2026-05-07 00:13:16Z",
+        "last_updated": "2026-05-07 05:55:48Z",
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
         "max_gain_20d_pct": 1.06,
-        "max_drawdown_20d_pct": -4.29
+        "max_drawdown_20d_pct": -4.3
       },
       "source_snapshot": {
         "price_delta_1d": 0.29,
@@ -1280,14 +1280,14 @@
         "current_return_pct": 2.09,
         "current_close": 358.92,
         "current_date": "2026-05-06",
-        "max_gain_since_entry_pct": 2.34,
+        "max_gain_since_entry_pct": 2.36,
         "max_drawdown_since_entry_pct": -2.25,
         "status": "active",
-        "last_updated": "2026-05-07 00:13:16Z",
+        "last_updated": "2026-05-07 05:55:48Z",
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": 2.34,
+        "max_gain_20d_pct": 2.36,
         "max_drawdown_20d_pct": -2.25
       },
       "source_snapshot": {
@@ -1502,6 +1502,58 @@
         "price_delta_1d": 9.52,
         "price_delta_1w": 24.84,
         "price_delta_1m": 81.34
+      }
+    },
+    {
+      "id": "2026-05-06_SYM",
+      "signal_date": "2026-05-06",
+      "symbol": "SYM",
+      "name": "Symbotic Inc.",
+      "rank": 1,
+      "rank_bucket": "#1",
+      "score_pts": 851,
+      "final_score_0_1": 0.850761,
+      "score_components": {
+        "volume_anomaly": 0.824686,
+        "compression_release": 0.772727,
+        "trends_breakout": 0.97709,
+        "news": 0.807759
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Volume + Compression + Trends + News",
+      "signal_close": 61.16,
+      "entry": {
+        "method": "next_open",
+        "entry_date": null,
+        "entry_price": null,
+        "gap_pct": null
+      },
+      "outcome": {
+        "return_1w_pct": null,
+        "return_1m_pct": null,
+        "return_3m_pct": null,
+        "current_return_pct": null,
+        "current_close": null,
+        "current_date": null,
+        "max_gain_since_entry_pct": null,
+        "max_drawdown_since_entry_pct": null,
+        "status": "pending_entry",
+        "last_updated": null,
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": null,
+        "max_drawdown_20d_pct": null
+      },
+      "source_snapshot": {
+        "price_delta_1d": 5.3,
+        "price_delta_1w": 6.64,
+        "price_delta_1m": 12.12
       }
     }
   ],
