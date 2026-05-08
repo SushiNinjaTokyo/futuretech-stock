@@ -1,0 +1,198 @@
+{
+  "generated_at": "2026-05-08 09:35:10Z",
+  "methodology": {
+    "name": "Weekly Minervini-style Signal Backtest",
+    "min_signal": "B",
+    "qualified_signals": [
+      "A Leader",
+      "A+ Fresh Breakout",
+      "B Constructive Setup"
+    ],
+    "entry": "next trading day open after Saturday snapshot",
+    "horizons": {
+      "1w": 5,
+      "2w": 10,
+      "4w": 20,
+      "8w": 40
+    },
+    "current_return_policy": "updates until 8W completion, then freezes at 8W close"
+  },
+  "snapshots": [
+    {
+      "as_of": "2026-04-11",
+      "summary": {
+        "valid_items": 4,
+        "qualified_signals": 1,
+        "fresh_breakouts": 0,
+        "leaders": 0,
+        "constructive_setups": 1
+      }
+    },
+    {
+      "as_of": "2026-04-18",
+      "summary": {
+        "valid_items": 4,
+        "qualified_signals": 1,
+        "fresh_breakouts": 0,
+        "leaders": 0,
+        "constructive_setups": 1
+      }
+    },
+    {
+      "as_of": "2026-04-25",
+      "summary": {
+        "valid_items": 4,
+        "qualified_signals": 0,
+        "fresh_breakouts": 0,
+        "leaders": 0,
+        "constructive_setups": 0
+      }
+    },
+    {
+      "as_of": "2026-05-02",
+      "summary": {
+        "valid_items": 4,
+        "qualified_signals": 0,
+        "fresh_breakouts": 0,
+        "leaders": 0,
+        "constructive_setups": 0
+      }
+    }
+  ],
+  "summary": {
+    "as_of": "2026-05-08",
+    "snapshot_count": 4,
+    "total_signals": 2,
+    "active_signals": 0,
+    "avg_current_return": -1.05,
+    "avg_return_1w": 1.54,
+    "avg_return_2w": 1.91,
+    "avg_return_4w": null,
+    "avg_return_8w": null,
+    "win_rate_1w": 1.0,
+    "win_rate_4w": null,
+    "win_rate_8w": null,
+    "completed_1w": 2,
+    "completed_2w": 2,
+    "completed_4w": 0,
+    "completed_8w": 0,
+    "avg_max_gain": 8.53,
+    "avg_max_drawdown": -5.78,
+    "signal_buckets": [
+      {
+        "label": "B Constructive Setup",
+        "count": 2,
+        "avg_current_return": -1.05,
+        "avg_return_1w": 1.54,
+        "avg_return_2w": 1.91,
+        "avg_return_4w": null,
+        "avg_return_8w": null,
+        "win_rate_4w": null,
+        "win_rate_8w": null
+      }
+    ],
+    "score_buckets": [
+      {
+        "label": "750-799",
+        "count": 1,
+        "avg_current_return": -2.45,
+        "avg_return_1w": 1.31,
+        "avg_return_2w": -0.4,
+        "avg_return_4w": null,
+        "avg_return_8w": null,
+        "win_rate_4w": null,
+        "win_rate_8w": null
+      },
+      {
+        "label": "700-749",
+        "count": 1,
+        "avg_current_return": 0.36,
+        "avg_return_1w": 1.78,
+        "avg_return_2w": 4.22,
+        "avg_return_4w": null,
+        "avg_return_8w": null,
+        "win_rate_4w": null,
+        "win_rate_8w": null
+      }
+    ],
+    "rank_buckets": [
+      {
+        "label": "Rank 1",
+        "count": 2,
+        "avg_current_return": -1.05,
+        "avg_return_1w": 1.54,
+        "avg_return_2w": 1.91,
+        "avg_return_4w": null,
+        "avg_return_8w": null,
+        "win_rate_4w": null,
+        "win_rate_8w": null
+      }
+    ]
+  },
+  "recent": [
+    {
+      "signal_date": "2026-04-18",
+      "rank": 1,
+      "weekly_score": 760,
+      "symbol": "OII",
+      "name": "",
+      "theme": "Offshore Energy",
+      "source": "manual",
+      "trigger": "watch",
+      "signal": "B Constructive Setup",
+      "trend_score": 220,
+      "rs_score": 180,
+      "rs_percentile": 100.0,
+      "breakout_score": 12,
+      "setup_score": 125,
+      "volume_score": 113,
+      "fundamental_score": 50,
+      "risk_score": 60,
+      "breakout_type": "20D High",
+      "days_since_breakout": 8,
+      "price_from_breakout_pct": -0.11,
+      "entry_date": "2026-04-20",
+      "entry_price": 37.5,
+      "return_1w_pct": 1.31,
+      "return_2w_pct": -0.4,
+      "return_4w_pct": null,
+      "return_8w_pct": null,
+      "current_return_pct": -2.45,
+      "max_gain_since_entry_pct": 6.99,
+      "max_drawdown_since_entry_pct": -6.8,
+      "status": "completed_2w"
+    },
+    {
+      "signal_date": "2026-04-11",
+      "rank": 1,
+      "weekly_score": 744,
+      "symbol": "OII",
+      "name": "",
+      "theme": "Offshore Energy",
+      "source": "manual",
+      "trigger": "watch",
+      "signal": "B Constructive Setup",
+      "trend_score": 220,
+      "rs_score": 180,
+      "rs_percentile": 100.0,
+      "breakout_score": 30,
+      "setup_score": 125,
+      "volume_score": 79,
+      "fundamental_score": 50,
+      "risk_score": 60,
+      "breakout_type": "20D High",
+      "days_since_breakout": 3,
+      "price_from_breakout_pct": -3.44,
+      "entry_date": "2026-04-13",
+      "entry_price": 36.45,
+      "return_1w_pct": 1.78,
+      "return_2w_pct": 4.22,
+      "return_4w_pct": null,
+      "return_8w_pct": null,
+      "current_return_pct": 0.36,
+      "max_gain_since_entry_pct": 10.07,
+      "max_drawdown_since_entry_pct": -4.75,
+      "status": "completed_2w"
+    }
+  ]
+}
