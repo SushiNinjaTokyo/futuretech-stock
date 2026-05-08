@@ -1,0 +1,392 @@
+{
+  "date": "2026-05-07",
+  "generated_at": "2026-05-08 06:09:20Z",
+  "methodology": {
+    "name": "Minervini-inspired Weekly Screening",
+    "total_points": 1000,
+    "weights": {
+      "trend_template_stage2": 220,
+      "relative_strength": 180,
+      "breakout_freshness": 160,
+      "vcp_setup_quality": 150,
+      "volume_accumulation": 130,
+      "fundamental_momentum": 100,
+      "risk_extension_liquidity": 60
+    },
+    "benchmark": "SPY",
+    "fundamentals_enabled": false
+  },
+  "summary": {
+    "total_candidates": 4,
+    "valid_items": 4,
+    "fresh_breakouts": 0,
+    "leaders": 0,
+    "constructive_setups": 1
+  },
+  "items": [
+    {
+      "symbol": "RKLB",
+      "name": "",
+      "source": "manual",
+      "theme": "Space/Defense",
+      "trigger": "watch",
+      "note": "Initial weekly candidate",
+      "priority": "high",
+      "trend_score": 240,
+      "breakout_score": 0,
+      "setup_score": 120,
+      "volume_score": 97,
+      "fundamental_score": 50,
+      "risk_score": 60,
+      "trend": {
+        "checks": {
+          "close_gt_sma50": true,
+          "close_gt_sma150": true,
+          "close_gt_sma200": true,
+          "sma50_gt_sma150": true,
+          "sma150_gt_sma200": true,
+          "sma200_up_20d": true,
+          "sma200_up_60d": true,
+          "above_52w_low_30pct": true,
+          "within_25pct_52w_high": true,
+          "w10_gt_w30": true
+        },
+        "close": 78.58,
+        "sma20": 80.21,
+        "sma50": 73.3,
+        "sma150": 68.18,
+        "sma200": 62.73,
+        "high_52w": 99.58,
+        "low_52w": 20.23,
+        "gap_to_52w_high_pct": -21.09
+      },
+      "breakout": {
+        "breakout_type": "None",
+        "breakout_date": null,
+        "days_since_breakout": null,
+        "breakout_price": null,
+        "price_from_breakout_pct": null,
+        "breakout_volume_ratio": null,
+        "is_20d_high": false,
+        "is_55d_high": false,
+        "maintains_breakout": false
+      },
+      "setup": {
+        "atr_10_pct": 7.48,
+        "atr_20_pct": 7.5,
+        "atr_60_pct": 7.17,
+        "range_20d_pct": 40.34,
+        "range_60d_pct": 65.86,
+        "vcp_like": false
+      },
+      "volume": {
+        "up_volume_ratio": 58.7,
+        "distribution_days_20d": 2,
+        "avg_dollar_volume_20d": 1751403259.0,
+        "vol10_to_vol50": 0.82,
+        "weekly_up_volume": false
+      },
+      "fundamental": {
+        "confidence": "Low",
+        "available_fields": 0,
+        "revenue_growth": null,
+        "earnings_growth": null,
+        "profit_margin": null,
+        "gross_margin": null
+      },
+      "risk": {
+        "extended": false,
+        "hard_exclusion": false,
+        "sma20_gap_pct": -2.03,
+        "return_1m_pct": 17.74
+      },
+      "returns": {
+        "return_1w": -4.76,
+        "return_1m": 17.74,
+        "return_3m": 18.49,
+        "return_6m": 38.91,
+        "return_12m": 251.27
+      },
+      "rs_composite": 48.765,
+      "rs_score": 180,
+      "rs_percentile": 100.0,
+      "weekly_score": 747,
+      "signal": "B Constructive Setup",
+      "comment": "ブレイク前後の形が良く、VCP的な収縮・セットアップを監視。",
+      "rank": 1
+    },
+    {
+      "symbol": "OII",
+      "name": "",
+      "source": "manual",
+      "theme": "Offshore Energy",
+      "trigger": "watch",
+      "note": "Initial weekly candidate",
+      "priority": "medium",
+      "trend_score": 240,
+      "breakout_score": 0,
+      "setup_score": 150,
+      "volume_score": 71,
+      "fundamental_score": 50,
+      "risk_score": 60,
+      "trend": {
+        "checks": {
+          "close_gt_sma50": true,
+          "close_gt_sma150": true,
+          "close_gt_sma200": true,
+          "sma50_gt_sma150": true,
+          "sma150_gt_sma200": true,
+          "sma200_up_20d": true,
+          "sma200_up_60d": true,
+          "above_52w_low_30pct": true,
+          "within_25pct_52w_high": true,
+          "w10_gt_w30": true
+        },
+        "close": 36.58,
+        "sma20": 37.15,
+        "sma50": 36.15,
+        "sma150": 29.69,
+        "sma200": 28.15,
+        "high_52w": 40.12,
+        "low_52w": 18.31,
+        "gap_to_52w_high_pct": -8.82
+      },
+      "breakout": {
+        "breakout_type": "None",
+        "breakout_date": null,
+        "days_since_breakout": null,
+        "breakout_price": null,
+        "price_from_breakout_pct": null,
+        "breakout_volume_ratio": null,
+        "is_20d_high": false,
+        "is_55d_high": false,
+        "maintains_breakout": false
+      },
+      "setup": {
+        "atr_10_pct": 4.38,
+        "atr_20_pct": 4.9,
+        "atr_60_pct": 4.97,
+        "range_20d_pct": 15.55,
+        "range_60d_pct": 27.12,
+        "vcp_like": true
+      },
+      "volume": {
+        "up_volume_ratio": 46.4,
+        "distribution_days_20d": 1,
+        "avg_dollar_volume_20d": 45496760.0,
+        "vol10_to_vol50": 0.92,
+        "weekly_up_volume": false
+      },
+      "fundamental": {
+        "confidence": "Low",
+        "available_fields": 0,
+        "revenue_growth": null,
+        "earnings_growth": null,
+        "profit_margin": null,
+        "gross_margin": null
+      },
+      "risk": {
+        "extended": false,
+        "hard_exclusion": false,
+        "sma20_gap_pct": -1.54,
+        "return_1m_pct": 0.36
+      },
+      "returns": {
+        "return_1w": -2.56,
+        "return_1m": 0.36,
+        "return_3m": 22.88,
+        "return_6m": 59.81,
+        "return_12m": 96.98
+      },
+      "rs_composite": 38.7115,
+      "rs_score": 80,
+      "rs_percentile": 66.7,
+      "weekly_score": 651,
+      "signal": "C Early Watch",
+      "comment": "形はでき始めているが、主力候補には追加確認が必要。ATRと出来高が収縮しており、VCP-like。",
+      "rank": 2
+    },
+    {
+      "symbol": "INOD",
+      "name": "",
+      "source": "manual",
+      "theme": "AI Data",
+      "trigger": "watch",
+      "note": "Initial weekly candidate",
+      "priority": "medium",
+      "trend_score": 75,
+      "breakout_score": 0,
+      "setup_score": 70,
+      "volume_score": 96,
+      "fundamental_score": 50,
+      "risk_score": 60,
+      "trend": {
+        "checks": {
+          "close_gt_sma50": true,
+          "close_gt_sma150": false,
+          "close_gt_sma200": false,
+          "sma50_gt_sma150": false,
+          "sma150_gt_sma200": true,
+          "sma200_up_20d": false,
+          "sma200_up_60d": false,
+          "above_52w_low_30pct": true,
+          "within_25pct_52w_high": false,
+          "w10_gt_w30": false
+        },
+        "close": 45.64,
+        "sma20": 43.49,
+        "sma50": 42.83,
+        "sma150": 54.91,
+        "sma200": 54.03,
+        "high_52w": 93.85,
+        "low_52w": 31.9,
+        "gap_to_52w_high_pct": -51.37
+      },
+      "breakout": {
+        "breakout_type": "None",
+        "breakout_date": null,
+        "days_since_breakout": null,
+        "breakout_price": null,
+        "price_from_breakout_pct": null,
+        "breakout_volume_ratio": null,
+        "is_20d_high": false,
+        "is_55d_high": false,
+        "maintains_breakout": false
+      },
+      "setup": {
+        "atr_10_pct": 5.79,
+        "atr_20_pct": 6.55,
+        "atr_60_pct": 6.32,
+        "range_20d_pct": 41.8,
+        "range_60d_pct": 42.92,
+        "vcp_like": false
+      },
+      "volume": {
+        "up_volume_ratio": 51.6,
+        "distribution_days_20d": 0,
+        "avg_dollar_volume_20d": 47614837.0,
+        "vol10_to_vol50": 1.18,
+        "weekly_up_volume": true
+      },
+      "fundamental": {
+        "confidence": "Low",
+        "available_fields": 0,
+        "revenue_growth": null,
+        "earnings_growth": null,
+        "profit_margin": null,
+        "gross_margin": null
+      },
+      "risk": {
+        "extended": false,
+        "hard_exclusion": true,
+        "sma20_gap_pct": 4.95,
+        "return_1m_pct": 26.46
+      },
+      "returns": {
+        "return_1w": 8.07,
+        "return_1m": 26.46,
+        "return_3m": 4.87,
+        "return_6m": -31.74,
+        "return_12m": 18.51
+      },
+      "rs_composite": -2.2615,
+      "rs_score": 56,
+      "rs_percentile": 33.3,
+      "weekly_score": 407,
+      "signal": "E Avoid",
+      "comment": "ミネルヴィニ型の中期候補としてはトレンド・流動性・位置のいずれかが不足。",
+      "rank": 3
+    },
+    {
+      "symbol": "AVAV",
+      "name": "",
+      "source": "manual",
+      "theme": "Defense Drone",
+      "trigger": "watch",
+      "note": "Initial weekly candidate",
+      "priority": "high",
+      "trend_score": 45,
+      "breakout_score": 0,
+      "setup_score": 130,
+      "volume_score": 38,
+      "fundamental_score": 50,
+      "risk_score": 60,
+      "trend": {
+        "checks": {
+          "close_gt_sma50": false,
+          "close_gt_sma150": false,
+          "close_gt_sma200": false,
+          "sma50_gt_sma150": false,
+          "sma150_gt_sma200": true,
+          "sma200_up_20d": false,
+          "sma200_up_60d": true,
+          "above_52w_low_30pct": false,
+          "within_25pct_52w_high": false,
+          "w10_gt_w30": false
+        },
+        "close": 168.18,
+        "sma20": 190.86,
+        "sma50": 200.55,
+        "sma150": 271.8,
+        "sma200": 269.14,
+        "high_52w": 417.86,
+        "low_52w": 155.69,
+        "gap_to_52w_high_pct": -59.75
+      },
+      "breakout": {
+        "breakout_type": "None",
+        "breakout_date": null,
+        "days_since_breakout": null,
+        "breakout_price": null,
+        "price_from_breakout_pct": null,
+        "breakout_volume_ratio": null,
+        "is_20d_high": false,
+        "is_55d_high": false,
+        "maintains_breakout": false
+      },
+      "setup": {
+        "atr_10_pct": 6.27,
+        "atr_20_pct": 7.09,
+        "atr_60_pct": 8.92,
+        "range_20d_pct": 34.38,
+        "range_60d_pct": 83.08,
+        "vcp_like": false
+      },
+      "volume": {
+        "up_volume_ratio": 48.8,
+        "distribution_days_20d": 3,
+        "avg_dollar_volume_20d": 223790824.0,
+        "vol10_to_vol50": 0.63,
+        "weekly_up_volume": false
+      },
+      "fundamental": {
+        "confidence": "Low",
+        "available_fields": 0,
+        "revenue_growth": null,
+        "earnings_growth": null,
+        "profit_margin": null,
+        "gross_margin": null
+      },
+      "risk": {
+        "extended": false,
+        "hard_exclusion": true,
+        "sma20_gap_pct": -11.88,
+        "return_1m_pct": -5.36
+      },
+      "returns": {
+        "return_1w": -13.76,
+        "return_1m": -5.36,
+        "return_3m": -29.0,
+        "return_6m": -53.93,
+        "return_12m": 6.11
+      },
+      "rs_composite": -29.4865,
+      "rs_score": 40,
+      "rs_percentile": 0.0,
+      "weekly_score": 363,
+      "signal": "E Avoid",
+      "comment": "ミネルヴィニ型の中期候補としてはトレンド・流動性・位置のいずれかが不足。",
+      "rank": 4
+    }
+  ]
+}
