@@ -285,18 +285,7 @@ jobs:
             "site/assets/index.css" \
             "site/data/index/market_pulse_latest.json" \
             "site/backtest/index.html" \
-            "site/assets/backtest.css" \
-            "templates/daily.html.j2" \
-            "templates/daily.css" \
-            "templates/index.html.j2" \
-            "templates/index.css" \
-            "templates/backtest.html.j2" \
-            "templates/backtest.css" \
-            "scripts/track_signal_outcomes.py" \
-            "scripts/render_backtest.py" \
-            "scripts/rebuild_signal_outcomes.py" \
-            ".github/workflows/daily-report.yml" \
-            ".github/workflows/rebuild-signal-outcomes.yml"
+            "site/assets/backtest.css"
 
           if git diff --cached --quiet; then
             echo "committed=false" >> "$GITHUB_OUTPUT"
