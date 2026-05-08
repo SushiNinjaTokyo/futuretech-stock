@@ -2,7 +2,7 @@ name: daily-report
 
 on:
   schedule:
-    - cron: '30 23 * * *'  # UTC 23:30 / JST 08:30
+    - cron: '43 00 * * *'  # UTC 00:43 / JST 09:43
   workflow_dispatch:
 
 concurrency:
@@ -172,6 +172,11 @@ jobs:
         env:
           OUT_DIR: site
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+          SIGNAL_MIN_TOP3_SCORE: ${{ vars.SIGNAL_MIN_TOP3_SCORE || '750' }}
+          SIGNAL_MIN_VOLUME_SCORE: ${{ vars.SIGNAL_MIN_VOLUME_SCORE || '0.55' }}
+          SIGNAL_MIN_VOLUME_COMBO_SCORE: ${{ vars.SIGNAL_MIN_VOLUME_COMBO_SCORE || '700' }}
+          SIGNAL_MIN_ANY_RANK_SCORE: ${{ vars.SIGNAL_MIN_ANY_RANK_SCORE || '800' }}
+          SIGNAL_REPORT_LEGACY_MIN_SCORE: ${{ vars.SIGNAL_REPORT_LEGACY_MIN_SCORE || '750' }}
         run: |
           set -euo pipefail
           python scripts/track_signal_outcomes.py
@@ -183,6 +188,28 @@ jobs:
           test -f "site/data/signals/registry.json"
           test -f "site/data/signals/outcomes_latest.json"
           test -f "site/data/signals/summary_latest.json"
+
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          summary = json.loads(Path("site/data/signals/summary_latest.json").read_text(encoding="utf-8"))
+          outcomes = json.loads(Path("site/data/signals/outcomes_latest.json").read_text(encoding="utf-8"))
+
+          if "tracking_policy" not in summary:
+              raise SystemExit("summary_latest.tracking_policy missing")
+
+          if "total_signals" not in summary:
+              raise SystemExit("summary_latest.total_signals missing")
+
+          if not isinstance(outcomes.get("items"), list):
+              raise SystemExit("outcomes_latest.items is not a list")
+
+          print("total_signals:", summary.get("total_signals"))
+          print("raw_total_signals_in_registry:", summary.get("raw_total_signals_in_registry"))
+          print("hidden_legacy_signals:", summary.get("hidden_legacy_signals"))
+          print("outcomes items:", len(outcomes.get("items", [])))
+          PY
 
       - name: Render daily page
         shell: bash
@@ -226,6 +253,8 @@ jobs:
           test -f "site/backtest/index.html"
           test -f "site/assets/backtest.css"
 
+          grep -q "Filtered Signal Backtest" "site/backtest/index.html"
+
       - name: Commit changes
         id: commitstep
         shell: bash
@@ -262,7 +291,12 @@ jobs:
             "templates/index.html.j2" \
             "templates/index.css" \
             "templates/backtest.html.j2" \
-            "templates/backtest.css"
+            "templates/backtest.css" \
+            "scripts/track_signal_outcomes.py" \
+            "scripts/render_backtest.py" \
+            "scripts/rebuild_signal_outcomes.py" \
+            ".github/workflows/daily-report.yml" \
+            ".github/workflows/rebuild-signal-outcomes.yml"
 
           if git diff --cached --quiet; then
             echo "committed=false" >> "$GITHUB_OUTPUT"
