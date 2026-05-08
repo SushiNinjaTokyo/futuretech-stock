@@ -1,0 +1,5 @@
+symbol,source,theme,trigger,note,priority,exclude
+RKLB,manual,Space/Defense,watch,Initial weekly candidate,high,false
+AVAV,manual,Defense Drone,watch,Initial weekly candidate,high,false
+INOD,manual,AI Data,watch,Initial weekly candidate,medium,false
+OII,manual,Offshore Energy,watch,Initial weekly candidate,medium,false
