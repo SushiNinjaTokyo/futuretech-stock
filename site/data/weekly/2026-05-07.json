@@ -1,6 +1,6 @@
 {
   "date": "2026-05-07",
-  "generated_at": "2026-05-08 06:09:20Z",
+  "generated_at": "2026-05-08 06:25:45Z",
   "methodology": {
     "name": "Minervini-inspired Weekly Screening",
     "total_points": 1000,
@@ -32,7 +32,7 @@
       "trigger": "watch",
       "note": "Initial weekly candidate",
       "priority": "high",
-      "trend_score": 240,
+      "trend_score": 220,
       "breakout_score": 0,
       "setup_score": 120,
       "volume_score": 97,
@@ -61,7 +61,7 @@
         "gap_to_52w_high_pct": -21.09
       },
       "breakout": {
-        "breakout_type": "None",
+        "breakout_type": null,
         "breakout_date": null,
         "days_since_breakout": null,
         "breakout_price": null,
@@ -110,7 +110,7 @@
       "rs_composite": 48.765,
       "rs_score": 180,
       "rs_percentile": 100.0,
-      "weekly_score": 747,
+      "weekly_score": 727,
       "signal": "B Constructive Setup",
       "comment": "ブレイク前後の形が良く、VCP的な収縮・セットアップを監視。",
       "rank": 1
@@ -123,7 +123,7 @@
       "trigger": "watch",
       "note": "Initial weekly candidate",
       "priority": "medium",
-      "trend_score": 240,
+      "trend_score": 220,
       "breakout_score": 0,
       "setup_score": 150,
       "volume_score": 71,
@@ -152,7 +152,7 @@
         "gap_to_52w_high_pct": -8.82
       },
       "breakout": {
-        "breakout_type": "None",
+        "breakout_type": null,
         "breakout_date": null,
         "days_since_breakout": null,
         "breakout_price": null,
@@ -201,7 +201,7 @@
       "rs_composite": 38.7115,
       "rs_score": 80,
       "rs_percentile": 66.7,
-      "weekly_score": 651,
+      "weekly_score": 631,
       "signal": "C Early Watch",
       "comment": "形はでき始めているが、主力候補には追加確認が必要。ATRと出来高が収縮しており、VCP-like。",
       "rank": 2
@@ -214,7 +214,7 @@
       "trigger": "watch",
       "note": "Initial weekly candidate",
       "priority": "medium",
-      "trend_score": 75,
+      "trend_score": 65,
       "breakout_score": 0,
       "setup_score": 70,
       "volume_score": 96,
@@ -243,7 +243,7 @@
         "gap_to_52w_high_pct": -51.37
       },
       "breakout": {
-        "breakout_type": "None",
+        "breakout_type": null,
         "breakout_date": null,
         "days_since_breakout": null,
         "breakout_price": null,
@@ -292,7 +292,7 @@
       "rs_composite": -2.2615,
       "rs_score": 56,
       "rs_percentile": 33.3,
-      "weekly_score": 407,
+      "weekly_score": 397,
       "signal": "E Avoid",
       "comment": "ミネルヴィニ型の中期候補としてはトレンド・流動性・位置のいずれかが不足。",
       "rank": 3
@@ -334,7 +334,7 @@
         "gap_to_52w_high_pct": -59.75
       },
       "breakout": {
-        "breakout_type": "None",
+        "breakout_type": null,
         "breakout_date": null,
         "days_since_breakout": null,
         "breakout_price": null,
