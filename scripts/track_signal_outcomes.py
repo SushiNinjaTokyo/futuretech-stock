@@ -9,7 +9,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
@@ -28,8 +28,17 @@ REGISTRY_PATH = OUT_DIR / "data" / "signals" / "registry.json"
 SUMMARY_PATH = OUT_DIR / "data" / "signals" / "summary_latest.json"
 OUTCOMES_PATH = OUT_DIR / "data" / "signals" / "outcomes_latest.json"
 
-# Top3だけ追跡
-TRACK_TOP_N = 3
+POLICY_VERSION = "score_filtered_v1"
+
+# Daily差分登録ルール
+MIN_TOP3_SCORE = int(os.getenv("SIGNAL_MIN_TOP3_SCORE", "750"))
+MIN_VOLUME_SCORE = float(os.getenv("SIGNAL_MIN_VOLUME_SCORE", "0.55"))
+MIN_VOLUME_COMBO_SCORE = int(os.getenv("SIGNAL_MIN_VOLUME_COMBO_SCORE", "700"))
+MIN_ANY_RANK_SCORE = int(os.getenv("SIGNAL_MIN_ANY_RANK_SCORE", "800"))
+
+# Backtest表示/集計対象
+# 既存registryは残す。ただし旧Top3無条件登録の弱い履歴を主表示から外す。
+REPORT_LEGACY_MIN_SCORE = int(os.getenv("SIGNAL_REPORT_LEGACY_MIN_SCORE", "750"))
 
 # 取引日ベース
 HORIZONS = {
@@ -165,13 +174,30 @@ def load_registry() -> Dict[str, Any]:
     return {
         "created_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ"),
         "updated_at": None,
-        "policy": {
-            "track_top_n": TRACK_TOP_N,
-            "entry_method": "next_open",
-            "horizons": HORIZONS,
-            "stop_tracking_after": "3m",
-        },
+        "policy": current_policy(),
         "signals": [],
+    }
+
+
+def current_policy() -> Dict[str, Any]:
+    return {
+        "policy_version": POLICY_VERSION,
+        "entry_method": "next_open",
+        "horizons": {
+            "1w_trading_days": HORIZONS["1w"],
+            "1m_trading_days": HORIZONS["1m"],
+            "3m_trading_days": HORIZONS["3m"],
+        },
+        "stop_tracking_after": "3m",
+        "registration_rules": [
+            f"rank <= 3 and score_pts >= {MIN_TOP3_SCORE}",
+            f"score_pts >= {MIN_VOLUME_COMBO_SCORE} and volume_anomaly >= {MIN_VOLUME_SCORE}",
+            f"rank > 3 and score_pts >= {MIN_ANY_RANK_SCORE}",
+        ],
+        "legacy_reporting": {
+            "keep_existing_registry": True,
+            "legacy_min_score_for_report": REPORT_LEGACY_MIN_SCORE,
+        },
     }
 
 
@@ -184,7 +210,23 @@ def rank_bucket(rank: Optional[int]) -> str:
         return "#1"
     if rank is not None and 2 <= rank <= 3:
         return "#2-3"
+    if rank is not None and 4 <= rank <= 10:
+        return "#4-10"
     return "Other"
+
+
+def score_bucket(score_pts: Optional[int]) -> str:
+    if score_pts is None:
+        return "Unknown"
+    if score_pts >= 850:
+        return "850+"
+    if score_pts >= 800:
+        return "800-849"
+    if score_pts >= 750:
+        return "750-799"
+    if score_pts >= 700:
+        return "700-749"
+    return "<700"
 
 
 def classify_profile(comps: Dict[str, Any]) -> str:
@@ -242,7 +284,111 @@ def normalize_weights(item: Dict[str, Any]) -> Dict[str, float]:
     }
 
 
-def make_new_signal(item: Dict[str, Any], signal_date: str, rank: int) -> Dict[str, Any]:
+def get_item_rank(item: Dict[str, Any], fallback_rank: int) -> int:
+    r = to_int(item.get("rank"))
+    if r is not None:
+        return r
+    return fallback_rank
+
+
+def get_score_pts(item: Dict[str, Any]) -> int:
+    final01 = to_float(item.get("final_score_0_1")) or 0.0
+    score_pts = item.get("score_pts")
+    try:
+        return int(score_pts) if score_pts is not None else int(round(final01 * 1000))
+    except Exception:
+        return int(round(final01 * 1000))
+
+
+def get_volume_score(item: Dict[str, Any]) -> float:
+    comps = normalize_components(item)
+    return float(comps.get("volume_anomaly") or 0.0)
+
+
+def evaluate_signal_eligibility(item: Dict[str, Any], rank: int) -> Tuple[bool, str, str]:
+    """
+    新規登録条件:
+      A. 3位以内でscore_pts >= 750
+      B. score_pts >= 700 かつ volume_anomaly >= 0.55
+      C. ランキング3位以下でも800以上
+    """
+    score_pts = get_score_pts(item)
+    volume_anomaly = get_volume_score(item)
+
+    if rank <= 3 and score_pts >= MIN_TOP3_SCORE:
+        return True, "top3_score_750", "Signal"
+
+    if rank > 3 and score_pts >= MIN_ANY_RANK_SCORE:
+        return True, "score_800_any_rank", "Strong Signal"
+
+    if score_pts >= MIN_VOLUME_COMBO_SCORE and volume_anomaly >= MIN_VOLUME_SCORE:
+        return True, "score_700_volume_055", "Volume Signal"
+
+    return False, "not_eligible", "Watch"
+
+
+def is_reportable_signal(signal: Dict[str, Any]) -> bool:
+    """
+    registryは残す。
+    Backtest画面/summaryでは、新ルール登録分と、旧履歴のscore>=750だけを主表示対象にする。
+    """
+    if signal.get("signal_eligible") is True:
+        return True
+
+    score = to_int(signal.get("score_pts"))
+    return score is not None and score >= REPORT_LEGACY_MIN_SCORE
+
+
+def enrich_legacy_signal(signal: Dict[str, Any]) -> bool:
+    """
+    既存registryを削除せず、表示・集計に使いやすい補助項目だけ足す。
+    """
+    changed = False
+
+    rank = to_int(signal.get("rank"))
+    score = to_int(signal.get("score_pts"))
+    comps = signal.get("score_components") or {}
+
+    if signal.get("rank_bucket") != rank_bucket(rank):
+        signal["rank_bucket"] = rank_bucket(rank)
+        changed = True
+
+    if signal.get("score_bucket") != score_bucket(score):
+        signal["score_bucket"] = score_bucket(score)
+        changed = True
+
+    if "policy_version" not in signal:
+        signal["policy_version"] = "legacy_top3"
+        changed = True
+
+    if "signal_eligible" not in signal:
+        signal["signal_eligible"] = score is not None and score >= REPORT_LEGACY_MIN_SCORE
+        changed = True
+
+    if "eligibility_rule" not in signal:
+        if signal.get("signal_eligible"):
+            signal["eligibility_rule"] = f"legacy_score_{REPORT_LEGACY_MIN_SCORE}+"
+        else:
+            signal["eligibility_rule"] = "legacy_below_threshold"
+        changed = True
+
+    if "signal_quality" not in signal:
+        if score is not None and score >= 800:
+            signal["signal_quality"] = "Strong Signal"
+        elif score is not None and score >= 750:
+            signal["signal_quality"] = "Signal"
+        else:
+            signal["signal_quality"] = "Legacy / Weak"
+        changed = True
+
+    if not signal.get("profile"):
+        signal["profile"] = classify_profile(comps if isinstance(comps, dict) else {})
+        changed = True
+
+    return changed
+
+
+def make_new_signal(item: Dict[str, Any], signal_date: str, rank: int, rule: str, quality: str) -> Dict[str, Any]:
     symbol = str(item.get("symbol", "")).strip().upper()
     name = str(item.get("name", "")).strip()
 
@@ -250,11 +396,7 @@ def make_new_signal(item: Dict[str, Any], signal_date: str, rank: int) -> Dict[s
     weights = normalize_weights(item)
 
     final01 = to_float(item.get("final_score_0_1")) or 0.0
-    score_pts = item.get("score_pts")
-    try:
-        score_pts_int = int(score_pts) if score_pts is not None else int(round(final01 * 1000))
-    except Exception:
-        score_pts_int = int(round(final01 * 1000))
+    score_pts_int = get_score_pts(item)
 
     return {
         "id": signal_id(signal_date, symbol),
@@ -263,11 +405,18 @@ def make_new_signal(item: Dict[str, Any], signal_date: str, rank: int) -> Dict[s
         "name": name,
         "rank": rank,
         "rank_bucket": rank_bucket(rank),
+        "score_bucket": score_bucket(score_pts_int),
         "score_pts": score_pts_int,
         "final_score_0_1": round(final01, 6),
         "score_components": comps,
         "score_weights": weights,
         "profile": classify_profile(comps),
+
+        "policy_version": POLICY_VERSION,
+        "signal_eligible": True,
+        "eligibility_rule": rule,
+        "signal_quality": quality,
+
         "signal_close": None,
         "entry": {
             "method": "next_open",
@@ -302,45 +451,26 @@ def make_new_signal(item: Dict[str, Any], signal_date: str, rank: int) -> Dict[s
     }
 
 
-def cleanup_existing_registry_to_top3(registry: Dict[str, Any]) -> int:
-    """
-    既にTop10で登録済みの初期ログをTop3だけに整理する。
-    まだ初期段階なので、rank > 3 は削除してよい設計。
-    """
-    signals = registry.get("signals", [])
-    if not isinstance(signals, list):
-        registry["signals"] = []
-        return 0
-
-    before = len(signals)
-    cleaned = []
-
-    for s in signals:
-        if not isinstance(s, dict):
-            continue
-        r = to_int(s.get("rank"))
-        if r is not None and r <= TRACK_TOP_N:
-            s["rank_bucket"] = rank_bucket(r)
-            cleaned.append(s)
-
-    registry["signals"] = cleaned
-    return before - len(cleaned)
-
-
 def add_today_signals(registry: Dict[str, Any], date: str, top10: List[Dict[str, Any]]) -> int:
     existing_ids = {str(s.get("id")) for s in registry.get("signals", []) if isinstance(s, dict)}
     added = 0
 
-    for i, item in enumerate(top10[:TRACK_TOP_N], start=1):
+    for fallback_rank, item in enumerate(top10[:10], start=1):
         sym = str(item.get("symbol", "")).strip().upper()
         if not sym:
+            continue
+
+        rank = get_item_rank(item, fallback_rank)
+        eligible, rule, quality = evaluate_signal_eligibility(item, rank)
+
+        if not eligible:
             continue
 
         sid = signal_id(date, sym)
         if sid in existing_ids:
             continue
 
-        registry["signals"].append(make_new_signal(item, date, i))
+        registry["signals"].append(make_new_signal(item, date, rank, rule, quality))
         existing_ids.add(sid)
         added += 1
 
@@ -503,7 +633,6 @@ def update_signal_with_history(signal: Dict[str, Any], df: pd.DataFrame) -> bool
 
     outcome = signal.setdefault("outcome", {})
 
-    # 1W / 1M / 3M の固定評価
     for label, h in HORIZONS.items():
         target_idx = entry_idx + h
         key = f"return_{label}_pct"
@@ -515,7 +644,6 @@ def update_signal_with_history(signal: Dict[str, Any], df: pd.DataFrame) -> bool
                 outcome[key] = ret
                 changed = True
 
-    # current は3M到達までは最新値、3M到達後は3M時点で固定
     if outcome.get("return_3m_pct") is not None and entry_idx + HORIZONS["3m"] < len(df):
         current_idx = entry_idx + HORIZONS["3m"]
     else:
@@ -537,8 +665,6 @@ def update_signal_with_history(signal: Dict[str, Any], df: pd.DataFrame) -> bool
         outcome["current_return_pct"] = current_return
         changed = True
 
-    # Max Gain / Max Drawdown
-    # 3M到達前はentryから現在まで、3M到達後はentryから3Mまでで固定
     max_window_end = current_idx
     if max_window_end >= entry_idx:
         high_window = df["High"].iloc[entry_idx:max_window_end + 1]
@@ -559,7 +685,6 @@ def update_signal_with_history(signal: Dict[str, Any], df: pd.DataFrame) -> bool
             changed = True
 
     # 旧Backtestテンプレート互換
-    # d5 = 1W, d20 = 1M として出す。d10は廃止扱いでNone。
     if outcome.get("d5_return_pct") != outcome.get("return_1w_pct"):
         outcome["d5_return_pct"] = outcome.get("return_1w_pct")
         changed = True
@@ -595,10 +720,13 @@ def flatten_recent_outcomes(signals: List[Dict[str, Any]], limit: int = 120) -> 
     rows: List[Dict[str, Any]] = []
 
     for s in signals:
+        if not is_reportable_signal(s):
+            continue
+
         outcome = s.get("outcome") or {}
         entry = s.get("entry") or {}
+        comps = s.get("score_components") or {}
 
-        # entryがまだないものも表示対象にする
         rows.append({
             "id": s.get("id"),
             "signal_date": s.get("signal_date"),
@@ -606,8 +734,20 @@ def flatten_recent_outcomes(signals: List[Dict[str, Any]], limit: int = 120) -> 
             "name": s.get("name"),
             "rank": s.get("rank"),
             "rank_bucket": s.get("rank_bucket"),
+            "score_bucket": s.get("score_bucket"),
             "profile": s.get("profile"),
             "score_pts": s.get("score_pts"),
+            "final_score_0_1": s.get("final_score_0_1"),
+            "volume_anomaly": comps.get("volume_anomaly"),
+            "compression_release": comps.get("compression_release"),
+            "trends_breakout": comps.get("trends_breakout"),
+            "news": comps.get("news"),
+
+            "policy_version": s.get("policy_version"),
+            "signal_eligible": s.get("signal_eligible"),
+            "eligibility_rule": s.get("eligibility_rule"),
+            "signal_quality": s.get("signal_quality"),
+
             "entry_date": entry.get("entry_date"),
             "entry_price": entry.get("entry_price"),
             "gap_pct": entry.get("gap_pct"),
@@ -666,48 +806,26 @@ def summarize_group(rows: List[Dict[str, Any]], label: str) -> Dict[str, Any]:
     r1m = [to_float(r.get("return_1m_pct")) for r in rows]
     r3m = [to_float(r.get("return_3m_pct")) for r in rows]
     cur = [to_float(r.get("current_return_pct")) for r in rows]
-    gain = [to_float(r.get("max_gain_since_entry_pct")) for r in rows]
-    dd = [to_float(r.get("max_drawdown_since_entry_pct")) for r in rows]
 
     return {
         "label": label,
         "count": len(rows),
-
         "completed_1w": sum(1 for x in r1w if x is not None),
         "completed_1m": sum(1 for x in r1m if x is not None),
         "completed_3m": sum(1 for x in r3m if x is not None),
-
         "win_rate_1w": win_rate(r1w),
         "win_rate_1m": win_rate(r1m),
         "win_rate_3m": win_rate(r3m),
-
         "avg_return_1w": mean(r1w),
         "avg_return_1m": mean(r1m),
         "avg_return_3m": mean(r3m),
-        "median_return_3m": median(r3m),
-
         "avg_current_return": mean(cur),
-        "avg_max_gain": mean(gain),
-        "avg_max_drawdown": mean(dd),
-
-        # 旧テンプレート互換
-        "completed_5d": sum(1 for x in r1w if x is not None),
-        "completed_10d": 0,
-        "completed_20d": sum(1 for x in r1m if x is not None),
-        "win_rate_5d": win_rate(r1w),
-        "win_rate_10d": None,
-        "win_rate_20d": win_rate(r1m),
-        "avg_return_5d": mean(r1w),
-        "avg_return_10d": None,
-        "avg_return_20d": mean(r1m),
-        "median_return_20d": median(r1m),
-        "avg_max_gain_20d": mean(gain),
-        "avg_max_drawdown_20d": mean(dd),
     }
 
 
 def build_summary(signals: List[Dict[str, Any]]) -> Dict[str, Any]:
-    rows = flatten_recent_outcomes(signals, limit=100000)
+    reportable_signals = [s for s in signals if isinstance(s, dict) and is_reportable_signal(s)]
+    rows = flatten_recent_outcomes(reportable_signals, limit=100000)
 
     r1w = [to_float(r.get("return_1w_pct")) for r in rows]
     r1m = [to_float(r.get("return_1m_pct")) for r in rows]
@@ -720,16 +838,32 @@ def build_summary(signals: List[Dict[str, Any]]) -> Dict[str, Any]:
     completed_1m = sum(1 for x in r1m if x is not None)
     completed_3m = sum(1 for x in r3m if x is not None)
 
-    buckets: List[Dict[str, Any]] = []
-    for b in ["#1", "#2-3", "Other"]:
-        br = [r for r in rows if r.get("rank_bucket") == b]
-        if br:
-            buckets.append(summarize_group(br, b))
-
+    rank_map: Dict[str, List[Dict[str, Any]]] = {}
+    score_map: Dict[str, List[Dict[str, Any]]] = {}
+    rule_map: Dict[str, List[Dict[str, Any]]] = {}
     profile_map: Dict[str, List[Dict[str, Any]]] = {}
+
     for r in rows:
-        p = str(r.get("profile") or "Unknown")
-        profile_map.setdefault(p, []).append(r)
+        rank_map.setdefault(str(r.get("rank_bucket") or "Other"), []).append(r)
+        score_map.setdefault(str(r.get("score_bucket") or "Unknown"), []).append(r)
+        rule_map.setdefault(str(r.get("eligibility_rule") or "unknown"), []).append(r)
+        profile_map.setdefault(str(r.get("profile") or "Unknown"), []).append(r)
+
+    rank_buckets = [summarize_group(v, k) for k, v in rank_map.items()]
+    rank_buckets.sort(
+        key=lambda x: (
+            x.get("count") or 0,
+            x.get("avg_return_3m") if x.get("avg_return_3m") is not None else -999,
+        ),
+        reverse=True,
+    )
+
+    score_buckets = [summarize_group(v, k) for k, v in score_map.items()]
+    score_order = {"850+": 0, "800-849": 1, "750-799": 2, "700-749": 3, "<700": 4, "Unknown": 9}
+    score_buckets.sort(key=lambda x: score_order.get(str(x.get("label")), 99))
+
+    rule_buckets = [summarize_group(v, k) for k, v in rule_map.items()]
+    rule_buckets.sort(key=lambda x: (x.get("count") or 0), reverse=True)
 
     profiles = [
         summarize_group(v, k)
@@ -745,31 +879,24 @@ def build_summary(signals: List[Dict[str, Any]]) -> Dict[str, Any]:
         reverse=True,
     )
 
-    signal_dates = [normalize_date_str(s.get("signal_date")) for s in signals]
+    signal_dates = [normalize_date_str(s.get("signal_date")) for s in reportable_signals]
     signal_dates = [d for d in signal_dates if d]
     as_of = max(signal_dates) if signal_dates else None
 
     active_count = sum(
         1
-        for s in signals
+        for s in reportable_signals
         if (s.get("outcome") or {}).get("status") != "completed_3m"
     )
 
     summary = {
         "as_of": as_of,
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ"),
-        "tracking_policy": {
-            "track_top_n": TRACK_TOP_N,
-            "entry_method": "next_open",
-            "horizons": {
-                "1w_trading_days": HORIZONS["1w"],
-                "1m_trading_days": HORIZONS["1m"],
-                "3m_trading_days": HORIZONS["3m"],
-            },
-            "stop_tracking_after": "3m",
-        },
+        "tracking_policy": current_policy(),
 
-        "total_signals": len(signals),
+        "total_signals": len(reportable_signals),
+        "raw_total_signals_in_registry": len(signals),
+        "hidden_legacy_signals": max(0, len(signals) - len(reportable_signals)),
         "active_signals": active_count,
 
         "completed_1w": completed_1w,
@@ -789,7 +916,9 @@ def build_summary(signals: List[Dict[str, Any]]) -> Dict[str, Any]:
         "avg_max_gain": mean(gain),
         "avg_max_drawdown": mean(dd),
 
-        "rank_buckets": buckets,
+        "rank_buckets": rank_buckets,
+        "score_buckets": score_buckets,
+        "rule_buckets": rule_buckets,
         "profiles": profiles[:20],
 
         # 旧Backtestテンプレート互換
@@ -819,9 +948,14 @@ def main() -> None:
 
     registry = load_registry()
 
-    removed = cleanup_existing_registry_to_top3(registry)
-    if removed:
-        log("INFO", f"Removed non-Top3 existing signals: {removed}")
+    signals = registry.get("signals", [])
+    if not isinstance(signals, list):
+        raise SystemExit("registry signals is not a list")
+
+    legacy_changed = 0
+    for s in signals:
+        if isinstance(s, dict) and enrich_legacy_signal(s):
+            legacy_changed += 1
 
     added = add_today_signals(registry, date, top10)
 
@@ -835,7 +969,8 @@ def main() -> None:
         if isinstance(s, dict) and s.get("symbol") and needs_update(s)
     })
 
-    log("INFO", f"Added today Top{TRACK_TOP_N} signals: {added}")
+    log("INFO", f"Added today eligible signals: {added}")
+    log("INFO", f"Legacy/enrichment changes: {legacy_changed}")
     log("INFO", f"Symbols to update until 3M completion: {len(pending_symbols)}")
 
     history_cache: Dict[str, Optional[pd.DataFrame]] = {}
@@ -860,12 +995,7 @@ def main() -> None:
             changed += 1
 
     registry["updated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ")
-    registry["policy"] = {
-        "track_top_n": TRACK_TOP_N,
-        "entry_method": "next_open",
-        "horizons": HORIZONS,
-        "stop_tracking_after": "3m",
-    }
+    registry["policy"] = current_policy()
     registry["signals"] = signals
 
     recent = flatten_recent_outcomes(signals, limit=120)
@@ -878,7 +1008,7 @@ def main() -> None:
     log("INFO", f"Wrote registry: {REGISTRY_PATH}")
     log("INFO", f"Wrote outcomes: {OUTCOMES_PATH}")
     log("INFO", f"Wrote summary: {SUMMARY_PATH}")
-    log("INFO", f"Signals changed: {changed}")
+    log("INFO", f"Signals outcome changed: {changed}")
 
 
 if __name__ == "__main__":
