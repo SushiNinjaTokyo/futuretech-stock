@@ -4,23 +4,23 @@
     {
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
-      "score_0_1": 0.30959,
-      "points_observed": 90,
-      "last_value": 18.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
-      "score_0_1": 0.0,
-      "points_observed": 0,
-      "last_value": null
+      "score_0_1": 0.248844,
+      "points_observed": 90,
+      "last_value": 16.0
     },
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies Inc.",
-      "score_0_1": 0.0,
-      "points_observed": 0,
-      "last_value": null
+      "score_0_1": 0.301685,
+      "points_observed": 90,
+      "last_value": 21.0
     },
     {
       "symbol": "AI",
@@ -32,23 +32,23 @@
     {
       "symbol": "ISRG",
       "name": "Intuitive Surgical, Inc.",
-      "score_0_1": 0.123462,
-      "points_observed": 90,
-      "last_value": 0.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "TER",
       "name": "Teradyne, Inc.",
-      "score_0_1": 0.0,
-      "points_observed": 0,
-      "last_value": null
+      "score_0_1": 0.011954,
+      "points_observed": 90,
+      "last_value": 49.0
     },
     {
       "symbol": "SYM",
       "name": "Symbotic Inc.",
-      "score_0_1": 0.0,
-      "points_observed": 0,
-      "last_value": null
+      "score_0_1": 0.4541,
+      "points_observed": 90,
+      "last_value": 48.0
     },
     {
       "symbol": "RKLB",
@@ -67,9 +67,9 @@
     {
       "symbol": "VSAT",
       "name": "Viasat, Inc.",
-      "score_0_1": 0.256881,
-      "points_observed": 90,
-      "last_value": 0.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "INOD",
@@ -95,16 +95,16 @@
     {
       "symbol": "AVAV",
       "name": "AeroVironment, Inc.",
-      "score_0_1": 0.133177,
-      "points_observed": 90,
-      "last_value": 0.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "PERF",
       "name": "Perfect Corp.",
-      "score_0_1": 0.206588,
-      "points_observed": 90,
-      "last_value": 37.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "GDRX",
@@ -116,9 +116,9 @@
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
-      "score_0_1": 0.629668,
-      "points_observed": 90,
-      "last_value": 0.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "U",
@@ -214,9 +214,9 @@
     {
       "symbol": "OXY",
       "name": "Occidental Petroleum Corporation",
-      "score_0_1": 0.0,
-      "points_observed": 0,
-      "last_value": null
+      "score_0_1": 0.231072,
+      "points_observed": 90,
+      "last_value": 56.0
     },
     {
       "symbol": "RCAT",

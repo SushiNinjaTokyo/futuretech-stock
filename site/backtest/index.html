@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>FutureTech Stock — Top3 Signal Tracker</title>
+  <title>FutureTech Stock — Filtered Signal Backtest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="stylesheet" href="/assets/backtest.css">
 </head>
@@ -17,41 +17,53 @@
 
 
 
+
+
     <header class="hero">
       <div class="hero-main">
         <a class="back-link" href="/">← Home</a>
 
         <div class="kicker">Signal Outcome Tracker</div>
-        <h1>Top3 Signal Tracker</h1>
+        <h1>Filtered Signal Backtest</h1>
 
         <p>
-          Tracks only the daily Top 3 signals. Entry is the next trading day’s open.
-          Performance is fixed at 1W, 1M, and 3M, while current performance updates until 3M completion.
+          Tracks only qualified daily signals instead of forcing weak-market Top 3 entries.
+          Entry is the next trading day’s open. Performance is fixed at 1W, 1M, and 3M,
+          while current performance updates until 3M completion.
         </p>
 
         <div class="policy-row">
-          <span>Top 3 only</span>
+          <span>Rank ≤ 3 & Score ≥ 750</span>
+          <span>Score ≥ 700 & Volume ≥ 0.55</span>
+          <span>Any Rank & Score ≥ 800</span>
           <span>Entry: Next Open</span>
-          <span>1W / 1M / 3M</span>
           <span>Stop after 3M</span>
         </div>
       </div>
 
       <div class="status-card">
-        <div class="status-label">Tracking Status</div>
+        <div class="status-label">Filtered Signals</div>
         <div class="status-value">
-          33
+          7
         </div>
-        <div class="status-sub">active signals</div>
+        <div class="status-sub">tracked signals</div>
 
         <div class="status-meta">
           <div>
-            <span>Total</span>
-            <strong>33</strong>
+            <span>Active</span>
+            <strong>7</strong>
           </div>
           <div>
             <span>As of</span>
-            <strong>2026-05-07</strong>
+            <strong>2026-05-06</strong>
+          </div>
+          <div>
+            <span>Raw Registry</span>
+            <strong>33</strong>
+          </div>
+          <div>
+            <span>Hidden Legacy</span>
+            <strong>26</strong>
           </div>
         </div>
       </div>
@@ -60,12 +72,22 @@
     <section class="kpi-grid">
       <article class="kpi-card">
         <div class="kpi-label">Current Avg</div>
-        <div class="kpi-value         up
+        <div class="kpi-value         down
 ">
-          +2.49%
+          -0.62%
 
         </div>
-        <div class="kpi-note">open positions until 3M</div>
+        <div class="kpi-note">active until 3M completion</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">1W Avg Return</div>
+        <div class="kpi-value         down
+">
+          -1.23%
+
+        </div>
+        <div class="kpi-note">5 trading days</div>
       </article>
 
       <article class="kpi-card">
@@ -76,16 +98,6 @@
 
         </div>
         <div class="kpi-note">20 trading days</div>
-      </article>
-
-      <article class="kpi-card">
-        <div class="kpi-label">3M Avg Return</div>
-        <div class="kpi-value         neutral
-">
-                  —
-
-        </div>
-        <div class="kpi-note">63 trading days</div>
       </article>
 
       <article class="kpi-card">
@@ -102,14 +114,14 @@
       <div class="section-head">
         <div>
           <div class="section-kicker">Progress</div>
-          <h2>Completion</h2>
+          <h2>Completion & Risk</h2>
         </div>
       </div>
 
       <div class="coverage-grid">
         <div class="coverage-card">
           <span>Completed 1W</span>
-          <strong>12</strong>
+          <strong>3</strong>
         </div>
         <div class="coverage-card">
           <span>Completed 1M</span>
@@ -122,13 +134,13 @@
         <div class="coverage-card">
           <span>Avg Max Gain</span>
           <strong class="        up
-">+10.19%
+">+6.16%
 </strong>
         </div>
         <div class="coverage-card">
           <span>Avg Max DD</span>
           <strong class="        down
-">-5.04%
+">-6.28%
 </strong>
         </div>
       </div>
@@ -137,17 +149,123 @@
     <section class="panel">
       <div class="section-head">
         <div>
-          <div class="section-kicker">Rank Quality</div>
-          <h2>Rank Bucket Performance</h2>
+          <div class="section-kicker">Score Quality</div>
+          <h2>Performance by Score Band</h2>
+        </div>
+      </div>
+
+      <div class="bucket-grid score-bucket-grid">
+        <article class="bucket-card">
+          <div class="bucket-label">850+</div>
+          <div class="bucket-main         down
+">
+            -4.49%
+
+          </div>
+          <div class="bucket-sub">Current Avg</div>
+
+          <div class="bucket-stats">
+            <div>
+              <span>1W</span>
+              <strong class="        neutral
+">        —
+</strong>
+            </div>
+            <div>
+              <span>1M</span>
+              <strong class="        neutral
+">        —
+</strong>
+            </div>
+            <div>
+              <span>Count</span>
+              <strong>2</strong>
+            </div>
+          </div>
+        </article>
+        <article class="bucket-card">
+          <div class="bucket-label">750-799</div>
+          <div class="bucket-main         up
+">
+            +0.93%
+
+          </div>
+          <div class="bucket-sub">Current Avg</div>
+
+          <div class="bucket-stats">
+            <div>
+              <span>1W</span>
+              <strong class="        down
+">-1.23%
+</strong>
+            </div>
+            <div>
+              <span>1M</span>
+              <strong class="        neutral
+">        —
+</strong>
+            </div>
+            <div>
+              <span>Count</span>
+              <strong>5</strong>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Eligibility Logic</div>
+          <h2>Performance by Signal Rule</h2>
+        </div>
+      </div>
+
+      <div class="rule-grid">
+        <article class="rule-card">
+          <div class="rule-label">legacy score 750+</div>
+          <div class="rule-main         down
+">
+            -0.62%
+
+          </div>
+          <div class="rule-stats">
+            <div>
+              <span>1M</span>
+              <strong class="        neutral
+">        —
+</strong>
+            </div>
+            <div>
+              <span>3M</span>
+              <strong class="        neutral
+">        —
+</strong>
+            </div>
+            <div>
+              <span>Count</span>
+              <strong>7</strong>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Rank Context</div>
+          <h2>Performance by Rank Bucket</h2>
         </div>
       </div>
 
       <div class="bucket-grid">
         <article class="bucket-card">
           <div class="bucket-label">#1</div>
-          <div class="bucket-main         up
+          <div class="bucket-main         down
 ">
-            +0.03%
+            -0.17%
 
           </div>
           <div class="bucket-sub">Current Avg</div>
@@ -167,15 +285,15 @@
             </div>
             <div>
               <span>Count</span>
-              <strong>12</strong>
+              <strong>6</strong>
             </div>
           </div>
         </article>
         <article class="bucket-card">
           <div class="bucket-label">#2-3</div>
-          <div class="bucket-main         up
+          <div class="bucket-main         down
 ">
-            +3.91%
+            -3.29%
 
           </div>
           <div class="bucket-sub">Current Avg</div>
@@ -195,7 +313,7 @@
             </div>
             <div>
               <span>Count</span>
-              <strong>21</strong>
+              <strong>1</strong>
             </div>
           </div>
         </article>
@@ -206,7 +324,7 @@
       <div class="section-head">
         <div>
           <div class="section-kicker">Signals</div>
-          <h2>Tracked Top3 Signals</h2>
+          <h2>Qualified Signal History</h2>
         </div>
       </div>
 
@@ -216,7 +334,9 @@
             <tr>
               <th>Date</th>
               <th>Rank</th>
+              <th>Score</th>
               <th>Symbol</th>
+              <th>Rule</th>
               <th>Entry</th>
               <th>1W</th>
               <th>1M</th>
@@ -229,227 +349,6 @@
           </thead>
           <tbody>
             <tr>
-              <td>2026-05-07</td>
-
-              <td>
-                <span class="rank-pill">#3</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>U</strong>
-                  <span>Volume + Compression + News</span>
-                </div>
-              </td>
-
-              <td>
-                  —
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-
-              <td>
-                <span class="status-pill pending_entry">
-                  pending entry
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-05-07</td>
-
-              <td>
-                <span class="rank-pill">#2</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>CGNX</strong>
-                  <span>Volume + Compression + News</span>
-                </div>
-              </td>
-
-              <td>
-                  —
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-
-              <td>
-                <span class="status-pill pending_entry">
-                  pending entry
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-05-07</td>
-
-              <td>
-                <span class="rank-pill">#1</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>NVDA</strong>
-                  <span>Compression + News</span>
-                </div>
-              </td>
-
-              <td>
-                  —
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-
-              <td>
-                <span class="status-pill pending_entry">
-                  pending entry
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-05-06</td>
-
-              <td>
-                <span class="rank-pill">#3</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>IONQ</strong>
-                  <span>Volume + News</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>50.03</strong>
-                    <span>2026-05-07</span>
-                  </div>
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        down
-">-4.71%
-</td>
-              <td class="        up
-">+3.73%
-</td>
-              <td class="        down
-">-7.52%
-</td>
-
-              <td>
-                <span class="status-pill active">
-                  active
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-05-06</td>
-
-              <td>
-                <span class="rank-pill">#2</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>CGNX</strong>
-                  <span>Volume + Compression</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>64.44</strong>
-                    <span>2026-05-07</span>
-                  </div>
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        up
-">+2.3%
-</td>
-              <td class="        up
-">+11.58%
-</td>
-              <td class="        down
-">-0.2%
-</td>
-
-              <td>
-                <span class="status-pill active">
-                  active
-                </span>
-              </td>
-            </tr>
-            <tr>
               <td>2026-05-06</td>
 
               <td>
@@ -457,55 +356,23 @@
               </td>
 
               <td>
-                <div class="symbol-cell">
-                  <strong>TEM</strong>
-                  <span>Volume + Trends</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>53.22</strong>
-                    <span>2026-05-07</span>
-                  </div>
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        down
-">-7.05%
-</td>
-              <td class="        up
-">+0.06%
-</td>
-              <td class="        down
-">-8.49%
-</td>
-
-              <td>
-                <span class="status-pill active">
-                  active
+                <span class="score-pill         score-elite
+">
+                  851
                 </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-05-06</td>
-
-              <td>
-                <span class="rank-pill">#1</span>
               </td>
 
               <td>
                 <div class="symbol-cell">
                   <strong>SYM</strong>
                   <span>Volume + Compression + Trends + News</span>
+                </div>
+              </td>
+
+              <td>
+                <div class="rule-cell">
+                  <strong>Strong Signal</strong>
+                  <span>legacy score 750+</span>
                 </div>
               </td>
 
@@ -545,59 +412,27 @@
               <td>2026-05-05</td>
 
               <td>
-                <span class="rank-pill">#3</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>U</strong>
-                  <span>Compression + Trends</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>27.13</strong>
-                    <span>2026-05-06</span>
-                  </div>
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        down
-">-1.47%
-</td>
-              <td class="        up
-">+12.97%
-</td>
-              <td class="        down
-">-2.95%
-</td>
-
-              <td>
-                <span class="status-pill active">
-                  active
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-05-05</td>
-
-              <td>
                 <span class="rank-pill">#2</span>
+              </td>
+
+              <td>
+                <span class="score-pill         score-good
+">
+                  781
+                </span>
               </td>
 
               <td>
                 <div class="symbol-cell">
                   <strong>VRT</strong>
                   <span>Compression + Trends</span>
+                </div>
+              </td>
+
+              <td>
+                <div class="rule-cell">
+                  <strong>Signal</strong>
+                  <span>legacy score 750+</span>
                 </div>
               </td>
 
@@ -641,9 +476,23 @@
               </td>
 
               <td>
+                <span class="score-pill         score-elite
+">
+                  869
+                </span>
+              </td>
+
+              <td>
                 <div class="symbol-cell">
                   <strong>OUST</strong>
                   <span>Volume + Trends + News</span>
+                </div>
+              </td>
+
+              <td>
+                <div class="rule-cell">
+                  <strong>Strong Signal</strong>
+                  <span>legacy score 750+</span>
                 </div>
               </td>
 
@@ -680,292 +529,30 @@
               </td>
             </tr>
             <tr>
-              <td>2026-05-04</td>
-
-              <td>
-                <span class="rank-pill">#3</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>U</strong>
-                  <span>Compression + Trends</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>27.99</strong>
-                    <span>2026-05-05</span>
-                  </div>
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        down
-">-4.5%
-</td>
-              <td class="        up
-">+9.5%
-</td>
-              <td class="        down
-">-5.93%
-</td>
-
-              <td>
-                <span class="status-pill active">
-                  active
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-05-04</td>
-
-              <td>
-                <span class="rank-pill">#2</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>CGNX</strong>
-                  <span>Compression</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>57.12</strong>
-                    <span>2026-05-05</span>
-                  </div>
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        up
-">+15.4%
-</td>
-              <td class="        up
-">+25.86%
-</td>
-              <td class="        down
-">-1.09%
-</td>
-
-              <td>
-                <span class="status-pill active">
-                  active
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-05-04</td>
-
-              <td>
-                <span class="rank-pill">#1</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>PLTR</strong>
-                  <span>Trends + News</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>140.29</strong>
-                    <span>2026-05-05</span>
-                  </div>
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        down
-">-2.31%
-</td>
-              <td class="        up
-">+1.91%
-</td>
-              <td class="        down
-">-6.52%
-</td>
-
-              <td>
-                <span class="status-pill active">
-                  active
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-05-01</td>
-
-              <td>
-                <span class="rank-pill">#3</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>GDRX</strong>
-                  <span>Volume + Compression</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>2.53</strong>
-                    <span>2026-05-04</span>
-                  </div>
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        up
-">+12.25%
-</td>
-              <td class="        up
-">+12.25%
-</td>
-              <td class="        down
-">-3.56%
-</td>
-
-              <td>
-                <span class="status-pill active">
-                  active
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-05-01</td>
-
-              <td>
-                <span class="rank-pill">#3</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>MNDY</strong>
-                  <span>Compression + News</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>72.63</strong>
-                    <span>2026-05-04</span>
-                  </div>
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        up
-">+5.18%
-</td>
-              <td class="        up
-">+8.33%
-</td>
-              <td class="        down
-">-0.83%
-</td>
-
-              <td>
-                <span class="status-pill active">
-                  active
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-05-01</td>
-
-              <td>
-                <span class="rank-pill">#2</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>ABCL</strong>
-                  <span>Volume</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>4.44</strong>
-                    <span>2026-05-04</span>
-                  </div>
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        up
-">+8.56%
-</td>
-              <td class="        up
-">+18.02%
-</td>
-              <td class="        down
-">-0.23%
-</td>
-
-              <td>
-                <span class="status-pill active">
-                  active
-                </span>
-              </td>
-            </tr>
-            <tr>
               <td>2026-05-01</td>
 
               <td>
                 <span class="rank-pill">#1</span>
+              </td>
+
+              <td>
+                <span class="score-pill         score-good
+">
+                  785
+                </span>
               </td>
 
               <td>
                 <div class="symbol-cell">
                   <strong>SOUN</strong>
                   <span>Volume + Trends + News</span>
+                </div>
+              </td>
+
+              <td>
+                <div class="rule-cell">
+                  <strong>Signal</strong>
+                  <span>legacy score 750+</span>
                 </div>
               </td>
 
@@ -1002,292 +589,30 @@
               </td>
             </tr>
             <tr>
-              <td>2026-05-01</td>
-
-              <td>
-                <span class="rank-pill">#1</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>FTI</strong>
-                  <span>Trends + News</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>75.75</strong>
-                    <span>2026-05-04</span>
-                  </div>
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        down
-">-6.24%
-</td>
-              <td class="        up
-">+1.06%
-</td>
-              <td class="        down
-">-7.39%
-</td>
-
-              <td>
-                <span class="status-pill active">
-                  active
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-04-30</td>
-
-              <td>
-                <span class="rank-pill">#3</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>VRT</strong>
-                  <span>Compression</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>330.65</strong>
-                    <span>2026-05-01</span>
-                  </div>
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        up
-">+2.83%
-</td>
-              <td class="        up
-">+8.83%
-</td>
-              <td class="        down
-">-2.78%
-</td>
-
-              <td>
-                <span class="status-pill active">
-                  active
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-04-30</td>
-
-              <td>
-                <span class="rank-pill">#2</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>MSFT</strong>
-                  <span>News</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>412.8</strong>
-                    <span>2026-05-01</span>
-                  </div>
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        up
-">+1.93%
-</td>
-              <td class="        up
-">+3.68%
-</td>
-              <td class="        down
-">-1.86%
-</td>
-
-              <td>
-                <span class="status-pill active">
-                  active
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-04-30</td>
-
-              <td>
-                <span class="rank-pill">#1</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>U</strong>
-                  <span>Compression + Trends + News</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>26.95</strong>
-                    <span>2026-05-01</span>
-                  </div>
-              </td>
-
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        down
-">-0.82%
-</td>
-              <td class="        up
-">+13.73%
-</td>
-              <td class="        down
-">-2.3%
-</td>
-
-              <td>
-                <span class="status-pill active">
-                  active
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-04-29</td>
-
-              <td>
-                <span class="rank-pill">#3</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>FTI</strong>
-                  <span>Compression</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>74.62</strong>
-                    <span>2026-04-30</span>
-                  </div>
-              </td>
-
-              <td class="        down
-">-4.82%
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        down
-">-4.82%
-</td>
-              <td class="        up
-">+4.23%
-</td>
-              <td class="        down
-">-5.98%
-</td>
-
-              <td>
-                <span class="status-pill completed_1w">
-                  completed 1w
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-04-29</td>
-
-              <td>
-                <span class="rank-pill">#2</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>U</strong>
-                  <span>Compression + Trends + News</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>26.1</strong>
-                    <span>2026-04-30</span>
-                  </div>
-              </td>
-
-              <td class="        up
-">+2.41%
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        up
-">+2.41%
-</td>
-              <td class="        up
-">+17.43%
-</td>
-              <td class="        down
-">-3.68%
-</td>
-
-              <td>
-                <span class="status-pill completed_1w">
-                  completed 1w
-                </span>
-              </td>
-            </tr>
-            <tr>
               <td>2026-04-29</td>
 
               <td>
                 <span class="rank-pill">#1</span>
+              </td>
+
+              <td>
+                <span class="score-pill         score-good
+">
+                  773
+                </span>
               </td>
 
               <td>
                 <div class="symbol-cell">
                   <strong>MSFT</strong>
                   <span>Trends + News</span>
+                </div>
+              </td>
+
+              <td>
+                <div class="rule-cell">
+                  <strong>Signal</strong>
+                  <span>legacy score 750+</span>
                 </div>
               </td>
 
@@ -1324,56 +649,17 @@
               </td>
             </tr>
             <tr>
-              <td>2026-04-28</td>
+              <td>2026-04-27</td>
 
               <td>
-                <span class="rank-pill">#3</span>
+                <span class="rank-pill">#1</span>
               </td>
 
               <td>
-                <div class="symbol-cell">
-                  <strong>OXY</strong>
-                  <span>Compression + News</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>59.34</strong>
-                    <span>2026-04-29</span>
-                  </div>
-              </td>
-
-              <td class="        down
-">-7.11%
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        down
-">-9.1%
-</td>
-              <td class="        up
-">+2.44%
-</td>
-              <td class="        down
-">-10.38%
-</td>
-
-              <td>
-                <span class="status-pill completed_1w">
-                  completed 1w
+                <span class="score-pill         score-good
+">
+                  752
                 </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-04-28</td>
-
-              <td>
-                <span class="rank-pill">#2</span>
               </td>
 
               <td>
@@ -1384,186 +670,9 @@
               </td>
 
               <td>
-                  <div class="entry-cell">
-                    <strong>212.72</strong>
-                    <span>2026-04-29</span>
-                  </div>
-              </td>
-
-              <td class="        down
-">-2.3%
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        down
-">-0.57%
-</td>
-              <td class="        up
-">+0.7%
-</td>
-              <td class="        down
-">-8.45%
-</td>
-
-              <td>
-                <span class="status-pill completed_1w">
-                  completed 1w
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-04-28</td>
-
-              <td>
-                <span class="rank-pill">#1</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>ABCL</strong>
-                  <span>Volume + Compression</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>4.09</strong>
-                    <span>2026-04-29</span>
-                  </div>
-              </td>
-
-              <td class="        up
-">+23.23%
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        up
-">+17.85%
-</td>
-              <td class="        up
-">+28.12%
-</td>
-              <td class="        down
-">-8.07%
-</td>
-
-              <td>
-                <span class="status-pill completed_1w">
-                  completed 1w
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-04-27</td>
-
-              <td>
-                <span class="rank-pill">#3</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>ABCL</strong>
-                  <span>Volume + Compression</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>4.03</strong>
-                    <span>2026-04-28</span>
-                  </div>
-              </td>
-
-              <td class="        up
-">+15.63%
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        up
-">+19.6%
-</td>
-              <td class="        up
-">+30.02%
-</td>
-              <td class="        down
-">-6.7%
-</td>
-
-              <td>
-                <span class="status-pill completed_1w">
-                  completed 1w
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-04-27</td>
-
-              <td>
-                <span class="rank-pill">#2</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>CGNX</strong>
-                  <span>Compression</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>54.29</strong>
-                    <span>2026-04-28</span>
-                  </div>
-              </td>
-
-              <td class="        up
-">+8.36%
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        up
-">+21.42%
-</td>
-              <td class="        up
-">+32.44%
-</td>
-              <td class="        down
-">-3.55%
-</td>
-
-              <td>
-                <span class="status-pill completed_1w">
-                  completed 1w
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-04-27</td>
-
-              <td>
-                <span class="rank-pill">#1</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>NVDA</strong>
-                  <span>News</span>
+                <div class="rule-cell">
+                  <strong>Signal</strong>
+                  <span>legacy score 750+</span>
                 </div>
               </td>
 
@@ -1603,105 +712,27 @@
               <td>2026-04-23</td>
 
               <td>
-                <span class="rank-pill">#3</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>NVDA</strong>
-                  <span>News</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>199.96</strong>
-                    <span>2026-04-24</span>
-                  </div>
-              </td>
-
-              <td class="        down
-">-0.76%
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        up
-">+5.77%
-</td>
-              <td class="        up
-">+8.44%
-</td>
-              <td class="        down
-">-2.61%
-</td>
-
-              <td>
-                <span class="status-pill completed_1w">
-                  completed 1w
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-04-23</td>
-
-              <td>
-                <span class="rank-pill">#2</span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>IRDM</strong>
-                  <span>News</span>
-                </div>
-              </td>
-
-              <td>
-                  <div class="entry-cell">
-                    <strong>38.21</strong>
-                    <span>2026-04-24</span>
-                  </div>
-              </td>
-
-              <td class="        up
-">+3.22%
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        neutral
-">        —
-</td>
-              <td class="        up
-">+5.18%
-</td>
-              <td class="        up
-">+7.35%
-</td>
-              <td class="        down
-">-6.25%
-</td>
-
-              <td>
-                <span class="status-pill completed_1w">
-                  completed 1w
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>2026-04-23</td>
-
-              <td>
                 <span class="rank-pill">#1</span>
+              </td>
+
+              <td>
+                <span class="score-pill         score-good
+">
+                  750
+                </span>
               </td>
 
               <td>
                 <div class="symbol-cell">
                   <strong>VRT</strong>
                   <span>Compression + News</span>
+                </div>
+              </td>
+
+              <td>
+                <div class="rule-cell">
+                  <strong>Signal</strong>
+                  <span>legacy score 750+</span>
                 </div>
               </td>
 
@@ -1743,7 +774,16 @@
     </section>
 
     <footer class="footer">
-      Generated at 2026-05-08 00:18:01Z · Informational only, not investment advice.
+      <div>
+        <strong>Policy</strong>
+        <span>
+          Existing registry history is preserved. This view focuses on score-filtered signals.
+          Legacy entries below the configured threshold may be hidden from the main summary.
+        </span>
+      </div>
+      <div>
+        Generated at 2026-05-08 02:18:16Z
+      </div>
     </footer>
   </main>
 </div>

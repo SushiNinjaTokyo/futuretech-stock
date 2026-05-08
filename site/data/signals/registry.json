@@ -1,6 +1,6 @@
 {
   "created_at": "2026-04-26 05:56:54Z",
-  "updated_at": "2026-05-08 00:17:58Z",
+  "updated_at": "2026-05-08 02:18:15Z",
   "signals": [
     {
       "id": "2026-04-23_VRT",
@@ -50,7 +50,12 @@
         "price_delta_1d": 0.53,
         "price_delta_1w": 5.25,
         "price_delta_1m": 28.15
-      }
+      },
+      "score_bucket": "750-799",
+      "policy_version": "legacy_top3",
+      "signal_eligible": true,
+      "eligibility_rule": "legacy_score_750+",
+      "signal_quality": "Signal"
     },
     {
       "id": "2026-04-23_IRDM",
@@ -100,7 +105,12 @@
         "price_delta_1d": -4.81,
         "price_delta_1w": -6.91,
         "price_delta_1m": 37.62
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-04-23_NVDA",
@@ -150,7 +160,12 @@
         "price_delta_1d": 4.32,
         "price_delta_1w": 3.27,
         "price_delta_1m": 21.62
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-04-27_NVDA",
@@ -202,7 +217,12 @@
         "price_delta_1d": 4.0,
         "price_delta_1w": 7.2,
         "price_delta_1m": 29.3
-      }
+      },
+      "score_bucket": "750-799",
+      "policy_version": "legacy_top3",
+      "signal_eligible": true,
+      "eligibility_rule": "legacy_score_750+",
+      "signal_quality": "Signal"
     },
     {
       "id": "2026-04-27_CGNX",
@@ -254,7 +274,12 @@
         "price_delta_1d": 1.53,
         "price_delta_1w": -0.7,
         "price_delta_1m": 15.76
-      }
+      },
+      "score_bucket": "700-749",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-04-27_ABCL",
@@ -306,7 +331,12 @@
         "price_delta_1d": 0.24,
         "price_delta_1w": 6.39,
         "price_delta_1m": 27.22
-      }
+      },
+      "score_bucket": "700-749",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-04-28_ABCL",
@@ -358,7 +388,12 @@
         "price_delta_1d": 0.0,
         "price_delta_1w": 4.26,
         "price_delta_1m": 26.83
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-04-28_NVDA",
@@ -410,7 +445,12 @@
         "price_delta_1d": -1.59,
         "price_delta_1w": 6.65,
         "price_delta_1m": 29.06
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-04-28_OXY",
@@ -462,7 +502,12 @@
         "price_delta_1d": 2.34,
         "price_delta_1w": 4.05,
         "price_delta_1m": -11.52
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-04-29_MSFT",
@@ -514,7 +559,12 @@
         "price_delta_1d": -1.12,
         "price_delta_1w": -1.95,
         "price_delta_1m": 14.67
-      }
+      },
+      "score_bucket": "750-799",
+      "policy_version": "legacy_top3",
+      "signal_eligible": true,
+      "eligibility_rule": "legacy_score_750+",
+      "signal_quality": "Signal"
     },
     {
       "id": "2026-04-29_U",
@@ -566,7 +616,12 @@
         "price_delta_1d": -1.62,
         "price_delta_1w": 1.12,
         "price_delta_1m": 19.01
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-04-29_FTI",
@@ -618,7 +673,12 @@
         "price_delta_1d": 2.04,
         "price_delta_1w": 6.59,
         "price_delta_1m": 11.37
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-04-30_U",
@@ -670,7 +730,12 @@
         "price_delta_1d": 1.19,
         "price_delta_1w": 8.68,
         "price_delta_1m": 20.31
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-04-30_MSFT",
@@ -722,7 +787,12 @@
         "price_delta_1d": -3.93,
         "price_delta_1w": -1.92,
         "price_delta_1m": 10.4
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-04-30_VRT",
@@ -774,7 +844,12 @@
         "price_delta_1d": 7.29,
         "price_delta_1w": 2.09,
         "price_delta_1m": 26.65
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-05-01_SOUN",
@@ -826,7 +901,12 @@
         "price_delta_1d": 20.1,
         "price_delta_1w": 16.73,
         "price_delta_1m": 41.0
-      }
+      },
+      "score_bucket": "750-799",
+      "policy_version": "legacy_top3",
+      "signal_eligible": true,
+      "eligibility_rule": "legacy_score_750+",
+      "signal_quality": "Signal"
     },
     {
       "id": "2026-05-01_ABCL",
@@ -878,7 +958,12 @@
         "price_delta_1d": 6.75,
         "price_delta_1w": 6.75,
         "price_delta_1m": 25.85
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-05-01_GDRX",
@@ -930,7 +1015,12 @@
         "price_delta_1d": 8.05,
         "price_delta_1w": 10.39,
         "price_delta_1m": 24.39
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-05-01_MNDY",
@@ -982,7 +1072,12 @@
         "price_delta_1d": 10.43,
         "price_delta_1w": 7.3,
         "price_delta_1m": 6.44
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-05-01_FTI",
@@ -1034,7 +1129,12 @@
         "price_delta_1d": 0.29,
         "price_delta_1w": 1.38,
         "price_delta_1m": 6.72
-      }
+      },
+      "score_bucket": "700-749",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-05-04_PLTR",
@@ -1086,7 +1186,12 @@
         "price_delta_1d": 1.36,
         "price_delta_1w": 2.05,
         "price_delta_1m": -1.28
-      }
+      },
+      "score_bucket": "700-749",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-05-04_CGNX",
@@ -1138,7 +1243,12 @@
         "price_delta_1d": 0.64,
         "price_delta_1w": 2.2,
         "price_delta_1m": 13.69
-      }
+      },
+      "score_bucket": "700-749",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-05-04_U",
@@ -1190,7 +1300,12 @@
         "price_delta_1d": 2.17,
         "price_delta_1w": 4.05,
         "price_delta_1m": 26.06
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-05-05_OUST",
@@ -1242,7 +1357,12 @@
         "price_delta_1d": 1.6,
         "price_delta_1w": 9.45,
         "price_delta_1m": 47.96
-      }
+      },
+      "score_bucket": "850+",
+      "policy_version": "legacy_top3",
+      "signal_eligible": true,
+      "eligibility_rule": "legacy_score_750+",
+      "signal_quality": "Strong Signal"
     },
     {
       "id": "2026-05-05_VRT",
@@ -1294,7 +1414,12 @@
         "price_delta_1d": 3.04,
         "price_delta_1w": 11.8,
         "price_delta_1m": 30.01
-      }
+      },
+      "score_bucket": "750-799",
+      "policy_version": "legacy_top3",
+      "signal_eligible": true,
+      "eligibility_rule": "legacy_score_750+",
+      "signal_quality": "Signal"
     },
     {
       "id": "2026-05-05_U",
@@ -1346,7 +1471,12 @@
         "price_delta_1d": -1.37,
         "price_delta_1w": 3.01,
         "price_delta_1m": 24.22
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-05-06_TEM",
@@ -1398,7 +1528,12 @@
         "price_delta_1d": -1.05,
         "price_delta_1w": 6.96,
         "price_delta_1m": 12.63
-      }
+      },
+      "score_bucket": "700-749",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-05-06_CGNX",
@@ -1450,7 +1585,12 @@
         "price_delta_1d": 5.83,
         "price_delta_1w": 16.33,
         "price_delta_1m": 15.77
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-05-06_IONQ",
@@ -1502,7 +1642,12 @@
         "price_delta_1d": 9.52,
         "price_delta_1w": 24.84,
         "price_delta_1m": 81.34
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-05-06_SYM",
@@ -1554,7 +1699,12 @@
         "price_delta_1d": 5.3,
         "price_delta_1w": 6.64,
         "price_delta_1m": 12.12
-      }
+      },
+      "score_bucket": "850+",
+      "policy_version": "legacy_top3",
+      "signal_eligible": true,
+      "eligibility_rule": "legacy_score_750+",
+      "signal_quality": "Strong Signal"
     },
     {
       "id": "2026-05-07_NVDA",
@@ -1606,7 +1756,12 @@
         "price_delta_1d": 1.77,
         "price_delta_1w": 5.98,
         "price_delta_1m": 15.0
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-05-07_CGNX",
@@ -1658,7 +1813,12 @@
         "price_delta_1d": 5.88,
         "price_delta_1w": 18.75,
         "price_delta_1m": 22.28
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     },
     {
       "id": "2026-05-07_U",
@@ -1710,17 +1870,31 @@
         "price_delta_1d": -2.02,
         "price_delta_1w": 1.17,
         "price_delta_1m": 23.92
-      }
+      },
+      "score_bucket": "<700",
+      "policy_version": "legacy_top3",
+      "signal_eligible": false,
+      "eligibility_rule": "legacy_below_threshold",
+      "signal_quality": "Legacy / Weak"
     }
   ],
   "policy": {
-    "track_top_n": 3,
+    "policy_version": "score_filtered_v1",
     "entry_method": "next_open",
     "horizons": {
-      "1w": 5,
-      "1m": 20,
-      "3m": 63
+      "1w_trading_days": 5,
+      "1m_trading_days": 20,
+      "3m_trading_days": 63
     },
-    "stop_tracking_after": "3m"
+    "stop_tracking_after": "3m",
+    "registration_rules": [
+      "rank <= 3 and score_pts >= 750",
+      "score_pts >= 700 and volume_anomaly >= 0.55",
+      "rank > 3 and score_pts >= 800"
+    ],
+    "legacy_reporting": {
+      "keep_existing_registry": true,
+      "legacy_min_score_for_report": 750
+    }
   }
 }
