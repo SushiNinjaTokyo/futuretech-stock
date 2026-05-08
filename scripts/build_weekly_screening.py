@@ -39,6 +39,8 @@ def ensure_dir(path: Path) -> None:
 
 def json_default(obj: Any) -> Any:
     """Convert pandas/numpy scalar values into JSON-serializable Python types."""
+    # pandas / numpy scalar values such as np.bool_, np.int64, np.float64
+    # are not always serializable by the standard json module.
     if hasattr(obj, "item"):
         try:
             return obj.item()
@@ -249,19 +251,23 @@ def score_trend(d: pd.DataFrame) -> Tuple[int, Dict[str, Any]]:
         "within_25pct_52w_high": hh252 is not None and hh252 > 0 and close >= hh252 * 0.75,
         "w10_gt_w30": w10 is not None and w30 is not None and w10 > w30,
     }
+    # Total = 220 pts. Keep the weekly 10W/30W check as a small confirmation
+    # signal, not as a large extra bonus, so the displayed Trend score matches
+    # the methodology cap.
     weights = {
-        "close_gt_sma50": 25,
+        "close_gt_sma50": 20,
         "close_gt_sma150": 25,
         "close_gt_sma200": 25,
         "sma50_gt_sma150": 25,
         "sma150_gt_sma200": 25,
         "sma200_up_20d": 25,
         "sma200_up_60d": 20,
-        "above_52w_low_30pct": 25,
+        "above_52w_low_30pct": 20,
         "within_25pct_52w_high": 25,
-        "w10_gt_w30": 20,
+        "w10_gt_w30": 10,
     }
     score = sum(weights[k] for k, ok in checks.items() if ok)
+    score = int(clamp(score, 0, 220))
     return int(score), {
         "checks": checks,
         "close": safe_round(close),
@@ -353,7 +359,8 @@ def score_breakout(d: pd.DataFrame) -> Tuple[int, Dict[str, Any]]:
         score += 20
 
     return int(clamp(score, 0, 160)), {
-        "breakout_type": breakout_type or ("55D High" if is_55 else "20D High" if is_20 else "None"),
+        # Keep missing breakout type as None. The template renders it as an em dash.
+        "breakout_type": breakout_type or ("55D High" if is_55 else "20D High" if is_20 else None),
         "breakout_date": breakout_date,
         "days_since_breakout": days_since,
         "breakout_price": safe_round(breakout_price),
