@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>FutureTech Stock — Top3 Signal Tracker</title>
+  <title>FutureTech Stock — Filtered Signal Backtest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="stylesheet" href="/assets/backtest.css">
 </head>
@@ -42,41 +42,71 @@
       {% endif %}
     {%- endmacro %}
 
+    {% macro score_tone(v) -%}
+      {% if v is none %}
+        score-neutral
+      {% elif v >= 850 %}
+        score-elite
+      {% elif v >= 800 %}
+        score-strong
+      {% elif v >= 750 %}
+        score-good
+      {% elif v >= 700 %}
+        score-watch
+      {% else %}
+        score-weak
+      {% endif %}
+    {%- endmacro %}
+
+    {% macro status_text(v) -%}
+      {{ v | default('pending_entry', true) | replace('_', ' ') }}
+    {%- endmacro %}
+
     <header class="hero">
       <div class="hero-main">
         <a class="back-link" href="/">← Home</a>
 
         <div class="kicker">Signal Outcome Tracker</div>
-        <h1>Top3 Signal Tracker</h1>
+        <h1>Filtered Signal Backtest</h1>
 
         <p>
-          Tracks only the daily Top 3 signals. Entry is the next trading day’s open.
-          Performance is fixed at 1W, 1M, and 3M, while current performance updates until 3M completion.
+          Tracks only qualified daily signals instead of forcing weak-market Top 3 entries.
+          Entry is the next trading day’s open. Performance is fixed at 1W, 1M, and 3M,
+          while current performance updates until 3M completion.
         </p>
 
         <div class="policy-row">
-          <span>Top 3 only</span>
+          <span>Rank ≤ 3 & Score ≥ 750</span>
+          <span>Score ≥ 700 & Volume ≥ 0.55</span>
+          <span>Any Rank & Score ≥ 800</span>
           <span>Entry: Next Open</span>
-          <span>1W / 1M / 3M</span>
           <span>Stop after 3M</span>
         </div>
       </div>
 
       <div class="status-card">
-        <div class="status-label">Tracking Status</div>
+        <div class="status-label">Filtered Signals</div>
         <div class="status-value">
-          {{ summary.active_signals | default(0, true) }}
+          {{ summary.total_signals | default(0, true) }}
         </div>
-        <div class="status-sub">active signals</div>
+        <div class="status-sub">tracked signals</div>
 
         <div class="status-meta">
           <div>
-            <span>Total</span>
-            <strong>{{ summary.total_signals | default(0, true) }}</strong>
+            <span>Active</span>
+            <strong>{{ summary.active_signals | default(0, true) }}</strong>
           </div>
           <div>
             <span>As of</span>
             <strong>{{ summary.as_of | default('—', true) }}</strong>
+          </div>
+          <div>
+            <span>Raw Registry</span>
+            <strong>{{ summary.raw_total_signals_in_registry | default(summary.total_signals, true) }}</strong>
+          </div>
+          <div>
+            <span>Hidden Legacy</span>
+            <strong>{{ summary.hidden_legacy_signals | default(0, true) }}</strong>
           </div>
         </div>
       </div>
@@ -88,7 +118,15 @@
         <div class="kpi-value {{ tone(summary.avg_current_return) }}">
           {{ pct(summary.avg_current_return) }}
         </div>
-        <div class="kpi-note">open positions until 3M</div>
+        <div class="kpi-note">active until 3M completion</div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">1W Avg Return</div>
+        <div class="kpi-value {{ tone(summary.avg_return_1w) }}">
+          {{ pct(summary.avg_return_1w) }}
+        </div>
+        <div class="kpi-note">5 trading days</div>
       </article>
 
       <article class="kpi-card">
@@ -97,14 +135,6 @@
           {{ pct(summary.avg_return_1m) }}
         </div>
         <div class="kpi-note">20 trading days</div>
-      </article>
-
-      <article class="kpi-card">
-        <div class="kpi-label">3M Avg Return</div>
-        <div class="kpi-value {{ tone(summary.avg_return_3m) }}">
-          {{ pct(summary.avg_return_3m) }}
-        </div>
-        <div class="kpi-note">63 trading days</div>
       </article>
 
       <article class="kpi-card">
@@ -120,7 +150,7 @@
       <div class="section-head">
         <div>
           <div class="section-kicker">Progress</div>
-          <h2>Completion</h2>
+          <h2>Completion & Risk</h2>
         </div>
       </div>
 
@@ -148,12 +178,86 @@
       </div>
     </section>
 
+    {% if summary.score_buckets %}
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Score Quality</div>
+          <h2>Performance by Score Band</h2>
+        </div>
+      </div>
+
+      <div class="bucket-grid score-bucket-grid">
+        {% for b in summary.score_buckets %}
+        <article class="bucket-card">
+          <div class="bucket-label">{{ b.label }}</div>
+          <div class="bucket-main {{ tone(b.avg_current_return) }}">
+            {{ pct(b.avg_current_return) }}
+          </div>
+          <div class="bucket-sub">Current Avg</div>
+
+          <div class="bucket-stats">
+            <div>
+              <span>1W</span>
+              <strong class="{{ tone(b.avg_return_1w) }}">{{ pct(b.avg_return_1w) }}</strong>
+            </div>
+            <div>
+              <span>1M</span>
+              <strong class="{{ tone(b.avg_return_1m) }}">{{ pct(b.avg_return_1m) }}</strong>
+            </div>
+            <div>
+              <span>Count</span>
+              <strong>{{ b.count }}</strong>
+            </div>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    {% if summary.rule_buckets %}
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Eligibility Logic</div>
+          <h2>Performance by Signal Rule</h2>
+        </div>
+      </div>
+
+      <div class="rule-grid">
+        {% for b in summary.rule_buckets %}
+        <article class="rule-card">
+          <div class="rule-label">{{ b.label | replace('_', ' ') }}</div>
+          <div class="rule-main {{ tone(b.avg_current_return) }}">
+            {{ pct(b.avg_current_return) }}
+          </div>
+          <div class="rule-stats">
+            <div>
+              <span>1M</span>
+              <strong class="{{ tone(b.avg_return_1m) }}">{{ pct(b.avg_return_1m) }}</strong>
+            </div>
+            <div>
+              <span>3M</span>
+              <strong class="{{ tone(b.avg_return_3m) }}">{{ pct(b.avg_return_3m) }}</strong>
+            </div>
+            <div>
+              <span>Count</span>
+              <strong>{{ b.count }}</strong>
+            </div>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
     {% if summary.rank_buckets %}
     <section class="panel">
       <div class="section-head">
         <div>
-          <div class="section-kicker">Rank Quality</div>
-          <h2>Rank Bucket Performance</h2>
+          <div class="section-kicker">Rank Context</div>
+          <h2>Performance by Rank Bucket</h2>
         </div>
       </div>
 
@@ -190,7 +294,7 @@
       <div class="section-head">
         <div>
           <div class="section-kicker">Signals</div>
-          <h2>Tracked Top3 Signals</h2>
+          <h2>Qualified Signal History</h2>
         </div>
       </div>
 
@@ -201,7 +305,9 @@
             <tr>
               <th>Date</th>
               <th>Rank</th>
+              <th>Score</th>
               <th>Symbol</th>
+              <th>Rule</th>
               <th>Entry</th>
               <th>1W</th>
               <th>1M</th>
@@ -222,9 +328,22 @@
               </td>
 
               <td>
+                <span class="score-pill {{ score_tone(row.score_pts) }}">
+                  {{ row.score_pts | default('—', true) }}
+                </span>
+              </td>
+
+              <td>
                 <div class="symbol-cell">
                   <strong>{{ row.symbol | default('—', true) }}</strong>
                   <span>{{ row.profile | default('—', true) }}</span>
+                </div>
+              </td>
+
+              <td>
+                <div class="rule-cell">
+                  <strong>{{ row.signal_quality | default('Signal', true) }}</strong>
+                  <span>{{ row.eligibility_rule | default('—', true) | replace('_', ' ') }}</span>
                 </div>
               </td>
 
@@ -248,7 +367,7 @@
 
               <td>
                 <span class="status-pill {{ row.status | default('pending_entry', true) }}">
-                  {{ row.status | default('pending_entry', true) | replace('_', ' ') }}
+                  {{ status_text(row.status) }}
                 </span>
               </td>
             </tr>
@@ -258,17 +377,26 @@
       </div>
       {% else %}
       <div class="empty">
-        <h3>No tracked signals yet</h3>
+        <h3>No qualified signals yet</h3>
         <p>
-          Once Daily Top 3 signals are generated, this page will track 1W, 1M, 3M,
-          current performance, max gain, and max drawdown automatically.
+          Signals will appear only when they meet the filtered eligibility rules.
+          Weak-market forced rankings are intentionally excluded from this backtest view.
         </p>
       </div>
       {% endif %}
     </section>
 
     <footer class="footer">
-      Generated at {{ generated_at }} · Informational only, not investment advice.
+      <div>
+        <strong>Policy</strong>
+        <span>
+          Existing registry history is preserved. This view focuses on score-filtered signals.
+          Legacy entries below the configured threshold may be hidden from the main summary.
+        </span>
+      </div>
+      <div>
+        Generated at {{ generated_at }}
+      </div>
     </footer>
   </main>
 </div>
