@@ -1,0 +1,232 @@
+name: rebuild-signal-outcomes
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "Rebuild signals from this date, YYYY-MM-DD"
+        required: true
+        default: "2026-04-01"
+        type: string
+      end_date:
+        description: "Optional end date, YYYY-MM-DD. Empty = latest"
+        required: false
+        default: ""
+        type: string
+      no_backup:
+        description: "Skip registry backup"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+concurrency:
+  group: rebuild-signal-outcomes
+  cancel-in-progress: true
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Sync latest main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate inputs
+        shell: bash
+        env:
+          START_DATE: ${{ github.event.inputs.start_date }}
+          END_DATE: ${{ github.event.inputs.end_date }}
+        run: |
+          set -euo pipefail
+
+          python - <<'PY'
+          import os
+          import sys
+          import pandas as pd
+
+          start = os.environ.get("START_DATE", "").strip()
+          end = os.environ.get("END_DATE", "").strip()
+
+          if not start:
+              print("start_date is required")
+              sys.exit(1)
+
+          try:
+              pd.Timestamp(start)
+          except Exception:
+              print(f"Invalid start_date: {start}")
+              sys.exit(1)
+
+          if end:
+              try:
+                  pd.Timestamp(end)
+              except Exception:
+                  print(f"Invalid end_date: {end}")
+                  sys.exit(1)
+
+              if pd.Timestamp(end) < pd.Timestamp(start):
+                  print(f"end_date must be >= start_date. start={start}, end={end}")
+                  sys.exit(1)
+
+          print(f"Validated inputs. start_date={start}, end_date={end or 'latest'}")
+          PY
+
+      - name: Verify required scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -f "scripts/rebuild_signal_outcomes.py"
+          test -f "scripts/render_backtest.py"
+          test -f "templates/backtest.html.j2"
+          test -f "templates/backtest.css"
+
+      - name: Rebuild signal outcomes
+        shell: bash
+        env:
+          OUT_DIR: site
+          REBUILD_START_DATE: ${{ github.event.inputs.start_date }}
+          REBUILD_END_DATE: ${{ github.event.inputs.end_date }}
+          NO_BACKUP: ${{ github.event.inputs.no_backup }}
+
+          SIGNAL_MIN_TOP3_SCORE: ${{ vars.SIGNAL_MIN_TOP3_SCORE || '750' }}
+          SIGNAL_MIN_VOLUME_SCORE: ${{ vars.SIGNAL_MIN_VOLUME_SCORE || '0.55' }}
+          SIGNAL_MIN_VOLUME_COMBO_SCORE: ${{ vars.SIGNAL_MIN_VOLUME_COMBO_SCORE || '700' }}
+          SIGNAL_MIN_ANY_RANK_SCORE: ${{ vars.SIGNAL_MIN_ANY_RANK_SCORE || '800' }}
+          SIGNAL_REPORT_LEGACY_MIN_SCORE: ${{ vars.SIGNAL_REPORT_LEGACY_MIN_SCORE || '750' }}
+        run: |
+          set -euo pipefail
+
+          ARGS=(
+            "--start-date" "${REBUILD_START_DATE}"
+          )
+
+          if [ -n "${REBUILD_END_DATE:-}" ]; then
+            ARGS+=("--end-date" "${REBUILD_END_DATE}")
+          fi
+
+          if [ "${NO_BACKUP}" = "true" ]; then
+            ARGS+=("--no-backup")
+          fi
+
+          python scripts/rebuild_signal_outcomes.py "${ARGS[@]}"
+
+      - name: Verify rebuilt signal outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -f "site/data/signals/registry.json"
+          test -f "site/data/signals/outcomes_latest.json"
+          test -f "site/data/signals/summary_latest.json"
+
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          registry = json.loads(Path("site/data/signals/registry.json").read_text(encoding="utf-8"))
+          outcomes = json.loads(Path("site/data/signals/outcomes_latest.json").read_text(encoding="utf-8"))
+          summary = json.loads(Path("site/data/signals/summary_latest.json").read_text(encoding="utf-8"))
+
+          if not isinstance(registry.get("signals"), list):
+              raise SystemExit("registry.signals is not a list")
+
+          if not isinstance(outcomes.get("items"), list):
+              raise SystemExit("outcomes_latest.items is not a list")
+
+          if "total_signals" not in summary:
+              raise SystemExit("summary_latest.total_signals missing")
+
+          print("registry signals:", len(registry.get("signals", [])))
+          print("outcomes items:", len(outcomes.get("items", [])))
+          print("summary total_signals:", summary.get("total_signals"))
+          print("summary raw_total_signals_in_registry:", summary.get("raw_total_signals_in_registry"))
+          print("summary hidden_legacy_signals:", summary.get("hidden_legacy_signals"))
+          PY
+
+      - name: Render backtest page
+        shell: bash
+        env:
+          OUT_DIR: site
+        run: |
+          set -euo pipefail
+          python scripts/render_backtest.py
+
+      - name: Verify rendered backtest page
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -f "site/backtest/index.html"
+          test -f "site/assets/backtest.css"
+
+          grep -q "Filtered Signal Backtest" "site/backtest/index.html"
+
+      - name: Commit changes
+        id: commitstep
+        shell: bash
+        env:
+          START_DATE: ${{ github.event.inputs.start_date }}
+          END_DATE: ${{ github.event.inputs.end_date }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+
+          git add \
+            "site/data/signals" \
+            "site/backtest/index.html" \
+            "site/assets/backtest.css"
+
+          if git diff --cached --quiet; then
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          if [ -n "${END_DATE:-}" ]; then
+            git commit -m "backtest: rebuild signal outcomes from ${START_DATE} to ${END_DATE}"
+          else
+            git commit -m "backtest: rebuild signal outcomes from ${START_DATE}"
+          fi
+
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Push changes
+        if: steps.commitstep.outputs.committed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git push origin HEAD:main
