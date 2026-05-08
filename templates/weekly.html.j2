@@ -97,11 +97,11 @@
               <th class="num">Score</th>
               <th>Theme</th>
               <th>Source</th>
-              <th class="num">Trend</th>
-              <th class="num">RS</th>
-              <th class="num">BO</th>
-              <th class="num">Setup</th>
-              <th class="num">Vol</th>
+              <th class="num">Trend<br><span>/220</span></th>
+              <th class="num">RS<br><span>/180</span></th>
+              <th class="num">Breakout<br><span>/160</span></th>
+              <th class="num">Setup<br><span>/150</span></th>
+              <th class="num">Vol<br><span>/130</span></th>
               <th class="num">1M</th>
               <th class="num">3M</th>
               <th class="num">BO Days</th>
@@ -120,11 +120,29 @@
               <td class="num score">{{ x.weekly_score }}</td>
               <td>{{ x.theme or '—' }}</td>
               <td>{{ x.source }}</td>
-              <td class="num">{{ x.trend_score }}</td>
-              <td class="num">{{ x.rs_score }}<div class="sub">{{ x.rs_percentile }}%</div></td>
-              <td class="num">{{ x.breakout_score }}<div class="sub">{{ x.breakout.breakout_type }}</div></td>
-              <td class="num">{{ x.setup_score }}{% if x.setup.vcp_like %}<div class="sub good">VCP</div>{% endif %}</td>
-              <td class="num">{{ x.volume_score }}</td>
+              <td class="num metric-cell">
+                <strong>{{ x.trend_score }}</strong>
+                <div class="mini-bar"><span style="width: {{ (x.trend_score / 220 * 100) | round(0) }}%"></span></div>
+              </td>
+              <td class="num metric-cell">
+                <strong>{{ x.rs_score }}</strong>
+                <div class="sub">RS {{ x.rs_percentile }}%</div>
+                <div class="mini-bar"><span style="width: {{ (x.rs_score / 180 * 100) | round(0) }}%"></span></div>
+              </td>
+              <td class="num metric-cell">
+                <strong>{{ x.breakout_score }}</strong>
+                <div class="sub">{{ x.breakout.breakout_type or '—' }}</div>
+                <div class="mini-bar"><span style="width: {{ (x.breakout_score / 160 * 100) | round(0) }}%"></span></div>
+              </td>
+              <td class="num metric-cell">
+                <strong>{{ x.setup_score }}</strong>
+                {% if x.setup.vcp_like %}<div class="sub good">VCP</div>{% else %}<div class="sub">—</div>{% endif %}
+                <div class="mini-bar"><span style="width: {{ (x.setup_score / 150 * 100) | round(0) }}%"></span></div>
+              </td>
+              <td class="num metric-cell">
+                <strong>{{ x.volume_score }}</strong>
+                <div class="mini-bar"><span style="width: {{ (x.volume_score / 130 * 100) | round(0) }}%"></span></div>
+              </td>
               <td class="num {% if x.returns.return_1m is not none and x.returns.return_1m > 0 %}up{% elif x.returns.return_1m is not none and x.returns.return_1m < 0 %}down{% endif %}">
                 {% if x.returns.return_1m is none %}—{% else %}{% if x.returns.return_1m > 0 %}+{% endif %}{{ x.returns.return_1m }}%{% endif %}
               </td>
