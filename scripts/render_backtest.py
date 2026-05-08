@@ -55,7 +55,37 @@ def copy_asset(src: Path, dst: Path) -> None:
 def default_summary() -> Dict[str, Any]:
     return {
         "as_of": None,
+        "generated_at": None,
+        "tracking_policy": {},
+
         "total_signals": 0,
+        "raw_total_signals_in_registry": 0,
+        "hidden_legacy_signals": 0,
+        "active_signals": 0,
+
+        "completed_1w": 0,
+        "completed_1m": 0,
+        "completed_3m": 0,
+
+        "win_rate_1w": None,
+        "win_rate_1m": None,
+        "win_rate_3m": None,
+
+        "avg_return_1w": None,
+        "avg_return_1m": None,
+        "avg_return_3m": None,
+        "median_return_3m": None,
+
+        "avg_current_return": None,
+        "avg_max_gain": None,
+        "avg_max_drawdown": None,
+
+        "rank_buckets": [],
+        "score_buckets": [],
+        "rule_buckets": [],
+        "profiles": [],
+
+        # legacy compatibility
         "completed_5d": 0,
         "completed_10d": 0,
         "completed_20d": 0,
@@ -68,28 +98,30 @@ def default_summary() -> Dict[str, Any]:
         "median_return_20d": None,
         "avg_max_gain_20d": None,
         "avg_max_drawdown_20d": None,
-        "rank_buckets": [],
-        "profiles": [],
     }
 
 
 def load_summary() -> Dict[str, Any]:
     j = read_json(OUT_DIR / "data" / "signals" / "summary_latest.json")
+    base = default_summary()
+
     if isinstance(j, dict):
-        base = default_summary()
         base.update(j)
-        return base
-    return default_summary()
+
+    return base
 
 
 def load_recent_outcomes() -> List[Dict[str, Any]]:
     j = read_json(OUT_DIR / "data" / "signals" / "outcomes_latest.json")
+
     if isinstance(j, dict):
         items = j.get("items", [])
         if isinstance(items, list):
-            return items[:50]
+            return [x for x in items if isinstance(x, dict)][:200]
+
     if isinstance(j, list):
-        return j[:50]
+        return [x for x in j if isinstance(x, dict)][:200]
+
     return []
 
 
