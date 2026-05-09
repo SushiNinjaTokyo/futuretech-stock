@@ -1,6 +1,6 @@
 {
   "as_of": "2026-05-06",
-  "generated_at": "2026-05-08 02:42:11Z",
+  "generated_at": "2026-05-09 01:25:23Z",
   "tracking_policy": {
     "policy_version": "score_filtered_v1",
     "entry_method": "next_open",
@@ -34,9 +34,9 @@
   "avg_return_1m": null,
   "avg_return_3m": null,
   "median_return_3m": null,
-  "avg_current_return": 4.86,
-  "avg_max_gain": 12.63,
-  "avg_max_drawdown": -5.68,
+  "avg_current_return": 6.72,
+  "avg_max_gain": 12.81,
+  "avg_max_drawdown": -6.21,
   "rank_buckets": [
     {
       "label": "#1",
@@ -50,7 +50,7 @@
       "avg_return_1w": 1.73,
       "avg_return_1m": null,
       "avg_return_3m": null,
-      "avg_current_return": 0.71
+      "avg_current_return": 1.36
     },
     {
       "label": "#2-3",
@@ -64,7 +64,7 @@
       "avg_return_1w": 6.22,
       "avg_return_1m": null,
       "avg_return_3m": null,
-      "avg_current_return": 10.41
+      "avg_current_return": 13.86
     }
   ],
   "score_buckets": [
@@ -80,7 +80,7 @@
       "avg_return_1w": null,
       "avg_return_1m": null,
       "avg_return_3m": null,
-      "avg_current_return": -4.49
+      "avg_current_return": -6.8
     },
     {
       "label": "750-799",
@@ -94,7 +94,7 @@
       "avg_return_1w": -1.23,
       "avg_return_1m": null,
       "avg_return_3m": null,
-      "avg_current_return": 0.94
+      "avg_current_return": 1.03
     },
     {
       "label": "700-749",
@@ -108,7 +108,7 @@
       "avg_return_1w": 7.32,
       "avg_return_1m": null,
       "avg_return_3m": null,
-      "avg_current_return": 9.17
+      "avg_current_return": 12.94
     }
   ],
   "rule_buckets": [
@@ -124,7 +124,7 @@
       "avg_return_1w": 7.32,
       "avg_return_1m": null,
       "avg_return_3m": null,
-      "avg_current_return": 9.17
+      "avg_current_return": 12.94
     },
     {
       "label": "top3_score_750",
@@ -138,7 +138,7 @@
       "avg_return_1w": -1.23,
       "avg_return_1m": null,
       "avg_return_3m": null,
-      "avg_current_return": -0.87
+      "avg_current_return": -1.58
     }
   ],
   "profiles": [
@@ -154,7 +154,7 @@
       "avg_return_1w": 2.42,
       "avg_return_1m": null,
       "avg_return_3m": null,
-      "avg_current_return": -2.04
+      "avg_current_return": -2.71
     },
     {
       "label": "Compression",
@@ -168,7 +168,7 @@
       "avg_return_1w": 8.36,
       "avg_return_1m": null,
       "avg_return_3m": null,
-      "avg_current_return": 18.41
+      "avg_current_return": 17.94
     },
     {
       "label": "Volume + Compression",
@@ -182,7 +182,7 @@
       "avg_return_1w": 13.12,
       "avg_return_1m": null,
       "avg_return_3m": null,
-      "avg_current_return": 17.87
+      "avg_current_return": 28.14
     }
   ],
   "completed_5d": 7,
@@ -195,6 +195,6 @@
   "avg_return_10d": null,
   "avg_return_20d": null,
   "median_return_20d": null,
-  "avg_max_gain_20d": 12.63,
-  "avg_max_drawdown_20d": -5.68
+  "avg_max_gain_20d": 12.81,
+  "avg_max_drawdown_20d": -6.21
 }
