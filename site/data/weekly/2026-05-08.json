@@ -1,6 +1,6 @@
 {
   "date": "2026-05-08",
-  "generated_at": "2026-05-09 00:15:44Z",
+  "generated_at": "2026-05-10 13:16:46Z",
   "methodology": {
     "name": "Minervini-inspired Weekly Screening",
     "total_points": 1000,
@@ -66,7 +66,7 @@
         "days_since_breakout": 0,
         "breakout_price": 68.92,
         "price_from_breakout_pct": 1.58,
-        "breakout_volume_ratio": 1.05,
+        "breakout_volume_ratio": 1.06,
         "is_20d_high": true,
         "is_55d_high": true,
         "maintains_breakout": true
@@ -82,7 +82,7 @@
       "volume": {
         "up_volume_ratio": 59.4,
         "distribution_days_20d": 1,
-        "avg_dollar_volume_20d": 90807695.0,
+        "avg_dollar_volume_20d": 90878920.0,
         "vol10_to_vol50": 0.96,
         "weekly_up_volume": false
       },
@@ -173,7 +173,7 @@
       "volume": {
         "up_volume_ratio": 43.1,
         "distribution_days_20d": 3,
-        "avg_dollar_volume_20d": 2583430487.0,
+        "avg_dollar_volume_20d": 2585494917.0,
         "vol10_to_vol50": 0.95,
         "weekly_up_volume": true
       },
@@ -254,7 +254,7 @@
         "maintains_breakout": false
       },
       "setup": {
-        "atr_10_pct": 8.56,
+        "atr_10_pct": 8.57,
         "atr_20_pct": 9.09,
         "atr_60_pct": 7.8,
         "range_20d_pct": 38.02,
@@ -262,9 +262,9 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 51.7,
+        "up_volume_ratio": 51.8,
         "distribution_days_20d": 2,
-        "avg_dollar_volume_20d": 340928004.0,
+        "avg_dollar_volume_20d": 341416297.0,
         "vol10_to_vol50": 0.74,
         "weekly_up_volume": true
       },
@@ -353,10 +353,10 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 52.5,
+        "up_volume_ratio": 52.6,
         "distribution_days_20d": 3,
-        "avg_dollar_volume_20d": 107321635.0,
-        "vol10_to_vol50": 0.8,
+        "avg_dollar_volume_20d": 107702845.0,
+        "vol10_to_vol50": 0.81,
         "weekly_up_volume": false
       },
       "fundamental": {
@@ -444,9 +444,9 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 58.1,
+        "up_volume_ratio": 58.2,
         "distribution_days_20d": 1,
-        "avg_dollar_volume_20d": 30681331558.0,
+        "avg_dollar_volume_20d": 30702558842.0,
         "vol10_to_vol50": 0.95,
         "weekly_up_volume": false
       },
@@ -535,10 +535,10 @@
         "vcp_like": true
       },
       "volume": {
-        "up_volume_ratio": 42.5,
+        "up_volume_ratio": 42.2,
         "distribution_days_20d": 1,
-        "avg_dollar_volume_20d": 46100784.0,
-        "vol10_to_vol50": 0.87,
+        "avg_dollar_volume_20d": 46432057.0,
+        "vol10_to_vol50": 0.88,
         "weekly_up_volume": false
       },
       "fundamental": {
@@ -626,10 +626,10 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 48.9,
+        "up_volume_ratio": 48.4,
         "distribution_days_20d": 2,
-        "avg_dollar_volume_20d": 277689372.0,
-        "vol10_to_vol50": 1.07,
+        "avg_dollar_volume_20d": 280345759.0,
+        "vol10_to_vol50": 1.09,
         "weekly_up_volume": false
       },
       "fundamental": {
@@ -719,7 +719,7 @@
       "volume": {
         "up_volume_ratio": 47.8,
         "distribution_days_20d": 2,
-        "avg_dollar_volume_20d": 1820316943.0,
+        "avg_dollar_volume_20d": 1820542649.0,
         "vol10_to_vol50": 0.68,
         "weekly_up_volume": false
       },
@@ -794,7 +794,7 @@
         "days_since_breakout": 0,
         "breakout_price": 48.92,
         "price_from_breakout_pct": 73.53,
-        "breakout_volume_ratio": 9.61,
+        "breakout_volume_ratio": 9.62,
         "is_20d_high": true,
         "is_55d_high": true,
         "maintains_breakout": true
@@ -810,7 +810,7 @@
       "volume": {
         "up_volume_ratio": 73.3,
         "distribution_days_20d": 0,
-        "avg_dollar_volume_20d": 126768980.0,
+        "avg_dollar_volume_20d": 126861421.0,
         "vol10_to_vol50": 2.22,
         "weekly_up_volume": true
       },
@@ -885,7 +885,7 @@
         "days_since_breakout": 0,
         "breakout_price": 5.24,
         "price_from_breakout_pct": 0.0,
-        "breakout_volume_ratio": 1.38,
+        "breakout_volume_ratio": 1.41,
         "is_20d_high": true,
         "is_55d_high": true,
         "maintains_breakout": true
@@ -901,7 +901,7 @@
       "volume": {
         "up_volume_ratio": 63.2,
         "distribution_days_20d": 3,
-        "avg_dollar_volume_20d": 32808177.0,
+        "avg_dollar_volume_20d": 32891742.0,
         "vol10_to_vol50": 2.18,
         "weekly_up_volume": true
       },
@@ -992,8 +992,8 @@
       "volume": {
         "up_volume_ratio": 64.0,
         "distribution_days_20d": 1,
-        "avg_dollar_volume_20d": 1266303676.0,
-        "vol10_to_vol50": 0.71,
+        "avg_dollar_volume_20d": 1268729009.0,
+        "vol10_to_vol50": 0.72,
         "weekly_up_volume": false
       },
       "fundamental": {
@@ -1083,7 +1083,7 @@
       "volume": {
         "up_volume_ratio": 47.7,
         "distribution_days_20d": 4,
-        "avg_dollar_volume_20d": 1338153118.0,
+        "avg_dollar_volume_20d": 1338204997.0,
         "vol10_to_vol50": 1.46,
         "weekly_up_volume": false
       },
@@ -1174,7 +1174,7 @@
       "volume": {
         "up_volume_ratio": 59.7,
         "distribution_days_20d": 1,
-        "avg_dollar_volume_20d": 1172786669.0,
+        "avg_dollar_volume_20d": 1174205458.0,
         "vol10_to_vol50": 1.07,
         "weekly_up_volume": false
       },
@@ -1263,10 +1263,10 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 44.8,
+        "up_volume_ratio": 45.9,
         "distribution_days_20d": 1,
-        "avg_dollar_volume_20d": 322875213.0,
-        "vol10_to_vol50": 1.01,
+        "avg_dollar_volume_20d": 330219607.0,
+        "vol10_to_vol50": 1.04,
         "weekly_up_volume": true
       },
       "fundamental": {
@@ -1356,7 +1356,7 @@
       "volume": {
         "up_volume_ratio": 39.9,
         "distribution_days_20d": 3,
-        "avg_dollar_volume_20d": 101060862.0,
+        "avg_dollar_volume_20d": 101060995.0,
         "vol10_to_vol50": 0.93,
         "weekly_up_volume": false
       },
@@ -1431,7 +1431,7 @@
         "days_since_breakout": 0,
         "breakout_price": 93.1,
         "price_from_breakout_pct": 13.29,
-        "breakout_volume_ratio": 3.09,
+        "breakout_volume_ratio": 3.21,
         "is_20d_high": true,
         "is_55d_high": true,
         "maintains_breakout": true
@@ -1445,10 +1445,10 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 63.6,
+        "up_volume_ratio": 63.9,
         "distribution_days_20d": 2,
-        "avg_dollar_volume_20d": 2090416814.0,
-        "vol10_to_vol50": 1.01,
+        "avg_dollar_volume_20d": 2108856640.0,
+        "vol10_to_vol50": 1.02,
         "weekly_up_volume": true
       },
       "fundamental": {
@@ -1538,7 +1538,7 @@
       "volume": {
         "up_volume_ratio": 72.9,
         "distribution_days_20d": 2,
-        "avg_dollar_volume_20d": 146179689.0,
+        "avg_dollar_volume_20d": 146189092.0,
         "vol10_to_vol50": 1.6,
         "weekly_up_volume": true
       },
@@ -1613,7 +1613,7 @@
         "days_since_breakout": 0,
         "breakout_price": 16.15,
         "price_from_breakout_pct": 2.71,
-        "breakout_volume_ratio": 0.86,
+        "breakout_volume_ratio": 1.15,
         "is_20d_high": true,
         "is_55d_high": true,
         "maintains_breakout": true
@@ -1627,10 +1627,10 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 70.3,
+        "up_volume_ratio": 70.7,
         "distribution_days_20d": 1,
-        "avg_dollar_volume_20d": 101736016.0,
-        "vol10_to_vol50": 0.83,
+        "avg_dollar_volume_20d": 103526212.0,
+        "vol10_to_vol50": 0.86,
         "weekly_up_volume": true
       },
       "fundamental": {
@@ -1720,7 +1720,7 @@
       "volume": {
         "up_volume_ratio": 71.3,
         "distribution_days_20d": 3,
-        "avg_dollar_volume_20d": 1761346438.0,
+        "avg_dollar_volume_20d": 1761660592.0,
         "vol10_to_vol50": 1.09,
         "weekly_up_volume": true
       },
@@ -1811,7 +1811,7 @@
       "volume": {
         "up_volume_ratio": 53.8,
         "distribution_days_20d": 3,
-        "avg_dollar_volume_20d": 279369520.0,
+        "avg_dollar_volume_20d": 279492349.0,
         "vol10_to_vol50": 1.14,
         "weekly_up_volume": false
       },
@@ -1902,8 +1902,8 @@
       "volume": {
         "up_volume_ratio": 72.6,
         "distribution_days_20d": 1,
-        "avg_dollar_volume_20d": 4293051.0,
-        "vol10_to_vol50": 0.92,
+        "avg_dollar_volume_20d": 4294198.0,
+        "vol10_to_vol50": 0.93,
         "weekly_up_volume": true
       },
       "fundamental": {
@@ -1991,10 +1991,10 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 43.1,
+        "up_volume_ratio": 42.7,
         "distribution_days_20d": 4,
-        "avg_dollar_volume_20d": 742827550.0,
-        "vol10_to_vol50": 0.72,
+        "avg_dollar_volume_20d": 748193908.0,
+        "vol10_to_vol50": 0.73,
         "weekly_up_volume": false
       },
       "fundamental": {
@@ -2084,7 +2084,7 @@
       "volume": {
         "up_volume_ratio": 71.0,
         "distribution_days_20d": 0,
-        "avg_dollar_volume_20d": 168646554.0,
+        "avg_dollar_volume_20d": 168794493.0,
         "vol10_to_vol50": 0.78,
         "weekly_up_volume": true
       },
@@ -2173,10 +2173,10 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 38.1,
-        "distribution_days_20d": 3,
-        "avg_dollar_volume_20d": 621496189.0,
-        "vol10_to_vol50": 0.75,
+        "up_volume_ratio": 37.7,
+        "distribution_days_20d": 4,
+        "avg_dollar_volume_20d": 626668915.0,
+        "vol10_to_vol50": 0.76,
         "weekly_up_volume": false
       },
       "fundamental": {
@@ -2264,9 +2264,9 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 28.4,
+        "up_volume_ratio": 28.5,
         "distribution_days_20d": 6,
-        "avg_dollar_volume_20d": 1478944214.0,
+        "avg_dollar_volume_20d": 1479465515.0,
         "vol10_to_vol50": 1.05,
         "weekly_up_volume": true
       },
@@ -2357,7 +2357,7 @@
       "volume": {
         "up_volume_ratio": 69.5,
         "distribution_days_20d": 4,
-        "avg_dollar_volume_20d": 79447161.0,
+        "avg_dollar_volume_20d": 79500844.0,
         "vol10_to_vol50": 1.48,
         "weekly_up_volume": false
       },
@@ -2448,7 +2448,7 @@
       "volume": {
         "up_volume_ratio": 29.5,
         "distribution_days_20d": 3,
-        "avg_dollar_volume_20d": 116745188.0,
+        "avg_dollar_volume_20d": 116786847.0,
         "vol10_to_vol50": 0.49,
         "weekly_up_volume": false
       },
@@ -2537,10 +2537,10 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 47.4,
+        "up_volume_ratio": 48.7,
         "distribution_days_20d": 1,
-        "avg_dollar_volume_20d": 301714181.0,
-        "vol10_to_vol50": 0.84,
+        "avg_dollar_volume_20d": 309932347.0,
+        "vol10_to_vol50": 0.88,
         "weekly_up_volume": true
       },
       "fundamental": {
@@ -2630,7 +2630,7 @@
       "volume": {
         "up_volume_ratio": 61.7,
         "distribution_days_20d": 2,
-        "avg_dollar_volume_20d": 6637529741.0,
+        "avg_dollar_volume_20d": 6638136633.0,
         "vol10_to_vol50": 0.94,
         "weekly_up_volume": false
       },
@@ -2719,9 +2719,9 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 32.5,
+        "up_volume_ratio": 32.6,
         "distribution_days_20d": 5,
-        "avg_dollar_volume_20d": 249154213.0,
+        "avg_dollar_volume_20d": 249350307.0,
         "vol10_to_vol50": 0.86,
         "weekly_up_volume": false
       },
@@ -2802,8 +2802,8 @@
         "maintains_breakout": false
       },
       "setup": {
-        "atr_10_pct": 7.43,
-        "atr_20_pct": 7.41,
+        "atr_10_pct": 7.45,
+        "atr_20_pct": 7.43,
         "atr_60_pct": 6.29,
         "range_20d_pct": 32.17,
         "range_60d_pct": 46.62,
@@ -2812,7 +2812,7 @@
       "volume": {
         "up_volume_ratio": 56.0,
         "distribution_days_20d": 6,
-        "avg_dollar_volume_20d": 97896002.0,
+        "avg_dollar_volume_20d": 97908481.0,
         "vol10_to_vol50": 1.31,
         "weekly_up_volume": false
       },
@@ -2901,10 +2901,10 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 58.4,
+        "up_volume_ratio": 58.6,
         "distribution_days_20d": 2,
-        "avg_dollar_volume_20d": 917871305.0,
-        "vol10_to_vol50": 0.51,
+        "avg_dollar_volume_20d": 922943226.0,
+        "vol10_to_vol50": 0.52,
         "weekly_up_volume": false
       },
       "fundamental": {
@@ -2984,8 +2984,8 @@
         "maintains_breakout": false
       },
       "setup": {
-        "atr_10_pct": 6.49,
-        "atr_20_pct": 6.62,
+        "atr_10_pct": 6.51,
+        "atr_20_pct": 6.63,
         "atr_60_pct": 8.99,
         "range_20d_pct": 24.13,
         "range_60d_pct": 91.2,
@@ -2994,7 +2994,7 @@
       "volume": {
         "up_volume_ratio": 40.8,
         "distribution_days_20d": 2,
-        "avg_dollar_volume_20d": 7946216.0,
+        "avg_dollar_volume_20d": 7948661.0,
         "vol10_to_vol50": 0.49,
         "weekly_up_volume": false
       },
@@ -3083,9 +3083,9 @@
         "vcp_like": true
       },
       "volume": {
-        "up_volume_ratio": 51.8,
+        "up_volume_ratio": 51.9,
         "distribution_days_20d": 1,
-        "avg_dollar_volume_20d": 125792.0,
+        "avg_dollar_volume_20d": 126110.0,
         "vol10_to_vol50": 0.35,
         "weekly_up_volume": false
       },
@@ -3176,7 +3176,7 @@
       "volume": {
         "up_volume_ratio": 41.3,
         "distribution_days_20d": 3,
-        "avg_dollar_volume_20d": 32442629.0,
+        "avg_dollar_volume_20d": 32451488.0,
         "vol10_to_vol50": 0.91,
         "weekly_up_volume": false
       },
@@ -3208,6 +3208,97 @@
       "signal": "E Avoid",
       "comment": "ミネルヴィニ型の中期候補としてはトレンド・流動性・位置のいずれかが不足。",
       "rank": 35
+    },
+    {
+      "symbol": "AI",
+      "name": "C3.ai, Inc.",
+      "source": "manual",
+      "theme": "AI",
+      "trigger": "watch",
+      "note": "",
+      "priority": "",
+      "trend_score": 20,
+      "breakout_score": 0,
+      "setup_score": 138,
+      "volume_score": 69,
+      "fundamental_score": 50,
+      "risk_score": 60,
+      "trend": {
+        "checks": {
+          "close_gt_sma50": true,
+          "close_gt_sma150": false,
+          "close_gt_sma200": false,
+          "sma50_gt_sma150": false,
+          "sma150_gt_sma200": false,
+          "sma200_up_20d": false,
+          "sma200_up_60d": false,
+          "above_52w_low_30pct": false,
+          "within_25pct_52w_high": false,
+          "w10_gt_w30": false
+        },
+        "close": 9.87,
+        "sma20": 9.12,
+        "sma50": 8.85,
+        "sma150": 12.55,
+        "sma200": 14.11,
+        "high_52w": 30.24,
+        "low_52w": 7.68,
+        "gap_to_52w_high_pct": -67.36
+      },
+      "breakout": {
+        "breakout_type": null,
+        "breakout_date": null,
+        "days_since_breakout": null,
+        "breakout_price": null,
+        "price_from_breakout_pct": null,
+        "breakout_volume_ratio": null,
+        "is_20d_high": false,
+        "is_55d_high": false,
+        "maintains_breakout": false
+      },
+      "setup": {
+        "atr_10_pct": 4.24,
+        "atr_20_pct": 5.25,
+        "atr_60_pct": 5.48,
+        "range_20d_pct": 25.82,
+        "range_60d_pct": 44.36,
+        "vcp_like": true
+      },
+      "volume": {
+        "up_volume_ratio": 51.2,
+        "distribution_days_20d": 2,
+        "avg_dollar_volume_20d": 41620145.0,
+        "vol10_to_vol50": 0.77,
+        "weekly_up_volume": true
+      },
+      "fundamental": {
+        "confidence": "Low",
+        "available_fields": 0,
+        "revenue_growth": null,
+        "earnings_growth": null,
+        "profit_margin": null,
+        "gross_margin": null
+      },
+      "risk": {
+        "extended": false,
+        "hard_exclusion": true,
+        "sma20_gap_pct": 8.23,
+        "return_1m_pct": 19.2
+      },
+      "returns": {
+        "return_1w": 7.75,
+        "return_1m": 19.2,
+        "return_3m": -15.28,
+        "return_6m": -38.58,
+        "return_12m": -55.72
+      },
+      "rs_composite": -20.583,
+      "rs_score": 43,
+      "rs_percentile": 6.5,
+      "weekly_score": 380,
+      "signal": "E Avoid",
+      "comment": "ミネルヴィニ型の中期候補としてはトレンド・流動性・位置のいずれかが不足。ATRと出来高が収縮しており、VCP-like。",
+      "rank": 36
     },
     {
       "symbol": "SOUN",
@@ -3267,7 +3358,7 @@
       "volume": {
         "up_volume_ratio": 50.6,
         "distribution_days_20d": 4,
-        "avg_dollar_volume_20d": 294813730.0,
+        "avg_dollar_volume_20d": 294948304.0,
         "vol10_to_vol50": 1.28,
         "weekly_up_volume": false
       },
@@ -3298,97 +3389,6 @@
       "weekly_score": 370,
       "signal": "E Avoid",
       "comment": "ミネルヴィニ型の中期候補としてはトレンド・流動性・位置のいずれかが不足。ブレイクから5営業日、BO乖離は-4.52%。",
-      "rank": 36
-    },
-    {
-      "symbol": "AI",
-      "name": "C3.ai, Inc.",
-      "source": "manual",
-      "theme": "AI",
-      "trigger": "watch",
-      "note": "",
-      "priority": "",
-      "trend_score": 20,
-      "breakout_score": 0,
-      "setup_score": 138,
-      "volume_score": 59,
-      "fundamental_score": 50,
-      "risk_score": 60,
-      "trend": {
-        "checks": {
-          "close_gt_sma50": true,
-          "close_gt_sma150": false,
-          "close_gt_sma200": false,
-          "sma50_gt_sma150": false,
-          "sma150_gt_sma200": false,
-          "sma200_up_20d": false,
-          "sma200_up_60d": false,
-          "above_52w_low_30pct": false,
-          "within_25pct_52w_high": false,
-          "w10_gt_w30": false
-        },
-        "close": 9.87,
-        "sma20": 9.12,
-        "sma50": 8.85,
-        "sma150": 12.55,
-        "sma200": 14.11,
-        "high_52w": 30.24,
-        "low_52w": 7.68,
-        "gap_to_52w_high_pct": -67.36
-      },
-      "breakout": {
-        "breakout_type": null,
-        "breakout_date": null,
-        "days_since_breakout": null,
-        "breakout_price": null,
-        "price_from_breakout_pct": null,
-        "breakout_volume_ratio": null,
-        "is_20d_high": false,
-        "is_55d_high": false,
-        "maintains_breakout": false
-      },
-      "setup": {
-        "atr_10_pct": 4.24,
-        "atr_20_pct": 5.25,
-        "atr_60_pct": 5.48,
-        "range_20d_pct": 25.82,
-        "range_60d_pct": 44.36,
-        "vcp_like": true
-      },
-      "volume": {
-        "up_volume_ratio": 51.0,
-        "distribution_days_20d": 2,
-        "avg_dollar_volume_20d": 41406936.0,
-        "vol10_to_vol50": 0.76,
-        "weekly_up_volume": false
-      },
-      "fundamental": {
-        "confidence": "Low",
-        "available_fields": 0,
-        "revenue_growth": null,
-        "earnings_growth": null,
-        "profit_margin": null,
-        "gross_margin": null
-      },
-      "risk": {
-        "extended": false,
-        "hard_exclusion": true,
-        "sma20_gap_pct": 8.23,
-        "return_1m_pct": 19.2
-      },
-      "returns": {
-        "return_1w": 7.75,
-        "return_1m": 19.2,
-        "return_3m": -15.28,
-        "return_6m": -38.58,
-        "return_12m": -55.72
-      },
-      "rs_composite": -20.583,
-      "rs_score": 43,
-      "rs_percentile": 6.5,
-      "weekly_score": 370,
-      "signal": "E Avoid",
-      "comment": "ミネルヴィニ型の中期候補としてはトレンド・流動性・位置のいずれかが不足。ATRと出来高が収縮しており、VCP-like。",
       "rank": 37
     },
     {
@@ -3449,8 +3449,8 @@
       "volume": {
         "up_volume_ratio": 47.2,
         "distribution_days_20d": 3,
-        "avg_dollar_volume_20d": 223691421.0,
-        "vol10_to_vol50": 0.63,
+        "avg_dollar_volume_20d": 223705591.0,
+        "vol10_to_vol50": 0.64,
         "weekly_up_volume": false
       },
       "fundamental": {
@@ -3538,10 +3538,10 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 54.6,
+        "up_volume_ratio": 54.5,
         "distribution_days_20d": 3,
-        "avg_dollar_volume_20d": 32691314.0,
-        "vol10_to_vol50": 0.97,
+        "avg_dollar_volume_20d": 32780460.0,
+        "vol10_to_vol50": 0.98,
         "weekly_up_volume": false
       },
       "fundamental": {
@@ -3621,8 +3621,8 @@
         "maintains_breakout": false
       },
       "setup": {
-        "atr_10_pct": 5.99,
-        "atr_20_pct": 6.16,
+        "atr_10_pct": 6.02,
+        "atr_20_pct": 6.18,
         "atr_60_pct": 5.98,
         "range_20d_pct": 35.4,
         "range_60d_pct": 42.35,
@@ -3631,7 +3631,7 @@
       "volume": {
         "up_volume_ratio": 47.4,
         "distribution_days_20d": 3,
-        "avg_dollar_volume_20d": 110746358.0,
+        "avg_dollar_volume_20d": 110879323.0,
         "vol10_to_vol50": 0.95,
         "weekly_up_volume": false
       },
@@ -3722,7 +3722,7 @@
       "volume": {
         "up_volume_ratio": 58.5,
         "distribution_days_20d": 2,
-        "avg_dollar_volume_20d": 14897250304.0,
+        "avg_dollar_volume_20d": 14903619013.0,
         "vol10_to_vol50": 1.04,
         "weekly_up_volume": false
       },
@@ -3804,7 +3804,7 @@
       },
       "setup": {
         "atr_10_pct": 5.04,
-        "atr_20_pct": 4.72,
+        "atr_20_pct": 4.73,
         "atr_60_pct": 5.79,
         "range_20d_pct": 23.16,
         "range_60d_pct": 53.86,
@@ -3813,7 +3813,7 @@
       "volume": {
         "up_volume_ratio": 53.1,
         "distribution_days_20d": 2,
-        "avg_dollar_volume_20d": 77746768.0,
+        "avg_dollar_volume_20d": 77781932.0,
         "vol10_to_vol50": 0.71,
         "weekly_up_volume": false
       },
@@ -3894,17 +3894,17 @@
         "maintains_breakout": false
       },
       "setup": {
-        "atr_10_pct": 6.12,
-        "atr_20_pct": 6.22,
+        "atr_10_pct": 6.14,
+        "atr_20_pct": 6.23,
         "atr_60_pct": 6.49,
         "range_20d_pct": 24.2,
         "range_60d_pct": 45.71,
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 46.3,
+        "up_volume_ratio": 46.4,
         "distribution_days_20d": 5,
-        "avg_dollar_volume_20d": 41767126.0,
+        "avg_dollar_volume_20d": 41802934.0,
         "vol10_to_vol50": 0.98,
         "weekly_up_volume": false
       },
@@ -3995,7 +3995,7 @@
       "volume": {
         "up_volume_ratio": 44.7,
         "distribution_days_20d": 2,
-        "avg_dollar_volume_20d": 1076179050.0,
+        "avg_dollar_volume_20d": 1076420282.0,
         "vol10_to_vol50": 1.04,
         "weekly_up_volume": false
       },
@@ -4084,9 +4084,9 @@
         "vcp_like": false
       },
       "volume": {
-        "up_volume_ratio": 39.1,
+        "up_volume_ratio": 39.0,
         "distribution_days_20d": 4,
-        "avg_dollar_volume_20d": 24187742.0,
+        "avg_dollar_volume_20d": 24210995.0,
         "vol10_to_vol50": 1.23,
         "weekly_up_volume": false
       },
@@ -4167,7 +4167,7 @@
         "maintains_breakout": false
       },
       "setup": {
-        "atr_10_pct": 6.77,
+        "atr_10_pct": 6.78,
         "atr_20_pct": 7.34,
         "atr_60_pct": 6.46,
         "range_20d_pct": 36.44,
@@ -4177,7 +4177,7 @@
       "volume": {
         "up_volume_ratio": 49.6,
         "distribution_days_20d": 4,
-        "avg_dollar_volume_20d": 340171239.0,
+        "avg_dollar_volume_20d": 340229889.0,
         "vol10_to_vol50": 1.18,
         "weekly_up_volume": false
       },
@@ -4268,7 +4268,7 @@
       "volume": {
         "up_volume_ratio": 11.8,
         "distribution_days_20d": 7,
-        "avg_dollar_volume_20d": 135570863.0,
+        "avg_dollar_volume_20d": 135605129.0,
         "vol10_to_vol50": 1.84,
         "weekly_up_volume": false
       },
