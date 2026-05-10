@@ -1,6 +1,6 @@
 {
   "as_of": "2026-05-08",
-  "generated_at": "2026-05-09 04:11:13Z",
+  "generated_at": "2026-05-10 04:40:47Z",
   "tracking_policy": {
     "policy_version": "score_filtered_v1",
     "entry_method": "next_open",
@@ -20,10 +20,10 @@
       "legacy_min_score_for_report": 750
     }
   },
-  "total_signals": 15,
-  "raw_total_signals_in_registry": 15,
+  "total_signals": 16,
+  "raw_total_signals_in_registry": 16,
   "hidden_legacy_signals": 0,
-  "active_signals": 15,
+  "active_signals": 16,
   "completed_1w": 7,
   "completed_1m": 0,
   "completed_3m": 0,
@@ -54,7 +54,7 @@
     },
     {
       "label": "#2-3",
-      "count": 6,
+      "count": 7,
       "completed_1w": 3,
       "completed_1m": 0,
       "completed_3m": 0,
@@ -98,7 +98,7 @@
     },
     {
       "label": "750-799",
-      "count": 4,
+      "count": 5,
       "completed_1w": 3,
       "completed_1m": 0,
       "completed_3m": 0,
@@ -127,6 +127,20 @@
   ],
   "rule_buckets": [
     {
+      "label": "top3_score_750",
+      "count": 8,
+      "completed_1w": 3,
+      "completed_1m": 0,
+      "completed_3m": 0,
+      "win_rate_1w": 0.6667,
+      "win_rate_1m": null,
+      "win_rate_3m": null,
+      "avg_return_1w": -1.23,
+      "avg_return_1m": null,
+      "avg_return_3m": null,
+      "avg_current_return": -1.58
+    },
+    {
       "label": "score_700_volume_055",
       "count": 8,
       "completed_1w": 4,
@@ -139,20 +153,6 @@
       "avg_return_1m": null,
       "avg_return_3m": null,
       "avg_current_return": 12.94
-    },
-    {
-      "label": "top3_score_750",
-      "count": 7,
-      "completed_1w": 3,
-      "completed_1m": 0,
-      "completed_3m": 0,
-      "win_rate_1w": 0.6667,
-      "win_rate_1m": null,
-      "win_rate_3m": null,
-      "avg_return_1w": -1.23,
-      "avg_return_1m": null,
-      "avg_return_3m": null,
-      "avg_current_return": -1.58
     }
   ],
   "profiles": [
@@ -169,6 +169,20 @@
       "avg_return_1m": null,
       "avg_return_3m": null,
       "avg_current_return": -2.71
+    },
+    {
+      "label": "Compression + Trends",
+      "count": 2,
+      "completed_1w": 0,
+      "completed_1m": 0,
+      "completed_3m": 0,
+      "win_rate_1w": null,
+      "win_rate_1m": null,
+      "win_rate_3m": null,
+      "avg_return_1w": null,
+      "avg_return_1m": null,
+      "avg_return_3m": null,
+      "avg_current_return": -3.3
     },
     {
       "label": "Volume + Trends + News",

@@ -4,11 +4,11 @@
     {
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
-      "score_0_1": 0.969639,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 7,
-      "deduped_headline_count": 7,
-      "today_count": 5,
+      "headline_count_relevant": 4,
+      "deduped_headline_count": 4,
+      "today_count": 0,
       "prev1_count": 0,
       "prev3_daily_counts": [
         0,
@@ -18,56 +18,38 @@
       "avg_prev_3d_excl_today": 0.0,
       "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 10.0,
-      "ratio_vs_prev3avg": 10.0,
-      "raw_news_strength": 2.06452058,
+      "ratio_vs_prev1": 0.0,
+      "ratio_vs_prev3avg": 0.0,
+      "raw_news_strength": 0.0,
       "day_counts": {
         "2026-05-05": 0,
         "2026-05-06": 0,
         "2026-05-07": 0,
-        "2026-05-08": 5
+        "2026-05-08": 0
       },
       "headlines": [
         {
-          "title": "Does This Nvidia Deal Make Corning Stock a Buy?",
-          "link": "https://www.fool.com/investing/2026/05/08/does-this-nvidia-deal-make-corning-a-buy/?.tsrc=rss",
-          "published_at": "2026-05-09T04:00:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "NVIDIA Pushes AI Into Drug Development With Simulations Plus Collaboration",
-          "link": "https://finance.yahoo.com/sectors/healthcare/articles/nvidia-pushes-ai-drug-development-031712305.html?.tsrc=rss",
-          "published_at": "2026-05-09T03:17:12+00:00",
+          "title": "AMD Stock Is Up 320% Over the Past Year. Should Investors Shift Their Attention Away From Nvidia?",
+          "link": "https://www.fool.com/investing/2026/05/09/amd-stock-is-up-320-over-the-past-year-should-inve/?.tsrc=rss",
+          "published_at": "2026-05-09T23:50:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
           "title": "Dow Jones Futures: Market At Highs With Iran, Trump-Xi Summit In Focus; Apple, Nvidia, Boeing In Buy Areas",
           "link": "https://finance.yahoo.com/m/43e846fc-d46c-369d-9e19-8d3e1dfaa28f/dow-jones-futures%3A-market-at.html?.tsrc=rss",
-          "published_at": "2026-05-08T22:58:57+00:00",
+          "published_at": "2026-05-09T23:42:01+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "Could Nvidia Become the First $10 Trillion Company?",
-          "link": "https://www.fool.com/investing/2026/05/08/could-nvidia-become-the-first-10-trillion-company/?.tsrc=rss",
-          "published_at": "2026-05-08T21:35:00+00:00",
+          "title": "Is It Too Late To Consider Nvidia (NVDA) After Its 80% One-Year Surge?",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/too-consider-nvidia-nvda-80-231506247.html?.tsrc=rss",
+          "published_at": "2026-05-09T23:15:06+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "A Look At Corning (GLW) Valuation After The NVIDIA AI Data Center Partnership",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/look-corning-glw-valuation-nvidia-213001840.html?.tsrc=rss",
-          "published_at": "2026-05-08T21:30:01+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "The $3.4 Billion Reason Nvidia Drove IREN Stock Higher Today",
-          "link": "https://www.barchart.com/story/news/1817334/the-3-4-billion-reason-nvidia-drove-iren-stock-higher-today?.tsrc=rss",
-          "published_at": "2026-05-08T21:16:53+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Stock Market Today, May 8: Iren Jumps After Announcing Multi-Year Nvidia Partnership",
-          "link": "https://www.fool.com/coverage/stock-market-today/2026/05/08/stock-market-today-may-8-iren-jumps-after-announcing-multi-year-nvidia-partnership/?.tsrc=rss",
-          "published_at": "2026-05-08T21:11:42+00:00",
+          "title": "Amazon CEO Andy Jassy Has Good News and Bad News for Nvidia Investors",
+          "link": "https://www.fool.com/investing/2026/05/09/amazon-ceo-andy-jassy-has-good-news-and-bad-news-f/?.tsrc=rss",
+          "published_at": "2026-05-09T22:05:00+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -75,11 +57,11 @@
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
-      "score_0_1": 1.0,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 8,
-      "deduped_headline_count": 8,
-      "today_count": 8,
+      "headline_count_relevant": 5,
+      "deduped_headline_count": 5,
+      "today_count": 0,
       "prev1_count": 0,
       "prev3_daily_counts": [
         0,
@@ -89,62 +71,44 @@
       "avg_prev_3d_excl_today": 0.0,
       "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 16.0,
-      "ratio_vs_prev3avg": 16.0,
-      "raw_news_strength": 2.48341952,
+      "ratio_vs_prev1": 0.0,
+      "ratio_vs_prev3avg": 0.0,
+      "raw_news_strength": 0.0,
       "day_counts": {
         "2026-05-05": 0,
         "2026-05-06": 0,
         "2026-05-07": 0,
-        "2026-05-08": 8
+        "2026-05-08": 0
       },
       "headlines": [
         {
-          "title": "Amazon vs. Microsoft: Which Tech Giant Looks Better After Its Earnings Report?",
-          "link": "https://www.fool.com/investing/2026/05/08/amazon-vs-microsoft-which-tech-giant-looks-better/?.tsrc=rss",
-          "published_at": "2026-05-08T19:50:00+00:00",
+          "title": "Microsoft Deal Strengthens Black Hills Corporation (BKH) Prospects as a High Growth Utility Stock to Buy",
+          "link": "https://finance.yahoo.com/sectors/energy/articles/microsoft-deal-strengthens-black-hills-212750740.html?.tsrc=rss",
+          "published_at": "2026-05-09T21:27:50+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "Nvidia, Apple and Microsoft may be trading at best valuations in years",
-          "link": "https://finance.yahoo.com/sectors/technology/articles/nvidia-apple-microsoft-may-trading-182235268.html?.tsrc=rss",
-          "published_at": "2026-05-08T18:22:35+00:00",
+          "title": "Microsoft’s AI Safety Role Grows As Infrastructure Hiring And Security Risks Mount",
+          "link": "https://finance.yahoo.com/sectors/technology/articles/microsoft-ai-safety-role-grows-161843970.html?.tsrc=rss",
+          "published_at": "2026-05-09T16:18:43+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "Microsoft shares fall as top hedge fund dumps $8B stake on AI fears",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/microsoft-shares-fall-top-hedge-182203769.html?.tsrc=rss",
-          "published_at": "2026-05-08T18:22:03+00:00",
+          "title": "Microsoft Corp. (MSFT) to Invest in European Data Center Regions",
+          "link": "https://finance.yahoo.com/sectors/technology/articles/microsoft-corp-msft-invest-european-145058016.html?.tsrc=rss",
+          "published_at": "2026-05-09T14:50:58+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "Microsoft Slips After TCI Cuts Stake",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/microsoft-slips-tci-cuts-stake-182201821.html?.tsrc=rss",
-          "published_at": "2026-05-08T18:22:01+00:00",
+          "title": "How Microsoft Pulled off ‘One of the Best Tech Acquisitions of the Last Decade’",
+          "link": "https://247wallst.com/investing/2026/05/09/how-microsoft-pulled-off-one-of-the-best-tech-acquisitions-of-the-last-decade/?.tsrc=rss",
+          "published_at": "2026-05-09T12:00:37+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "A New Milestone Suggests Microsoft’s (MSFT) AI Ecosystem May Be Gaining Even More Traction",
-          "link": "https://finance.yahoo.com/sectors/technology/articles/milestone-suggests-microsoft-msft-ai-165605836.html?.tsrc=rss",
-          "published_at": "2026-05-08T16:56:05+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Top Midday Stories: Nvidia Chips Said at Center of Smuggling Probe; TCI Slashes Nearly All Its $8 Billion Microsoft Stake",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/top-midday-stories-nvidia-chips-153851466.html?.tsrc=rss",
-          "published_at": "2026-05-08T15:38:51+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Jim Cramer Says “Microsoft Appears Stuck With Old Software That Has Fallen Out of Favor”",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/jim-cramer-says-microsoft-appears-150655937.html?.tsrc=rss",
-          "published_at": "2026-05-08T15:06:55+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Why Microsoft Stock Soared 10.2% Higher Last Month and Has Kept Rallying in May",
-          "link": "https://www.fool.com/investing/2026/05/08/why-microsoft-stock-soared-102-higher-last-month-a/?.tsrc=rss",
-          "published_at": "2026-05-08T14:07:20+00:00",
+          "title": "Alphabet, Microsoft, Amazon, and Meta Platforms Just Reported Earnings. Which Is the Best Buy?",
+          "link": "https://www.fool.com/investing/2026/05/09/alphabet-microsoft-amazon-and-meta-platforms-just/?.tsrc=rss",
+          "published_at": "2026-05-09T10:05:00+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -152,11 +116,11 @@
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies Inc.",
-      "score_0_1": 0.937107,
+      "score_0_1": 0.956862,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 4,
-      "deduped_headline_count": 4,
-      "today_count": 4,
+      "headline_count_relevant": 5,
+      "deduped_headline_count": 5,
+      "today_count": 3,
       "prev1_count": 0,
       "prev3_daily_counts": [
         0,
@@ -166,16 +130,28 @@
       "avg_prev_3d_excl_today": 0.0,
       "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 8.0,
-      "ratio_vs_prev3avg": 8.0,
-      "raw_news_strength": 1.87394191,
+      "ratio_vs_prev1": 6.0,
+      "ratio_vs_prev3avg": 6.0,
+      "raw_news_strength": 1.63812147,
       "day_counts": {
         "2026-05-05": 0,
         "2026-05-06": 0,
         "2026-05-07": 0,
-        "2026-05-08": 4
+        "2026-05-08": 3
       },
       "headlines": [
+        {
+          "title": "Palantir Technologies (PLTR) Price Target Raised to $225 by Citi",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/palantir-technologies-pltr-price-target-144939914.html?.tsrc=rss",
+          "published_at": "2026-05-09T14:49:39+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Palantir Tech (PLTR): 10 Best High Volume Stocks to Invest In According to Hedge Funds",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/palantir-tech-pltr-10-best-045657776.html?.tsrc=rss",
+          "published_at": "2026-05-09T04:56:57+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Palantir Makes Higher FCF Margins and Revenue Forecasts Rise - So, Why is PLTR So Cheap?",
           "link": "https://www.barchart.com/story/news/1809819/palantir-makes-higher-fcf-margins-and-revenue-forecasts-rise-so-why-is-pltr-so-cheap?.tsrc=rss",
@@ -193,19 +169,13 @@
           "link": "https://finance.yahoo.com/markets/stocks/articles/wall-street-analysts-predict-40-135503955.html?.tsrc=rss",
           "published_at": "2026-05-08T13:55:03+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Jim Cramer Shares His Take On Palantir (PLTR) Facing Competition",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/jim-cramer-shares-palantir-pltr-122546544.html?.tsrc=rss",
-          "published_at": "2026-05-08T12:25:46+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "AI",
       "name": "C3.ai, Inc.",
-      "score_0_1": 0.768382,
+      "score_0_1": 0.805338,
       "headline_count_fetched": 20,
       "headline_count_relevant": 8,
       "deduped_headline_count": 8,
@@ -282,10 +252,10 @@
     {
       "symbol": "ISRG",
       "name": "Intuitive Surgical, Inc.",
-      "score_0_1": 0.842295,
+      "score_0_1": 0.860773,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 16,
-      "deduped_headline_count": 16,
+      "headline_count_relevant": 15,
+      "deduped_headline_count": 15,
       "today_count": 2,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -306,6 +276,12 @@
         "2026-05-08": 2
       },
       "headlines": [
+        {
+          "title": "Is It Time To Reconsider Intuitive Surgical (ISRG) After Recent Share Price Weakness?",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/time-reconsider-intuitive-surgical-isrg-221618409.html?.tsrc=rss",
+          "published_at": "2026-05-09T22:16:18+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Better Than Intuitive Surgical? 1 Under-the-Radar Healthcare Stock to Buy and Hold Forever",
           "link": "https://www.fool.com/investing/2026/05/08/better-than-intuitive-surgical-1-under-the-radar-h/?.tsrc=rss",
@@ -389,25 +365,13 @@
           "link": "https://finance.yahoo.com/markets/stocks/articles/intuitive-surgical-vs-boston-scientific-181900075.html?.tsrc=rss",
           "published_at": "2026-04-24T18:19:00+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "3 Reasons Why Intuitive Surgical (ISRG) Is a Great Growth Stock",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/3-reasons-why-intuitive-surgical-164501750.html?.tsrc=rss",
-          "published_at": "2026-04-24T16:45:01+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Wall Street Bulls Look Optimistic About Intuitive Surgical (ISRG): Should You Buy?",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/wall-street-bulls-look-optimistic-133005677.html?.tsrc=rss",
-          "published_at": "2026-04-24T13:30:05+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "TER",
       "name": "Teradyne, Inc.",
-      "score_0_1": 0.749904,
+      "score_0_1": 0.78686,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -532,10 +496,10 @@
     {
       "symbol": "SYM",
       "name": "Symbotic Inc.",
-      "score_0_1": 0.478431,
+      "score_0_1": 0.515388,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 17,
-      "deduped_headline_count": 17,
+      "headline_count_relevant": 16,
+      "deduped_headline_count": 16,
       "today_count": 1,
       "prev1_count": 3,
       "prev3_daily_counts": [
@@ -651,22 +615,16 @@
           "link": "https://finance.yahoo.com/sectors/healthcare/articles/symbotic-medline-deal-tests-ai-150552466.html?.tsrc=rss",
           "published_at": "2026-04-28T15:05:52+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "AMADY or SYM: Which Is the Better Value Stock Right Now?",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/amady-sym-better-value-stock-154003232.html?.tsrc=rss",
-          "published_at": "2026-04-24T15:40:03+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
-      "score_0_1": 0.570822,
+      "score_0_1": 0.607779,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 3,
-      "deduped_headline_count": 3,
+      "headline_count_relevant": 4,
+      "deduped_headline_count": 4,
       "today_count": 1,
       "prev1_count": 2,
       "prev3_daily_counts": [
@@ -687,6 +645,12 @@
         "2026-05-08": 1
       },
       "headlines": [
+        {
+          "title": "What Rocket Lab (RKLB)'s Record Q1, Backlog Surge and Defense Wins Mean For Shareholders",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/rocket-lab-rklb-record-q1-071220759.html?.tsrc=rss",
+          "published_at": "2026-05-09T07:12:20+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Rocket Lab USA, Inc. Q1 2026 Earnings Call Summary",
           "link": "https://app.moby.co/home/research/tools/earningsCalendar/earnings-rocket-lab-usa-inc-q1-2026-earnings-call-summary?utm_source=yahoo_finance&utm_medium=rss&.tsrc=rss",
@@ -710,7 +674,7 @@
     {
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 12,
       "deduped_headline_count": 12,
@@ -811,7 +775,7 @@
     {
       "symbol": "VSAT",
       "name": "Viasat, Inc.",
-      "score_0_1": 0.663214,
+      "score_0_1": 0.70017,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
@@ -918,7 +882,7 @@
     {
       "symbol": "INOD",
       "name": "Innodata Inc.",
-      "score_0_1": 0.932683,
+      "score_0_1": 0.969639,
       "headline_count_fetched": 20,
       "headline_count_relevant": 20,
       "deduped_headline_count": 20,
@@ -942,6 +906,12 @@
         "2026-05-08": 5
       },
       "headlines": [
+        {
+          "title": "Our Innodata Stock Pick Smashed Earnings Expectations. Stay Long.",
+          "link": "https://finance.yahoo.com/m/9c92cbfd-08a7-33fe-8055-c82ad71ff95e/our-innodata-stock-pick.html?.tsrc=rss",
+          "published_at": "2026-05-09T06:05:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Innodata’s Record Q1, Big Tech Win And Lawsuit Relief Test Valuation",
           "link": "https://finance.yahoo.com/markets/stocks/articles/innodata-record-q1-big-tech-200709152.html?.tsrc=rss",
@@ -1055,19 +1025,13 @@
           "link": "https://finance.yahoo.com/sectors/technology/articles/inod-heart-ai-data-boom-131500795.html?.tsrc=rss",
           "published_at": "2026-04-10T13:15:00+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "How Strong Is Innodata's Mag 7 Exposure as a Growth Lever?",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/strong-innodatas-mag-7-exposure-145400870.html?.tsrc=rss",
-          "published_at": "2026-03-31T14:54:00+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "SOUN",
       "name": "SoundHound AI, Inc.",
-      "score_0_1": 0.914204,
+      "score_0_1": 0.951161,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
@@ -1180,7 +1144,7 @@
     {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -1305,7 +1269,7 @@
     {
       "symbol": "AVAV",
       "name": "AeroVironment, Inc.",
-      "score_0_1": 0.805338,
+      "score_0_1": 0.842295,
       "headline_count_fetched": 20,
       "headline_count_relevant": 9,
       "deduped_headline_count": 9,
@@ -1388,7 +1352,7 @@
     {
       "symbol": "PERF",
       "name": "Perfect Corp.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 19,
       "deduped_headline_count": 19,
@@ -1531,7 +1495,7 @@
     {
       "symbol": "GDRX",
       "name": "GoodRx Holdings, Inc.",
-      "score_0_1": 0.552344,
+      "score_0_1": 0.589301,
       "headline_count_fetched": 20,
       "headline_count_relevant": 9,
       "deduped_headline_count": 9,
@@ -1614,7 +1578,7 @@
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 15,
       "deduped_headline_count": 15,
@@ -1733,7 +1697,7 @@
     {
       "symbol": "U",
       "name": "Unity Software Inc.",
-      "score_0_1": 0.712947,
+      "score_0_1": 0.749904,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
@@ -1757,6 +1721,12 @@
         "2026-05-08": 2
       },
       "headlines": [
+        {
+          "title": "Unity Nexxen Ad Deal Tests Unity Software Valuation And Momentum",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/unity-nexxen-ad-deal-tests-021536747.html?.tsrc=rss",
+          "published_at": "2026-05-10T02:15:36+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Unity Software's Q1 Earnings Miss Estimates, Revenues Increase Y/Y",
           "link": "https://finance.yahoo.com/markets/stocks/articles/unity-softwares-q1-earnings-miss-163400592.html?.tsrc=rss",
@@ -1828,42 +1798,42 @@
           "link": "https://www.barchart.com/story/news/1648871/dear-unity-software-stock-fans-mark-your-calendars-for-may-7?.tsrc=rss",
           "published_at": "2026-05-01T14:40:45+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Unity Software Inc. (U) Earnings Expected to Grow: Should You Buy?",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/unity-software-inc-u-earnings-140017665.html?.tsrc=rss",
-          "published_at": "2026-04-30T14:00:17+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "TEM",
       "name": "Tempus AI, Inc.",
-      "score_0_1": 0.552344,
+      "score_0_1": 0.570822,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 15,
-      "deduped_headline_count": 15,
+      "headline_count_relevant": 16,
+      "deduped_headline_count": 16,
       "today_count": 1,
       "prev1_count": 1,
       "prev3_daily_counts": [
         1,
-        2,
+        3,
         1
       ],
-      "avg_prev_3d_excl_today": 1.3333,
+      "avg_prev_3d_excl_today": 1.6667,
       "baseline_prev1_used": 1.0,
-      "baseline_prev3_used": 1.3333,
+      "baseline_prev3_used": 1.6667,
       "ratio_vs_prev1": 1.0,
-      "ratio_vs_prev3avg": 0.750019,
-      "raw_news_strength": 0.65976701,
+      "ratio_vs_prev3avg": 0.599988,
+      "raw_news_strength": 0.63735942,
       "day_counts": {
         "2026-05-05": 1,
-        "2026-05-06": 2,
+        "2026-05-06": 3,
         "2026-05-07": 1,
         "2026-05-08": 1
       },
       "headlines": [
+        {
+          "title": "Tempus AI Expands Beyond Oncology With New Alzheimer’s Blood Test Alliance",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-ai-expands-beyond-oncology-161649169.html?.tsrc=rss",
+          "published_at": "2026-05-09T16:16:49+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Tempus Announces Pricing of Upsized Offering of $400.0 Million of Convertible Senior Notes",
           "link": "https://finance.yahoo.com/markets/stocks/articles/tempus-announces-pricing-upsized-offering-045900038.html?.tsrc=rss",
@@ -1874,6 +1844,12 @@
           "title": "Tempus AI, Inc. Announces Proposed Convertible Senior Notes Offering to Optimize Capital Structure and Reduce Interest Expense",
           "link": "https://finance.yahoo.com/markets/stocks/articles/tempus-ai-inc-announces-proposed-111100902.html?.tsrc=rss",
           "published_at": "2026-05-07T11:11:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Why The Dip In TEM Stock Is A Buying Window",
+          "link": "https://www.trefis.com/articles/598465/why-the-dip-in-tem-stock-is-a-buying-window/2026-05-06?.tsrc=rss",
+          "published_at": "2026-05-06T13:31:10+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -1947,42 +1923,42 @@
           "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-named-times-10-most-123000008.html?.tsrc=rss",
           "published_at": "2026-04-28T12:30:00+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Tempus AI Stock Before Q1 Earnings Release: To Buy or Not to Buy?",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/tempus-ai-stock-q1-earnings-122000042.html?.tsrc=rss",
-          "published_at": "2026-04-27T12:20:00+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "VRT",
       "name": "Vertiv Holdings Co",
-      "score_0_1": 0.441475,
+      "score_0_1": 0.478431,
       "headline_count_fetched": 20,
       "headline_count_relevant": 12,
       "deduped_headline_count": 12,
       "today_count": 1,
       "prev1_count": 5,
       "prev3_daily_counts": [
-        3,
+        2,
         3,
         5
       ],
-      "avg_prev_3d_excl_today": 3.6667,
+      "avg_prev_3d_excl_today": 3.3333,
       "baseline_prev1_used": 5.0,
-      "baseline_prev3_used": 3.6667,
+      "baseline_prev3_used": 3.3333,
       "ratio_vs_prev1": 0.2,
-      "ratio_vs_prev3avg": 0.272725,
-      "raw_news_strength": 0.47798529,
+      "ratio_vs_prev3avg": 0.300003,
+      "raw_news_strength": 0.4832869,
       "day_counts": {
-        "2026-05-05": 3,
+        "2026-05-05": 2,
         "2026-05-06": 3,
         "2026-05-07": 5,
         "2026-05-08": 1
       },
       "headlines": [
+        {
+          "title": "A Look At Vertiv Holdings Co (VRT) Valuation After Its Recent Share Price Momentum",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/look-vertiv-holdings-co-vrt-190907001.html?.tsrc=rss",
+          "published_at": "2026-05-09T19:09:07+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Jim Cramer Highlights Dell Servers and Vertiv Cooling as Major AI Components",
           "link": "https://finance.yahoo.com/markets/stocks/articles/jim-cramer-highlights-dell-servers-150707456.html?.tsrc=rss",
@@ -2048,19 +2024,13 @@
           "link": "https://finance.yahoo.com/markets/stocks/articles/vertiv-holdings-co-vrt-surged-134811711.html?.tsrc=rss",
           "published_at": "2026-05-05T13:48:11+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Vertiv Appoints Frieda He as Chief Procurement Officer",
-          "link": "https://finance.yahoo.com/sectors/technology/articles/vertiv-appoints-frieda-chief-procurement-103000402.html?.tsrc=rss",
-          "published_at": "2026-05-05T10:30:00+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "OII",
       "name": "Oceaneering International Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
@@ -2173,7 +2143,7 @@
     {
       "symbol": "CGNX",
       "name": "Cognex Corporation",
-      "score_0_1": 0.459953,
+      "score_0_1": 0.496909,
       "headline_count_fetched": 20,
       "headline_count_relevant": 18,
       "deduped_headline_count": 18,
@@ -2197,6 +2167,12 @@
         "2026-05-08": 1
       },
       "headlines": [
+        {
+          "title": "Results: Cognex Corporation Exceeded Expectations And The Consensus Has Updated Its Estimates",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/results-cognex-corporation-exceeded-expectations-123301649.html?.tsrc=rss",
+          "published_at": "2026-05-09T12:33:01+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "CGNX Q1 Earnings Beat Estimates on Broad-Based Demand Strength",
           "link": "https://finance.yahoo.com/markets/stocks/articles/cgnx-q1-earnings-beat-estimates-164900799.html?.tsrc=rss",
@@ -2298,19 +2274,13 @@
           "link": "https://finance.yahoo.com/markets/stocks/articles/goldman-sachs-reaffirms-buy-rating-052924343.html?.tsrc=rss",
           "published_at": "2026-04-14T05:29:24+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "3 Reasons CGNX is Risky and 1 Stock to Buy Instead",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/3-reasons-cgnx-risky-1-185201133.html?.tsrc=rss",
-          "published_at": "2026-04-13T18:52:01+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "KTOS",
       "name": "Kratos Defense & Security Solutions Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 11,
       "deduped_headline_count": 11,
@@ -2405,7 +2375,7 @@
     {
       "symbol": "OUST",
       "name": "Ouster Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
@@ -2518,7 +2488,7 @@
     {
       "symbol": "FTI",
       "name": "TechnipFMC plc",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 15,
       "deduped_headline_count": 15,
@@ -2637,10 +2607,10 @@
     {
       "symbol": "LNG",
       "name": "Cheniere Energy Inc.",
-      "score_0_1": 0.515388,
+      "score_0_1": 0.552344,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 12,
-      "deduped_headline_count": 12,
+      "headline_count_relevant": 13,
+      "deduped_headline_count": 13,
       "today_count": 1,
       "prev1_count": 2,
       "prev3_daily_counts": [
@@ -2661,6 +2631,12 @@
         "2026-05-08": 1
       },
       "headlines": [
+        {
+          "title": "Record LNG Quarter And Corpus Christi Progress Test Cheniere Valuation Case",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/record-lng-quarter-corpus-christi-082406471.html?.tsrc=rss",
+          "published_at": "2026-05-09T08:24:06+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Cheniere Energy (NYSE:LNG) Could Be A Buy For Its Upcoming Dividend",
           "link": "https://finance.yahoo.com/markets/stocks/articles/cheniere-energy-nyse-lng-could-193314610.html?.tsrc=rss",
@@ -2738,7 +2714,7 @@
     {
       "symbol": "PR",
       "name": "Permian Resources Corporation",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 12,
       "deduped_headline_count": 12,
@@ -2839,7 +2815,7 @@
     {
       "symbol": "MTDR",
       "name": "Matador Resources Company",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 12,
       "deduped_headline_count": 12,
@@ -2940,7 +2916,7 @@
     {
       "symbol": "ROK",
       "name": "Rockwell Automation Inc.",
-      "score_0_1": 0.657512,
+      "score_0_1": 0.694469,
       "headline_count_fetched": 20,
       "headline_count_relevant": 17,
       "deduped_headline_count": 17,
@@ -2964,6 +2940,12 @@
         "2026-05-08": 2
       },
       "headlines": [
+        {
+          "title": "Results: Rockwell Automation, Inc. Exceeded Expectations And The Consensus Has Updated Its Estimates",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/results-rockwell-automation-inc-exceeded-125947460.html?.tsrc=rss",
+          "published_at": "2026-05-09T12:59:47+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Jim Cramer Highlights the “Incredible Run in Rockwell Automation”",
           "link": "https://finance.yahoo.com/markets/stocks/articles/jim-cramer-highlights-incredible-run-150716492.html?.tsrc=rss",
@@ -3059,42 +3041,54 @@
           "link": "https://finance.yahoo.com/markets/stocks/articles/too-consider-rockwell-automation-rok-112109619.html?.tsrc=rss",
           "published_at": "2026-05-02T11:21:09+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Rockwell Automation Partnering with Feeding America Eastern Wisconsin and Fork Farms to Create Clock Tower Farms",
-          "link": "https://finance.yahoo.com/sectors/technology/articles/rockwell-automation-partnering-feeding-america-110000857.html?.tsrc=rss",
-          "published_at": "2026-05-01T11:00:00+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "IONQ",
       "name": "IonQ Inc.",
-      "score_0_1": 0.877248,
+      "score_0_1": 0.932683,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 14,
-      "deduped_headline_count": 14,
+      "headline_count_relevant": 15,
+      "deduped_headline_count": 15,
       "today_count": 5,
-      "prev1_count": 9,
+      "prev1_count": 7,
       "prev3_daily_counts": [
         0,
         0,
-        9
+        7
       ],
-      "avg_prev_3d_excl_today": 3.0,
-      "baseline_prev1_used": 9.0,
-      "baseline_prev3_used": 3.0,
-      "ratio_vs_prev1": 0.555556,
-      "ratio_vs_prev3avg": 1.666667,
-      "raw_news_strength": 1.31904157,
+      "avg_prev_3d_excl_today": 2.3333,
+      "baseline_prev1_used": 7.0,
+      "baseline_prev3_used": 2.3333,
+      "ratio_vs_prev1": 0.714286,
+      "ratio_vs_prev3avg": 2.142888,
+      "raw_news_strength": 1.37955252,
       "day_counts": {
         "2026-05-05": 0,
         "2026-05-06": 0,
-        "2026-05-07": 9,
+        "2026-05-07": 7,
         "2026-05-08": 5
       },
       "headlines": [
+        {
+          "title": "Is IonQ Stock a Buy as Revenue Skyrockets?",
+          "link": "https://www.fool.com/investing/2026/05/09/is-ionq-stock-a-buy-as-revenue-skyrockets/?.tsrc=rss",
+          "published_at": "2026-05-09T21:49:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "IonQ: The Top Quantum Computing Stock for a Once-in-a-Generation Investment Opportunity",
+          "link": "https://www.fool.com/investing/2026/05/09/ionq-the-top-quantum-computing-stock-for-a-once-in/?.tsrc=rss",
+          "published_at": "2026-05-09T09:50:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Assessing IonQ (IONQ) Valuation After Strong Q1 Results And Quantum Contract Momentum",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/assessing-ionq-ionq-valuation-strong-082251858.html?.tsrc=rss",
+          "published_at": "2026-05-09T08:22:51+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Why ASX and IONQ May Gain 15%+ in the Quantum-Semiconductor Space",
           "link": "https://finance.yahoo.com/markets/stocks/articles/why-asx-ionq-may-gain-190000948.html?.tsrc=rss",
@@ -3166,25 +3160,13 @@
           "link": "https://finance.yahoo.com/markets/stocks/articles/ionq-continues-beat-revenue-guidance-152025204.html?.tsrc=rss",
           "published_at": "2026-05-07T15:20:25+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Why IonQ Stock Is Down Today",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/quantum-shock-ionq-falls-7-134501216.html?.tsrc=rss",
-          "published_at": "2026-05-07T13:45:01+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Why IONQ Stock Owns The Quantum Runway",
-          "link": "https://www.trefis.com/articles/598671/why-ionq-stock-owns-the-quantum-runway/2026-05-07?.tsrc=rss",
-          "published_at": "2026-05-07T12:53:09+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "OXY",
       "name": "Occidental Petroleum Corporation",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 10,
       "deduped_headline_count": 10,
@@ -3273,7 +3255,7 @@
     {
       "symbol": "RCAT",
       "name": "Red Cat Holdings Inc.",
-      "score_0_1": 0.78686,
+      "score_0_1": 0.823817,
       "headline_count_fetched": 20,
       "headline_count_relevant": 9,
       "deduped_headline_count": 9,
@@ -3356,7 +3338,7 @@
     {
       "symbol": "HIMS",
       "name": "Hims & Hers Health Inc.",
-      "score_0_1": 0.607779,
+      "score_0_1": 0.644735,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
@@ -3463,7 +3445,7 @@
     {
       "symbol": "RBRK",
       "name": "Rubrik Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -3588,7 +3570,7 @@
     {
       "symbol": "CRDO",
       "name": "Credo Technology Group Holding Ltd",
-      "score_0_1": 0.70017,
+      "score_0_1": 0.737127,
       "headline_count_fetched": 20,
       "headline_count_relevant": 6,
       "deduped_headline_count": 6,
@@ -3653,7 +3635,7 @@
     {
       "symbol": "ALAB",
       "name": "Astera Labs Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 10,
       "deduped_headline_count": 10,
@@ -3742,7 +3724,7 @@
     {
       "symbol": "SERV",
       "name": "Serve Robotics Inc.",
-      "score_0_1": 0.496909,
+      "score_0_1": 0.533866,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
@@ -3766,6 +3748,12 @@
         "2026-05-08": 1
       },
       "headlines": [
+        {
+          "title": "Why Serve Robotics (SERV) Is Emerging as a Physical AI Growth Story",
+          "link": "https://finance.yahoo.com/sectors/technology/articles/why-serve-robotics-serv-emerging-094141798.html?.tsrc=rss",
+          "published_at": "2026-05-09T09:41:41+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "A Look At Serve Robotics (SERV) Valuation After Q1 2026 Results And Healthcare Expansion",
           "link": "https://finance.yahoo.com/markets/stocks/articles/look-serve-robotics-serv-valuation-031946638.html?.tsrc=rss",
@@ -3843,22 +3831,16 @@
           "link": "https://finance.yahoo.com/markets/stocks/articles/serve-robotics-serv-slightly-since-150149681.html?.tsrc=rss",
           "published_at": "2026-04-11T15:01:49+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "The Bull Case For Serve Robotics (SERV) Could Change Following Launch Of 5G Conversational Robot Maggie",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/bull-case-serve-robotics-serv-211022761.html?.tsrc=rss",
-          "published_at": "2026-04-08T21:10:22+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "PDYN",
       "name": "Palladyne AI Corp.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 15,
-      "deduped_headline_count": 15,
+      "headline_count_relevant": 16,
+      "deduped_headline_count": 16,
       "today_count": 0,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -3879,6 +3861,12 @@
         "2026-05-08": 0
       },
       "headlines": [
+        {
+          "title": "Why Palladyne AI (PDYN) Is Gaining Ground in Defense and Industrial Autonomy",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/why-palladyne-ai-pdyn-gaining-094110933.html?.tsrc=rss",
+          "published_at": "2026-05-09T09:41:10+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "A Look At Palladyne AI (PDYN) Valuation After Q1 2026 Revenue Surge And Backlog Growth",
           "link": "https://finance.yahoo.com/markets/stocks/articles/look-palladyne-ai-pdyn-valuation-022047007.html?.tsrc=rss",
@@ -3974,7 +3962,7 @@
     {
       "symbol": "AEVA",
       "name": "Aeva Technologies Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 17,
       "deduped_headline_count": 17,
@@ -3998,6 +3986,12 @@
         "2026-05-08": 0
       },
       "headlines": [
+        {
+          "title": "Why Aeva Technologies (AEVA) Is Building Momentum Across Automotive and Physical AI",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/why-aeva-technologies-aeva-building-094101854.html?.tsrc=rss",
+          "published_at": "2026-05-09T09:41:01+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Aeva Technologies, Inc. (AEVA) Reports Q1 Loss, Beats Revenue Estimates",
           "link": "https://finance.yahoo.com/markets/stocks/articles/aeva-technologies-inc-aeva-reports-212502433.html?.tsrc=rss",
@@ -4093,19 +4087,13 @@
           "link": "https://finance.yahoo.com/news/aeva-reveals-cityos-ai-powered-110000482.html?.tsrc=rss",
           "published_at": "2026-03-17T11:00:00+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "A Look At Aeva Technologies (AEVA) Valuation After A Year Of Very Strong Shareholder Returns",
-          "link": "https://finance.yahoo.com/news/look-aeva-technologies-aeva-valuation-210714841.html?.tsrc=rss",
-          "published_at": "2026-03-15T21:07:14+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "PRCT",
       "name": "PROCEPT BioRobotics Corporation",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 17,
       "deduped_headline_count": 17,
@@ -4236,7 +4224,7 @@
     {
       "symbol": "LUNR",
       "name": "Intuitive Machines Inc.",
-      "score_0_1": 0.663214,
+      "score_0_1": 0.70017,
       "headline_count_fetched": 20,
       "headline_count_relevant": 11,
       "deduped_headline_count": 11,
@@ -4331,10 +4319,10 @@
     {
       "symbol": "ASTS",
       "name": "AST SpaceMobile Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 11,
-      "deduped_headline_count": 11,
+      "headline_count_relevant": 10,
+      "deduped_headline_count": 10,
       "today_count": 0,
       "prev1_count": 2,
       "prev3_daily_counts": [
@@ -4414,19 +4402,13 @@
           "link": "https://finance.yahoo.com/markets/stocks/articles/jim-cramer-opinion-21-stocks-165936273.html?.tsrc=rss",
           "published_at": "2026-05-02T16:59:36+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Why Did AST SpaceMobile Stock Slip in April?",
-          "link": "https://www.fool.com/investing/2026/05/02/why-did-ast-spacemobile-stock-slip-in-april/?.tsrc=rss",
-          "published_at": "2026-05-02T14:38:07+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "NBIS",
       "name": "Nebius Group N.V.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 5,
       "deduped_headline_count": 5,
@@ -4485,7 +4467,7 @@
     {
       "symbol": "S",
       "name": "SentinelOne Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
@@ -4598,7 +4580,7 @@
     {
       "symbol": "ESTC",
       "name": "Elastic N.V.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 5,
       "deduped_headline_count": 5,
@@ -4657,7 +4639,7 @@
     {
       "symbol": "RXRX",
       "name": "Recursion Pharmaceuticals Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
@@ -4770,7 +4752,7 @@
     {
       "symbol": "TMDX",
       "name": "TransMedics Group Inc.",
-      "score_0_1": 0.589301,
+      "score_0_1": 0.626257,
       "headline_count_fetched": 20,
       "headline_count_relevant": 12,
       "deduped_headline_count": 12,
