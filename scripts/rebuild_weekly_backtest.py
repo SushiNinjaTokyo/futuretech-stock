@@ -28,6 +28,10 @@ OUT_DIR = Path(os.getenv("OUT_DIR", str(ROOT / "site")))
 BACKTEST_WEEKS = int(os.getenv("WEEKLY_BACKTEST_WEEKS", "4"))
 BACKTEST_END_DATE = os.getenv("WEEKLY_BACKTEST_END_DATE", "").strip()
 MIN_SIGNAL_LEVEL = os.getenv("WEEKLY_BACKTEST_MIN_SIGNAL", "B").strip().upper() or "B"
+BENCHMARK = os.getenv("WEEKLY_BACKTEST_BENCHMARK", "SPY").strip().upper() or "SPY"
+
+# Cache benchmark price windows by as-of date so SPY is not downloaded for every signal.
+_BENCHMARK_CACHE: Dict[str, pd.DataFrame] = {}
 
 HORIZONS = {
     "1w": 5,
@@ -105,6 +109,14 @@ def pct(cur: Any, prev: Any) -> Optional[float]:
     return (c / p - 1.0) * 100.0
 
 
+def diff_pct(a: Any, b: Any) -> Optional[float]:
+    av = to_float(a)
+    bv = to_float(b)
+    if av is None or bv is None:
+        return None
+    return av - bv
+
+
 def parse_date(s: str) -> datetime:
     return datetime.strptime(s, "%Y-%m-%d")
 
@@ -149,22 +161,25 @@ def fetch_for_scoring(symbol: str, as_of_saturday: str) -> pd.DataFrame:
     # yfinance end is exclusive, so Saturday + 1 day captures the prior Friday close.
     end_dt = parse_date(as_of_saturday) + timedelta(days=1)
     start_dt = end_dt - timedelta(days=560)
-    return fetch_history_window(
-        symbol,
-        start_dt.strftime("%Y-%m-%d"),
-        end_dt.strftime("%Y-%m-%d"),
-    )
+    return fetch_history_window(symbol, start_dt.strftime("%Y-%m-%d"), end_dt.strftime("%Y-%m-%d"))
 
 
 def fetch_for_outcome(symbol: str, as_of_saturday: str) -> pd.DataFrame:
     # Need past data for context and future data for outcome measurement.
     start_dt = parse_date(as_of_saturday) - timedelta(days=560)
     end_dt = datetime.now(timezone.utc).replace(tzinfo=None) + timedelta(days=2)
-    return fetch_history_window(
-        symbol,
-        start_dt.strftime("%Y-%m-%d"),
-        end_dt.strftime("%Y-%m-%d"),
-    )
+    return fetch_history_window(symbol, start_dt.strftime("%Y-%m-%d"), end_dt.strftime("%Y-%m-%d"))
+
+
+def fetch_benchmark_for_outcome(as_of_saturday: str) -> pd.DataFrame:
+    """Fetch benchmark price history for the same outcome window, cached by as-of date."""
+    cache_key = f"{BENCHMARK}:{as_of_saturday}"
+    if cache_key in _BENCHMARK_CACHE:
+        return _BENCHMARK_CACHE[cache_key]
+
+    df = fetch_for_outcome(BENCHMARK, as_of_saturday)
+    _BENCHMARK_CACHE[cache_key] = df
+    return df
 
 
 def build_snapshot(as_of: str) -> Dict[str, Any]:
@@ -277,14 +292,7 @@ def build_snapshot(as_of: str) -> Dict[str, Any]:
         "E Avoid": 5,
     }
 
-    items = sorted(
-        raw_items,
-        key=lambda x: (
-            signal_order.get(x["signal"], 9),
-            -x["weekly_score"],
-            -x.get("rs_percentile", 0),
-        ),
-    )
+    items = sorted(raw_items, key=lambda x: (signal_order.get(x["signal"], 9), -x["weekly_score"], -x.get("rs_percentile", 0)))
 
     for i, item in enumerate(items, 1):
         item["rank"] = i
@@ -353,13 +361,9 @@ def outcome_for_signal(row: Dict[str, Any], as_of: str) -> Dict[str, Any]:
         out["entry_date"] = df.index[entry_pos].date().isoformat()
         return out
 
-    out: Dict[str, Any] = {
-        "entry_date": df.index[entry_pos].date().isoformat(),
-        "entry_price": safe_round(entry_price, 2),
-    }
+    out: Dict[str, Any] = {"entry_date": df.index[entry_pos].date().isoformat(), "entry_price": safe_round(entry_price, 2)}
 
     completed = []
-
     for label, offset in HORIZONS.items():
         key = f"return_{label}_pct"
         target_pos = entry_pos + offset
@@ -370,13 +374,11 @@ def outcome_for_signal(row: Dict[str, Any], as_of: str) -> Dict[str, Any]:
         else:
             out[key] = None
 
-    # Current performance freezes at 8W completion.
     freeze_pos = entry_pos + HORIZONS["8w"]
     current_pos = min(freeze_pos, len(df) - 1)
     out["current_return_pct"] = safe_round(pct(df["Close"].iloc[current_pos], entry_price), 2)
 
     window = df.iloc[entry_pos: current_pos + 1]
-
     if not window.empty:
         hi = window["High"].max() if "High" in window else window["Close"].max()
         lo = window["Low"].min() if "Low" in window else window["Close"].min()
@@ -401,8 +403,59 @@ def outcome_for_signal(row: Dict[str, Any], as_of: str) -> Dict[str, Any]:
     return out
 
 
+def benchmark_outcome_for_signal(as_of: str) -> Dict[str, Any]:
+    df = fetch_benchmark_for_outcome(as_of)
+    empty = {
+        "benchmark_symbol": BENCHMARK,
+        "benchmark_entry_date": None,
+        "benchmark_entry_price": None,
+        "benchmark_return_1w_pct": None,
+        "benchmark_return_2w_pct": None,
+        "benchmark_return_4w_pct": None,
+        "benchmark_return_8w_pct": None,
+        "benchmark_current_return_pct": None,
+    }
+
+    if df.empty:
+        return empty
+
+    entry_pos = next_trading_row_after(df, as_of)
+    if entry_pos is None or entry_pos >= len(df):
+        return empty
+
+    entry = df.iloc[entry_pos]
+    entry_price = to_float(entry.get("Open")) or to_float(entry.get("Close"))
+    if entry_price is None or entry_price <= 0:
+        out = dict(empty)
+        out["benchmark_entry_date"] = df.index[entry_pos].date().isoformat()
+        return out
+
+    out = {
+        "benchmark_symbol": BENCHMARK,
+        "benchmark_entry_date": df.index[entry_pos].date().isoformat(),
+        "benchmark_entry_price": safe_round(entry_price, 2),
+        "benchmark_return_1w_pct": None,
+        "benchmark_return_2w_pct": None,
+        "benchmark_return_4w_pct": None,
+        "benchmark_return_8w_pct": None,
+        "benchmark_current_return_pct": None,
+    }
+
+    for label, offset in HORIZONS.items():
+        key = f"benchmark_return_{label}_pct"
+        target_pos = entry_pos + offset
+        if target_pos < len(df):
+            out[key] = safe_round(pct(df["Close"].iloc[target_pos], entry_price), 2)
+
+    freeze_pos = entry_pos + HORIZONS["8w"]
+    current_pos = min(freeze_pos, len(df) - 1)
+    out["benchmark_current_return_pct"] = safe_round(pct(df["Close"].iloc[current_pos], entry_price), 2)
+    return out
+
+
 def signal_to_backtest_row(snapshot_row: Dict[str, Any], as_of: str) -> Dict[str, Any]:
     outcome = outcome_for_signal(snapshot_row, as_of)
+    benchmark = benchmark_outcome_for_signal(as_of)
     bo = snapshot_row.get("breakout") or {}
 
     return {
@@ -427,6 +480,7 @@ def signal_to_backtest_row(snapshot_row: Dict[str, Any], as_of: str) -> Dict[str
         "days_since_breakout": bo.get("days_since_breakout"),
         "price_from_breakout_pct": bo.get("price_from_breakout_pct"),
         **outcome,
+        **benchmark,
     }
 
 
@@ -445,16 +499,6 @@ def win_rate(values: List[Optional[float]]) -> Optional[float]:
 
 
 def bucket_summary(rows: List[Dict[str, Any]], *args: Any) -> List[Dict[str, Any]]:
-    """
-    Build bucket-level performance summaries.
-
-    Supports both call styles:
-      bucket_summary(rows, labels)
-      bucket_summary(rows, "unused_key", labels)
-
-    The key itself is not required because each bucket uses a predicate.
-    """
-
     if len(args) == 1:
         labels = args[0]
     elif len(args) == 2:
@@ -464,12 +508,10 @@ def bucket_summary(rows: List[Dict[str, Any]], *args: Any) -> List[Dict[str, Any
         raise TypeError("bucket_summary expects rows + labels, or rows + key + labels")
 
     out = []
-
     for label, predicate in labels:
         subset = [r for r in rows if predicate(r)]
         if not subset:
             continue
-
         out.append({
             "label": label,
             "count": len(subset),
@@ -478,66 +520,66 @@ def bucket_summary(rows: List[Dict[str, Any]], *args: Any) -> List[Dict[str, Any
             "avg_return_2w": safe_round(avg([r.get("return_2w_pct") for r in subset]), 2),
             "avg_return_4w": safe_round(avg([r.get("return_4w_pct") for r in subset]), 2),
             "avg_return_8w": safe_round(avg([r.get("return_8w_pct") for r in subset]), 2),
+            "avg_benchmark_current_return": safe_round(avg([r.get("benchmark_current_return_pct") for r in subset]), 2),
+            "avg_benchmark_return_1w": safe_round(avg([r.get("benchmark_return_1w_pct") for r in subset]), 2),
+            "avg_benchmark_return_2w": safe_round(avg([r.get("benchmark_return_2w_pct") for r in subset]), 2),
+            "avg_benchmark_return_4w": safe_round(avg([r.get("benchmark_return_4w_pct") for r in subset]), 2),
+            "avg_benchmark_return_8w": safe_round(avg([r.get("benchmark_return_8w_pct") for r in subset]), 2),
+            "avg_alpha_current": safe_round(avg([diff_pct(r.get("current_return_pct"), r.get("benchmark_current_return_pct")) for r in subset]), 2),
+            "avg_alpha_1w": safe_round(avg([diff_pct(r.get("return_1w_pct"), r.get("benchmark_return_1w_pct")) for r in subset]), 2),
+            "avg_alpha_4w": safe_round(avg([diff_pct(r.get("return_4w_pct"), r.get("benchmark_return_4w_pct")) for r in subset]), 2),
             "win_rate_1w": safe_round(win_rate([r.get("return_1w_pct") for r in subset]), 4),
             "win_rate_4w": safe_round(win_rate([r.get("return_4w_pct") for r in subset]), 4),
             "win_rate_8w": safe_round(win_rate([r.get("return_8w_pct") for r in subset]), 4),
         })
-
     return out
 
 
 def build_summary(rows: List[Dict[str, Any]], snapshots: List[Dict[str, Any]]) -> Dict[str, Any]:
     total = len(rows)
-
-    # Keep pending signals visible in the table.
-    # But KPI, averages, win rates, and buckets should use entry-confirmed signals only.
     entered_rows = [
         r for r in rows
-        if r.get("entry_price") is not None
-        and r.get("status") not in {"pending_entry", "missing_entry", "missing_prices"}
+        if r.get("entry_price") is not None and r.get("status") not in {"pending_entry", "missing_entry", "missing_prices"}
     ]
-
-    pending_rows = [
-        r for r in rows
-        if r.get("status") == "pending_entry" or r.get("entry_price") is None
-    ]
+    pending_rows = [r for r in rows if r.get("status") == "pending_entry" or r.get("entry_price") is None]
 
     return {
         "as_of": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
         "snapshot_count": len(snapshots),
-
         "total_signals": total,
         "entered_signals": len(entered_rows),
         "pending_entries": len(pending_rows),
-        "active_signals": sum(
-            1 for r in entered_rows
-            if str(r.get("status", "")).startswith("active")
-        ),
-
+        "active_signals": sum(1 for r in entered_rows if str(r.get("status", "")).startswith("active")),
+        "benchmark_symbol": BENCHMARK,
         "avg_current_return": safe_round(avg([r.get("current_return_pct") for r in entered_rows]), 2),
         "avg_return_1w": safe_round(avg([r.get("return_1w_pct") for r in entered_rows]), 2),
         "avg_return_2w": safe_round(avg([r.get("return_2w_pct") for r in entered_rows]), 2),
         "avg_return_4w": safe_round(avg([r.get("return_4w_pct") for r in entered_rows]), 2),
         "avg_return_8w": safe_round(avg([r.get("return_8w_pct") for r in entered_rows]), 2),
-
+        "avg_benchmark_current_return": safe_round(avg([r.get("benchmark_current_return_pct") for r in entered_rows]), 2),
+        "avg_benchmark_return_1w": safe_round(avg([r.get("benchmark_return_1w_pct") for r in entered_rows]), 2),
+        "avg_benchmark_return_2w": safe_round(avg([r.get("benchmark_return_2w_pct") for r in entered_rows]), 2),
+        "avg_benchmark_return_4w": safe_round(avg([r.get("benchmark_return_4w_pct") for r in entered_rows]), 2),
+        "avg_benchmark_return_8w": safe_round(avg([r.get("benchmark_return_8w_pct") for r in entered_rows]), 2),
+        "avg_alpha_current": safe_round(avg([diff_pct(r.get("current_return_pct"), r.get("benchmark_current_return_pct")) for r in entered_rows]), 2),
+        "avg_alpha_1w": safe_round(avg([diff_pct(r.get("return_1w_pct"), r.get("benchmark_return_1w_pct")) for r in entered_rows]), 2),
+        "avg_alpha_2w": safe_round(avg([diff_pct(r.get("return_2w_pct"), r.get("benchmark_return_2w_pct")) for r in entered_rows]), 2),
+        "avg_alpha_4w": safe_round(avg([diff_pct(r.get("return_4w_pct"), r.get("benchmark_return_4w_pct")) for r in entered_rows]), 2),
+        "avg_alpha_8w": safe_round(avg([diff_pct(r.get("return_8w_pct"), r.get("benchmark_return_8w_pct")) for r in entered_rows]), 2),
         "win_rate_1w": safe_round(win_rate([r.get("return_1w_pct") for r in entered_rows]), 4),
         "win_rate_4w": safe_round(win_rate([r.get("return_4w_pct") for r in entered_rows]), 4),
         "win_rate_8w": safe_round(win_rate([r.get("return_8w_pct") for r in entered_rows]), 4),
-
         "completed_1w": sum(1 for r in entered_rows if r.get("return_1w_pct") is not None),
         "completed_2w": sum(1 for r in entered_rows if r.get("return_2w_pct") is not None),
         "completed_4w": sum(1 for r in entered_rows if r.get("return_4w_pct") is not None),
         "completed_8w": sum(1 for r in entered_rows if r.get("return_8w_pct") is not None),
-
         "avg_max_gain": safe_round(avg([r.get("max_gain_since_entry_pct") for r in entered_rows]), 2),
         "avg_max_drawdown": safe_round(avg([r.get("max_drawdown_since_entry_pct") for r in entered_rows]), 2),
-
         "signal_buckets": bucket_summary(entered_rows, "signal", [
             ("A+ Fresh Breakout", lambda r: r.get("signal") == "A+ Fresh Breakout"),
             ("A Leader", lambda r: r.get("signal") == "A Leader"),
             ("B Constructive Setup", lambda r: r.get("signal") == "B Constructive Setup"),
         ]),
-
         "score_buckets": bucket_summary(entered_rows, "score", [
             ("850+", lambda r: (to_float(r.get("weekly_score")) or 0) >= 850),
             ("800-849", lambda r: 800 <= (to_float(r.get("weekly_score")) or 0) < 850),
@@ -545,7 +587,6 @@ def build_summary(rows: List[Dict[str, Any]], snapshots: List[Dict[str, Any]]) -
             ("700-749", lambda r: 700 <= (to_float(r.get("weekly_score")) or 0) < 750),
             ("<700", lambda r: (to_float(r.get("weekly_score")) or 0) < 700),
         ]),
-
         "rank_buckets": bucket_summary(entered_rows, "rank", [
             ("Rank 1", lambda r: r.get("rank") == 1),
             ("Rank 2-3", lambda r: r.get("rank") in {2, 3}),
@@ -557,58 +598,38 @@ def build_summary(rows: List[Dict[str, Any]], snapshots: List[Dict[str, Any]]) -
 
 def main() -> None:
     saturdays = get_backtest_saturdays(BACKTEST_WEEKS, BACKTEST_END_DATE or None)
-    log(
-        "INFO",
-        f"Weekly backtest weeks={BACKTEST_WEEKS}, snapshots={saturdays}, min_signal={MIN_SIGNAL_LEVEL}",
-    )
-
+    log("INFO", f"Weekly backtest weeks={BACKTEST_WEEKS}, snapshots={saturdays}, min_signal={MIN_SIGNAL_LEVEL}, benchmark={BENCHMARK}")
     snapshots = []
     rows: List[Dict[str, Any]] = []
-
     for as_of in saturdays:
         snapshot = build_snapshot(as_of)
-
-        snapshots.append({
-            "as_of": as_of,
-            "summary": snapshot.get("summary", {}),
-        })
-
+        snapshots.append({"as_of": as_of, "summary": snapshot.get("summary", {})})
         for q in snapshot.get("qualified", []):
             rows.append(signal_to_backtest_row(q, as_of))
-
-    rows = sorted(
-        rows,
-        key=lambda r: (r.get("signal_date") or "", -(r.get("rank") or 999)),
-        reverse=True,
-    )
-
+    rows = sorted(rows, key=lambda r: (r.get("signal_date") or "", -(r.get("rank") or 999)), reverse=True)
     summary = build_summary(rows, snapshots)
-
     payload = {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ"),
         "methodology": {
             "name": "Weekly Minervini-style Signal Backtest",
             "min_signal": MIN_SIGNAL_LEVEL,
-            "qualified_signals": sorted(
-                list(QUALIFIED_SIGNALS.get(MIN_SIGNAL_LEVEL, QUALIFIED_SIGNALS["B"]))
-            ),
+            "benchmark": BENCHMARK,
+            "qualified_signals": sorted(list(QUALIFIED_SIGNALS.get(MIN_SIGNAL_LEVEL, QUALIFIED_SIGNALS["B"]))),
             "entry": "next trading day open after Saturday snapshot",
             "horizons": HORIZONS,
             "current_return_policy": "updates until 8W completion, then freezes at 8W close",
             "aggregate_policy": "pending and missing-entry signals are shown in the table but excluded from averages and buckets",
+            "benchmark_policy": "benchmark references use the same entry date and holding window as each signal",
         },
         "snapshots": snapshots,
         "summary": summary,
         "recent": rows,
     }
-
     out_dir = OUT_DIR / "data" / "weekly" / "backtest"
     latest_path = out_dir / "latest.json"
     dated_path = out_dir / f"{datetime.now(timezone.utc).strftime('%Y-%m-%d')}.json"
-
     write_json(latest_path, payload)
     write_json(dated_path, payload)
-
     log("INFO", f"Wrote {latest_path}")
     log("INFO", f"Wrote {dated_path}")
 
