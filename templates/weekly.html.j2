@@ -2,172 +2,365 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>Weekly Minervini Screen | FutureTech Stock Intelligence</title>
+  <title>FutureTech Stock — Weekly Signal Backtest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <link rel="stylesheet" href="/assets/weekly.css">
+  <link rel="stylesheet" href="/assets/weekly_backtest.css">
 </head>
+
 <body>
 <div class="page">
   <div class="ambient ambient-a"></div>
   <div class="ambient ambient-b"></div>
-
-  <header class="topbar">
-    <a class="brand" href="/">FutureTech Stock Intelligence</a>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/backtest/">Backtest</a>
-      <a href="/weekly/" aria-current="page">Weekly</a>
-    </nav>
-  </header>
+  <div class="grid"></div>
 
   <main class="wrap">
-    <section class="hero">
-      <div>
-        <div class="kicker">Weekly Screening</div>
-        <h1>Minervini-style<br/>leader candidates.</h1>
+    {% macro pct(v) -%}
+      {% if v is none %}
+        —
+      {% else %}
+        {% if v > 0 %}+{% endif %}{{ v | round(2) }}%
+      {% endif %}
+    {%- endmacro %}
+
+    {% macro rate(v) -%}
+      {% if v is none %}
+        —
+      {% else %}
+        {{ (v * 100) | round(1) }}%
+      {% endif %}
+    {%- endmacro %}
+
+    {% macro tone(v) -%}
+      {% if v is none %}
+        neutral
+      {% elif v > 0 %}
+        up
+      {% elif v < 0 %}
+        down
+      {% else %}
+        neutral
+      {% endif %}
+    {%- endmacro %}
+
+    {% macro score_tone(v) -%}
+      {% if v is none %}
+        score-neutral
+      {% elif v >= 850 %}
+        score-elite
+      {% elif v >= 800 %}
+        score-strong
+      {% elif v >= 750 %}
+        score-good
+      {% elif v >= 700 %}
+        score-watch
+      {% else %}
+        score-weak
+      {% endif %}
+    {%- endmacro %}
+
+    {% macro status_text(v) -%}
+      {{ v | default('pending_entry', true) | replace('_', ' ') }}
+    {%- endmacro %}
+
+    {% macro perf_with_benchmark(v, b, benchmark='SPY') -%}
+      <div class="perf-cell">
+        <div class="perf-main {{ tone(v) }}">{{ pct(v) }}</div>
+        <div class="benchmark-ref {{ tone(b) }}">
+          {{ benchmark }} {{ pct(b) }}
+        </div>
+      </div>
+    {%- endmacro %}
+
+    <header class="hero">
+      <div class="hero-main">
+        <a class="back-link" href="/">← Home</a>
+
+        <div class="link-row">
+          <a href="/weekly/">Weekly Screening</a>
+          <a href="/backtest/">Daily Backtest</a>
+        </div>
+
+        <div class="kicker">Weekly Outcome Tracker</div>
+        <h1>Weekly Signal Backtest</h1>
+
         <p>
-          CSV-based weekly ranking focused on Stage 2 trend quality, relative strength,
-          breakout freshness, VCP-like setup quality, and accumulation.
+          Tracks B-or-better Minervini-style weekly signals generated from Saturday snapshots.
+          Entry is the next trading day’s open. Performance is measured over 1W, 2W, 4W, and 8W.
         </p>
-        <div class="hero-meta">
-          <span>As of {{ date }}</span>
-          <span>{{ methodology.name | default('Weekly Screening', true) }}</span>
-          <span>{{ methodology.total_points | default(1000, true) }} pts</span>
+
+        <div class="policy-row">
+          <span>Signals: A+ / A / B</span>
+          <span>Entry: Next Open</span>
+          <span>1W: 5 trading days</span>
+          <span>2W: 10 trading days</span>
+          <span>4W: 20 trading days</span>
+          <span>8W: 40 trading days</span>
+          <span>{{ summary.benchmark_symbol | default('SPY', true) }} benchmark</span>
+          <span>Pending excluded from averages</span>
         </div>
       </div>
 
-      <div class="score-card">
-        <div class="score-label">Fresh Breakouts</div>
-        <div class="score-value">{{ summary.fresh_breakouts | default(0, true) }}</div>
-        <div class="score-sub">A+ candidates this run</div>
+      <div class="status-card">
+        <div class="status-label">Weekly Signals</div>
+        <div class="status-value">
+          {{ summary.total_signals | default(0, true) }}
+        </div>
+        <div class="status-sub">tracked signals</div>
+
+        <div class="status-meta">
+          <div>
+            <span>Snapshots</span>
+            <strong>{{ summary.snapshot_count | default(0, true) }}</strong>
+          </div>
+          <div>
+            <span>As of</span>
+            <strong>{{ summary.as_of | default('—', true) }}</strong>
+          </div>
+          <div>
+            <span>Entered</span>
+            <strong>{{ summary.entered_signals | default(0, true) }}</strong>
+          </div>
+          <div>
+            <span>Pending</span>
+            <strong>{{ summary.pending_entries | default(0, true) }}</strong>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="kpi-grid">
+      <article class="kpi-card">
+        <div class="kpi-label">Current Avg</div>
+        <div class="kpi-value {{ tone(summary.avg_current_return) }}">
+          {{ pct(summary.avg_current_return) }}
+        </div>
+        <div class="kpi-note">
+          {{ summary.benchmark_symbol | default('SPY', true) }} {{ pct(summary.avg_benchmark_current_return) }}
+          · Alpha {{ pct(summary.avg_alpha_current) }}
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">1W Avg Return</div>
+        <div class="kpi-value {{ tone(summary.avg_return_1w) }}">
+          {{ pct(summary.avg_return_1w) }}
+        </div>
+        <div class="kpi-note">
+          {{ summary.benchmark_symbol | default('SPY', true) }} {{ pct(summary.avg_benchmark_return_1w) }}
+          · Alpha {{ pct(summary.avg_alpha_1w) }}
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">4W Avg Return</div>
+        <div class="kpi-value {{ tone(summary.avg_return_4w) }}">
+          {{ pct(summary.avg_return_4w) }}
+        </div>
+        <div class="kpi-note">
+          {{ summary.benchmark_symbol | default('SPY', true) }} {{ pct(summary.avg_benchmark_return_4w) }}
+          · Alpha {{ pct(summary.avg_alpha_4w) }}
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-label">8W Win Rate</div>
+        <div class="kpi-value">
+          {{ rate(summary.win_rate_8w) }}
+        </div>
+        <div class="kpi-note">
+          Signal win rate / completed 8W
+        </div>
+      </article>
+    </section>
+
+    <section class="panel coverage-panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Progress</div>
+          <h2>Completion & Risk</h2>
+        </div>
+      </div>
+
+      <div class="coverage-grid">
+        <div class="coverage-card">
+          <span>Completed 1W</span>
+          <strong>{{ summary.completed_1w | default(0, true) }}</strong>
+        </div>
+        <div class="coverage-card">
+          <span>Completed 2W</span>
+          <strong>{{ summary.completed_2w | default(0, true) }}</strong>
+        </div>
+        <div class="coverage-card">
+          <span>Completed 4W</span>
+          <strong>{{ summary.completed_4w | default(0, true) }}</strong>
+        </div>
+        <div class="coverage-card">
+          <span>Avg Max Gain</span>
+          <strong class="{{ tone(summary.avg_max_gain) }}">{{ pct(summary.avg_max_gain) }}</strong>
+        </div>
+        <div class="coverage-card">
+          <span>Avg Max DD</span>
+          <strong class="{{ tone(summary.avg_max_drawdown) }}">{{ pct(summary.avg_max_drawdown) }}</strong>
+        </div>
       </div>
     </section>
 
-    <section class="summary-grid">
-      <article class="summary-card">
-        <span>Total Candidates</span>
-        <strong>{{ summary.total_candidates | default(0, true) }}</strong>
-      </article>
-      <article class="summary-card">
-        <span>Valid Items</span>
-        <strong>{{ summary.valid_items | default(items|length, true) }}</strong>
-      </article>
-      <article class="summary-card">
-        <span>Leaders</span>
-        <strong>{{ summary.leaders | default(0, true) }}</strong>
-      </article>
-      <article class="summary-card">
-        <span>Constructive Setups</span>
-        <strong>{{ summary.constructive_setups | default(0, true) }}</strong>
-      </article>
-    </section>
-
-    <section class="method-card">
-      <div>
-        <div class="section-kicker">Scoring Model</div>
-        <h2>Weighted for timing, not just strength.</h2>
+    {% if snapshots %}
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Snapshots</div>
+          <h2>Saturday Runs</h2>
+        </div>
       </div>
-      <div class="weights">
-        {% for key, val in methodology.weights.items() %}
-          <div class="weight-pill"><span>{{ key.replace('_', ' ') }}</span><strong>{{ val }}</strong></div>
+
+      <div class="snapshot-grid">
+        {% for s in snapshots %}
+        <article class="snapshot-card">
+          <div class="snapshot-date">{{ s.as_of }}</div>
+          <div class="snapshot-stats">
+            <div>
+              <span>Valid</span>
+              <strong>{{ s.summary.valid_items | default(0, true) }}</strong>
+            </div>
+            <div>
+              <span>B+</span>
+              <strong>{{ s.summary.qualified_signals | default(0, true) }}</strong>
+            </div>
+            <div>
+              <span>A+</span>
+              <strong>{{ s.summary.fresh_breakouts | default(0, true) }}</strong>
+            </div>
+          </div>
+        </article>
         {% endfor %}
       </div>
     </section>
+    {% endif %}
 
-    <section class="table-section">
+    {% for section in [
+      ('Signal Quality', 'Performance by Weekly Signal', summary.signal_buckets, 'rule'),
+      ('Score Quality', 'Performance by Score Band', summary.score_buckets, 'bucket'),
+      ('Rank Context', 'Performance by Rank Bucket', summary.rank_buckets, 'bucket')
+    ] %}
+      {% set kicker, title, buckets, kind = section %}
+      {% if buckets %}
+      <section class="panel">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">{{ kicker }}</div>
+            <h2>{{ title }}</h2>
+          </div>
+        </div>
+
+        <div class="{{ 'rule-grid' if kind == 'rule' else 'bucket-grid' }}">
+          {% for b in buckets %}
+          <article class="{{ 'rule-card' if kind == 'rule' else 'bucket-card' }}">
+            <div class="{{ 'rule-label' if kind == 'rule' else 'bucket-label' }}">
+              {{ b.label }}
+            </div>
+
+            <div class="{{ 'rule-main' if kind == 'rule' else 'bucket-main' }} {{ tone(b.avg_current_return) }}">
+              {{ pct(b.avg_current_return) }}
+            </div>
+
+            <div class="bucket-sub">
+              {{ summary.benchmark_symbol | default('SPY', true) }} {{ pct(b.avg_benchmark_current_return) }}
+              · Alpha {{ pct(b.avg_alpha_current) }}
+            </div>
+
+            <div class="{{ 'rule-stats' if kind == 'rule' else 'bucket-stats' }}">
+              <div>
+                <span>1W</span>
+                <strong class="{{ tone(b.avg_return_1w) }}">{{ pct(b.avg_return_1w) }}</strong>
+              </div>
+              <div>
+                <span>4W</span>
+                <strong class="{{ tone(b.avg_return_4w) }}">{{ pct(b.avg_return_4w) }}</strong>
+              </div>
+              <div>
+                <span>Count</span>
+                <strong>{{ b.count }}</strong>
+              </div>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+    {% endfor %}
+
+    <section class="panel">
       <div class="section-head">
         <div>
-          <div class="section-kicker">Ranked Output</div>
-          <h2>Weekly Candidates</h2>
-        </div>
-        <div class="legend">
-          <span class="dot fresh"></span>A+ Fresh Breakout
-          <span class="dot leader"></span>A Leader
-          <span class="dot setup"></span>B Setup
+          <div class="section-kicker">Signals</div>
+          <h2>B-or-Better Weekly Signal History</h2>
         </div>
       </div>
 
+      {% if recent %}
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
+              <th>Date</th>
               <th>Rank</th>
+              <th>Score</th>
               <th>Symbol</th>
               <th>Signal</th>
-              <th class="num">Score</th>
-              <th>Theme</th>
-              <th>Source</th>
-              <th class="num">Trend<br><span>/220</span></th>
-              <th class="num">RS<br><span>/180</span></th>
-              <th class="num">Breakout<br><span>/160</span></th>
-              <th class="num">Setup<br><span>/150</span></th>
-              <th class="num">Vol<br><span>/130</span></th>
-              <th class="num">1M</th>
-              <th class="num">3M</th>
-              <th class="num">BO Days</th>
-              <th class="num">From BO</th>
+              <th>Entry</th>
+              <th>1W</th>
+              <th>2W</th>
+              <th>4W</th>
+              <th>8W</th>
+              <th>Current</th>
+              <th>Max Gain</th>
+              <th>Max DD</th>
+              <th>Status</th>
             </tr>
           </thead>
+
           <tbody>
-          {% for x in items %}
-            <tr class="{{ x.signal | lower | replace('+','plus') | replace(' ','-') }}">
-              <td class="rank">#{{ x.rank }}</td>
-              <td>
-                <div class="symbol">{{ x.symbol }}</div>
-                <div class="name">{{ x.name or x.trigger }}</div>
-              </td>
-              <td><span class="signal">{{ x.signal }}</span></td>
-              <td class="num score">{{ x.weekly_score }}</td>
-              <td>{{ x.theme or '—' }}</td>
-              <td>{{ x.source }}</td>
-              <td class="num metric-cell">
-                <strong>{{ x.trend_score }}</strong>
-                <div class="mini-bar"><span style="width: {{ (x.trend_score / 220 * 100) | round(0) }}%"></span></div>
-              </td>
-              <td class="num metric-cell">
-                <strong>{{ x.rs_score }}</strong>
-                <div class="sub">RS {{ x.rs_percentile }}%</div>
-                <div class="mini-bar"><span style="width: {{ (x.rs_score / 180 * 100) | round(0) }}%"></span></div>
-              </td>
-              <td class="num metric-cell">
-                <strong>{{ x.breakout_score }}</strong>
-                <div class="sub">{{ x.breakout.breakout_type or '—' }}</div>
-                <div class="mini-bar"><span style="width: {{ (x.breakout_score / 160 * 100) | round(0) }}%"></span></div>
-              </td>
-              <td class="num metric-cell">
-                <strong>{{ x.setup_score }}</strong>
-                {% if x.setup.vcp_like %}<div class="sub good">VCP</div>{% else %}<div class="sub">—</div>{% endif %}
-                <div class="mini-bar"><span style="width: {{ (x.setup_score / 150 * 100) | round(0) }}%"></span></div>
-              </td>
-              <td class="num metric-cell">
-                <strong>{{ x.volume_score }}</strong>
-                <div class="mini-bar"><span style="width: {{ (x.volume_score / 130 * 100) | round(0) }}%"></span></div>
-              </td>
-              <td class="num {% if x.returns.return_1m is not none and x.returns.return_1m > 0 %}up{% elif x.returns.return_1m is not none and x.returns.return_1m < 0 %}down{% endif %}">
-                {% if x.returns.return_1m is none %}—{% else %}{% if x.returns.return_1m > 0 %}+{% endif %}{{ x.returns.return_1m }}%{% endif %}
-              </td>
-              <td class="num {% if x.returns.return_3m is not none and x.returns.return_3m > 0 %}up{% elif x.returns.return_3m is not none and x.returns.return_3m < 0 %}down{% endif %}">
-                {% if x.returns.return_3m is none %}—{% else %}{% if x.returns.return_3m > 0 %}+{% endif %}{{ x.returns.return_3m }}%{% endif %}
-              </td>
-              <td class="num">{{ x.breakout.days_since_breakout if x.breakout.days_since_breakout is not none else '—' }}</td>
-              <td class="num">{% if x.breakout.price_from_breakout_pct is none %}—{% else %}{% if x.breakout.price_from_breakout_pct > 0 %}+{% endif %}{{ x.breakout.price_from_breakout_pct }}%{% endif %}</td>
+            {% for row in recent %}
+            <tr>
+              <td>{{ row.signal_date | default('—', true) }}</td>
+              <td><span class="rank-pill">#{{ row.rank | default('—', true) }}</span></td>
+              <td><span class="score-pill {{ score_tone(row.weekly_score) }}">{{ row.weekly_score | default('—', true) }}</span></td>
+              <td><div class="symbol-cell"><strong>{{ row.symbol | default('—', true) }}</strong><span>{{ row.theme | default(row.source, true) }}</span></div></td>
+              <td><div class="rule-cell"><strong>{{ row.signal | default('Signal', true) }}</strong><span>T{{ row.trend_score if row.trend_score is not none else '—' }} / RS{{ row.rs_score if row.rs_score is not none else '—' }} / BO{{ row.breakout_score if row.breakout_score is not none else 0 }}</span></div></td>
+              <td>{% if row.entry_price is none %}—{% else %}<div class="entry-cell"><strong>{{ row.entry_price | round(2) }}</strong><span>{{ row.entry_date | default('', true) }}</span></div>{% endif %}</td>
+              <td>{{ perf_with_benchmark(row.return_1w_pct, row.benchmark_return_1w_pct, summary.benchmark_symbol | default('SPY', true)) }}</td>
+              <td>{{ perf_with_benchmark(row.return_2w_pct, row.benchmark_return_2w_pct, summary.benchmark_symbol | default('SPY', true)) }}</td>
+              <td>{{ perf_with_benchmark(row.return_4w_pct, row.benchmark_return_4w_pct, summary.benchmark_symbol | default('SPY', true)) }}</td>
+              <td>{{ perf_with_benchmark(row.return_8w_pct, row.benchmark_return_8w_pct, summary.benchmark_symbol | default('SPY', true)) }}</td>
+              <td>{{ perf_with_benchmark(row.current_return_pct, row.benchmark_current_return_pct, summary.benchmark_symbol | default('SPY', true)) }}</td>
+              <td class="{{ tone(row.max_gain_since_entry_pct) }}">{{ pct(row.max_gain_since_entry_pct) }}</td>
+              <td class="{{ tone(row.max_drawdown_since_entry_pct) }}">{{ pct(row.max_drawdown_since_entry_pct) }}</td>
+              <td><span class="status-pill {{ row.status | default('pending_entry', true) }}">{{ status_text(row.status) }}</span></td>
             </tr>
-            <tr class="comment-row">
-              <td></td>
-              <td colspan="14">
-                <div class="comment">{{ x.comment }}</div>
-              </td>
-            </tr>
-          {% else %}
-            <tr><td colspan="15" class="empty">No weekly candidates yet. Add rows to data/weekly_candidates.csv and run the workflow.</td></tr>
-          {% endfor %}
+            {% endfor %}
           </tbody>
         </table>
       </div>
+      {% else %}
+      <div class="empty">
+        <h3>No B-or-better weekly signals yet</h3>
+        <p>Weekly Backtest will list only A+ Fresh Breakout, A Leader, and B Constructive Setup signals.</p>
+      </div>
+      {% endif %}
     </section>
 
     <footer class="footer">
-      Generated at {{ generated_at }} · Informational only, not investment advice.
+      <div>
+        <strong>Policy</strong>
+        <span>
+          Weekly Backtest is isolated from the Daily Backtest. It uses Saturday snapshots,
+          B-or-better weekly signals, and next trading day open entries. Pending signals remain visible
+          in the table but are excluded from averages and bucket performance. Benchmark references use
+          the same entry date and holding window as each signal.
+        </span>
+      </div>
+      <div>Generated at {{ generated_at }}</div>
     </footer>
   </main>
 </div>
