@@ -6,7 +6,7 @@ on:
       weeks:
         description: "Number of Saturday snapshots to rebuild"
         required: false
-        default: "4"
+        default: "24"
       end_date:
         description: "Optional end date YYYY-MM-DD. Uses latest Saturday on/before this date."
         required: false
@@ -14,6 +14,10 @@ on:
 
 permissions:
   contents: write
+
+concurrency:
+  group: rebuild-weekly-backtest
+  cancel-in-progress: false
 
 jobs:
   rebuild-weekly-backtest:
@@ -25,12 +29,15 @@ jobs:
       UNIVERSE_CSV: data/universe.csv
       WEEKLY_CANDIDATES_CSV: data/weekly_candidates.csv
       WEEKLY_ENABLE_FUNDAMENTALS: ${{ vars.WEEKLY_ENABLE_FUNDAMENTALS || 'false' }}
-      WEEKLY_BACKTEST_WEEKS: ${{ github.event.inputs.weeks || '4' }}
+      WEEKLY_BACKTEST_WEEKS: ${{ github.event.inputs.weeks || '24' }}
       WEEKLY_BACKTEST_END_DATE: ${{ github.event.inputs.end_date || '' }}
+      WEEKLY_BACKTEST_BENCHMARK: SPY
 
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -40,10 +47,13 @@ jobs:
       - name: Install dependencies
         run: |
           set -euo pipefail
+
           python -m pip install --upgrade pip
+
           if [ -f requirements.txt ]; then
             pip install -r requirements.txt
           fi
+
           pip install pandas yfinance jinja2
 
       - name: Rebuild weekly backtest data
@@ -75,4 +85,8 @@ jobs:
           fi
 
           git commit -m "chore: rebuild weekly backtest"
-          git push
+
+          # Remote main may have advanced while this workflow was running.
+          # Rebase first, then push.
+          git pull --rebase origin main
+          git push origin main
