@@ -430,45 +430,72 @@ def bucket_summary(rows: List[Dict[str, Any]], labels: List[Tuple[str, Any]]) ->
 
 
 def build_summary(rows: List[Dict[str, Any]], snapshots: List[Dict[str, Any]]) -> Dict[str, Any]:
+    total = len(rows)
+
+    # 表示上はpending_entryもテーブルに残す。
+    # ただしKPI・平均リターン・バケット集計にはEntry済みのシグナルだけを使う。
+    entered_rows = [
+        r for r in rows
+        if r.get("entry_price") is not None
+        and r.get("status") not in {"pending_entry", "missing_entry", "missing_prices"}
+    ]
+
+    pending_rows = [
+        r for r in rows
+        if r.get("status") == "pending_entry" or r.get("entry_price") is None
+    ]
+
     return {
         "as_of": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
         "snapshot_count": len(snapshots),
-        "total_signals": len(rows),
-        "active_signals": sum(1 for r in rows if str(r.get("status", "")).startswith("active")),
-        "avg_current_return": safe_round(avg([r.get("current_return_pct") for r in rows]), 2),
-        "avg_return_1w": safe_round(avg([r.get("return_1w_pct") for r in rows]), 2),
-        "avg_return_2w": safe_round(avg([r.get("return_2w_pct") for r in rows]), 2),
-        "avg_return_4w": safe_round(avg([r.get("return_4w_pct") for r in rows]), 2),
-        "avg_return_8w": safe_round(avg([r.get("return_8w_pct") for r in rows]), 2),
-        "win_rate_1w": safe_round(win_rate([r.get("return_1w_pct") for r in rows]), 4),
-        "win_rate_4w": safe_round(win_rate([r.get("return_4w_pct") for r in rows]), 4),
-        "win_rate_8w": safe_round(win_rate([r.get("return_8w_pct") for r in rows]), 4),
-        "completed_1w": sum(1 for r in rows if r.get("return_1w_pct") is not None),
-        "completed_2w": sum(1 for r in rows if r.get("return_2w_pct") is not None),
-        "completed_4w": sum(1 for r in rows if r.get("return_4w_pct") is not None),
-        "completed_8w": sum(1 for r in rows if r.get("return_8w_pct") is not None),
-        "avg_max_gain": safe_round(avg([r.get("max_gain_since_entry_pct") for r in rows]), 2),
-        "avg_max_drawdown": safe_round(avg([r.get("max_drawdown_since_entry_pct") for r in rows]), 2),
-        "signal_buckets": bucket_summary(rows, [
+
+        # 件数系
+        "total_signals": total,
+        "entered_signals": len(entered_rows),
+        "pending_entries": len(pending_rows),
+        "active_signals": sum(1 for r in entered_rows if str(r.get("status", "")).startswith("active")),
+
+        # 平均リターン系はEntry済みだけで計算
+        "avg_current_return": safe_round(avg([r.get("current_return_pct") for r in entered_rows]), 2),
+        "avg_return_1w": safe_round(avg([r.get("return_1w_pct") for r in entered_rows]), 2),
+        "avg_return_2w": safe_round(avg([r.get("return_2w_pct") for r in entered_rows]), 2),
+        "avg_return_4w": safe_round(avg([r.get("return_4w_pct") for r in entered_rows]), 2),
+        "avg_return_8w": safe_round(avg([r.get("return_8w_pct") for r in entered_rows]), 2),
+
+        # 勝率もEntry済みだけ
+        "win_rate_1w": safe_round(win_rate([r.get("return_1w_pct") for r in entered_rows]), 4),
+        "win_rate_4w": safe_round(win_rate([r.get("return_4w_pct") for r in entered_rows]), 4),
+        "win_rate_8w": safe_round(win_rate([r.get("return_8w_pct") for r in entered_rows]), 4),
+
+        # 完了数はEntry済みベース
+        "completed_1w": sum(1 for r in entered_rows if r.get("return_1w_pct") is not None),
+        "completed_2w": sum(1 for r in entered_rows if r.get("return_2w_pct") is not None),
+        "completed_4w": sum(1 for r in entered_rows if r.get("return_4w_pct") is not None),
+        "completed_8w": sum(1 for r in entered_rows if r.get("return_8w_pct") is not None),
+
+        "avg_max_gain": safe_round(avg([r.get("max_gain_since_entry_pct") for r in entered_rows]), 2),
+        "avg_max_drawdown": safe_round(avg([r.get("max_drawdown_since_entry_pct") for r in entered_rows]), 2),
+
+        # バケット分析もEntry済みだけで計算
+        "signal_buckets": bucket_summary(entered_rows, "signal", [
             ("A+ Fresh Breakout", lambda r: r.get("signal") == "A+ Fresh Breakout"),
             ("A Leader", lambda r: r.get("signal") == "A Leader"),
             ("B Constructive Setup", lambda r: r.get("signal") == "B Constructive Setup"),
         ]),
-        "score_buckets": bucket_summary(rows, [
+        "score_buckets": bucket_summary(entered_rows, "score", [
             ("850+", lambda r: (to_float(r.get("weekly_score")) or 0) >= 850),
             ("800-849", lambda r: 800 <= (to_float(r.get("weekly_score")) or 0) < 850),
             ("750-799", lambda r: 750 <= (to_float(r.get("weekly_score")) or 0) < 800),
             ("700-749", lambda r: 700 <= (to_float(r.get("weekly_score")) or 0) < 750),
             ("<700", lambda r: (to_float(r.get("weekly_score")) or 0) < 700),
         ]),
-        "rank_buckets": bucket_summary(rows, [
+        "rank_buckets": bucket_summary(entered_rows, "rank", [
             ("Rank 1", lambda r: r.get("rank") == 1),
             ("Rank 2-3", lambda r: r.get("rank") in {2, 3}),
             ("Rank 4-10", lambda r: isinstance(r.get("rank"), int) and 4 <= r.get("rank") <= 10),
             ("Rank 11+", lambda r: isinstance(r.get("rank"), int) and r.get("rank") >= 11),
         ]),
     }
-
 
 def main() -> None:
     saturdays = get_backtest_saturdays(BACKTEST_WEEKS, BACKTEST_END_DATE or None)
