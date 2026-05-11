@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-11 04:34:34Z",
+  "generated_at": "2026-05-11 04:50:08Z",
   "methodology": {
     "name": "Weekly Minervini-style Signal Backtest",
     "min_signal": "B",
@@ -15,7 +15,8 @@
       "4w": 20,
       "8w": 40
     },
-    "current_return_policy": "updates until 8W completion, then freezes at 8W close"
+    "current_return_policy": "updates until 8W completion, then freezes at 8W close",
+    "aggregate_policy": "pending and missing-entry signals are shown in the table but excluded from averages and buckets"
   },
   "snapshots": [
     {
