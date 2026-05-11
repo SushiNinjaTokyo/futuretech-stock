@@ -62,6 +62,15 @@
       {{ v | default('pending_entry', true) | replace('_', ' ') }}
     {%- endmacro %}
 
+    {% macro perf_with_benchmark(v, b, benchmark='SPY') -%}
+      <div class="perf-cell">
+        <div class="perf-main {{ tone(v) }}">{{ pct(v) }}</div>
+        <div class="benchmark-ref {{ tone(b) }}">
+          {{ benchmark }} {{ pct(b) }}
+        </div>
+      </div>
+    {%- endmacro %}
+
     <header class="hero">
       <div class="hero-main">
         <a class="back-link" href="/">← Home</a>
@@ -86,6 +95,7 @@
           <span>2W: 10 trading days</span>
           <span>4W: 20 trading days</span>
           <span>8W: 40 trading days</span>
+          <span>{{ summary.benchmark_symbol | default('SPY', true) }} benchmark</span>
           <span>Pending excluded from averages</span>
         </div>
       </div>
@@ -124,7 +134,10 @@
         <div class="kpi-value {{ tone(summary.avg_current_return) }}">
           {{ pct(summary.avg_current_return) }}
         </div>
-        <div class="kpi-note">entry-confirmed signals only</div>
+        <div class="kpi-note">
+          {{ summary.benchmark_symbol | default('SPY', true) }} {{ pct(summary.avg_benchmark_current_return) }}
+          · Alpha {{ pct(summary.avg_alpha_current) }}
+        </div>
       </article>
 
       <article class="kpi-card">
@@ -132,7 +145,10 @@
         <div class="kpi-value {{ tone(summary.avg_return_1w) }}">
           {{ pct(summary.avg_return_1w) }}
         </div>
-        <div class="kpi-note">5 trading days</div>
+        <div class="kpi-note">
+          {{ summary.benchmark_symbol | default('SPY', true) }} {{ pct(summary.avg_benchmark_return_1w) }}
+          · Alpha {{ pct(summary.avg_alpha_1w) }}
+        </div>
       </article>
 
       <article class="kpi-card">
@@ -140,7 +156,10 @@
         <div class="kpi-value {{ tone(summary.avg_return_4w) }}">
           {{ pct(summary.avg_return_4w) }}
         </div>
-        <div class="kpi-note">20 trading days</div>
+        <div class="kpi-note">
+          {{ summary.benchmark_symbol | default('SPY', true) }} {{ pct(summary.avg_benchmark_return_4w) }}
+          · Alpha {{ pct(summary.avg_alpha_4w) }}
+        </div>
       </article>
 
       <article class="kpi-card">
@@ -243,7 +262,10 @@
               {{ pct(b.avg_current_return) }}
             </div>
 
-            <div class="bucket-sub">Current Avg</div>
+            <div class="bucket-sub">
+              {{ summary.benchmark_symbol | default('SPY', true) }} {{ pct(b.avg_benchmark_current_return) }}
+              · Alpha {{ pct(b.avg_alpha_current) }}
+            </div>
 
             <div class="{{ 'rule-stats' if kind == 'rule' else 'bucket-stats' }}">
               <div>
@@ -342,11 +364,22 @@
                 {% endif %}
               </td>
 
-              <td class="{{ tone(row.return_1w_pct) }}">{{ pct(row.return_1w_pct) }}</td>
-              <td class="{{ tone(row.return_2w_pct) }}">{{ pct(row.return_2w_pct) }}</td>
-              <td class="{{ tone(row.return_4w_pct) }}">{{ pct(row.return_4w_pct) }}</td>
-              <td class="{{ tone(row.return_8w_pct) }}">{{ pct(row.return_8w_pct) }}</td>
-              <td class="{{ tone(row.current_return_pct) }}">{{ pct(row.current_return_pct) }}</td>
+              <td>
+                {{ perf_with_benchmark(row.return_1w_pct, row.benchmark_return_1w_pct, summary.benchmark_symbol | default('SPY', true)) }}
+              </td>
+              <td>
+                {{ perf_with_benchmark(row.return_2w_pct, row.benchmark_return_2w_pct, summary.benchmark_symbol | default('SPY', true)) }}
+              </td>
+              <td>
+                {{ perf_with_benchmark(row.return_4w_pct, row.benchmark_return_4w_pct, summary.benchmark_symbol | default('SPY', true)) }}
+              </td>
+              <td>
+                {{ perf_with_benchmark(row.return_8w_pct, row.benchmark_return_8w_pct, summary.benchmark_symbol | default('SPY', true)) }}
+              </td>
+              <td>
+                {{ perf_with_benchmark(row.current_return_pct, row.benchmark_current_return_pct, summary.benchmark_symbol | default('SPY', true)) }}
+              </td>
+
               <td class="{{ tone(row.max_gain_since_entry_pct) }}">{{ pct(row.max_gain_since_entry_pct) }}</td>
               <td class="{{ tone(row.max_drawdown_since_entry_pct) }}">{{ pct(row.max_drawdown_since_entry_pct) }}</td>
 
@@ -376,7 +409,8 @@
         <span>
           Weekly Backtest is isolated from the Daily Backtest. It uses Saturday snapshots,
           B-or-better weekly signals, and next trading day open entries. Pending signals remain visible
-          in the table but are excluded from averages and bucket performance.
+          in the table but are excluded from averages and bucket performance. Benchmark references use
+          the same entry date and holding window as each signal.
         </span>
       </div>
       <div>
