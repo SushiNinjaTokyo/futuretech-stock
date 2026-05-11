@@ -409,12 +409,32 @@ def win_rate(values: List[Optional[float]]) -> Optional[float]:
     return sum(1 for v in vals if v > 0) / len(vals)
 
 
-def bucket_summary(rows: List[Dict[str, Any]], labels: List[Tuple[str, Any]]) -> List[Dict[str, Any]]:
+def bucket_summary(rows: List[Dict[str, Any]], *args: Any) -> List[Dict[str, Any]]:
+    """
+    Build bucket-level performance summaries.
+
+    Supports both call styles:
+      bucket_summary(rows, labels)
+      bucket_summary(rows, "unused_key", labels)
+
+    The second style is kept for readability in build_summary(), but the key
+    itself is not needed because each bucket uses a predicate.
+    """
+    if len(args) == 1:
+        labels = args[0]
+    elif len(args) == 2:
+        _key = args[0]
+        labels = args[1]
+    else:
+        raise TypeError("bucket_summary expects rows + labels, or rows + key + labels")
+
     out = []
+
     for label, predicate in labels:
         subset = [r for r in rows if predicate(r)]
         if not subset:
             continue
+
         out.append({
             "label": label,
             "count": len(subset),
@@ -423,9 +443,11 @@ def bucket_summary(rows: List[Dict[str, Any]], labels: List[Tuple[str, Any]]) ->
             "avg_return_2w": safe_round(avg([r.get("return_2w_pct") for r in subset]), 2),
             "avg_return_4w": safe_round(avg([r.get("return_4w_pct") for r in subset]), 2),
             "avg_return_8w": safe_round(avg([r.get("return_8w_pct") for r in subset]), 2),
+            "win_rate_1w": safe_round(win_rate([r.get("return_1w_pct") for r in subset]), 4),
             "win_rate_4w": safe_round(win_rate([r.get("return_4w_pct") for r in subset]), 4),
             "win_rate_8w": safe_round(win_rate([r.get("return_8w_pct") for r in subset]), 4),
         })
+
     return out
 
 
