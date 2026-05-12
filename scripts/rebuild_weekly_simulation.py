@@ -218,6 +218,29 @@ def fetch_histories(symbols: List[str], first_saturday: str) -> Dict[str, pd.Dat
     return out
 
 
+def latest_price_date(histories: Dict[str, pd.DataFrame]) -> str:
+    """Return the latest available market date across loaded price histories."""
+    dates: List[pd.Timestamp] = []
+    for df in histories.values():
+        if df is not None and not df.empty:
+            try:
+                dates.append(pd.Timestamp(df.index[-1]).normalize())
+            except Exception:
+                pass
+    if not dates:
+        return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    return max(dates).date().isoformat()
+
+
+def should_append_current_point(equity_curve: List[Dict[str, Any]], point: Dict[str, Any]) -> bool:
+    """Append/replace only when the last curve point is not already the current valuation."""
+    if not equity_curve:
+        return True
+    last = equity_curve[-1]
+    keys = ["portfolio_equity", "spy_equity", "external_capital", "cash", "market_value"]
+    return any((to_float(last.get(k)) or 0.0) != (to_float(point.get(k)) or 0.0) for k in keys) or last.get("date") != point.get("date")
+
+
 def row_price(df: pd.DataFrame, pos: Optional[int], field: str = "Close") -> Optional[float]:
     if pos is None or pos < 0 or pos >= len(df):
         return None
@@ -623,13 +646,16 @@ def summarize_group(records: List[Dict[str, Any]], key: str, label: str = "label
         spy_value = sum_float(r.get("spy_value") for r in rows)
         strategy_ret = pct(value, cost)
         benchmark_ret = pct(spy_value, spy_cost)
+        alpha_value = value - spy_value
         out.append({
             label: k,
             "count": len(rows),
             "cost": safe_round(cost, 2),
             "value": safe_round(value, 2),
+            "pl_value": safe_round(value - cost, 2),
             "spy_cost": safe_round(spy_cost, 2),
             "spy_value": safe_round(spy_value, 2),
+            "alpha_value": safe_round(alpha_value, 2),
             "return_pct": safe_round(strategy_ret, 2),
             "spy_return_pct": safe_round(benchmark_ret, 2),
             "alpha_pct": safe_round((strategy_ret or 0) - (benchmark_ret or 0), 2) if strategy_ret is not None and benchmark_ret is not None else None,
@@ -639,6 +665,28 @@ def summarize_group(records: List[Dict[str, Any]], key: str, label: str = "label
             "avg_mae_pct": safe_round(avg([r.get("mae_pct") for r in rows]), 2),
         })
     return out
+
+
+def select_trade_extreme(records: List[Dict[str, Any]], best: bool = True) -> Optional[Dict[str, Any]]:
+    valid = [r for r in records if to_float(r.get("return_pct")) is not None]
+    if not valid:
+        return None
+    row = max(valid, key=lambda r: to_float(r.get("return_pct")) or 0.0) if best else min(valid, key=lambda r: to_float(r.get("return_pct")) or 0.0)
+    return {
+        "symbol": row.get("symbol"),
+        "theme": row.get("theme"),
+        "buy_type": row.get("buy_type"),
+        "entry_date": row.get("buy_date"),
+        "exit_date": row.get("exit_date"),
+        "status": row.get("status", "closed" if row.get("exit_date") else "open"),
+        "return_pct": safe_round(row.get("return_pct"), 2),
+        "pl_value": safe_round((to_float(row.get("exit_value", row.get("current_value"))) or 0.0) - (to_float(row.get("cost")) or 0.0), 2),
+        "cost": safe_round(row.get("cost"), 2),
+        "value": safe_round(row.get("exit_value", row.get("current_value")), 2),
+        "mfe_pct": safe_round(row.get("mfe_pct"), 2),
+        "mae_pct": safe_round(row.get("mae_pct"), 2),
+        "exit_reason": row.get("exit_reason"),
+    }
 
 
 def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], histories: Dict[str, pd.DataFrame], details: bool = True) -> Dict[str, Any]:
@@ -908,17 +956,62 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
     turnover_return = pct(turnover_current_value, gross_buy_cost) if gross_buy_cost else None
     spy_return = pct(spy_equivalent, total_new_capital) if total_new_capital else None
     alpha = (net_return or 0) - (spy_return or 0) if net_return is not None and spy_return is not None else None
+
+    # Align the final capital curve point with the same current valuation used by top-level KPIs.
+    # Earlier curve rows are weekly snapshot valuations; the final row is a current mark-to-market
+    # so Portfolio Equity / SPY Equity / Alpha Value cannot drift from the KPI cards.
+    current_equity_multiple = ratio(current_equity, total_new_capital) if total_new_capital else None
+    prior_peak_multiple = max([to_float(e.get("equity_multiple")) or 0.0 for e in equity_curve] + ([current_equity_multiple] if current_equity_multiple is not None else [0.0]))
+    current_dd = pct(current_equity_multiple, prior_peak_multiple) if current_equity_multiple is not None and prior_peak_multiple else None
+    current_exposure = ratio(current_market, current_equity)
+    current_curve_point = {
+        "date": latest_price_date(histories),
+        "point_type": "current",
+        "external_capital": safe_round(total_new_capital, 2),
+        "new_capital": safe_round(total_new_capital, 2),
+        "reinvested_capital": safe_round(total_reinvested_capital, 2),
+        "cash": safe_round(cash, 2),
+        "market_value": safe_round(current_market, 2),
+        "portfolio_equity": safe_round(current_equity, 2),
+        "net_return_pct": safe_round(net_return, 2),
+        "spy_cash": safe_round(spy_cash, 2),
+        "spy_market_value": safe_round(spy_open_value, 2),
+        "spy_equity": safe_round(spy_equivalent, 2),
+        "spy_return_pct": safe_round(spy_return, 2),
+        "alpha_value": safe_round(current_equity - spy_equivalent, 2),
+        "alpha_pct": safe_round(alpha, 2),
+        "equity_multiple": safe_round(current_equity_multiple, 6),
+        "drawdown_pct": safe_round(current_dd, 2),
+        "exposure_pct": safe_round((current_exposure or 0) * 100, 2),
+    }
+    if should_append_current_point(equity_curve, current_curve_point):
+        if equity_curve and equity_curve[-1].get("date") == current_curve_point.get("date"):
+            equity_curve[-1] = current_curve_point
+        else:
+            equity_curve.append(current_curve_point)
+
     max_dd = min([e.get("drawdown_pct") for e in equity_curve if e.get("drawdown_pct") is not None] or [0])
 
     all_lot_records = closed_records + open_lot_records
     closed_win_rate = win_rate([r.get("return_pct") for r in closed_records])
+    net_pl_value = current_equity - total_new_capital if total_new_capital else None
+    return_drawdown_ratio = None
+    if net_return is not None and max_dd is not None and max_dd < 0:
+        return_drawdown_ratio = net_return / abs(max_dd)
+    best_trade = select_trade_extreme(all_lot_records, best=True)
+    worst_trade = select_trade_extreme(all_lot_records, best=False)
     exposure_values = [e.get("exposure_pct") for e in equity_curve if e.get("exposure_pct") is not None]
     largest_position_pct = None
     top5_position_pct = None
+    largest_position_symbol = None
+    largest_position_value = None
     if current_equity > 0 and open_positions:
-        vals = sorted([to_float(p.get("market_value")) or 0.0 for p in open_positions], reverse=True)
+        sorted_positions = sorted(open_positions, key=lambda p: to_float(p.get("market_value")) or 0.0, reverse=True)
+        vals = [to_float(p.get("market_value")) or 0.0 for p in sorted_positions]
         largest_position_pct = vals[0] / current_equity * 100
         top5_position_pct = sum(vals[:5]) / current_equity * 100
+        largest_position_symbol = sorted_positions[0].get("symbol")
+        largest_position_value = vals[0]
 
     summary = {
         "policy_name": policy.name,
@@ -931,13 +1024,18 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
         "gross_current_value": safe_round(turnover_current_value, 2),
         "cash": safe_round(cash, 2),
         "market_value": safe_round(current_market, 2),
+        "open_market_value": safe_round(current_market, 2),
+        "portfolio_equity": safe_round(current_equity, 2),
         "current_equity": safe_round(current_equity, 2),
         "total_pl": safe_round(current_equity - total_new_capital, 2) if total_new_capital else None,
+        "net_pl": safe_round(net_pl_value, 2),
+        "net_pl_value": safe_round(net_pl_value, 2),
         "net_return_pct": safe_round(net_return, 2),
         "return_on_new_capital_pct": safe_round(return_on_new_capital, 2),
         "gross_return_pct": safe_round(turnover_return, 2),
         "spy_cash": safe_round(spy_cash, 2),
         "spy_market_value": safe_round(spy_open_value, 2),
+        "spy_equity": safe_round(spy_equivalent, 2),
         "spy_equivalent": safe_round(spy_equivalent, 2),
         "spy_return_pct": safe_round(spy_return, 2),
         "alpha_value": safe_round(current_equity - spy_equivalent, 2) if total_new_capital else None,
@@ -948,6 +1046,9 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
         "win_rate": safe_round(closed_win_rate, 4),
         "max_drawdown_pct": safe_round(max_dd, 2),
         "current_drawdown_pct": equity_curve[-1].get("drawdown_pct") if equity_curve else None,
+        "return_drawdown_ratio": safe_round(return_drawdown_ratio, 2),
+        "best_trade": best_trade,
+        "worst_trade": worst_trade,
         "avg_mfe_pct": safe_round(avg([r.get("mfe_pct") for r in all_lot_records]), 2),
         "avg_mae_pct": safe_round(avg([r.get("mae_pct") for r in all_lot_records]), 2),
         "mfe_mae_ratio": safe_round(abs((avg([r.get("mfe_pct") for r in all_lot_records]) or 0) / (avg([r.get("mae_pct") for r in all_lot_records]) or -1)), 2),
@@ -955,6 +1056,8 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
         "max_exposure_pct": safe_round(max(exposure_values) if exposure_values else None, 2),
         "current_exposure_pct": safe_round(ratio(current_market, current_equity) * 100 if current_equity else None, 2),
         "largest_position_pct": safe_round(largest_position_pct, 2),
+        "largest_position_symbol": largest_position_symbol,
+        "largest_position_value": safe_round(largest_position_value, 2),
         "top5_position_pct": safe_round(top5_position_pct, 2),
         "liquidity_warning_count": len(liquidity_warnings),
     }
@@ -983,6 +1086,8 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
         "closed_trades": sorted(closed_records, key=lambda x: x.get("exit_date") or "", reverse=True),
         "trade_log": trade_log[-MAX_TRADE_LOG_ROWS:],
         "equity_curve": equity_curve,
+        "best_trade": best_trade,
+        "worst_trade": worst_trade,
         "exit_reason_summary": summarize_group(closed_records, "exit_reason", "exit_reason"),
         "buy_type_summary": summarize_group(all_lot_records, "buy_type", "buy_type"),
         "add_on_sequence_summary": summarize_group(all_lot_records, "sequence_bucket", "sequence"),
@@ -995,6 +1100,8 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
             "max_exposure_pct": summary["max_exposure_pct"],
             "current_exposure_pct": summary["current_exposure_pct"],
             "largest_position_pct": summary["largest_position_pct"],
+            "largest_position_symbol": summary["largest_position_symbol"],
+            "largest_position_value": summary["largest_position_value"],
             "top5_position_pct": summary["top5_position_pct"],
             "cash_ratio_pct": safe_round(ratio(cash, current_equity) * 100 if current_equity else None, 2),
         },
@@ -1020,6 +1127,30 @@ def main() -> None:
             strategy_comparison.append(default_result["comparison_summary"])
         else:
             strategy_comparison.append(simulate_policy(policy, snapshots, histories, details=False))
+
+    default_cmp = next((r for r in strategy_comparison if r.get("strategy") == DEFAULT_POLICY.label), strategy_comparison[0] if strategy_comparison else {})
+    no_reinvest_cmp = next((r for r in strategy_comparison if str(r.get("strategy", "")).lower().startswith("no reinvestment")), None)
+    best_return_cmp = max(strategy_comparison, key=lambda r: to_float(r.get("return_pct")) if to_float(r.get("return_pct")) is not None else -999999) if strategy_comparison else None
+    lowest_dd_cmp = max(strategy_comparison, key=lambda r: to_float(r.get("max_drawdown_pct")) if to_float(r.get("max_drawdown_pct")) is not None else -999999) if strategy_comparison else None
+    best_risk_adjusted_cmp = max(
+        strategy_comparison,
+        key=lambda r: ((to_float(r.get("return_pct")) or 0.0) / abs(to_float(r.get("max_drawdown_pct")) or -1.0)) if (to_float(r.get("max_drawdown_pct")) or 0.0) < 0 else -999999,
+    ) if strategy_comparison else None
+    reinvestment_impact = None
+    if no_reinvest_cmp:
+        reinvestment_impact = {
+            "return_delta_pct": safe_round((to_float(default_cmp.get("return_pct")) or 0.0) - (to_float(no_reinvest_cmp.get("return_pct")) or 0.0), 2),
+            "alpha_delta_pct": safe_round((to_float(default_cmp.get("alpha_pct")) or 0.0) - (to_float(no_reinvest_cmp.get("alpha_pct")) or 0.0), 2),
+            "default_return_pct": safe_round(default_cmp.get("return_pct"), 2),
+            "no_reinvestment_return_pct": safe_round(no_reinvest_cmp.get("return_pct"), 2),
+        }
+
+    strategy_highlights = {
+        "best_return": best_return_cmp,
+        "lowest_drawdown": lowest_dd_cmp,
+        "best_risk_adjusted": best_risk_adjusted_cmp,
+        "reinvestment_impact": reinvestment_impact,
+    }
 
     payload = {
         "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ"),
@@ -1051,6 +1182,12 @@ def main() -> None:
         "closed_trades": default_result["closed_trades"],
         "trade_log": default_result["trade_log"],
         "equity_curve": default_result["equity_curve"],
+        "chart_data": {
+            "equity_curve": default_result["equity_curve"],
+            "strategy_comparison": strategy_comparison,
+            "exit_reason_summary": default_result["exit_reason_summary"],
+            "theme_summary": default_result["theme_summary"],
+        },
         "exit_reason_summary": default_result["exit_reason_summary"],
         "buy_type_summary": default_result["buy_type_summary"],
         "add_on_sequence_summary": default_result["add_on_sequence_summary"],
@@ -1060,7 +1197,10 @@ def main() -> None:
         "regime_summary": default_result["regime_summary"],
         "exposure_summary": default_result["exposure_summary"],
         "liquidity_warnings": default_result["liquidity_warnings"],
+        "best_trade": default_result.get("best_trade"),
+        "worst_trade": default_result.get("worst_trade"),
         "strategy_comparison": strategy_comparison,
+        "strategy_highlights": strategy_highlights,
     }
 
     out_dir = OUT_DIR / "data" / "weekly" / "simulation"
