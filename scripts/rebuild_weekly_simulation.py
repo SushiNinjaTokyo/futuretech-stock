@@ -297,7 +297,31 @@ class SimPolicy:
     time_exit_days: Optional[int] = DEFAULT_TIME_EXIT_DAYS
     reinvest: bool = True
     base_shares: float = BASE_SHARES
+    entry_min_score: int = 700
+    allowed_signals: Optional[Tuple[str, ...]] = None
+    reinvest_min_score: int = 700
+    position_cap_pct: Optional[float] = None
+    note: str = ""
 
+    def allows_entry(self, item: Dict[str, Any]) -> bool:
+        score = to_float(item.get("weekly_score"))
+        if score is None or score < self.entry_min_score:
+            return False
+        if self.allowed_signals is not None and item.get("signal") not in self.allowed_signals:
+            return False
+        return True
+
+    def allows_reinvestment(self, item: Dict[str, Any]) -> bool:
+        score = to_float(item.get("weekly_score"))
+        if score is None or score < self.reinvest_min_score:
+            return False
+        if self.allowed_signals is not None and item.get("signal") not in self.allowed_signals:
+            return False
+        return True
+
+
+ALL_B_PLUS_SIGNALS = ("A+ Fresh Breakout", "A Leader", "B Constructive Setup")
+LEADER_SIGNALS = ("A+ Fresh Breakout", "A Leader")
 
 DEFAULT_POLICY = SimPolicy(
     name="default_12w",
@@ -306,14 +330,87 @@ DEFAULT_POLICY = SimPolicy(
     score_exit=DEFAULT_SCORE_EXIT,
     time_exit_days=DEFAULT_TIME_EXIT_DAYS,
     reinvest=True,
+    entry_min_score=700,
+    allowed_signals=ALL_B_PLUS_SIGNALS,
+    reinvest_min_score=700,
+    note="B+ entries, -5% stop, score <700 exit, 12W lot exit, reinvestment on.",
 )
 
 COMPARISON_POLICIES = [
     DEFAULT_POLICY,
-    SimPolicy("conservative_8w", "Conservative 8W", stop_pct=0.05, score_exit=750, time_exit_days=40, reinvest=True),
-    SimPolicy("trend_follow_16w", "Trend Follow 16W", stop_pct=0.08, score_exit=650, time_exit_days=80, reinvest=True),
-    SimPolicy("no_time_exit", "No Time Exit", stop_pct=0.05, score_exit=700, time_exit_days=None, reinvest=True),
-    SimPolicy("no_reinvestment", "No Reinvestment", stop_pct=0.05, score_exit=700, time_exit_days=60, reinvest=False),
+    SimPolicy(
+        "stop_8",
+        "Stop -8%",
+        stop_pct=0.08,
+        score_exit=700,
+        time_exit_days=60,
+        reinvest=True,
+        entry_min_score=700,
+        allowed_signals=ALL_B_PLUS_SIGNALS,
+        reinvest_min_score=700,
+        note="Same as default, but wider -8% stop.",
+    ),
+    SimPolicy(
+        "stop_10",
+        "Stop -10%",
+        stop_pct=0.10,
+        score_exit=700,
+        time_exit_days=60,
+        reinvest=True,
+        entry_min_score=700,
+        allowed_signals=ALL_B_PLUS_SIGNALS,
+        reinvest_min_score=700,
+        note="Same as default, but wider -10% stop.",
+    ),
+    SimPolicy(
+        "score_750",
+        "Score >=750",
+        stop_pct=0.05,
+        score_exit=700,
+        time_exit_days=60,
+        reinvest=True,
+        entry_min_score=750,
+        allowed_signals=ALL_B_PLUS_SIGNALS,
+        reinvest_min_score=750,
+        note="Only buys signals with weekly score >=750.",
+    ),
+    SimPolicy(
+        "a_leader_only",
+        "A Leader only",
+        stop_pct=0.05,
+        score_exit=700,
+        time_exit_days=60,
+        reinvest=True,
+        entry_min_score=700,
+        allowed_signals=LEADER_SIGNALS,
+        reinvest_min_score=700,
+        note="Buys only A+ Fresh Breakout and A Leader signals.",
+    ),
+    SimPolicy(
+        "reinvest_score_750",
+        "Reinvest score>=750 only",
+        stop_pct=0.05,
+        score_exit=700,
+        time_exit_days=60,
+        reinvest=True,
+        entry_min_score=700,
+        allowed_signals=ALL_B_PLUS_SIGNALS,
+        reinvest_min_score=750,
+        note="Base buys all B+ signals, but reinvests only into score >=750 signals.",
+    ),
+    SimPolicy(
+        "position_cap_40",
+        "Position cap 40%",
+        stop_pct=0.05,
+        score_exit=700,
+        time_exit_days=60,
+        reinvest=True,
+        entry_min_score=700,
+        allowed_signals=ALL_B_PLUS_SIGNALS,
+        reinvest_min_score=700,
+        position_cap_pct=40.0,
+        note="Caps each symbol at 40% of current portfolio equity before new buys.",
+    ),
 ]
 
 
@@ -703,7 +800,7 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
     for snap in snapshots:
         as_of = snap["as_of"]
         items_by_symbol = snap.get("items_by_symbol", {})
-        qualified = snap.get("qualified", [])
+        qualified = [q for q in snap.get("qualified", []) if policy.allows_entry(q)]
 
         # 1) Stop loss scan from prior check through the current snapshot date.
         for sym in list(open_lots.keys()):
@@ -793,6 +890,31 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
                         open_lots.pop(sym, None)
 
         # 4) Buy current weekly B+ signals.
+        # Policy filters are applied before this point. If a position cap is configured,
+        # both base and reinvestment buys are limited by the available room in that symbol.
+        prebuy_market_value = 0.0
+        for psym, plots in open_lots.items():
+            pdf = histories.get(psym, pd.DataFrame())
+            ppos = pos_on_or_before(pdf, as_of)
+            ppx = row_price(pdf, ppos, "Close")
+            if ppx is not None:
+                prebuy_market_value += sum_float(l.get("shares") for l in plots) * ppx
+        prebuy_equity = max(0.0, cash + prebuy_market_value)
+
+        def position_cap_room(symbol: str) -> Optional[float]:
+            if policy.position_cap_pct is None:
+                return None
+            cap_base = prebuy_equity if prebuy_equity > 0 else max(total_new_capital, 1.0)
+            cap_value = cap_base * float(policy.position_cap_pct) / 100.0
+            lots = open_lots.get(symbol, [])
+            cur_value = 0.0
+            df0 = histories.get(symbol, pd.DataFrame())
+            pos0 = pos_on_or_before(df0, as_of)
+            px0 = row_price(df0, pos0, "Close")
+            if px0 is not None and lots:
+                cur_value = sum_float(l.get("shares") for l in lots) * px0
+            return max(0.0, cap_value - cur_value)
+
         valid_signals = []
         for q in qualified:
             sym = q["symbol"]
@@ -808,6 +930,14 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
                 px = buy_price(op)
                 shares = policy.base_shares
                 cost = shares * px + COMMISSION
+                room = position_cap_room(sym)
+                if room is not None and cost > room:
+                    if room <= COMMISSION:
+                        continue
+                    cost = room
+                    shares = max(0.0, (cost - COMMISSION) / px)
+                    if shares <= 0:
+                        continue
                 buy_date = histories[sym].index[pos].date().isoformat()
                 seq = len([l for l in open_lots.get(sym, []) if l.get("buy_type") == "base"]) + 1
                 lot = make_lot(sym, "base", shares, px, cost, as_of, buy_date, pos, q, seq, histories, spy_cost=cost)
@@ -829,29 +959,42 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
                 if adv and cost > adv * LIQUIDITY_WARN_FRACTION:
                     liquidity_warnings.append({"date": buy_date, "symbol": sym, "trade_value": safe_round(cost, 2), "avg_dollar_volume_20d": safe_round(adv, 2), "fraction": safe_round(cost / adv, 6)})
 
-            # Reinvestment buy: deploy available sale proceeds equally across current B+ signals.
-            if policy.reinvest and cash > 0:
-                allocation = cash / len(valid_signals)
-                spy_allocation = spy_cash / len(valid_signals) if spy_cash > 0 else 0.0
+            # Reinvestment buy: deploy available sale proceeds equally across eligible current signals.
+            # Some comparison policies deliberately restrict reinvestment quality, e.g. score >=750.
+            reinvest_signals = [(q, pos, op) for q, pos, op in valid_signals if policy.allows_reinvestment(q)]
+            if policy.reinvest and cash > 0 and reinvest_signals:
+                allocation = cash / len(reinvest_signals)
+                spy_allocation = spy_cash / len(reinvest_signals) if spy_cash > 0 else 0.0
                 if allocation > 0:
                     deployed = 0.0
                     spy_deployed = 0.0
-                    for q, pos, op in valid_signals:
+                    for q, pos, op in reinvest_signals:
                         sym = q["symbol"]
                         px = buy_price(op)
                         if px <= 0:
                             continue
                         cost = allocation
+                        room = position_cap_room(sym)
+                        if room is not None:
+                            # Recompute room after any base buy in this same cycle using raw cost basis.
+                            existing_cost = sum_float(l.get("cost") for l in open_lots.get(sym, []))
+                            cap_base = prebuy_equity if prebuy_equity > 0 else max(total_new_capital, 1.0)
+                            cap_value = cap_base * float(policy.position_cap_pct) / 100.0
+                            room = max(0.0, cap_value - existing_cost)
+                            cost = min(cost, room)
+                        if cost <= COMMISSION:
+                            continue
                         shares = max(0.0, (cost - COMMISSION) / px)
                         if shares <= 0:
                             continue
                         buy_date = histories[sym].index[pos].date().isoformat()
                         seq = len([l for l in open_lots.get(sym, []) if l.get("buy_type") == "base"]) or 1
-                        lot = make_lot(sym, "reinvestment", shares, px, cost, as_of, buy_date, pos, q, seq, histories, spy_cost=spy_allocation)
+                        spy_cost = min(spy_allocation, max(0.0, spy_cash - spy_deployed)) if spy_cash > 0 else 0.0
+                        lot = make_lot(sym, "reinvestment", shares, px, cost, as_of, buy_date, pos, q, seq, histories, spy_cost=spy_cost)
                         lot["last_check_pos"] = pos
                         open_lots.setdefault(sym, []).append(lot)
                         deployed += cost
-                        spy_deployed += spy_allocation
+                        spy_deployed += spy_cost
                         total_reinvested_capital += cost
                         trade_log.append({
                             "date": buy_date,
@@ -861,7 +1004,7 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
                             "shares": safe_round(shares, 4),
                             "price": safe_round(px, 4),
                             "cost": safe_round(cost, 2),
-                            "spy_cost": safe_round(spy_allocation, 2),
+                            "spy_cost": safe_round(spy_cost, 2),
                             "score": q.get("weekly_score"),
                             "signal": q.get("signal"),
                         })
@@ -1064,17 +1207,33 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
 
     comparison_summary = {
         "strategy": policy.label,
+        "strategy_name": policy.name,
+        "note": policy.note,
+        "stop_pct": safe_round(policy.stop_pct * 100, 2),
+        "score_exit": policy.score_exit,
+        "time_exit_days": policy.time_exit_days,
+        "entry_min_score": policy.entry_min_score,
+        "reinvest_min_score": policy.reinvest_min_score,
+        "position_cap_pct": policy.position_cap_pct,
+        "reinvest": policy.reinvest,
         "return_pct": summary["net_return_pct"],
         "return_on_new_capital_pct": summary["return_on_new_capital_pct"],
         "spy_return_pct": summary["spy_return_pct"],
         "alpha_pct": summary["alpha_pct"],
+        "alpha_value": summary["alpha_value"],
+        "portfolio_equity": summary["portfolio_equity"],
+        "total_new_capital": summary["total_new_capital"],
         "max_drawdown_pct": summary["max_drawdown_pct"],
+        "return_drawdown_ratio": summary["return_drawdown_ratio"],
         "win_rate": summary["win_rate"],
         "closed_lots": summary["closed_lots"],
         "open_lots": summary["open_lots"],
         "avg_mfe_pct": summary["avg_mfe_pct"],
         "avg_mae_pct": summary["avg_mae_pct"],
         "avg_exposure_pct": summary["average_exposure_pct"],
+        "current_exposure_pct": summary["current_exposure_pct"],
+        "largest_position_pct": summary["largest_position_pct"],
+        "top5_position_pct": summary["top5_position_pct"],
     }
 
     if not details:
