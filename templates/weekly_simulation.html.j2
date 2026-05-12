@@ -11,18 +11,45 @@
   <div class="ambient ambient-a"></div>
   <div class="ambient ambient-b"></div>
   <div class="grid"></div>
+
   <main class="wrap">
     {% macro money(v) -%}
-      {% if v is none %}—{% else %}${{ "{:,.2f}".format(v) }}{% endif %}
+      {% if v is none %}—{% else %}${{ "{:,}".format((v|float)|int) }}{% endif %}
     {%- endmacro %}
+
     {% macro pct(v) -%}
       {% if v is none %}—{% else %}{% if v > 0 %}+{% endif %}{{ v | round(2) }}%{% endif %}
     {%- endmacro %}
+
+    {% macro plain_pct(v) -%}
+      {% if v is none %}—{% else %}{{ v | round(2) }}%{% endif %}
+    {%- endmacro %}
+
     {% macro rate(v) -%}
       {% if v is none %}—{% else %}{{ (v * 100) | round(1) }}%{% endif %}
     {%- endmacro %}
+
     {% macro tone(v) -%}
       {% if v is none %}neutral{% elif v > 0 %}up{% elif v < 0 %}down{% else %}neutral{% endif %}
+    {%- endmacro %}
+
+    {% macro signed_money(v) -%}
+      {% if v is none %}—{% else %}{% if v > 0 %}+{% endif %}{{ money(v) }}{% endif %}
+    {%- endmacro %}
+
+    {% macro trade_card(title, trade, fallback='—') -%}
+      <article class="insight-card trade-insight">
+        <div class="insight-label">{{ title }}</div>
+        {% if trade %}
+          <div class="insight-main {{ tone(trade.return_pct) }}">{{ trade.symbol | default('—', true) }} {{ pct(trade.return_pct) }}</div>
+          <div class="insight-note">
+            {{ signed_money(trade.pl_value) }} · {{ trade.buy_type | default('lot', true) }}{% if trade.exit_reason %} · {{ trade.exit_reason | replace('_',' ') }}{% endif %}
+          </div>
+        {% else %}
+          <div class="insight-main neutral">{{ fallback }}</div>
+          <div class="insight-note">No eligible lot yet</div>
+        {% endif %}
+      </article>
     {%- endmacro %}
 
     <header class="hero">
@@ -48,9 +75,12 @@
           <span>Slippage: ±0.15%</span>
         </div>
       </div>
+
       <div class="status-card">
         <div class="status-label">Portfolio Equity</div>
-        <div class="status-value {{ tone(summary.net_return_pct) }}">{{ money(summary.current_equity) }}</div>
+        <div class="status-value {{ tone(summary.net_return_pct) }}">
+          {{ money(summary.portfolio_equity | default(summary.current_equity, true)) }}
+        </div>
         <div class="status-sub">Net return on external capital {{ pct(summary.net_return_pct) }}</div>
         <div class="status-meta">
           <div><span>Snapshots</span><strong>{{ snapshots | length }}</strong></div>
@@ -62,35 +92,167 @@
     </header>
 
     <section class="kpi-grid">
-      <article class="kpi-card"><div class="kpi-label">New Capital</div><div class="kpi-value">{{ money(summary.total_new_capital) }}</div><div class="kpi-note">mandatory base buys</div></article>
-      <article class="kpi-card"><div class="kpi-label">Reinvested</div><div class="kpi-value">{{ money(summary.reinvested_capital) }}</div><div class="kpi-note">realized proceeds deployed</div></article>
-      <article class="kpi-card"><div class="kpi-label">Net Return</div><div class="kpi-value {{ tone(summary.net_return_pct) }}">{{ pct(summary.net_return_pct) }}</div><div class="kpi-note">{{ summary.benchmark_symbol | default('SPY', true) }} {{ pct(summary.spy_return_pct) }} · Alpha {{ pct(summary.alpha_pct) }}</div></article>
-      <article class="kpi-card"><div class="kpi-label">Max Drawdown</div><div class="kpi-value {{ tone(summary.max_drawdown_pct) }}">{{ pct(summary.max_drawdown_pct) }}</div><div class="kpi-note">current {{ pct(summary.current_drawdown_pct) }}</div></article>
+      <article class="kpi-card">
+        <div class="kpi-label">External Capital</div>
+        <div class="kpi-value">{{ money(summary.total_new_capital) }}</div>
+        <div class="kpi-note">mandatory base buys / new money</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Portfolio Equity</div>
+        <div class="kpi-value {{ tone(summary.net_return_pct) }}">{{ money(summary.portfolio_equity) }}</div>
+        <div class="kpi-note">Cash {{ money(summary.cash) }} · Market {{ money(summary.market_value) }}</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Net P/L</div>
+        <div class="kpi-value {{ tone(summary.net_pl_value | default(summary.total_pl, true)) }}">{{ signed_money(summary.net_pl_value | default(summary.total_pl, true)) }}</div>
+        <div class="kpi-note">Portfolio equity - external capital</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Net Return</div>
+        <div class="kpi-value {{ tone(summary.net_return_pct) }}">{{ pct(summary.net_return_pct) }}</div>
+        <div class="kpi-note">{{ summary.benchmark_symbol | default('SPY', true) }} {{ pct(summary.spy_return_pct) }}</div>
+      </article>
     </section>
 
     <section class="kpi-grid kpi-grid-secondary">
-      <article class="kpi-card"><div class="kpi-label">SPY Equity</div><div class="kpi-value">{{ money(summary.spy_equivalent) }}</div><div class="kpi-note">parallel portfolio · Alpha {{ money(summary.alpha_value) }}</div></article>
-      <article class="kpi-card"><div class="kpi-label">Win Rate</div><div class="kpi-value">{{ rate(summary.win_rate) }}</div><div class="kpi-note">closed lots</div></article>
-      <article class="kpi-card"><div class="kpi-label">MFE / MAE</div><div class="kpi-value">{{ summary.mfe_mae_ratio | default('—', true) }}x</div><div class="kpi-note">MFE {{ pct(summary.avg_mfe_pct) }} · MAE {{ pct(summary.avg_mae_pct) }}</div></article>
-      <article class="kpi-card"><div class="kpi-label">Exposure</div><div class="kpi-value">{{ pct(summary.current_exposure_pct) }}</div><div class="kpi-note">Cash {{ money(summary.cash) }} · Market {{ money(summary.market_value) }}</div></article>
+      <article class="kpi-card">
+        <div class="kpi-label">SPY Equity</div>
+        <div class="kpi-value">{{ money(summary.spy_equity | default(summary.spy_equivalent, true)) }}</div>
+        <div class="kpi-note">parallel same-cash-flow portfolio</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Alpha Value</div>
+        <div class="kpi-value {{ tone(summary.alpha_value) }}">{{ signed_money(summary.alpha_value) }}</div>
+        <div class="kpi-note">Alpha {{ pct(summary.alpha_pct) }}</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Reinvested Turnover</div>
+        <div class="kpi-value">{{ money(summary.reinvested_capital) }}</div>
+        <div class="kpi-note">realized proceeds redeployed, not new capital</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Return / Max DD</div>
+        <div class="kpi-value">{{ summary.return_drawdown_ratio | default('—', true) }}x</div>
+        <div class="kpi-note">Return {{ pct(summary.net_return_pct) }} · Max DD {{ pct(summary.max_drawdown_pct) }}</div>
+      </article>
+    </section>
+
+    <section class="kpi-grid kpi-grid-secondary">
+      <article class="kpi-card">
+        <div class="kpi-label">Max Drawdown</div>
+        <div class="kpi-value {{ tone(summary.max_drawdown_pct) }}">{{ pct(summary.max_drawdown_pct) }}</div>
+        <div class="kpi-note">current {{ pct(summary.current_drawdown_pct) }}</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Win Rate</div>
+        <div class="kpi-value">{{ rate(summary.win_rate) }}</div>
+        <div class="kpi-note">closed lots</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">MFE / MAE</div>
+        <div class="kpi-value">{{ summary.mfe_mae_ratio | default('—', true) }}x</div>
+        <div class="kpi-note">MFE {{ pct(summary.avg_mfe_pct) }} · MAE {{ pct(summary.avg_mae_pct) }}</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Exposure</div>
+        <div class="kpi-value">{{ plain_pct(summary.current_exposure_pct) }}</div>
+        <div class="kpi-note">Largest {% if summary.largest_position_symbol %}{{ summary.largest_position_symbol }} {% endif %}{{ plain_pct(summary.largest_position_pct) }} · Top5 {{ plain_pct(summary.top5_position_pct) }}</div>
+      </article>
+    </section>
+
+    <section class="panel insight-panel">
+      <div class="section-head"><div><div class="section-kicker">Decision Layer</div><h2>What Drove the Result</h2></div></div>
+      <div class="insight-grid">
+        <article class="insight-card">
+          <div class="insight-label">Reinvestment Impact</div>
+          {% if strategy_highlights.reinvestment_impact %}
+            <div class="insight-main {{ tone(strategy_highlights.reinvestment_impact.return_delta_pct) }}">{{ pct(strategy_highlights.reinvestment_impact.return_delta_pct) }}</div>
+            <div class="insight-note">vs no reinvestment · Alpha delta {{ pct(strategy_highlights.reinvestment_impact.alpha_delta_pct) }}</div>
+          {% else %}
+            <div class="insight-main neutral">—</div><div class="insight-note">comparison unavailable</div>
+          {% endif %}
+        </article>
+        <article class="insight-card">
+          <div class="insight-label">Best Return Strategy</div>
+          {% if strategy_highlights.best_return %}
+            <div class="insight-main {{ tone(strategy_highlights.best_return.return_pct) }}">{{ strategy_highlights.best_return.strategy }}</div>
+            <div class="insight-note">{{ pct(strategy_highlights.best_return.return_pct) }} · DD {{ pct(strategy_highlights.best_return.max_drawdown_pct) }}</div>
+          {% else %}<div class="insight-main neutral">—</div><div class="insight-note">comparison unavailable</div>{% endif %}
+        </article>
+        <article class="insight-card">
+          <div class="insight-label">Lowest Drawdown</div>
+          {% if strategy_highlights.lowest_drawdown %}
+            <div class="insight-main {{ tone(strategy_highlights.lowest_drawdown.max_drawdown_pct) }}">{{ strategy_highlights.lowest_drawdown.strategy }}</div>
+            <div class="insight-note">DD {{ pct(strategy_highlights.lowest_drawdown.max_drawdown_pct) }} · Return {{ pct(strategy_highlights.lowest_drawdown.return_pct) }}</div>
+          {% else %}<div class="insight-main neutral">—</div><div class="insight-note">comparison unavailable</div>{% endif %}
+        </article>
+        <article class="insight-card">
+          <div class="insight-label">Best Risk-Adjusted</div>
+          {% if strategy_highlights.best_risk_adjusted %}
+            <div class="insight-main {{ tone(strategy_highlights.best_risk_adjusted.return_pct) }}">{{ strategy_highlights.best_risk_adjusted.strategy }}</div>
+            <div class="insight-note">Return {{ pct(strategy_highlights.best_risk_adjusted.return_pct) }} · DD {{ pct(strategy_highlights.best_risk_adjusted.max_drawdown_pct) }}</div>
+          {% else %}<div class="insight-main neutral">—</div><div class="insight-note">comparison unavailable</div>{% endif %}
+        </article>
+        {{ trade_card('Best Lot', summary.best_trade | default(best_trade, true)) }}
+        {{ trade_card('Worst Lot', summary.worst_trade | default(worst_trade, true)) }}
+      </div>
     </section>
 
     {% if equity_curve %}
-    <section class="panel">
-      <div class="section-head"><div><div class="section-kicker">Capital Curve</div><h2>Equity Curve</h2></div></div>
-      <div class="curve-wrap">
+    <section class="panel viz-panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Capital Curve</div>
+          <h2>Simulation vs {{ summary.benchmark_symbol | default('SPY', true) }} vs New Capital</h2>
+        </div>
+      </div>
+
+      <div class="curve-wrap curve-wrap-five">
         {% set latest = equity_curve[-1] %}
         <div class="curve-card"><span>Portfolio Equity</span><strong>{{ money(latest.portfolio_equity) }}</strong></div>
         <div class="curve-card"><span>{{ summary.benchmark_symbol | default('SPY', true) }} Equity</span><strong>{{ money(latest.spy_equity) }}</strong></div>
-        <div class="curve-card"><span>Alpha Value</span><strong class="{{ tone(latest.alpha_value) }}">{{ money(latest.alpha_value) }}</strong></div>
+        <div class="curve-card"><span>New Capital</span><strong>{{ money(latest.external_capital) }}</strong></div>
+        <div class="curve-card"><span>Alpha Value</span><strong class="{{ tone(latest.alpha_value) }}">{{ signed_money(latest.alpha_value) }}</strong></div>
         <div class="curve-card"><span>Cash</span><strong>{{ money(latest.cash) }}</strong></div>
       </div>
+
+      <div class="chart-card">
+        <div class="chart-toolbar">
+          <div class="chart-title">Portfolio Equity Curve</div>
+          <div class="chart-legend">
+            <span><i class="legend-dot strategy"></i>Simulation</span>
+            <span><i class="legend-dot spy"></i>{{ summary.benchmark_symbol | default('SPY', true) }}</span>
+            <span><i class="legend-dot capital"></i>New Capital</span>
+          </div>
+        </div>
+        <svg id="equityChart" class="line-chart" viewBox="0 0 1000 360" role="img" aria-label="Simulation equity, SPY equity, and external capital over time"></svg>
+      </div>
+
+      <div class="chart-grid two">
+        <div class="chart-card small-chart-card">
+          <div class="chart-toolbar"><div class="chart-title">Drawdown</div></div>
+          <svg id="drawdownChart" class="line-chart small" viewBox="0 0 1000 260" role="img" aria-label="Portfolio drawdown over time"></svg>
+        </div>
+        <div class="chart-card small-chart-card">
+          <div class="chart-toolbar"><div class="chart-title">Capital Deployment</div></div>
+          <svg id="deploymentChart" class="line-chart small" viewBox="0 0 1000 260" role="img" aria-label="Market value and cash over time"></svg>
+        </div>
+      </div>
+
       <div class="mini-table-wrap">
         <table>
-          <thead><tr><th>Date</th><th>Equity</th><th>SPY</th><th>Alpha</th><th>Drawdown</th><th>Exposure</th></tr></thead>
+          <thead><tr><th>Date</th><th>Equity</th><th>SPY</th><th>New Capital</th><th>Alpha</th><th>Drawdown</th><th>Exposure</th></tr></thead>
           <tbody>
           {% for e in equity_curve[-12:] %}
-            <tr><td>{{ e.date }}</td><td>{{ money(e.portfolio_equity) }}</td><td>{{ money(e.spy_equity) }}</td><td class="{{ tone(e.alpha_value) }}">{{ money(e.alpha_value) }}</td><td class="{{ tone(e.drawdown_pct) }}">{{ pct(e.drawdown_pct) }}</td><td>{{ pct(e.exposure_pct) }}</td></tr>
+            <tr>
+              <td>{{ e.date }}{% if e.point_type == 'current' %}<span class="mini-badge">current</span>{% endif %}</td>
+              <td>{{ money(e.portfolio_equity) }}</td>
+              <td>{{ money(e.spy_equity) }}</td>
+              <td>{{ money(e.external_capital) }}</td>
+              <td class="{{ tone(e.alpha_value) }}">{{ signed_money(e.alpha_value) }}</td>
+              <td class="{{ tone(e.drawdown_pct) }}">{{ pct(e.drawdown_pct) }}</td>
+              <td>{{ plain_pct(e.exposure_pct) }}</td>
+            </tr>
           {% endfor %}
           </tbody>
         </table>
@@ -100,15 +262,28 @@
 
     <section class="panel">
       <div class="section-head"><div><div class="section-kicker">Rule Sensitivity</div><h2>Strategy Comparison</h2></div></div>
+      <div class="chart-card chart-card-inline">
+        <div class="chart-toolbar"><div class="chart-title">Return / Drawdown by Strategy</div></div>
+        <svg id="strategyChart" class="bar-chart" viewBox="0 0 1000 300" role="img" aria-label="Strategy comparison chart"></svg>
+      </div>
       <div class="table-wrap compact">
         <table>
           <thead><tr><th>Strategy</th><th>Net Return</th><th>SPY</th><th>Alpha</th><th>Max DD</th><th>Win</th><th>Closed</th><th>Exposure</th></tr></thead>
           <tbody>
           {% for r in strategy_comparison %}
-            <tr><td><strong>{{ r.strategy }}</strong></td><td class="{{ tone(r.return_pct) }}">{{ pct(r.return_pct) }}</td><td>{{ pct(r.spy_return_pct) }}</td><td class="{{ tone(r.alpha_pct) }}">{{ pct(r.alpha_pct) }}</td><td class="{{ tone(r.max_drawdown_pct) }}">{{ pct(r.max_drawdown_pct) }}</td><td>{{ rate(r.win_rate) }}</td><td>{{ r.closed_lots }}</td><td>{{ pct(r.avg_exposure_pct) }}</td></tr>
+            <tr><td><strong>{{ r.strategy }}</strong></td><td class="{{ tone(r.return_pct) }}">{{ pct(r.return_pct) }}</td><td>{{ pct(r.spy_return_pct) }}</td><td class="{{ tone(r.alpha_pct) }}">{{ pct(r.alpha_pct) }}</td><td class="{{ tone(r.max_drawdown_pct) }}">{{ pct(r.max_drawdown_pct) }}</td><td>{{ rate(r.win_rate) }}</td><td>{{ r.closed_lots }}</td><td>{{ plain_pct(r.avg_exposure_pct) }}</td></tr>
           {% endfor %}
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head"><div><div class="section-kicker">Rule Diagnostics</div><h2>Exit / Buy / Add-on Visuals</h2></div></div>
+      <div class="chart-grid three">
+        <div class="chart-card"><div class="chart-toolbar"><div class="chart-title">Exit Reason Return</div></div><svg id="exitReasonChart" class="bar-chart compact-chart" viewBox="0 0 1000 300"></svg></div>
+        <div class="chart-card"><div class="chart-toolbar"><div class="chart-title">Buy Type Contribution</div></div><svg id="buyTypeChart" class="bar-chart compact-chart" viewBox="0 0 1000 300"></svg></div>
+        <div class="chart-card"><div class="chart-toolbar"><div class="chart-title">Add-on Sequence Return</div></div><svg id="sequenceChart" class="bar-chart compact-chart" viewBox="0 0 1000 300"></svg></div>
       </div>
     </section>
 
@@ -121,8 +296,12 @@
           <article class="bucket-card">
             <div class="bucket-label">{{ r[label_key] }}</div>
             <div class="bucket-main {{ tone(r.return_pct) }}">{{ pct(r.return_pct) }}</div>
-            <div class="bucket-sub">Alpha {{ pct(r.alpha_pct) }} · Win {{ rate(r.win_rate) }}</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>{{ r.count }}</strong></div><div><span>Cost</span><strong>{{ money(r.cost) }}</strong></div><div><span>MFE</span><strong>{{ pct(r.avg_mfe_pct) }}</strong></div></div>
+            <div class="bucket-sub">{{ money(r.value) }} / Cost {{ money(r.cost) }}</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="{{ tone(r.alpha_pct) }}">{{ pct(r.alpha_pct) }}</strong></div>
+              <div><span>Count</span><strong>{{ r.count }}</strong></div>
+              <div><span>Win</span><strong>{{ rate(r.win_rate) }}</strong></div>
+            </div>
           </article>
           {% endfor %}
         </div>
@@ -130,12 +309,27 @@
       {% endif %}
     {% endmacro %}
 
-    {{ summary_grid('Exit Reason Summary', 'Exit Quality', exit_reason_summary, 'exit_reason') }}
-    {{ summary_grid('Add-on Sequence Summary', 'Pyramiding', add_on_sequence_summary, 'sequence') }}
-    {{ summary_grid('Buy Type Summary', 'Capital Source', buy_type_summary, 'buy_type') }}
-    {{ summary_grid('Score Band Summary', 'Entry Quality', score_band_summary, 'score_band') }}
+    {{ summary_grid('Exit Reason Summary', 'Exit Rules', exit_reason_summary, 'exit_reason') }}
+    {{ summary_grid('Buy Type Summary', 'Contribution', buy_type_summary, 'buy_type') }}
+    {{ summary_grid('Add-on Sequence Summary', 'Add-on Quality', add_on_sequence_summary, 'sequence') }}
+    {{ summary_grid('Score Band Summary', 'Entry Score', score_band_summary, 'score_band') }}
     {{ summary_grid('Signal Type Summary', 'Signal Quality', signal_type_summary, 'signal') }}
-    {{ summary_grid('Theme Summary', 'Theme Attribution', theme_summary, 'theme') }}
+
+    {% if theme_summary %}
+    <section class="panel">
+      <div class="section-head"><div><div class="section-kicker">Themes</div><h2>Theme Return and Capital Allocation</h2></div></div>
+      <div class="chart-grid two">
+        <div class="chart-card"><div class="chart-toolbar"><div class="chart-title">Theme Return</div></div><svg id="themeReturnChart" class="bar-chart" viewBox="0 0 1000 300"></svg></div>
+        <div class="chart-card"><div class="chart-toolbar"><div class="chart-title">Theme Cost Allocation</div></div><svg id="themeCostChart" class="bar-chart" viewBox="0 0 1000 300"></svg></div>
+      </div>
+      <div class="summary-grid theme-summary-grid">
+        {% for r in theme_summary %}
+          <article class="bucket-card"><div class="bucket-label">{{ r.theme }}</div><div class="bucket-main {{ tone(r.return_pct) }}">{{ pct(r.return_pct) }}</div><div class="bucket-sub">{{ money(r.value) }} / Cost {{ money(r.cost) }}</div><div class="bucket-stats"><div><span>Alpha</span><strong class="{{ tone(r.alpha_pct) }}">{{ pct(r.alpha_pct) }}</strong></div><div><span>Cost</span><strong>{{ money(r.cost) }}</strong></div><div><span>MFE</span><strong>{{ pct(r.avg_mfe_pct | default(none, true)) }}</strong></div></div></article>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
     {{ summary_grid('Market Regime Summary', 'Regime', regime_summary, 'regime') }}
 
     <section class="panel">
@@ -146,7 +340,7 @@
           <thead><tr><th>Symbol</th><th>Shares</th><th>Avg Cost</th><th>Current</th><th>Market Value</th><th>P/L</th><th>Score</th><th>Stop</th><th>Distance</th><th>Lots</th></tr></thead>
           <tbody>
           {% for p in open_positions %}
-            <tr><td><div class="symbol-cell"><strong>{{ p.symbol }}</strong><span>{{ p.theme }}</span></div></td><td>{{ p.shares }}</td><td>{{ money(p.avg_cost) }}</td><td>{{ money(p.current_price) }}</td><td>{{ money(p.market_value) }}</td><td class="{{ tone(p.unrealized_return_pct) }}">{{ money(p.unrealized_pl) }}<br><small>{{ pct(p.unrealized_return_pct) }}</small></td><td>{{ p.current_score | default('—', true) }}</td><td>{{ money(p.stop_price) }}</td><td class="{{ tone(p.distance_to_stop_pct) }}">{{ pct(p.distance_to_stop_pct) }}</td><td>{{ p.lots }}</td></tr>
+            <tr><td><div class="symbol-cell"><strong>{{ p.symbol }}</strong><span>{{ p.theme }}</span></div></td><td>{{ p.shares }}</td><td>{{ money(p.avg_cost) }}</td><td>{{ money(p.current_price) }}</td><td>{{ money(p.market_value) }}</td><td class="{{ tone(p.unrealized_return_pct) }}">{{ signed_money(p.unrealized_pl) }}<br><small>{{ pct(p.unrealized_return_pct) }}</small></td><td>{{ p.current_score | default('—', true) }}</td><td>{{ money(p.stop_price) }}</td><td class="{{ tone(p.distance_to_stop_pct) }}">{{ pct(p.distance_to_stop_pct) }}</td><td>{{ p.lots }}</td></tr>
           {% endfor %}
           </tbody>
         </table>
@@ -159,10 +353,10 @@
       {% if closed_trades %}
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Symbol</th><th>Buy</th><th>Exit</th><th>Type</th><th>Shares</th><th>Cost</th><th>Exit Value</th><th>Return</th><th>Reason</th><th>MFE</th><th>MAE</th></tr></thead>
+          <thead><tr><th>Symbol</th><th>Buy</th><th>Exit</th><th>Type</th><th>Shares</th><th>Cost</th><th>Exit Value</th><th>P/L</th><th>Return</th><th>Reason</th><th>MFE</th><th>MAE</th></tr></thead>
           <tbody>
-          {% for t in closed_trades[:80] %}
-            <tr><td><div class="symbol-cell"><strong>{{ t.symbol }}</strong><span>{{ t.theme }}</span></div></td><td>{{ t.buy_date }}</td><td>{{ t.exit_date }}</td><td>{{ t.buy_type }}</td><td>{{ t.shares | round(4) }}</td><td>{{ money(t.cost) }}</td><td>{{ money(t.exit_value) }}</td><td class="{{ tone(t.return_pct) }}">{{ pct(t.return_pct) }}</td><td>{{ t.exit_reason }}</td><td class="{{ tone(t.mfe_pct) }}">{{ pct(t.mfe_pct) }}</td><td class="{{ tone(t.mae_pct) }}">{{ pct(t.mae_pct) }}</td></tr>
+          {% for t in closed_trades[:100] %}
+            <tr><td><div class="symbol-cell"><strong>{{ t.symbol }}</strong><span>{{ t.theme }}</span></div></td><td>{{ t.buy_date }}</td><td>{{ t.exit_date }}</td><td>{{ t.buy_type }}</td><td>{{ t.shares | round(4) }}</td><td>{{ money(t.cost) }}</td><td>{{ money(t.exit_value) }}</td><td class="{{ tone(t.realized_pl) }}">{{ signed_money(t.realized_pl) }}</td><td class="{{ tone(t.return_pct) }}">{{ pct(t.return_pct) }}</td><td>{{ t.exit_reason }}</td><td class="{{ tone(t.mfe_pct) }}">{{ pct(t.mfe_pct) }}</td><td class="{{ tone(t.mae_pct) }}">{{ pct(t.mae_pct) }}</td></tr>
           {% endfor %}
           </tbody>
         </table>
@@ -178,10 +372,117 @@
     {% endif %}
 
     <footer class="footer">
-      <div><strong>Policy</strong><span>{{ policy.entry }} {{ policy.base_buy }} {{ policy.reinvestment }} {{ policy.benchmark }} Portfolio equity is cash plus open market value; reinvested capital is turnover, not additional external capital.</span></div>
+      <div><strong>Policy</strong><span>{{ policy.entry }} {{ policy.base_buy }} {{ policy.reinvestment }} {{ policy.benchmark }} Portfolio equity is cash plus open market value; reinvested capital is turnover, not additional external capital. The final curve point is current mark-to-market and is aligned with the KPI cards.</span></div>
       <div>Generated at {{ generated_at }}</div>
     </footer>
   </main>
 </div>
+
+<script id="equityCurveData" type="application/json">{{ equity_curve | tojson }}</script>
+<script id="strategyComparisonData" type="application/json">{{ strategy_comparison | tojson }}</script>
+<script id="themeSummaryData" type="application/json">{{ theme_summary | tojson }}</script>
+<script id="exitReasonData" type="application/json">{{ exit_reason_summary | tojson }}</script>
+<script id="buyTypeData" type="application/json">{{ buy_type_summary | tojson }}</script>
+<script id="sequenceData" type="application/json">{{ add_on_sequence_summary | tojson }}</script>
+<script>
+(function(){
+  const parseJSON = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return [];
+    try { return JSON.parse(el.textContent || '[]'); } catch { return []; }
+  };
+  const fmtMoney = (v) => v == null || !Number.isFinite(+v) ? '—' : '$' + Number(v).toLocaleString(undefined,{maximumFractionDigits:0});
+  const fmtPct = (v) => v == null || !Number.isFinite(+v) ? '—' : (v > 0 ? '+' : '') + Number(v).toFixed(1) + '%';
+  const num = (v) => Number.isFinite(+v) ? +v : null;
+
+  function linePath(points){
+    if (!points.length) return '';
+    return points.map((p,i)=>`${i?'L':'M'} ${p.x.toFixed(2)} ${p.y.toFixed(2)}`).join(' ');
+  }
+
+  function drawMultiLineChart(svgId, rows, series, opts={}){
+    const svg = document.getElementById(svgId);
+    if (!svg || !rows.length) return;
+    const W=1000,H=svgId === 'equityChart' ? 360 : 260,pad={l:74,r:28,t:34,b:48};
+    svg.innerHTML='';
+    const vals=[];
+    rows.forEach(r=>series.forEach(s=>{ const v=num(r[s.key]); if(v!=null) vals.push(v); }));
+    if(!vals.length) return;
+    let min=Math.min(...vals), max=Math.max(...vals);
+    if(opts.includeZero){ min=Math.min(min,0); max=Math.max(max,0); }
+    if(min===max){ min-=1; max+=1; }
+    const span=max-min || 1;
+    const x=(i)=>pad.l + (rows.length===1?0.5:i/(rows.length-1))*(W-pad.l-pad.r);
+    const y=(v)=>pad.t + (max-v)/span*(H-pad.t-pad.b);
+    const axis=document.createElementNS('http://www.w3.org/2000/svg','path');
+    axis.setAttribute('d',`M ${pad.l} ${pad.t} V ${H-pad.b} H ${W-pad.r}`);
+    axis.setAttribute('class','chart-axis');
+    svg.appendChild(axis);
+    for(let k=0;k<=4;k++){
+      const gv=min+span*k/4, yy=y(gv);
+      const grid=document.createElementNS('http://www.w3.org/2000/svg','line');
+      grid.setAttribute('x1',pad.l); grid.setAttribute('x2',W-pad.r); grid.setAttribute('y1',yy); grid.setAttribute('y2',yy); grid.setAttribute('class','chart-gridline'); svg.appendChild(grid);
+      const label=document.createElementNS('http://www.w3.org/2000/svg','text');
+      label.setAttribute('x',pad.l-10); label.setAttribute('y',yy+4); label.setAttribute('text-anchor','end'); label.setAttribute('class','chart-label'); label.textContent=opts.percent?fmtPct(gv):fmtMoney(gv); svg.appendChild(label);
+    }
+    const first=rows[0], last=rows[rows.length-1];
+    [[0,first.date],[rows.length-1,last.date]].forEach(([i,label])=>{
+      const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',x(i)); t.setAttribute('y',H-18); t.setAttribute('text-anchor',i===0?'start':'end'); t.setAttribute('class','chart-label'); t.textContent=label||''; svg.appendChild(t);
+    });
+    series.forEach(s=>{
+      const pts=rows.map((r,i)=>{ const v=num(r[s.key]); return v==null?null:{x:x(i),y:y(v)}; }).filter(Boolean);
+      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d',linePath(pts));
+      path.setAttribute('class','chart-line '+s.cls);
+      svg.appendChild(path);
+      if(pts.length){ const dot=document.createElementNS('http://www.w3.org/2000/svg','circle'); dot.setAttribute('cx',pts[pts.length-1].x); dot.setAttribute('cy',pts[pts.length-1].y); dot.setAttribute('r',4); dot.setAttribute('class','chart-dot '+s.cls); svg.appendChild(dot); }
+    });
+  }
+
+  function drawBarChart(svgId, rows, key, labelKey, opts={}){
+    const svg=document.getElementById(svgId); if(!svg||!rows.length) return;
+    const W=1000,H=300,pad={l:190,r:80,t:24,b:30};
+    svg.innerHTML='';
+    const data=rows.slice(0,8).map(r=>({label:String(r[labelKey]||r.strategy||'—').replace(/_/g,' '), value:num(r[key])||0}));
+    const maxAbs=Math.max(1,...data.map(d=>Math.abs(d.value)));
+    const rowH=(H-pad.t-pad.b)/Math.max(1,data.length);
+    const zeroX=pad.l+(W-pad.l-pad.r)/2;
+    const scale=(W-pad.l-pad.r)/2/maxAbs;
+    const zero=document.createElementNS('http://www.w3.org/2000/svg','line'); zero.setAttribute('x1',zeroX); zero.setAttribute('x2',zeroX); zero.setAttribute('y1',pad.t-8); zero.setAttribute('y2',H-pad.b+6); zero.setAttribute('class','chart-axis-muted'); svg.appendChild(zero);
+    data.forEach((d,i)=>{
+      const y=pad.t+i*rowH+rowH*.2;
+      const x=d.value>=0?zeroX:zeroX+d.value*scale;
+      const w=Math.abs(d.value*scale);
+      const rect=document.createElementNS('http://www.w3.org/2000/svg','rect'); rect.setAttribute('x',x); rect.setAttribute('y',y); rect.setAttribute('width',w); rect.setAttribute('height',Math.max(8,rowH*.46)); rect.setAttribute('rx',6); rect.setAttribute('class','chart-bar '+(d.value>=0?'up':'down')); svg.appendChild(rect);
+      const lab=document.createElementNS('http://www.w3.org/2000/svg','text'); lab.setAttribute('x',pad.l-12); lab.setAttribute('y',y+rowH*.32); lab.setAttribute('text-anchor','end'); lab.setAttribute('class','chart-label'); lab.textContent=d.label; svg.appendChild(lab);
+      const val=document.createElementNS('http://www.w3.org/2000/svg','text'); val.setAttribute('x',d.value>=0?x+w+7:x-7); val.setAttribute('y',y+rowH*.32); val.setAttribute('text-anchor',d.value>=0?'start':'end'); val.setAttribute('class','chart-value'); val.textContent=opts.money?fmtMoney(d.value):fmtPct(d.value); svg.appendChild(val);
+    });
+  }
+
+  const equity=parseJSON('equityCurveData');
+  const strategies=parseJSON('strategyComparisonData');
+  const themes=parseJSON('themeSummaryData');
+  const exits=parseJSON('exitReasonData');
+  const buyTypes=parseJSON('buyTypeData');
+  const seq=parseJSON('sequenceData');
+  drawMultiLineChart('equityChart', equity, [
+    {key:'portfolio_equity', cls:'strategy'},
+    {key:'spy_equity', cls:'spy'},
+    {key:'external_capital', cls:'capital'}
+  ], {includeZero:true});
+  drawMultiLineChart('drawdownChart', equity, [{key:'drawdown_pct', cls:'drawdown'}], {percent:true, includeZero:true});
+  drawMultiLineChart('deploymentChart', equity, [
+    {key:'market_value', cls:'strategy'},
+    {key:'cash', cls:'cash'}
+  ], {includeZero:true});
+  drawBarChart('strategyChart', strategies, 'return_pct', 'strategy');
+  drawBarChart('themeReturnChart', themes, 'return_pct', 'theme');
+  drawBarChart('themeCostChart', themes, 'cost', 'theme', {money:true});
+  drawBarChart('exitReasonChart', exits, 'return_pct', 'exit_reason');
+  drawBarChart('buyTypeChart', buyTypes, 'pl_value', 'buy_type', {money:true});
+  drawBarChart('sequenceChart', seq, 'return_pct', 'sequence');
+})();
+</script>
 </body>
 </html>
