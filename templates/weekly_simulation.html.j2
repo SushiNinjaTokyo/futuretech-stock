@@ -13,29 +13,28 @@
   <div class="grid"></div>
 
   <main class="wrap">
-    {% set strategy_highlights = strategy_highlights | default({}, true) %}
     {% macro money(v) -%}
-      {% if v is not defined or v is none %}—{% else %}${{ "{:,}".format((v|float)|int) }}{% endif %}
+      {% if v is none %}—{% else %}${{ "{:,}".format((v|float)|int) }}{% endif %}
     {%- endmacro %}
 
     {% macro pct(v) -%}
-      {% if v is not defined or v is none %}—{% else %}{% if (v|float) > 0 %}+{% endif %}{{ (v|float) | round(2) }}%{% endif %}
+      {% if v is none %}—{% else %}{% if v > 0 %}+{% endif %}{{ v | round(2) }}%{% endif %}
     {%- endmacro %}
 
     {% macro plain_pct(v) -%}
-      {% if v is not defined or v is none %}—{% else %}{{ (v|float) | round(2) }}%{% endif %}
+      {% if v is none %}—{% else %}{{ v | round(2) }}%{% endif %}
     {%- endmacro %}
 
     {% macro rate(v) -%}
-      {% if v is not defined or v is none %}—{% else %}{{ ((v|float) * 100) | round(1) }}%{% endif %}
+      {% if v is none %}—{% else %}{{ (v * 100) | round(1) }}%{% endif %}
     {%- endmacro %}
 
     {% macro tone(v) -%}
-      {% if v is not defined or v is none %}neutral{% elif (v|float) > 0 %}up{% elif (v|float) < 0 %}down{% else %}neutral{% endif %}
+      {% if v is none %}neutral{% elif v > 0 %}up{% elif v < 0 %}down{% else %}neutral{% endif %}
     {%- endmacro %}
 
     {% macro signed_money(v) -%}
-      {% if v is not defined or v is none %}—{% else %}{% if (v|float) > 0 %}+{% endif %}{{ money(v) }}{% endif %}
+      {% if v is none %}—{% else %}{% if v > 0 %}+{% endif %}{{ money(v) }}{% endif %}
     {%- endmacro %}
 
     {% macro trade_card(title, trade, fallback='—') -%}
@@ -209,12 +208,12 @@
       </div>
 
       <div class="curve-wrap curve-wrap-five">
-        {% set latest = equity_curve[-1] if equity_curve else {} %}
-        <div class="curve-card"><span>Portfolio Equity</span><strong>{{ money(latest.portfolio_equity | default(summary.portfolio_equity, true)) }}</strong></div>
-        <div class="curve-card"><span>{{ summary.benchmark_symbol | default('SPY', true) }} Equity</span><strong>{{ money(latest.spy_equity | default(summary.spy_equity, true)) }}</strong></div>
-        <div class="curve-card"><span>New Capital</span><strong>{{ money(latest.external_capital | default(summary.total_new_capital, true)) }}</strong></div>
-        <div class="curve-card"><span>Alpha Value</span><strong class="{{ tone(latest.alpha_value | default(summary.alpha_value, true)) }}">{{ signed_money(latest.alpha_value | default(summary.alpha_value, true)) }}</strong></div>
-        <div class="curve-card"><span>Cash</span><strong>{{ money(latest.cash | default(summary.cash, true)) }}</strong></div>
+        {% set latest = equity_curve[-1] %}
+        <div class="curve-card"><span>Portfolio Equity</span><strong>{{ money(latest.portfolio_equity) }}</strong></div>
+        <div class="curve-card"><span>{{ summary.benchmark_symbol | default('SPY', true) }} Equity</span><strong>{{ money(latest.spy_equity) }}</strong></div>
+        <div class="curve-card"><span>New Capital</span><strong>{{ money(latest.external_capital) }}</strong></div>
+        <div class="curve-card"><span>Alpha Value</span><strong class="{{ tone(latest.alpha_value) }}">{{ signed_money(latest.alpha_value) }}</strong></div>
+        <div class="curve-card"><span>Cash</span><strong>{{ money(latest.cash) }}</strong></div>
       </div>
 
       <div class="chart-card">
@@ -247,12 +246,12 @@
           {% for e in equity_curve[-12:] %}
             <tr>
               <td>{{ e.date }}{% if e.point_type == 'current' %}<span class="mini-badge">current</span>{% endif %}</td>
-              <td>{{ money(e.portfolio_equity | default(e.current_equity, true)) }}</td>
-              <td>{{ money(e.spy_equity | default(e.spy_equivalent, true)) }}</td>
-              <td>{{ money(e.external_capital | default(summary.total_new_capital, true)) }}</td>
-              <td class="{{ tone(e.alpha_value) }}">{{ signed_money(e.alpha_value | default((e.portfolio_equity | default(e.current_equity, true)) - (e.spy_equity | default(e.spy_equivalent, true)), true)) }}</td>
-              <td class="{{ tone(e.drawdown_pct) }}">{{ pct(e.drawdown_pct | default(0, true)) }}</td>
-              <td>{{ plain_pct(e.exposure_pct | default(0, true)) }}</td>
+              <td>{{ money(e.portfolio_equity) }}</td>
+              <td>{{ money(e.spy_equity) }}</td>
+              <td>{{ money(e.external_capital) }}</td>
+              <td class="{{ tone(e.alpha_value) }}">{{ signed_money(e.alpha_value) }}</td>
+              <td class="{{ tone(e.drawdown_pct) }}">{{ pct(e.drawdown_pct) }}</td>
+              <td>{{ plain_pct(e.exposure_pct) }}</td>
             </tr>
           {% endfor %}
           </tbody>
@@ -261,21 +260,121 @@
     </section>
     {% endif %}
 
-    <section class="panel">
-      <div class="section-head"><div><div class="section-kicker">Rule Sensitivity</div><h2>Strategy Comparison</h2></div></div>
-      <div class="chart-card chart-card-inline">
-        <div class="chart-toolbar"><div class="chart-title">Return / Drawdown by Strategy</div></div>
-        <svg id="strategyChart" class="bar-chart" viewBox="0 0 1000 300" role="img" aria-label="Strategy comparison chart"></svg>
+    <section class="panel strategy-comparison-panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Rule Sensitivity</div>
+          <h2>Strategy Comparison</h2>
+        </div>
       </div>
-      <div class="table-wrap compact">
-        <table>
-          <thead><tr><th>Strategy</th><th>Net Return</th><th>SPY</th><th>Alpha</th><th>Max DD</th><th>Win</th><th>Closed</th><th>Exposure</th></tr></thead>
-          <tbody>
-          {% for r in strategy_comparison %}
-            <tr><td><strong>{{ r.strategy }}</strong></td><td class="{{ tone(r.return_pct) }}">{{ pct(r.return_pct) }}</td><td>{{ pct(r.spy_return_pct) }}</td><td class="{{ tone(r.alpha_pct) }}">{{ pct(r.alpha_pct) }}</td><td class="{{ tone(r.max_drawdown_pct) }}">{{ pct(r.max_drawdown_pct) }}</td><td>{{ rate(r.win_rate) }}</td><td>{{ r.closed_lots }}</td><td>{{ plain_pct(r.avg_exposure_pct) }}</td></tr>
-          {% endfor %}
-          </tbody>
-        </table>
+
+      <div class="tab-controls" role="tablist" aria-label="Strategy comparison views">
+        <button class="tab-button active" type="button" data-tab="strategy-table">Table</button>
+        <button class="tab-button" type="button" data-tab="strategy-return">Return</button>
+        <button class="tab-button" type="button" data-tab="strategy-risk">Risk</button>
+        <button class="tab-button" type="button" data-tab="strategy-alpha">Alpha</button>
+        <button class="tab-button" type="button" data-tab="strategy-winrate">Win Rate</button>
+        <button class="tab-button" type="button" data-tab="strategy-exposure">Exposure</button>
+      </div>
+
+      <div id="strategy-table" class="tab-panel active" role="tabpanel">
+        <div class="table-wrap compact strategy-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Strategy</th>
+                <th>Net Return</th>
+                <th>SPY</th>
+                <th>Alpha</th>
+                <th>Alpha Value</th>
+                <th>Max DD</th>
+                <th>Return/DD</th>
+                <th>Win</th>
+                <th>Closed</th>
+                <th>Largest</th>
+                <th>Top5</th>
+                <th>Rule</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for r in strategy_comparison %}
+              <tr>
+                <td><div class="strategy-name"><strong>{{ r.strategy }}</strong><span>{{ r.note | default('', true) }}</span></div></td>
+                <td class="{{ tone(r.return_pct) }}">{{ pct(r.return_pct) }}</td>
+                <td>{{ pct(r.spy_return_pct) }}</td>
+                <td class="{{ tone(r.alpha_pct) }}">{{ pct(r.alpha_pct) }}</td>
+                <td class="{{ tone(r.alpha_value) }}">{{ signed_money(r.alpha_value) }}</td>
+                <td class="{{ tone(r.max_drawdown_pct) }}">{{ pct(r.max_drawdown_pct) }}</td>
+                <td>{{ r.return_drawdown_ratio | default('—', true) }}x</td>
+                <td>{{ rate(r.win_rate) }}</td>
+                <td>{{ r.closed_lots | default('—', true) }}</td>
+                <td>{{ plain_pct(r.largest_position_pct) }}</td>
+                <td>{{ plain_pct(r.top5_position_pct) }}</td>
+                <td><span class="rule-chip">Stop -{{ r.stop_pct | default('—', true) }}%</span><span class="rule-chip">Score ≥{{ r.entry_min_score | default('—', true) }}</span>{% if r.position_cap_pct %}<span class="rule-chip">Cap {{ r.position_cap_pct }}%</span>{% endif %}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="strategy-return" class="tab-panel" role="tabpanel">
+        <div class="chart-card chart-card-inline">
+          <div class="chart-toolbar"><div class="chart-title">Net Return by Strategy</div></div>
+          <svg id="strategyReturnChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Net return by strategy"></svg>
+        </div>
+      </div>
+
+      <div id="strategy-risk" class="tab-panel" role="tabpanel">
+        <div class="chart-grid two">
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">Max Drawdown by Strategy</div></div>
+            <svg id="strategyRiskChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Max drawdown by strategy"></svg>
+          </div>
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">Return / Max DD</div></div>
+            <svg id="strategyRiskAdjustedChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Risk adjusted return by strategy"></svg>
+          </div>
+        </div>
+      </div>
+
+      <div id="strategy-alpha" class="tab-panel" role="tabpanel">
+        <div class="chart-grid two">
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">SPY Alpha %</div></div>
+            <svg id="strategyAlphaChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="SPY alpha percentage by strategy"></svg>
+          </div>
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">Alpha Value</div></div>
+            <svg id="strategyAlphaValueChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Alpha value by strategy"></svg>
+          </div>
+        </div>
+      </div>
+
+      <div id="strategy-winrate" class="tab-panel" role="tabpanel">
+        <div class="chart-grid two">
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">Win Rate</div></div>
+            <svg id="strategyWinRateChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Win rate by strategy"></svg>
+          </div>
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">Closed Lots</div></div>
+            <svg id="strategyTradeCountChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Closed lot count by strategy"></svg>
+          </div>
+        </div>
+      </div>
+
+      <div id="strategy-exposure" class="tab-panel" role="tabpanel">
+        <div class="chart-grid two">
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">Largest Position %</div></div>
+            <svg id="strategyLargestChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Largest position by strategy"></svg>
+          </div>
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">Top 5 Exposure %</div></div>
+            <svg id="strategyTop5Chart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Top five exposure by strategy"></svg>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -457,7 +556,7 @@
       const w=Math.abs(d.value*scale);
       const rect=document.createElementNS('http://www.w3.org/2000/svg','rect'); rect.setAttribute('x',x); rect.setAttribute('y',y); rect.setAttribute('width',w); rect.setAttribute('height',Math.max(8,rowH*.46)); rect.setAttribute('rx',6); rect.setAttribute('class','chart-bar '+(d.value>=0?'up':'down')); svg.appendChild(rect);
       const lab=document.createElementNS('http://www.w3.org/2000/svg','text'); lab.setAttribute('x',pad.l-12); lab.setAttribute('y',y+rowH*.32); lab.setAttribute('text-anchor','end'); lab.setAttribute('class','chart-label'); lab.textContent=d.label; svg.appendChild(lab);
-      const val=document.createElementNS('http://www.w3.org/2000/svg','text'); val.setAttribute('x',d.value>=0?x+w+7:x-7); val.setAttribute('y',y+rowH*.32); val.setAttribute('text-anchor',d.value>=0?'start':'end'); val.setAttribute('class','chart-value'); val.textContent=opts.money?fmtMoney(d.value):fmtPct(d.value); svg.appendChild(val);
+      const val=document.createElementNS('http://www.w3.org/2000/svg','text'); val.setAttribute('x',d.value>=0?x+w+7:x-7); val.setAttribute('y',y+rowH*.32); val.setAttribute('text-anchor',d.value>=0?'start':'end'); val.setAttribute('class','chart-value'); val.textContent=opts.money?fmtMoney(d.value):(opts.raw?Number(d.value).toFixed(2):fmtPct(d.value)); svg.appendChild(val);
     });
   }
 
@@ -477,12 +576,28 @@
     {key:'market_value', cls:'strategy'},
     {key:'cash', cls:'cash'}
   ], {includeZero:true});
-  drawBarChart('strategyChart', strategies, 'return_pct', 'strategy');
+  drawBarChart('strategyReturnChart', strategies, 'return_pct', 'strategy');
+  drawBarChart('strategyRiskChart', strategies, 'max_drawdown_pct', 'strategy');
+  drawBarChart('strategyRiskAdjustedChart', strategies, 'return_drawdown_ratio', 'strategy', {raw:true});
+  drawBarChart('strategyAlphaChart', strategies, 'alpha_pct', 'strategy');
+  drawBarChart('strategyAlphaValueChart', strategies, 'alpha_value', 'strategy', {money:true});
+  drawBarChart('strategyWinRateChart', strategies.map(r => ({...r, win_rate_pct: r.win_rate == null ? null : r.win_rate * 100})), 'win_rate_pct', 'strategy');
+  drawBarChart('strategyTradeCountChart', strategies, 'closed_lots', 'strategy', {raw:true});
+  drawBarChart('strategyLargestChart', strategies, 'largest_position_pct', 'strategy');
+  drawBarChart('strategyTop5Chart', strategies, 'top5_position_pct', 'strategy');
   drawBarChart('themeReturnChart', themes, 'return_pct', 'theme');
   drawBarChart('themeCostChart', themes, 'cost', 'theme', {money:true});
   drawBarChart('exitReasonChart', exits, 'return_pct', 'exit_reason');
   drawBarChart('buyTypeChart', buyTypes, 'pl_value', 'buy_type', {money:true});
   drawBarChart('sequenceChart', seq, 'return_pct', 'sequence');
+
+  document.querySelectorAll('[data-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-tab');
+      document.querySelectorAll('[data-tab]').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.toggle('active', panel.id === target));
+    });
+  });
 })();
 </script>
 </body>
