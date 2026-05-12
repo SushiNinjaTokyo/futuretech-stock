@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>FutureTech Stock — Weekly Simulation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="/assets/weekly_simulation.css">
+</head>
+<body>
+<div class="page">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <div class="grid"></div>
+  <main class="wrap">
+    {% macro money(v) -%}
+      {% if v is none %}—{% else %}${{ "{:,.2f}".format(v) }}{% endif %}
+    {%- endmacro %}
+    {% macro pct(v) -%}
+      {% if v is none %}—{% else %}{% if v > 0 %}+{% endif %}{{ v | round(2) }}%{% endif %}
+    {%- endmacro %}
+    {% macro rate(v) -%}
+      {% if v is none %}—{% else %}{{ (v * 100) | round(1) }}%{% endif %}
+    {%- endmacro %}
+    {% macro tone(v) -%}
+      {% if v is none %}neutral{% elif v > 0 %}up{% elif v < 0 %}down{% else %}neutral{% endif %}
+    {%- endmacro %}
+
+    <header class="hero">
+      <div class="hero-main">
+        <a class="back-link" href="/">← Home</a>
+        <div class="link-row">
+          <a href="/weekly/">Weekly Screening</a>
+          <a href="/weekly-backtest/">Weekly Backtest</a>
+          <a href="/backtest/">Daily Backtest</a>
+        </div>
+        <div class="kicker">Portfolio Rule Simulator</div>
+        <h1>Weekly Simulation</h1>
+        <p>
+          B-or-better weekly signals are bought every week, realized proceeds are reinvested,
+          and the resulting add-on portfolio is compared with an equivalent {{ summary.benchmark_symbol | default('SPY', true) }} schedule.
+        </p>
+        <div class="policy-row">
+          <span>Base: 1 share per B+ signal</span>
+          <span>Reinvest realized proceeds</span>
+          <span>Default: 12W lot exit</span>
+          <span>Stop: avg cost -5%</span>
+          <span>Score exit: &lt;700</span>
+          <span>Slippage: ±0.15%</span>
+        </div>
+      </div>
+      <div class="status-card">
+        <div class="status-label">Current Equity</div>
+        <div class="status-value {{ tone(summary.return_on_new_capital_pct) }}">{{ money(summary.current_equity) }}</div>
+        <div class="status-sub">Return on new capital {{ pct(summary.return_on_new_capital_pct) }}</div>
+        <div class="status-meta">
+          <div><span>Snapshots</span><strong>{{ snapshots | length }}</strong></div>
+          <div><span>Open</span><strong>{{ summary.open_positions | default(0, true) }}</strong></div>
+          <div><span>Closed lots</span><strong>{{ summary.closed_lots | default(0, true) }}</strong></div>
+          <div><span>Generated</span><strong>{{ generated_at[:10] }}</strong></div>
+        </div>
+      </div>
+    </header>
+
+    <section class="kpi-grid">
+      <article class="kpi-card"><div class="kpi-label">New Capital</div><div class="kpi-value">{{ money(summary.total_new_capital) }}</div><div class="kpi-note">mandatory base buys</div></article>
+      <article class="kpi-card"><div class="kpi-label">Reinvested</div><div class="kpi-value">{{ money(summary.reinvested_capital) }}</div><div class="kpi-note">realized proceeds deployed</div></article>
+      <article class="kpi-card"><div class="kpi-label">Gross Return</div><div class="kpi-value {{ tone(summary.gross_return_pct) }}">{{ pct(summary.gross_return_pct) }}</div><div class="kpi-note">{{ summary.benchmark_symbol | default('SPY', true) }} {{ pct(summary.spy_return_pct) }} · Alpha {{ pct(summary.alpha_pct) }}</div></article>
+      <article class="kpi-card"><div class="kpi-label">Max Drawdown</div><div class="kpi-value {{ tone(summary.max_drawdown_pct) }}">{{ pct(summary.max_drawdown_pct) }}</div><div class="kpi-note">current {{ pct(summary.current_drawdown_pct) }}</div></article>
+    </section>
+
+    <section class="kpi-grid kpi-grid-secondary">
+      <article class="kpi-card"><div class="kpi-label">SPY Equivalent</div><div class="kpi-value">{{ money(summary.spy_equivalent) }}</div><div class="kpi-note">same buy/exit schedule</div></article>
+      <article class="kpi-card"><div class="kpi-label">Win Rate</div><div class="kpi-value">{{ rate(summary.win_rate) }}</div><div class="kpi-note">closed lots</div></article>
+      <article class="kpi-card"><div class="kpi-label">MFE / MAE</div><div class="kpi-value">{{ summary.mfe_mae_ratio | default('—', true) }}x</div><div class="kpi-note">MFE {{ pct(summary.avg_mfe_pct) }} · MAE {{ pct(summary.avg_mae_pct) }}</div></article>
+      <article class="kpi-card"><div class="kpi-label">Exposure</div><div class="kpi-value">{{ pct(summary.current_exposure_pct) }}</div><div class="kpi-note">Top 5 {{ pct(summary.top5_position_pct) }}</div></article>
+    </section>
+
+    {% if equity_curve %}
+    <section class="panel">
+      <div class="section-head"><div><div class="section-kicker">Capital Curve</div><h2>Equity Curve</h2></div></div>
+      <div class="curve-wrap">
+        {% set latest = equity_curve[-1] %}
+        <div class="curve-card"><span>Portfolio Equity</span><strong>{{ money(latest.portfolio_equity) }}</strong></div>
+        <div class="curve-card"><span>{{ summary.benchmark_symbol | default('SPY', true) }} Equity</span><strong>{{ money(latest.spy_equity) }}</strong></div>
+        <div class="curve-card"><span>Alpha Value</span><strong class="{{ tone(latest.alpha_value) }}">{{ money(latest.alpha_value) }}</strong></div>
+        <div class="curve-card"><span>Cash</span><strong>{{ money(latest.cash) }}</strong></div>
+      </div>
+      <div class="mini-table-wrap">
+        <table>
+          <thead><tr><th>Date</th><th>Equity</th><th>SPY</th><th>Alpha</th><th>Drawdown</th><th>Exposure</th></tr></thead>
+          <tbody>
+          {% for e in equity_curve[-12:] %}
+            <tr><td>{{ e.date }}</td><td>{{ money(e.portfolio_equity) }}</td><td>{{ money(e.spy_equity) }}</td><td class="{{ tone(e.alpha_value) }}">{{ money(e.alpha_value) }}</td><td class="{{ tone(e.drawdown_pct) }}">{{ pct(e.drawdown_pct) }}</td><td>{{ pct(e.exposure_pct) }}</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    {% endif %}
+
+    <section class="panel">
+      <div class="section-head"><div><div class="section-kicker">Rule Sensitivity</div><h2>Strategy Comparison</h2></div></div>
+      <div class="table-wrap compact">
+        <table>
+          <thead><tr><th>Strategy</th><th>Return</th><th>SPY</th><th>Alpha</th><th>Max DD</th><th>Win</th><th>Closed</th><th>Exposure</th></tr></thead>
+          <tbody>
+          {% for r in strategy_comparison %}
+            <tr><td><strong>{{ r.strategy }}</strong></td><td class="{{ tone(r.return_pct) }}">{{ pct(r.return_pct) }}</td><td>{{ pct(r.spy_return_pct) }}</td><td class="{{ tone(r.alpha_pct) }}">{{ pct(r.alpha_pct) }}</td><td class="{{ tone(r.max_drawdown_pct) }}">{{ pct(r.max_drawdown_pct) }}</td><td>{{ rate(r.win_rate) }}</td><td>{{ r.closed_lots }}</td><td>{{ pct(r.avg_exposure_pct) }}</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    {% macro summary_grid(title, kicker, rows, label_key) %}
+      {% if rows %}
+      <section class="panel">
+        <div class="section-head"><div><div class="section-kicker">{{ kicker }}</div><h2>{{ title }}</h2></div></div>
+        <div class="summary-grid">
+          {% for r in rows %}
+          <article class="bucket-card">
+            <div class="bucket-label">{{ r[label_key] }}</div>
+            <div class="bucket-main {{ tone(r.return_pct) }}">{{ pct(r.return_pct) }}</div>
+            <div class="bucket-sub">Alpha {{ pct(r.alpha_pct) }} · Win {{ rate(r.win_rate) }}</div>
+            <div class="bucket-stats"><div><span>Count</span><strong>{{ r.count }}</strong></div><div><span>Cost</span><strong>{{ money(r.cost) }}</strong></div><div><span>MFE</span><strong>{{ pct(r.avg_mfe_pct) }}</strong></div></div>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+    {% endmacro %}
+
+    {{ summary_grid('Exit Reason Summary', 'Exit Quality', exit_reason_summary, 'exit_reason') }}
+    {{ summary_grid('Add-on Sequence Summary', 'Pyramiding', add_on_sequence_summary, 'sequence') }}
+    {{ summary_grid('Buy Type Summary', 'Capital Source', buy_type_summary, 'buy_type') }}
+    {{ summary_grid('Score Band Summary', 'Entry Quality', score_band_summary, 'score_band') }}
+    {{ summary_grid('Signal Type Summary', 'Signal Quality', signal_type_summary, 'signal') }}
+    {{ summary_grid('Theme Summary', 'Theme Attribution', theme_summary, 'theme') }}
+    {{ summary_grid('Market Regime Summary', 'Regime', regime_summary, 'regime') }}
+
+    <section class="panel">
+      <div class="section-head"><div><div class="section-kicker">Risk</div><h2>Open Positions</h2></div></div>
+      {% if open_positions %}
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Symbol</th><th>Shares</th><th>Avg Cost</th><th>Current</th><th>Market Value</th><th>P/L</th><th>Score</th><th>Stop</th><th>Distance</th><th>Lots</th></tr></thead>
+          <tbody>
+          {% for p in open_positions %}
+            <tr><td><div class="symbol-cell"><strong>{{ p.symbol }}</strong><span>{{ p.theme }}</span></div></td><td>{{ p.shares }}</td><td>{{ money(p.avg_cost) }}</td><td>{{ money(p.current_price) }}</td><td>{{ money(p.market_value) }}</td><td class="{{ tone(p.unrealized_return_pct) }}">{{ money(p.unrealized_pl) }}<br><small>{{ pct(p.unrealized_return_pct) }}</small></td><td>{{ p.current_score | default('—', true) }}</td><td>{{ money(p.stop_price) }}</td><td class="{{ tone(p.distance_to_stop_pct) }}">{{ pct(p.distance_to_stop_pct) }}</td><td>{{ p.lots }}</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}<div class="empty"><h3>No open positions</h3></div>{% endif %}
+    </section>
+
+    <section class="panel">
+      <div class="section-head"><div><div class="section-kicker">Realized</div><h2>Closed Trades</h2></div></div>
+      {% if closed_trades %}
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Symbol</th><th>Buy</th><th>Exit</th><th>Type</th><th>Shares</th><th>Cost</th><th>Exit Value</th><th>Return</th><th>Reason</th><th>MFE</th><th>MAE</th></tr></thead>
+          <tbody>
+          {% for t in closed_trades[:80] %}
+            <tr><td><div class="symbol-cell"><strong>{{ t.symbol }}</strong><span>{{ t.theme }}</span></div></td><td>{{ t.buy_date }}</td><td>{{ t.exit_date }}</td><td>{{ t.buy_type }}</td><td>{{ t.shares | round(4) }}</td><td>{{ money(t.cost) }}</td><td>{{ money(t.exit_value) }}</td><td class="{{ tone(t.return_pct) }}">{{ pct(t.return_pct) }}</td><td>{{ t.exit_reason }}</td><td class="{{ tone(t.mfe_pct) }}">{{ pct(t.mfe_pct) }}</td><td class="{{ tone(t.mae_pct) }}">{{ pct(t.mae_pct) }}</td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}<div class="empty"><h3>No closed trades yet</h3></div>{% endif %}
+    </section>
+
+    {% if liquidity_warnings %}
+    <section class="panel">
+      <div class="section-head"><div><div class="section-kicker">Execution</div><h2>Liquidity Warnings</h2></div></div>
+      <div class="table-wrap compact"><table><thead><tr><th>Date</th><th>Symbol</th><th>Trade Value</th><th>20D Dollar Volume</th><th>Fraction</th></tr></thead><tbody>{% for w in liquidity_warnings %}<tr><td>{{ w.date }}</td><td>{{ w.symbol }}</td><td>{{ money(w.trade_value) }}</td><td>{{ money(w.avg_dollar_volume_20d) }}</td><td>{{ w.fraction }}</td></tr>{% endfor %}</tbody></table></div>
+    </section>
+    {% endif %}
+
+    <footer class="footer">
+      <div><strong>Policy</strong><span>{{ policy.entry }} {{ policy.base_buy }} {{ policy.reinvestment }} {{ policy.benchmark }}</span></div>
+      <div>Generated at {{ generated_at }}</div>
+    </footer>
+  </main>
+</div>
+</body>
+</html>
