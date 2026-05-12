@@ -11,6 +11,22 @@ on:
         description: "Optional end date YYYY-MM-DD. Uses latest Saturday on/before this date."
         required: false
         default: ""
+      run_mode:
+        description: "full = rebuild data and render pages. render_only = render from existing JSON."
+        required: false
+        default: "full"
+        type: choice
+        options:
+          - full
+          - render_only
+      run_simulation:
+        description: "Also rebuild/render weekly simulation"
+        required: false
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
 
 permissions:
   contents: write
@@ -32,6 +48,9 @@ jobs:
       WEEKLY_BACKTEST_WEEKS: ${{ github.event.inputs.weeks || '24' }}
       WEEKLY_BACKTEST_END_DATE: ${{ github.event.inputs.end_date || '' }}
       WEEKLY_BACKTEST_BENCHMARK: SPY
+      WEEKLY_SIM_BENCHMARK: SPY
+      WEEKLY_RUN_MODE: ${{ github.event.inputs.run_mode || 'full' }}
+      WEEKLY_RUN_SIMULATION: ${{ github.event.inputs.run_simulation || 'true' }}
 
     steps:
       - name: Checkout
@@ -47,16 +66,14 @@ jobs:
       - name: Install dependencies
         run: |
           set -euo pipefail
-
           python -m pip install --upgrade pip
-
           if [ -f requirements.txt ]; then
             pip install -r requirements.txt
           fi
-
           pip install pandas yfinance jinja2
 
       - name: Rebuild weekly backtest data
+        if: ${{ env.WEEKLY_RUN_MODE == 'full' }}
         run: |
           set -euo pipefail
           python scripts/rebuild_weekly_backtest.py
@@ -64,12 +81,25 @@ jobs:
       - name: Render weekly backtest page
         run: |
           set -euo pipefail
+          test -f site/data/weekly/backtest/latest.json
           python scripts/render_weekly_backtest.py
 
-      - name: Commit weekly backtest outputs
+      - name: Rebuild weekly simulation data
+        if: ${{ env.WEEKLY_RUN_SIMULATION == 'true' && env.WEEKLY_RUN_MODE == 'full' }}
         run: |
           set -euo pipefail
+          python scripts/rebuild_weekly_simulation.py
 
+      - name: Render weekly simulation page
+        if: ${{ env.WEEKLY_RUN_SIMULATION == 'true' }}
+        run: |
+          set -euo pipefail
+          test -f site/data/weekly/simulation/latest.json
+          python scripts/render_weekly_simulation.py
+
+      - name: Commit weekly outputs
+        run: |
+          set -euo pipefail
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
 
@@ -79,14 +109,19 @@ jobs:
             site/weekly-backtest/index.html \
             site/assets/weekly_backtest.css
 
+          if [ "${WEEKLY_RUN_SIMULATION}" = "true" ]; then
+            git add \
+              site/data/weekly/simulation/latest.json \
+              site/data/weekly/simulation/*.json \
+              site/weekly-simulation/index.html \
+              site/assets/weekly_simulation.css
+          fi
+
           if git diff --cached --quiet; then
-            echo "No weekly backtest changes to commit."
+            echo "No weekly changes to commit."
             exit 0
           fi
 
-          git commit -m "chore: rebuild weekly backtest"
-
-          # Remote main may have advanced while this workflow was running.
-          # Rebase first, then push.
+          git commit -m "chore: rebuild weekly analytics"
           git pull --rebase origin main
           git push origin main
