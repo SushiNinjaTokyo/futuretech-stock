@@ -49,9 +49,9 @@
         </div>
       </div>
       <div class="status-card">
-        <div class="status-label">Current Equity</div>
-        <div class="status-value {{ tone(summary.return_on_new_capital_pct) }}">{{ money(summary.current_equity) }}</div>
-        <div class="status-sub">Return on new capital {{ pct(summary.return_on_new_capital_pct) }}</div>
+        <div class="status-label">Portfolio Equity</div>
+        <div class="status-value {{ tone(summary.net_return_pct) }}">{{ money(summary.current_equity) }}</div>
+        <div class="status-sub">Net return on external capital {{ pct(summary.net_return_pct) }}</div>
         <div class="status-meta">
           <div><span>Snapshots</span><strong>{{ snapshots | length }}</strong></div>
           <div><span>Open</span><strong>{{ summary.open_positions | default(0, true) }}</strong></div>
@@ -64,15 +64,15 @@
     <section class="kpi-grid">
       <article class="kpi-card"><div class="kpi-label">New Capital</div><div class="kpi-value">{{ money(summary.total_new_capital) }}</div><div class="kpi-note">mandatory base buys</div></article>
       <article class="kpi-card"><div class="kpi-label">Reinvested</div><div class="kpi-value">{{ money(summary.reinvested_capital) }}</div><div class="kpi-note">realized proceeds deployed</div></article>
-      <article class="kpi-card"><div class="kpi-label">Gross Return</div><div class="kpi-value {{ tone(summary.gross_return_pct) }}">{{ pct(summary.gross_return_pct) }}</div><div class="kpi-note">{{ summary.benchmark_symbol | default('SPY', true) }} {{ pct(summary.spy_return_pct) }} · Alpha {{ pct(summary.alpha_pct) }}</div></article>
+      <article class="kpi-card"><div class="kpi-label">Net Return</div><div class="kpi-value {{ tone(summary.net_return_pct) }}">{{ pct(summary.net_return_pct) }}</div><div class="kpi-note">{{ summary.benchmark_symbol | default('SPY', true) }} {{ pct(summary.spy_return_pct) }} · Alpha {{ pct(summary.alpha_pct) }}</div></article>
       <article class="kpi-card"><div class="kpi-label">Max Drawdown</div><div class="kpi-value {{ tone(summary.max_drawdown_pct) }}">{{ pct(summary.max_drawdown_pct) }}</div><div class="kpi-note">current {{ pct(summary.current_drawdown_pct) }}</div></article>
     </section>
 
     <section class="kpi-grid kpi-grid-secondary">
-      <article class="kpi-card"><div class="kpi-label">SPY Equivalent</div><div class="kpi-value">{{ money(summary.spy_equivalent) }}</div><div class="kpi-note">same buy/exit schedule</div></article>
+      <article class="kpi-card"><div class="kpi-label">SPY Equity</div><div class="kpi-value">{{ money(summary.spy_equivalent) }}</div><div class="kpi-note">parallel portfolio · Alpha {{ money(summary.alpha_value) }}</div></article>
       <article class="kpi-card"><div class="kpi-label">Win Rate</div><div class="kpi-value">{{ rate(summary.win_rate) }}</div><div class="kpi-note">closed lots</div></article>
       <article class="kpi-card"><div class="kpi-label">MFE / MAE</div><div class="kpi-value">{{ summary.mfe_mae_ratio | default('—', true) }}x</div><div class="kpi-note">MFE {{ pct(summary.avg_mfe_pct) }} · MAE {{ pct(summary.avg_mae_pct) }}</div></article>
-      <article class="kpi-card"><div class="kpi-label">Exposure</div><div class="kpi-value">{{ pct(summary.current_exposure_pct) }}</div><div class="kpi-note">Top 5 {{ pct(summary.top5_position_pct) }}</div></article>
+      <article class="kpi-card"><div class="kpi-label">Exposure</div><div class="kpi-value">{{ pct(summary.current_exposure_pct) }}</div><div class="kpi-note">Cash {{ money(summary.cash) }} · Market {{ money(summary.market_value) }}</div></article>
     </section>
 
     {% if equity_curve %}
@@ -102,7 +102,7 @@
       <div class="section-head"><div><div class="section-kicker">Rule Sensitivity</div><h2>Strategy Comparison</h2></div></div>
       <div class="table-wrap compact">
         <table>
-          <thead><tr><th>Strategy</th><th>Return</th><th>SPY</th><th>Alpha</th><th>Max DD</th><th>Win</th><th>Closed</th><th>Exposure</th></tr></thead>
+          <thead><tr><th>Strategy</th><th>Net Return</th><th>SPY</th><th>Alpha</th><th>Max DD</th><th>Win</th><th>Closed</th><th>Exposure</th></tr></thead>
           <tbody>
           {% for r in strategy_comparison %}
             <tr><td><strong>{{ r.strategy }}</strong></td><td class="{{ tone(r.return_pct) }}">{{ pct(r.return_pct) }}</td><td>{{ pct(r.spy_return_pct) }}</td><td class="{{ tone(r.alpha_pct) }}">{{ pct(r.alpha_pct) }}</td><td class="{{ tone(r.max_drawdown_pct) }}">{{ pct(r.max_drawdown_pct) }}</td><td>{{ rate(r.win_rate) }}</td><td>{{ r.closed_lots }}</td><td>{{ pct(r.avg_exposure_pct) }}</td></tr>
@@ -178,7 +178,7 @@
     {% endif %}
 
     <footer class="footer">
-      <div><strong>Policy</strong><span>{{ policy.entry }} {{ policy.base_buy }} {{ policy.reinvestment }} {{ policy.benchmark }}</span></div>
+      <div><strong>Policy</strong><span>{{ policy.entry }} {{ policy.base_buy }} {{ policy.reinvestment }} {{ policy.benchmark }} Portfolio equity is cash plus open market value; reinvested capital is turnover, not additional external capital.</span></div>
       <div>Generated at {{ generated_at }}</div>
     </footer>
   </main>
