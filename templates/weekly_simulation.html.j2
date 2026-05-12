@@ -15,27 +15,27 @@
   <main class="wrap">
     {% set strategy_highlights = strategy_highlights | default({}, true) %}
     {% macro money(v) -%}
-      {% if v is none %}—{% else %}${{ "{:,}".format((v|float)|int) }}{% endif %}
+      {% if v is not defined or v is none %}—{% else %}${{ "{:,}".format((v|float)|int) }}{% endif %}
     {%- endmacro %}
 
     {% macro pct(v) -%}
-      {% if v is none %}—{% else %}{% if v > 0 %}+{% endif %}{{ v | round(2) }}%{% endif %}
+      {% if v is not defined or v is none %}—{% else %}{% if (v|float) > 0 %}+{% endif %}{{ (v|float) | round(2) }}%{% endif %}
     {%- endmacro %}
 
     {% macro plain_pct(v) -%}
-      {% if v is none %}—{% else %}{{ v | round(2) }}%{% endif %}
+      {% if v is not defined or v is none %}—{% else %}{{ (v|float) | round(2) }}%{% endif %}
     {%- endmacro %}
 
     {% macro rate(v) -%}
-      {% if v is none %}—{% else %}{{ (v * 100) | round(1) }}%{% endif %}
+      {% if v is not defined or v is none %}—{% else %}{{ ((v|float) * 100) | round(1) }}%{% endif %}
     {%- endmacro %}
 
     {% macro tone(v) -%}
-      {% if v is none %}neutral{% elif v > 0 %}up{% elif v < 0 %}down{% else %}neutral{% endif %}
+      {% if v is not defined or v is none %}neutral{% elif (v|float) > 0 %}up{% elif (v|float) < 0 %}down{% else %}neutral{% endif %}
     {%- endmacro %}
 
     {% macro signed_money(v) -%}
-      {% if v is none %}—{% else %}{% if v > 0 %}+{% endif %}{{ money(v) }}{% endif %}
+      {% if v is not defined or v is none %}—{% else %}{% if (v|float) > 0 %}+{% endif %}{{ money(v) }}{% endif %}
     {%- endmacro %}
 
     {% macro trade_card(title, trade, fallback='—') -%}
@@ -209,12 +209,12 @@
       </div>
 
       <div class="curve-wrap curve-wrap-five">
-        {% set latest = equity_curve[-1] %}
-        <div class="curve-card"><span>Portfolio Equity</span><strong>{{ money(latest.portfolio_equity) }}</strong></div>
-        <div class="curve-card"><span>{{ summary.benchmark_symbol | default('SPY', true) }} Equity</span><strong>{{ money(latest.spy_equity) }}</strong></div>
-        <div class="curve-card"><span>New Capital</span><strong>{{ money(latest.external_capital) }}</strong></div>
-        <div class="curve-card"><span>Alpha Value</span><strong class="{{ tone(latest.alpha_value) }}">{{ signed_money(latest.alpha_value) }}</strong></div>
-        <div class="curve-card"><span>Cash</span><strong>{{ money(latest.cash) }}</strong></div>
+        {% set latest = equity_curve[-1] if equity_curve else {} %}
+        <div class="curve-card"><span>Portfolio Equity</span><strong>{{ money(latest.portfolio_equity | default(summary.portfolio_equity, true)) }}</strong></div>
+        <div class="curve-card"><span>{{ summary.benchmark_symbol | default('SPY', true) }} Equity</span><strong>{{ money(latest.spy_equity | default(summary.spy_equity, true)) }}</strong></div>
+        <div class="curve-card"><span>New Capital</span><strong>{{ money(latest.external_capital | default(summary.total_new_capital, true)) }}</strong></div>
+        <div class="curve-card"><span>Alpha Value</span><strong class="{{ tone(latest.alpha_value | default(summary.alpha_value, true)) }}">{{ signed_money(latest.alpha_value | default(summary.alpha_value, true)) }}</strong></div>
+        <div class="curve-card"><span>Cash</span><strong>{{ money(latest.cash | default(summary.cash, true)) }}</strong></div>
       </div>
 
       <div class="chart-card">
@@ -247,12 +247,12 @@
           {% for e in equity_curve[-12:] %}
             <tr>
               <td>{{ e.date }}{% if e.point_type == 'current' %}<span class="mini-badge">current</span>{% endif %}</td>
-              <td>{{ money(e.portfolio_equity) }}</td>
-              <td>{{ money(e.spy_equity) }}</td>
-              <td>{{ money(e.external_capital) }}</td>
-              <td class="{{ tone(e.alpha_value) }}">{{ signed_money(e.alpha_value) }}</td>
-              <td class="{{ tone(e.drawdown_pct) }}">{{ pct(e.drawdown_pct) }}</td>
-              <td>{{ plain_pct(e.exposure_pct) }}</td>
+              <td>{{ money(e.portfolio_equity | default(e.current_equity, true)) }}</td>
+              <td>{{ money(e.spy_equity | default(e.spy_equivalent, true)) }}</td>
+              <td>{{ money(e.external_capital | default(summary.total_new_capital, true)) }}</td>
+              <td class="{{ tone(e.alpha_value) }}">{{ signed_money(e.alpha_value | default((e.portfolio_equity | default(e.current_equity, true)) - (e.spy_equity | default(e.spy_equivalent, true)), true)) }}</td>
+              <td class="{{ tone(e.drawdown_pct) }}">{{ pct(e.drawdown_pct | default(0, true)) }}</td>
+              <td>{{ plain_pct(e.exposure_pct | default(0, true)) }}</td>
             </tr>
           {% endfor %}
           </tbody>
