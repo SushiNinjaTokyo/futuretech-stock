@@ -11,7 +11,14 @@
   <div class="ambient ambient-a"></div>
   <div class="ambient ambient-b"></div>
   <div class="grid"></div>
+
   <main class="wrap">
+
+
+
+
+
+
 
     <header class="hero">
       <div class="hero-main">
@@ -36,9 +43,12 @@
           <span>Slippage: ±0.15%</span>
         </div>
       </div>
+
       <div class="status-card">
         <div class="status-label">Portfolio Equity</div>
-        <div class="status-value up">$9,062.49</div>
+        <div class="status-value up">
+          $9,062
+        </div>
         <div class="status-sub">Net return on external capital +42.81%</div>
         <div class="status-meta">
           <div><span>Snapshots</span><strong>32</strong></div>
@@ -50,43 +60,254 @@
     </header>
 
     <section class="kpi-grid">
-      <article class="kpi-card"><div class="kpi-label">New Capital</div><div class="kpi-value">$6,345.89</div><div class="kpi-note">mandatory base buys</div></article>
-      <article class="kpi-card"><div class="kpi-label">Reinvested</div><div class="kpi-value">$29,294.82</div><div class="kpi-note">realized proceeds deployed</div></article>
-      <article class="kpi-card"><div class="kpi-label">Net Return</div><div class="kpi-value up">+42.81%</div><div class="kpi-note">SPY +3.87% · Alpha +38.94%</div></article>
-      <article class="kpi-card"><div class="kpi-label">Max Drawdown</div><div class="kpi-value down">-16.5%</div><div class="kpi-note">current 0.0%</div></article>
+      <article class="kpi-card">
+        <div class="kpi-label">External Capital</div>
+        <div class="kpi-value">$6,345</div>
+        <div class="kpi-note">mandatory base buys / new money</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Portfolio Equity</div>
+        <div class="kpi-value up">$9,062</div>
+        <div class="kpi-note">Cash $0 · Market $9,062</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Net P/L</div>
+        <div class="kpi-value up">+$2,716</div>
+        <div class="kpi-note">Portfolio equity - external capital</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Net Return</div>
+        <div class="kpi-value up">+42.81%</div>
+        <div class="kpi-note">SPY +3.87%</div>
+      </article>
     </section>
 
     <section class="kpi-grid kpi-grid-secondary">
-      <article class="kpi-card"><div class="kpi-label">SPY Equity</div><div class="kpi-value">$6,591.35</div><div class="kpi-note">parallel portfolio · Alpha $2,471.14</div></article>
-      <article class="kpi-card"><div class="kpi-label">Win Rate</div><div class="kpi-value">30.9%</div><div class="kpi-note">closed lots</div></article>
-      <article class="kpi-card"><div class="kpi-label">MFE / MAE</div><div class="kpi-value">2.64x</div><div class="kpi-note">MFE +14.06% · MAE -5.33%</div></article>
-      <article class="kpi-card"><div class="kpi-label">Exposure</div><div class="kpi-value">+100.0%</div><div class="kpi-note">Cash $0.00 · Market $9,062.49</div></article>
+      <article class="kpi-card">
+        <div class="kpi-label">SPY Equity</div>
+        <div class="kpi-value">$6,591</div>
+        <div class="kpi-note">parallel same-cash-flow portfolio</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Alpha Value</div>
+        <div class="kpi-value up">+$2,471</div>
+        <div class="kpi-note">Alpha +38.94%</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Reinvested Turnover</div>
+        <div class="kpi-value">$29,294</div>
+        <div class="kpi-note">realized proceeds redeployed, not new capital</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Return / Max DD</div>
+        <div class="kpi-value">2.59x</div>
+        <div class="kpi-note">Return +42.81% · Max DD -16.5%</div>
+      </article>
     </section>
 
-    <section class="panel">
-      <div class="section-head"><div><div class="section-kicker">Capital Curve</div><h2>Equity Curve</h2></div></div>
-      <div class="curve-wrap">
-        <div class="curve-card"><span>Portfolio Equity</span><strong>$8,682.98</strong></div>
-        <div class="curve-card"><span>SPY Equity</span><strong>$6,591.35</strong></div>
-        <div class="curve-card"><span>Alpha Value</span><strong class="up">$2,091.63</strong></div>
-        <div class="curve-card"><span>Cash</span><strong>$0.00</strong></div>
+    <section class="kpi-grid kpi-grid-secondary">
+      <article class="kpi-card">
+        <div class="kpi-label">Max Drawdown</div>
+        <div class="kpi-value down">-16.5%</div>
+        <div class="kpi-note">current 0.0%</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Win Rate</div>
+        <div class="kpi-value">30.9%</div>
+        <div class="kpi-note">closed lots</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">MFE / MAE</div>
+        <div class="kpi-value">2.64x</div>
+        <div class="kpi-note">MFE +14.06% · MAE -5.33%</div>
+      </article>
+      <article class="kpi-card">
+        <div class="kpi-label">Exposure</div>
+        <div class="kpi-value">100.0%</div>
+        <div class="kpi-note">Largest 100.0% · Top5 100.0%</div>
+      </article>
+    </section>
+
+    <section class="panel insight-panel">
+      <div class="section-head"><div><div class="section-kicker">Decision Layer</div><h2>What Drove the Result</h2></div></div>
+      <div class="insight-grid">
+        <article class="insight-card">
+          <div class="insight-label">Reinvestment Impact</div>
+            <div class="insight-main neutral">—</div><div class="insight-note">comparison unavailable</div>
+        </article>
+        <article class="insight-card">
+          <div class="insight-label">Best Return Strategy</div>
+<div class="insight-main neutral">—</div><div class="insight-note">comparison unavailable</div>        </article>
+        <article class="insight-card">
+          <div class="insight-label">Lowest Drawdown</div>
+<div class="insight-main neutral">—</div><div class="insight-note">comparison unavailable</div>        </article>
+        <article class="insight-card">
+          <div class="insight-label">Best Risk-Adjusted</div>
+<div class="insight-main neutral">—</div><div class="insight-note">comparison unavailable</div>        </article>
+        <article class="insight-card trade-insight">
+        <div class="insight-label">Best Lot</div>
+          <div class="insight-main neutral">—</div>
+          <div class="insight-note">No eligible lot yet</div>
+      </article>
+        <article class="insight-card trade-insight">
+        <div class="insight-label">Worst Lot</div>
+          <div class="insight-main neutral">—</div>
+          <div class="insight-note">No eligible lot yet</div>
+      </article>
       </div>
+    </section>
+
+    <section class="panel viz-panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Capital Curve</div>
+          <h2>Simulation vs SPY vs New Capital</h2>
+        </div>
+      </div>
+
+      <div class="curve-wrap curve-wrap-five">
+        <div class="curve-card"><span>Portfolio Equity</span><strong>$9,062</strong></div>
+        <div class="curve-card"><span>SPY Equity</span><strong>$6,591</strong></div>
+        <div class="curve-card"><span>New Capital</span><strong>$6,345</strong></div>
+        <div class="curve-card"><span>Alpha Value</span><strong class="up">+$2,471</strong></div>
+        <div class="curve-card"><span>Cash</span><strong>$0</strong></div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-toolbar">
+          <div class="chart-title">Portfolio Equity Curve</div>
+          <div class="chart-legend">
+            <span><i class="legend-dot strategy"></i>Simulation</span>
+            <span><i class="legend-dot spy"></i>SPY</span>
+            <span><i class="legend-dot capital"></i>New Capital</span>
+          </div>
+        </div>
+        <svg id="equityChart" class="line-chart" viewBox="0 0 1000 360" role="img" aria-label="Simulation equity, SPY equity, and external capital over time"></svg>
+      </div>
+
+      <div class="chart-grid two">
+        <div class="chart-card small-chart-card">
+          <div class="chart-toolbar"><div class="chart-title">Drawdown</div></div>
+          <svg id="drawdownChart" class="line-chart small" viewBox="0 0 1000 260" role="img" aria-label="Portfolio drawdown over time"></svg>
+        </div>
+        <div class="chart-card small-chart-card">
+          <div class="chart-toolbar"><div class="chart-title">Capital Deployment</div></div>
+          <svg id="deploymentChart" class="line-chart small" viewBox="0 0 1000 260" role="img" aria-label="Market value and cash over time"></svg>
+        </div>
+      </div>
+
       <div class="mini-table-wrap">
         <table>
-          <thead><tr><th>Date</th><th>Equity</th><th>SPY</th><th>Alpha</th><th>Drawdown</th><th>Exposure</th></tr></thead>
+          <thead><tr><th>Date</th><th>Equity</th><th>SPY</th><th>New Capital</th><th>Alpha</th><th>Drawdown</th><th>Exposure</th></tr></thead>
           <tbody>
-            <tr><td>2026-02-21</td><td>$5,239.55</td><td>$4,205.87</td><td class="up">$1,033.68</td><td class="neutral">0.0%</td><td>+100.0%</td></tr>
-            <tr><td>2026-02-28</td><td>$5,792.30</td><td>$4,544.09</td><td class="up">$1,248.21</td><td class="neutral">0.0%</td><td>+100.0%</td></tr>
-            <tr><td>2026-03-07</td><td>$5,445.09</td><td>$4,163.66</td><td class="up">$1,281.43</td><td class="down">-5.99%</td><td>0.0%</td></tr>
-            <tr><td>2026-03-14</td><td>$5,375.38</td><td>$4,618.31</td><td class="up">$757.07</td><td class="down">-7.58%</td><td>+100.0%</td></tr>
-            <tr><td>2026-03-21</td><td>$5,290.12</td><td>$4,954.75</td><td class="up">$335.37</td><td class="down">-14.99%</td><td>+100.0%</td></tr>
-            <tr><td>2026-03-28</td><td>$5,737.99</td><td>$5,378.18</td><td class="up">$359.82</td><td class="down">-14.59%</td><td>+100.0%</td></tr>
-            <tr><td>2026-04-04</td><td>$5,669.44</td><td>$5,229.15</td><td class="up">$440.29</td><td class="down">-16.5%</td><td>+100.0%</td></tr>
-            <tr><td>2026-04-11</td><td>$6,409.56</td><td>$5,744.24</td><td class="up">$665.31</td><td class="down">-13.7%</td><td>+100.0%</td></tr>
-            <tr><td>2026-04-18</td><td>$7,285.42</td><td>$5,912.71</td><td class="up">$1,372.71</td><td class="down">-4.73%</td><td>+100.0%</td></tr>
-            <tr><td>2026-04-25</td><td>$7,656.50</td><td>$6,391.29</td><td class="up">$1,265.21</td><td class="down">-7.45%</td><td>+100.0%</td></tr>
-            <tr><td>2026-05-02</td><td>$8,128.97</td><td>$6,527.41</td><td class="up">$1,601.56</td><td class="down">-3.93%</td><td>+100.0%</td></tr>
-            <tr><td>2026-05-09</td><td>$8,682.98</td><td>$6,591.35</td><td class="up">$2,091.63</td><td class="neutral">0.0%</td><td>+100.0%</td></tr>
+            <tr>
+              <td>2026-02-21</td>
+              <td>$5,239</td>
+              <td>$4,205</td>
+              <td>$3,984</td>
+              <td class="up">+$1,033</td>
+              <td class="neutral">0.0%</td>
+              <td>100.0%</td>
+            </tr>
+            <tr>
+              <td>2026-02-28</td>
+              <td>$5,792</td>
+              <td>$4,544</td>
+              <td>$4,295</td>
+              <td class="up">+$1,248</td>
+              <td class="neutral">0.0%</td>
+              <td>100.0%</td>
+            </tr>
+            <tr>
+              <td>2026-03-07</td>
+              <td>$5,445</td>
+              <td>$4,163</td>
+              <td>$4,295</td>
+              <td class="up">+$1,281</td>
+              <td class="down">-5.99%</td>
+              <td>0.0%</td>
+            </tr>
+            <tr>
+              <td>2026-03-14</td>
+              <td>$5,375</td>
+              <td>$4,618</td>
+              <td>$4,313</td>
+              <td class="up">+$757</td>
+              <td class="down">-7.58%</td>
+              <td>100.0%</td>
+            </tr>
+            <tr>
+              <td>2026-03-21</td>
+              <td>$5,290</td>
+              <td>$4,954</td>
+              <td>$4,614</td>
+              <td class="up">+$335</td>
+              <td class="down">-14.99%</td>
+              <td>100.0%</td>
+            </tr>
+            <tr>
+              <td>2026-03-28</td>
+              <td>$5,737</td>
+              <td>$5,378</td>
+              <td>$4,981</td>
+              <td class="up">+$359</td>
+              <td class="down">-14.59%</td>
+              <td>100.0%</td>
+            </tr>
+            <tr>
+              <td>2026-04-04</td>
+              <td>$5,669</td>
+              <td>$5,229</td>
+              <td>$5,034</td>
+              <td class="up">+$440</td>
+              <td class="down">-16.5%</td>
+              <td>100.0%</td>
+            </tr>
+            <tr>
+              <td>2026-04-11</td>
+              <td>$6,409</td>
+              <td>$5,744</td>
+              <td>$5,507</td>
+              <td class="up">+$665</td>
+              <td class="down">-13.7%</td>
+              <td>100.0%</td>
+            </tr>
+            <tr>
+              <td>2026-04-18</td>
+              <td>$7,285</td>
+              <td>$5,912</td>
+              <td>$5,670</td>
+              <td class="up">+$1,372</td>
+              <td class="down">-4.73%</td>
+              <td>100.0%</td>
+            </tr>
+            <tr>
+              <td>2026-04-25</td>
+              <td>$7,656</td>
+              <td>$6,391</td>
+              <td>$6,134</td>
+              <td class="up">+$1,265</td>
+              <td class="down">-7.45%</td>
+              <td>100.0%</td>
+            </tr>
+            <tr>
+              <td>2026-05-02</td>
+              <td>$8,128</td>
+              <td>$6,527</td>
+              <td>$6,274</td>
+              <td class="up">+$1,601</td>
+              <td class="down">-3.93%</td>
+              <td>100.0%</td>
+            </tr>
+            <tr>
+              <td>2026-05-09<span class="mini-badge">current</span></td>
+              <td>$9,062</td>
+              <td>$6,591</td>
+              <td>$6,345</td>
+              <td class="up">+$2,471</td>
+              <td class="neutral">0.0%</td>
+              <td>100.0%</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -94,113 +315,174 @@
 
     <section class="panel">
       <div class="section-head"><div><div class="section-kicker">Rule Sensitivity</div><h2>Strategy Comparison</h2></div></div>
+      <div class="chart-card chart-card-inline">
+        <div class="chart-toolbar"><div class="chart-title">Return / Drawdown by Strategy</div></div>
+        <svg id="strategyChart" class="bar-chart" viewBox="0 0 1000 300" role="img" aria-label="Strategy comparison chart"></svg>
+      </div>
       <div class="table-wrap compact">
         <table>
           <thead><tr><th>Strategy</th><th>Net Return</th><th>SPY</th><th>Alpha</th><th>Max DD</th><th>Win</th><th>Closed</th><th>Exposure</th></tr></thead>
           <tbody>
-            <tr><td><strong>Default 12W</strong></td><td class="up">+42.81%</td><td>+3.87%</td><td class="up">+38.94%</td><td class="down">-16.5%</td><td>30.9%</td><td>68</td><td>+79.64%</td></tr>
-            <tr><td><strong>Conservative 8W</strong></td><td class="up">+11.82%</td><td>+4.8%</td><td class="up">+7.02%</td><td class="down">-20.54%</td><td>40.7%</td><td>81</td><td>+78.28%</td></tr>
-            <tr><td><strong>Trend Follow 16W</strong></td><td class="up">+25.98%</td><td>+4.47%</td><td class="up">+21.51%</td><td class="down">-28.91%</td><td>29.6%</td><td>54</td><td>+82.18%</td></tr>
-            <tr><td><strong>No Time Exit</strong></td><td class="up">+42.81%</td><td>+3.87%</td><td class="up">+38.94%</td><td class="down">-16.5%</td><td>30.9%</td><td>68</td><td>+79.64%</td></tr>
-            <tr><td><strong>No Reinvestment</strong></td><td class="up">+5.52%</td><td>-0.25%</td><td class="up">+5.77%</td><td class="down">-3.92%</td><td>30.0%</td><td>40</td><td>+17.36%</td></tr>
+            <tr><td><strong>Default 12W</strong></td><td class="up">+42.81%</td><td>+3.87%</td><td class="up">+38.94%</td><td class="down">-16.5%</td><td>30.9%</td><td>68</td><td>79.64%</td></tr>
+            <tr><td><strong>Conservative 8W</strong></td><td class="up">+11.82%</td><td>+4.8%</td><td class="up">+7.02%</td><td class="down">-20.54%</td><td>40.7%</td><td>81</td><td>78.28%</td></tr>
+            <tr><td><strong>Trend Follow 16W</strong></td><td class="up">+25.98%</td><td>+4.47%</td><td class="up">+21.51%</td><td class="down">-28.91%</td><td>29.6%</td><td>54</td><td>82.18%</td></tr>
+            <tr><td><strong>No Time Exit</strong></td><td class="up">+42.81%</td><td>+3.87%</td><td class="up">+38.94%</td><td class="down">-16.5%</td><td>30.9%</td><td>68</td><td>79.64%</td></tr>
+            <tr><td><strong>No Reinvestment</strong></td><td class="up">+5.52%</td><td>-0.25%</td><td class="up">+5.77%</td><td class="down">-3.92%</td><td>30.0%</td><td>40</td><td>17.36%</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
+    <section class="panel">
+      <div class="section-head"><div><div class="section-kicker">Rule Diagnostics</div><h2>Exit / Buy / Add-on Visuals</h2></div></div>
+      <div class="chart-grid three">
+        <div class="chart-card"><div class="chart-toolbar"><div class="chart-title">Exit Reason Return</div></div><svg id="exitReasonChart" class="bar-chart compact-chart" viewBox="0 0 1000 300"></svg></div>
+        <div class="chart-card"><div class="chart-toolbar"><div class="chart-title">Buy Type Contribution</div></div><svg id="buyTypeChart" class="bar-chart compact-chart" viewBox="0 0 1000 300"></svg></div>
+        <div class="chart-card"><div class="chart-toolbar"><div class="chart-title">Add-on Sequence Return</div></div><svg id="sequenceChart" class="bar-chart compact-chart" viewBox="0 0 1000 300"></svg></div>
+      </div>
+    </section>
+
 
           <section class="panel">
-        <div class="section-head"><div><div class="section-kicker">Exit Quality</div><h2>Exit Reason Summary</h2></div></div>
+        <div class="section-head"><div><div class="section-kicker">Exit Rules</div><h2>Exit Reason Summary</h2></div></div>
         <div class="summary-grid">
           <article class="bucket-card">
             <div class="bucket-label">score_exit</div>
             <div class="bucket-main up">+13.34%</div>
-            <div class="bucket-sub">Alpha +13.95% · Win 75.0%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>28</strong></div><div><span>Cost</span><strong>$10,493.47</strong></div><div><span>MFE</span><strong>+27.42%</strong></div></div>
+            <div class="bucket-sub">$11,893 / Cost $10,493</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+13.95%</strong></div>
+              <div><span>Count</span><strong>28</strong></div>
+              <div><span>Win</span><strong>75.0%</strong></div>
+            </div>
           </article>
           <article class="bucket-card">
             <div class="bucket-label">stop_loss</div>
             <div class="bucket-main down">-5.14%</div>
-            <div class="bucket-sub">Alpha -3.18% · Win 0.0%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>37</strong></div><div><span>Cost</span><strong>$17,077.38</strong></div><div><span>MFE</span><strong>+3.29%</strong></div></div>
+            <div class="bucket-sub">$16,199 / Cost $17,077</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="down">-3.18%</strong></div>
+              <div><span>Count</span><strong>37</strong></div>
+              <div><span>Win</span><strong>0.0%</strong></div>
+            </div>
           </article>
           <article class="bucket-card">
             <div class="bucket-label">trend_exit</div>
             <div class="bucket-main down">-1.06%</div>
-            <div class="bucket-sub">Alpha -0.57% · Win 0.0%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>3</strong></div><div><span>Cost</span><strong>$1,215.01</strong></div><div><span>MFE</span><strong>+6.46%</strong></div></div>
+            <div class="bucket-sub">$1,202 / Cost $1,215</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="down">-0.57%</strong></div>
+              <div><span>Count</span><strong>3</strong></div>
+              <div><span>Win</span><strong>0.0%</strong></div>
+            </div>
           </article>
         </div>
       </section>
 
           <section class="panel">
-        <div class="section-head"><div><div class="section-kicker">Pyramiding</div><h2>Add-on Sequence Summary</h2></div></div>
-        <div class="summary-grid">
-          <article class="bucket-card">
-            <div class="bucket-label">1st Buy</div>
-            <div class="bucket-main up">+6.91%</div>
-            <div class="bucket-sub">Alpha +5.67% · Win 28.6%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>49</strong></div><div><span>Cost</span><strong>$26,476.10</strong></div><div><span>MFE</span><strong>+10.56%</strong></div></div>
-          </article>
-          <article class="bucket-card">
-            <div class="bucket-label">2nd Buy</div>
-            <div class="bucket-main up">+2.5%</div>
-            <div class="bucket-sub">Alpha +3.56% · Win 42.9%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>14</strong></div><div><span>Cost</span><strong>$5,902.19</strong></div><div><span>MFE</span><strong>+18.33%</strong></div></div>
-          </article>
-          <article class="bucket-card">
-            <div class="bucket-label">3rd+ Buy</div>
-            <div class="bucket-main up">+22.64%</div>
-            <div class="bucket-sub">Alpha +22.5% · Win 69.2%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>13</strong></div><div><span>Cost</span><strong>$3,262.42</strong></div><div><span>MFE</span><strong>+22.62%</strong></div></div>
-          </article>
-        </div>
-      </section>
-
-          <section class="panel">
-        <div class="section-head"><div><div class="section-kicker">Capital Source</div><h2>Buy Type Summary</h2></div></div>
+        <div class="section-head"><div><div class="section-kicker">Contribution</div><h2>Buy Type Summary</h2></div></div>
         <div class="summary-grid">
           <article class="bucket-card">
             <div class="bucket-label">base</div>
             <div class="bucket-main up">+5.59%</div>
-            <div class="bucket-sub">Alpha +5.84% · Win 36.4%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>44</strong></div><div><span>Cost</span><strong>$6,345.89</strong></div><div><span>MFE</span><strong>+13.36%</strong></div></div>
+            <div class="bucket-sub">$6,700 / Cost $6,345</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+5.84%</strong></div>
+              <div><span>Count</span><strong>44</strong></div>
+              <div><span>Win</span><strong>36.4%</strong></div>
+            </div>
           </article>
           <article class="bucket-card">
             <div class="bucket-label">reinvestment</div>
             <div class="bucket-main up">+8.06%</div>
-            <div class="bucket-sub">Alpha +7.02% · Win 40.6%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>32</strong></div><div><span>Cost</span><strong>$29,294.82</strong></div><div><span>MFE</span><strong>+15.01%</strong></div></div>
+            <div class="bucket-sub">$31,656 / Cost $29,294</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+7.02%</strong></div>
+              <div><span>Count</span><strong>32</strong></div>
+              <div><span>Win</span><strong>40.6%</strong></div>
+            </div>
           </article>
         </div>
       </section>
 
           <section class="panel">
-        <div class="section-head"><div><div class="section-kicker">Entry Quality</div><h2>Score Band Summary</h2></div></div>
+        <div class="section-head"><div><div class="section-kicker">Add-on Quality</div><h2>Add-on Sequence Summary</h2></div></div>
+        <div class="summary-grid">
+          <article class="bucket-card">
+            <div class="bucket-label">1st Buy</div>
+            <div class="bucket-main up">+6.91%</div>
+            <div class="bucket-sub">$28,306 / Cost $26,476</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+5.67%</strong></div>
+              <div><span>Count</span><strong>49</strong></div>
+              <div><span>Win</span><strong>28.6%</strong></div>
+            </div>
+          </article>
+          <article class="bucket-card">
+            <div class="bucket-label">2nd Buy</div>
+            <div class="bucket-main up">+2.5%</div>
+            <div class="bucket-sub">$6,049 / Cost $5,902</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+3.56%</strong></div>
+              <div><span>Count</span><strong>14</strong></div>
+              <div><span>Win</span><strong>42.9%</strong></div>
+            </div>
+          </article>
+          <article class="bucket-card">
+            <div class="bucket-label">3rd+ Buy</div>
+            <div class="bucket-main up">+22.64%</div>
+            <div class="bucket-sub">$4,001 / Cost $3,262</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+22.5%</strong></div>
+              <div><span>Count</span><strong>13</strong></div>
+              <div><span>Win</span><strong>69.2%</strong></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+          <section class="panel">
+        <div class="section-head"><div><div class="section-kicker">Entry Score</div><h2>Score Band Summary</h2></div></div>
         <div class="summary-grid">
           <article class="bucket-card">
             <div class="bucket-label">700-749</div>
             <div class="bucket-main up">+0.17%</div>
-            <div class="bucket-sub">Alpha +1.84% · Win 24.4%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>41</strong></div><div><span>Cost</span><strong>$18,839.69</strong></div><div><span>MFE</span><strong>+13.01%</strong></div></div>
+            <div class="bucket-sub">$18,871 / Cost $18,839</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+1.84%</strong></div>
+              <div><span>Count</span><strong>41</strong></div>
+              <div><span>Win</span><strong>24.4%</strong></div>
+            </div>
           </article>
           <article class="bucket-card">
             <div class="bucket-label">750-799</div>
             <div class="bucket-main up">+29.26%</div>
-            <div class="bucket-sub">Alpha +21.6% · Win 47.1%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>17</strong></div><div><span>Cost</span><strong>$8,583.07</strong></div><div><span>MFE</span><strong>+15.55%</strong></div></div>
+            <div class="bucket-sub">$11,094 / Cost $8,583</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+21.6%</strong></div>
+              <div><span>Count</span><strong>17</strong></div>
+              <div><span>Win</span><strong>47.1%</strong></div>
+            </div>
           </article>
           <article class="bucket-card">
             <div class="bucket-label">800-849</div>
             <div class="bucket-main up">+2.07%</div>
-            <div class="bucket-sub">Alpha +3.23% · Win 56.2%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>16</strong></div><div><span>Cost</span><strong>$7,446.74</strong></div><div><span>MFE</span><strong>+16.4%</strong></div></div>
+            <div class="bucket-sub">$7,601 / Cost $7,446</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+3.23%</strong></div>
+              <div><span>Count</span><strong>16</strong></div>
+              <div><span>Win</span><strong>56.2%</strong></div>
+            </div>
           </article>
           <article class="bucket-card">
             <div class="bucket-label">850+</div>
             <div class="bucket-main up">+2.5%</div>
-            <div class="bucket-sub">Alpha +2.26% · Win 100.0%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>2</strong></div><div><span>Cost</span><strong>$771.20</strong></div><div><span>MFE</span><strong>+4.16%</strong></div></div>
+            <div class="bucket-sub">$790 / Cost $771</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+2.26%</strong></div>
+              <div><span>Count</span><strong>2</strong></div>
+              <div><span>Win</span><strong>100.0%</strong></div>
+            </div>
           </article>
         </div>
       </section>
@@ -211,59 +493,51 @@
           <article class="bucket-card">
             <div class="bucket-label">A Leader</div>
             <div class="bucket-main up">+18.89%</div>
-            <div class="bucket-sub">Alpha +14.68% · Win 59.1%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>22</strong></div><div><span>Cost</span><strong>$14,364.48</strong></div><div><span>MFE</span><strong>+20.17%</strong></div></div>
+            <div class="bucket-sub">$17,077 / Cost $14,364</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+14.68%</strong></div>
+              <div><span>Count</span><strong>22</strong></div>
+              <div><span>Win</span><strong>59.1%</strong></div>
+            </div>
           </article>
           <article class="bucket-card">
             <div class="bucket-label">A+ Fresh Breakout</div>
             <div class="bucket-main up">+2.5%</div>
-            <div class="bucket-sub">Alpha +2.26% · Win 100.0%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>2</strong></div><div><span>Cost</span><strong>$771.20</strong></div><div><span>MFE</span><strong>+4.16%</strong></div></div>
+            <div class="bucket-sub">$790 / Cost $771</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+2.26%</strong></div>
+              <div><span>Count</span><strong>2</strong></div>
+              <div><span>Win</span><strong>100.0%</strong></div>
+            </div>
           </article>
           <article class="bucket-card">
             <div class="bucket-label">B Constructive Setup</div>
             <div class="bucket-main down">-0.08%</div>
-            <div class="bucket-sub">Alpha +1.4% · Win 26.9%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>52</strong></div><div><span>Cost</span><strong>$20,505.03</strong></div><div><span>MFE</span><strong>+11.85%</strong></div></div>
+            <div class="bucket-sub">$20,489 / Cost $20,505</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+1.4%</strong></div>
+              <div><span>Count</span><strong>52</strong></div>
+              <div><span>Win</span><strong>26.9%</strong></div>
+            </div>
           </article>
         </div>
       </section>
 
-          <section class="panel">
-        <div class="section-head"><div><div class="section-kicker">Theme Attribution</div><h2>Theme Summary</h2></div></div>
-        <div class="summary-grid">
-          <article class="bucket-card">
-            <div class="bucket-label">AI</div>
-            <div class="bucket-main down">-3.1%</div>
-            <div class="bucket-sub">Alpha -2.16% · Win 25.0%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>8</strong></div><div><span>Cost</span><strong>$1,739.42</strong></div><div><span>MFE</span><strong>+2.12%</strong></div></div>
-          </article>
-          <article class="bucket-card">
-            <div class="bucket-label">AI Infrastructure</div>
-            <div class="bucket-main down">-5.14%</div>
-            <div class="bucket-sub">Alpha -5.61% · Win 0.0%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>2</strong></div><div><span>Cost</span><strong>$371.26</strong></div><div><span>MFE</span><strong>-0.04%</strong></div></div>
-          </article>
-          <article class="bucket-card">
-            <div class="bucket-label">Energy</div>
-            <div class="bucket-main down">-1.44%</div>
-            <div class="bucket-sub">Alpha -0.72% · Win 10.5%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>19</strong></div><div><span>Cost</span><strong>$7,218.18</strong></div><div><span>MFE</span><strong>+5.61%</strong></div></div>
-          </article>
-          <article class="bucket-card">
-            <div class="bucket-label">Robotics</div>
-            <div class="bucket-main up">+7.16%</div>
-            <div class="bucket-sub">Alpha +9.15% · Win 44.4%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>27</strong></div><div><span>Cost</span><strong>$12,675.39</strong></div><div><span>MFE</span><strong>+20.79%</strong></div></div>
-          </article>
-          <article class="bucket-card">
-            <div class="bucket-label">Space</div>
-            <div class="bucket-main up">+14.56%</div>
-            <div class="bucket-sub">Alpha +9.91% · Win 65.0%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>20</strong></div><div><span>Cost</span><strong>$13,636.46</strong></div><div><span>MFE</span><strong>+19.16%</strong></div></div>
-          </article>
-        </div>
-      </section>
+
+    <section class="panel">
+      <div class="section-head"><div><div class="section-kicker">Themes</div><h2>Theme Return and Capital Allocation</h2></div></div>
+      <div class="chart-grid two">
+        <div class="chart-card"><div class="chart-toolbar"><div class="chart-title">Theme Return</div></div><svg id="themeReturnChart" class="bar-chart" viewBox="0 0 1000 300"></svg></div>
+        <div class="chart-card"><div class="chart-toolbar"><div class="chart-title">Theme Cost Allocation</div></div><svg id="themeCostChart" class="bar-chart" viewBox="0 0 1000 300"></svg></div>
+      </div>
+      <div class="summary-grid theme-summary-grid">
+          <article class="bucket-card"><div class="bucket-label">AI</div><div class="bucket-main down">-3.1%</div><div class="bucket-sub">$1,685 / Cost $1,739</div><div class="bucket-stats"><div><span>Alpha</span><strong class="down">-2.16%</strong></div><div><span>Cost</span><strong>$1,739</strong></div><div><span>MFE</span><strong>+2.12%</strong></div></div></article>
+          <article class="bucket-card"><div class="bucket-label">AI Infrastructure</div><div class="bucket-main down">-5.14%</div><div class="bucket-sub">$352 / Cost $371</div><div class="bucket-stats"><div><span>Alpha</span><strong class="down">-5.61%</strong></div><div><span>Cost</span><strong>$371</strong></div><div><span>MFE</span><strong>-0.04%</strong></div></div></article>
+          <article class="bucket-card"><div class="bucket-label">Energy</div><div class="bucket-main down">-1.44%</div><div class="bucket-sub">$7,113 / Cost $7,218</div><div class="bucket-stats"><div><span>Alpha</span><strong class="down">-0.72%</strong></div><div><span>Cost</span><strong>$7,218</strong></div><div><span>MFE</span><strong>+5.61%</strong></div></div></article>
+          <article class="bucket-card"><div class="bucket-label">Robotics</div><div class="bucket-main up">+7.16%</div><div class="bucket-sub">$13,583 / Cost $12,675</div><div class="bucket-stats"><div><span>Alpha</span><strong class="up">+9.15%</strong></div><div><span>Cost</span><strong>$12,675</strong></div><div><span>MFE</span><strong>+20.79%</strong></div></div></article>
+          <article class="bucket-card"><div class="bucket-label">Space</div><div class="bucket-main up">+14.56%</div><div class="bucket-sub">$15,622 / Cost $13,636</div><div class="bucket-stats"><div><span>Alpha</span><strong class="up">+9.91%</strong></div><div><span>Cost</span><strong>$13,636</strong></div><div><span>MFE</span><strong>+19.16%</strong></div></div></article>
+      </div>
+    </section>
 
           <section class="panel">
         <div class="section-head"><div><div class="section-kicker">Regime</div><h2>Market Regime Summary</h2></div></div>
@@ -271,14 +545,22 @@
           <article class="bucket-card">
             <div class="bucket-label">Risk-off</div>
             <div class="bucket-main up">+8.8%</div>
-            <div class="bucket-sub">Alpha +6.46% · Win 22.2%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>9</strong></div><div><span>Cost</span><strong>$17,227.47</strong></div><div><span>MFE</span><strong>+13.28%</strong></div></div>
+            <div class="bucket-sub">$18,742 / Cost $17,227</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+6.46%</strong></div>
+              <div><span>Count</span><strong>9</strong></div>
+              <div><span>Win</span><strong>22.2%</strong></div>
+            </div>
           </article>
           <article class="bucket-card">
             <div class="bucket-label">Risk-on</div>
             <div class="bucket-main up">+6.52%</div>
-            <div class="bucket-sub">Alpha +6.98% · Win 40.3%</div>
-            <div class="bucket-stats"><div><span>Count</span><strong>67</strong></div><div><span>Cost</span><strong>$18,413.24</strong></div><div><span>MFE</span><strong>+14.16%</strong></div></div>
+            <div class="bucket-sub">$19,614 / Cost $18,413</div>
+            <div class="bucket-stats">
+              <div><span>Alpha</span><strong class="up">+6.98%</strong></div>
+              <div><span>Count</span><strong>67</strong></div>
+              <div><span>Win</span><strong>40.3%</strong></div>
+            </div>
           </article>
         </div>
       </section>
@@ -290,7 +572,7 @@
         <table>
           <thead><tr><th>Symbol</th><th>Shares</th><th>Avg Cost</th><th>Current</th><th>Market Value</th><th>P/L</th><th>Score</th><th>Stop</th><th>Distance</th><th>Lots</th></tr></thead>
           <tbody>
-            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>124.0248</td><td>$55.27</td><td>$73.07</td><td>$9,062.49</td><td class="up">$2,207.64<br><small>+32.21%</small></td><td>852</td><td>$52.51</td><td class="up">+39.16%</td><td>8</td></tr>
+            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>124.0248</td><td>$55</td><td>$73</td><td>$9,062</td><td class="up">+$2,207<br><small>+32.21%</small></td><td>852</td><td>$52</td><td class="up">+39.16%</td><td>8</td></tr>
           </tbody>
         </table>
       </div>
@@ -300,76 +582,76 @@
       <div class="section-head"><div><div class="section-kicker">Realized</div><h2>Closed Trades</h2></div></div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Symbol</th><th>Buy</th><th>Exit</th><th>Type</th><th>Shares</th><th>Cost</th><th>Exit Value</th><th>Return</th><th>Reason</th><th>MFE</th><th>MAE</th></tr></thead>
+          <thead><tr><th>Symbol</th><th>Buy</th><th>Exit</th><th>Type</th><th>Shares</th><th>Cost</th><th>Exit Value</th><th>P/L</th><th>Return</th><th>Reason</th><th>MFE</th><th>MAE</th></tr></thead>
           <tbody>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-04-20</td><td>2026-05-07</td><td>base</td><td>1.0</td><td>$70.11</td><td>$70.08</td><td class="down">-0.04%</td><td>stop_loss</td><td class="up">+10.95%</td><td class="down">-1.01%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-04-20</td><td>2026-05-07</td><td>reinvestment</td><td>2.3056</td><td>$161.64</td><td>$161.58</td><td class="down">-0.04%</td><td>stop_loss</td><td class="up">+10.95%</td><td class="down">-1.01%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-04-27</td><td>2026-05-07</td><td>base</td><td>1.0</td><td>$75.56</td><td>$70.08</td><td class="down">-7.26%</td><td>stop_loss</td><td class="up">+2.93%</td><td class="down">-7.15%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-04-27</td><td>2026-05-07</td><td>reinvestment</td><td>1.7939</td><td>$135.55</td><td>$125.71</td><td class="down">-7.26%</td><td>stop_loss</td><td class="up">+2.93%</td><td class="down">-7.15%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-05-04</td><td>2026-05-07</td><td>base</td><td>1.0</td><td>$75.87</td><td>$70.08</td><td class="down">-7.64%</td><td>stop_loss</td><td class="up">+0.9%</td><td class="down">-7.53%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-05-04</td><td>2026-05-07</td><td>reinvestment</td><td>2.8882</td><td>$219.13</td><td>$202.40</td><td class="down">-7.64%</td><td>stop_loss</td><td class="up">+0.9%</td><td class="down">-7.53%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>VRT</strong><span>AI</span></div></td><td>2026-04-27</td><td>2026-04-28</td><td>base</td><td>1.0</td><td>$326.48</td><td>$309.69</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+0.48%</td><td class="down">-9.99%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>VRT</strong><span>AI</span></div></td><td>2026-04-27</td><td>2026-04-28</td><td>reinvestment</td><td>0.4152</td><td>$135.55</td><td>$128.58</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+0.48%</td><td class="down">-9.99%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>CGNX</strong><span>Robotics</span></div></td><td>2026-04-20</td><td>2026-04-27</td><td>base</td><td>1.0</td><td>$55.46</td><td>$55.62</td><td class="up">+0.28%</td><td>score_exit</td><td class="up">+3.31%</td><td class="down">-4.75%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>CGNX</strong><span>Robotics</span></div></td><td>2026-04-20</td><td>2026-04-27</td><td>reinvestment</td><td>2.9143</td><td>$161.64</td><td>$162.08</td><td class="up">+0.28%</td><td>score_exit</td><td class="up">+3.31%</td><td class="down">-4.75%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>OII</strong><span>Energy</span></div></td><td>2026-04-20</td><td>2026-04-23</td><td>base</td><td>1.0</td><td>$37.56</td><td>$35.62</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+6.83%</td><td class="down">-6.94%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>OII</strong><span>Energy</span></div></td><td>2026-04-20</td><td>2026-04-23</td><td>reinvestment</td><td>4.3039</td><td>$161.64</td><td>$153.32</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+6.83%</td><td class="down">-6.94%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>ROK</strong><span>Robotics</span></div></td><td>2026-04-13</td><td>2026-04-20</td><td>base</td><td>1.0</td><td>$398.42</td><td>$414.47</td><td class="up">+4.03%</td><td>score_exit</td><td class="up">+5.14%</td><td class="down">-1.16%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-04-13</td><td>2026-04-17</td><td>base</td><td>1.0</td><td>$74.26</td><td>$70.44</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+1.7%</td><td class="down">-7.66%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>OXY</strong><span>Energy</span></div></td><td>2026-03-30</td><td>2026-04-01</td><td>base</td><td>1.0</td><td>$65.72</td><td>$62.34</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+2.63%</td><td class="down">-6.92%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-03-23</td><td>2026-03-30</td><td>base</td><td>1.0</td><td>$301.46</td><td>$285.96</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+8.61%</td><td class="down">-9.42%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-03-23</td><td>2026-03-30</td><td>reinvestment</td><td>17.1897</td><td>$5,182.04</td><td>$4,915.55</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+8.61%</td><td class="down">-9.42%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-03-30</td><td>2026-03-30</td><td>base</td><td>1.0</td><td>$301.45</td><td>$285.96</td><td class="down">-5.14%</td><td>stop_loss</td><td class="down">-0.15%</td><td class="down">-9.41%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>LUNR</strong><span>Space</span></div></td><td>2026-03-16</td><td>2026-03-19</td><td>base</td><td>1.0</td><td>$17.89</td><td>$16.97</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+7.58%</td><td class="down">-8.59%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>LUNR</strong><span>Space</span></div></td><td>2026-03-16</td><td>2026-03-19</td><td>reinvestment</td><td>304.4195</td><td>$5,445.09</td><td>$5,165.07</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+7.58%</td><td class="down">-8.59%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-02-09</td><td>2026-03-09</td><td>base</td><td>1.0</td><td>$59.08</td><td>$62.41</td><td class="up">+5.63%</td><td>score_exit</td><td class="up">+15.59%</td><td class="down">-0.69%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-02-09</td><td>2026-03-09</td><td>reinvestment</td><td>11.3885</td><td>$672.82</td><td>$710.71</td><td class="up">+5.63%</td><td>score_exit</td><td class="up">+15.59%</td><td class="down">-0.69%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-02-23</td><td>2026-03-09</td><td>base</td><td>1.0</td><td>$63.49</td><td>$62.41</td><td class="down">-1.7%</td><td>score_exit</td><td class="up">+7.57%</td><td class="down">-4.61%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-02-23</td><td>2026-03-09</td><td>reinvestment</td><td>69.1371</td><td>$4,389.17</td><td>$4,314.59</td><td class="down">-1.7%</td><td>score_exit</td><td class="up">+7.57%</td><td class="down">-4.61%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-03-02</td><td>2026-03-03</td><td>base</td><td>1.0</td><td>$310.97</td><td>$294.97</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+4.81%</td><td class="down">-5.01%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-12-22</td><td>2026-02-17</td><td>base</td><td>1.0</td><td>$201.35</td><td>$305.79</td><td class="up">+51.87%</td><td>score_exit</td><td class="up">+62.89%</td><td class="down">-3.95%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-12-22</td><td>2026-02-17</td><td>reinvestment</td><td>3.2834</td><td>$661.12</td><td>$1,004.04</td><td class="up">+51.87%</td><td>score_exit</td><td class="up">+62.89%</td><td class="down">-3.95%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-12-29</td><td>2026-02-17</td><td>base</td><td>1.0</td><td>$197.01</td><td>$305.79</td><td class="up">+55.22%</td><td>score_exit</td><td class="up">+66.49%</td><td class="down">-1.83%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-12-29</td><td>2026-02-17</td><td>reinvestment</td><td>0.8712</td><td>$171.62</td><td>$266.39</td><td class="up">+55.22%</td><td>score_exit</td><td class="up">+66.49%</td><td class="down">-1.83%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-01-05</td><td>2026-02-17</td><td>base</td><td>1.0</td><td>$212.17</td><td>$305.79</td><td class="up">+44.13%</td><td>score_exit</td><td class="up">+54.59%</td><td class="down">-0.17%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-01-05</td><td>2026-02-17</td><td>reinvestment</td><td>0.8767</td><td>$186.00</td><td>$268.08</td><td class="up">+44.13%</td><td>score_exit</td><td class="up">+54.59%</td><td class="down">-0.17%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-01-20</td><td>2026-02-17</td><td>base</td><td>1.0</td><td>$220.75</td><td>$305.79</td><td class="up">+38.52%</td><td>score_exit</td><td class="up">+48.58%</td><td class="down">-0.2%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-01-20</td><td>2026-02-17</td><td>reinvestment</td><td>4.3223</td><td>$954.14</td><td>$1,321.70</td><td class="up">+38.52%</td><td>score_exit</td><td class="up">+48.58%</td><td class="down">-0.2%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-01-26</td><td>2026-02-17</td><td>base</td><td>1.0</td><td>$229.52</td><td>$305.79</td><td class="up">+33.23%</td><td>score_exit</td><td class="up">+42.9%</td><td class="down">-1.09%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2025-12-29</td><td>2026-02-09</td><td>base</td><td>1.0</td><td>$34.15</td><td>$41.92</td><td class="up">+22.74%</td><td>score_exit</td><td class="up">+45.47%</td><td class="down">-0.3%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2025-12-29</td><td>2026-02-09</td><td>reinvestment</td><td>5.0254</td><td>$171.62</td><td>$210.65</td><td class="up">+22.74%</td><td>score_exit</td><td class="up">+45.47%</td><td class="down">-0.3%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2026-01-05</td><td>2026-02-09</td><td>base</td><td>1.0</td><td>$38.07</td><td>$41.92</td><td class="up">+10.11%</td><td>score_exit</td><td class="up">+30.51%</td><td class="down">-3.56%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2026-01-05</td><td>2026-02-09</td><td>reinvestment</td><td>4.8862</td><td>$186.00</td><td>$204.81</td><td class="up">+10.11%</td><td>score_exit</td><td class="up">+30.51%</td><td class="down">-3.56%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>VRT</strong><span>AI</span></div></td><td>2026-02-02</td><td>2026-02-04</td><td>base</td><td>1.0</td><td>$182.92</td><td>$173.52</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+6.6%</td><td class="down">-5.64%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>SYM</strong><span>Robotics</span></div></td><td>2026-01-12</td><td>2026-01-14</td><td>base</td><td>1.0</td><td>$70.86</td><td>$67.21</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+4.39%</td><td class="down">-7.08%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>SYM</strong><span>Robotics</span></div></td><td>2026-01-12</td><td>2026-01-14</td><td>reinvestment</td><td>2.4851</td><td>$176.08</td><td>$167.03</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+4.39%</td><td class="down">-7.08%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>ISRG</strong><span>Robotics</span></div></td><td>2026-01-12</td><td>2026-01-14</td><td>base</td><td>1.0</td><td>$582.84</td><td>$552.87</td><td class="down">-5.14%</td><td>stop_loss</td><td class="down">-0.11%</td><td class="down">-9.41%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>ISRG</strong><span>Robotics</span></div></td><td>2026-01-12</td><td>2026-01-14</td><td>reinvestment</td><td>0.3021</td><td>$176.08</td><td>$167.03</td><td class="down">-5.14%</td><td>stop_loss</td><td class="down">-0.11%</td><td class="down">-9.41%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>ALAB</strong><span>AI Infrastructure</span></div></td><td>2026-01-05</td><td>2026-01-06</td><td>base</td><td>1.0</td><td>$185.26</td><td>$175.73</td><td class="down">-5.14%</td><td>stop_loss</td><td class="down">-0.04%</td><td class="down">-18.44%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>ALAB</strong><span>AI Infrastructure</span></div></td><td>2026-01-05</td><td>2026-01-06</td><td>reinvestment</td><td>1.004</td><td>$186.00</td><td>$176.44</td><td class="down">-5.14%</td><td>stop_loss</td><td class="down">-0.04%</td><td class="down">-18.44%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>U</strong><span>AI</span></div></td><td>2025-12-29</td><td>2026-01-05</td><td>base</td><td>1.0</td><td>$44.70</td><td>$44.98</td><td class="up">+0.64%</td><td>score_exit</td><td class="up">+3.56%</td><td class="down">-2.05%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>U</strong><span>AI</span></div></td><td>2025-12-29</td><td>2026-01-05</td><td>reinvestment</td><td>3.8397</td><td>$171.62</td><td>$172.72</td><td class="up">+0.64%</td><td>score_exit</td><td class="up">+3.56%</td><td class="down">-2.05%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>PLTR</strong><span>AI</span></div></td><td>2025-12-29</td><td>2025-12-31</td><td>base</td><td>1.0</td><td>$187.13</td><td>$177.51</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+0.04%</td><td class="down">-5.28%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>PLTR</strong><span>AI</span></div></td><td>2025-12-29</td><td>2025-12-31</td><td>reinvestment</td><td>0.9171</td><td>$171.62</td><td>$162.80</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+0.04%</td><td class="down">-5.28%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2025-12-22</td><td>2025-12-29</td><td>base</td><td>1.0</td><td>$34.50</td><td>$34.05</td><td class="down">-1.31%</td><td>trend_exit</td><td class="up">+8.57%</td><td class="down">-2.27%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2025-12-22</td><td>2025-12-29</td><td>reinvestment</td><td>19.1621</td><td>$661.12</td><td>$652.45</td><td class="down">-1.31%</td><td>trend_exit</td><td class="up">+8.57%</td><td class="down">-2.27%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2025-12-01</td><td>2025-12-22</td><td>base</td><td>1.0</td><td>$45.39</td><td>$44.83</td><td class="down">-1.22%</td><td>score_exit</td><td class="up">+4.28%</td><td class="down">-4.51%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2025-12-01</td><td>2025-12-22</td><td>reinvestment</td><td>16.6281</td><td>$754.72</td><td>$745.48</td><td class="down">-1.22%</td><td>score_exit</td><td class="up">+4.28%</td><td class="down">-4.51%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2025-12-08</td><td>2025-12-22</td><td>base</td><td>1.0</td><td>$45.80</td><td>$44.83</td><td class="down">-2.11%</td><td>score_exit</td><td class="up">+2.27%</td><td class="down">-5.37%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2025-12-15</td><td>2025-12-22</td><td>base</td><td>1.0</td><td>$46.39</td><td>$44.83</td><td class="down">-3.36%</td><td>score_exit</td><td class="up">+0.97%</td><td class="down">-6.57%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2025-12-15</td><td>2025-12-22</td><td>reinvestment</td><td>1.3861</td><td>$64.30</td><td>$62.14</td><td class="down">-3.36%</td><td>score_exit</td><td class="up">+0.97%</td><td class="down">-6.57%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-12-15</td><td>2025-12-16</td><td>base</td><td>1.0</td><td>$200.21</td><td>$189.91</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+0.14%</td><td class="down">-5.53%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-12-15</td><td>2025-12-16</td><td>reinvestment</td><td>0.3212</td><td>$64.30</td><td>$61.00</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+0.14%</td><td class="down">-5.53%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2025-12-08</td><td>2025-12-15</td><td>base</td><td>1.0</td><td>$35.60</td><td>$34.27</td><td class="down">-3.75%</td><td>stop_loss</td><td class="up">+8.59%</td><td class="down">-5.49%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2025-12-15</td><td>2025-12-15</td><td>base</td><td>1.0</td><td>$36.31</td><td>$34.27</td><td class="down">-5.64%</td><td>stop_loss</td><td class="up">+0.59%</td><td class="down">-7.34%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2025-12-15</td><td>2025-12-15</td><td>reinvestment</td><td>1.7707</td><td>$64.30</td><td>$60.68</td><td class="down">-5.64%</td><td>stop_loss</td><td class="up">+0.59%</td><td class="down">-7.34%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-12-08</td><td>2025-12-12</td><td>base</td><td>1.0</td><td>$203.36</td><td>$192.91</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+0.8%</td><td class="down">-5.66%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-11-17</td><td>2025-11-20</td><td>base</td><td>1.0</td><td>$168.72</td><td>$160.05</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+3.03%</td><td class="down">-8.31%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-11-17</td><td>2025-11-20</td><td>reinvestment</td><td>3.7156</td><td>$626.91</td><td>$594.67</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+3.03%</td><td class="down">-8.31%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>SYM</strong><span>Robotics</span></div></td><td>2025-11-03</td><td>2025-11-04</td><td>base</td><td>1.0</td><td>$82.32</td><td>$78.09</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+2.04%</td><td class="down">-11.47%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>SYM</strong><span>Robotics</span></div></td><td>2025-11-03</td><td>2025-11-04</td><td>reinvestment</td><td>7.028</td><td>$578.57</td><td>$548.82</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+2.04%</td><td class="down">-11.47%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>RKLB</strong><span>Space</span></div></td><td>2025-10-06</td><td>2025-11-03</td><td>base</td><td>1.0</td><td>$56.95</td><td>$62.94</td><td class="up">+10.51%</td><td>score_exit</td><td class="up">+29.89%</td><td class="down">-2.02%</td></tr>
-            <tr><td><div class="symbol-cell"><strong>MSFT</strong><span>AI</span></div></td><td>2025-10-06</td><td>2025-10-13</td><td>base</td><td>1.0</td><td>$519.39</td><td>$515.64</td><td class="down">-0.72%</td><td>trend_exit</td><td class="up">+2.24%</td><td class="down">-1.88%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-04-20</td><td>2026-05-07</td><td>base</td><td>1.0</td><td>$70</td><td>$70</td><td class="down">$0</td><td class="down">-0.04%</td><td>stop_loss</td><td class="up">+10.95%</td><td class="down">-1.01%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-04-20</td><td>2026-05-07</td><td>reinvestment</td><td>2.3056</td><td>$161</td><td>$161</td><td class="down">$0</td><td class="down">-0.04%</td><td>stop_loss</td><td class="up">+10.95%</td><td class="down">-1.01%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-04-27</td><td>2026-05-07</td><td>base</td><td>1.0</td><td>$75</td><td>$70</td><td class="down">$-5</td><td class="down">-7.26%</td><td>stop_loss</td><td class="up">+2.93%</td><td class="down">-7.15%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-04-27</td><td>2026-05-07</td><td>reinvestment</td><td>1.7939</td><td>$135</td><td>$125</td><td class="down">$-9</td><td class="down">-7.26%</td><td>stop_loss</td><td class="up">+2.93%</td><td class="down">-7.15%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-05-04</td><td>2026-05-07</td><td>base</td><td>1.0</td><td>$75</td><td>$70</td><td class="down">$-5</td><td class="down">-7.64%</td><td>stop_loss</td><td class="up">+0.9%</td><td class="down">-7.53%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-05-04</td><td>2026-05-07</td><td>reinvestment</td><td>2.8882</td><td>$219</td><td>$202</td><td class="down">$-16</td><td class="down">-7.64%</td><td>stop_loss</td><td class="up">+0.9%</td><td class="down">-7.53%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>VRT</strong><span>AI</span></div></td><td>2026-04-27</td><td>2026-04-28</td><td>base</td><td>1.0</td><td>$326</td><td>$309</td><td class="down">$-16</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+0.48%</td><td class="down">-9.99%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>VRT</strong><span>AI</span></div></td><td>2026-04-27</td><td>2026-04-28</td><td>reinvestment</td><td>0.4152</td><td>$135</td><td>$128</td><td class="down">$-6</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+0.48%</td><td class="down">-9.99%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>CGNX</strong><span>Robotics</span></div></td><td>2026-04-20</td><td>2026-04-27</td><td>base</td><td>1.0</td><td>$55</td><td>$55</td><td class="up">+$0</td><td class="up">+0.28%</td><td>score_exit</td><td class="up">+3.31%</td><td class="down">-4.75%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>CGNX</strong><span>Robotics</span></div></td><td>2026-04-20</td><td>2026-04-27</td><td>reinvestment</td><td>2.9143</td><td>$161</td><td>$162</td><td class="up">+$0</td><td class="up">+0.28%</td><td>score_exit</td><td class="up">+3.31%</td><td class="down">-4.75%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>OII</strong><span>Energy</span></div></td><td>2026-04-20</td><td>2026-04-23</td><td>base</td><td>1.0</td><td>$37</td><td>$35</td><td class="down">$-1</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+6.83%</td><td class="down">-6.94%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>OII</strong><span>Energy</span></div></td><td>2026-04-20</td><td>2026-04-23</td><td>reinvestment</td><td>4.3039</td><td>$161</td><td>$153</td><td class="down">$-8</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+6.83%</td><td class="down">-6.94%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>ROK</strong><span>Robotics</span></div></td><td>2026-04-13</td><td>2026-04-20</td><td>base</td><td>1.0</td><td>$398</td><td>$414</td><td class="up">+$16</td><td class="up">+4.03%</td><td>score_exit</td><td class="up">+5.14%</td><td class="down">-1.16%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-04-13</td><td>2026-04-17</td><td>base</td><td>1.0</td><td>$74</td><td>$70</td><td class="down">$-3</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+1.7%</td><td class="down">-7.66%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>OXY</strong><span>Energy</span></div></td><td>2026-03-30</td><td>2026-04-01</td><td>base</td><td>1.0</td><td>$65</td><td>$62</td><td class="down">$-3</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+2.63%</td><td class="down">-6.92%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-03-23</td><td>2026-03-30</td><td>base</td><td>1.0</td><td>$301</td><td>$285</td><td class="down">$-15</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+8.61%</td><td class="down">-9.42%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-03-23</td><td>2026-03-30</td><td>reinvestment</td><td>17.1897</td><td>$5,182</td><td>$4,915</td><td class="down">$-266</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+8.61%</td><td class="down">-9.42%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-03-30</td><td>2026-03-30</td><td>base</td><td>1.0</td><td>$301</td><td>$285</td><td class="down">$-15</td><td class="down">-5.14%</td><td>stop_loss</td><td class="down">-0.15%</td><td class="down">-9.41%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>LUNR</strong><span>Space</span></div></td><td>2026-03-16</td><td>2026-03-19</td><td>base</td><td>1.0</td><td>$17</td><td>$16</td><td class="down">$0</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+7.58%</td><td class="down">-8.59%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>LUNR</strong><span>Space</span></div></td><td>2026-03-16</td><td>2026-03-19</td><td>reinvestment</td><td>304.4195</td><td>$5,445</td><td>$5,165</td><td class="down">$-280</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+7.58%</td><td class="down">-8.59%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-02-09</td><td>2026-03-09</td><td>base</td><td>1.0</td><td>$59</td><td>$62</td><td class="up">+$3</td><td class="up">+5.63%</td><td>score_exit</td><td class="up">+15.59%</td><td class="down">-0.69%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-02-09</td><td>2026-03-09</td><td>reinvestment</td><td>11.3885</td><td>$672</td><td>$710</td><td class="up">+$37</td><td class="up">+5.63%</td><td>score_exit</td><td class="up">+15.59%</td><td class="down">-0.69%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-02-23</td><td>2026-03-09</td><td>base</td><td>1.0</td><td>$63</td><td>$62</td><td class="down">$-1</td><td class="down">-1.7%</td><td>score_exit</td><td class="up">+7.57%</td><td class="down">-4.61%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2026-02-23</td><td>2026-03-09</td><td>reinvestment</td><td>69.1371</td><td>$4,389</td><td>$4,314</td><td class="down">$-74</td><td class="down">-1.7%</td><td>score_exit</td><td class="up">+7.57%</td><td class="down">-4.61%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-03-02</td><td>2026-03-03</td><td>base</td><td>1.0</td><td>$310</td><td>$294</td><td class="down">$-15</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+4.81%</td><td class="down">-5.01%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-12-22</td><td>2026-02-17</td><td>base</td><td>1.0</td><td>$201</td><td>$305</td><td class="up">+$104</td><td class="up">+51.87%</td><td>score_exit</td><td class="up">+62.89%</td><td class="down">-3.95%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-12-22</td><td>2026-02-17</td><td>reinvestment</td><td>3.2834</td><td>$661</td><td>$1,004</td><td class="up">+$342</td><td class="up">+51.87%</td><td>score_exit</td><td class="up">+62.89%</td><td class="down">-3.95%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-12-29</td><td>2026-02-17</td><td>base</td><td>1.0</td><td>$197</td><td>$305</td><td class="up">+$108</td><td class="up">+55.22%</td><td>score_exit</td><td class="up">+66.49%</td><td class="down">-1.83%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-12-29</td><td>2026-02-17</td><td>reinvestment</td><td>0.8712</td><td>$171</td><td>$266</td><td class="up">+$94</td><td class="up">+55.22%</td><td>score_exit</td><td class="up">+66.49%</td><td class="down">-1.83%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-01-05</td><td>2026-02-17</td><td>base</td><td>1.0</td><td>$212</td><td>$305</td><td class="up">+$93</td><td class="up">+44.13%</td><td>score_exit</td><td class="up">+54.59%</td><td class="down">-0.17%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-01-05</td><td>2026-02-17</td><td>reinvestment</td><td>0.8767</td><td>$186</td><td>$268</td><td class="up">+$82</td><td class="up">+44.13%</td><td>score_exit</td><td class="up">+54.59%</td><td class="down">-0.17%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-01-20</td><td>2026-02-17</td><td>base</td><td>1.0</td><td>$220</td><td>$305</td><td class="up">+$85</td><td class="up">+38.52%</td><td>score_exit</td><td class="up">+48.58%</td><td class="down">-0.2%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-01-20</td><td>2026-02-17</td><td>reinvestment</td><td>4.3223</td><td>$954</td><td>$1,321</td><td class="up">+$367</td><td class="up">+38.52%</td><td>score_exit</td><td class="up">+48.58%</td><td class="down">-0.2%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2026-01-26</td><td>2026-02-17</td><td>base</td><td>1.0</td><td>$229</td><td>$305</td><td class="up">+$76</td><td class="up">+33.23%</td><td>score_exit</td><td class="up">+42.9%</td><td class="down">-1.09%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2025-12-29</td><td>2026-02-09</td><td>base</td><td>1.0</td><td>$34</td><td>$41</td><td class="up">+$7</td><td class="up">+22.74%</td><td>score_exit</td><td class="up">+45.47%</td><td class="down">-0.3%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2025-12-29</td><td>2026-02-09</td><td>reinvestment</td><td>5.0254</td><td>$171</td><td>$210</td><td class="up">+$39</td><td class="up">+22.74%</td><td>score_exit</td><td class="up">+45.47%</td><td class="down">-0.3%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2026-01-05</td><td>2026-02-09</td><td>base</td><td>1.0</td><td>$38</td><td>$41</td><td class="up">+$3</td><td class="up">+10.11%</td><td>score_exit</td><td class="up">+30.51%</td><td class="down">-3.56%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2026-01-05</td><td>2026-02-09</td><td>reinvestment</td><td>4.8862</td><td>$186</td><td>$204</td><td class="up">+$18</td><td class="up">+10.11%</td><td>score_exit</td><td class="up">+30.51%</td><td class="down">-3.56%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>VRT</strong><span>AI</span></div></td><td>2026-02-02</td><td>2026-02-04</td><td>base</td><td>1.0</td><td>$182</td><td>$173</td><td class="down">$-9</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+6.6%</td><td class="down">-5.64%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>SYM</strong><span>Robotics</span></div></td><td>2026-01-12</td><td>2026-01-14</td><td>base</td><td>1.0</td><td>$70</td><td>$67</td><td class="down">$-3</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+4.39%</td><td class="down">-7.08%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>SYM</strong><span>Robotics</span></div></td><td>2026-01-12</td><td>2026-01-14</td><td>reinvestment</td><td>2.4851</td><td>$176</td><td>$167</td><td class="down">$-9</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+4.39%</td><td class="down">-7.08%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>ISRG</strong><span>Robotics</span></div></td><td>2026-01-12</td><td>2026-01-14</td><td>base</td><td>1.0</td><td>$582</td><td>$552</td><td class="down">$-29</td><td class="down">-5.14%</td><td>stop_loss</td><td class="down">-0.11%</td><td class="down">-9.41%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>ISRG</strong><span>Robotics</span></div></td><td>2026-01-12</td><td>2026-01-14</td><td>reinvestment</td><td>0.3021</td><td>$176</td><td>$167</td><td class="down">$-9</td><td class="down">-5.14%</td><td>stop_loss</td><td class="down">-0.11%</td><td class="down">-9.41%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>ALAB</strong><span>AI Infrastructure</span></div></td><td>2026-01-05</td><td>2026-01-06</td><td>base</td><td>1.0</td><td>$185</td><td>$175</td><td class="down">$-9</td><td class="down">-5.14%</td><td>stop_loss</td><td class="down">-0.04%</td><td class="down">-18.44%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>ALAB</strong><span>AI Infrastructure</span></div></td><td>2026-01-05</td><td>2026-01-06</td><td>reinvestment</td><td>1.004</td><td>$186</td><td>$176</td><td class="down">$-9</td><td class="down">-5.14%</td><td>stop_loss</td><td class="down">-0.04%</td><td class="down">-18.44%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>U</strong><span>AI</span></div></td><td>2025-12-29</td><td>2026-01-05</td><td>base</td><td>1.0</td><td>$44</td><td>$44</td><td class="up">+$0</td><td class="up">+0.64%</td><td>score_exit</td><td class="up">+3.56%</td><td class="down">-2.05%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>U</strong><span>AI</span></div></td><td>2025-12-29</td><td>2026-01-05</td><td>reinvestment</td><td>3.8397</td><td>$171</td><td>$172</td><td class="up">+$1</td><td class="up">+0.64%</td><td>score_exit</td><td class="up">+3.56%</td><td class="down">-2.05%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>PLTR</strong><span>AI</span></div></td><td>2025-12-29</td><td>2025-12-31</td><td>base</td><td>1.0</td><td>$187</td><td>$177</td><td class="down">$-9</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+0.04%</td><td class="down">-5.28%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>PLTR</strong><span>AI</span></div></td><td>2025-12-29</td><td>2025-12-31</td><td>reinvestment</td><td>0.9171</td><td>$171</td><td>$162</td><td class="down">$-8</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+0.04%</td><td class="down">-5.28%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2025-12-22</td><td>2025-12-29</td><td>base</td><td>1.0</td><td>$34</td><td>$34</td><td class="down">$0</td><td class="down">-1.31%</td><td>trend_exit</td><td class="up">+8.57%</td><td class="down">-2.27%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2025-12-22</td><td>2025-12-29</td><td>reinvestment</td><td>19.1621</td><td>$661</td><td>$652</td><td class="down">$-8</td><td class="down">-1.31%</td><td>trend_exit</td><td class="up">+8.57%</td><td class="down">-2.27%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2025-12-01</td><td>2025-12-22</td><td>base</td><td>1.0</td><td>$45</td><td>$44</td><td class="down">$0</td><td class="down">-1.22%</td><td>score_exit</td><td class="up">+4.28%</td><td class="down">-4.51%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2025-12-01</td><td>2025-12-22</td><td>reinvestment</td><td>16.6281</td><td>$754</td><td>$745</td><td class="down">$-9</td><td class="down">-1.22%</td><td>score_exit</td><td class="up">+4.28%</td><td class="down">-4.51%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2025-12-08</td><td>2025-12-22</td><td>base</td><td>1.0</td><td>$45</td><td>$44</td><td class="down">$0</td><td class="down">-2.11%</td><td>score_exit</td><td class="up">+2.27%</td><td class="down">-5.37%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2025-12-15</td><td>2025-12-22</td><td>base</td><td>1.0</td><td>$46</td><td>$44</td><td class="down">$-1</td><td class="down">-3.36%</td><td>score_exit</td><td class="up">+0.97%</td><td class="down">-6.57%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>FTI</strong><span>Energy</span></div></td><td>2025-12-15</td><td>2025-12-22</td><td>reinvestment</td><td>1.3861</td><td>$64</td><td>$62</td><td class="down">$-2</td><td class="down">-3.36%</td><td>score_exit</td><td class="up">+0.97%</td><td class="down">-6.57%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-12-15</td><td>2025-12-16</td><td>base</td><td>1.0</td><td>$200</td><td>$189</td><td class="down">$-10</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+0.14%</td><td class="down">-5.53%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-12-15</td><td>2025-12-16</td><td>reinvestment</td><td>0.3212</td><td>$64</td><td>$60</td><td class="down">$-3</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+0.14%</td><td class="down">-5.53%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2025-12-08</td><td>2025-12-15</td><td>base</td><td>1.0</td><td>$35</td><td>$34</td><td class="down">$-1</td><td class="down">-3.75%</td><td>stop_loss</td><td class="up">+8.59%</td><td class="down">-5.49%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2025-12-15</td><td>2025-12-15</td><td>base</td><td>1.0</td><td>$36</td><td>$34</td><td class="down">$-2</td><td class="down">-5.64%</td><td>stop_loss</td><td class="up">+0.59%</td><td class="down">-7.34%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>VSAT</strong><span>Space</span></div></td><td>2025-12-15</td><td>2025-12-15</td><td>reinvestment</td><td>1.7707</td><td>$64</td><td>$60</td><td class="down">$-3</td><td class="down">-5.64%</td><td>stop_loss</td><td class="up">+0.59%</td><td class="down">-7.34%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-12-08</td><td>2025-12-12</td><td>base</td><td>1.0</td><td>$203</td><td>$192</td><td class="down">$-10</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+0.8%</td><td class="down">-5.66%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-11-17</td><td>2025-11-20</td><td>base</td><td>1.0</td><td>$168</td><td>$160</td><td class="down">$-8</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+3.03%</td><td class="down">-8.31%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>TER</strong><span>Robotics</span></div></td><td>2025-11-17</td><td>2025-11-20</td><td>reinvestment</td><td>3.7156</td><td>$626</td><td>$594</td><td class="down">$-32</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+3.03%</td><td class="down">-8.31%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>SYM</strong><span>Robotics</span></div></td><td>2025-11-03</td><td>2025-11-04</td><td>base</td><td>1.0</td><td>$82</td><td>$78</td><td class="down">$-4</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+2.04%</td><td class="down">-11.47%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>SYM</strong><span>Robotics</span></div></td><td>2025-11-03</td><td>2025-11-04</td><td>reinvestment</td><td>7.028</td><td>$578</td><td>$548</td><td class="down">$-29</td><td class="down">-5.14%</td><td>stop_loss</td><td class="up">+2.04%</td><td class="down">-11.47%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>RKLB</strong><span>Space</span></div></td><td>2025-10-06</td><td>2025-11-03</td><td>base</td><td>1.0</td><td>$56</td><td>$62</td><td class="up">+$5</td><td class="up">+10.51%</td><td>score_exit</td><td class="up">+29.89%</td><td class="down">-2.02%</td></tr>
+            <tr><td><div class="symbol-cell"><strong>MSFT</strong><span>AI</span></div></td><td>2025-10-06</td><td>2025-10-13</td><td>base</td><td>1.0</td><td>$519</td><td>$515</td><td class="down">$-3</td><td class="down">-0.72%</td><td>trend_exit</td><td class="up">+2.24%</td><td class="down">-1.88%</td></tr>
           </tbody>
         </table>
       </div>
@@ -377,10 +659,117 @@
 
 
     <footer class="footer">
-      <div><strong>Policy</strong><span>Buy every B-or-better weekly signal at the next trading day open. 1 share per weekly B+ signal, treated as new capital. Available realized proceeds are equally reinvested into the current week's B+ signals; fractional shares are allowed. SPY equivalent uses the same buy dates, buy amounts, and exit dates as the simulated lots. Portfolio equity is cash plus open market value; reinvested capital is turnover, not additional external capital.</span></div>
+      <div><strong>Policy</strong><span>Buy every B-or-better weekly signal at the next trading day open. 1 share per weekly B+ signal, treated as new capital. Available realized proceeds are equally reinvested into the current week's B+ signals; fractional shares are allowed. SPY equivalent uses the same buy dates, buy amounts, and exit dates as the simulated lots. Portfolio equity is cash plus open market value; reinvested capital is turnover, not additional external capital. The final curve point is current mark-to-market and is aligned with the KPI cards.</span></div>
       <div>Generated at 2026-05-12 05:29:40Z</div>
     </footer>
   </main>
 </div>
+
+<script id="equityCurveData" type="application/json">[{"alpha_pct": -10.4, "alpha_value": -59.96, "cash": 0.0, "date": "2025-10-04", "drawdown_pct": 0.0, "equity_multiple": 0.995093, "exposure_pct": 100.0, "external_capital": 576.34, "market_value": 573.51, "net_return_pct": -0.49, "new_capital": 576.34, "portfolio_equity": 573.51, "reinvested_capital": 0.0, "spy_cash": 0.0, "spy_equity": 633.47, "spy_market_value": 633.47, "spy_return_pct": 9.91}, {"alpha_pct": 1.06, "alpha_value": 6.08, "cash": 515.64, "date": "2025-10-11", "drawdown_pct": 0.0, "equity_multiple": 1.006172, "exposure_pct": 11.08, "external_capital": 576.34, "market_value": 64.26, "net_return_pct": 0.62, "new_capital": 576.34, "portfolio_equity": 579.9, "reinvested_capital": 0.0, "spy_cash": 511.22, "spy_equity": 573.81, "spy_market_value": 62.6, "spy_return_pct": -0.44}, {"alpha_pct": 1.4, "alpha_value": 8.09, "cash": 515.64, "date": "2025-10-18", "drawdown_pct": 0.0, "equity_multiple": 1.00966, "exposure_pct": 11.39, "external_capital": 576.34, "market_value": 66.27, "net_return_pct": 0.97, "new_capital": 576.34, "portfolio_equity": 581.91, "reinvested_capital": 0.0, "spy_cash": 511.22, "spy_equity": 573.81, "spy_market_value": 62.6, "spy_return_pct": -0.44}, {"alpha_pct": 1.11, "alpha_value": 6.38, "cash": 515.64, "date": "2025-10-25", "drawdown_pct": -0.29, "equity_multiple": 1.006693, "exposure_pct": 11.13, "external_capital": 576.34, "market_value": 64.56, "net_return_pct": 0.67, "new_capital": 576.34, "portfolio_equity": 580.2, "reinvested_capital": 0.0, "spy_cash": 511.22, "spy_equity": 573.81, "spy_market_value": 62.6, "spy_return_pct": -0.44}, {"alpha_pct": -7.79, "alpha_value": -51.33, "cash": 0.0, "date": "2025-11-01", "drawdown_pct": -2.28, "equity_multiple": 0.986651, "exposure_pct": 100.0, "external_capital": 658.66, "market_value": 649.87, "net_return_pct": -1.33, "new_capital": 658.66, "portfolio_equity": 649.87, "reinvested_capital": 578.57, "spy_cash": 0.0, "spy_equity": 701.2, "spy_market_value": 701.2, "spy_return_pct": 6.46}, {"alpha_pct": -1.91, "alpha_value": -12.57, "cash": 626.91, "date": "2025-11-08", "drawdown_pct": -5.73, "equity_multiple": 0.95179, "exposure_pct": 0.0, "external_capital": 658.66, "market_value": 0.0, "net_return_pct": -4.82, "new_capital": 658.66, "portfolio_equity": 626.91, "reinvested_capital": 578.57, "spy_cash": 639.48, "spy_equity": 639.48, "spy_market_value": 0.0, "spy_return_pct": -2.91}, {"alpha_pct": -10.8, "alpha_value": -89.35, "cash": 0.0, "date": "2025-11-15", "drawdown_pct": -4.05, "equity_multiple": 0.96873, "exposure_pct": 100.0, "external_capital": 827.38, "market_value": 801.51, "net_return_pct": -3.13, "new_capital": 827.38, "portfolio_equity": 801.51, "reinvested_capital": 1205.48, "spy_cash": 0.0, "spy_equity": 890.86, "spy_market_value": 890.86, "spy_return_pct": 7.67}, {"alpha_pct": -3.68, "alpha_value": -30.41, "cash": 754.72, "date": "2025-11-22", "drawdown_pct": -9.66, "equity_multiple": 0.91217, "exposure_pct": 0.0, "external_capital": 827.38, "market_value": 0.0, "net_return_pct": -8.78, "new_capital": 827.38, "portfolio_equity": 754.72, "reinvested_capital": 1205.48, "spy_cash": 785.12, "spy_equity": 785.12, "spy_market_value": 0.0, "spy_return_pct": -5.11}, {"alpha_pct": -12.07, "alpha_value": -105.32, "cash": 0.0, "date": "2025-11-29", "drawdown_pct": -9.46, "equity_multiple": 0.914153, "exposure_pct": 100.0, "external_capital": 872.77, "market_value": 797.85, "net_return_pct": -8.58, "new_capital": 872.77, "portfolio_equity": 797.85, "reinvested_capital": 1960.19, "spy_cash": 0.0, "spy_equity": 903.17, "spy_market_value": 903.17, "spy_return_pct": 3.48}, {"alpha_pct": -10.05, "alpha_value": -116.34, "cash": 0.0, "date": "2025-12-06", "drawdown_pct": -6.48, "equity_multiple": 0.94424, "exposure_pct": 100.0, "external_capital": 1157.54, "market_value": 1092.99, "net_return_pct": -5.58, "new_capital": 1157.54, "portfolio_equity": 1092.99, "reinvested_capital": 1960.19, "spy_cash": 0.0, "spy_equity": 1209.34, "spy_market_value": 1209.34, "spy_return_pct": 4.47}, {"alpha_pct": -10.28, "alpha_value": -148.01, "cash": 0.0, "date": "2025-12-13", "drawdown_pct": -6.22, "equity_multiple": 0.946896, "exposure_pct": 100.0, "external_capital": 1440.45, "market_value": 1363.96, "net_return_pct": -5.31, "new_capital": 1440.45, "portfolio_equity": 1363.96, "reinvested_capital": 2153.1, "spy_cash": 0.0, "spy_equity": 1511.97, "spy_market_value": 1511.97, "spy_return_pct": 4.96}, {"alpha_pct": -14.49, "alpha_value": -242.85, "cash": 0.0, "date": "2025-12-20", "drawdown_pct": -10.33, "equity_multiple": 0.905395, "exposure_pct": 100.0, "external_capital": 1676.31, "market_value": 1517.72, "net_return_pct": -9.46, "new_capital": 1676.31, "portfolio_equity": 1517.72, "reinvested_capital": 3475.35, "spy_cash": 0.0, "spy_equity": 1760.57, "spy_market_value": 1760.57, "spy_return_pct": 5.03}, {"alpha_pct": -11.29, "alpha_value": -241.46, "cash": 0.0, "date": "2025-12-27", "drawdown_pct": -6.75, "equity_multiple": 0.941523, "exposure_pct": 100.0, "external_capital": 2139.29, "market_value": 2014.19, "net_return_pct": -5.85, "new_capital": 2139.29, "portfolio_equity": 2014.19, "reinvested_capital": 4161.84, "spy_cash": 0.0, "spy_equity": 2255.65, "spy_market_value": 2255.65, "spy_return_pct": 5.44}, {"alpha_pct": -9.5, "alpha_value": -244.68, "cash": 0.0, "date": "2026-01-03", "drawdown_pct": -4.79, "equity_multiple": 0.961265, "exposure_pct": 100.0, "external_capital": 2574.78, "market_value": 2475.05, "net_return_pct": -3.87, "new_capital": 2574.78, "portfolio_equity": 2475.05, "reinvested_capital": 4719.85, "spy_cash": 0.0, "spy_equity": 2719.73, "spy_market_value": 2719.73, "spy_return_pct": 5.63}, {"alpha_pct": -5.47, "alpha_value": -176.69, "cash": 0.0, "date": "2026-01-10", "drawdown_pct": -0.57, "equity_multiple": 1.003925, "exposure_pct": 100.0, "external_capital": 3228.48, "market_value": 3241.15, "net_return_pct": 0.39, "new_capital": 3228.48, "portfolio_equity": 3241.15, "reinvested_capital": 5072.02, "spy_cash": 0.0, "spy_equity": 3417.84, "spy_market_value": 3417.84, "spy_return_pct": 5.87}, {"alpha_pct": -2.15, "alpha_value": -74.21, "cash": 0.0, "date": "2026-01-17", "drawdown_pct": 0.0, "equity_multiple": 1.041921, "exposure_pct": 100.0, "external_capital": 3449.23, "market_value": 3593.83, "net_return_pct": 4.19, "new_capital": 3449.23, "portfolio_equity": 3593.83, "reinvested_capital": 6026.16, "spy_cash": 0.0, "spy_equity": 3668.04, "spy_market_value": 3668.04, "spy_return_pct": 6.34}, {"alpha_pct": -2.95, "alpha_value": -108.34, "cash": 0.0, "date": "2026-01-24", "drawdown_pct": -0.73, "equity_multiple": 1.034338, "exposure_pct": 100.0, "external_capital": 3678.75, "market_value": 3805.08, "net_return_pct": 3.43, "new_capital": 3678.75, "portfolio_equity": 3805.08, "reinvested_capital": 6026.16, "spy_cash": 0.0, "spy_equity": 3913.42, "spy_market_value": 3913.42, "spy_return_pct": 6.38}, {"alpha_pct": 1.94, "alpha_value": 74.91, "cash": 0.0, "date": "2026-01-31", "drawdown_pct": 0.0, "equity_multiple": 1.083504, "exposure_pct": 100.0, "external_capital": 3861.68, "market_value": 4184.14, "net_return_pct": 8.35, "new_capital": 3861.68, "portfolio_equity": 4184.14, "reinvested_capital": 6026.16, "spy_cash": 0.0, "spy_equity": 4109.24, "spy_market_value": 4109.24, "spy_return_pct": 6.41}, {"alpha_pct": 22.1, "alpha_value": 866.58, "cash": 0.0, "date": "2026-02-07", "drawdown_pct": 0.0, "equity_multiple": 1.285288, "exposure_pct": 100.0, "external_capital": 3920.76, "market_value": 5039.3, "net_return_pct": 28.53, "new_capital": 3920.76, "portfolio_equity": 5039.3, "reinvested_capital": 6698.98, "spy_cash": 0.0, "spy_equity": 4172.73, "spy_market_value": 4172.73, "spy_return_pct": 6.43}, {"alpha_pct": 31.7, "alpha_value": 1242.93, "cash": 4389.17, "date": "2026-02-14", "drawdown_pct": 0.0, "equity_multiple": 1.313352, "exposure_pct": 14.76, "external_capital": 3920.76, "market_value": 760.16, "net_return_pct": 31.34, "new_capital": 3920.76, "portfolio_equity": 5149.33, "reinvested_capital": 6698.98, "spy_cash": 3159.48, "spy_equity": 3906.4, "spy_market_value": 746.91, "spy_return_pct": -0.37}, {"alpha_pct": 25.94, "alpha_value": 1033.68, "cash": 0.0, "date": "2026-02-21", "drawdown_pct": 0.0, "equity_multiple": 1.315068, "exposure_pct": 100.0, "external_capital": 3984.24, "market_value": 5239.55, "net_return_pct": 31.51, "new_capital": 3984.24, "portfolio_equity": 5239.55, "reinvested_capital": 11088.15, "spy_cash": 0.0, "spy_equity": 4205.87, "spy_market_value": 4205.87, "spy_return_pct": 5.56}, {"alpha_pct": 29.06, "alpha_value": 1248.21, "cash": 0.0, "date": "2026-02-28", "drawdown_pct": 0.0, "equity_multiple": 1.34855, "exposure_pct": 100.0, "external_capital": 4295.21, "market_value": 5792.3, "net_return_pct": 34.85, "new_capital": 4295.21, "portfolio_equity": 5792.3, "reinvested_capital": 11088.15, "spy_cash": 0.0, "spy_equity": 4544.09, "spy_market_value": 4544.09, "spy_return_pct": 5.79}, {"alpha_pct": 29.83, "alpha_value": 1281.43, "cash": 5445.09, "date": "2026-03-07", "drawdown_pct": -5.99, "equity_multiple": 1.267712, "exposure_pct": 0.0, "external_capital": 4295.21, "market_value": 0.0, "net_return_pct": 26.77, "new_capital": 4295.21, "portfolio_equity": 5445.09, "reinvested_capital": 11088.15, "spy_cash": 4163.66, "spy_equity": 4163.66, "spy_market_value": 0.0, "spy_return_pct": -3.06}, {"alpha_pct": 17.55, "alpha_value": 757.07, "cash": 0.0, "date": "2026-03-14", "drawdown_pct": -7.58, "equity_multiple": 1.246294, "exposure_pct": 100.0, "external_capital": 4313.09, "market_value": 5375.38, "net_return_pct": 24.63, "new_capital": 4313.09, "portfolio_equity": 5375.38, "reinvested_capital": 16533.24, "spy_cash": 0.0, "spy_equity": 4618.31, "spy_market_value": 4618.31, "spy_return_pct": 7.08}, {"alpha_pct": 7.27, "alpha_value": 335.37, "cash": 0.0, "date": "2026-03-21", "drawdown_pct": -14.99, "equity_multiple": 1.146398, "exposure_pct": 100.0, "external_capital": 4614.56, "market_value": 5290.12, "net_return_pct": 14.64, "new_capital": 4614.56, "portfolio_equity": 5290.12, "reinvested_capital": 21715.28, "spy_cash": 0.0, "spy_equity": 4954.75, "spy_market_value": 4954.75, "spy_return_pct": 7.37}, {"alpha_pct": 7.22, "alpha_value": 359.82, "cash": 0.0, "date": "2026-03-28", "drawdown_pct": -14.59, "equity_multiple": 1.151808, "exposure_pct": 100.0, "external_capital": 4981.73, "market_value": 5737.99, "net_return_pct": 15.18, "new_capital": 4981.73, "portfolio_equity": 5737.99, "reinvested_capital": 21715.28, "spy_cash": 0.0, "spy_equity": 5378.18, "spy_market_value": 5378.18, "spy_return_pct": 7.96}, {"alpha_pct": 8.74, "alpha_value": 440.29, "cash": 0.0, "date": "2026-04-04", "drawdown_pct": -16.5, "equity_multiple": 1.126054, "exposure_pct": 100.0, "external_capital": 5034.79, "market_value": 5669.44, "net_return_pct": 12.61, "new_capital": 5034.79, "portfolio_equity": 5669.44, "reinvested_capital": 27265.08, "spy_cash": 0.0, "spy_equity": 5229.15, "spy_market_value": 5229.15, "spy_return_pct": 3.86}, {"alpha_pct": 12.08, "alpha_value": 665.31, "cash": 0.0, "date": "2026-04-11", "drawdown_pct": -13.7, "equity_multiple": 1.163795, "exposure_pct": 100.0, "external_capital": 5507.46, "market_value": 6409.56, "net_return_pct": 16.38, "new_capital": 5507.46, "portfolio_equity": 6409.56, "reinvested_capital": 27265.08, "spy_cash": 0.0, "spy_equity": 5744.24, "spy_market_value": 5744.24, "spy_return_pct": 4.3}, {"alpha_pct": 24.21, "alpha_value": 1372.71, "cash": 0.0, "date": "2026-04-18", "drawdown_pct": -4.73, "equity_multiple": 1.284774, "exposure_pct": 100.0, "external_capital": 5670.59, "market_value": 7285.42, "net_return_pct": 28.48, "new_capital": 5670.59, "portfolio_equity": 7285.42, "reinvested_capital": 27749.99, "spy_cash": 0.0, "spy_equity": 5912.71, "spy_market_value": 5912.71, "spy_return_pct": 4.27}, {"alpha_pct": 20.62, "alpha_value": 1265.21, "cash": 0.0, "date": "2026-04-25", "drawdown_pct": -7.45, "equity_multiple": 1.248017, "exposure_pct": 100.0, "external_capital": 6134.93, "market_value": 7656.5, "net_return_pct": 24.8, "new_capital": 6134.93, "portfolio_equity": 7656.5, "reinvested_capital": 28156.64, "spy_cash": 0.0, "spy_equity": 6391.29, "spy_market_value": 6391.29, "spy_return_pct": 4.18}, {"alpha_pct": 25.52, "alpha_value": 1601.56, "cash": 0.0, "date": "2026-05-02", "drawdown_pct": -3.93, "equity_multiple": 1.295535, "exposure_pct": 100.0, "external_capital": 6274.6, "market_value": 8128.97, "net_return_pct": 29.55, "new_capital": 6274.6, "portfolio_equity": 8128.97, "reinvested_capital": 28594.91, "spy_cash": 0.0, "spy_equity": 6527.41, "spy_market_value": 6527.41, "spy_return_pct": 4.03}, {"alpha_pct": 32.96, "alpha_value": 2471.1399999999994, "cash": 0.0, "date": "2026-05-09", "drawdown_pct": 0.0, "equity_multiple": 1.368284, "exposure_pct": 100.0, "external_capital": 6345.89, "market_value": 9062.49, "net_return_pct": 36.83, "new_capital": 6345.89, "point_type": "current", "portfolio_equity": 9062.49, "reinvested_capital": 29294.82, "spy_cash": 0.0, "spy_equity": 6591.35, "spy_market_value": 6591.35, "spy_return_pct": 3.87}]</script>
+<script id="strategyComparisonData" type="application/json">[{"alpha_pct": 38.94, "avg_exposure_pct": 79.64, "avg_mae_pct": -5.33, "avg_mfe_pct": 14.06, "closed_lots": 68, "max_drawdown_pct": -16.5, "open_lots": 8, "return_on_new_capital_pct": 42.81, "return_pct": 42.81, "spy_return_pct": 3.87, "strategy": "Default 12W", "win_rate": 0.3088}, {"alpha_pct": 7.02, "avg_exposure_pct": 78.28, "avg_mae_pct": -5.0, "avg_mfe_pct": 6.69, "closed_lots": 81, "max_drawdown_pct": -20.54, "open_lots": 4, "return_on_new_capital_pct": 11.82, "return_pct": 11.82, "spy_return_pct": 4.8, "strategy": "Conservative 8W", "win_rate": 0.4074}, {"alpha_pct": 21.51, "avg_exposure_pct": 82.18, "avg_mae_pct": -6.38, "avg_mfe_pct": 17.38, "closed_lots": 54, "max_drawdown_pct": -28.91, "open_lots": 14, "return_on_new_capital_pct": 25.98, "return_pct": 25.98, "spy_return_pct": 4.47, "strategy": "Trend Follow 16W", "win_rate": 0.2963}, {"alpha_pct": 38.94, "avg_exposure_pct": 79.64, "avg_mae_pct": -5.33, "avg_mfe_pct": 14.06, "closed_lots": 68, "max_drawdown_pct": -16.5, "open_lots": 8, "return_on_new_capital_pct": 42.81, "return_pct": 42.81, "spy_return_pct": 3.87, "strategy": "No Time Exit", "win_rate": 0.3088}, {"alpha_pct": 5.77, "avg_exposure_pct": 17.36, "avg_mae_pct": -5.25, "avg_mfe_pct": 13.36, "closed_lots": 40, "max_drawdown_pct": -3.92, "open_lots": 4, "return_on_new_capital_pct": 5.52, "return_pct": 5.52, "spy_return_pct": -0.25, "strategy": "No Reinvestment", "win_rate": 0.3}]</script>
+<script id="themeSummaryData" type="application/json">[{"alpha_pct": -2.16, "avg_mae_pct": -5.27, "avg_mfe_pct": 2.12, "avg_return_pct": -3.14, "cost": 1739.42, "count": 8, "return_pct": -3.1, "spy_cost": 1768.5, "spy_return_pct": -0.95, "spy_value": 1751.76, "theme": "AI", "value": 1685.43, "win_rate": 0.25}, {"alpha_pct": -5.61, "avg_mae_pct": -18.44, "avg_mfe_pct": -0.04, "avg_return_pct": -5.14, "cost": 371.26, "count": 2, "return_pct": -5.14, "spy_cost": 383.31, "spy_return_pct": 0.47, "spy_value": 385.09, "theme": "AI Infrastructure", "value": 352.17, "win_rate": 0.0}, {"alpha_pct": -0.72, "avg_mae_pct": -5.16, "avg_mfe_pct": 5.61, "avg_return_pct": -2.83, "cost": 7218.18, "count": 19, "return_pct": -1.44, "spy_cost": 6011.5, "spy_return_pct": -0.73, "spy_value": 5967.69, "theme": "Energy", "value": 7113.88, "win_rate": 0.1053}, {"alpha_pct": 9.15, "avg_mae_pct": -5.43, "avg_mfe_pct": 20.79, "avg_return_pct": 12.6, "cost": 12675.39, "count": 27, "return_pct": 7.16, "spy_cost": 11791.89, "spy_return_pct": -1.99, "spy_value": 11557.81, "theme": "Robotics", "value": 13583.36, "win_rate": 0.4444}, {"alpha_pct": 9.91, "avg_mae_pct": -4.06, "avg_mfe_pct": 19.16, "avg_return_pct": 9.62, "cost": 13636.46, "count": 20, "return_pct": 14.56, "spy_cost": 11555.03, "spy_return_pct": 4.66, "spy_value": 12093.32, "theme": "Space", "value": 15622.48, "win_rate": 0.65}]</script>
+<script id="exitReasonData" type="application/json">[{"alpha_pct": 13.95, "avg_mae_pct": -2.72, "avg_mfe_pct": 27.42, "avg_return_pct": 17.55, "cost": 10493.47, "count": 28, "exit_reason": "score_exit", "return_pct": 13.34, "spy_cost": 9442.85, "spy_return_pct": -0.61, "spy_value": 9385.44, "value": 11893.51, "win_rate": 0.75}, {"alpha_pct": -3.18, "avg_mae_pct": -7.91, "avg_mfe_pct": 3.29, "avg_return_pct": -5.1, "cost": 17077.38, "count": 37, "exit_reason": "stop_loss", "return_pct": -5.14, "spy_cost": 14824.28, "spy_return_pct": -1.96, "spy_value": 14533.54, "value": 16199.18, "win_rate": 0.0}, {"alpha_pct": -0.57, "avg_mae_pct": -2.14, "avg_mfe_pct": 6.46, "avg_return_pct": -1.11, "cost": 1215.01, "count": 3, "exit_reason": "trend_exit", "return_pct": -1.06, "spy_cost": 1251.55, "spy_return_pct": -0.49, "spy_value": 1245.36, "value": 1202.13, "win_rate": 0.0}]</script>
+<script id="buyTypeData" type="application/json">[{"alpha_pct": 5.84, "avg_mae_pct": -5.25, "avg_mfe_pct": 13.36, "avg_return_pct": 5.15, "buy_type": "base", "cost": 6345.89, "count": 44, "return_pct": 5.59, "spy_cost": 6345.89, "spy_return_pct": -0.26, "spy_value": 6329.67, "value": 6700.58, "win_rate": 0.3636}, {"alpha_pct": 7.02, "avg_mae_pct": -5.43, "avg_mfe_pct": 15.01, "avg_return_pct": 6.76, "buy_type": "reinvestment", "cost": 29294.82, "count": 32, "return_pct": 8.06, "spy_cost": 25164.34, "spy_return_pct": 1.04, "spy_value": 25426.01, "value": 31656.73, "win_rate": 0.4062}]</script>
+<script id="sequenceData" type="application/json">[{"alpha_pct": 5.67, "avg_mae_pct": -5.9, "avg_mfe_pct": 10.56, "avg_return_pct": 2.12, "cost": 26476.1, "count": 49, "return_pct": 6.91, "sequence": "1st Buy", "spy_cost": 23340.42, "spy_return_pct": 1.25, "spy_value": 23631.03, "value": 28306.67, "win_rate": 0.2857}, {"alpha_pct": 3.56, "avg_mae_pct": -5.86, "avg_mfe_pct": 18.33, "avg_return_pct": 9.2, "cost": 5902.19, "count": 14, "return_pct": 2.5, "sequence": "2nd Buy", "spy_cost": 4709.79, "spy_return_pct": -1.07, "spy_value": 4659.59, "value": 6049.48, "win_rate": 0.4286}, {"alpha_pct": 22.5, "avg_mae_pct": -2.6, "avg_mfe_pct": 22.62, "avg_return_pct": 16.2, "cost": 3262.42, "count": 13, "return_pct": 22.64, "sequence": "3rd+ Buy", "spy_cost": 3460.01, "spy_return_pct": 0.15, "spy_value": 3465.06, "value": 4001.17, "win_rate": 0.6923}]</script>
+<script>
+(function(){
+  const parseJSON = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return [];
+    try { return JSON.parse(el.textContent || '[]'); } catch { return []; }
+  };
+  const fmtMoney = (v) => v == null || !Number.isFinite(+v) ? '—' : '$' + Number(v).toLocaleString(undefined,{maximumFractionDigits:0});
+  const fmtPct = (v) => v == null || !Number.isFinite(+v) ? '—' : (v > 0 ? '+' : '') + Number(v).toFixed(1) + '%';
+  const num = (v) => Number.isFinite(+v) ? +v : null;
+
+  function linePath(points){
+    if (!points.length) return '';
+    return points.map((p,i)=>`${i?'L':'M'} ${p.x.toFixed(2)} ${p.y.toFixed(2)}`).join(' ');
+  }
+
+  function drawMultiLineChart(svgId, rows, series, opts={}){
+    const svg = document.getElementById(svgId);
+    if (!svg || !rows.length) return;
+    const W=1000,H=svgId === 'equityChart' ? 360 : 260,pad={l:74,r:28,t:34,b:48};
+    svg.innerHTML='';
+    const vals=[];
+    rows.forEach(r=>series.forEach(s=>{ const v=num(r[s.key]); if(v!=null) vals.push(v); }));
+    if(!vals.length) return;
+    let min=Math.min(...vals), max=Math.max(...vals);
+    if(opts.includeZero){ min=Math.min(min,0); max=Math.max(max,0); }
+    if(min===max){ min-=1; max+=1; }
+    const span=max-min || 1;
+    const x=(i)=>pad.l + (rows.length===1?0.5:i/(rows.length-1))*(W-pad.l-pad.r);
+    const y=(v)=>pad.t + (max-v)/span*(H-pad.t-pad.b);
+    const axis=document.createElementNS('http://www.w3.org/2000/svg','path');
+    axis.setAttribute('d',`M ${pad.l} ${pad.t} V ${H-pad.b} H ${W-pad.r}`);
+    axis.setAttribute('class','chart-axis');
+    svg.appendChild(axis);
+    for(let k=0;k<=4;k++){
+      const gv=min+span*k/4, yy=y(gv);
+      const grid=document.createElementNS('http://www.w3.org/2000/svg','line');
+      grid.setAttribute('x1',pad.l); grid.setAttribute('x2',W-pad.r); grid.setAttribute('y1',yy); grid.setAttribute('y2',yy); grid.setAttribute('class','chart-gridline'); svg.appendChild(grid);
+      const label=document.createElementNS('http://www.w3.org/2000/svg','text');
+      label.setAttribute('x',pad.l-10); label.setAttribute('y',yy+4); label.setAttribute('text-anchor','end'); label.setAttribute('class','chart-label'); label.textContent=opts.percent?fmtPct(gv):fmtMoney(gv); svg.appendChild(label);
+    }
+    const first=rows[0], last=rows[rows.length-1];
+    [[0,first.date],[rows.length-1,last.date]].forEach(([i,label])=>{
+      const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',x(i)); t.setAttribute('y',H-18); t.setAttribute('text-anchor',i===0?'start':'end'); t.setAttribute('class','chart-label'); t.textContent=label||''; svg.appendChild(t);
+    });
+    series.forEach(s=>{
+      const pts=rows.map((r,i)=>{ const v=num(r[s.key]); return v==null?null:{x:x(i),y:y(v)}; }).filter(Boolean);
+      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d',linePath(pts));
+      path.setAttribute('class','chart-line '+s.cls);
+      svg.appendChild(path);
+      if(pts.length){ const dot=document.createElementNS('http://www.w3.org/2000/svg','circle'); dot.setAttribute('cx',pts[pts.length-1].x); dot.setAttribute('cy',pts[pts.length-1].y); dot.setAttribute('r',4); dot.setAttribute('class','chart-dot '+s.cls); svg.appendChild(dot); }
+    });
+  }
+
+  function drawBarChart(svgId, rows, key, labelKey, opts={}){
+    const svg=document.getElementById(svgId); if(!svg||!rows.length) return;
+    const W=1000,H=300,pad={l:190,r:80,t:24,b:30};
+    svg.innerHTML='';
+    const data=rows.slice(0,8).map(r=>({label:String(r[labelKey]||r.strategy||'—').replace(/_/g,' '), value:num(r[key])||0}));
+    const maxAbs=Math.max(1,...data.map(d=>Math.abs(d.value)));
+    const rowH=(H-pad.t-pad.b)/Math.max(1,data.length);
+    const zeroX=pad.l+(W-pad.l-pad.r)/2;
+    const scale=(W-pad.l-pad.r)/2/maxAbs;
+    const zero=document.createElementNS('http://www.w3.org/2000/svg','line'); zero.setAttribute('x1',zeroX); zero.setAttribute('x2',zeroX); zero.setAttribute('y1',pad.t-8); zero.setAttribute('y2',H-pad.b+6); zero.setAttribute('class','chart-axis-muted'); svg.appendChild(zero);
+    data.forEach((d,i)=>{
+      const y=pad.t+i*rowH+rowH*.2;
+      const x=d.value>=0?zeroX:zeroX+d.value*scale;
+      const w=Math.abs(d.value*scale);
+      const rect=document.createElementNS('http://www.w3.org/2000/svg','rect'); rect.setAttribute('x',x); rect.setAttribute('y',y); rect.setAttribute('width',w); rect.setAttribute('height',Math.max(8,rowH*.46)); rect.setAttribute('rx',6); rect.setAttribute('class','chart-bar '+(d.value>=0?'up':'down')); svg.appendChild(rect);
+      const lab=document.createElementNS('http://www.w3.org/2000/svg','text'); lab.setAttribute('x',pad.l-12); lab.setAttribute('y',y+rowH*.32); lab.setAttribute('text-anchor','end'); lab.setAttribute('class','chart-label'); lab.textContent=d.label; svg.appendChild(lab);
+      const val=document.createElementNS('http://www.w3.org/2000/svg','text'); val.setAttribute('x',d.value>=0?x+w+7:x-7); val.setAttribute('y',y+rowH*.32); val.setAttribute('text-anchor',d.value>=0?'start':'end'); val.setAttribute('class','chart-value'); val.textContent=opts.money?fmtMoney(d.value):fmtPct(d.value); svg.appendChild(val);
+    });
+  }
+
+  const equity=parseJSON('equityCurveData');
+  const strategies=parseJSON('strategyComparisonData');
+  const themes=parseJSON('themeSummaryData');
+  const exits=parseJSON('exitReasonData');
+  const buyTypes=parseJSON('buyTypeData');
+  const seq=parseJSON('sequenceData');
+  drawMultiLineChart('equityChart', equity, [
+    {key:'portfolio_equity', cls:'strategy'},
+    {key:'spy_equity', cls:'spy'},
+    {key:'external_capital', cls:'capital'}
+  ], {includeZero:true});
+  drawMultiLineChart('drawdownChart', equity, [{key:'drawdown_pct', cls:'drawdown'}], {percent:true, includeZero:true});
+  drawMultiLineChart('deploymentChart', equity, [
+    {key:'market_value', cls:'strategy'},
+    {key:'cash', cls:'cash'}
+  ], {includeZero:true});
+  drawBarChart('strategyChart', strategies, 'return_pct', 'strategy');
+  drawBarChart('themeReturnChart', themes, 'return_pct', 'theme');
+  drawBarChart('themeCostChart', themes, 'cost', 'theme', {money:true});
+  drawBarChart('exitReasonChart', exits, 'return_pct', 'exit_reason');
+  drawBarChart('buyTypeChart', buyTypes, 'pl_value', 'buy_type', {money:true});
+  drawBarChart('sequenceChart', seq, 'return_pct', 'sequence');
+})();
+</script>
 </body>
 </html>
