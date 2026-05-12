@@ -487,12 +487,18 @@ def make_lot(
     signal: Dict[str, Any],
     sequence_no: int,
     histories: Dict[str, pd.DataFrame],
+    spy_cost: Optional[float] = None,
 ) -> Dict[str, Any]:
+    # Strategy cost and benchmark cost are intentionally separated.
+    # Base buys inject the same external capital into both portfolios.
+    # Reinvestment buys use each portfolio's own realized cash, so SPY may reinvest
+    # a different dollar amount than the strategy if prior performance differs.
     spy = histories.get(BENCHMARK, pd.DataFrame())
     spy_pos = pos_on_or_after(spy, buy_date)
     spy_open = row_price(spy, spy_pos, "Open")
     spy_entry = buy_price(spy_open) if spy_open is not None else None
-    spy_shares = cost / spy_entry if spy_entry and spy_entry > 0 else 0.0
+    spy_cost_value = cost if spy_cost is None else max(0.0, float(spy_cost))
+    spy_shares = spy_cost_value / spy_entry if spy_entry and spy_entry > 0 else 0.0
     regime = classify_regime(signal_date, histories)
     return {
         "symbol": symbol,
@@ -512,6 +518,7 @@ def make_lot(
         "sequence_bucket": sequence_bucket(sequence_no),
         "regime": regime,
         "spy_entry_price": safe_round(spy_entry, 4),
+        "spy_cost": safe_round(spy_cost_value, 4),
         "spy_shares": spy_shares,
     }
 
@@ -544,7 +551,8 @@ def close_lots(
         mfe, mae = lot_mfe_mae(lot, histories, exit_pos)
         ret = pct(exit_value, cost)
         spy_value = spy_value_for_lot(lot, histories, current=False, exit_date=exit_date)
-        spy_ret = pct(spy_value, cost) if spy_value is not None else None
+        spy_cost = to_float(lot.get("spy_cost")) or 0.0
+        spy_ret = pct(spy_value, spy_cost) if spy_value is not None and spy_cost > 0 else None
         rec = dict(lot)
         rec.update({
             "exit_date": exit_date,
@@ -554,6 +562,7 @@ def close_lots(
             "exit_value": safe_round(exit_value, 4),
             "realized_pl": safe_round(exit_value - cost, 4),
             "return_pct": safe_round(ret, 2),
+            "spy_cost": safe_round(spy_cost, 4),
             "spy_value": safe_round(spy_value, 4),
             "spy_return_pct": safe_round(spy_ret, 2),
             "alpha_pct": safe_round((ret or 0) - (spy_ret or 0), 2) if ret is not None and spy_ret is not None else None,
@@ -582,13 +591,15 @@ def current_lot_record(lot: Dict[str, Any], histories: Dict[str, pd.DataFrame]) 
     cost = to_float(lot.get("cost")) or 0.0
     mfe, mae = lot_mfe_mae(lot, histories)
     spy_val = spy_value_for_lot(lot, histories, current=True)
+    spy_cost = to_float(lot.get("spy_cost")) or 0.0
     ret = pct(cur_val, cost) if cur_val is not None else None
-    spy_ret = pct(spy_val, cost) if spy_val is not None else None
+    spy_ret = pct(spy_val, spy_cost) if spy_val is not None and spy_cost > 0 else None
     rec = dict(lot)
     rec.update({
         "current_value": safe_round(cur_val, 4),
         "unrealized_pl": safe_round((cur_val or 0.0) - cost, 4) if cur_val is not None else None,
         "return_pct": safe_round(ret, 2),
+        "spy_cost": safe_round(spy_cost, 4),
         "spy_value": safe_round(spy_val, 4),
         "spy_return_pct": safe_round(spy_ret, 2),
         "alpha_pct": safe_round((ret or 0) - (spy_ret or 0), 2) if ret is not None and spy_ret is not None else None,
@@ -608,15 +619,20 @@ def summarize_group(records: List[Dict[str, Any]], key: str, label: str = "label
     for k, rows in sorted(groups.items(), key=lambda kv: kv[0]):
         cost = sum_float(r.get("cost") for r in rows)
         value = sum_float(r.get("exit_value", r.get("current_value")) for r in rows)
+        spy_cost = sum_float(r.get("spy_cost") for r in rows)
         spy_value = sum_float(r.get("spy_value") for r in rows)
+        strategy_ret = pct(value, cost)
+        benchmark_ret = pct(spy_value, spy_cost)
         out.append({
             label: k,
             "count": len(rows),
             "cost": safe_round(cost, 2),
             "value": safe_round(value, 2),
-            "return_pct": safe_round(pct(value, cost), 2),
-            "spy_return_pct": safe_round(pct(spy_value, cost), 2),
-            "alpha_pct": safe_round((pct(value, cost) or 0) - (pct(spy_value, cost) or 0), 2) if cost else None,
+            "spy_cost": safe_round(spy_cost, 2),
+            "spy_value": safe_round(spy_value, 2),
+            "return_pct": safe_round(strategy_ret, 2),
+            "spy_return_pct": safe_round(benchmark_ret, 2),
+            "alpha_pct": safe_round((strategy_ret or 0) - (benchmark_ret or 0), 2) if strategy_ret is not None and benchmark_ret is not None else None,
             "win_rate": safe_round(win_rate([r.get("return_pct") for r in rows]), 4),
             "avg_return_pct": safe_round(avg([r.get("return_pct") for r in rows]), 2),
             "avg_mfe_pct": safe_round(avg([r.get("mfe_pct") for r in rows]), 2),
@@ -746,7 +762,7 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
                 cost = shares * px + COMMISSION
                 buy_date = histories[sym].index[pos].date().isoformat()
                 seq = len([l for l in open_lots.get(sym, []) if l.get("buy_type") == "base"]) + 1
-                lot = make_lot(sym, "base", shares, px, cost, as_of, buy_date, pos, q, seq, histories)
+                lot = make_lot(sym, "base", shares, px, cost, as_of, buy_date, pos, q, seq, histories, spy_cost=cost)
                 lot["last_check_pos"] = pos
                 open_lots.setdefault(sym, []).append(lot)
                 total_new_capital += cost
@@ -768,8 +784,10 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
             # Reinvestment buy: deploy available sale proceeds equally across current B+ signals.
             if policy.reinvest and cash > 0:
                 allocation = cash / len(valid_signals)
+                spy_allocation = spy_cash / len(valid_signals) if spy_cash > 0 else 0.0
                 if allocation > 0:
                     deployed = 0.0
+                    spy_deployed = 0.0
                     for q, pos, op in valid_signals:
                         sym = q["symbol"]
                         px = buy_price(op)
@@ -781,10 +799,11 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
                             continue
                         buy_date = histories[sym].index[pos].date().isoformat()
                         seq = len([l for l in open_lots.get(sym, []) if l.get("buy_type") == "base"]) or 1
-                        lot = make_lot(sym, "reinvestment", shares, px, cost, as_of, buy_date, pos, q, seq, histories)
+                        lot = make_lot(sym, "reinvestment", shares, px, cost, as_of, buy_date, pos, q, seq, histories, spy_cost=spy_allocation)
                         lot["last_check_pos"] = pos
                         open_lots.setdefault(sym, []).append(lot)
                         deployed += cost
+                        spy_deployed += spy_allocation
                         total_reinvested_capital += cost
                         trade_log.append({
                             "date": buy_date,
@@ -794,11 +813,12 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
                             "shares": safe_round(shares, 4),
                             "price": safe_round(px, 4),
                             "cost": safe_round(cost, 2),
+                            "spy_cost": safe_round(spy_allocation, 2),
                             "score": q.get("weekly_score"),
                             "signal": q.get("signal"),
                         })
                     cash = max(0.0, cash - deployed)
-                    spy_cash = max(0.0, spy_cash - min(spy_cash, deployed))
+                    spy_cash = max(0.0, spy_cash - spy_deployed)
 
         # 5) Weekly equity snapshot.
         market_value = 0.0
@@ -810,21 +830,30 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
                 continue
             market_value += sum_float(l.get("shares") for l in lots) * px
         portfolio_equity = cash + market_value
-        gross_cost = total_new_capital + total_reinvested_capital
-        spy_value = sum((spy_value_for_lot(l, histories, current=True) or 0.0) for lots in open_lots.values() for l in lots)
-        spy_value += sum_float(l.get("spy_value") for l in closed_lots)
-        peak = max([e.get("portfolio_equity", 0) for e in equity_curve] + [portfolio_equity])
-        dd = pct(portfolio_equity, peak) if peak else None
+        spy_open_value = sum((spy_value_for_lot(l, histories, current=True) or 0.0) for lots in open_lots.values() for l in lots)
+        spy_equity = spy_cash + spy_open_value
+        net_return = pct(portfolio_equity, total_new_capital) if total_new_capital else None
+        spy_return_equity = pct(spy_equity, total_new_capital) if total_new_capital else None
+        equity_multiple = ratio(portfolio_equity, total_new_capital) if total_new_capital else None
+        peak_multiple = max([e.get("equity_multiple", 0) for e in equity_curve] + ([equity_multiple] if equity_multiple is not None else [0]))
+        dd = pct(equity_multiple, peak_multiple) if equity_multiple is not None and peak_multiple else None
         exposure = ratio(market_value, portfolio_equity)
         equity_curve.append({
             "date": as_of,
+            "external_capital": safe_round(total_new_capital, 2),
             "new_capital": safe_round(total_new_capital, 2),
             "reinvested_capital": safe_round(total_reinvested_capital, 2),
             "cash": safe_round(cash, 2),
             "market_value": safe_round(market_value, 2),
             "portfolio_equity": safe_round(portfolio_equity, 2),
-            "spy_equity": safe_round(spy_value, 2),
-            "alpha_value": safe_round(portfolio_equity - spy_value, 2),
+            "net_return_pct": safe_round(net_return, 2),
+            "spy_cash": safe_round(spy_cash, 2),
+            "spy_market_value": safe_round(spy_open_value, 2),
+            "spy_equity": safe_round(spy_equity, 2),
+            "spy_return_pct": safe_round(spy_return_equity, 2),
+            "alpha_value": safe_round(portfolio_equity - spy_equity, 2),
+            "alpha_pct": safe_round((net_return or 0) - (spy_return_equity or 0), 2) if net_return is not None and spy_return_equity is not None else None,
+            "equity_multiple": safe_round(equity_multiple, 6),
             "drawdown_pct": safe_round(dd, 2),
             "exposure_pct": safe_round((exposure or 0) * 100, 2),
         })
@@ -867,14 +896,18 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
         })
 
     gross_buy_cost = total_new_capital + total_reinvested_capital
-    gross_current_value = sum_float(r.get("exit_value") for r in closed_records) + sum_float(r.get("current_value") for r in open_lot_records)
-    spy_equivalent = sum_float(r.get("spy_value") for r in closed_records) + sum_float(r.get("spy_value") for r in open_lot_records)
+    # Turnover metrics are useful, but they are not portfolio equity.
+    # Closed proceeds may have been reinvested, so closed proceeds + open value would double count capital.
+    turnover_current_value = sum_float(r.get("exit_value") for r in closed_records) + sum_float(r.get("current_value") for r in open_lot_records)
     current_market = sum_float(p.get("market_value") for p in open_positions)
     current_equity = cash + current_market
+    spy_open_value = sum((spy_value_for_lot(l, histories, current=True) or 0.0) for lots in open_lots.values() for l in lots)
+    spy_equivalent = spy_cash + spy_open_value
     return_on_new_capital = pct(current_equity, total_new_capital) if total_new_capital else None
-    gross_return = pct(gross_current_value, gross_buy_cost) if gross_buy_cost else None
-    spy_return = pct(spy_equivalent, gross_buy_cost) if gross_buy_cost else None
-    alpha = (gross_return or 0) - (spy_return or 0) if gross_return is not None and spy_return is not None else None
+    net_return = return_on_new_capital
+    turnover_return = pct(turnover_current_value, gross_buy_cost) if gross_buy_cost else None
+    spy_return = pct(spy_equivalent, total_new_capital) if total_new_capital else None
+    alpha = (net_return or 0) - (spy_return or 0) if net_return is not None and spy_return is not None else None
     max_dd = min([e.get("drawdown_pct") for e in equity_curve if e.get("drawdown_pct") is not None] or [0])
 
     all_lot_records = closed_records + open_lot_records
@@ -894,15 +927,20 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
         "total_new_capital": safe_round(total_new_capital, 2),
         "reinvested_capital": safe_round(total_reinvested_capital, 2),
         "total_buy_cost": safe_round(gross_buy_cost, 2),
-        "gross_current_value": safe_round(gross_current_value, 2),
+        "turnover_current_value": safe_round(turnover_current_value, 2),
+        "gross_current_value": safe_round(turnover_current_value, 2),
         "cash": safe_round(cash, 2),
         "market_value": safe_round(current_market, 2),
         "current_equity": safe_round(current_equity, 2),
         "total_pl": safe_round(current_equity - total_new_capital, 2) if total_new_capital else None,
+        "net_return_pct": safe_round(net_return, 2),
         "return_on_new_capital_pct": safe_round(return_on_new_capital, 2),
-        "gross_return_pct": safe_round(gross_return, 2),
+        "gross_return_pct": safe_round(turnover_return, 2),
+        "spy_cash": safe_round(spy_cash, 2),
+        "spy_market_value": safe_round(spy_open_value, 2),
         "spy_equivalent": safe_round(spy_equivalent, 2),
         "spy_return_pct": safe_round(spy_return, 2),
+        "alpha_value": safe_round(current_equity - spy_equivalent, 2) if total_new_capital else None,
         "alpha_pct": safe_round(alpha, 2),
         "open_positions": len(open_positions),
         "open_lots": len(open_lot_records),
@@ -923,7 +961,7 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
 
     comparison_summary = {
         "strategy": policy.label,
-        "return_pct": summary["gross_return_pct"],
+        "return_pct": summary["net_return_pct"],
         "return_on_new_capital_pct": summary["return_on_new_capital_pct"],
         "spy_return_pct": summary["spy_return_pct"],
         "alpha_pct": summary["alpha_pct"],
