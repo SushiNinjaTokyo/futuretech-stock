@@ -4,11 +4,11 @@
     {
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
-      "score_0_1": 0.863194,
+      "score_0_1": 0.827514,
       "headline_count_fetched": 20,
       "headline_count_relevant": 4,
       "deduped_headline_count": 4,
-      "today_count": 4,
+      "today_count": 3,
       "prev1_count": 0,
       "prev3_daily_counts": [
         0,
@@ -18,16 +18,22 @@
       "avg_prev_3d_excl_today": 0.0,
       "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 8.0,
-      "ratio_vs_prev3avg": 8.0,
-      "raw_news_strength": 1.87394191,
+      "ratio_vs_prev1": 6.0,
+      "ratio_vs_prev3avg": 6.0,
+      "raw_news_strength": 1.63812147,
       "day_counts": {
         "2026-05-08": 0,
         "2026-05-09": 0,
         "2026-05-10": 0,
-        "2026-05-11": 4
+        "2026-05-11": 3
       },
       "headlines": [
+        {
+          "title": "Up 377%, Is Intel Proving Why It Was a Mistake for Nvidia to Replace Intel in the Dow Jones Industrial Average?",
+          "link": "https://www.fool.com/investing/2026/05/11/intel-nvidia-ai-growth-stock-dow-jones/?.tsrc=rss",
+          "published_at": "2026-05-12T03:50:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Nvidia (NVDA) Draws Bullish Goldman Sachs Call Ahead of Earnings",
           "link": "https://finance.yahoo.com/markets/stocks/articles/nvidia-nvda-draws-bullish-goldman-235640305.html?.tsrc=rss",
@@ -45,12 +51,6 @@
           "link": "https://finance.yahoo.com/sectors/technology/articles/nvidia-expands-ai-investment-push-213531266.html?.tsrc=rss",
           "published_at": "2026-05-11T21:35:31+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Nvidia bull unveils bold new AI trade Wall Street hasn't named yet",
-          "link": "https://finance.yahoo.com/sectors/technology/articles/nvidia-bull-unveils-bold-ai-212614732.html?.tsrc=rss",
-          "published_at": "2026-05-11T21:26:14+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
@@ -59,8 +59,8 @@
       "name": "Microsoft Corporation",
       "score_0_1": 0.951161,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 5,
-      "deduped_headline_count": 5,
+      "headline_count_relevant": 6,
+      "deduped_headline_count": 6,
       "today_count": 5,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -81,6 +81,12 @@
         "2026-05-11": 5
       },
       "headlines": [
+        {
+          "title": "OpenAI, Microsoft agree to cap revenue-sharing at $38 billion, The Information reports",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/openai-cap-microsoft-revenue-sharing-012201531.html?.tsrc=rss",
+          "published_at": "2026-05-12T01:22:01+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Microsoft boss 'proud' of profit-making OpenAI investment",
           "link": "https://finance.yahoo.com/sectors/technology/articles/microsoft-boss-testify-role-openais-011353498.html?.tsrc=rss",
@@ -627,7 +633,7 @@
     {
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
-      "score_0_1": 0.809036,
+      "score_0_1": 0.827514,
       "headline_count_fetched": 20,
       "headline_count_relevant": 4,
       "deduped_headline_count": 4,
@@ -913,6 +919,12 @@
       },
       "headlines": [
         {
+          "title": "Innodata (INOD) Profits Nearly Double, Shares Fly to All-Time High",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/innodata-inod-profits-nearly-double-021603229.html?.tsrc=rss",
+          "published_at": "2026-05-12T02:16:03+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
           "title": "Innodata Q1 Revenue Jumps 54%: More Upside Ahead for the Stock?",
           "link": "https://finance.yahoo.com/markets/stocks/articles/innodata-q1-revenue-jumps-54-155800212.html?.tsrc=rss",
           "published_at": "2026-05-11T15:58:00+00:00",
@@ -1024,12 +1036,6 @@
           "title": "Innodata Stock Plunges 32.8% in 3 Months: Time to Hold or Exit?",
           "link": "https://finance.yahoo.com/markets/stocks/articles/innodata-stock-plunges-32-8-134600953.html?.tsrc=rss",
           "published_at": "2026-04-15T13:46:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Innodata to Report First Quarter 2026 Results",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/innodata-report-first-quarter-2026-120000322.html?.tsrc=rss",
-          "published_at": "2026-04-15T12:00:00+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -1572,7 +1578,7 @@
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
-      "score_0_1": 0.809036,
+      "score_0_1": 0.827514,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
@@ -1793,18 +1799,18 @@
       "today_count": 0,
       "prev1_count": 1,
       "prev3_daily_counts": [
-        1,
+        0,
         1,
         1
       ],
-      "avg_prev_3d_excl_today": 1.0,
+      "avg_prev_3d_excl_today": 0.6667,
       "baseline_prev1_used": 1.0,
-      "baseline_prev3_used": 1.0,
+      "baseline_prev3_used": 0.6667,
       "ratio_vs_prev1": 0.0,
       "ratio_vs_prev3avg": 0.0,
       "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-08": 1,
+        "2026-05-08": 0,
         "2026-05-09": 1,
         "2026-05-10": 1,
         "2026-05-11": 0
@@ -1823,15 +1829,15 @@
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "Tempus Announces Pricing of Upsized Offering of $400.0 Million of Convertible Senior Notes",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/tempus-announces-pricing-upsized-offering-045900038.html?.tsrc=rss",
-          "published_at": "2026-05-08T04:59:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
           "title": "Tempus AI, Inc. Announces Proposed Convertible Senior Notes Offering to Optimize Capital Structure and Reduce Interest Expense",
           "link": "https://finance.yahoo.com/markets/stocks/articles/tempus-ai-inc-announces-proposed-111100902.html?.tsrc=rss",
           "published_at": "2026-05-07T11:11:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Why The Dip In TEM Stock Is A Buying Window",
+          "link": "https://www.trefis.com/articles/598465/why-the-dip-in-tem-stock-is-a-buying-window/2026-05-06?.tsrc=rss",
+          "published_at": "2026-05-06T13:31:10+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -3048,23 +3054,29 @@
       "today_count": 6,
       "prev1_count": 0,
       "prev3_daily_counts": [
-        5,
+        4,
         3,
         0
       ],
-      "avg_prev_3d_excl_today": 2.6667,
+      "avg_prev_3d_excl_today": 2.3333,
       "baseline_prev1_used": 0.5,
-      "baseline_prev3_used": 2.6667,
+      "baseline_prev3_used": 2.3333,
       "ratio_vs_prev1": 12.0,
-      "ratio_vs_prev3avg": 2.249972,
-      "raw_news_strength": 1.87790204,
+      "ratio_vs_prev3avg": 2.571465,
+      "raw_news_strength": 1.90148444,
       "day_counts": {
-        "2026-05-08": 5,
+        "2026-05-08": 4,
         "2026-05-09": 3,
         "2026-05-10": 0,
         "2026-05-11": 6
       },
       "headlines": [
+        {
+          "title": "IonQ Inc. (IONQ) Chip Foray Moves One Step Closer, Soars 15%",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/ionq-inc-ionq-chip-foray-020037111.html?.tsrc=rss",
+          "published_at": "2026-05-12T02:00:37+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Stock Market Today, May 11: IonQ Rises as SkyWater Vote Advances Semiconductor Manufacturing Deal",
           "link": "https://www.fool.com/coverage/stock-market-today/2026/05/11/stock-market-today-may-11-ionq-rises-as-skywater-vote-advances-semiconductor-manufacturing-deal/?.tsrc=rss",
@@ -3141,12 +3153,6 @@
           "title": "Morgan Stanley resets IonQ stock price target after earnings",
           "link": "https://www.thestreet.com/investing/stocks/morgan-stanley-resets-ionq-stock-price-target-after-earnings?.tsrc=rss",
           "published_at": "2026-05-08T16:17:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Is It Too Late To Consider IonQ (IONQ) After Its Recent Share Price Surge?",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/too-consider-ionq-ionq-recent-002814804.html?.tsrc=rss",
-          "published_at": "2026-05-08T00:28:14+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -3363,6 +3369,12 @@
       },
       "headlines": [
         {
+          "title": "Hims & Hers Health Q1 Earnings Call Highlights",
+          "link": "https://www.marketbeat.com/instant-alerts/hims-hers-health-q1-earnings-call-highlights-2026-05-11/?utm_source=yahoofinance&utm_medium=yahoofinance&.tsrc=rss",
+          "published_at": "2026-05-12T04:04:08+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
           "title": "Hims & Hers Health, Inc. (HIMS) Reports Q1 Loss, Misses Revenue Estimates",
           "link": "https://finance.yahoo.com/sectors/healthcare/articles/hims-hers-health-inc-hims-212502091.html?.tsrc=rss",
           "published_at": "2026-05-11T21:25:02+00:00",
@@ -3444,12 +3456,6 @@
           "title": "Hims & Hers Health, Inc. (HIMS) Stock Drops Despite Market Gains: Important Facts to Note",
           "link": "https://finance.yahoo.com/markets/stocks/articles/hims-hers-health-inc-hims-214503097.html?.tsrc=rss",
           "published_at": "2026-05-05T21:45:03+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Hims & Hers Expands DTC Platform to Broaden Access to Personal Care",
-          "link": "https://finance.yahoo.com/sectors/healthcare/articles/hims-hers-expands-dtc-platform-154100040.html?.tsrc=rss",
-          "published_at": "2026-05-05T15:41:00+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -3635,7 +3641,7 @@
     {
       "symbol": "ALAB",
       "name": "Astera Labs Inc.",
-      "score_0_1": 0.844715,
+      "score_0_1": 0.863194,
       "headline_count_fetched": 20,
       "headline_count_relevant": 9,
       "deduped_headline_count": 9,

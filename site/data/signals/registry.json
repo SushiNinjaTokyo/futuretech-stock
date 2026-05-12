@@ -1,6 +1,6 @@
 {
   "created_at": "2026-04-26 05:56:54Z",
-  "updated_at": "2026-05-12 01:05:25Z",
+  "updated_at": "2026-05-12 04:31:25Z",
   "policy": {
     "policy_version": "score_filtered_v1",
     "entry_method": "next_open",
@@ -471,14 +471,14 @@
         "current_close": 71.15,
         "current_date": "2026-05-11",
         "max_gain_since_entry_pct": 1.06,
-        "max_drawdown_since_entry_pct": -7.7,
+        "max_drawdown_since_entry_pct": -7.71,
         "status": "completed_1w",
-        "last_updated": "2026-05-12 01:05:25Z",
+        "last_updated": "2026-05-12 04:31:25Z",
         "d5_return_pct": -6.09,
         "d10_return_pct": null,
         "d20_return_pct": null,
         "max_gain_20d_pct": 1.06,
-        "max_drawdown_20d_pct": -7.7
+        "max_drawdown_20d_pct": -7.71
       },
       "source_snapshot": {
         "price_delta_1d": 0.29,
@@ -926,14 +926,14 @@
         "current_return_pct": -3.8,
         "current_close": 26.87,
         "current_date": "2026-05-11",
-        "max_gain_since_entry_pct": 1.4,
+        "max_gain_since_entry_pct": 1.47,
         "max_drawdown_since_entry_pct": -6.73,
         "status": "active",
-        "last_updated": "2026-05-12 01:05:25Z",
+        "last_updated": "2026-05-12 04:31:25Z",
         "d5_return_pct": null,
         "d10_return_pct": null,
         "d20_return_pct": null,
-        "max_gain_20d_pct": 1.4,
+        "max_gain_20d_pct": 1.47,
         "max_drawdown_20d_pct": -6.73
       },
       "source_snapshot": {
@@ -997,6 +997,120 @@
         "price_delta_1d": 6.72,
         "price_delta_1w": -0.53,
         "price_delta_1m": 21.02
+      }
+    },
+    {
+      "id": "2026-05-11_IONQ",
+      "signal_date": "2026-05-11",
+      "symbol": "IONQ",
+      "name": "IonQ Inc.",
+      "rank": 1,
+      "rank_bucket": "#1",
+      "score_bucket": "800-849",
+      "score_pts": 803,
+      "final_score_0_1": 0.803048,
+      "score_components": {
+        "volume_anomaly": 0.830476,
+        "compression_release": 0.55,
+        "trends_breakout": 0.811915,
+        "news": 0.907609
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Volume + Trends + News",
+      "policy_version": "score_filtered_v1",
+      "signal_eligible": true,
+      "eligibility_rule": "top3_score_750",
+      "signal_quality": "Signal",
+      "signal_close": 56.89,
+      "entry": {
+        "method": "next_open",
+        "entry_date": null,
+        "entry_price": null,
+        "gap_pct": null
+      },
+      "outcome": {
+        "return_1w_pct": null,
+        "return_1m_pct": null,
+        "return_3m_pct": null,
+        "current_return_pct": null,
+        "current_close": null,
+        "current_date": null,
+        "max_gain_since_entry_pct": null,
+        "max_drawdown_since_entry_pct": null,
+        "status": "pending_entry",
+        "last_updated": null,
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": null,
+        "max_drawdown_20d_pct": null
+      },
+      "source_snapshot": {
+        "price_delta_1d": 15.54,
+        "price_delta_1w": 24.35,
+        "price_delta_1m": 91.16
+      }
+    },
+    {
+      "id": "2026-05-11_ABCL",
+      "signal_date": "2026-05-11",
+      "symbol": "ABCL",
+      "name": "AbCellera Biologics Inc.",
+      "rank": 3,
+      "rank_bucket": "#2-3",
+      "score_bucket": "700-749",
+      "score_pts": 749,
+      "final_score_0_1": 0.748649,
+      "score_components": {
+        "volume_anomaly": 0.84674,
+        "compression_release": 0.0,
+        "trends_breakout": 0.981646,
+        "news": 0.827514
+      },
+      "score_weights": {
+        "volume_anomaly": 0.35,
+        "compression_release": 0.15,
+        "trends_breakout": 0.25,
+        "news": 0.25
+      },
+      "profile": "Volume + Trends + News",
+      "policy_version": "score_filtered_v1",
+      "signal_eligible": true,
+      "eligibility_rule": "score_700_volume_055",
+      "signal_quality": "Volume Signal",
+      "signal_close": 5.25,
+      "entry": {
+        "method": "next_open",
+        "entry_date": null,
+        "entry_price": null,
+        "gap_pct": null
+      },
+      "outcome": {
+        "return_1w_pct": null,
+        "return_1m_pct": null,
+        "return_3m_pct": null,
+        "current_return_pct": null,
+        "current_close": null,
+        "current_date": null,
+        "max_gain_since_entry_pct": null,
+        "max_drawdown_since_entry_pct": null,
+        "status": "pending_entry",
+        "last_updated": null,
+        "d5_return_pct": null,
+        "d10_return_pct": null,
+        "d20_return_pct": null,
+        "max_gain_20d_pct": null,
+        "max_drawdown_20d_pct": null
+      },
+      "source_snapshot": {
+        "price_delta_1d": 0.19,
+        "price_delta_1w": 14.38,
+        "price_delta_1m": 43.44
       }
     }
   ]

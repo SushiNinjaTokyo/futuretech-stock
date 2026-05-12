@@ -1,6 +1,6 @@
 {
   "as_of": "2026-05-11",
-  "generated_at": "2026-05-12 01:05:25Z",
+  "generated_at": "2026-05-12 04:31:25Z",
   "tracking_policy": {
     "policy_version": "score_filtered_v1",
     "entry_method": "next_open",
@@ -20,10 +20,10 @@
       "legacy_min_score_for_report": 750
     }
   },
-  "total_signals": 17,
-  "raw_total_signals_in_registry": 17,
+  "total_signals": 19,
+  "raw_total_signals_in_registry": 19,
   "hidden_legacy_signals": 0,
-  "active_signals": 17,
+  "active_signals": 19,
   "completed_1w": 9,
   "completed_1m": 0,
   "completed_3m": 0,
@@ -40,7 +40,7 @@
   "rank_buckets": [
     {
       "label": "#1",
-      "count": 10,
+      "count": 11,
       "completed_1w": 5,
       "completed_1m": 0,
       "completed_3m": 0,
@@ -54,7 +54,7 @@
     },
     {
       "label": "#2-3",
-      "count": 7,
+      "count": 8,
       "completed_1w": 4,
       "completed_1m": 0,
       "completed_3m": 0,
@@ -84,7 +84,7 @@
     },
     {
       "label": "800-849",
-      "count": 1,
+      "count": 2,
       "completed_1w": 0,
       "completed_1m": 0,
       "completed_3m": 0,
@@ -112,7 +112,7 @@
     },
     {
       "label": "700-749",
-      "count": 8,
+      "count": 9,
       "completed_1w": 6,
       "completed_1m": 0,
       "completed_3m": 0,
@@ -128,7 +128,7 @@
   "rule_buckets": [
     {
       "label": "top3_score_750",
-      "count": 9,
+      "count": 10,
       "completed_1w": 3,
       "completed_1m": 0,
       "completed_3m": 0,
@@ -142,7 +142,7 @@
     },
     {
       "label": "score_700_volume_055",
-      "count": 8,
+      "count": 9,
       "completed_1w": 6,
       "completed_1m": 0,
       "completed_3m": 0,
@@ -158,7 +158,7 @@
   "profiles": [
     {
       "label": "Volume + Trends + News",
-      "count": 3,
+      "count": 5,
       "completed_1w": 0,
       "completed_1m": 0,
       "completed_3m": 0,
