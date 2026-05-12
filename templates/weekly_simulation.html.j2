@@ -13,6 +13,7 @@
   <div class="grid"></div>
 
   <main class="wrap">
+    {% set strategy_highlights = strategy_highlights | default({}, true) %}
     {% macro money(v) -%}
       {% if v is none %}—{% else %}${{ "{:,}".format((v|float)|int) }}{% endif %}
     {%- endmacro %}
