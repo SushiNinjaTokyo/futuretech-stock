@@ -133,23 +133,22 @@
       <div class="insight-grid">
         <article class="insight-card">
           <div class="insight-label">Reinvestment Impact</div>
-            <div class="insight-main up">+37.29%</div>
-            <div class="insight-note">vs no reinvestment · Alpha delta +33.17%</div>
+            <div class="insight-main neutral">—</div><div class="insight-note">comparison unavailable</div>
         </article>
         <article class="insight-card">
           <div class="insight-label">Best Return Strategy</div>
-            <div class="insight-main up">Default 12W</div>
-            <div class="insight-note">+42.81% · DD -16.5%</div>
+            <div class="insight-main up">A Leader only</div>
+            <div class="insight-note">+46.11% · DD -18.84%</div>
         </article>
         <article class="insight-card">
           <div class="insight-label">Lowest Drawdown</div>
-            <div class="insight-main down">No Reinvestment</div>
-            <div class="insight-note">DD -3.92% · Return +5.52%</div>
+            <div class="insight-main down">Position cap 40%</div>
+            <div class="insight-note">DD -10.43% · Return +4.66%</div>
         </article>
         <article class="insight-card">
           <div class="insight-label">Best Risk-Adjusted</div>
-            <div class="insight-main up">Default 12W</div>
-            <div class="insight-note">Return +42.81% · DD -16.5%</div>
+            <div class="insight-main up">Reinvest score>=750 only</div>
+            <div class="insight-note">Return +45.79% · DD -12.21%</div>
         </article>
         <article class="insight-card trade-insight">
         <div class="insight-label">Best Lot</div>
@@ -322,23 +321,203 @@
       </div>
     </section>
 
-    <section class="panel">
-      <div class="section-head"><div><div class="section-kicker">Rule Sensitivity</div><h2>Strategy Comparison</h2></div></div>
-      <div class="chart-card chart-card-inline">
-        <div class="chart-toolbar"><div class="chart-title">Return / Drawdown by Strategy</div></div>
-        <svg id="strategyChart" class="bar-chart" viewBox="0 0 1000 300" role="img" aria-label="Strategy comparison chart"></svg>
+    <section class="panel strategy-comparison-panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Rule Sensitivity</div>
+          <h2>Strategy Comparison</h2>
+        </div>
       </div>
-      <div class="table-wrap compact">
-        <table>
-          <thead><tr><th>Strategy</th><th>Net Return</th><th>SPY</th><th>Alpha</th><th>Max DD</th><th>Win</th><th>Closed</th><th>Exposure</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Default 12W</strong></td><td class="up">+42.81%</td><td>+3.87%</td><td class="up">+38.94%</td><td class="down">-16.5%</td><td>30.9%</td><td>68</td><td>80.25%</td></tr>
-            <tr><td><strong>Conservative 8W</strong></td><td class="up">+11.82%</td><td>+4.8%</td><td class="up">+7.02%</td><td class="down">-20.54%</td><td>40.7%</td><td>81</td><td>78.93%</td></tr>
-            <tr><td><strong>Trend Follow 16W</strong></td><td class="up">+25.98%</td><td>+4.47%</td><td class="up">+21.51%</td><td class="down">-28.91%</td><td>29.6%</td><td>54</td><td>82.72%</td></tr>
-            <tr><td><strong>No Time Exit</strong></td><td class="up">+42.81%</td><td>+3.87%</td><td class="up">+38.94%</td><td class="down">-16.5%</td><td>30.9%</td><td>68</td><td>80.25%</td></tr>
-            <tr><td><strong>No Reinvestment</strong></td><td class="up">+5.52%</td><td>-0.25%</td><td class="up">+5.77%</td><td class="down">-3.92%</td><td>30.0%</td><td>40</td><td>16.96%</td></tr>
-          </tbody>
-        </table>
+
+      <div class="tab-controls" role="tablist" aria-label="Strategy comparison views">
+        <button class="tab-button active" type="button" data-tab="strategy-table">Table</button>
+        <button class="tab-button" type="button" data-tab="strategy-return">Return</button>
+        <button class="tab-button" type="button" data-tab="strategy-risk">Risk</button>
+        <button class="tab-button" type="button" data-tab="strategy-alpha">Alpha</button>
+        <button class="tab-button" type="button" data-tab="strategy-winrate">Win Rate</button>
+        <button class="tab-button" type="button" data-tab="strategy-exposure">Exposure</button>
+      </div>
+
+      <div id="strategy-table" class="tab-panel active" role="tabpanel">
+        <div class="table-wrap compact strategy-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Strategy</th>
+                <th>Net Return</th>
+                <th>SPY</th>
+                <th>Alpha</th>
+                <th>Alpha Value</th>
+                <th>Max DD</th>
+                <th>Return/DD</th>
+                <th>Win</th>
+                <th>Closed</th>
+                <th>Largest</th>
+                <th>Top5</th>
+                <th>Rule</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="strategy-name"><strong>Default 12W</strong><span>B+ entries, -5% stop, score <700 exit, 12W lot exit, reinvestment on.</span></div></td>
+                <td class="up">+42.81%</td>
+                <td>+3.87%</td>
+                <td class="up">+38.94%</td>
+                <td class="up">+$2,471</td>
+                <td class="down">-16.5%</td>
+                <td>2.59x</td>
+                <td>30.9%</td>
+                <td>68</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td><span class="rule-chip">Stop -5.0%</span><span class="rule-chip">Score ≥700</span></td>
+              </tr>
+              <tr>
+                <td><div class="strategy-name"><strong>Stop -8%</strong><span>Same as default, but wider -8% stop.</span></div></td>
+                <td class="up">+33.59%</td>
+                <td>+3.87%</td>
+                <td class="up">+29.71%</td>
+                <td class="up">+$1,885</td>
+                <td class="down">-21.23%</td>
+                <td>1.58x</td>
+                <td>36.9%</td>
+                <td>65</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td><span class="rule-chip">Stop -8.0%</span><span class="rule-chip">Score ≥700</span></td>
+              </tr>
+              <tr>
+                <td><div class="strategy-name"><strong>Stop -10%</strong><span>Same as default, but wider -10% stop.</span></div></td>
+                <td class="up">+39.64%</td>
+                <td>+6.36%</td>
+                <td class="up">+33.28%</td>
+                <td class="up">+$2,111</td>
+                <td class="down">-17.96%</td>
+                <td>2.21x</td>
+                <td>50.8%</td>
+                <td>65</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td><span class="rule-chip">Stop -10.0%</span><span class="rule-chip">Score ≥700</span></td>
+              </tr>
+              <tr>
+                <td><div class="strategy-name"><strong>Score >=750</strong><span>Only buys signals with weekly score >=750.</span></div></td>
+                <td class="up">+38.68%</td>
+                <td>+9.59%</td>
+                <td class="up">+29.09%</td>
+                <td class="up">+$684</td>
+                <td class="down">-18.84%</td>
+                <td>2.05x</td>
+                <td>37.9%</td>
+                <td>29</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td><span class="rule-chip">Stop -5.0%</span><span class="rule-chip">Score ≥750</span></td>
+              </tr>
+              <tr>
+                <td><div class="strategy-name"><strong>A Leader only</strong><span>Buys only A+ Fresh Breakout and A Leader signals.</span></div></td>
+                <td class="up">+46.11%</td>
+                <td>+8.49%</td>
+                <td class="up">+37.62%</td>
+                <td class="up">+$607</td>
+                <td class="down">-18.84%</td>
+                <td>2.45x</td>
+                <td>31.2%</td>
+                <td>16</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td><span class="rule-chip">Stop -5.0%</span><span class="rule-chip">Score ≥700</span></td>
+              </tr>
+              <tr>
+                <td><div class="strategy-name"><strong>Reinvest score>=750 only</strong><span>Base buys all B+ signals, but reinvests only into score >=750 signals.</span></div></td>
+                <td class="up">+45.79%</td>
+                <td>+9.86%</td>
+                <td class="up">+35.93%</td>
+                <td class="up">+$2,279</td>
+                <td class="down">-12.21%</td>
+                <td>3.75x</td>
+                <td>34.0%</td>
+                <td>53</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td><span class="rule-chip">Stop -5.0%</span><span class="rule-chip">Score ≥700</span></td>
+              </tr>
+              <tr>
+                <td><div class="strategy-name"><strong>Position cap 40%</strong><span>Caps each symbol at 40% of current portfolio equity before new buys.</span></div></td>
+                <td class="up">+4.66%</td>
+                <td>+6.87%</td>
+                <td class="down">-2.21%</td>
+                <td class="down">$-42</td>
+                <td class="down">-10.43%</td>
+                <td>0.45x</td>
+                <td>34.5%</td>
+                <td>58</td>
+                <td>48.17%</td>
+                <td>48.17%</td>
+                <td><span class="rule-chip">Stop -5.0%</span><span class="rule-chip">Score ≥700</span><span class="rule-chip">Cap 40.0%</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="strategy-return" class="tab-panel" role="tabpanel">
+        <div class="chart-card chart-card-inline">
+          <div class="chart-toolbar"><div class="chart-title">Net Return by Strategy</div></div>
+          <svg id="strategyReturnChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Net return by strategy"></svg>
+        </div>
+      </div>
+
+      <div id="strategy-risk" class="tab-panel" role="tabpanel">
+        <div class="chart-grid two">
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">Max Drawdown by Strategy</div></div>
+            <svg id="strategyRiskChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Max drawdown by strategy"></svg>
+          </div>
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">Return / Max DD</div></div>
+            <svg id="strategyRiskAdjustedChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Risk adjusted return by strategy"></svg>
+          </div>
+        </div>
+      </div>
+
+      <div id="strategy-alpha" class="tab-panel" role="tabpanel">
+        <div class="chart-grid two">
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">SPY Alpha %</div></div>
+            <svg id="strategyAlphaChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="SPY alpha percentage by strategy"></svg>
+          </div>
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">Alpha Value</div></div>
+            <svg id="strategyAlphaValueChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Alpha value by strategy"></svg>
+          </div>
+        </div>
+      </div>
+
+      <div id="strategy-winrate" class="tab-panel" role="tabpanel">
+        <div class="chart-grid two">
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">Win Rate</div></div>
+            <svg id="strategyWinRateChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Win rate by strategy"></svg>
+          </div>
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">Closed Lots</div></div>
+            <svg id="strategyTradeCountChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Closed lot count by strategy"></svg>
+          </div>
+        </div>
+      </div>
+
+      <div id="strategy-exposure" class="tab-panel" role="tabpanel">
+        <div class="chart-grid two">
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">Largest Position %</div></div>
+            <svg id="strategyLargestChart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Largest position by strategy"></svg>
+          </div>
+          <div class="chart-card">
+            <div class="chart-toolbar"><div class="chart-title">Top 5 Exposure %</div></div>
+            <svg id="strategyTop5Chart" class="bar-chart" viewBox="0 0 1000 340" role="img" aria-label="Top five exposure by strategy"></svg>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -669,13 +848,13 @@
 
     <footer class="footer">
       <div><strong>Policy</strong><span>Buy every B-or-better weekly signal at the next trading day open. 1 share per weekly B+ signal, treated as new capital. Available realized proceeds are equally reinvested into the current week's B+ signals; fractional shares are allowed. SPY equivalent uses the same buy dates, buy amounts, and exit dates as the simulated lots. Portfolio equity is cash plus open market value; reinvested capital is turnover, not additional external capital. The final curve point is current mark-to-market and is aligned with the KPI cards.</span></div>
-      <div>Generated at 2026-05-12 06:45:22Z</div>
+      <div>Generated at 2026-05-12 08:09:31Z</div>
     </footer>
   </main>
 </div>
 
 <script id="equityCurveData" type="application/json">[{"alpha_pct": -10.4, "alpha_value": -59.96, "cash": 0.0, "date": "2025-10-04", "drawdown_pct": 0.0, "equity_multiple": 0.995093, "exposure_pct": 100.0, "external_capital": 576.34, "market_value": 573.51, "net_return_pct": -0.49, "new_capital": 576.34, "portfolio_equity": 573.51, "reinvested_capital": 0.0, "spy_cash": 0.0, "spy_equity": 633.47, "spy_market_value": 633.47, "spy_return_pct": 9.91}, {"alpha_pct": 1.06, "alpha_value": 6.08, "cash": 515.64, "date": "2025-10-11", "drawdown_pct": 0.0, "equity_multiple": 1.006172, "exposure_pct": 11.08, "external_capital": 576.34, "market_value": 64.26, "net_return_pct": 0.62, "new_capital": 576.34, "portfolio_equity": 579.9, "reinvested_capital": 0.0, "spy_cash": 511.22, "spy_equity": 573.81, "spy_market_value": 62.6, "spy_return_pct": -0.44}, {"alpha_pct": 1.4, "alpha_value": 8.09, "cash": 515.64, "date": "2025-10-18", "drawdown_pct": 0.0, "equity_multiple": 1.00966, "exposure_pct": 11.39, "external_capital": 576.34, "market_value": 66.27, "net_return_pct": 0.97, "new_capital": 576.34, "portfolio_equity": 581.91, "reinvested_capital": 0.0, "spy_cash": 511.22, "spy_equity": 573.81, "spy_market_value": 62.6, "spy_return_pct": -0.44}, {"alpha_pct": 1.11, "alpha_value": 6.38, "cash": 515.64, "date": "2025-10-25", "drawdown_pct": -0.29, "equity_multiple": 1.006693, "exposure_pct": 11.13, "external_capital": 576.34, "market_value": 64.56, "net_return_pct": 0.67, "new_capital": 576.34, "portfolio_equity": 580.2, "reinvested_capital": 0.0, "spy_cash": 511.22, "spy_equity": 573.81, "spy_market_value": 62.6, "spy_return_pct": -0.44}, {"alpha_pct": -7.79, "alpha_value": -51.33, "cash": 0.0, "date": "2025-11-01", "drawdown_pct": -2.28, "equity_multiple": 0.986651, "exposure_pct": 100.0, "external_capital": 658.66, "market_value": 649.87, "net_return_pct": -1.33, "new_capital": 658.66, "portfolio_equity": 649.87, "reinvested_capital": 578.57, "spy_cash": 0.0, "spy_equity": 701.2, "spy_market_value": 701.2, "spy_return_pct": 6.46}, {"alpha_pct": -1.91, "alpha_value": -12.57, "cash": 626.91, "date": "2025-11-08", "drawdown_pct": -5.73, "equity_multiple": 0.95179, "exposure_pct": 0.0, "external_capital": 658.66, "market_value": 0.0, "net_return_pct": -4.82, "new_capital": 658.66, "portfolio_equity": 626.91, "reinvested_capital": 578.57, "spy_cash": 639.48, "spy_equity": 639.48, "spy_market_value": 0.0, "spy_return_pct": -2.91}, {"alpha_pct": -10.8, "alpha_value": -89.35, "cash": 0.0, "date": "2025-11-15", "drawdown_pct": -4.05, "equity_multiple": 0.96873, "exposure_pct": 100.0, "external_capital": 827.38, "market_value": 801.51, "net_return_pct": -3.13, "new_capital": 827.38, "portfolio_equity": 801.51, "reinvested_capital": 1205.48, "spy_cash": 0.0, "spy_equity": 890.86, "spy_market_value": 890.86, "spy_return_pct": 7.67}, {"alpha_pct": -3.68, "alpha_value": -30.41, "cash": 754.72, "date": "2025-11-22", "drawdown_pct": -9.66, "equity_multiple": 0.91217, "exposure_pct": 0.0, "external_capital": 827.38, "market_value": 0.0, "net_return_pct": -8.78, "new_capital": 827.38, "portfolio_equity": 754.72, "reinvested_capital": 1205.48, "spy_cash": 785.12, "spy_equity": 785.12, "spy_market_value": 0.0, "spy_return_pct": -5.11}, {"alpha_pct": -12.07, "alpha_value": -105.32, "cash": 0.0, "date": "2025-11-29", "drawdown_pct": -9.46, "equity_multiple": 0.914153, "exposure_pct": 100.0, "external_capital": 872.77, "market_value": 797.85, "net_return_pct": -8.58, "new_capital": 872.77, "portfolio_equity": 797.85, "reinvested_capital": 1960.19, "spy_cash": 0.0, "spy_equity": 903.17, "spy_market_value": 903.17, "spy_return_pct": 3.48}, {"alpha_pct": -10.05, "alpha_value": -116.34, "cash": 0.0, "date": "2025-12-06", "drawdown_pct": -6.48, "equity_multiple": 0.94424, "exposure_pct": 100.0, "external_capital": 1157.54, "market_value": 1092.99, "net_return_pct": -5.58, "new_capital": 1157.54, "portfolio_equity": 1092.99, "reinvested_capital": 1960.19, "spy_cash": 0.0, "spy_equity": 1209.34, "spy_market_value": 1209.34, "spy_return_pct": 4.47}, {"alpha_pct": -10.28, "alpha_value": -148.01, "cash": 0.0, "date": "2025-12-13", "drawdown_pct": -6.22, "equity_multiple": 0.946896, "exposure_pct": 100.0, "external_capital": 1440.45, "market_value": 1363.96, "net_return_pct": -5.31, "new_capital": 1440.45, "portfolio_equity": 1363.96, "reinvested_capital": 2153.1, "spy_cash": 0.0, "spy_equity": 1511.97, "spy_market_value": 1511.97, "spy_return_pct": 4.96}, {"alpha_pct": -14.49, "alpha_value": -242.85, "cash": 0.0, "date": "2025-12-20", "drawdown_pct": -10.33, "equity_multiple": 0.905395, "exposure_pct": 100.0, "external_capital": 1676.31, "market_value": 1517.72, "net_return_pct": -9.46, "new_capital": 1676.31, "portfolio_equity": 1517.72, "reinvested_capital": 3475.35, "spy_cash": 0.0, "spy_equity": 1760.57, "spy_market_value": 1760.57, "spy_return_pct": 5.03}, {"alpha_pct": -11.29, "alpha_value": -241.46, "cash": 0.0, "date": "2025-12-27", "drawdown_pct": -6.75, "equity_multiple": 0.941523, "exposure_pct": 100.0, "external_capital": 2139.29, "market_value": 2014.19, "net_return_pct": -5.85, "new_capital": 2139.29, "portfolio_equity": 2014.19, "reinvested_capital": 4161.84, "spy_cash": 0.0, "spy_equity": 2255.65, "spy_market_value": 2255.65, "spy_return_pct": 5.44}, {"alpha_pct": -9.5, "alpha_value": -244.68, "cash": 0.0, "date": "2026-01-03", "drawdown_pct": -4.79, "equity_multiple": 0.961265, "exposure_pct": 100.0, "external_capital": 2574.78, "market_value": 2475.05, "net_return_pct": -3.87, "new_capital": 2574.78, "portfolio_equity": 2475.05, "reinvested_capital": 4719.85, "spy_cash": 0.0, "spy_equity": 2719.73, "spy_market_value": 2719.73, "spy_return_pct": 5.63}, {"alpha_pct": -5.47, "alpha_value": -176.69, "cash": 0.0, "date": "2026-01-10", "drawdown_pct": -0.57, "equity_multiple": 1.003925, "exposure_pct": 100.0, "external_capital": 3228.48, "market_value": 3241.15, "net_return_pct": 0.39, "new_capital": 3228.48, "portfolio_equity": 3241.15, "reinvested_capital": 5072.02, "spy_cash": 0.0, "spy_equity": 3417.84, "spy_market_value": 3417.84, "spy_return_pct": 5.87}, {"alpha_pct": -2.15, "alpha_value": -74.21, "cash": 0.0, "date": "2026-01-17", "drawdown_pct": 0.0, "equity_multiple": 1.041921, "exposure_pct": 100.0, "external_capital": 3449.23, "market_value": 3593.83, "net_return_pct": 4.19, "new_capital": 3449.23, "portfolio_equity": 3593.83, "reinvested_capital": 6026.16, "spy_cash": 0.0, "spy_equity": 3668.04, "spy_market_value": 3668.04, "spy_return_pct": 6.34}, {"alpha_pct": -2.95, "alpha_value": -108.34, "cash": 0.0, "date": "2026-01-24", "drawdown_pct": -0.73, "equity_multiple": 1.034338, "exposure_pct": 100.0, "external_capital": 3678.75, "market_value": 3805.08, "net_return_pct": 3.43, "new_capital": 3678.75, "portfolio_equity": 3805.08, "reinvested_capital": 6026.16, "spy_cash": 0.0, "spy_equity": 3913.42, "spy_market_value": 3913.42, "spy_return_pct": 6.38}, {"alpha_pct": 1.94, "alpha_value": 74.91, "cash": 0.0, "date": "2026-01-31", "drawdown_pct": 0.0, "equity_multiple": 1.083504, "exposure_pct": 100.0, "external_capital": 3861.68, "market_value": 4184.14, "net_return_pct": 8.35, "new_capital": 3861.68, "portfolio_equity": 4184.14, "reinvested_capital": 6026.16, "spy_cash": 0.0, "spy_equity": 4109.24, "spy_market_value": 4109.24, "spy_return_pct": 6.41}, {"alpha_pct": 22.1, "alpha_value": 866.58, "cash": 0.0, "date": "2026-02-07", "drawdown_pct": 0.0, "equity_multiple": 1.285288, "exposure_pct": 100.0, "external_capital": 3920.76, "market_value": 5039.3, "net_return_pct": 28.53, "new_capital": 3920.76, "portfolio_equity": 5039.3, "reinvested_capital": 6698.98, "spy_cash": 0.0, "spy_equity": 4172.73, "spy_market_value": 4172.73, "spy_return_pct": 6.43}, {"alpha_pct": 31.7, "alpha_value": 1242.93, "cash": 4389.17, "date": "2026-02-14", "drawdown_pct": 0.0, "equity_multiple": 1.313352, "exposure_pct": 14.76, "external_capital": 3920.76, "market_value": 760.16, "net_return_pct": 31.34, "new_capital": 3920.76, "portfolio_equity": 5149.33, "reinvested_capital": 6698.98, "spy_cash": 3159.48, "spy_equity": 3906.4, "spy_market_value": 746.91, "spy_return_pct": -0.37}, {"alpha_pct": 25.94, "alpha_value": 1033.68, "cash": 0.0, "date": "2026-02-21", "drawdown_pct": 0.0, "equity_multiple": 1.315068, "exposure_pct": 100.0, "external_capital": 3984.24, "market_value": 5239.55, "net_return_pct": 31.51, "new_capital": 3984.24, "portfolio_equity": 5239.55, "reinvested_capital": 11088.15, "spy_cash": 0.0, "spy_equity": 4205.87, "spy_market_value": 4205.87, "spy_return_pct": 5.56}, {"alpha_pct": 29.06, "alpha_value": 1248.21, "cash": 0.0, "date": "2026-02-28", "drawdown_pct": 0.0, "equity_multiple": 1.34855, "exposure_pct": 100.0, "external_capital": 4295.21, "market_value": 5792.3, "net_return_pct": 34.85, "new_capital": 4295.21, "portfolio_equity": 5792.3, "reinvested_capital": 11088.15, "spy_cash": 0.0, "spy_equity": 4544.09, "spy_market_value": 4544.09, "spy_return_pct": 5.79}, {"alpha_pct": 29.83, "alpha_value": 1281.43, "cash": 5445.09, "date": "2026-03-07", "drawdown_pct": -5.99, "equity_multiple": 1.267712, "exposure_pct": 0.0, "external_capital": 4295.21, "market_value": 0.0, "net_return_pct": 26.77, "new_capital": 4295.21, "portfolio_equity": 5445.09, "reinvested_capital": 11088.15, "spy_cash": 4163.66, "spy_equity": 4163.66, "spy_market_value": 0.0, "spy_return_pct": -3.06}, {"alpha_pct": 17.55, "alpha_value": 757.07, "cash": 0.0, "date": "2026-03-14", "drawdown_pct": -7.58, "equity_multiple": 1.246294, "exposure_pct": 100.0, "external_capital": 4313.09, "market_value": 5375.38, "net_return_pct": 24.63, "new_capital": 4313.09, "portfolio_equity": 5375.38, "reinvested_capital": 16533.24, "spy_cash": 0.0, "spy_equity": 4618.31, "spy_market_value": 4618.31, "spy_return_pct": 7.08}, {"alpha_pct": 7.27, "alpha_value": 335.37, "cash": 0.0, "date": "2026-03-21", "drawdown_pct": -14.99, "equity_multiple": 1.146398, "exposure_pct": 100.0, "external_capital": 4614.56, "market_value": 5290.12, "net_return_pct": 14.64, "new_capital": 4614.56, "portfolio_equity": 5290.12, "reinvested_capital": 21715.28, "spy_cash": 0.0, "spy_equity": 4954.75, "spy_market_value": 4954.75, "spy_return_pct": 7.37}, {"alpha_pct": 7.22, "alpha_value": 359.82, "cash": 0.0, "date": "2026-03-28", "drawdown_pct": -14.59, "equity_multiple": 1.151808, "exposure_pct": 100.0, "external_capital": 4981.73, "market_value": 5737.99, "net_return_pct": 15.18, "new_capital": 4981.73, "portfolio_equity": 5737.99, "reinvested_capital": 21715.28, "spy_cash": 0.0, "spy_equity": 5378.18, "spy_market_value": 5378.18, "spy_return_pct": 7.96}, {"alpha_pct": 8.74, "alpha_value": 440.29, "cash": 0.0, "date": "2026-04-04", "drawdown_pct": -16.5, "equity_multiple": 1.126054, "exposure_pct": 100.0, "external_capital": 5034.79, "market_value": 5669.44, "net_return_pct": 12.61, "new_capital": 5034.79, "portfolio_equity": 5669.44, "reinvested_capital": 27265.08, "spy_cash": 0.0, "spy_equity": 5229.15, "spy_market_value": 5229.15, "spy_return_pct": 3.86}, {"alpha_pct": 12.08, "alpha_value": 665.31, "cash": 0.0, "date": "2026-04-11", "drawdown_pct": -13.7, "equity_multiple": 1.163795, "exposure_pct": 100.0, "external_capital": 5507.46, "market_value": 6409.56, "net_return_pct": 16.38, "new_capital": 5507.46, "portfolio_equity": 6409.56, "reinvested_capital": 27265.08, "spy_cash": 0.0, "spy_equity": 5744.24, "spy_market_value": 5744.24, "spy_return_pct": 4.3}, {"alpha_pct": 24.21, "alpha_value": 1372.71, "cash": 0.0, "date": "2026-04-18", "drawdown_pct": -4.73, "equity_multiple": 1.284774, "exposure_pct": 100.0, "external_capital": 5670.59, "market_value": 7285.42, "net_return_pct": 28.48, "new_capital": 5670.59, "portfolio_equity": 7285.42, "reinvested_capital": 27749.99, "spy_cash": 0.0, "spy_equity": 5912.71, "spy_market_value": 5912.71, "spy_return_pct": 4.27}, {"alpha_pct": 20.62, "alpha_value": 1265.21, "cash": 0.0, "date": "2026-04-25", "drawdown_pct": -7.45, "equity_multiple": 1.248017, "exposure_pct": 100.0, "external_capital": 6134.93, "market_value": 7656.5, "net_return_pct": 24.8, "new_capital": 6134.93, "portfolio_equity": 7656.5, "reinvested_capital": 28156.64, "spy_cash": 0.0, "spy_equity": 6391.29, "spy_market_value": 6391.29, "spy_return_pct": 4.18}, {"alpha_pct": 25.52, "alpha_value": 1601.56, "cash": 0.0, "date": "2026-05-02", "drawdown_pct": -3.93, "equity_multiple": 1.295535, "exposure_pct": 100.0, "external_capital": 6274.6, "market_value": 8128.97, "net_return_pct": 29.55, "new_capital": 6274.6, "portfolio_equity": 8128.97, "reinvested_capital": 28594.91, "spy_cash": 0.0, "spy_equity": 6527.41, "spy_market_value": 6527.41, "spy_return_pct": 4.03}, {"alpha_pct": 32.96, "alpha_value": 2091.63, "cash": 0.0, "date": "2026-05-09", "drawdown_pct": 0.0, "equity_multiple": 1.368284, "exposure_pct": 100.0, "external_capital": 6345.89, "market_value": 8682.98, "net_return_pct": 36.83, "new_capital": 6345.89, "portfolio_equity": 8682.98, "reinvested_capital": 29294.82, "spy_cash": 0.0, "spy_equity": 6591.35, "spy_market_value": 6591.35, "spy_return_pct": 3.87}, {"alpha_pct": 38.94, "alpha_value": 2471.1399999999994, "cash": 0.0, "date": "2026-05-11", "drawdown_pct": 0.0, "equity_multiple": 1.428088, "exposure_pct": 100.0, "external_capital": 6345.89, "market_value": 9062.49, "net_return_pct": 42.81, "new_capital": 6345.89, "point_type": "current", "portfolio_equity": 9062.49, "reinvested_capital": 29294.82, "spy_cash": 0.0, "spy_equity": 6591.35, "spy_market_value": 6591.35, "spy_return_pct": 3.87}]</script>
-<script id="strategyComparisonData" type="application/json">[{"alpha_pct": 38.94, "avg_exposure_pct": 80.25, "avg_mae_pct": -5.33, "avg_mfe_pct": 14.06, "closed_lots": 68, "max_drawdown_pct": -16.5, "open_lots": 8, "return_on_new_capital_pct": 42.81, "return_pct": 42.81, "spy_return_pct": 3.87, "strategy": "Default 12W", "win_rate": 0.3088}, {"alpha_pct": 7.02, "avg_exposure_pct": 78.93, "avg_mae_pct": -5.0, "avg_mfe_pct": 6.69, "closed_lots": 81, "max_drawdown_pct": -20.54, "open_lots": 4, "return_on_new_capital_pct": 11.82, "return_pct": 11.82, "spy_return_pct": 4.8, "strategy": "Conservative 8W", "win_rate": 0.4074}, {"alpha_pct": 21.51, "avg_exposure_pct": 82.72, "avg_mae_pct": -6.38, "avg_mfe_pct": 17.38, "closed_lots": 54, "max_drawdown_pct": -28.91, "open_lots": 14, "return_on_new_capital_pct": 25.98, "return_pct": 25.98, "spy_return_pct": 4.47, "strategy": "Trend Follow 16W", "win_rate": 0.2963}, {"alpha_pct": 38.94, "avg_exposure_pct": 80.25, "avg_mae_pct": -5.33, "avg_mfe_pct": 14.06, "closed_lots": 68, "max_drawdown_pct": -16.5, "open_lots": 8, "return_on_new_capital_pct": 42.81, "return_pct": 42.81, "spy_return_pct": 3.87, "strategy": "No Time Exit", "win_rate": 0.3088}, {"alpha_pct": 5.77, "avg_exposure_pct": 16.96, "avg_mae_pct": -5.25, "avg_mfe_pct": 13.36, "closed_lots": 40, "max_drawdown_pct": -3.92, "open_lots": 4, "return_on_new_capital_pct": 5.52, "return_pct": 5.52, "spy_return_pct": -0.25, "strategy": "No Reinvestment", "win_rate": 0.3}]</script>
+<script id="strategyComparisonData" type="application/json">[{"alpha_pct": 38.94, "alpha_value": 2471.14, "avg_exposure_pct": 80.25, "avg_mae_pct": -5.33, "avg_mfe_pct": 14.06, "closed_lots": 68, "current_exposure_pct": 100.0, "entry_min_score": 700, "largest_position_pct": 100.0, "max_drawdown_pct": -16.5, "note": "B+ entries, -5% stop, score \u003c700 exit, 12W lot exit, reinvestment on.", "open_lots": 8, "portfolio_equity": 9062.49, "position_cap_pct": null, "reinvest": true, "reinvest_min_score": 700, "return_drawdown_ratio": 2.59, "return_on_new_capital_pct": 42.81, "return_pct": 42.81, "score_exit": 700, "spy_return_pct": 3.87, "stop_pct": 5.0, "strategy": "Default 12W", "strategy_name": "default_12w", "time_exit_days": 60, "top5_position_pct": 100.0, "total_new_capital": 6345.89, "win_rate": 0.3088}, {"alpha_pct": 29.71, "alpha_value": 1885.46, "avg_exposure_pct": 80.27, "avg_mae_pct": -5.94, "avg_mfe_pct": 14.75, "closed_lots": 65, "current_exposure_pct": 100.0, "entry_min_score": 700, "largest_position_pct": 100.0, "max_drawdown_pct": -21.23, "note": "Same as default, but wider -8% stop.", "open_lots": 8, "portfolio_equity": 8477.17, "position_cap_pct": null, "reinvest": true, "reinvest_min_score": 700, "return_drawdown_ratio": 1.58, "return_on_new_capital_pct": 33.59, "return_pct": 33.59, "score_exit": 700, "spy_return_pct": 3.87, "stop_pct": 8.0, "strategy": "Stop -8%", "strategy_name": "stop_8", "time_exit_days": 60, "top5_position_pct": 100.0, "total_new_capital": 6345.89, "win_rate": 0.3692}, {"alpha_pct": 33.28, "alpha_value": 2111.76, "avg_exposure_pct": 80.21, "avg_mae_pct": -6.0, "avg_mfe_pct": 18.49, "closed_lots": 65, "current_exposure_pct": 100.0, "entry_min_score": 700, "largest_position_pct": 100.0, "max_drawdown_pct": -17.96, "note": "Same as default, but wider -10% stop.", "open_lots": 8, "portfolio_equity": 8861.5, "position_cap_pct": null, "reinvest": true, "reinvest_min_score": 700, "return_drawdown_ratio": 2.21, "return_on_new_capital_pct": 39.64, "return_pct": 39.64, "score_exit": 700, "spy_return_pct": 6.36, "stop_pct": 10.0, "strategy": "Stop -10%", "strategy_name": "stop_10", "time_exit_days": 60, "top5_position_pct": 100.0, "total_new_capital": 6345.89, "win_rate": 0.5077}, {"alpha_pct": 29.09, "alpha_value": 684.0, "avg_exposure_pct": 67.14, "avg_mae_pct": -5.58, "avg_mfe_pct": 14.55, "closed_lots": 29, "current_exposure_pct": 100.0, "entry_min_score": 750, "largest_position_pct": 100.0, "max_drawdown_pct": -18.84, "note": "Only buys signals with weekly score \u003e=750.", "open_lots": 8, "portfolio_equity": 3261.08, "position_cap_pct": null, "reinvest": true, "reinvest_min_score": 750, "return_drawdown_ratio": 2.05, "return_on_new_capital_pct": 38.68, "return_pct": 38.68, "score_exit": 700, "spy_return_pct": 9.59, "stop_pct": 5.0, "strategy": "Score \u003e=750", "strategy_name": "score_750", "time_exit_days": 60, "top5_position_pct": 100.0, "total_new_capital": 2351.51, "win_rate": 0.3793}, {"alpha_pct": 37.62, "alpha_value": 607.53, "avg_exposure_pct": 66.69, "avg_mae_pct": -5.11, "avg_mfe_pct": 16.83, "closed_lots": 16, "current_exposure_pct": 100.0, "entry_min_score": 700, "largest_position_pct": 100.0, "max_drawdown_pct": -18.84, "note": "Buys only A+ Fresh Breakout and A Leader signals.", "open_lots": 7, "portfolio_equity": 2359.72, "position_cap_pct": null, "reinvest": true, "reinvest_min_score": 700, "return_drawdown_ratio": 2.45, "return_on_new_capital_pct": 46.11, "return_pct": 46.11, "score_exit": 700, "spy_return_pct": 8.49, "stop_pct": 5.0, "strategy": "A Leader only", "strategy_name": "a_leader_only", "time_exit_days": 60, "top5_position_pct": 100.0, "total_new_capital": 1615.02, "win_rate": 0.3125}, {"alpha_pct": 35.93, "alpha_value": 2279.96, "avg_exposure_pct": 62.49, "avg_mae_pct": -5.36, "avg_mfe_pct": 13.75, "closed_lots": 53, "current_exposure_pct": 100.0, "entry_min_score": 700, "largest_position_pct": 100.0, "max_drawdown_pct": -12.21, "note": "Base buys all B+ signals, but reinvests only into score \u003e=750 signals.", "open_lots": 8, "portfolio_equity": 9251.72, "position_cap_pct": null, "reinvest": true, "reinvest_min_score": 750, "return_drawdown_ratio": 3.75, "return_on_new_capital_pct": 45.79, "return_pct": 45.79, "score_exit": 700, "spy_return_pct": 9.86, "stop_pct": 5.0, "strategy": "Reinvest score\u003e=750 only", "strategy_name": "reinvest_score_750", "time_exit_days": 60, "top5_position_pct": 100.0, "total_new_capital": 6345.89, "win_rate": 0.3396}, {"alpha_pct": -2.21, "alpha_value": -42.89, "avg_exposure_pct": 51.12, "avg_mae_pct": -5.19, "avg_mfe_pct": 13.91, "closed_lots": 58, "current_exposure_pct": 48.17, "entry_min_score": 700, "largest_position_pct": 48.17, "max_drawdown_pct": -10.43, "note": "Caps each symbol at 40% of current portfolio equity before new buys.", "open_lots": 7, "portfolio_equity": 2027.25, "position_cap_pct": 40.0, "reinvest": true, "reinvest_min_score": 700, "return_drawdown_ratio": 0.45, "return_on_new_capital_pct": 4.66, "return_pct": 4.66, "score_exit": 700, "spy_return_pct": 6.87, "stop_pct": 5.0, "strategy": "Position cap 40%", "strategy_name": "position_cap_40", "time_exit_days": 60, "top5_position_pct": 48.17, "total_new_capital": 1937.02, "win_rate": 0.3448}]</script>
 <script id="themeSummaryData" type="application/json">[{"alpha_pct": -2.16, "alpha_value": -66.34, "avg_mae_pct": -5.27, "avg_mfe_pct": 2.12, "avg_return_pct": -3.14, "cost": 1739.42, "count": 8, "pl_value": -53.99, "return_pct": -3.1, "spy_cost": 1768.5, "spy_return_pct": -0.95, "spy_value": 1751.76, "theme": "AI", "value": 1685.43, "win_rate": 0.25}, {"alpha_pct": -5.61, "alpha_value": -32.92, "avg_mae_pct": -18.44, "avg_mfe_pct": -0.04, "avg_return_pct": -5.14, "cost": 371.26, "count": 2, "pl_value": -19.09, "return_pct": -5.14, "spy_cost": 383.31, "spy_return_pct": 0.47, "spy_value": 385.09, "theme": "AI Infrastructure", "value": 352.17, "win_rate": 0.0}, {"alpha_pct": -0.72, "alpha_value": 1146.19, "avg_mae_pct": -5.16, "avg_mfe_pct": 5.61, "avg_return_pct": -2.83, "cost": 7218.18, "count": 19, "pl_value": -104.3, "return_pct": -1.44, "spy_cost": 6011.5, "spy_return_pct": -0.73, "spy_value": 5967.69, "theme": "Energy", "value": 7113.88, "win_rate": 0.1053}, {"alpha_pct": 9.15, "alpha_value": 2025.55, "avg_mae_pct": -5.43, "avg_mfe_pct": 20.79, "avg_return_pct": 12.6, "cost": 12675.39, "count": 27, "pl_value": 907.96, "return_pct": 7.16, "spy_cost": 11791.89, "spy_return_pct": -1.99, "spy_value": 11557.81, "theme": "Robotics", "value": 13583.36, "win_rate": 0.4444}, {"alpha_pct": 9.91, "alpha_value": 3529.15, "avg_mae_pct": -4.06, "avg_mfe_pct": 19.16, "avg_return_pct": 9.62, "cost": 13636.46, "count": 20, "pl_value": 1986.01, "return_pct": 14.56, "spy_cost": 11555.03, "spy_return_pct": 4.66, "spy_value": 12093.32, "theme": "Space", "value": 15622.48, "win_rate": 0.65}]</script>
 <script id="exitReasonData" type="application/json">[{"alpha_pct": 13.95, "alpha_value": 2508.08, "avg_mae_pct": -2.72, "avg_mfe_pct": 27.42, "avg_return_pct": 17.55, "cost": 10493.47, "count": 28, "exit_reason": "score_exit", "pl_value": 1400.05, "return_pct": 13.34, "spy_cost": 9442.85, "spy_return_pct": -0.61, "spy_value": 9385.44, "value": 11893.51, "win_rate": 0.75}, {"alpha_pct": -3.18, "alpha_value": 1665.64, "avg_mae_pct": -7.91, "avg_mfe_pct": 3.29, "avg_return_pct": -5.1, "cost": 17077.38, "count": 37, "exit_reason": "stop_loss", "pl_value": -878.2, "return_pct": -5.14, "spy_cost": 14824.28, "spy_return_pct": -1.96, "spy_value": 14533.54, "value": 16199.18, "win_rate": 0.0}, {"alpha_pct": -0.57, "alpha_value": -43.23, "avg_mae_pct": -2.14, "avg_mfe_pct": 6.46, "avg_return_pct": -1.11, "cost": 1215.01, "count": 3, "exit_reason": "trend_exit", "pl_value": -12.88, "return_pct": -1.06, "spy_cost": 1251.55, "spy_return_pct": -0.49, "spy_value": 1245.36, "value": 1202.13, "win_rate": 0.0}]</script>
 <script id="buyTypeData" type="application/json">[{"alpha_pct": 5.84, "alpha_value": 370.91, "avg_mae_pct": -5.25, "avg_mfe_pct": 13.36, "avg_return_pct": 5.15, "buy_type": "base", "cost": 6345.89, "count": 44, "pl_value": 354.69, "return_pct": 5.59, "spy_cost": 6345.89, "spy_return_pct": -0.26, "spy_value": 6329.67, "value": 6700.58, "win_rate": 0.3636}, {"alpha_pct": 7.02, "alpha_value": 6230.72, "avg_mae_pct": -5.43, "avg_mfe_pct": 15.01, "avg_return_pct": 6.76, "buy_type": "reinvestment", "cost": 29294.82, "count": 32, "pl_value": 2361.91, "return_pct": 8.06, "spy_cost": 25164.34, "spy_return_pct": 1.04, "spy_value": 25426.01, "value": 31656.73, "win_rate": 0.4062}]</script>
@@ -752,7 +931,7 @@
       const w=Math.abs(d.value*scale);
       const rect=document.createElementNS('http://www.w3.org/2000/svg','rect'); rect.setAttribute('x',x); rect.setAttribute('y',y); rect.setAttribute('width',w); rect.setAttribute('height',Math.max(8,rowH*.46)); rect.setAttribute('rx',6); rect.setAttribute('class','chart-bar '+(d.value>=0?'up':'down')); svg.appendChild(rect);
       const lab=document.createElementNS('http://www.w3.org/2000/svg','text'); lab.setAttribute('x',pad.l-12); lab.setAttribute('y',y+rowH*.32); lab.setAttribute('text-anchor','end'); lab.setAttribute('class','chart-label'); lab.textContent=d.label; svg.appendChild(lab);
-      const val=document.createElementNS('http://www.w3.org/2000/svg','text'); val.setAttribute('x',d.value>=0?x+w+7:x-7); val.setAttribute('y',y+rowH*.32); val.setAttribute('text-anchor',d.value>=0?'start':'end'); val.setAttribute('class','chart-value'); val.textContent=opts.money?fmtMoney(d.value):fmtPct(d.value); svg.appendChild(val);
+      const val=document.createElementNS('http://www.w3.org/2000/svg','text'); val.setAttribute('x',d.value>=0?x+w+7:x-7); val.setAttribute('y',y+rowH*.32); val.setAttribute('text-anchor',d.value>=0?'start':'end'); val.setAttribute('class','chart-value'); val.textContent=opts.money?fmtMoney(d.value):(opts.raw?Number(d.value).toFixed(2):fmtPct(d.value)); svg.appendChild(val);
     });
   }
 
@@ -772,12 +951,28 @@
     {key:'market_value', cls:'strategy'},
     {key:'cash', cls:'cash'}
   ], {includeZero:true});
-  drawBarChart('strategyChart', strategies, 'return_pct', 'strategy');
+  drawBarChart('strategyReturnChart', strategies, 'return_pct', 'strategy');
+  drawBarChart('strategyRiskChart', strategies, 'max_drawdown_pct', 'strategy');
+  drawBarChart('strategyRiskAdjustedChart', strategies, 'return_drawdown_ratio', 'strategy', {raw:true});
+  drawBarChart('strategyAlphaChart', strategies, 'alpha_pct', 'strategy');
+  drawBarChart('strategyAlphaValueChart', strategies, 'alpha_value', 'strategy', {money:true});
+  drawBarChart('strategyWinRateChart', strategies.map(r => ({...r, win_rate_pct: r.win_rate == null ? null : r.win_rate * 100})), 'win_rate_pct', 'strategy');
+  drawBarChart('strategyTradeCountChart', strategies, 'closed_lots', 'strategy', {raw:true});
+  drawBarChart('strategyLargestChart', strategies, 'largest_position_pct', 'strategy');
+  drawBarChart('strategyTop5Chart', strategies, 'top5_position_pct', 'strategy');
   drawBarChart('themeReturnChart', themes, 'return_pct', 'theme');
   drawBarChart('themeCostChart', themes, 'cost', 'theme', {money:true});
   drawBarChart('exitReasonChart', exits, 'return_pct', 'exit_reason');
   drawBarChart('buyTypeChart', buyTypes, 'pl_value', 'buy_type', {money:true});
   drawBarChart('sequenceChart', seq, 'return_pct', 'sequence');
+
+  document.querySelectorAll('[data-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-tab');
+      document.querySelectorAll('[data-tab]').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.toggle('active', panel.id === target));
+    });
+  });
 })();
 </script>
 </body>
