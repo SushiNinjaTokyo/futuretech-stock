@@ -52,13 +52,13 @@
       <aside class="hero-visual">
         <div class="hero-visual-head">
           <div class="pulse-dot"></div>
-          <span>Market Pulse</span>
+          <span>Market Pulse</span><em>1M normalized daily close path</em>
         </div>
 
         <div class="pulse-console">
           <div class="console-grid-lines"></div>
           <div class="hero-lines">
-              <div class="hero-line-row" data-line-key="sp500">
+              <div class="hero-line-row " data-line-key="sp500">
                 <div class="hero-line-meta">
                   <div class="hero-line-label">S&P 500</div>
                   <div class="hero-line-change up">
@@ -99,7 +99,7 @@
                   </svg>
                 </div>
               </div>
-              <div class="hero-line-row" data-line-key="nasdaq">
+              <div class="hero-line-row " data-line-key="nasdaq">
                 <div class="hero-line-meta">
                   <div class="hero-line-label">NASDAQ</div>
                   <div class="hero-line-change up">
@@ -140,14 +140,14 @@
                   </svg>
                 </div>
               </div>
-              <div class="hero-line-row" data-line-key="russell">
+              <div class="hero-line-row " data-line-key="russell">
                 <div class="hero-line-meta">
-                  <div class="hero-line-label">Russell</div>
-                  <div class="hero-line-change flat">
-                    0.0%
+                  <div class="hero-line-label">Russell 2000</div>
+                  <div class="hero-line-change up">
+                    +5.15%
 
                   </div>
-                  <div class="hero-line-regime">—</div>
+                  <div class="hero-line-regime">Risk-on</div>
                 </div>
 
                 <div class="hero-line-canvas-wrap">
@@ -185,7 +185,7 @@
         </div>
       </aside>
 
-      <script type="application/json" id="hero-index-data">{"nasdaq": {"change_1m": 12.51, "label": "NASDAQ", "points": [48.224, 47.714, 47.262, 48.207, 49.181, 48.361, 46.496, 46.209, 48.541, 51.686, 53.718, 55.34, 58.653, 63.758, 67.965, 69.701, 70.028, 71.144], "regime": "Risk-on", "ret_1d_pct": -0.85, "ret_5d_pct": 3.76, "symbol": "QQQ"}, "russell": {"change_1m": 0.0, "label": "Russell", "points": [54.348, 51.629, 50.4, 49.735, 47.711, 44.65, 43.06, 44.295, 46.734, 48.112, 48.609, 50.25, 53.534, 56.261, 56.327, 54.492, 53.14, 52.864], "regime": "\u2014", "ret_1d_pct": null, "ret_5d_pct": 0.0, "symbol": "IWM"}, "sp500": {"change_1m": 6.3, "label": "S\u0026P 500", "points": [48.006, 49.701, 49.492, 49.642, 51.037, 51.93, 50.661, 48.357, 47.646, 49.195, 51.044, 51.659, 52.235, 54.884, 59.325, 63.056, 64.564, 65.211], "regime": "Risk-on", "ret_1d_pct": -0.15, "ret_5d_pct": 1.99, "symbol": "SPY"}}</script>
+      <script type="application/json" id="hero-index-data">{"nasdaq": {"change_1m": 12.51, "data_status": "ok", "has_real_points": true, "label": "NASDAQ", "points": [0.0, 10.391, 14.016, 23.911, 21.478, 18.574, 31.302, 26.945, 41.658, 42.071, 34.184, 38.93, 46.216, 53.784, 52.285, 62.593, 79.313, 78.333, 97.568, 100.0, 92.856], "pulse_days": 21, "pulse_window": "1M", "regime": "Risk-on", "ret_1d_pct": -0.85, "ret_5d_pct": 3.76, "symbol": "QQQ"}, "russell": {"change_1m": 5.15, "data_status": "ok", "has_real_points": true, "label": "Russell 2000", "points": [0.0, 3.706, 6.803, 39.049, 47.732, 32.024, 42.92, 37.611, 43.861, 46.571, 28.706, 18.584, 51.162, 58.407, 50.664, 76.549, 100.0, 74.889, 85.454, 91.869, 76.604], "pulse_days": 21, "pulse_window": "1M", "regime": "Risk-on", "ret_1d_pct": -0.97, "ret_5d_pct": 0.0, "symbol": "IWM"}, "sp500": {"change_1m": 6.3, "data_status": "ok", "has_real_points": true, "label": "S\u0026P 500", "points": [0.0, 12.221, 16.057, 34.969, 31.802, 21.454, 37.355, 31.2, 43.443, 46.186, 38.425, 38.18, 53.97, 58.408, 52.52, 65.366, 87.801, 82.783, 96.253, 100.0, 97.502], "pulse_days": 21, "pulse_window": "1M", "regime": "Risk-on", "ret_1d_pct": -0.15, "ret_5d_pct": 1.99, "symbol": "SPY"}}</script>
     </header>
 
     <section class="intelligence-strip">
@@ -328,11 +328,12 @@
             <div class="panel-label">Execution Read</div>
             <div class="decision-row">
               <span>Extension</span>
-              <strong>—</strong>
+              <strong>+15.26%
+</strong>
             </div>
             <div class="decision-row">
               <span>Close Quality</span>
-              <strong>—</strong>
+              <strong>0.961</strong>
             </div>
             <div class="decision-row">
               <span>Range Risk</span>
@@ -452,11 +453,12 @@
             <div class="panel-label">Execution Read</div>
             <div class="decision-row">
               <span>Extension</span>
-              <strong>—</strong>
+              <strong>+4.85%
+</strong>
             </div>
             <div class="decision-row">
               <span>Close Quality</span>
-              <strong>—</strong>
+              <strong>0.792</strong>
             </div>
             <div class="decision-row">
               <span>Range Risk</span>
@@ -576,11 +578,12 @@
             <div class="panel-label">Execution Read</div>
             <div class="decision-row">
               <span>Extension</span>
-              <strong>—</strong>
+              <strong>+12.68%
+</strong>
             </div>
             <div class="decision-row">
               <span>Close Quality</span>
-              <strong>—</strong>
+              <strong>0.852</strong>
             </div>
             <div class="decision-row">
               <span>Range Risk</span>
@@ -700,11 +703,12 @@
             <div class="panel-label">Execution Read</div>
             <div class="decision-row">
               <span>Extension</span>
-              <strong>—</strong>
+              <strong>+10.72%
+</strong>
             </div>
             <div class="decision-row">
               <span>Close Quality</span>
-              <strong>—</strong>
+              <strong>0.717</strong>
             </div>
             <div class="decision-row">
               <span>Range Risk</span>
@@ -824,11 +828,12 @@
             <div class="panel-label">Execution Read</div>
             <div class="decision-row">
               <span>Extension</span>
-              <strong>—</strong>
+              <strong>+1.92%
+</strong>
             </div>
             <div class="decision-row">
               <span>Close Quality</span>
-              <strong>—</strong>
+              <strong>0.617</strong>
             </div>
             <div class="decision-row">
               <span>Range Risk</span>
@@ -948,11 +953,12 @@
             <div class="panel-label">Execution Read</div>
             <div class="decision-row">
               <span>Extension</span>
-              <strong>—</strong>
+              <strong>+3.63%
+</strong>
             </div>
             <div class="decision-row">
               <span>Close Quality</span>
-              <strong>—</strong>
+              <strong>0.624</strong>
             </div>
             <div class="decision-row">
               <span>Range Risk</span>
@@ -1072,11 +1078,12 @@
             <div class="panel-label">Execution Read</div>
             <div class="decision-row">
               <span>Extension</span>
-              <strong>—</strong>
+              <strong>+2.06%
+</strong>
             </div>
             <div class="decision-row">
               <span>Close Quality</span>
-              <strong>—</strong>
+              <strong>0.391</strong>
             </div>
             <div class="decision-row">
               <span>Range Risk</span>
@@ -1196,11 +1203,12 @@
             <div class="panel-label">Execution Read</div>
             <div class="decision-row">
               <span>Extension</span>
-              <strong>—</strong>
+              <strong>+4.79%
+</strong>
             </div>
             <div class="decision-row">
               <span>Close Quality</span>
-              <strong>—</strong>
+              <strong>0.542</strong>
             </div>
             <div class="decision-row">
               <span>Range Risk</span>
@@ -1320,11 +1328,12 @@
             <div class="panel-label">Execution Read</div>
             <div class="decision-row">
               <span>Extension</span>
-              <strong>—</strong>
+              <strong>+13.6%
+</strong>
             </div>
             <div class="decision-row">
               <span>Close Quality</span>
-              <strong>—</strong>
+              <strong>0.943</strong>
             </div>
             <div class="decision-row">
               <span>Range Risk</span>
@@ -1444,11 +1453,12 @@
             <div class="panel-label">Execution Read</div>
             <div class="decision-row">
               <span>Extension</span>
-              <strong>—</strong>
+              <strong>+21.59%
+</strong>
             </div>
             <div class="decision-row">
               <span>Close Quality</span>
-              <strong>—</strong>
+              <strong>0.927</strong>
             </div>
             <div class="decision-row">
               <span>Range Risk</span>
@@ -1469,7 +1479,7 @@
         <strong>Method</strong>
         <span>Signals are ranked for timing quality, not long-term business quality. Use this as a research cockpit, not an automatic trading instruction.</span>
       </div>
-      <div>Generated 2026-05-13 04:42:03Z</div>
+      <div>Generated 2026-05-13 07:18:46Z</div>
     </footer>
   </main>
 </div>

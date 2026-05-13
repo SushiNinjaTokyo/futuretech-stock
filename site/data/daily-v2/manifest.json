@@ -1,6 +1,110 @@
 {
   "version": "daily_event_score_v2",
-  "dates": [
+  "dates": {
+    "2026-04-01": {
+      "status": "unknown"
+    },
+    "2026-04-02": {
+      "status": "unknown"
+    },
+    "2026-04-03": {
+      "status": "unknown"
+    },
+    "2026-04-06": {
+      "status": "unknown"
+    },
+    "2026-04-07": {
+      "status": "unknown"
+    },
+    "2026-04-08": {
+      "status": "unknown"
+    },
+    "2026-04-09": {
+      "status": "unknown"
+    },
+    "2026-04-10": {
+      "status": "unknown"
+    },
+    "2026-04-13": {
+      "status": "unknown"
+    },
+    "2026-04-14": {
+      "status": "unknown"
+    },
+    "2026-04-15": {
+      "status": "unknown"
+    },
+    "2026-04-16": {
+      "status": "unknown"
+    },
+    "2026-04-17": {
+      "status": "unknown"
+    },
+    "2026-04-20": {
+      "status": "unknown"
+    },
+    "2026-04-21": {
+      "status": "unknown"
+    },
+    "2026-04-22": {
+      "status": "unknown"
+    },
+    "2026-04-23": {
+      "status": "unknown"
+    },
+    "2026-04-24": {
+      "status": "unknown"
+    },
+    "2026-04-27": {
+      "status": "unknown"
+    },
+    "2026-04-28": {
+      "status": "unknown"
+    },
+    "2026-04-29": {
+      "status": "unknown"
+    },
+    "2026-04-30": {
+      "status": "unknown"
+    },
+    "2026-05-01": {
+      "status": "unknown"
+    },
+    "2026-05-04": {
+      "status": "unknown"
+    },
+    "2026-05-05": {
+      "status": "unknown"
+    },
+    "2026-05-06": {
+      "status": "unknown"
+    },
+    "2026-05-07": {
+      "status": "unknown"
+    },
+    "2026-05-08": {
+      "status": "unknown"
+    },
+    "2026-05-11": {
+      "status": "unknown"
+    },
+    "2026-05-12": {
+      "status": "ok",
+      "generated_at": "2026-05-13 07:18:46Z",
+      "items": 25,
+      "all_items": 47,
+      "top10": 10,
+      "trade": 0,
+      "watch": 1,
+      "ignore": 24,
+      "latest": true
+    }
+  },
+  "latest_date": "2026-05-12",
+  "updated_at": "2026-05-13 07:18:46Z",
+  "date_count": 30,
+  "latest_source": "site/data/daily-v2/2026-05-12/top10.json",
+  "available_dates": [
     "2026-04-01",
     "2026-04-02",
     "2026-04-03",
@@ -32,8 +136,104 @@
     "2026-05-11",
     "2026-05-12"
   ],
-  "latest_date": "2026-05-12",
-  "updated_at": "2026-05-13 05:22:47Z",
-  "date_count": 30,
-  "latest_source": "site/data/daily-v2/2026-05-12/top10.json"
+  "date_records": {
+    "2026-04-01": {
+      "status": "unknown"
+    },
+    "2026-04-02": {
+      "status": "unknown"
+    },
+    "2026-04-03": {
+      "status": "unknown"
+    },
+    "2026-04-06": {
+      "status": "unknown"
+    },
+    "2026-04-07": {
+      "status": "unknown"
+    },
+    "2026-04-08": {
+      "status": "unknown"
+    },
+    "2026-04-09": {
+      "status": "unknown"
+    },
+    "2026-04-10": {
+      "status": "unknown"
+    },
+    "2026-04-13": {
+      "status": "unknown"
+    },
+    "2026-04-14": {
+      "status": "unknown"
+    },
+    "2026-04-15": {
+      "status": "unknown"
+    },
+    "2026-04-16": {
+      "status": "unknown"
+    },
+    "2026-04-17": {
+      "status": "unknown"
+    },
+    "2026-04-20": {
+      "status": "unknown"
+    },
+    "2026-04-21": {
+      "status": "unknown"
+    },
+    "2026-04-22": {
+      "status": "unknown"
+    },
+    "2026-04-23": {
+      "status": "unknown"
+    },
+    "2026-04-24": {
+      "status": "unknown"
+    },
+    "2026-04-27": {
+      "status": "unknown"
+    },
+    "2026-04-28": {
+      "status": "unknown"
+    },
+    "2026-04-29": {
+      "status": "unknown"
+    },
+    "2026-04-30": {
+      "status": "unknown"
+    },
+    "2026-05-01": {
+      "status": "unknown"
+    },
+    "2026-05-04": {
+      "status": "unknown"
+    },
+    "2026-05-05": {
+      "status": "unknown"
+    },
+    "2026-05-06": {
+      "status": "unknown"
+    },
+    "2026-05-07": {
+      "status": "unknown"
+    },
+    "2026-05-08": {
+      "status": "unknown"
+    },
+    "2026-05-11": {
+      "status": "unknown"
+    },
+    "2026-05-12": {
+      "status": "ok",
+      "generated_at": "2026-05-13 07:18:46Z",
+      "items": 25,
+      "all_items": 47,
+      "top10": 10,
+      "trade": 0,
+      "watch": 1,
+      "ignore": 24,
+      "latest": true
+    }
+  }
 }
