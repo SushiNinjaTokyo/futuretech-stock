@@ -3,38 +3,52 @@ name: build-daily-v2-range
 on:
   workflow_dispatch:
     inputs:
+      run_mode:
+        description: "full = build missing/overwrite data. render_only = sync latest and render pages only."
+        required: false
+        default: "full"
+        type: choice
+        options:
+          - full
+          - render_only
+
       start_date:
         description: "Start date YYYY-MM-DD"
-        required: true
-        default: "2026-04-01"
-        type: string
-      end_date:
-        description: "End date YYYY-MM-DD. Empty = today"
         required: false
         default: ""
-        type: string
+
+      end_date:
+        description: "End date YYYY-MM-DD"
+        required: false
+        default: ""
+
       mode:
-        description: "missing_only skips existing daily-v2 JSON; overwrite rebuilds"
-        required: true
+        description: "Build mode for full runs"
+        required: false
         default: "missing_only"
         type: choice
-        options: ["missing_only", "overwrite"]
+        options:
+          - missing_only
+          - overwrite
+
       max_days_per_run:
-        description: "API safety cap for one run"
-        required: true
+        description: "API safety cap for one full run"
+        required: false
         default: "10"
-        type: string
+
       sleep_seconds:
-        description: "Sleep between dates"
-        required: true
+        description: "Sleep seconds between daily builds"
+        required: false
         default: "5"
-        type: string
+
       rebuild_backtest:
-        description: "Also rebuild /backtest/ from daily-v2 after data build"
-        required: true
+        description: "Rebuild daily backtest after build/render"
+        required: false
         default: "true"
         type: choice
-        options: ["true", "false"]
+        options:
+          - "true"
+          - "false"
 
 permissions:
   contents: write
@@ -44,84 +58,116 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  build-daily-v2-range:
     runs-on: ubuntu-latest
+
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       OUT_DIR: site
       UNIVERSE_CSV: data/universe.csv
       DATA_PROVIDER: yfinance
-      DAILY_V2_START_DATE: ${{ github.event.inputs.start_date }}
-      DAILY_V2_END_DATE: ${{ github.event.inputs.end_date }}
-      DAILY_V2_RANGE_MODE: ${{ github.event.inputs.mode }}
-      DAILY_V2_MAX_DAYS_PER_RUN: ${{ github.event.inputs.max_days_per_run }}
-      DAILY_V2_RANGE_SLEEP_SECONDS: ${{ github.event.inputs.sleep_seconds }}
-      DAILY_V2_SLEEP_SECONDS: "0.8"
-      DAILY_V2_BACKTEST_SLEEP_SECONDS: "0.6"
+
+      DAILY_V2_RUN_MODE: ${{ github.event.inputs.run_mode || 'full' }}
+      DAILY_V2_START_DATE: ${{ github.event.inputs.start_date || '' }}
+      DAILY_V2_END_DATE: ${{ github.event.inputs.end_date || '' }}
+      DAILY_V2_RANGE_MODE: ${{ github.event.inputs.mode || 'missing_only' }}
+      DAILY_V2_MAX_DAYS_PER_RUN: ${{ github.event.inputs.max_days_per_run || '10' }}
+      DAILY_V2_RANGE_SLEEP_SECONDS: ${{ github.event.inputs.sleep_seconds || '5' }}
+      DAILY_V2_SLEEP_SECONDS: 0.8
+      DAILY_V2_BACKTEST_SLEEP_SECONDS: 0.6
+      DAILY_V2_REBUILD_BACKTEST: ${{ github.event.inputs.rebuild_backtest || 'true' }}
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - name: Setup Python
-        uses: actions/setup-python@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
-      - name: Sync latest main
-        run: |
-          set -euo pipefail
-          git fetch origin main
-          git checkout main
-          git reset --hard origin/main
+
       - name: Install dependencies
         run: |
           set -euo pipefail
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Verify scripts
+
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+
+          pip install pandas yfinance jinja2
+
+      - name: Build daily v2 range
+        if: ${{ env.DAILY_V2_RUN_MODE == 'full' }}
         run: |
           set -euo pipefail
-          test -f scripts/build_daily_v2.py
-          test -f scripts/build_daily_v2_range.py
-          test -f scripts/render_daily_v2.py
-          test -f scripts/rebuild_signal_outcomes_v2.py
-      - name: Build daily-v2 range
-        run: |
-          set -euo pipefail
+
+          if [ -z "${DAILY_V2_START_DATE}" ]; then
+            echo "start_date is required when run_mode=full"
+            exit 1
+          fi
+
           python scripts/build_daily_v2_range.py
-      - name: Render /daily/
+
+      - name: Render daily v2 only
+        if: ${{ env.DAILY_V2_RUN_MODE == 'render_only' }}
         run: |
           set -euo pipefail
+          python scripts/sync_daily_v2_latest.py
           python scripts/render_daily_v2.py
-      - name: Rebuild /backtest/
-        if: ${{ github.event.inputs.rebuild_backtest == 'true' }}
+          python scripts/render_index.py
+
+      - name: Rebuild daily v2 backtest
+        if: ${{ env.DAILY_V2_REBUILD_BACKTEST == 'true' }}
         run: |
           set -euo pipefail
-          ARGS=(--start-date "${DAILY_V2_START_DATE}")
+
+          if [ "${DAILY_V2_RUN_MODE}" = "render_only" ]; then
+            echo "render_only: skip backtest rebuild"
+            exit 0
+          fi
+
+          ARGS=()
+          if [ -n "${DAILY_V2_START_DATE:-}" ]; then
+            ARGS+=(--start-date "${DAILY_V2_START_DATE}")
+          fi
           if [ -n "${DAILY_V2_END_DATE:-}" ]; then
             ARGS+=(--end-date "${DAILY_V2_END_DATE}")
           fi
+
           python scripts/rebuild_signal_outcomes_v2.py "${ARGS[@]}"
           python scripts/render_backtest.py
-      - name: Commit outputs
+
+      - name: Commit daily v2 outputs
         run: |
           set -euo pipefail
+
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
+
           git add \
             site/data/daily-v2 \
+            site/data/index \
             site/daily/index.html \
-            site/assets/daily.css
-          if [ "${{ github.event.inputs.rebuild_backtest }}" = "true" ]; then
+            site/assets/daily.css \
+            site/index.html \
+            site/assets/index.css
+
+          if [ "${DAILY_V2_REBUILD_BACKTEST}" = "true" ] && [ "${DAILY_V2_RUN_MODE}" != "render_only" ]; then
             git add \
               site/data/signals-v2 \
               site/backtest/index.html \
               site/assets/backtest.css
           fi
+
           if git diff --cached --quiet; then
-            echo "No daily-v2 changes."
+            echo "No daily v2 changes to commit."
             exit 0
           fi
-          git commit -m "chore: build daily v2 range"
+
+          git commit -m "chore: build daily v2 outputs"
+
           git pull --rebase origin main
           git push origin main
