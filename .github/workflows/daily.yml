@@ -2,7 +2,7 @@ name: daily-report
 
 on:
   schedule:
-    - cron: '43 00 * * *'  # UTC 00:43 / JST 09:43
+    - cron: '18 00 * * *'  # UTC 00:18 / JST 09:18
   workflow_dispatch:
 
 concurrency:
@@ -253,7 +253,7 @@ jobs:
           test -f "site/backtest/index.html"
           test -f "site/assets/backtest.css"
 
-          grep -q "Filtered Signal Backtest" "site/backtest/index.html"
+          grep -q "Daily Event Signal Lab" "site/backtest/index.html"
 
       - name: Commit changes
         id: commitstep
