@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <title>FutureTech Stock Intelligence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <link rel="stylesheet" href="/assets/index.css">
+  <link rel="stylesheet" href="/assets/index.css?v=20260513-daily-v2">
 </head>
 
 <body>
@@ -19,15 +19,16 @@
         <div class="kicker">FutureTech Stock Intelligence</div>
         <h1>Market first.<br/>Signals second.</h1>
         <p>
-          A focused dashboard for identifying early momentum in future technology stocks,
-          while tracking whether the strategy is actually working.
+          A focused dashboard for finding early, tradable momentum in future technology stocks.
+          Market context comes first; individual signals only matter when timing, volume, setup quality,
+          and risk-reward align.
         </p>
       </div>
 
       <div class="regime-card risk-on">
         <div class="regime-label">Market Regime</div>
         <div class="regime-value">Risk-On</div>
-        <div class="regime-date">As of 2026-05-11</div>
+        <div class="regime-date">As of 2026-05-12</div>
       </div>
     </section>
 
@@ -55,6 +56,7 @@
             <svg class="spark" viewBox="0 0 520 120" preserveAspectRatio="none" data-points="36.169,27.448,25.929,15.466,21.811,19.762,23.153,12.224,1.975,0.0,17.115,21.681,22.231,25.119,25.389,41.032,44.666,44.247,50.433,58.222,63.328,64.931,72.831,71.508,67.185,73.828,71.257,76.372,77.518,74.276,74.173,80.77,82.624,80.164,85.531,94.904,92.807,98.435,100.0,98.956">
               <path class="spark-track" d=""></path>
               <path class="spark-line" d=""></path>
+              <circle class="spark-dot" cx="0" cy="0" r="4"></circle>
             </svg>
           </div>
 
@@ -94,6 +96,7 @@
             <svg class="spark" viewBox="0 0 520 120" preserveAspectRatio="none" data-points="29.05,23.624,22.411,15.341,19.173,16.58,19.057,10.006,2.774,0.0,12.193,16.792,17.225,19.496,19.554,30.843,33.488,34.056,38.133,45.365,51.042,53.022,58.428,57.1,55.513,62.467,60.086,68.125,68.35,64.041,66.634,70.615,74.75,73.931,79.563,88.698,88.162,98.671,100.0,96.097">
               <path class="spark-track" d=""></path>
               <path class="spark-line" d=""></path>
+              <circle class="spark-dot" cx="0" cy="0" r="4"></circle>
             </svg>
           </div>
 
@@ -133,6 +136,7 @@
             <svg class="spark" viewBox="0 0 520 120" preserveAspectRatio="none" data-points="22.123,13.583,16.995,5.531,16.614,19.432,25.874,16.593,7.396,0.0,17.779,21.085,24.751,27.018,28.184,44.204,47.362,45.963,53.952,61.687,63.107,64.293,76.648,79.975,73.956,78.131,76.097,78.491,79.53,72.685,68.807,81.288,84.064,81.098,91.015,100.0,90.379,94.427,96.885,91.036">
               <path class="spark-track" d=""></path>
               <path class="spark-line" d=""></path>
+              <circle class="spark-dot" cx="0" cy="0" r="4"></circle>
             </svg>
           </div>
 
@@ -161,15 +165,17 @@
     </section>
 
     <section class="nav-grid">
-      <a class="nav-card primary" href="/daily/2026-05-11.html">
+      <a class="nav-card primary" href="/daily/">
         <div class="nav-kicker">Today</div>
         <h3>Daily Top 10</h3>
         <p>
-          Open the latest ranked movers and review volume, compression, relative strength,
-          and chart signals.
+          Open the latest ranked setups built around timing, volume expansion, compression release,
+          relative strength, and entry risk.
         </p>
         <div class="nav-meta">
-            #1 MNDY / 663 pts
+            #1 PRCT
+              / 668 pts
+            · Watch
         </div>
       </a>
 
@@ -177,7 +183,7 @@
         <div class="nav-kicker">Medium-Term Screening</div>
         <h3>Weekly Screening</h3>
         <p>
-          Review Minervini-style weekly candidates based on trend quality, relative strength,
+          Review weekly candidates based on trend quality, relative strength,
           breakout freshness, setup quality, and accumulation.
         </p>
         <div class="nav-meta">Stage 2 / RS / Breakout / VCP</div>
@@ -187,10 +193,10 @@
         <div class="nav-kicker">Daily Validation</div>
         <h3>Daily Backtest</h3>
         <p>
-          Track how filtered daily signals performed after entry.
-          This is where short-term signal quality becomes measurable.
+          Measure whether daily signals actually follow through after entry,
+          including short-horizon returns, alpha, stop behavior, and signal archetypes.
         </p>
-        <div class="nav-meta">Signal Outcome Tracker</div>
+        <div class="nav-meta">Event Signal Lab</div>
       </a>
 
       <a class="nav-card" href="/weekly-backtest/">
@@ -202,10 +208,20 @@
         </p>
         <div class="nav-meta">B+ Weekly Signal Tracker</div>
       </a>
+
+      <a class="nav-card" href="/weekly-simulation/">
+        <div class="nav-kicker">Portfolio Simulation</div>
+        <h3>Weekly Simulation</h3>
+        <p>
+          Simulate add-on and reinvestment behavior to understand whether signal quality
+          survives portfolio-level execution.
+        </p>
+        <div class="nav-meta">Capital / Alpha / Drawdown</div>
+      </a>
     </section>
 
     <footer class="footer">
-      Generated at 2026-05-13 00:04:06Z · Informational only, not investment advice.
+      Generated at 2026-05-13 05:22:49Z · Informational only, not investment advice.
     </footer>
   </main>
 </div>
@@ -236,8 +252,18 @@ document.querySelectorAll(".spark").forEach(svg => {
   const d = buildPath(points);
   const track = svg.querySelector(".spark-track");
   const line = svg.querySelector(".spark-line");
+  const dot = svg.querySelector(".spark-dot");
+
   if (track) track.setAttribute("d", d);
   if (line) line.setAttribute("d", d);
+
+  if (dot && points.length >= 2) {
+    const last = points[points.length - 1];
+    const x = 520;
+    const y = 120 - (Math.max(0, Math.min(100, Number(last))) / 100) * (120 - 16) - 8;
+    dot.setAttribute("cx", x.toFixed(2));
+    dot.setAttribute("cy", y.toFixed(2));
+  }
 });
 </script>
 </body>

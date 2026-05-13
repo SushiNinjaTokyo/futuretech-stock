@@ -1,245 +1,39 @@
 {
   "version": "daily_event_score_v2",
-  "dates": {
-    "2026-04-20": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:12:23Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 1,
-      "watch": 1
-    },
-    "2026-04-21": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:13:13Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 1
-    },
-    "2026-04-22": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:14:02Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 1
-    },
-    "2026-04-23": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:14:52Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 1,
-      "watch": 1
-    },
-    "2026-04-24": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:15:41Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 1,
-      "watch": 2
-    },
-    "2026-04-27": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:16:30Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 1
-    },
-    "2026-04-28": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:17:19Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 1
-    },
-    "2026-04-29": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:18:09Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 1,
-      "watch": 4
-    },
-    "2026-04-30": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:18:58Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 1,
-      "watch": 4
-    },
-    "2026-05-01": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:35:56Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 3,
-      "watch": 1
-    },
-    "2026-05-04": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:36:49Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 2,
-      "watch": 5
-    },
-    "2026-05-05": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:37:42Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 2,
-      "watch": 3
-    },
-    "2026-05-06": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:38:34Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 3,
-      "watch": 3
-    },
-    "2026-05-07": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:39:27Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 3
-    },
-    "2026-05-08": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:40:19Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 1,
-      "watch": 8
-    },
-    "2026-05-11": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:41:11Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 1,
-      "watch": 1
-    },
-    "2026-05-12": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:42:03Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 1
-    },
-    "2026-04-01": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:47:30Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 0
-    },
-    "2026-04-02": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:48:19Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 1
-    },
-    "2026-04-03": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:49:08Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 1
-    },
-    "2026-04-06": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:49:58Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 0
-    },
-    "2026-04-07": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:50:47Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 3
-    },
-    "2026-04-08": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:51:36Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 1,
-      "watch": 1
-    },
-    "2026-04-09": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:52:24Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 4
-    },
-    "2026-04-10": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:53:14Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 1
-    },
-    "2026-04-13": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:54:04Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 1,
-      "watch": 2
-    },
-    "2026-04-14": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:54:53Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 2
-    },
-    "2026-04-15": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:55:41Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 3
-    },
-    "2026-04-16": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:56:31Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 1
-    },
-    "2026-04-17": {
-      "status": "ok",
-      "generated_at": "2026-05-13 04:57:19Z",
-      "items": 25,
-      "top10": 10,
-      "trade": 0,
-      "watch": 2
-    }
-  }
+  "dates": [
+    "2026-04-01",
+    "2026-04-02",
+    "2026-04-03",
+    "2026-04-06",
+    "2026-04-07",
+    "2026-04-08",
+    "2026-04-09",
+    "2026-04-10",
+    "2026-04-13",
+    "2026-04-14",
+    "2026-04-15",
+    "2026-04-16",
+    "2026-04-17",
+    "2026-04-20",
+    "2026-04-21",
+    "2026-04-22",
+    "2026-04-23",
+    "2026-04-24",
+    "2026-04-27",
+    "2026-04-28",
+    "2026-04-29",
+    "2026-04-30",
+    "2026-05-01",
+    "2026-05-04",
+    "2026-05-05",
+    "2026-05-06",
+    "2026-05-07",
+    "2026-05-08",
+    "2026-05-11",
+    "2026-05-12"
+  ],
+  "latest_date": "2026-05-12",
+  "updated_at": "2026-05-13 05:22:47Z",
+  "date_count": 30,
+  "latest_source": "site/data/daily-v2/2026-05-12/top10.json"
 }

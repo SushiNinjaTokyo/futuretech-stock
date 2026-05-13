@@ -1,6 +1,6 @@
 {
-  "date": "2026-05-11",
-  "generated_at": "2026-05-13 00:04:06Z",
+  "date": "2026-05-12",
+  "generated_at": "2026-05-13 05:22:49Z",
   "regime": "Risk-On",
   "regime_tone": "risk-on",
   "indices": [
@@ -162,7 +162,7 @@
     }
   ],
   "links": {
-    "daily_latest": "/daily/2026-05-11.html",
+    "daily_latest": "/daily/",
     "backtest": "/backtest/"
   }
 }
