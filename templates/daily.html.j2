@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <title>FutureTech Stock — Daily Signals</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <link rel="stylesheet" href="/assets/daily.css?v=market-pulse-cockpit-20260513-1">
+  <link rel="stylesheet" href="/assets/daily.css?v=market-pulse-actual-1m-20260513">
 </head>
 
 <body>
@@ -93,6 +93,7 @@
         <div class="hero-visual-head">
           <div class="pulse-dot"></div>
           <span>Market Pulse</span>
+          <em>1M normalized daily close path</em>
         </div>
 
         <div class="pulse-console">
@@ -100,13 +101,14 @@
           <div class="hero-lines">
             {% for key in ['sp500', 'nasdaq', 'russell'] %}
               {% set row = hero_index_lines[key] | default({}, true) %}
-              <div class="hero-line-row" data-line-key="{{ key }}">
+              <div class="hero-line-row {% if not row.has_data %}no-data{% endif %}" data-line-key="{{ key }}">
                 <div class="hero-line-meta">
                   <div class="hero-line-label">{{ row.label | default(key|upper, true) }}</div>
-                  <div class="hero-line-change {{ tone(row.change_1m) }}">
-                    {{ pct(row.change_1m) }}
+                  <div class="hero-line-change {{ tone(row.ret_20d_pct) }}">
+                    {{ pct(row.ret_20d_pct) }}
                   </div>
                   <div class="hero-line-regime">{{ row.regime | default('—', true) }}</div>
+                  <div class="hero-line-sub">20D</div>
                 </div>
 
                 <div class="hero-line-canvas-wrap">
@@ -248,11 +250,11 @@
             <div class="panel-label">Execution Read</div>
             <div class="decision-row">
               <span>Extension</span>
-              <strong>{{ pct(metrics.extension_from_sma20_pct) if metrics.extension_from_sma20_pct is defined else '—' }}</strong>
+              <strong>{{ pct(metrics.extension_sma20_pct) if metrics.extension_sma20_pct is defined else '—' }}</strong>
             </div>
             <div class="decision-row">
               <span>Close Quality</span>
-              <strong>{{ (metrics.close_position | default('—', true)) }}</strong>
+              <strong>{% if metrics.range_pos is defined and metrics.range_pos is not none %}{{ (metrics.range_pos|float * 100)|round(0) }}% day range{% else %}—{% endif %}</strong>
             </div>
             <div class="decision-row">
               <span>Range Risk</span>
