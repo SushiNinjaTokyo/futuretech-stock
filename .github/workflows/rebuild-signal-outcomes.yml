@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       start_date:
-        description: "Rebuild signals from this date, YYYY-MM-DD"
+        description: "Rebuild daily-v2 signals from this date, YYYY-MM-DD"
         required: true
         default: "2026-04-01"
         type: string
@@ -14,159 +14,74 @@ on:
         default: ""
         type: string
       run_mode:
-        description: "full = rebuild data and render. render_only = render from existing JSON."
+        description: "full rebuilds JSON and renders; render_only renders from existing signals-v2 JSON"
         required: true
         default: "full"
         type: choice
-        options:
-          - full
-          - render_only
-      no_backup:
-        description: "Skip registry backup"
-        required: true
-        default: "false"
-        type: choice
-        options:
-          - "false"
-          - "true"
+        options: ["full", "render_only"]
+
+permissions:
+  contents: write
 
 concurrency:
   group: rebuild-signal-outcomes
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   rebuild:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       OUT_DIR: site
-      DAILY_BENCHMARKS: SPY,QQQ
-      DAILY_EVENT_FREEZE_DAYS: 20
+      DAILY_V2_BACKTEST_SLEEP_SECONDS: "0.6"
+      DAILY_V2_RUN_MODE: ${{ github.event.inputs.run_mode }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Sync latest main
-        shell: bash
         run: |
           set -euo pipefail
           git fetch origin main
           git checkout main
           git reset --hard origin/main
       - name: Install dependencies
-        shell: bash
         run: |
           set -euo pipefail
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Validate inputs
-        shell: bash
-        env:
-          START_DATE: ${{ github.event.inputs.start_date }}
-          END_DATE: ${{ github.event.inputs.end_date }}
-          RUN_MODE: ${{ github.event.inputs.run_mode }}
+      - name: Rebuild signal outcomes v2
+        if: ${{ env.DAILY_V2_RUN_MODE == 'full' }}
         run: |
           set -euo pipefail
-          python - <<'PY'
-          import os, sys, pandas as pd
-          mode=os.environ.get('RUN_MODE','full')
-          if mode not in {'full','render_only'}:
-              raise SystemExit('Invalid run_mode')
-          if mode == 'full':
-              start=os.environ.get('START_DATE','').strip()
-              end=os.environ.get('END_DATE','').strip()
-              if not start:
-                  raise SystemExit('start_date is required for full mode')
-              pd.Timestamp(start)
-              if end:
-                  if pd.Timestamp(end) < pd.Timestamp(start):
-                      raise SystemExit('end_date must be >= start_date')
-          print('inputs ok')
-          PY
-      - name: Verify required files
-        shell: bash
+          ARGS=(--start-date "${{ github.event.inputs.start_date }}")
+          if [ -n "${{ github.event.inputs.end_date }}" ]; then
+            ARGS+=(--end-date "${{ github.event.inputs.end_date }}")
+          fi
+          python scripts/rebuild_signal_outcomes_v2.py "${ARGS[@]}"
+      - name: Render backtest
         run: |
           set -euo pipefail
-          test -f scripts/rebuild_signal_outcomes.py
-          test -f scripts/render_backtest.py
-          test -f templates/backtest.html.j2
-          test -f templates/backtest.css
-      - name: Rebuild signal outcomes
-        if: ${{ github.event.inputs.run_mode == 'full' }}
-        shell: bash
-        env:
-          REBUILD_START_DATE: ${{ github.event.inputs.start_date }}
-          REBUILD_END_DATE: ${{ github.event.inputs.end_date }}
-          NO_BACKUP: ${{ github.event.inputs.no_backup }}
-          SIGNAL_MIN_TOP3_SCORE: ${{ vars.SIGNAL_MIN_TOP3_SCORE || '750' }}
-          SIGNAL_MIN_VOLUME_SCORE: ${{ vars.SIGNAL_MIN_VOLUME_SCORE || '0.55' }}
-          SIGNAL_MIN_VOLUME_COMBO_SCORE: ${{ vars.SIGNAL_MIN_VOLUME_COMBO_SCORE || '700' }}
-          SIGNAL_MIN_ANY_RANK_SCORE: ${{ vars.SIGNAL_MIN_ANY_RANK_SCORE || '800' }}
-          SIGNAL_REPORT_LEGACY_MIN_SCORE: ${{ vars.SIGNAL_REPORT_LEGACY_MIN_SCORE || '750' }}
-        run: |
-          set -euo pipefail
-          ARGS=("--start-date" "${REBUILD_START_DATE}")
-          if [ -n "${REBUILD_END_DATE:-}" ]; then ARGS+=("--end-date" "${REBUILD_END_DATE}"); fi
-          if [ "${NO_BACKUP}" = "true" ]; then ARGS+=("--no-backup"); fi
-          python scripts/rebuild_signal_outcomes.py "${ARGS[@]}"
-      - name: Verify signal outputs
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -f site/data/signals/registry.json
-          test -f site/data/signals/outcomes_latest.json
-          test -f site/data/signals/summary_latest.json
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          s=json.loads(Path('site/data/signals/summary_latest.json').read_text(encoding='utf-8'))
-          assert 'signal_path' in s, 'summary.signal_path missing'
-          assert 'strategy_comparison' in s, 'summary.strategy_comparison missing'
-          assert 'quality_matrix' in s, 'summary.quality_matrix missing'
-          print('Daily Event Lab summary ok:', s.get('total_signals'))
-          PY
-      - name: Render backtest page
-        shell: bash
-        run: |
-          set -euo pipefail
+          test -f site/data/signals-v2/outcomes_latest.json
           python scripts/render_backtest.py
-      - name: Verify rendered backtest page
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -f site/backtest/index.html
-          test -f site/assets/backtest.css
-          grep -q "Daily Event Signal Lab" site/backtest/index.html
-      - name: Commit changes
-        id: commitstep
-        shell: bash
-        env:
-          START_DATE: ${{ github.event.inputs.start_date }}
-          END_DATE: ${{ github.event.inputs.end_date }}
-          RUN_MODE: ${{ github.event.inputs.run_mode }}
+      - name: Commit outputs
         run: |
           set -euo pipefail
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
-          git add site/data/signals site/backtest/index.html site/assets/backtest.css
+          git add \
+            site/data/signals-v2 \
+            site/backtest/index.html \
+            site/assets/backtest.css
           if git diff --cached --quiet; then
-            echo "committed=false" >> "$GITHUB_OUTPUT"
-            echo "No changes to commit"
+            echo "No signal v2 changes."
             exit 0
           fi
-          git commit -m "backtest: update daily event lab (${RUN_MODE})"
-          echo "committed=true" >> "$GITHUB_OUTPUT"
-      - name: Push changes
-        if: steps.commitstep.outputs.committed == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
+          git commit -m "chore: rebuild daily signal outcomes v2"
           git pull --rebase origin main
-          git push origin HEAD:main
+          git push origin main
