@@ -1,6 +1,6 @@
 {
   "date": "2026-05-11",
-  "generated_at": "2026-05-12 04:31:26Z",
+  "generated_at": "2026-05-13 00:04:06Z",
   "regime": "Risk-On",
   "regime_tone": "risk-on",
   "indices": [
@@ -9,12 +9,11 @@
       "label": "S&P 500",
       "symbol": "SPY",
       "tone": "sp500",
-      "return_1d": 0.23,
-      "return_5d": 2.97,
-      "return_20d": 7.75,
+      "return_1d": -0.15,
+      "return_5d": 1.99,
+      "return_20d": 6.3,
       "above_20dma": true,
       "points": [
-        34.529,
         36.169,
         27.448,
         25.929,
@@ -53,7 +52,8 @@
         94.904,
         92.807,
         98.435,
-        100.0
+        100.0,
+        98.956
       ]
     },
     {
@@ -61,12 +61,11 @@
       "label": "NASDAQ",
       "symbol": "QQQ",
       "tone": "nasdaq",
-      "return_1d": 0.29,
-      "return_5d": 6.01,
-      "return_20d": 15.53,
+      "return_1d": -0.85,
+      "return_5d": 3.76,
+      "return_20d": 12.51,
       "above_20dma": true,
       "points": [
-        27.16,
         29.05,
         23.624,
         22.411,
@@ -105,7 +104,8 @@
         88.698,
         88.162,
         98.671,
-        100.0
+        100.0,
+        96.097
       ]
     },
     {
@@ -113,12 +113,11 @@
       "label": "Russell 2000",
       "symbol": "IWM",
       "tone": "russell",
-      "return_1d": 0.41,
-      "return_5d": 2.68,
-      "return_20d": 7.64,
+      "return_1d": -0.97,
+      "return_5d": 0.0,
+      "return_20d": 5.15,
       "above_20dma": true,
       "points": [
-        19.729,
         22.123,
         13.583,
         16.995,
@@ -157,7 +156,8 @@
         100.0,
         90.379,
         94.427,
-        96.885
+        96.885,
+        91.036
       ]
     }
   ],
