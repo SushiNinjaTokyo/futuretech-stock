@@ -4,81 +4,387 @@
   <meta charset="utf-8"/>
   <title>FutureTech Stock — Daily Signals</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <link rel="stylesheet" href="/assets/daily.css">
+  <link rel="stylesheet" href="/assets/daily.css?v=market-pulse-cockpit-20260513-1">
 </head>
+
 <body>
-<div class="page">
-  <div class="ambient a"></div><div class="ambient b"></div><div class="grid"></div>
+<div class="page-shell">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <div class="grid-overlay"></div>
+
   <main class="wrap">
-    {% macro money(v) -%}{% if v is none %}—{% else %}${{ "{:,.0f}".format(v|float) }}{% endif %}{%- endmacro %}
-    {% macro pct(v) -%}{% if v is none %}—{% else %}{% if v > 0 %}+{% endif %}{{ "{:.2f}".format(v|float) }}%{% endif %}{%- endmacro %}
-    {% macro score(v) -%}{% if v is none %}—{% else %}{{ v }}{% endif %}{%- endmacro %}
-    {% macro tone(v) -%}{% if v is none %}neutral{% elif v > 0 %}up{% elif v < 0 %}down{% else %}neutral{% endif %}{%- endmacro %}
-    {% macro comp_bar(label, val, max=1) -%}
-      {% set p = 0 if val is none else ([100, [0, (val|float / max * 100)]|max]|min) %}
-      <div class="comp"><span>{{ label }}</span><b>{{ "{:.0f}".format(p) }}%</b><i><em style="width:{{ p }}%"></em></i></div>
+    {% macro money(v) -%}
+      {% if v is not defined or v is none %}—{% else %}${{ "{:,.0f}".format(v|float) }}{% endif %}
     {%- endmacro %}
 
-    <header class="hero">
-      <div>
-        <a class="back" href="/">← Home</a>
-        <div class="kicker">Daily Event Signal Lab</div>
-        <h1>Top 10 Movers</h1>
-        <p>Breakout timing candidates ranked by volume shock, compression release, setup quality, relative strength, and entry-risk controls.</p>
-        <div class="chips">
-          <span>Market date {{ date }}</span>
-          <span>Trade {{ summary.trade | default(0) }}</span>
-          <span>Watch {{ summary.watch | default(0) }}</span>
-          <span>Scored {{ summary.scored | default(0) }}</span>
+    {% macro pct(v, digits=2) -%}
+      {% if v is not defined or v is none %}
+        —
+      {% else %}
+        {% if v|float > 0 %}+{% endif %}{{ (v|float)|round(digits) }}%
+      {% endif %}
+    {%- endmacro %}
+
+    {% macro ratio(v, digits=2) -%}
+      {% if v is not defined or v is none %}—{% else %}{{ (v|float)|round(digits) }}x{% endif %}
+    {%- endmacro %}
+
+    {% macro tone(v) -%}
+      {% if v is not defined or v is none %}flat{% elif v|float > 0 %}up{% elif v|float < 0 %}down{% else %}flat{% endif %}
+    {%- endmacro %}
+
+    {% macro triage_class(v) -%}
+      {{ (v | default('ignore', true) | lower | replace(' ', '-')) }}
+    {%- endmacro %}
+
+    {% macro score_tone(v) -%}
+      {% if v is not defined or v is none %}weak{% elif v|float >= 800 %}elite{% elif v|float >= 750 %}strong{% elif v|float >= 700 %}watch{% else %}weak{% endif %}
+    {%- endmacro %}
+
+    {% macro component(label, val, kind='default', maxv=1) -%}
+      {% set raw = 0 if val is not defined or val is none else val|float %}
+      {% set denom = 1 if maxv is none or maxv|float == 0 else maxv|float %}
+      {% set p = [100, [0, (raw / denom * 100)]|max]|min %}
+      <div class="component {{ kind }}">
+        <div class="component-head">
+          <span>{{ label }}</span>
+          <b>{{ p|round(0) }}%</b>
         </div>
+        <div class="component-track"><i style="width:{{ p }}%"></i></div>
       </div>
-      <aside class="market-card">
-        <div class="card-label">Market Regime</div>
-        <div class="market-grid">
-          {% for key,row in market.items() %}
-          <div><span>{{ row.symbol | default(key|upper) }}</span><strong>{{ row.regime | default('—') }}</strong><small>{{ pct(row.ret_5d_pct) }} 5D</small></div>
-          {% endfor %}
+    {%- endmacro %}
+
+    {% macro metric(label, value, cls='') -%}
+      <div class="metric-tile {{ cls }}">
+        <span>{{ label }}</span>
+        <strong>{{ value }}</strong>
+      </div>
+    {%- endmacro %}
+
+    <header class="hero hero-terminal">
+      <div class="hero-noise"></div>
+      <div class="hero-scan"></div>
+
+      <section class="hero-copy">
+        <a class="back-link" href="/">← Home</a>
+        <div class="hero-kicker">MARKET SIGNALS</div>
+        <h1 class="hero-title">
+          <span class="glitch-title" data-text="Top 10 Movers">Top 10 Movers</span>
+        </h1>
+        <p class="hero-sub">
+          Timing candidates ranked by volume shock, compression release, setup quality, relative strength, and entry-risk discipline.
+        </p>
+
+        <div class="hero-meta-inline">
+          <span class="hero-date-label">Market date</span>
+          <span class="hero-date-value">{{ date }}</span>
+        </div>
+
+        <div class="hero-chips">
+          <span class="trade">Trade {{ summary.trade | default(quality_summary.trade | default(0, true), true) }}</span>
+          <span class="watch">Watch {{ summary.watch | default(quality_summary.watch | default(0, true), true) }}</span>
+          <span>Scored {{ summary.scored | default(quality_summary.total | default(0, true), true) }}</span>
+          <span>Avg Score {{ quality_summary.avg_score | default('—', true) }}</span>
+        </div>
+      </section>
+
+      <aside class="hero-visual">
+        <div class="hero-visual-head">
+          <div class="pulse-dot"></div>
+          <span>Market Pulse</span>
+        </div>
+
+        <div class="pulse-console">
+          <div class="console-grid-lines"></div>
+          <div class="hero-lines">
+            {% for key in ['sp500', 'nasdaq', 'russell'] %}
+              {% set row = hero_index_lines[key] | default({}, true) %}
+              <div class="hero-line-row" data-line-key="{{ key }}">
+                <div class="hero-line-meta">
+                  <div class="hero-line-label">{{ row.label | default(key|upper, true) }}</div>
+                  <div class="hero-line-change {{ tone(row.change_1m) }}">
+                    {{ pct(row.change_1m) }}
+                  </div>
+                  <div class="hero-line-regime">{{ row.regime | default('—', true) }}</div>
+                </div>
+
+                <div class="hero-line-canvas-wrap">
+                  <svg class="hero-line-svg {{ key }}" viewBox="0 0 520 120" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="hero-grad-{{ key }}" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
+                        <stop offset="12%" stop-color="var(--hero-line-mid)"/>
+                        <stop offset="46%" stop-color="var(--hero-line-core-color)"/>
+                        <stop offset="78%" stop-color="var(--hero-line-end)"/>
+                        <stop offset="100%" stop-color="rgba(255,255,255,.96)"/>
+                      </linearGradient>
+                      <filter id="hero-glow-{{ key }}" x="-80%" y="-220%" width="260%" height="520%">
+                        <feGaussianBlur stdDeviation="8" result="blur1"/>
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur2"/>
+                        <feMerge>
+                          <feMergeNode in="blur2"/>
+                          <feMergeNode in="blur1"/>
+                          <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                      </filter>
+                    </defs>
+
+                    <path class="hero-line-track" d="" />
+                    <path class="hero-line-ghost" d="" />
+                    <path class="hero-line-core" d="" />
+                    <path class="hero-line-lightning" d="" />
+                    <path class="hero-line-branch branch-a" d="" />
+                    <path class="hero-line-branch branch-b" d="" />
+                    <circle class="hero-line-spark" cx="0" cy="0" r="3.2" />
+                  </svg>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
         </div>
       </aside>
+
+      <script type="application/json" id="hero-index-data">{{ hero_index_lines | tojson }}</script>
     </header>
 
-    <section class="kpis">
-      <article><span>Trade</span><strong>{{ summary.trade | default(0) }}</strong><small>high-quality timing</small></article>
-      <article><span>Watch</span><strong>{{ summary.watch | default(0) }}</strong><small>needs confirmation</small></article>
-      <article><span>Ignore</span><strong>{{ summary.ignore | default(0) }}</strong><small>penalized / weak timing</small></article>
-      <article><span>Scored Universe</span><strong>{{ summary.scored | default(0) }}</strong><small>failed {{ summary.failed | default(0) }}</small></article>
+    <section class="intelligence-strip">
+      <article class="intel-card trade">
+        <span>Trade candidates</span>
+        <strong>{{ summary.trade | default(quality_summary.trade | default(0, true), true) }}</strong>
+        <small>clean timing, structure, and liquidity</small>
+      </article>
+      <article class="intel-card watch">
+        <span>Watch list</span>
+        <strong>{{ summary.watch | default(quality_summary.watch | default(0, true), true) }}</strong>
+        <small>needs confirmation or better entry</small>
+      </article>
+      <article class="intel-card">
+        <span>Compression quality</span>
+        <strong>{{ quality_summary.avg_compression | default('—', true) }}%</strong>
+        <small>average setup pressure</small>
+      </article>
+      <article class="intel-card">
+        <span>Timing quality</span>
+        <strong>{{ quality_summary.avg_timing | default('—', true) }}%</strong>
+        <small>risk-adjusted entry discipline</small>
+      </article>
+    </section>
+
+    <section class="thesis-panel">
+      <div>
+        <div class="section-kicker">Signal Philosophy</div>
+        <h2>Find the moment, not just the story.</h2>
+      </div>
+      <p>
+        This view penalizes mature, extended, weak-closing, and news-only moves. The strongest candidates combine volume shock, compression release, breakout structure, relative strength, and controlled entry risk.
+      </p>
     </section>
 
     <section class="cards">
       {% for item in items[:10] %}
-      <article class="signal-card {{ item.triage|lower }}">
-        <div class="rank">#{{ item.rank }}</div>
-        <div class="signal-head">
-          <div><h2>{{ item.symbol }}</h2><p>{{ item.name or item.archetype }}</p></div>
-          <div class="score {{ item.triage|lower }}">{{ item.score_pts }}</div>
+      {% set metrics = item.metrics | default({}, true) %}
+      {% set comps = item.v2_components | default({}, true) %}
+      {% set cls = triage_class(item.triage) %}
+      {% set score = item.score_pts | default(0, true) %}
+      {% set score_cls = score_tone(score) %}
+      {% set rank = item.rank | default(loop.index, true) %}
+      {% set reasons = item.reason | default('', true) %}
+      {% set penalty = comps.penalty | default(0, true) %}
+
+      <article class="stock-card {{ cls }} rank-{{ rank }}" data-symbol="{{ item.symbol | default('', true) }}">
+        <div class="card-topline"></div>
+        <div class="rank-watermark">#{{ rank }}</div>
+
+        <div class="card-head">
+          <div class="identity-zone">
+            <div class="rank-chip {% if rank <= 3 %}top3{% endif %}">
+              <span>Rank</span>
+              <strong>{{ rank }}</strong>
+            </div>
+            <div class="identity-copy">
+              <div class="symbol-row">
+                <span class="symbol">{{ item.symbol | default('—', true) }}</span>
+                <span class="company">{{ item.name | default(item.archetype | default('—', true), true) }}</span>
+              </div>
+              <div class="microline">{{ item.archetype | default('Mixed Signal', true) }} · {{ item.regime | default('—', true) }}</div>
+            </div>
+          </div>
+
+          <div class="score-module {{ score_cls }}">
+            <span>Timing Score</span>
+            <strong>{{ score }}</strong>
+            <small>{{ item.triage | default('Ignore', true) }}</small>
+          </div>
         </div>
-        <div class="badges"><span>{{ item.triage }}</span><span>{{ item.archetype }}</span><span>{{ item.regime }}</span></div>
-        <p class="reason">{{ item.reason }}</p>
-        <div class="metric-row">
-          <div><span>Price</span><strong>{{ money(item.price) }}</strong></div>
-          <div><span>RVOL</span><strong>{{ item.metrics.rvol20 | default('—') }}x</strong></div>
-          <div><span>5D</span><strong class="{{ tone(item.metrics.ret_5d_pct) }}">{{ pct(item.metrics.ret_5d_pct) }}</strong></div>
-          <div><span>RS 20D</span><strong class="{{ tone(item.metrics.rs_20d_vs_qqq) }}">{{ pct(item.metrics.rs_20d_vs_qqq) }}</strong></div>
+
+        <div class="triage-row">
+          <span class="triage-pill {{ cls }}">{{ item.triage | default('Ignore', true) }}</span>
+          <span>{{ item.archetype | default('Mixed', true) }}</span>
+          {% if penalty|float > 0 %}<span class="penalty-pill">Penalty {{ (penalty|float * 100)|round(0) }}%</span>{% endif %}
         </div>
-        <div class="component-grid">
-          {{ comp_bar('Volume', item.v2_components.volume_liquidity_shock) }}
-          {{ comp_bar('Compression', item.v2_components.compression_release) }}
-          {{ comp_bar('Setup', item.v2_components.breakout_setup_quality) }}
-          {{ comp_bar('RS', item.v2_components.relative_strength) }}
-          {{ comp_bar('Timing', item.v2_components.entry_timing) }}
-          {{ comp_bar('Penalty', item.v2_components.penalty, 0.35) }}
+
+        <p class="reason-text">{{ reasons if reasons else 'No narrative available. The ranking is driven by the component structure below.' }}</p>
+
+        <div class="market-metrics">
+          {{ metric('Price', money(item.price)) }}
+          {{ metric('RVOL', ("{:.2f}".format(metrics.rvol20|float) ~ 'x') if metrics.rvol20 is defined and metrics.rvol20 is not none else '—') }}
+          {{ metric('5D', pct(metrics.ret_5d_pct), tone(metrics.ret_5d_pct)) }}
+          {{ metric('RS vs QQQ', pct(metrics.rs_20d_vs_qqq), tone(metrics.rs_20d_vs_qqq)) }}
         </div>
+
+        <div class="analysis-grid">
+          <div class="component-panel">
+            <div class="panel-label">Component Stack</div>
+            {{ component('Volume', comps.volume_liquidity_shock, 'volume') }}
+            {{ component('Compression', comps.compression_release, 'compression') }}
+            {{ component('Setup', comps.breakout_setup_quality, 'setup') }}
+            {{ component('Relative Strength', comps.relative_strength, 'rs') }}
+            {{ component('Entry Timing', comps.entry_timing, 'timing') }}
+            {{ component('Penalty Drag', comps.penalty, 'penalty', 0.35) }}
+          </div>
+
+          <div class="decision-panel">
+            <div class="panel-label">Execution Read</div>
+            <div class="decision-row">
+              <span>Extension</span>
+              <strong>{{ pct(metrics.extension_from_sma20_pct) if metrics.extension_from_sma20_pct is defined else '—' }}</strong>
+            </div>
+            <div class="decision-row">
+              <span>Close Quality</span>
+              <strong>{{ (metrics.close_position | default('—', true)) }}</strong>
+            </div>
+            <div class="decision-row">
+              <span>Range Risk</span>
+              <strong>{{ pct(metrics.atr_pct) if metrics.atr_pct is defined else '—' }}</strong>
+            </div>
+            <div class="decision-row">
+              <span>Penalty</span>
+              <strong>{{ (penalty|float * 100)|round(0) }}%</strong>
+            </div>
+          </div>
+        </div>
+      </article>
+      {% else %}
+      <article class="empty-card">
+        <h2>No daily candidates</h2>
+        <p>Build the daily dataset, then render this page again.</p>
       </article>
       {% endfor %}
     </section>
 
-    <footer class="footer">Generated {{ generated_at }} · Data stored separately under daily-v2 while the UI remains the primary daily page.</footer>
+    <footer class="footer-note">
+      <div>
+        <strong>Method</strong>
+        <span>Signals are ranked for timing quality, not long-term business quality. Use this as a research cockpit, not an automatic trading instruction.</span>
+      </div>
+      <div>Generated {{ generated_at }}</div>
+    </footer>
   </main>
 </div>
+
+<script>
+function buildHeroPath(points, width = 520, height = 120){
+  if (!Array.isArray(points) || points.length < 2) return "";
+  const maxIndex = points.length - 1;
+  const coords = points.map((p, i) => {
+    const x = (i / maxIndex) * width;
+    const y = height - (Math.max(0, Math.min(100, Number(p))) / 100) * (height - 12) - 6;
+    return [x, y];
+  });
+  let d = `M ${coords[0][0].toFixed(2)} ${coords[0][1].toFixed(2)}`;
+  for (let i = 1; i < coords.length; i++) {
+    const prev = coords[i - 1];
+    const curr = coords[i];
+    const cx1 = (prev[0] + curr[0]) / 2;
+    const cy1 = prev[1];
+    const cx2 = (prev[0] + curr[0]) / 2;
+    const cy2 = curr[1];
+    d += ` C ${cx1.toFixed(2)} ${cy1.toFixed(2)}, ${cx2.toFixed(2)} ${cy2.toFixed(2)}, ${curr[0].toFixed(2)} ${curr[1].toFixed(2)}`;
+  }
+  return d;
+}
+
+function buildBranch(path, pos, direction = 1){
+  const length = path.getTotalLength();
+  const p = path.getPointAtLength(Math.max(0, Math.min(length, length * pos)));
+  const p2 = path.getPointAtLength(Math.max(0, Math.min(length, length * pos + 12)));
+  const dx = p2.x - p.x;
+  const dy = p2.y - p.y;
+  const mag = Math.max(1, Math.hypot(dx, dy));
+  const nx = -dy / mag;
+  const ny = dx / mag;
+  const midX = p.x + nx * 14 * direction;
+  const midY = p.y + ny * 14 * direction;
+  const endX = midX + 18;
+  const endY = midY - 9 * direction;
+  return `M ${p.x.toFixed(2)} ${p.y.toFixed(2)} L ${midX.toFixed(2)} ${midY.toFixed(2)} L ${endX.toFixed(2)} ${endY.toFixed(2)}`;
+}
+
+function initHeroIndexLines(){
+  const el = document.getElementById("hero-index-data");
+  if (!el) return;
+  let data = {};
+  try { data = JSON.parse(el.textContent || "{}"); } catch (_) { return; }
+  document.querySelectorAll(".hero-line-row").forEach((row, rowIndex) => {
+    const key = row.getAttribute("data-line-key");
+    const series = data[key] || {};
+    const points = Array.isArray(series.points) ? series.points : [];
+    const track = row.querySelector(".hero-line-track");
+    const ghost = row.querySelector(".hero-line-ghost");
+    const core = row.querySelector(".hero-line-core");
+    const lightning = row.querySelector(".hero-line-lightning");
+    const branchA = row.querySelector(".hero-line-branch.branch-a");
+    const branchB = row.querySelector(".hero-line-branch.branch-b");
+    const spark = row.querySelector(".hero-line-spark");
+    if (!track || !ghost || !core || points.length < 2) return;
+
+    const d = buildHeroPath(points, 520, 120);
+    [track, ghost, core, lightning].forEach(p => p && p.setAttribute("d", d));
+    const length = core.getTotalLength();
+    if (!Number.isFinite(length) || length <= 0) return;
+    [ghost, core, lightning].forEach(path => {
+      if (!path) return;
+      path.style.strokeDasharray = `${length}`;
+      path.style.strokeDashoffset = `${length}`;
+    });
+    const delay = 0.18 + rowIndex * 0.22;
+    core.style.animation = `drawLine 1.65s ${delay}s cubic-bezier(.2,.8,.2,1) forwards`;
+    ghost.style.animation = `drawLine 1.9s ${delay + .1}s cubic-bezier(.2,.8,.2,1) forwards`;
+    if (lightning) {
+      lightning.style.animation = `lightningRun 3.8s ${delay + 1.0}s ease-in-out infinite`;
+      lightning.style.strokeDasharray = `${Math.max(34, length * .18)} ${Math.max(70, length * .82)}`;
+    }
+    if (branchA) {
+      branchA.setAttribute("d", buildBranch(core, 0.48, 1));
+      branchA.style.animation = `branchFlash 3.8s ${delay + 1.16}s ease-in-out infinite`;
+    }
+    if (branchB) {
+      branchB.setAttribute("d", buildBranch(core, 0.72, -1));
+      branchB.style.animation = `branchFlash 3.8s ${delay + 1.42}s ease-in-out infinite`;
+    }
+    if (spark) {
+      const animateSpark = () => {
+        const start = performance.now();
+        const duration = 3800;
+        const tick = now => {
+          const t = ((now - start) % duration) / duration;
+          const active = t > .24 && t < .72;
+          const pos = Math.max(0, Math.min(1, (t - .24) / .48));
+          const pt = core.getPointAtLength(pos * length);
+          spark.setAttribute("cx", pt.x.toFixed(2));
+          spark.setAttribute("cy", pt.y.toFixed(2));
+          spark.style.opacity = active ? 1 : 0;
+          requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+      setTimeout(animateSpark, (delay + 1.0) * 1000);
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", initHeroIndexLines);
+</script>
 </body>
 </html>
