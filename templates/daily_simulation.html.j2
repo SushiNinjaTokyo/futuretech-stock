@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Daily Simulation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="/assets/daily_simulation.css?v=20260513-1">
+</head>
+<body>
+{% macro num(v, d=2) -%}{% if v is not defined or v is none %}—{% else %}{{ (v|float)|round(d) }}{% endif %}{%- endmacro %}
+{% macro money(v) -%}{% if v is not defined or v is none %}—{% else %}${{ "{:,.0f}".format((v|float)|int) }}{% endif %}{%- endmacro %}
+{% macro pct(v) -%}{% if v is not defined or v is none %}—{% else %}{% if v|float > 0 %}+{% endif %}{{ "{:.2f}".format(v|float) }}%{% endif %}{%- endmacro %}
+{% macro signed_money(v) -%}{% if v is not defined or v is none %}—{% else %}{% if v|float > 0 %}+{% endif %}${{ "{:,.0f}".format((v|float)|int) }}{% endif %}{%- endmacro %}
+{% macro tone(v) -%}{% if v is not defined or v is none %}flat{% elif v|float > 0 %}up{% elif v|float < 0 %}down{% else %}flat{% endif %}{%- endmacro %}
+{% set s = payload.summary %}
+<div class="page">
+  <div class="ambient a"></div><div class="ambient b"></div><div class="grid"></div>
+  <main class="wrap">
+    <header class="hero">
+      <div>
+        <div class="kicker">Daily Portfolio Simulation</div>
+        <h1>Event signals under capital discipline.</h1>
+        <p>Daily signals are tested as an initial-capital compounding portfolio with profit locks, risk caps, and benchmark-equivalent capital timing.</p>
+      </div>
+      <div class="hero-card">
+        <span>Simulation range</span>
+        <strong>{{ payload.range.start }} → {{ payload.range.end }}</strong>
+        <em>{{ payload.range.daily_files }} daily snapshots · generated {{ payload.generated_at }}</em>
+      </div>
+    </header>
+
+    <section class="kpi-grid">
+      <article class="kpi primary"><span>Portfolio Equity</span><strong>{{ money(s.portfolio_equity) }}</strong><em>Net return {{ pct(s.net_return_pct) }}</em></article>
+      <article class="kpi"><span>Net P/L</span><strong class="{{ tone(s.net_pl_value) }}">{{ signed_money(s.net_pl_value) }}</strong><em>Initial {{ money(s.initial_capital) }}</em></article>
+      <article class="kpi"><span>{{ s.benchmark_symbol }} Equity</span><strong>{{ money(s.benchmark_equity) }}</strong><em>Alpha {{ pct(s.alpha_pct) }} · {{ signed_money(s.alpha_value) }}</em></article>
+      <article class="kpi"><span>Max Drawdown</span><strong class="down">{{ pct(s.max_drawdown_pct) }}</strong><em>Return/DD {{ num(s.return_drawdown_ratio, 2) }}x</em></article>
+      <article class="kpi"><span>Win Rate</span><strong>{{ pct(s.win_rate) }}</strong><em>{{ s.closed_trades }} closed · {{ s.open_positions }} open</em></article>
+      <article class="kpi"><span>MFE / MAE</span><strong>{{ num(s.mfe_mae_ratio, 2) }}x</strong><em>MFE {{ pct(s.avg_mfe_pct) }} · MAE {{ pct(s.avg_mae_pct) }}</em></article>
+      <article class="kpi"><span>Profit Lock</span><strong>{{ pct(s.profit_lock_hit_rate) }}</strong><em>Stop {{ pct(s.stop_hit_rate) }}</em></article>
+      <article class="kpi"><span>Exposure</span><strong>{{ pct(s.exposure_pct) }}</strong><em>Cash {{ money(s.cash) }} · Market {{ money(s.market_value) }}</em></article>
+    </section>
+
+    <section class="panel chart-panel">
+      <div class="section-head"><div><span>Capital Curve</span><h2>Portfolio vs {{ s.benchmark_symbol }} vs {{ s.secondary_benchmark_symbol }} vs Initial Capital</h2></div></div>
+      <div class="chart-wrap">
+        <svg id="equityChart" viewBox="0 0 960 320" preserveAspectRatio="none"
+          data-curve='{{ payload.equity_curve | tojson }}'>
+          <defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-opacity=".28"/><stop offset="1" stop-opacity="0"/></linearGradient></defs>
+          <path class="line portfolio" data-key="portfolio_equity"></path>
+          <path class="line bench" data-key="benchmark_equity"></path>
+          <path class="line bench2" data-key="secondary_benchmark_equity"></path>
+          <path class="line capital" data-key="external_capital"></path>
+        </svg>
+      </div>
+      <div class="legend"><span class="p">Portfolio</span><span class="q">{{ s.benchmark_symbol }}</span><span class="r">{{ s.secondary_benchmark_symbol }}</span><span class="c">Initial Capital</span></div>
+    </section>
+
+    <section class="decision-grid">
+      <article class="decision"><span>Compounding Impact</span>{% set ci = payload.highlights.compounding_impact %}<strong>{{ pct(ci.return_delta_pct if ci else none) }}</strong><em>{{ signed_money(ci.value_delta if ci else none) }} vs fixed allocation</em></article>
+      <article class="decision"><span>Best Return Strategy</span>{% set br = payload.highlights.best_return_strategy %}<strong>{{ br.name if br else '—' }}</strong><em>{{ pct(br.net_return_pct if br else none) }}</em></article>
+      <article class="decision"><span>Best Risk-Adjusted</span>{% set bx = payload.highlights.best_risk_adjusted_strategy %}<strong>{{ bx.name if bx else '—' }}</strong><em>{{ num(bx.return_drawdown_ratio if bx else none, 2) }}x</em></article>
+      <article class="decision"><span>Best Trade</span>{% set bt = payload.highlights.best_trade %}<strong>{{ bt.symbol if bt else '—' }}</strong><em>{{ pct(bt.return_pct if bt else none) }} · {{ bt.exit_reason if bt else 'No closed trade' }}</em></article>
+      <article class="decision"><span>Worst Trade</span>{% set wt = payload.highlights.worst_trade %}<strong>{{ wt.symbol if wt else '—' }}</strong><em>{{ pct(wt.return_pct if wt else none) }} · {{ wt.exit_reason if wt else 'No closed trade' }}</em></article>
+    </section>
+
+    <section class="panel tabs-panel">
+      <div class="section-head"><div><span>Strategy Comparison</span><h2>Allocation, exit, and filter variants</h2></div></div>
+      <div class="tabs"><button class="active" data-tab="table">Table</button><button data-tab="return">Return</button><button data-tab="risk">Risk</button><button data-tab="alpha">Alpha</button><button data-tab="trades">Trades</button></div>
+      <div class="tab active" id="tab-table">
+        <div class="table-scroll"><table><thead><tr><th>Strategy</th><th>Return</th><th>Alpha</th><th>Max DD</th><th>Ret/DD</th><th>Win</th><th>Closed</th><th>Open</th></tr></thead><tbody>
+        {% for r in payload.strategy_comparison %}<tr><td><strong>{{ r.name }}</strong><small>{{ r.note }}</small></td><td class="{{ tone(r.net_return_pct) }}">{{ pct(r.net_return_pct) }}</td><td class="{{ tone(r.alpha_pct) }}">{{ pct(r.alpha_pct) }}</td><td class="down">{{ pct(r.max_drawdown_pct) }}</td><td>{{ num(r.return_drawdown_ratio,2) }}x</td><td>{{ pct(r.win_rate) }}</td><td>{{ r.closed_trades }}</td><td>{{ r.open_positions }}</td></tr>{% endfor %}
+        </tbody></table></div>
+      </div>
+      {% for tab,key,label in [('return','net_return_pct','Net Return'),('risk','max_drawdown_pct','Max Drawdown'),('alpha','alpha_pct','Alpha'),('trades','closed_trades','Closed Trades')] %}
+      <div class="tab" id="tab-{{ tab }}"><div class="bar-list">
+        {% set vals = payload.strategy_comparison | map(attribute=key) | list %}
+        {% for r in payload.strategy_comparison %}{% set v = r[key] %}<div class="bar-row"><div class="bar-name">{{ r.name }}</div><div class="bar-track"><div class="bar-fill {{ tone(v) }}" style="width: {{ [5, [100, (v|float|abs if v is not none else 0) * 3]|min]|max }}%"></div></div><div class="bar-val">{% if key == 'closed_trades' %}{{ v }}{% else %}{{ pct(v) }}{% endif %}</div></div>{% endfor %}
+      </div></div>
+      {% endfor %}
+    </section>
+
+    <section class="grid-2">
+      {% for title, rows in [('Exit Reason', payload.exit_reason_summary), ('Triage', payload.triage_summary), ('Archetype', payload.archetype_summary), ('Theme', payload.theme_summary)] %}
+      <article class="panel mini"><div class="section-head compact"><div><span>{{ title }}</span><h2>Contribution</h2></div></div><div class="mini-list">
+      {% for r in rows[:8] %}<div class="mini-row"><strong>{{ r.label }}</strong><span>{{ r.count }} trades</span><em class="{{ tone(r.total_pl) }}">{{ signed_money(r.total_pl) }} / {{ pct(r.avg_return_pct) }}</em></div>{% endfor %}
+      </div></article>
+      {% endfor %}
+    </section>
+
+    <section class="panel">
+      <div class="section-head"><div><span>Open Positions</span><h2>Current exposure</h2></div></div>
+      <div class="cards">
+        {% for p in payload.open_positions %}<article class="trade-card"><div><strong>{{ p.symbol }}</strong><span>{{ p.triage }} · {{ p.archetype }}</span></div><div class="trade-metrics"><span>Cost {{ money(p.cost) }}</span><span>Value {{ money(p.market_value) }}</span><span class="{{ tone(p.unrealized_return_pct) }}">{{ pct(p.unrealized_return_pct) }}</span></div></article>{% else %}<div class="empty">No open positions.</div>{% endfor %}
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head"><div><span>Closed Trades</span><h2>Execution tape</h2></div></div>
+      <div class="trade-list">
+        {% for t in payload.closed_trades[:80] %}<article class="trade-line"><div><strong>{{ t.symbol }}</strong><span>{{ t.entry_date }} → {{ t.exit_date }} · {{ t.exit_reason }}</span></div><div><span>Cost {{ money(t.cost) }}</span><span>Exit {{ money(t.exit_value) }}</span><span class="{{ tone(t.pl_value) }}">{{ signed_money(t.pl_value) }}</span><span class="{{ tone(t.return_pct) }}">{{ pct(t.return_pct) }}</span><span>MFE {{ pct(t.mfe_pct) }}</span><span>MAE {{ pct(t.mae_pct) }}</span></div></article>{% else %}<div class="empty">No closed trades.</div>{% endfor %}
+      </div>
+    </section>
+
+    <footer>Generated at {{ generated_at }} · Informational only, not investment advice.</footer>
+  </main>
+</div>
+<script>
+function sharedDomain(points, keys){
+  const vals = [];
+  points.forEach(p => keys.forEach(k => {
+    const v = Number(p[k]);
+    if (Number.isFinite(v)) vals.push(v);
+  }));
+  if (vals.length < 2) return {lo: 0, hi: 1};
+  const min = Math.min(...vals), max = Math.max(...vals);
+  const pad = Math.max(1, (max - min) * 0.08);
+  return {lo: min - pad, hi: max + pad};
+}
+function pathFrom(points, key, domain, w=960, h=320){
+  const filtered = points.filter(p => Number.isFinite(Number(p[key])));
+  if(filtered.length < 2) return '';
+  const lo = domain.lo, hi = domain.hi;
+  const coords = filtered.map((p,i)=>{
+    const v=Number(p[key]);
+    const x=i/(filtered.length-1)*w;
+    const y=h-((v-lo)/(hi-lo))*(h-28)-14;
+    return [x,y];
+  });
+  let d=`M ${coords[0][0].toFixed(2)} ${coords[0][1].toFixed(2)}`;
+  for(let i=1;i<coords.length;i++){
+    const a=coords[i-1], b=coords[i], cx=(a[0]+b[0])/2;
+    d+=` C ${cx.toFixed(2)} ${a[1].toFixed(2)}, ${cx.toFixed(2)} ${b[1].toFixed(2)}, ${b[0].toFixed(2)} ${b[1].toFixed(2)}`;
+  }
+  return d;
+}
+const svg=document.getElementById('equityChart');
+if(svg){
+  const data=JSON.parse(svg.dataset.curve||'[]');
+  const keys=['portfolio_equity','benchmark_equity','secondary_benchmark_equity','external_capital'];
+  const domain=sharedDomain(data, keys);
+  svg.querySelectorAll('.line').forEach(p=>p.setAttribute('d', pathFrom(data, p.dataset.key, domain)));
+}
+document.querySelectorAll('.tabs button').forEach(btn=>btn.addEventListener('click',()=>{ const id=btn.dataset.tab; document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b===btn)); document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.id==='tab-'+id)); }));
+</script>
+</body>
+</html>
