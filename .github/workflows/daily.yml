@@ -15,6 +15,7 @@ concurrency:
 jobs:
   daily:
     runs-on: ubuntu-latest
+
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       OUT_DIR: site
@@ -22,26 +23,31 @@ jobs:
       DATA_PROVIDER: ${{ vars.DATA_PROVIDER || 'yfinance' }}
       DAILY_V2_SLEEP_SECONDS: "0.8"
       DAILY_V2_BACKTEST_SLEEP_SECONDS: "0.6"
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
+
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
+
       - name: Sync latest main before build
         run: |
           set -euo pipefail
           git fetch origin main
           git checkout main
           git reset --hard origin/main
+
       - name: Install dependencies
         run: |
           set -euo pipefail
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
       - name: Set ET market date
         id: set_date
         run: |
@@ -49,10 +55,12 @@ jobs:
           REPORT_DATE="$(python scripts/et_market_date.py)"
           echo "REPORT_DATE=${REPORT_DATE}" >> "$GITHUB_OUTPUT"
           echo "Resolved REPORT_DATE=${REPORT_DATE}"
+
       - name: Archive legacy daily v1 data
         run: |
           set -euo pipefail
           python scripts/archive_daily_v1.py || true
+
       - name: Fetch Compression Release
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
@@ -61,6 +69,7 @@ jobs:
         run: |
           set -euo pipefail
           python scripts/fetch_compression.py
+
       - name: Google Trends breakout
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
@@ -75,6 +84,7 @@ jobs:
         run: |
           set -euo pipefail
           python scripts/fetch_trends.py
+
       - name: Fetch News
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
@@ -89,13 +99,22 @@ jobs:
         run: |
           set -euo pipefail
           python scripts/fetch_news.py
+
       - name: Generate Daily Signals
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
           set -euo pipefail
           python scripts/build_daily_v2.py
+
+      - name: Sync latest daily v2 and render daily
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
+        run: |
+          set -euo pipefail
+          python scripts/sync_daily_v2_latest.py
           python scripts/render_daily_v2.py
+
       - name: Rebuild Daily Event Backtest
         env:
           START_DATE: ${{ vars.DAILY_V2_BACKTEST_START_DATE || '2026-04-01' }}
@@ -104,22 +123,39 @@ jobs:
           set -euo pipefail
           python scripts/rebuild_signal_outcomes_v2.py --start-date "${START_DATE}" --end-date "${END_DATE}"
           python scripts/render_backtest.py
+
+      - name: Render index page
+        run: |
+          set -euo pipefail
+          python scripts/render_index.py
+
       - name: Verify outputs
         env:
           REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
           set -euo pipefail
+
           test -f "site/data/daily-v2/${REPORT_DATE}/top10.json"
           test -f "site/data/daily-v2/latest.json"
+          test -f "site/data/daily-v2/manifest.json"
+
           test -f "site/daily/index.html"
+          test -f "site/index.html"
+
           test -f "site/data/signals-v2/outcomes_latest.json"
+          test -f "site/data/signals-v2/summary_latest.json"
           test -f "site/backtest/index.html"
+
           grep -q "Daily Event Signal Lab" site/backtest/index.html
+          grep -q "href=\"/daily/\"" site/index.html
+
       - name: Commit outputs
         run: |
           set -euo pipefail
+
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
+
           git add \
             site/data/daily-v1 \
             site/data/daily-v2 \
@@ -127,14 +163,20 @@ jobs:
             site/data/compression \
             site/data/trends \
             site/data/news \
+            site/data/index \
             site/daily/index.html \
             site/backtest/index.html \
+            site/index.html \
             site/assets/daily.css \
-            site/assets/backtest.css
+            site/assets/backtest.css \
+            site/assets/index.css
+
           if git diff --cached --quiet; then
             echo "No daily changes to commit."
             exit 0
           fi
+
           git commit -m "chore: update daily v2 signals and backtest"
+
           git pull --rebase origin main
           git push origin main
