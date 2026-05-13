@@ -535,16 +535,76 @@ def build_market_snapshot(index_map: Dict[str, pd.DataFrame]) -> Dict[str, Any]:
 
 
 def update_manifest(date: str, payload: Dict[str, Any]) -> None:
+    """Update daily-v2 manifest without assuming a single historical schema.
+
+    Older helper scripts stored ``manifest["dates"]`` as a list of available dates,
+    while build_daily_v2 historically expected it to be a dictionary keyed by date.
+    That mismatch can crash with ``list indices must be integers or slices, not str``.
+
+    Canonical schema from this version:
+      - ``date_records``: dict keyed by YYYY-MM-DD with per-date build metadata
+      - ``available_dates``: sorted list of all dates with top10.json
+      - ``latest_date``: latest available date
+
+    For backward compatibility, ``dates`` is kept as an alias to ``date_records``.
+    """
     path = OUT_DIR / "data" / "daily-v2" / "manifest.json"
-    manifest = read_json(path) or {"version": "daily_event_score_v2", "dates": {}}
-    manifest.setdefault("dates", {})[date] = {
+    manifest = read_json(path)
+    if not isinstance(manifest, dict):
+        manifest = {}
+
+    existing_dates_value = manifest.get("dates")
+    existing_records = manifest.get("date_records")
+
+    records: Dict[str, Any] = {}
+    if isinstance(existing_records, dict):
+        records.update(existing_records)
+    elif isinstance(existing_dates_value, dict):
+        records.update(existing_dates_value)
+    elif isinstance(existing_dates_value, list):
+        # Preserve knowledge of prior dates even if only a list was stored.
+        for d in existing_dates_value:
+            ds = str(d)
+            if len(ds) == 10:
+                records.setdefault(ds, {"status": "unknown"})
+
+    items = payload.get("items", []) if isinstance(payload.get("items"), list) else []
+    all_items = payload.get("all_items", []) if isinstance(payload.get("all_items"), list) else items
+
+    records[date] = {
         "status": "ok",
         "generated_at": payload.get("generated_at"),
-        "items": len(payload.get("items", [])),
-        "top10": len(payload.get("items", [])[:10]),
-        "trade": sum(1 for x in payload.get("items", []) if x.get("triage") == "Trade"),
-        "watch": sum(1 for x in payload.get("items", []) if x.get("triage") == "Watch"),
+        "items": len(items),
+        "all_items": len(all_items),
+        "top10": len(items[:10]),
+        "trade": sum(1 for x in items if isinstance(x, dict) and x.get("triage") == "Trade"),
+        "watch": sum(1 for x in items if isinstance(x, dict) and x.get("triage") == "Watch"),
+        "ignore": sum(1 for x in items if isinstance(x, dict) and x.get("triage") == "Ignore"),
     }
+
+    # Also scan disk so render_only/latest sync and range builds agree on the same list.
+    daily_dir = OUT_DIR / "data" / "daily-v2"
+    disk_dates: List[str] = []
+    try:
+        if daily_dir.exists():
+            for d in daily_dir.iterdir():
+                if d.is_dir() and len(d.name) == 10 and (d / "top10.json").exists():
+                    disk_dates.append(d.name)
+    except Exception:
+        disk_dates = []
+
+    available_dates = sorted(set(records.keys()) | set(disk_dates) | {date})
+    latest_date = available_dates[-1] if available_dates else date
+
+    manifest["version"] = manifest.get("version", "daily_event_score_v2")
+    manifest["updated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ")
+    manifest["latest_date"] = latest_date
+    manifest["date_count"] = len(available_dates)
+    manifest["available_dates"] = available_dates
+    manifest["date_records"] = records
+    # Backward-compatible alias; importantly, this is now a dict, not a list.
+    manifest["dates"] = records
+
     write_json(path, manifest)
 
 
