@@ -37,7 +37,7 @@ MATURE_SYMBOLS = {
 }
 
 INDEX_SYMBOLS = {"spy": "SPY", "qqq": "QQQ", "iwm": "IWM"}
-MARKET_PULSE_DAYS = int(os.getenv("DAILY_V2_MARKET_PULSE_DAYS", "21") or "21")
+MARKET_PULSE_DAYS = 21
 
 
 def log(level: str, msg: str) -> None:
@@ -446,81 +446,91 @@ def score_symbol(symbol: str, name: str, df: pd.DataFrame, index_map: Dict[str, 
     }
 
 
-def normalize_market_points(close: pd.Series, n: int = MARKET_PULSE_DAYS) -> List[float]:
-    """Return a true 1M normalized close path for Market Pulse.
+def normalize_market_points(close: pd.Series, days: int = MARKET_PULSE_DAYS) -> List[float]:
+    """Return a 0-100 normalized daily close path for the most recent trading days.
 
-    Points are based on actual closes, normalized with first point = 100.
-    Empty list means real data was unavailable; the renderer should display no-data,
-    never fabricate a 0.0% return.
+    The visual chart uses a fixed 0-100 SVG scale. This keeps the pulse readable while
+    preserving the actual daily close shape. Missing/flat data returns an empty list or
+    a neutral flat path.
     """
-    try:
-        s = pd.to_numeric(close, errors="coerce").dropna().tail(max(2, int(n)))
-        if len(s) < 2:
-            return []
-        base = float(s.iloc[0])
-        if not math.isfinite(base) or base == 0:
-            return []
-        return [round(float(x) / base * 100.0, 4) for x in s]
-    except Exception:
+    s = pd.to_numeric(close, errors="coerce").dropna().tail(days)
+    if len(s) < 2:
         return []
+    mn = float(s.min())
+    mx = float(s.max())
+    if not math.isfinite(mn) or not math.isfinite(mx):
+        return []
+    if mx <= mn:
+        return [50.0 for _ in range(len(s))]
+    return [round((float(x) - mn) / (mx - mn) * 100.0, 3) for x in s]
+
+
+def market_label(key: str, sym: str) -> str:
+    if key == "spy":
+        return "S&P 500"
+    if key == "qqq":
+        return "NASDAQ"
+    if key == "iwm":
+        return "Russell 2000"
+    return sym
 
 
 def build_market_snapshot(index_map: Dict[str, pd.DataFrame]) -> Dict[str, Any]:
     out: Dict[str, Any] = {}
-    labels = {
-        "spy": "S&P 500",
-        "qqq": "NASDAQ",
-        "iwm": "Russell 2000",
-    }
-
     for key, sym in INDEX_SYMBOLS.items():
         df = index_map.get(key, pd.DataFrame())
-        if df.empty:
-            out[key] = {
-                "label": labels.get(key, sym),
-                "symbol": sym,
-                "regime": "Unknown",
-                "ret_1d_pct": None,
-                "ret_5d_pct": None,
-                "ret_20d_pct": None,
-                "above_sma20": None,
-                "above_sma50": None,
-                "points": [],
-                "points_mode": "no_data",
-                "points_days": MARKET_PULSE_DAYS,
-            }
+        base_row: Dict[str, Any] = {
+            "symbol": sym,
+            "label": market_label(key, sym),
+            "pulse_window": "1M",
+            "pulse_days": MARKET_PULSE_DAYS,
+            "points": [],
+            "data_status": "missing",
+            "regime": "Unknown",
+            "close": None,
+            "ret_1d_pct": None,
+            "ret_5d_pct": None,
+            "ret_20d_pct": None,
+            "change_1m": None,
+            "above_sma20": None,
+            "above_sma50": None,
+        }
+        if df is None or df.empty:
+            out[key] = base_row
             continue
 
-        d = add_indicators(df)
-        last = d.iloc[-1]
-        c = to_float(last.get("Close"))
-        sma20 = to_float(last.get("sma20"))
-        sma50 = to_float(last.get("sma50"))
-
-        if c is not None and sma20 is not None and c >= sma20:
-            regime = "Risk-on"
-        elif c is not None and sma50 is not None and c >= sma50:
-            regime = "Neutral"
-        elif c is not None:
-            regime = "Risk-off"
-        else:
-            regime = "Unknown"
-
-        points = normalize_market_points(d["Close"], MARKET_PULSE_DAYS)
-        out[key] = {
-            "label": labels.get(key, sym),
-            "symbol": sym,
-            "close": safe_round(c, 2),
-            "ret_1d_pct": safe_round(last.get("ret1"), 2),
-            "ret_5d_pct": safe_round(last.get("ret5"), 2),
-            "ret_20d_pct": safe_round(last.get("ret20"), 2),
-            "above_sma20": None if c is None or sma20 is None else bool(c >= sma20),
-            "above_sma50": None if c is None or sma50 is None else bool(c >= sma50),
-            "regime": regime,
-            "points": points,
-            "points_mode": "actual_close_day0_100" if points else "no_data",
-            "points_days": MARKET_PULSE_DAYS,
-        }
+        try:
+            d = add_indicators(df)
+            if d.empty:
+                out[key] = base_row
+                continue
+            last = d.iloc[-1]
+            c = to_float(last.get("Close"))
+            sma20 = to_float(last.get("sma20"))
+            sma50 = to_float(last.get("sma50"))
+            above20 = bool(c is not None and sma20 is not None and c >= sma20)
+            above50 = bool(c is not None and sma50 is not None and c >= sma50)
+            regime = "Risk-on" if above20 else ("Neutral" if above50 else "Risk-off")
+            points = normalize_market_points(d["Close"], MARKET_PULSE_DAYS)
+            ret20 = safe_round(last.get("ret20"), 2)
+            row = dict(base_row)
+            row.update({
+                "close": safe_round(c, 2),
+                "ret_1d_pct": safe_round(last.get("ret1"), 2),
+                "ret_5d_pct": safe_round(last.get("ret5"), 2),
+                "ret_20d_pct": ret20,
+                "change_1m": ret20,
+                "above_sma20": above20,
+                "above_sma50": above50,
+                "regime": regime,
+                "points": points,
+                "point_count": len(points),
+                "data_status": "ok" if len(points) >= 2 else "partial",
+            })
+            out[key] = row
+        except Exception as exc:
+            log("WARN", f"market snapshot failed for {sym}: {exc}")
+            out[key] = base_row
     return out
 
 
