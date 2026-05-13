@@ -356,7 +356,14 @@ def strategy_comparison(rows: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         vals = [strategy_return(r, name) for r in rows]
         vals = [v for v in vals if v is not None]
         if not vals:
-            out.append({"name": name, "trades": 0})
+            out.append({
+                "name": name,
+                "trades": 0,
+                "avg_return_pct": None,
+                "max_drawdown_pct": None,
+                "win_rate": None,
+                "return_drawdown_ratio": None,
+            })
             continue
         max_dd = min(vals)
         ret = avg(vals)
