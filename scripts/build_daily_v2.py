@@ -36,7 +36,8 @@ MATURE_SYMBOLS = {
     if s.strip()
 }
 
-INDEX_SYMBOLS = {"spy": "SPY", "qqq": "QQQ"}
+INDEX_SYMBOLS = {"spy": "SPY", "qqq": "QQQ", "iwm": "IWM"}
+MARKET_PULSE_DAYS = int(os.getenv("DAILY_V2_MARKET_PULSE_DAYS", "21") or "21")
 
 
 def log(level: str, msg: str) -> None:
@@ -445,28 +446,80 @@ def score_symbol(symbol: str, name: str, df: pd.DataFrame, index_map: Dict[str, 
     }
 
 
+def normalize_market_points(close: pd.Series, n: int = MARKET_PULSE_DAYS) -> List[float]:
+    """Return a true 1M normalized close path for Market Pulse.
+
+    Points are based on actual closes, normalized with first point = 100.
+    Empty list means real data was unavailable; the renderer should display no-data,
+    never fabricate a 0.0% return.
+    """
+    try:
+        s = pd.to_numeric(close, errors="coerce").dropna().tail(max(2, int(n)))
+        if len(s) < 2:
+            return []
+        base = float(s.iloc[0])
+        if not math.isfinite(base) or base == 0:
+            return []
+        return [round(float(x) / base * 100.0, 4) for x in s]
+    except Exception:
+        return []
+
+
 def build_market_snapshot(index_map: Dict[str, pd.DataFrame]) -> Dict[str, Any]:
-    out = {}
+    out: Dict[str, Any] = {}
+    labels = {
+        "spy": "S&P 500",
+        "qqq": "NASDAQ",
+        "iwm": "Russell 2000",
+    }
+
     for key, sym in INDEX_SYMBOLS.items():
         df = index_map.get(key, pd.DataFrame())
         if df.empty:
-            out[key] = {"symbol": sym, "regime": "Unknown"}
+            out[key] = {
+                "label": labels.get(key, sym),
+                "symbol": sym,
+                "regime": "Unknown",
+                "ret_1d_pct": None,
+                "ret_5d_pct": None,
+                "ret_20d_pct": None,
+                "above_sma20": None,
+                "above_sma50": None,
+                "points": [],
+                "points_mode": "no_data",
+                "points_days": MARKET_PULSE_DAYS,
+            }
             continue
+
         d = add_indicators(df)
         last = d.iloc[-1]
         c = to_float(last.get("Close"))
         sma20 = to_float(last.get("sma20"))
         sma50 = to_float(last.get("sma50"))
-        regime = "Risk-on" if c and sma20 and c >= sma20 else ("Neutral" if c and sma50 and c >= sma50 else "Risk-off")
+
+        if c is not None and sma20 is not None and c >= sma20:
+            regime = "Risk-on"
+        elif c is not None and sma50 is not None and c >= sma50:
+            regime = "Neutral"
+        elif c is not None:
+            regime = "Risk-off"
+        else:
+            regime = "Unknown"
+
+        points = normalize_market_points(d["Close"], MARKET_PULSE_DAYS)
         out[key] = {
+            "label": labels.get(key, sym),
             "symbol": sym,
             "close": safe_round(c, 2),
             "ret_1d_pct": safe_round(last.get("ret1"), 2),
             "ret_5d_pct": safe_round(last.get("ret5"), 2),
             "ret_20d_pct": safe_round(last.get("ret20"), 2),
-            "above_sma20": bool(c and sma20 and c >= sma20),
-            "above_sma50": bool(c and sma50 and c >= sma50),
+            "above_sma20": None if c is None or sma20 is None else bool(c >= sma20),
+            "above_sma50": None if c is None or sma50 is None else bool(c >= sma50),
             "regime": regime,
+            "points": points,
+            "points_mode": "actual_close_day0_100" if points else "no_data",
+            "points_days": MARKET_PULSE_DAYS,
         }
     return out
 
