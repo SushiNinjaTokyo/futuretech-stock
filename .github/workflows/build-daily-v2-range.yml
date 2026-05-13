@@ -1,0 +1,127 @@
+name: build-daily-v2-range
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "Start date YYYY-MM-DD"
+        required: true
+        default: "2026-04-01"
+        type: string
+      end_date:
+        description: "End date YYYY-MM-DD. Empty = today"
+        required: false
+        default: ""
+        type: string
+      mode:
+        description: "missing_only skips existing daily-v2 JSON; overwrite rebuilds"
+        required: true
+        default: "missing_only"
+        type: choice
+        options: ["missing_only", "overwrite"]
+      max_days_per_run:
+        description: "API safety cap for one run"
+        required: true
+        default: "10"
+        type: string
+      sleep_seconds:
+        description: "Sleep between dates"
+        required: true
+        default: "5"
+        type: string
+      rebuild_backtest:
+        description: "Also rebuild /backtest/ from daily-v2 after data build"
+        required: true
+        default: "true"
+        type: choice
+        options: ["true", "false"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-daily-v2-range
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      OUT_DIR: site
+      UNIVERSE_CSV: data/universe.csv
+      DATA_PROVIDER: yfinance
+      DAILY_V2_START_DATE: ${{ github.event.inputs.start_date }}
+      DAILY_V2_END_DATE: ${{ github.event.inputs.end_date }}
+      DAILY_V2_RANGE_MODE: ${{ github.event.inputs.mode }}
+      DAILY_V2_MAX_DAYS_PER_RUN: ${{ github.event.inputs.max_days_per_run }}
+      DAILY_V2_RANGE_SLEEP_SECONDS: ${{ github.event.inputs.sleep_seconds }}
+      DAILY_V2_SLEEP_SECONDS: "0.8"
+      DAILY_V2_BACKTEST_SLEEP_SECONDS: "0.6"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Sync latest main
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+      - name: Install dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Verify scripts
+        run: |
+          set -euo pipefail
+          test -f scripts/build_daily_v2.py
+          test -f scripts/build_daily_v2_range.py
+          test -f scripts/render_daily_v2.py
+          test -f scripts/rebuild_signal_outcomes_v2.py
+      - name: Build daily-v2 range
+        run: |
+          set -euo pipefail
+          python scripts/build_daily_v2_range.py
+      - name: Render /daily/
+        run: |
+          set -euo pipefail
+          python scripts/render_daily_v2.py
+      - name: Rebuild /backtest/
+        if: ${{ github.event.inputs.rebuild_backtest == 'true' }}
+        run: |
+          set -euo pipefail
+          ARGS=(--start-date "${DAILY_V2_START_DATE}")
+          if [ -n "${DAILY_V2_END_DATE:-}" ]; then
+            ARGS+=(--end-date "${DAILY_V2_END_DATE}")
+          fi
+          python scripts/rebuild_signal_outcomes_v2.py "${ARGS[@]}"
+          python scripts/render_backtest.py
+      - name: Commit outputs
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add \
+            site/data/daily-v2 \
+            site/daily/index.html \
+            site/assets/daily.css
+          if [ "${{ github.event.inputs.rebuild_backtest }}" = "true" ]; then
+            git add \
+              site/data/signals-v2 \
+              site/backtest/index.html \
+              site/assets/backtest.css
+          fi
+          if git diff --cached --quiet; then
+            echo "No daily-v2 changes."
+            exit 0
+          fi
+          git commit -m "chore: build daily v2 range"
+          git pull --rebase origin main
+          git push origin main

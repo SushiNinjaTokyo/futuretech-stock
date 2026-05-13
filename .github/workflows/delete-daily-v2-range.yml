@@ -1,0 +1,85 @@
+name: delete-daily-v2-range
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "Start date YYYY-MM-DD"
+        required: true
+        type: string
+      end_date:
+        description: "End date YYYY-MM-DD. Empty = start_date"
+        required: false
+        default: ""
+        type: string
+      delete_daily:
+        description: "Delete daily-v2 dated data"
+        required: true
+        default: "true"
+        type: choice
+        options: ["true", "false"]
+      delete_backtest:
+        description: "Delete signals-v2 backtest data and page"
+        required: true
+        default: "false"
+        type: choice
+        options: ["true", "false"]
+      confirm:
+        description: "Type DELETE to confirm"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: delete-daily-v2-range
+  cancel-in-progress: false
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    env:
+      OUT_DIR: site
+      DAILY_V2_DELETE_START_DATE: ${{ github.event.inputs.start_date }}
+      DAILY_V2_DELETE_END_DATE: ${{ github.event.inputs.end_date }}
+      DELETE_DAILY_V2: ${{ github.event.inputs.delete_daily }}
+      DELETE_BACKTEST_V2: ${{ github.event.inputs.delete_backtest }}
+      CONFIRM_DELETE: ${{ github.event.inputs.confirm }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Sync latest main
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+      - name: Install dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install pandas
+      - name: Delete daily-v2 range
+        run: |
+          set -euo pipefail
+          python scripts/delete_daily_v2_range.py
+      - name: Commit deletion
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add site/data/daily-v2 site/data/signals-v2 site/backtest/index.html || true
+          if git diff --cached --quiet; then
+            echo "No deletion changes."
+            exit 0
+          fi
+          git commit -m "chore: delete daily v2 range"
+          git pull --rebase origin main
+          git push origin main
