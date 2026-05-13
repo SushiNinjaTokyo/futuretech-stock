@@ -102,37 +102,21 @@ def find_market_row(market: dict, candidates: list[str]) -> dict:
     return {}
 
 
-def synth_points(row: dict, seed: int = 0) -> list[float]:
-    """Build a stable sparkline-like normalized path from market return fields.
 
-    The source payload may not contain real intraperiod index points.  The purpose of
-    this hero chart is market-pulse visualization, so this uses available 1D/5D/20D
-    returns to generate a deterministic shape while preserving the directional read.
-    """
+def normalize_render_points(points: Any) -> list[float]:
+    if not isinstance(points, list):
+        return []
+    out: list[float] = []
+    for x in points:
+        v = to_float(x, None)
+        if v is not None:
+            out.append(round(v, 4))
+    return out if len(out) >= 2 else []
 
-    r1 = to_float(row.get("ret_1d_pct"), None)
-    r5 = to_float(row.get("ret_5d_pct"), None)
-    r20 = to_float(row.get("ret_20d_pct"), None)
-    if r1 is None:
-        r1 = to_float(row.get("change_1d"), 0.0) or 0.0
-    if r5 is None:
-        r5 = to_float(row.get("change_1w"), r1) or 0.0
-    if r20 is None:
-        r20 = to_float(row.get("change_1m"), r5) or 0.0
 
-    drift = clamp(r20, -8.0, 8.0) * 2.2
-    accel = clamp(r5, -5.0, 5.0) * 2.4
-    close_push = clamp(r1, -3.0, 3.0) * 2.8
-    base = 50.0 - drift * 0.45
-    pts: list[float] = []
-    for i in range(18):
-        t = i / 17
-        wave = math.sin((t * math.pi * 2.15) + seed * 0.73) * (4.0 + seed * 0.55)
-        micro = math.sin((t * math.pi * 7.0) + seed * 1.11) * 1.35
-        value = base + drift * t + accel * (t ** 1.35) + close_push * max(0.0, t - 0.76) * 2.2 + wave + micro
-        pts.append(round(clamp(value, 12.0, 88.0), 3))
-    return pts
-
+def no_data_flatline() -> list[float]:
+    # Intentional visual placeholder; returns are still displayed as —.
+    return [100.0, 100.0]
 
 def build_hero_index_lines(market: dict) -> dict:
     market = ensure_dict(market)
@@ -140,42 +124,37 @@ def build_hero_index_lines(market: dict) -> dict:
         "sp500": {
             "label": "S&P 500",
             "symbol": "SPY",
-            "keys": ["sp500", "s&p 500", "spy", "spx", "^gspc"],
-            "seed": 1,
+            "keys": ["spy", "sp500", "s&p 500", "spx", "^gspc"],
         },
         "nasdaq": {
             "label": "NASDAQ",
             "symbol": "QQQ",
-            "keys": ["nasdaq", "qqq", "ndx", "^ixic", "^ndx"],
-            "seed": 2,
+            "keys": ["qqq", "nasdaq", "ndx", "^ixic", "^ndx"],
         },
         "russell": {
-            "label": "Russell",
+            "label": "Russell 2000",
             "symbol": "IWM",
-            "keys": ["russell", "iwm", "russell 2000", "^rut"],
-            "seed": 3,
+            "keys": ["iwm", "russell", "russell 2000", "^rut"],
         },
     }
 
     out: dict[str, dict[str, Any]] = {}
     for key, cfg in spec.items():
-        row = find_market_row(market, cfg["keys"])
-        row = ensure_dict(row)
-        change_1m = to_float(row.get("ret_20d_pct"), None)
-        if change_1m is None:
-            change_1m = to_float(row.get("change_1m"), None)
-        if change_1m is None:
-            change_1m = to_float(row.get("ret_5d_pct"), 0.0)
-        ret_5d = to_float(row.get("ret_5d_pct"), change_1m)
-        ret_1d = to_float(row.get("ret_1d_pct"), None)
+        row = ensure_dict(find_market_row(market, cfg["keys"]))
+        points = normalize_render_points(row.get("points"))
+        has_data = bool(points)
         out[key] = {
             "label": row.get("label") or row.get("name") or cfg["label"],
             "symbol": row.get("symbol") or cfg["symbol"],
-            "regime": row.get("regime") or row.get("state") or "—",
-            "change_1m": change_1m,
-            "ret_5d_pct": ret_5d,
-            "ret_1d_pct": ret_1d,
-            "points": row.get("points") if isinstance(row.get("points"), list) else synth_points(row, cfg["seed"]),
+            "regime": row.get("regime") or row.get("state") or ("—" if not has_data else "Unknown"),
+            "ret_20d_pct": to_float(row.get("ret_20d_pct"), None),
+            "ret_5d_pct": to_float(row.get("ret_5d_pct"), None),
+            "ret_1d_pct": to_float(row.get("ret_1d_pct"), None),
+            "above_sma20": row.get("above_sma20"),
+            "points": points if has_data else no_data_flatline(),
+            "has_data": has_data,
+            "points_mode": row.get("points_mode") or ("actual_close_day0_100" if has_data else "no_data"),
+            "points_days": row.get("points_days") or 21,
         }
     return out
 
