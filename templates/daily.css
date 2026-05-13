@@ -75,38 +75,19 @@ body{
 @media(max-width:1120px){.hero{grid-template-columns:1fr}.intelligence-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.cards{grid-template-columns:1fr}.analysis-grid{grid-template-columns:1fr}.thesis-panel{flex-direction:column;align-items:flex-start}.hero-line-row{grid-template-columns:92px 1fr}}
 @media(max-width:700px){.wrap{padding:26px 14px 48px}.hero-terminal,.stock-card,.thesis-panel{border-radius:24px;padding:22px}.hero-title{font-size:clamp(40px,13vw,60px)}.intelligence-strip,.market-metrics{grid-template-columns:1fr}.card-head{flex-direction:column;align-items:flex-start}.score-module{width:100%;text-align:left}.identity-zone{align-items:flex-start}.rank-chip{min-width:60px;height:60px;border-radius:18px}.rank-chip strong{font-size:24px}.symbol{font-size:30px}.hero-line-row{grid-template-columns:1fr}.hero-line-svg{height:48px}.footer-note{flex-direction:column}}
 
-/* Market Pulse data integrity refinements */
 .hero-visual-head em{
   margin-left:auto;
-  color:rgba(185,202,225,.62);
+  font-size:11px;
   font-style:normal;
-  font-size:10px;
-  font-weight:850;
-  letter-spacing:.13em;
-  text-transform:uppercase;
-}
-.hero-line-sub{
-  margin-top:2px;
-  color:rgba(185,202,225,.48);
-  font-size:9px;
-  font-weight:900;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-}
-.hero-line-row.no-data .hero-line-change,
-.hero-line-row.no-data .hero-line-regime,
-.hero-line-row.no-data .hero-line-sub{
-  color:rgba(185,202,225,.44);
+  color:rgba(226,232,240,.52);
+  letter-spacing:.04em;
 }
 .hero-line-row.no-data .hero-line-core,
 .hero-line-row.no-data .hero-line-ghost,
-.hero-line-row.no-data .hero-line-lightning,
-.hero-line-row.no-data .hero-line-branch,
-.hero-line-row.no-data .hero-line-spark{
-  opacity:.22!important;
-  animation:none!important;
-  filter:none!important;
+.hero-line-row.no-data .hero-line-lightning{
+  opacity:.28;
+  filter:none;
 }
-.hero-line-row.no-data .hero-line-track{
-  opacity:.20;
+.hero-line-row.no-data .hero-line-change{
+  color:rgba(226,232,240,.45);
 }
