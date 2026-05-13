@@ -107,12 +107,31 @@ def main() -> None:
     if not isinstance(manifest, dict):
         manifest = {}
 
-    manifest["version"] = manifest.get("version", "daily_event_score")
+    manifest["version"] = manifest.get("version", "daily_event_score_v2")
     manifest["latest_date"] = latest_date
     manifest["updated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ")
     manifest["date_count"] = len(dates)
-    manifest["dates"] = dates
+    manifest["available_dates"] = dates
     manifest["latest_source"] = safe_relative(src)
+
+    # Do not overwrite manifest["dates"] with a list. build_daily_v2 expects
+    # date keyed records. Preserve/normalize that canonical dict here.
+    records = manifest.get("date_records")
+    if not isinstance(records, dict):
+        legacy_dates = manifest.get("dates")
+        if isinstance(legacy_dates, dict):
+            records = legacy_dates
+        else:
+            records = {}
+            if isinstance(legacy_dates, list):
+                for d in legacy_dates:
+                    ds = str(d)
+                    if len(ds) == 10:
+                        records.setdefault(ds, {"status": "unknown"})
+    for d in dates:
+        records.setdefault(d, {"status": "available"})
+    manifest["date_records"] = records
+    manifest["dates"] = records
 
     write_json(MANIFEST_JSON, manifest)
 
