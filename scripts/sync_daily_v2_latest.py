@@ -13,6 +13,14 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = Path(os.getenv("OUT_DIR", str(ROOT / "site")))
+
+# OUT_DIR can be relative in GitHub Actions, e.g. OUT_DIR=site.
+# Normalize it here to avoid Path.relative_to errors.
+if not OUT_DIR.is_absolute():
+    OUT_DIR = (ROOT / OUT_DIR).resolve()
+else:
+    OUT_DIR = OUT_DIR.resolve()
+
 DAILY_V2_DIR = OUT_DIR / "data" / "daily-v2"
 LATEST_JSON = DAILY_V2_DIR / "latest.json"
 MANIFEST_JSON = DAILY_V2_DIR / "manifest.json"
@@ -54,6 +62,17 @@ def is_yyyy_mm_dd(s: str) -> bool:
         return False
 
 
+def safe_relative(path: Path) -> str:
+    """
+    Return a stable repo-relative path when possible.
+    Never fail rendering because of relative/absolute path differences.
+    """
+    try:
+        return str(path.resolve().relative_to(ROOT.resolve()))
+    except Exception:
+        return str(path)
+
+
 def existing_daily_v2_dates() -> List[str]:
     if not DAILY_V2_DIR.exists():
         return []
@@ -76,11 +95,11 @@ def main() -> None:
     payload = read_json(src)
 
     if not isinstance(payload, dict):
-      raise SystemExit(f"Invalid latest source JSON: {src}")
+        raise SystemExit(f"Invalid latest source JSON: {src}")
 
     payload["date"] = payload.get("date") or latest_date
     payload["latest_synced_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ")
-    payload["latest_source"] = str(src.relative_to(ROOT))
+    payload["latest_source"] = safe_relative(src)
 
     write_json(LATEST_JSON, payload)
 
@@ -93,9 +112,13 @@ def main() -> None:
     manifest["updated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ")
     manifest["date_count"] = len(dates)
     manifest["dates"] = dates
+    manifest["latest_source"] = safe_relative(src)
 
     write_json(MANIFEST_JSON, manifest)
+
     log("INFO", f"Synced daily-v2 latest.json -> {latest_date}")
+    log("INFO", f"OUT_DIR={OUT_DIR}")
+    log("INFO", f"latest_source={safe_relative(src)}")
 
 
 if __name__ == "__main__":
