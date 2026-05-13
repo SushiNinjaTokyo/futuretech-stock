@@ -348,6 +348,144 @@
       "symbol": "VRT",
       "score_pts": 766,
       "triage": "Trade"
+    },
+    {
+      "signal_date": "2026-04-17",
+      "symbol": "ABCL",
+      "score_pts": 705,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-17",
+      "symbol": "TER",
+      "score_pts": 714,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-16",
+      "symbol": "VSAT",
+      "score_pts": 683,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-15",
+      "symbol": "ABCL",
+      "score_pts": 652,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-15",
+      "symbol": "AI",
+      "score_pts": 688,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-15",
+      "symbol": "VSAT",
+      "score_pts": 698,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-14",
+      "symbol": "OUST",
+      "score_pts": 676,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-14",
+      "symbol": "VRT",
+      "score_pts": 729,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-13",
+      "symbol": "OII",
+      "score_pts": 656,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-13",
+      "symbol": "FTI",
+      "score_pts": 728,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-13",
+      "symbol": "VRT",
+      "score_pts": 750,
+      "triage": "Trade"
+    },
+    {
+      "signal_date": "2026-04-10",
+      "symbol": "VRT",
+      "score_pts": 705,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-09",
+      "symbol": "NBIS",
+      "score_pts": 684,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-09",
+      "symbol": "TER",
+      "score_pts": 693,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-09",
+      "symbol": "VRT",
+      "score_pts": 695,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-09",
+      "symbol": "FTI",
+      "score_pts": 715,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-08",
+      "symbol": "VSAT",
+      "score_pts": 664,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-08",
+      "symbol": "TER",
+      "score_pts": 764,
+      "triage": "Trade"
+    },
+    {
+      "signal_date": "2026-04-07",
+      "symbol": "TER",
+      "score_pts": 695,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-07",
+      "symbol": "OII",
+      "score_pts": 730,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-07",
+      "symbol": "FTI",
+      "score_pts": 749,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-03",
+      "symbol": "VSAT",
+      "score_pts": 650,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-02",
+      "symbol": "VSAT",
+      "score_pts": 669,
+      "triage": "Watch"
     }
   ]
 }

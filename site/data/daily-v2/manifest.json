@@ -136,6 +136,110 @@
       "top10": 10,
       "trade": 0,
       "watch": 1
+    },
+    "2026-04-01": {
+      "status": "ok",
+      "generated_at": "2026-05-13 04:47:30Z",
+      "items": 25,
+      "top10": 10,
+      "trade": 0,
+      "watch": 0
+    },
+    "2026-04-02": {
+      "status": "ok",
+      "generated_at": "2026-05-13 04:48:19Z",
+      "items": 25,
+      "top10": 10,
+      "trade": 0,
+      "watch": 1
+    },
+    "2026-04-03": {
+      "status": "ok",
+      "generated_at": "2026-05-13 04:49:08Z",
+      "items": 25,
+      "top10": 10,
+      "trade": 0,
+      "watch": 1
+    },
+    "2026-04-06": {
+      "status": "ok",
+      "generated_at": "2026-05-13 04:49:58Z",
+      "items": 25,
+      "top10": 10,
+      "trade": 0,
+      "watch": 0
+    },
+    "2026-04-07": {
+      "status": "ok",
+      "generated_at": "2026-05-13 04:50:47Z",
+      "items": 25,
+      "top10": 10,
+      "trade": 0,
+      "watch": 3
+    },
+    "2026-04-08": {
+      "status": "ok",
+      "generated_at": "2026-05-13 04:51:36Z",
+      "items": 25,
+      "top10": 10,
+      "trade": 1,
+      "watch": 1
+    },
+    "2026-04-09": {
+      "status": "ok",
+      "generated_at": "2026-05-13 04:52:24Z",
+      "items": 25,
+      "top10": 10,
+      "trade": 0,
+      "watch": 4
+    },
+    "2026-04-10": {
+      "status": "ok",
+      "generated_at": "2026-05-13 04:53:14Z",
+      "items": 25,
+      "top10": 10,
+      "trade": 0,
+      "watch": 1
+    },
+    "2026-04-13": {
+      "status": "ok",
+      "generated_at": "2026-05-13 04:54:04Z",
+      "items": 25,
+      "top10": 10,
+      "trade": 1,
+      "watch": 2
+    },
+    "2026-04-14": {
+      "status": "ok",
+      "generated_at": "2026-05-13 04:54:53Z",
+      "items": 25,
+      "top10": 10,
+      "trade": 0,
+      "watch": 2
+    },
+    "2026-04-15": {
+      "status": "ok",
+      "generated_at": "2026-05-13 04:55:41Z",
+      "items": 25,
+      "top10": 10,
+      "trade": 0,
+      "watch": 3
+    },
+    "2026-04-16": {
+      "status": "ok",
+      "generated_at": "2026-05-13 04:56:31Z",
+      "items": 25,
+      "top10": 10,
+      "trade": 0,
+      "watch": 1
+    },
+    "2026-04-17": {
+      "status": "ok",
+      "generated_at": "2026-05-13 04:57:19Z",
+      "items": 25,
+      "top10": 10,
+      "trade": 0,
+      "watch": 2
     }
   }
 }
