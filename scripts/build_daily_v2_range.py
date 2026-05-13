@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 import os
-import shutil
 import subprocess
 import sys
 import time
@@ -15,7 +14,12 @@ from typing import Any, Dict, List, Optional
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
+
 OUT_DIR = Path(os.getenv("OUT_DIR", str(ROOT / "site")))
+if not OUT_DIR.is_absolute():
+    OUT_DIR = (ROOT / OUT_DIR).resolve()
+else:
+    OUT_DIR = OUT_DIR.resolve()
 
 START_DATE = os.getenv("DAILY_V2_START_DATE", os.getenv("START_DATE", "")).strip()
 END_DATE = os.getenv("DAILY_V2_END_DATE", os.getenv("END_DATE", "")).strip()
@@ -44,6 +48,13 @@ def warn(msg: str) -> None:
 
 def ensure_dir(path: Path) -> None:
     path.mkdir(parents=True, exist_ok=True)
+
+
+def safe_relative(path: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(ROOT.resolve()))
+    except Exception:
+        return str(path)
 
 
 def read_json(path: Path) -> Optional[Any]:
@@ -100,9 +111,62 @@ def existing_daily_v2_dates() -> List[str]:
     return sorted(dates)
 
 
+def normalize_manifest(manifest: Any) -> Dict[str, Any]:
+    if not isinstance(manifest, dict):
+        manifest = {}
+
+    raw_dates = manifest.get("dates")
+    date_records = manifest.get("date_records")
+
+    normalized_dates: Dict[str, Any] = {}
+
+    if isinstance(raw_dates, dict):
+        normalized_dates.update(raw_dates)
+    elif isinstance(raw_dates, list):
+        for d in raw_dates:
+            if isinstance(d, str) and is_yyyy_mm_dd(d):
+                normalized_dates[d] = {"status": "ok"}
+
+    if isinstance(date_records, dict):
+        for d, rec in date_records.items():
+            if isinstance(d, str) and is_yyyy_mm_dd(d):
+                normalized_dates[d] = rec if isinstance(rec, dict) else {"status": "ok"}
+
+    manifest["dates"] = normalized_dates
+    manifest["date_records"] = normalized_dates
+
+    return manifest
+
+
+def update_manifest(latest_date: str, available_dates: List[str]) -> None:
+    manifest = normalize_manifest(read_json(MANIFEST_JSON))
+
+    manifest["version"] = manifest.get("version", "daily_event_score")
+    manifest["latest_date"] = latest_date
+    manifest["updated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ")
+    manifest["available_dates"] = available_dates
+    manifest["date_count"] = len(available_dates)
+
+    records = manifest.setdefault("date_records", {})
+    dates_dict = manifest.setdefault("dates", {})
+
+    for d in available_dates:
+        records.setdefault(d, {"status": "ok"})
+        dates_dict.setdefault(d, {"status": "ok"})
+
+    if latest_date in records:
+        records[latest_date]["status"] = "ok"
+        records[latest_date]["latest"] = True
+
+    if latest_date in dates_dict:
+        dates_dict[latest_date]["status"] = "ok"
+        dates_dict[latest_date]["latest"] = True
+
+    write_json(MANIFEST_JSON, manifest)
+
+
 def sync_latest_to_max_existing_date() -> Optional[str]:
     """
-    Critical behavior:
     API safety cap limits only newly built dates.
     /daily/ must always point to the max existing daily-v2 date,
     not the max date processed in this run.
@@ -122,27 +186,14 @@ def sync_latest_to_max_existing_date() -> Optional[str]:
 
     payload["date"] = payload.get("date") or latest_date
     payload["latest_synced_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ")
-    payload["latest_source"] = str(src.relative_to(ROOT))
+    payload["latest_source"] = safe_relative(src)
 
     write_json(LATEST_JSON, payload)
-    log(f"Synced daily-v2 latest.json -> {latest_date}")
-
     update_manifest(latest_date, dates)
+
+    log(f"Synced daily-v2 latest.json -> {latest_date}")
+    log(f"latest_source={safe_relative(src)}")
     return latest_date
-
-
-def update_manifest(latest_date: str, dates: List[str]) -> None:
-    manifest = read_json(MANIFEST_JSON)
-    if not isinstance(manifest, dict):
-        manifest = {}
-
-    manifest.setdefault("version", "daily_event_score")
-    manifest["latest_date"] = latest_date
-    manifest["updated_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%SZ")
-    manifest["date_count"] = len(dates)
-    manifest["dates"] = dates
-
-    write_json(MANIFEST_JSON, manifest)
 
 
 def run_script(script: str, env: Optional[Dict[str, str]] = None) -> None:
@@ -155,10 +206,6 @@ def run_script(script: str, env: Optional[Dict[str, str]] = None) -> None:
 
 
 def render_daily_and_index() -> None:
-    """
-    Render /daily/ and / after latest.json has been synchronized.
-    This prevents stale top-page links such as /daily/YYYY-MM-DD.html.
-    """
     log("Render /daily/ from daily-v2 latest.json")
     run_script("scripts/render_daily_v2.py")
 
