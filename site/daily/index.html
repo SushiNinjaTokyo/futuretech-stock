@@ -4,277 +4,1578 @@
   <meta charset="utf-8"/>
   <title>FutureTech Stock — Daily Signals</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <link rel="stylesheet" href="/assets/daily.css">
+  <link rel="stylesheet" href="/assets/daily.css?v=market-pulse-cockpit-20260513-1">
 </head>
+
 <body>
-<div class="page">
-  <div class="ambient a"></div><div class="ambient b"></div><div class="grid"></div>
+<div class="page-shell">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <div class="grid-overlay"></div>
+
   <main class="wrap">
 
-    <header class="hero">
-      <div>
-        <a class="back" href="/">← Home</a>
-        <div class="kicker">Daily Event Signal Lab</div>
-        <h1>Top 10 Movers</h1>
-        <p>Breakout timing candidates ranked by volume shock, compression release, setup quality, relative strength, and entry-risk controls.</p>
-        <div class="chips">
-          <span>Market date 2026-05-12</span>
-          <span>Trade 0</span>
-          <span>Watch 1</span>
-          <span>Scored 47</span>
+
+
+
+
+
+
+
+    <header class="hero hero-terminal">
+      <div class="hero-noise"></div>
+      <div class="hero-scan"></div>
+
+      <section class="hero-copy">
+        <a class="back-link" href="/">← Home</a>
+        <div class="hero-kicker">MARKET SIGNALS</div>
+        <h1 class="hero-title">
+          <span class="glitch-title" data-text="Top 10 Movers">Top 10 Movers</span>
+        </h1>
+        <p class="hero-sub">
+          Timing candidates ranked by volume shock, compression release, setup quality, relative strength, and entry-risk discipline.
+        </p>
+
+        <div class="hero-meta-inline">
+          <span class="hero-date-label">Market date</span>
+          <span class="hero-date-value">2026-04-30</span>
         </div>
-      </div>
-      <aside class="market-card">
-        <div class="card-label">Market Regime</div>
-        <div class="market-grid">
-          <div><span>SPY</span><strong>Risk-on</strong><small>+1.99% 5D</small></div>
-          <div><span>QQQ</span><strong>Risk-on</strong><small>+3.76% 5D</small></div>
+
+        <div class="hero-chips">
+          <span class="trade">Trade 1</span>
+          <span class="watch">Watch 4</span>
+          <span>Scored 47</span>
+          <span>Avg Score 584.8</span>
+        </div>
+      </section>
+
+      <aside class="hero-visual">
+        <div class="hero-visual-head">
+          <div class="pulse-dot"></div>
+          <span>Market Pulse</span>
+        </div>
+
+        <div class="pulse-console">
+          <div class="console-grid-lines"></div>
+          <div class="hero-lines">
+              <div class="hero-line-row" data-line-key="sp500">
+                <div class="hero-line-meta">
+                  <div class="hero-line-label">S&P 500</div>
+                  <div class="hero-line-change up">
+                    +9.68%
+
+                  </div>
+                  <div class="hero-line-regime">Risk-on</div>
+                </div>
+
+                <div class="hero-line-canvas-wrap">
+                  <svg class="hero-line-svg sp500" viewBox="0 0 520 120" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="hero-grad-sp500" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
+                        <stop offset="12%" stop-color="var(--hero-line-mid)"/>
+                        <stop offset="46%" stop-color="var(--hero-line-core-color)"/>
+                        <stop offset="78%" stop-color="var(--hero-line-end)"/>
+                        <stop offset="100%" stop-color="rgba(255,255,255,.96)"/>
+                      </linearGradient>
+                      <filter id="hero-glow-sp500" x="-80%" y="-220%" width="260%" height="520%">
+                        <feGaussianBlur stdDeviation="8" result="blur1"/>
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur2"/>
+                        <feMerge>
+                          <feMergeNode in="blur2"/>
+                          <feMergeNode in="blur1"/>
+                          <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                      </filter>
+                    </defs>
+
+                    <path class="hero-line-track" d="" />
+                    <path class="hero-line-ghost" d="" />
+                    <path class="hero-line-core" d="" />
+                    <path class="hero-line-lightning" d="" />
+                    <path class="hero-line-branch branch-a" d="" />
+                    <path class="hero-line-branch branch-b" d="" />
+                    <circle class="hero-line-spark" cx="0" cy="0" r="3.2" />
+                  </svg>
+                </div>
+              </div>
+              <div class="hero-line-row" data-line-key="nasdaq">
+                <div class="hero-line-meta">
+                  <div class="hero-line-label">NASDAQ</div>
+                  <div class="hero-line-change up">
+                    +14.28%
+
+                  </div>
+                  <div class="hero-line-regime">Risk-on</div>
+                </div>
+
+                <div class="hero-line-canvas-wrap">
+                  <svg class="hero-line-svg nasdaq" viewBox="0 0 520 120" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="hero-grad-nasdaq" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
+                        <stop offset="12%" stop-color="var(--hero-line-mid)"/>
+                        <stop offset="46%" stop-color="var(--hero-line-core-color)"/>
+                        <stop offset="78%" stop-color="var(--hero-line-end)"/>
+                        <stop offset="100%" stop-color="rgba(255,255,255,.96)"/>
+                      </linearGradient>
+                      <filter id="hero-glow-nasdaq" x="-80%" y="-220%" width="260%" height="520%">
+                        <feGaussianBlur stdDeviation="8" result="blur1"/>
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur2"/>
+                        <feMerge>
+                          <feMergeNode in="blur2"/>
+                          <feMergeNode in="blur1"/>
+                          <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                      </filter>
+                    </defs>
+
+                    <path class="hero-line-track" d="" />
+                    <path class="hero-line-ghost" d="" />
+                    <path class="hero-line-core" d="" />
+                    <path class="hero-line-lightning" d="" />
+                    <path class="hero-line-branch branch-a" d="" />
+                    <path class="hero-line-branch branch-b" d="" />
+                    <circle class="hero-line-spark" cx="0" cy="0" r="3.2" />
+                  </svg>
+                </div>
+              </div>
+              <div class="hero-line-row" data-line-key="russell">
+                <div class="hero-line-meta">
+                  <div class="hero-line-label">Russell</div>
+                  <div class="hero-line-change flat">
+                    0.0%
+
+                  </div>
+                  <div class="hero-line-regime">—</div>
+                </div>
+
+                <div class="hero-line-canvas-wrap">
+                  <svg class="hero-line-svg russell" viewBox="0 0 520 120" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="hero-grad-russell" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="rgba(255,255,255,0)"/>
+                        <stop offset="12%" stop-color="var(--hero-line-mid)"/>
+                        <stop offset="46%" stop-color="var(--hero-line-core-color)"/>
+                        <stop offset="78%" stop-color="var(--hero-line-end)"/>
+                        <stop offset="100%" stop-color="rgba(255,255,255,.96)"/>
+                      </linearGradient>
+                      <filter id="hero-glow-russell" x="-80%" y="-220%" width="260%" height="520%">
+                        <feGaussianBlur stdDeviation="8" result="blur1"/>
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur2"/>
+                        <feMerge>
+                          <feMergeNode in="blur2"/>
+                          <feMergeNode in="blur1"/>
+                          <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                      </filter>
+                    </defs>
+
+                    <path class="hero-line-track" d="" />
+                    <path class="hero-line-ghost" d="" />
+                    <path class="hero-line-core" d="" />
+                    <path class="hero-line-lightning" d="" />
+                    <path class="hero-line-branch branch-a" d="" />
+                    <path class="hero-line-branch branch-b" d="" />
+                    <circle class="hero-line-spark" cx="0" cy="0" r="3.2" />
+                  </svg>
+                </div>
+              </div>
+          </div>
         </div>
       </aside>
+
+      <script type="application/json" id="hero-index-data">{"nasdaq": {"change_1m": 14.28, "label": "NASDAQ", "points": [48.224, 47.648, 47.095, 47.919, 48.755, 47.787, 45.76, 45.303, 47.457, 50.414, 52.252, 53.673, 56.779, 61.721, 66.354, 68.509, 69.25, 70.776], "regime": "Risk-on", "ret_1d_pct": 0.93, "ret_5d_pct": 2.51, "symbol": "QQQ"}, "russell": {"change_1m": 0.0, "label": "Russell", "points": [54.348, 51.629, 50.4, 49.735, 47.711, 44.65, 43.06, 44.295, 46.734, 48.112, 48.609, 50.25, 53.534, 56.261, 56.327, 54.492, 53.14, 52.864], "regime": "\u2014", "ret_1d_pct": null, "ret_5d_pct": 0.0, "symbol": "IWM"}, "sp500": {"change_1m": 9.68, "label": "S\u0026P 500", "points": [46.323, 48.209, 48.176, 48.493, 50.047, 51.094, 49.974, 47.816, 47.246, 48.933, 50.916, 51.663, 52.368, 55.176, 60.152, 64.418, 66.457, 67.633], "regime": "Risk-on", "ret_1d_pct": 0.99, "ret_5d_pct": 1.44, "symbol": "SPY"}}</script>
     </header>
 
-    <section class="kpis">
-      <article><span>Trade</span><strong>0</strong><small>high-quality timing</small></article>
-      <article><span>Watch</span><strong>1</strong><small>needs confirmation</small></article>
-      <article><span>Ignore</span><strong>46</strong><small>penalized / weak timing</small></article>
-      <article><span>Scored Universe</span><strong>47</strong><small>failed 0</small></article>
+    <section class="intelligence-strip">
+      <article class="intel-card trade">
+        <span>Trade candidates</span>
+        <strong>1</strong>
+        <small>clean timing, structure, and liquidity</small>
+      </article>
+      <article class="intel-card watch">
+        <span>Watch list</span>
+        <strong>4</strong>
+        <small>needs confirmation or better entry</small>
+      </article>
+      <article class="intel-card">
+        <span>Compression quality</span>
+        <strong>50.8%</strong>
+        <small>average setup pressure</small>
+      </article>
+      <article class="intel-card">
+        <span>Timing quality</span>
+        <strong>86.1%</strong>
+        <small>risk-adjusted entry discipline</small>
+      </article>
+    </section>
+
+    <section class="thesis-panel">
+      <div>
+        <div class="section-kicker">Signal Philosophy</div>
+        <h2>Find the moment, not just the story.</h2>
+      </div>
+      <p>
+        This view penalizes mature, extended, weak-closing, and news-only moves. The strongest candidates combine volume shock, compression release, breakout structure, relative strength, and controlled entry risk.
+      </p>
     </section>
 
     <section class="cards">
-      <article class="signal-card watch">
-        <div class="rank">#1</div>
-        <div class="signal-head">
-          <div><h2>PRCT</h2><p>PROCEPT BioRobotics Corporation</p></div>
-          <div class="score watch">668</div>
+
+      <article class="stock-card trade rank-1" data-symbol="VSAT">
+        <div class="card-topline"></div>
+        <div class="rank-watermark">#1</div>
+
+        <div class="card-head">
+          <div class="identity-zone">
+            <div class="rank-chip top3">
+              <span>Rank</span>
+              <strong>1</strong>
+            </div>
+            <div class="identity-copy">
+              <div class="symbol-row">
+                <span class="symbol">VSAT</span>
+                <span class="company">Viasat, Inc.</span>
+              </div>
+              <div class="microline">Volume + Compression + Breakout · Risk-on</div>
+            </div>
+          </div>
+
+          <div class="score-module strong">
+            <span>Timing Score</span>
+            <strong>797</strong>
+            <small>Trade</small>
+          </div>
         </div>
-        <div class="badges"><span>Watch</span><span>Volume + Breakout</span><span>Risk-on</span></div>
-        <p class="reason">RVOL 2.00x; breakout setup</p>
-        <div class="metric-row">
-          <div><span>Price</span><strong>$29</strong></div>
-          <div><span>RVOL</span><strong>2.0x</strong></div>
-          <div><span>5D</span><strong class="up">+13.94%</strong></div>
-          <div><span>RS 20D</span><strong class="up">+4.16%</strong></div>
+
+        <div class="triage-row">
+          <span class="triage-pill trade">Trade</span>
+          <span>Volume + Compression + Breakout</span>
         </div>
-        <div class="component-grid">
-                <div class="comp"><span>Volume</span><b>79%</b><i><em style="width:79.291%"></em></i></div>
-                <div class="comp"><span>Compression</span><b>44%</b><i><em style="width:44.4444%"></em></i></div>
-                <div class="comp"><span>Setup</span><b>90%</b><i><em style="width:89.82%"></em></i></div>
-                <div class="comp"><span>RS</span><b>58%</b><i><em style="width:57.9293%"></em></i></div>
-                <div class="comp"><span>Timing</span><b>72%</b><i><em style="width:71.878%"></em></i></div>
-                <div class="comp"><span>Penalty</span><b>0%</b><i><em style="width:0%"></em></i></div>
+
+        <p class="reason-text">RVOL 1.62x; compression release; breakout setup; relative strength</p>
+
+        <div class="market-metrics">
+          <div class="metric-tile ">
+        <span>Price</span>
+        <strong>$66</strong>
+      </div>
+          <div class="metric-tile ">
+        <span>RVOL</span>
+        <strong>1.62x</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>5D</span>
+        <strong>+5.32%
+</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>RS vs QQQ</span>
+        <strong>+31.44%
+</strong>
+      </div>
         </div>
-      </article>
-      <article class="signal-card ignore">
-        <div class="rank">#2</div>
-        <div class="signal-head">
-          <div><h2>PDYN</h2><p>Palladyne AI Corp.</p></div>
-          <div class="score ignore">619</div>
+
+        <div class="analysis-grid">
+          <div class="component-panel">
+            <div class="panel-label">Component Stack</div>
+                  <div class="component volume">
+        <div class="component-head">
+          <span>Volume</span>
+          <b>77.0%</b>
         </div>
-        <div class="badges"><span>Ignore</span><span>Volume + Compression</span><span>Risk-on</span></div>
-        <p class="reason">RVOL 1.21x; compression release</p>
-        <div class="metric-row">
-          <div><span>Price</span><strong>$7</strong></div>
-          <div><span>RVOL</span><strong>1.21x</strong></div>
-          <div><span>5D</span><strong class="up">+9.28%</strong></div>
-          <div><span>RS 20D</span><strong class="down">-6.34%</strong></div>
+        <div class="component-track"><i style="width:76.9702%"></i></div>
+      </div>
+                  <div class="component compression">
+        <div class="component-head">
+          <span>Compression</span>
+          <b>75.0%</b>
         </div>
-        <div class="component-grid">
-                <div class="comp"><span>Volume</span><b>67%</b><i><em style="width:66.6014%"></em></i></div>
-                <div class="comp"><span>Compression</span><b>75%</b><i><em style="width:74.8413%"></em></i></div>
-                <div class="comp"><span>Setup</span><b>51%</b><i><em style="width:50.7609%"></em></i></div>
-                <div class="comp"><span>RS</span><b>27%</b><i><em style="width:27.0953%"></em></i></div>
-                <div class="comp"><span>Timing</span><b>86%</b><i><em style="width:85.8113%"></em></i></div>
-                <div class="comp"><span>Penalty</span><b>0%</b><i><em style="width:0%"></em></i></div>
+        <div class="component-track"><i style="width:75.0397%"></i></div>
+      </div>
+                  <div class="component setup">
+        <div class="component-head">
+          <span>Setup</span>
+          <b>92.0%</b>
         </div>
-      </article>
-      <article class="signal-card ignore">
-        <div class="rank">#3</div>
-        <div class="signal-head">
-          <div><h2>VRT</h2><p>Vertiv Holdings Co</p></div>
-          <div class="score ignore">598</div>
+        <div class="component-track"><i style="width:92.1598%"></i></div>
+      </div>
+                  <div class="component rs">
+        <div class="component-head">
+          <span>Relative Strength</span>
+          <b>86.0%</b>
         </div>
-        <div class="badges"><span>Ignore</span><span>Catalyst</span><span>Risk-on</span></div>
-        <p class="reason">relative strength</p>
-        <div class="metric-row">
-          <div><span>Price</span><strong>$367</strong></div>
-          <div><span>RVOL</span><strong>1.1x</strong></div>
-          <div><span>5D</span><strong class="up">+7.66%</strong></div>
-          <div><span>RS 20D</span><strong class="up">+5.72%</strong></div>
+        <div class="component-track"><i style="width:85.6318%"></i></div>
+      </div>
+                  <div class="component timing">
+        <div class="component-head">
+          <span>Entry Timing</span>
+          <b>79.0%</b>
         </div>
-        <div class="component-grid">
-                <div class="comp"><span>Volume</span><b>49%</b><i><em style="width:49.0659%"></em></i></div>
-                <div class="comp"><span>Compression</span><b>53%</b><i><em style="width:53.278400000000005%"></em></i></div>
-                <div class="comp"><span>Setup</span><b>54%</b><i><em style="width:54.080099999999995%"></em></i></div>
-                <div class="comp"><span>RS</span><b>69%</b><i><em style="width:68.974%"></em></i></div>
-                <div class="comp"><span>Timing</span><b>76%</b><i><em style="width:75.7248%"></em></i></div>
-                <div class="comp"><span>Penalty</span><b>0%</b><i><em style="width:0%"></em></i></div>
+        <div class="component-track"><i style="width:78.5059%"></i></div>
+      </div>
+                  <div class="component penalty">
+        <div class="component-head">
+          <span>Penalty Drag</span>
+          <b>0%</b>
         </div>
-      </article>
-      <article class="signal-card ignore">
-        <div class="rank">#4</div>
-        <div class="signal-head">
-          <div><h2>VSAT</h2><p>Viasat, Inc.</p></div>
-          <div class="score ignore">591</div>
-        </div>
-        <div class="badges"><span>Ignore</span><span>Mixed</span><span>Risk-on</span></div>
-        <p class="reason">relative strength</p>
-        <div class="metric-row">
-          <div><span>Price</span><strong>$71</strong></div>
-          <div><span>RVOL</span><strong>0.92x</strong></div>
-          <div><span>5D</span><strong class="up">+8.27%</strong></div>
-          <div><span>RS 20D</span><strong class="up">+12.08%</strong></div>
-        </div>
-        <div class="component-grid">
-                <div class="comp"><span>Volume</span><b>42%</b><i><em style="width:42.1657%"></em></i></div>
-                <div class="comp"><span>Compression</span><b>51%</b><i><em style="width:51.2454%"></em></i></div>
-                <div class="comp"><span>Setup</span><b>58%</b><i><em style="width:58.1022%"></em></i></div>
-                <div class="comp"><span>RS</span><b>81%</b><i><em style="width:81.3861%"></em></i></div>
-                <div class="comp"><span>Timing</span><b>77%</b><i><em style="width:77.1238%"></em></i></div>
-                <div class="comp"><span>Penalty</span><b>0%</b><i><em style="width:0%"></em></i></div>
-        </div>
-      </article>
-      <article class="signal-card ignore">
-        <div class="rank">#5</div>
-        <div class="signal-head">
-          <div><h2>OUST</h2><p>Ouster Inc.</p></div>
-          <div class="score ignore">569</div>
-        </div>
-        <div class="badges"><span>Ignore</span><span>Volume</span><span>Risk-on</span></div>
-        <p class="reason">RVOL 1.42x</p>
-        <div class="metric-row">
-          <div><span>Price</span><strong>$27</strong></div>
-          <div><span>RVOL</span><strong>1.42x</strong></div>
-          <div><span>5D</span><strong class="down">-5.24%</strong></div>
-          <div><span>RS 20D</span><strong class="up">+3.20%</strong></div>
-        </div>
-        <div class="component-grid">
-                <div class="comp"><span>Volume</span><b>66%</b><i><em style="width:65.63210000000001%"></em></i></div>
-                <div class="comp"><span>Compression</span><b>47%</b><i><em style="width:47.3626%"></em></i></div>
-                <div class="comp"><span>Setup</span><b>48%</b><i><em style="width:47.776999999999994%"></em></i></div>
-                <div class="comp"><span>RS</span><b>44%</b><i><em style="width:44.3695%"></em></i></div>
-                <div class="comp"><span>Timing</span><b>81%</b><i><em style="width:81.4309%"></em></i></div>
-                <div class="comp"><span>Penalty</span><b>0%</b><i><em style="width:0%"></em></i></div>
-        </div>
-      </article>
-      <article class="signal-card ignore">
-        <div class="rank">#6</div>
-        <div class="signal-head">
-          <div><h2>IRDM</h2><p>Iridium Communications Inc.</p></div>
-          <div class="score ignore">558</div>
-        </div>
-        <div class="badges"><span>Ignore</span><span>Compression</span><span>Risk-on</span></div>
-        <p class="reason">compression release</p>
-        <div class="metric-row">
-          <div><span>Price</span><strong>$42</strong></div>
-          <div><span>RVOL</span><strong>0.65x</strong></div>
-          <div><span>5D</span><strong class="up">+6.19%</strong></div>
-          <div><span>RS 20D</span><strong class="up">+2.83%</strong></div>
-        </div>
-        <div class="component-grid">
-                <div class="comp"><span>Volume</span><b>36%</b><i><em style="width:36.1041%"></em></i></div>
-                <div class="comp"><span>Compression</span><b>58%</b><i><em style="width:58.162400000000005%"></em></i></div>
-                <div class="comp"><span>Setup</span><b>50%</b><i><em style="width:50.257600000000004%"></em></i></div>
-                <div class="comp"><span>RS</span><b>60%</b><i><em style="width:60.0147%"></em></i></div>
-                <div class="comp"><span>Timing</span><b>82%</b><i><em style="width:81.5928%"></em></i></div>
-                <div class="comp"><span>Penalty</span><b>0%</b><i><em style="width:0%"></em></i></div>
+        <div class="component-track"><i style="width:0%"></i></div>
+      </div>
+          </div>
+
+          <div class="decision-panel">
+            <div class="panel-label">Execution Read</div>
+            <div class="decision-row">
+              <span>Extension</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Close Quality</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Range Risk</span>
+              <strong>+4.96%
+</strong>
+            </div>
+            <div class="decision-row">
+              <span>Penalty</span>
+              <strong>0.0%</strong>
+            </div>
+          </div>
         </div>
       </article>
-      <article class="signal-card ignore">
-        <div class="rank">#7</div>
-        <div class="signal-head">
-          <div><h2>OII</h2><p>Oceaneering International Inc.</p></div>
-          <div class="score ignore">544</div>
+
+      <article class="stock-card watch rank-2" data-symbol="VRT">
+        <div class="card-topline"></div>
+        <div class="rank-watermark">#2</div>
+
+        <div class="card-head">
+          <div class="identity-zone">
+            <div class="rank-chip top3">
+              <span>Rank</span>
+              <strong>2</strong>
+            </div>
+            <div class="identity-copy">
+              <div class="symbol-row">
+                <span class="symbol">VRT</span>
+                <span class="company">Vertiv Holdings Co</span>
+              </div>
+              <div class="microline">Volume + Compression + Catalyst · Risk-on</div>
+            </div>
+          </div>
+
+          <div class="score-module weak">
+            <span>Timing Score</span>
+            <strong>698</strong>
+            <small>Watch</small>
+          </div>
         </div>
-        <div class="badges"><span>Ignore</span><span>Compression</span><span>Risk-on</span></div>
-        <p class="reason">compression release</p>
-        <div class="metric-row">
-          <div><span>Price</span><strong>$38</strong></div>
-          <div><span>RVOL</span><strong>0.74x</strong></div>
-          <div><span>5D</span><strong class="up">+1.09%</strong></div>
-          <div><span>RS 20D</span><strong class="down">-6.55%</strong></div>
+
+        <div class="triage-row">
+          <span class="triage-pill watch">Watch</span>
+          <span>Volume + Compression + Catalyst</span>
         </div>
-        <div class="component-grid">
-                <div class="comp"><span>Volume</span><b>51%</b><i><em style="width:51.188900000000004%"></em></i></div>
-                <div class="comp"><span>Compression</span><b>73%</b><i><em style="width:73.3944%"></em></i></div>
-                <div class="comp"><span>Setup</span><b>49%</b><i><em style="width:49.3056%"></em></i></div>
-                <div class="comp"><span>RS</span><b>14%</b><i><em style="width:13.9304%"></em></i></div>
-                <div class="comp"><span>Timing</span><b>77%</b><i><em style="width:76.6188%"></em></i></div>
-                <div class="comp"><span>Penalty</span><b>0%</b><i><em style="width:0%"></em></i></div>
+
+        <p class="reason-text">RVOL 1.14x; compression release; relative strength</p>
+
+        <div class="market-metrics">
+          <div class="metric-tile ">
+        <span>Price</span>
+        <strong>$328</strong>
+      </div>
+          <div class="metric-tile ">
+        <span>RVOL</span>
+        <strong>1.14x</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>5D</span>
+        <strong>+2.09%
+</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>RS vs QQQ</span>
+        <strong>+12.37%
+</strong>
+      </div>
+        </div>
+
+        <div class="analysis-grid">
+          <div class="component-panel">
+            <div class="panel-label">Component Stack</div>
+                  <div class="component volume">
+        <div class="component-head">
+          <span>Volume</span>
+          <b>71.0%</b>
+        </div>
+        <div class="component-track"><i style="width:71.052%"></i></div>
+      </div>
+                  <div class="component compression">
+        <div class="component-head">
+          <span>Compression</span>
+          <b>61.0%</b>
+        </div>
+        <div class="component-track"><i style="width:61.30949999999999%"></i></div>
+      </div>
+                  <div class="component setup">
+        <div class="component-head">
+          <span>Setup</span>
+          <b>58.0%</b>
+        </div>
+        <div class="component-track"><i style="width:57.5496%"></i></div>
+      </div>
+                  <div class="component rs">
+        <div class="component-head">
+          <span>Relative Strength</span>
+          <b>73.0%</b>
+        </div>
+        <div class="component-track"><i style="width:73.1303%"></i></div>
+      </div>
+                  <div class="component timing">
+        <div class="component-head">
+          <span>Entry Timing</span>
+          <b>86.0%</b>
+        </div>
+        <div class="component-track"><i style="width:85.7838%"></i></div>
+      </div>
+                  <div class="component penalty">
+        <div class="component-head">
+          <span>Penalty Drag</span>
+          <b>0%</b>
+        </div>
+        <div class="component-track"><i style="width:0%"></i></div>
+      </div>
+          </div>
+
+          <div class="decision-panel">
+            <div class="panel-label">Execution Read</div>
+            <div class="decision-row">
+              <span>Extension</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Close Quality</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Range Risk</span>
+              <strong>+4.7%
+</strong>
+            </div>
+            <div class="decision-row">
+              <span>Penalty</span>
+              <strong>0.0%</strong>
+            </div>
+          </div>
         </div>
       </article>
-      <article class="signal-card ignore">
-        <div class="rank">#8</div>
-        <div class="signal-head">
-          <div><h2>ALAB</h2><p>Astera Labs Inc.</p></div>
-          <div class="score ignore">541</div>
+
+      <article class="stock-card watch rank-3" data-symbol="U">
+        <div class="card-topline"></div>
+        <div class="rank-watermark">#3</div>
+
+        <div class="card-head">
+          <div class="identity-zone">
+            <div class="rank-chip top3">
+              <span>Rank</span>
+              <strong>3</strong>
+            </div>
+            <div class="identity-copy">
+              <div class="symbol-row">
+                <span class="symbol">U</span>
+                <span class="company">Unity Software Inc.</span>
+              </div>
+              <div class="microline">Volume + Compression + Catalyst · Risk-on</div>
+            </div>
+          </div>
+
+          <div class="score-module weak">
+            <span>Timing Score</span>
+            <strong>680</strong>
+            <small>Watch</small>
+          </div>
         </div>
-        <div class="badges"><span>Ignore</span><span>Catalyst</span><span>Risk-on</span></div>
-        <p class="reason">mixed signal</p>
-        <div class="metric-row">
-          <div><span>Price</span><strong>$204</strong></div>
-          <div><span>RVOL</span><strong>0.87x</strong></div>
-          <div><span>5D</span><strong class="down">-5.23%</strong></div>
-          <div><span>RS 20D</span><strong class="up">+7.31%</strong></div>
+
+        <div class="triage-row">
+          <span class="triage-pill watch">Watch</span>
+          <span>Volume + Compression + Catalyst</span>
         </div>
-        <div class="component-grid">
-                <div class="comp"><span>Volume</span><b>38%</b><i><em style="width:38.2933%"></em></i></div>
-                <div class="comp"><span>Compression</span><b>48%</b><i><em style="width:47.9426%"></em></i></div>
-                <div class="comp"><span>Setup</span><b>49%</b><i><em style="width:49.2042%"></em></i></div>
-                <div class="comp"><span>RS</span><b>54%</b><i><em style="width:54.4933%"></em></i></div>
-                <div class="comp"><span>Timing</span><b>80%</b><i><em style="width:79.5488%"></em></i></div>
-                <div class="comp"><span>Penalty</span><b>0%</b><i><em style="width:0%"></em></i></div>
+
+        <p class="reason-text">RVOL 0.68x; compression release</p>
+
+        <div class="market-metrics">
+          <div class="metric-tile ">
+        <span>Price</span>
+        <strong>$26</strong>
+      </div>
+          <div class="metric-tile ">
+        <span>RVOL</span>
+        <strong>0.68x</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>5D</span>
+        <strong>+8.68%
+</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>RS vs QQQ</span>
+        <strong>+6.03%
+</strong>
+      </div>
+        </div>
+
+        <div class="analysis-grid">
+          <div class="component-panel">
+            <div class="panel-label">Component Stack</div>
+                  <div class="component volume">
+        <div class="component-head">
+          <span>Volume</span>
+          <b>66.0%</b>
+        </div>
+        <div class="component-track"><i style="width:65.5915%"></i></div>
+      </div>
+                  <div class="component compression">
+        <div class="component-head">
+          <span>Compression</span>
+          <b>65.0%</b>
+        </div>
+        <div class="component-track"><i style="width:64.9206%"></i></div>
+      </div>
+                  <div class="component setup">
+        <div class="component-head">
+          <span>Setup</span>
+          <b>61.0%</b>
+        </div>
+        <div class="component-track"><i style="width:61.2416%"></i></div>
+      </div>
+                  <div class="component rs">
+        <div class="component-head">
+          <span>Relative Strength</span>
+          <b>55.0%</b>
+        </div>
+        <div class="component-track"><i style="width:55.405899999999995%"></i></div>
+      </div>
+                  <div class="component timing">
+        <div class="component-head">
+          <span>Entry Timing</span>
+          <b>90.0%</b>
+        </div>
+        <div class="component-track"><i style="width:90.3185%"></i></div>
+      </div>
+                  <div class="component penalty">
+        <div class="component-head">
+          <span>Penalty Drag</span>
+          <b>0%</b>
+        </div>
+        <div class="component-track"><i style="width:0%"></i></div>
+      </div>
+          </div>
+
+          <div class="decision-panel">
+            <div class="panel-label">Execution Read</div>
+            <div class="decision-row">
+              <span>Extension</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Close Quality</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Range Risk</span>
+              <strong>+5.68%
+</strong>
+            </div>
+            <div class="decision-row">
+              <span>Penalty</span>
+              <strong>0.0%</strong>
+            </div>
+          </div>
         </div>
       </article>
-      <article class="signal-card ignore">
-        <div class="rank">#9</div>
-        <div class="signal-head">
-          <div><h2>ABCL</h2><p>AbCellera Biologics Inc.</p></div>
-          <div class="score ignore">531</div>
+
+      <article class="stock-card watch rank-4" data-symbol="CGNX">
+        <div class="card-topline"></div>
+        <div class="rank-watermark">#4</div>
+
+        <div class="card-head">
+          <div class="identity-zone">
+            <div class="rank-chip ">
+              <span>Rank</span>
+              <strong>4</strong>
+            </div>
+            <div class="identity-copy">
+              <div class="symbol-row">
+                <span class="symbol">CGNX</span>
+                <span class="company">Cognex Corporation</span>
+              </div>
+              <div class="microline">Volume + Compression · Risk-on</div>
+            </div>
+          </div>
+
+          <div class="score-module weak">
+            <span>Timing Score</span>
+            <strong>665</strong>
+            <small>Watch</small>
+          </div>
         </div>
-        <div class="badges"><span>Ignore</span><span>Mixed</span><span>Risk-on</span></div>
-        <p class="reason">relative strength</p>
-        <div class="metric-row">
-          <div><span>Price</span><strong>$5</strong></div>
-          <div><span>RVOL</span><strong>1.91x</strong></div>
-          <div><span>5D</span><strong class="up">+6.22%</strong></div>
-          <div><span>RS 20D</span><strong class="up">+19.14%</strong></div>
+
+        <div class="triage-row">
+          <span class="triage-pill watch">Watch</span>
+          <span>Volume + Compression</span>
         </div>
-        <div class="component-grid">
-                <div class="comp"><span>Volume</span><b>58%</b><i><em style="width:58.1497%"></em></i></div>
-                <div class="comp"><span>Compression</span><b>6%</b><i><em style="width:5.7937%"></em></i></div>
-                <div class="comp"><span>Setup</span><b>50%</b><i><em style="width:49.5455%"></em></i></div>
-                <div class="comp"><span>RS</span><b>85%</b><i><em style="width:84.9259%"></em></i></div>
-                <div class="comp"><span>Timing</span><b>76%</b><i><em style="width:75.5962%"></em></i></div>
-                <div class="comp"><span>Penalty</span><b>0%</b><i><em style="width:0%"></em></i></div>
+
+        <p class="reason-text">RVOL 1.32x; compression release</p>
+
+        <div class="market-metrics">
+          <div class="metric-tile ">
+        <span>Price</span>
+        <strong>$56</strong>
+      </div>
+          <div class="metric-tile ">
+        <span>RVOL</span>
+        <strong>1.32x</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>5D</span>
+        <strong>+2.61%
+</strong>
+      </div>
+          <div class="metric-tile down">
+        <span>RS vs QQQ</span>
+        <strong>-1.77%
+</strong>
+      </div>
+        </div>
+
+        <div class="analysis-grid">
+          <div class="component-panel">
+            <div class="panel-label">Component Stack</div>
+                  <div class="component volume">
+        <div class="component-head">
+          <span>Volume</span>
+          <b>70.0%</b>
+        </div>
+        <div class="component-track"><i style="width:70.02289999999999%"></i></div>
+      </div>
+                  <div class="component compression">
+        <div class="component-head">
+          <span>Compression</span>
+          <b>75.0%</b>
+        </div>
+        <div class="component-track"><i style="width:75.3968%"></i></div>
+      </div>
+                  <div class="component setup">
+        <div class="component-head">
+          <span>Setup</span>
+          <b>52.0%</b>
+        </div>
+        <div class="component-track"><i style="width:52.415800000000004%"></i></div>
+      </div>
+                  <div class="component rs">
+        <div class="component-head">
+          <span>Relative Strength</span>
+          <b>44.0%</b>
+        </div>
+        <div class="component-track"><i style="width:43.8804%"></i></div>
+      </div>
+                  <div class="component timing">
+        <div class="component-head">
+          <span>Entry Timing</span>
+          <b>91.0%</b>
+        </div>
+        <div class="component-track"><i style="width:90.8238%"></i></div>
+      </div>
+                  <div class="component penalty">
+        <div class="component-head">
+          <span>Penalty Drag</span>
+          <b>0%</b>
+        </div>
+        <div class="component-track"><i style="width:0%"></i></div>
+      </div>
+          </div>
+
+          <div class="decision-panel">
+            <div class="panel-label">Execution Read</div>
+            <div class="decision-row">
+              <span>Extension</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Close Quality</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Range Risk</span>
+              <strong>+3.35%
+</strong>
+            </div>
+            <div class="decision-row">
+              <span>Penalty</span>
+              <strong>0.0%</strong>
+            </div>
+          </div>
         </div>
       </article>
-      <article class="signal-card ignore">
-        <div class="rank">#10</div>
-        <div class="signal-head">
-          <div><h2>AEVA</h2><p>Aeva Technologies Inc.</p></div>
-          <div class="score ignore">522</div>
+
+      <article class="stock-card watch rank-5" data-symbol="GDRX">
+        <div class="card-topline"></div>
+        <div class="rank-watermark">#5</div>
+
+        <div class="card-head">
+          <div class="identity-zone">
+            <div class="rank-chip ">
+              <span>Rank</span>
+              <strong>5</strong>
+            </div>
+            <div class="identity-copy">
+              <div class="symbol-row">
+                <span class="symbol">GDRX</span>
+                <span class="company">GoodRx Holdings, Inc.</span>
+              </div>
+              <div class="microline">Volume + Compression · Risk-on</div>
+            </div>
+          </div>
+
+          <div class="score-module weak">
+            <span>Timing Score</span>
+            <strong>664</strong>
+            <small>Watch</small>
+          </div>
         </div>
-        <div class="badges"><span>Ignore</span><span>Volume + Breakout</span><span>Risk-on</span></div>
-        <p class="reason">RVOL 2.40x; breakout setup; relative strength; penalty: extended/mature</p>
-        <div class="metric-row">
-          <div><span>Price</span><strong>$19</strong></div>
-          <div><span>RVOL</span><strong>2.4x</strong></div>
-          <div><span>5D</span><strong class="up">+25.26%</strong></div>
-          <div><span>RS 20D</span><strong class="up">+22.69%</strong></div>
+
+        <div class="triage-row">
+          <span class="triage-pill watch">Watch</span>
+          <span>Volume + Compression</span>
         </div>
-        <div class="component-grid">
-                <div class="comp"><span>Volume</span><b>81%</b><i><em style="width:81.3944%"></em></i></div>
-                <div class="comp"><span>Compression</span><b>46%</b><i><em style="width:46.2698%"></em></i></div>
-                <div class="comp"><span>Setup</span><b>89%</b><i><em style="width:89.34349999999999%"></em></i></div>
-                <div class="comp"><span>RS</span><b>97%</b><i><em style="width:96.5385%"></em></i></div>
-                <div class="comp"><span>Timing</span><b>44%</b><i><em style="width:44.1796%"></em></i></div>
-                <div class="comp"><span>Penalty</span><b>52%</b><i><em style="width:51.68600000000001%"></em></i></div>
+
+        <p class="reason-text">RVOL 0.99x; compression release</p>
+
+        <div class="market-metrics">
+          <div class="metric-tile ">
+        <span>Price</span>
+        <strong>$2</strong>
+      </div>
+          <div class="metric-tile ">
+        <span>RVOL</span>
+        <strong>0.99x</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>5D</span>
+        <strong>+2.61%
+</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>RS vs QQQ</span>
+        <strong>+3.13%
+</strong>
+      </div>
+        </div>
+
+        <div class="analysis-grid">
+          <div class="component-panel">
+            <div class="panel-label">Component Stack</div>
+                  <div class="component volume">
+        <div class="component-head">
+          <span>Volume</span>
+          <b>69.0%</b>
+        </div>
+        <div class="component-track"><i style="width:68.5053%"></i></div>
+      </div>
+                  <div class="component compression">
+        <div class="component-head">
+          <span>Compression</span>
+          <b>71.0%</b>
+        </div>
+        <div class="component-track"><i style="width:71.1905%"></i></div>
+      </div>
+                  <div class="component setup">
+        <div class="component-head">
+          <span>Setup</span>
+          <b>60.0%</b>
+        </div>
+        <div class="component-track"><i style="width:60.3244%"></i></div>
+      </div>
+                  <div class="component rs">
+        <div class="component-head">
+          <span>Relative Strength</span>
+          <b>41.0%</b>
+        </div>
+        <div class="component-track"><i style="width:40.7959%"></i></div>
+      </div>
+                  <div class="component timing">
+        <div class="component-head">
+          <span>Entry Timing</span>
+          <b>92.0%</b>
+        </div>
+        <div class="component-track"><i style="width:92.1404%"></i></div>
+      </div>
+                  <div class="component penalty">
+        <div class="component-head">
+          <span>Penalty Drag</span>
+          <b>0%</b>
+        </div>
+        <div class="component-track"><i style="width:0%"></i></div>
+      </div>
+          </div>
+
+          <div class="decision-panel">
+            <div class="panel-label">Execution Read</div>
+            <div class="decision-row">
+              <span>Extension</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Close Quality</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Range Risk</span>
+              <strong>+4.52%
+</strong>
+            </div>
+            <div class="decision-row">
+              <span>Penalty</span>
+              <strong>0.0%</strong>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="stock-card ignore rank-6" data-symbol="MTDR">
+        <div class="card-topline"></div>
+        <div class="rank-watermark">#6</div>
+
+        <div class="card-head">
+          <div class="identity-zone">
+            <div class="rank-chip ">
+              <span>Rank</span>
+              <strong>6</strong>
+            </div>
+            <div class="identity-copy">
+              <div class="symbol-row">
+                <span class="symbol">MTDR</span>
+                <span class="company">Matador Resources Company</span>
+              </div>
+              <div class="microline">Volume + Compression · Risk-on</div>
+            </div>
+          </div>
+
+          <div class="score-module weak">
+            <span>Timing Score</span>
+            <strong>645</strong>
+            <small>Ignore</small>
+          </div>
+        </div>
+
+        <div class="triage-row">
+          <span class="triage-pill ignore">Ignore</span>
+          <span>Volume + Compression</span>
+        </div>
+
+        <p class="reason-text">RVOL 1.29x; compression release</p>
+
+        <div class="market-metrics">
+          <div class="metric-tile ">
+        <span>Price</span>
+        <strong>$63</strong>
+      </div>
+          <div class="metric-tile ">
+        <span>RVOL</span>
+        <strong>1.29x</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>5D</span>
+        <strong>+3.88%
+</strong>
+      </div>
+          <div class="metric-tile down">
+        <span>RS vs QQQ</span>
+        <strong>-9.7%
+</strong>
+      </div>
+        </div>
+
+        <div class="analysis-grid">
+          <div class="component-panel">
+            <div class="panel-label">Component Stack</div>
+                  <div class="component volume">
+        <div class="component-head">
+          <span>Volume</span>
+          <b>73.0%</b>
+        </div>
+        <div class="component-track"><i style="width:73.4721%"></i></div>
+      </div>
+                  <div class="component compression">
+        <div class="component-head">
+          <span>Compression</span>
+          <b>62.0%</b>
+        </div>
+        <div class="component-track"><i style="width:61.626999999999995%"></i></div>
+      </div>
+                  <div class="component setup">
+        <div class="component-head">
+          <span>Setup</span>
+          <b>60.0%</b>
+        </div>
+        <div class="component-track"><i style="width:60.2637%"></i></div>
+      </div>
+                  <div class="component rs">
+        <div class="component-head">
+          <span>Relative Strength</span>
+          <b>34.0%</b>
+        </div>
+        <div class="component-track"><i style="width:33.961000000000006%"></i></div>
+      </div>
+                  <div class="component timing">
+        <div class="component-head">
+          <span>Entry Timing</span>
+          <b>94.0%</b>
+        </div>
+        <div class="component-track"><i style="width:93.8652%"></i></div>
+      </div>
+                  <div class="component penalty">
+        <div class="component-head">
+          <span>Penalty Drag</span>
+          <b>0%</b>
+        </div>
+        <div class="component-track"><i style="width:0%"></i></div>
+      </div>
+          </div>
+
+          <div class="decision-panel">
+            <div class="panel-label">Execution Read</div>
+            <div class="decision-row">
+              <span>Extension</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Close Quality</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Range Risk</span>
+              <strong>+3.63%
+</strong>
+            </div>
+            <div class="decision-row">
+              <span>Penalty</span>
+              <strong>0.0%</strong>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="stock-card ignore rank-7" data-symbol="LNG">
+        <div class="card-topline"></div>
+        <div class="rank-watermark">#7</div>
+
+        <div class="card-head">
+          <div class="identity-zone">
+            <div class="rank-chip ">
+              <span>Rank</span>
+              <strong>7</strong>
+            </div>
+            <div class="identity-copy">
+              <div class="symbol-row">
+                <span class="symbol">LNG</span>
+                <span class="company">Cheniere Energy Inc.</span>
+              </div>
+              <div class="microline">Volume + Compression + Catalyst · Risk-on</div>
+            </div>
+          </div>
+
+          <div class="score-module weak">
+            <span>Timing Score</span>
+            <strong>630</strong>
+            <small>Ignore</small>
+          </div>
+        </div>
+
+        <div class="triage-row">
+          <span class="triage-pill ignore">Ignore</span>
+          <span>Volume + Compression + Catalyst</span>
+        </div>
+
+        <p class="reason-text">RVOL 0.89x; compression release</p>
+
+        <div class="market-metrics">
+          <div class="metric-tile ">
+        <span>Price</span>
+        <strong>$275</strong>
+      </div>
+          <div class="metric-tile ">
+        <span>RVOL</span>
+        <strong>0.89x</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>5D</span>
+        <strong>+6.91%
+</strong>
+      </div>
+          <div class="metric-tile down">
+        <span>RS vs QQQ</span>
+        <strong>-14.6%
+</strong>
+      </div>
+        </div>
+
+        <div class="analysis-grid">
+          <div class="component-panel">
+            <div class="panel-label">Component Stack</div>
+                  <div class="component volume">
+        <div class="component-head">
+          <span>Volume</span>
+          <b>68.0%</b>
+        </div>
+        <div class="component-track"><i style="width:68.3267%"></i></div>
+      </div>
+                  <div class="component compression">
+        <div class="component-head">
+          <span>Compression</span>
+          <b>61.0%</b>
+        </div>
+        <div class="component-track"><i style="width:60.873%"></i></div>
+      </div>
+                  <div class="component setup">
+        <div class="component-head">
+          <span>Setup</span>
+          <b>50.0%</b>
+        </div>
+        <div class="component-track"><i style="width:49.6209%"></i></div>
+      </div>
+                  <div class="component rs">
+        <div class="component-head">
+          <span>Relative Strength</span>
+          <b>35.0%</b>
+        </div>
+        <div class="component-track"><i style="width:34.812599999999996%"></i></div>
+      </div>
+                  <div class="component timing">
+        <div class="component-head">
+          <span>Entry Timing</span>
+          <b>95.0%</b>
+        </div>
+        <div class="component-track"><i style="width:94.921%"></i></div>
+      </div>
+                  <div class="component penalty">
+        <div class="component-head">
+          <span>Penalty Drag</span>
+          <b>0%</b>
+        </div>
+        <div class="component-track"><i style="width:0%"></i></div>
+      </div>
+          </div>
+
+          <div class="decision-panel">
+            <div class="panel-label">Execution Read</div>
+            <div class="decision-row">
+              <span>Extension</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Close Quality</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Range Risk</span>
+              <strong>+2.75%
+</strong>
+            </div>
+            <div class="decision-row">
+              <span>Penalty</span>
+              <strong>0.0%</strong>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="stock-card ignore rank-8" data-symbol="ABCL">
+        <div class="card-topline"></div>
+        <div class="rank-watermark">#8</div>
+
+        <div class="card-head">
+          <div class="identity-zone">
+            <div class="rank-chip ">
+              <span>Rank</span>
+              <strong>8</strong>
+            </div>
+            <div class="identity-copy">
+              <div class="symbol-row">
+                <span class="symbol">ABCL</span>
+                <span class="company">AbCellera Biologics Inc.</span>
+              </div>
+              <div class="microline">Volume · Risk-on</div>
+            </div>
+          </div>
+
+          <div class="score-module weak">
+            <span>Timing Score</span>
+            <strong>620</strong>
+            <small>Ignore</small>
+          </div>
+        </div>
+
+        <div class="triage-row">
+          <span class="triage-pill ignore">Ignore</span>
+          <span>Volume</span>
+        </div>
+
+        <p class="reason-text">RVOL 1.10x</p>
+
+        <div class="market-metrics">
+          <div class="metric-tile ">
+        <span>Price</span>
+        <strong>$4</strong>
+      </div>
+          <div class="metric-tile ">
+        <span>RVOL</span>
+        <strong>1.10x</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>5D</span>
+        <strong>+2.47%
+</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>RS vs QQQ</span>
+        <strong>+3.96%
+</strong>
+      </div>
+        </div>
+
+        <div class="analysis-grid">
+          <div class="component-panel">
+            <div class="panel-label">Component Stack</div>
+                  <div class="component volume">
+        <div class="component-head">
+          <span>Volume</span>
+          <b>70.0%</b>
+        </div>
+        <div class="component-track"><i style="width:70.0684%"></i></div>
+      </div>
+                  <div class="component compression">
+        <div class="component-head">
+          <span>Compression</span>
+          <b>50.0%</b>
+        </div>
+        <div class="component-track"><i style="width:50.039699999999996%"></i></div>
+      </div>
+                  <div class="component setup">
+        <div class="component-head">
+          <span>Setup</span>
+          <b>58.0%</b>
+        </div>
+        <div class="component-track"><i style="width:57.962599999999995%"></i></div>
+      </div>
+                  <div class="component rs">
+        <div class="component-head">
+          <span>Relative Strength</span>
+          <b>47.0%</b>
+        </div>
+        <div class="component-track"><i style="width:46.5458%"></i></div>
+      </div>
+                  <div class="component timing">
+        <div class="component-head">
+          <span>Entry Timing</span>
+          <b>88.0%</b>
+        </div>
+        <div class="component-track"><i style="width:87.9907%"></i></div>
+      </div>
+                  <div class="component penalty">
+        <div class="component-head">
+          <span>Penalty Drag</span>
+          <b>0%</b>
+        </div>
+        <div class="component-track"><i style="width:0%"></i></div>
+      </div>
+          </div>
+
+          <div class="decision-panel">
+            <div class="panel-label">Execution Read</div>
+            <div class="decision-row">
+              <span>Extension</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Close Quality</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Range Risk</span>
+              <strong>+6.07%
+</strong>
+            </div>
+            <div class="decision-row">
+              <span>Penalty</span>
+              <strong>0.0%</strong>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="stock-card ignore rank-9" data-symbol="TEM">
+        <div class="card-topline"></div>
+        <div class="rank-watermark">#9</div>
+
+        <div class="card-head">
+          <div class="identity-zone">
+            <div class="rank-chip ">
+              <span>Rank</span>
+              <strong>9</strong>
+            </div>
+            <div class="identity-copy">
+              <div class="symbol-row">
+                <span class="symbol">TEM</span>
+                <span class="company">Tempus AI, Inc.</span>
+              </div>
+              <div class="microline">Volume + Catalyst · Risk-on</div>
+            </div>
+          </div>
+
+          <div class="score-module weak">
+            <span>Timing Score</span>
+            <strong>603</strong>
+            <small>Ignore</small>
+          </div>
+        </div>
+
+        <div class="triage-row">
+          <span class="triage-pill ignore">Ignore</span>
+          <span>Volume + Catalyst</span>
+        </div>
+
+        <p class="reason-text">RVOL 1.16x</p>
+
+        <div class="market-metrics">
+          <div class="metric-tile ">
+        <span>Price</span>
+        <strong>$55</strong>
+      </div>
+          <div class="metric-tile ">
+        <span>RVOL</span>
+        <strong>1.16x</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>5D</span>
+        <strong>+7.85%
+</strong>
+      </div>
+          <div class="metric-tile up">
+        <span>RS vs QQQ</span>
+        <strong>+3.69%
+</strong>
+      </div>
+        </div>
+
+        <div class="analysis-grid">
+          <div class="component-panel">
+            <div class="panel-label">Component Stack</div>
+                  <div class="component volume">
+        <div class="component-head">
+          <span>Volume</span>
+          <b>73.0%</b>
+        </div>
+        <div class="component-track"><i style="width:72.5231%"></i></div>
+      </div>
+                  <div class="component compression">
+        <div class="component-head">
+          <span>Compression</span>
+          <b>34.0%</b>
+        </div>
+        <div class="component-track"><i style="width:33.8492%"></i></div>
+      </div>
+                  <div class="component setup">
+        <div class="component-head">
+          <span>Setup</span>
+          <b>53.0%</b>
+        </div>
+        <div class="component-track"><i style="width:53.0964%"></i></div>
+      </div>
+                  <div class="component rs">
+        <div class="component-head">
+          <span>Relative Strength</span>
+          <b>47.0%</b>
+        </div>
+        <div class="component-track"><i style="width:47.373599999999996%"></i></div>
+      </div>
+                  <div class="component timing">
+        <div class="component-head">
+          <span>Entry Timing</span>
+          <b>86.0%</b>
+        </div>
+        <div class="component-track"><i style="width:85.8374%"></i></div>
+      </div>
+                  <div class="component penalty">
+        <div class="component-head">
+          <span>Penalty Drag</span>
+          <b>0%</b>
+        </div>
+        <div class="component-track"><i style="width:0%"></i></div>
+      </div>
+          </div>
+
+          <div class="decision-panel">
+            <div class="panel-label">Execution Read</div>
+            <div class="decision-row">
+              <span>Extension</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Close Quality</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Range Risk</span>
+              <strong>+6.64%
+</strong>
+            </div>
+            <div class="decision-row">
+              <span>Penalty</span>
+              <strong>0.0%</strong>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="stock-card ignore rank-10" data-symbol="ROK">
+        <div class="card-topline"></div>
+        <div class="rank-watermark">#10</div>
+
+        <div class="card-head">
+          <div class="identity-zone">
+            <div class="rank-chip ">
+              <span>Rank</span>
+              <strong>10</strong>
+            </div>
+            <div class="identity-copy">
+              <div class="symbol-row">
+                <span class="symbol">ROK</span>
+                <span class="company">Rockwell Automation Inc.</span>
+              </div>
+              <div class="microline">Volume + Compression · Risk-on</div>
+            </div>
+          </div>
+
+          <div class="score-module weak">
+            <span>Timing Score</span>
+            <strong>600</strong>
+            <small>Ignore</small>
+          </div>
+        </div>
+
+        <div class="triage-row">
+          <span class="triage-pill ignore">Ignore</span>
+          <span>Volume + Compression</span>
+        </div>
+
+        <p class="reason-text">RVOL 1.02x; compression release</p>
+
+        <div class="market-metrics">
+          <div class="metric-tile ">
+        <span>Price</span>
+        <strong>$409</strong>
+      </div>
+          <div class="metric-tile ">
+        <span>RVOL</span>
+        <strong>1.02x</strong>
+      </div>
+          <div class="metric-tile flat">
+        <span>5D</span>
+        <strong>0.0%
+</strong>
+      </div>
+          <div class="metric-tile down">
+        <span>RS vs QQQ</span>
+        <strong>-3.44%
+</strong>
+      </div>
+        </div>
+
+        <div class="analysis-grid">
+          <div class="component-panel">
+            <div class="panel-label">Component Stack</div>
+                  <div class="component volume">
+        <div class="component-head">
+          <span>Volume</span>
+          <b>67.0%</b>
+        </div>
+        <div class="component-track"><i style="width:67.2623%"></i></div>
+      </div>
+                  <div class="component compression">
+        <div class="component-head">
+          <span>Compression</span>
+          <b>59.0%</b>
+        </div>
+        <div class="component-track"><i style="width:59.0079%"></i></div>
+      </div>
+                  <div class="component setup">
+        <div class="component-head">
+          <span>Setup</span>
+          <b>60.0%</b>
+        </div>
+        <div class="component-track"><i style="width:60.0859%"></i></div>
+      </div>
+                  <div class="component rs">
+        <div class="component-head">
+          <span>Relative Strength</span>
+          <b>16.0%</b>
+        </div>
+        <div class="component-track"><i style="width:16.4087%"></i></div>
+      </div>
+                  <div class="component timing">
+        <div class="component-head">
+          <span>Entry Timing</span>
+          <b>93.0%</b>
+        </div>
+        <div class="component-track"><i style="width:93.3401%"></i></div>
+      </div>
+                  <div class="component penalty">
+        <div class="component-head">
+          <span>Penalty Drag</span>
+          <b>0%</b>
+        </div>
+        <div class="component-track"><i style="width:0%"></i></div>
+      </div>
+          </div>
+
+          <div class="decision-panel">
+            <div class="panel-label">Execution Read</div>
+            <div class="decision-row">
+              <span>Extension</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Close Quality</span>
+              <strong>—</strong>
+            </div>
+            <div class="decision-row">
+              <span>Range Risk</span>
+              <strong>+2.44%
+</strong>
+            </div>
+            <div class="decision-row">
+              <span>Penalty</span>
+              <strong>0.0%</strong>
+            </div>
+          </div>
         </div>
       </article>
     </section>
 
-    <footer class="footer">Generated 2026-05-13 02:31:15Z · Data stored separately under daily-v2 while the UI remains the primary daily page.</footer>
+    <footer class="footer-note">
+      <div>
+        <strong>Method</strong>
+        <span>Signals are ranked for timing quality, not long-term business quality. Use this as a research cockpit, not an automatic trading instruction.</span>
+      </div>
+      <div>Generated 2026-05-13 04:18:58Z</div>
+    </footer>
   </main>
 </div>
+
+<script>
+function buildHeroPath(points, width = 520, height = 120){
+  if (!Array.isArray(points) || points.length < 2) return "";
+  const maxIndex = points.length - 1;
+  const coords = points.map((p, i) => {
+    const x = (i / maxIndex) * width;
+    const y = height - (Math.max(0, Math.min(100, Number(p))) / 100) * (height - 12) - 6;
+    return [x, y];
+  });
+  let d = `M ${coords[0][0].toFixed(2)} ${coords[0][1].toFixed(2)}`;
+  for (let i = 1; i < coords.length; i++) {
+    const prev = coords[i - 1];
+    const curr = coords[i];
+    const cx1 = (prev[0] + curr[0]) / 2;
+    const cy1 = prev[1];
+    const cx2 = (prev[0] + curr[0]) / 2;
+    const cy2 = curr[1];
+    d += ` C ${cx1.toFixed(2)} ${cy1.toFixed(2)}, ${cx2.toFixed(2)} ${cy2.toFixed(2)}, ${curr[0].toFixed(2)} ${curr[1].toFixed(2)}`;
+  }
+  return d;
+}
+
+function buildBranch(path, pos, direction = 1){
+  const length = path.getTotalLength();
+  const p = path.getPointAtLength(Math.max(0, Math.min(length, length * pos)));
+  const p2 = path.getPointAtLength(Math.max(0, Math.min(length, length * pos + 12)));
+  const dx = p2.x - p.x;
+  const dy = p2.y - p.y;
+  const mag = Math.max(1, Math.hypot(dx, dy));
+  const nx = -dy / mag;
+  const ny = dx / mag;
+  const midX = p.x + nx * 14 * direction;
+  const midY = p.y + ny * 14 * direction;
+  const endX = midX + 18;
+  const endY = midY - 9 * direction;
+  return `M ${p.x.toFixed(2)} ${p.y.toFixed(2)} L ${midX.toFixed(2)} ${midY.toFixed(2)} L ${endX.toFixed(2)} ${endY.toFixed(2)}`;
+}
+
+function initHeroIndexLines(){
+  const el = document.getElementById("hero-index-data");
+  if (!el) return;
+  let data = {};
+  try { data = JSON.parse(el.textContent || "{}"); } catch (_) { return; }
+  document.querySelectorAll(".hero-line-row").forEach((row, rowIndex) => {
+    const key = row.getAttribute("data-line-key");
+    const series = data[key] || {};
+    const points = Array.isArray(series.points) ? series.points : [];
+    const track = row.querySelector(".hero-line-track");
+    const ghost = row.querySelector(".hero-line-ghost");
+    const core = row.querySelector(".hero-line-core");
+    const lightning = row.querySelector(".hero-line-lightning");
+    const branchA = row.querySelector(".hero-line-branch.branch-a");
+    const branchB = row.querySelector(".hero-line-branch.branch-b");
+    const spark = row.querySelector(".hero-line-spark");
+    if (!track || !ghost || !core || points.length < 2) return;
+
+    const d = buildHeroPath(points, 520, 120);
+    [track, ghost, core, lightning].forEach(p => p && p.setAttribute("d", d));
+    const length = core.getTotalLength();
+    if (!Number.isFinite(length) || length <= 0) return;
+    [ghost, core, lightning].forEach(path => {
+      if (!path) return;
+      path.style.strokeDasharray = `${length}`;
+      path.style.strokeDashoffset = `${length}`;
+    });
+    const delay = 0.18 + rowIndex * 0.22;
+    core.style.animation = `drawLine 1.65s ${delay}s cubic-bezier(.2,.8,.2,1) forwards`;
+    ghost.style.animation = `drawLine 1.9s ${delay + .1}s cubic-bezier(.2,.8,.2,1) forwards`;
+    if (lightning) {
+      lightning.style.animation = `lightningRun 3.8s ${delay + 1.0}s ease-in-out infinite`;
+      lightning.style.strokeDasharray = `${Math.max(34, length * .18)} ${Math.max(70, length * .82)}`;
+    }
+    if (branchA) {
+      branchA.setAttribute("d", buildBranch(core, 0.48, 1));
+      branchA.style.animation = `branchFlash 3.8s ${delay + 1.16}s ease-in-out infinite`;
+    }
+    if (branchB) {
+      branchB.setAttribute("d", buildBranch(core, 0.72, -1));
+      branchB.style.animation = `branchFlash 3.8s ${delay + 1.42}s ease-in-out infinite`;
+    }
+    if (spark) {
+      const animateSpark = () => {
+        const start = performance.now();
+        const duration = 3800;
+        const tick = now => {
+          const t = ((now - start) % duration) / duration;
+          const active = t > .24 && t < .72;
+          const pos = Math.max(0, Math.min(1, (t - .24) / .48));
+          const pt = core.getPointAtLength(pos * length);
+          spark.setAttribute("cx", pt.x.toFixed(2));
+          spark.setAttribute("cy", pt.y.toFixed(2));
+          spark.style.opacity = active ? 1 : 0;
+          requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+      setTimeout(animateSpark, (delay + 1.0) * 1000);
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", initHeroIndexLines);
+</script>
 </body>
 </html>

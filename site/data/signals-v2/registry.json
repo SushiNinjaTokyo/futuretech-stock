@@ -2,225 +2,129 @@
   "version": "daily_event_score_v2",
   "signals": [
     {
-      "signal_date": "2026-05-12",
-      "symbol": "PRCT",
-      "score_pts": 668,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-11",
-      "symbol": "VSAT",
-      "score_pts": 748,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-11",
-      "symbol": "VRT",
-      "score_pts": 757,
-      "triage": "Trade"
-    },
-    {
-      "signal_date": "2026-05-08",
-      "symbol": "ESTC",
-      "score_pts": 651,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-08",
-      "symbol": "RBRK",
-      "score_pts": 660,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-08",
-      "symbol": "IONQ",
-      "score_pts": 661,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-08",
-      "symbol": "AI",
-      "score_pts": 683,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-08",
+      "signal_date": "2026-04-30",
       "symbol": "GDRX",
-      "score_pts": 688,
+      "score_pts": 664,
       "triage": "Watch"
     },
     {
-      "signal_date": "2026-05-08",
-      "symbol": "HIMS",
-      "score_pts": 703,
+      "signal_date": "2026-04-30",
+      "symbol": "CGNX",
+      "score_pts": 665,
       "triage": "Watch"
     },
     {
-      "signal_date": "2026-05-08",
-      "symbol": "S",
-      "score_pts": 727,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-08",
+      "signal_date": "2026-04-30",
       "symbol": "U",
-      "score_pts": 734,
+      "score_pts": 680,
       "triage": "Watch"
     },
     {
-      "signal_date": "2026-05-08",
-      "symbol": "VSAT",
-      "score_pts": 782,
-      "triage": "Trade"
-    },
-    {
-      "signal_date": "2026-05-07",
-      "symbol": "SOUN",
-      "score_pts": 651,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-07",
-      "symbol": "RBRK",
-      "score_pts": 733,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-07",
-      "symbol": "GDRX",
-      "score_pts": 745,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-06",
-      "symbol": "OUST",
-      "score_pts": 687,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-06",
-      "symbol": "AEVA",
+      "signal_date": "2026-04-30",
+      "symbol": "VRT",
       "score_pts": 698,
       "triage": "Watch"
     },
     {
-      "signal_date": "2026-05-06",
-      "symbol": "ROK",
-      "score_pts": 704,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-06",
+      "signal_date": "2026-04-30",
       "symbol": "VSAT",
-      "score_pts": 779,
+      "score_pts": 797,
       "triage": "Trade"
     },
     {
-      "signal_date": "2026-05-06",
-      "symbol": "VRT",
-      "score_pts": 803,
-      "triage": "Trade"
-    },
-    {
-      "signal_date": "2026-05-06",
-      "symbol": "CGNX",
-      "score_pts": 829,
-      "triage": "Trade"
-    },
-    {
-      "signal_date": "2026-05-05",
-      "symbol": "VSAT",
-      "score_pts": 654,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-05",
-      "symbol": "GDRX",
-      "score_pts": 672,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-05",
-      "symbol": "IONQ",
-      "score_pts": 674,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-05",
-      "symbol": "CGNX",
-      "score_pts": 844,
-      "triage": "Trade"
-    },
-    {
-      "signal_date": "2026-05-05",
-      "symbol": "VRT",
-      "score_pts": 851,
-      "triage": "Trade"
-    },
-    {
-      "signal_date": "2026-05-04",
-      "symbol": "OXY",
-      "score_pts": 650,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-04",
+      "signal_date": "2026-04-29",
       "symbol": "MTDR",
+      "score_pts": 662,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-29",
+      "symbol": "VSAT",
+      "score_pts": 665,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-29",
+      "symbol": "OXY",
+      "score_pts": 670,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-29",
+      "symbol": "PR",
+      "score_pts": 696,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-29",
+      "symbol": "FTI",
+      "score_pts": 802,
+      "triage": "Trade"
+    },
+    {
+      "signal_date": "2026-04-28",
+      "symbol": "PR",
+      "score_pts": 660,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-27",
+      "symbol": "NVDA",
+      "score_pts": 667,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-24",
+      "symbol": "U",
+      "score_pts": 657,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-04-24",
+      "symbol": "FTI",
       "score_pts": 661,
       "triage": "Watch"
     },
     {
-      "signal_date": "2026-05-04",
-      "symbol": "MNDY",
-      "score_pts": 682,
+      "signal_date": "2026-04-24",
+      "symbol": "TER",
+      "score_pts": 757,
+      "triage": "Trade"
+    },
+    {
+      "signal_date": "2026-04-23",
+      "symbol": "VRT",
+      "score_pts": 686,
       "triage": "Watch"
     },
     {
-      "signal_date": "2026-05-04",
-      "symbol": "CGNX",
-      "score_pts": 683,
+      "signal_date": "2026-04-23",
+      "symbol": "TER",
+      "score_pts": 757,
+      "triage": "Trade"
+    },
+    {
+      "signal_date": "2026-04-22",
+      "symbol": "ISRG",
+      "score_pts": 666,
       "triage": "Watch"
     },
     {
-      "signal_date": "2026-05-04",
+      "signal_date": "2026-04-21",
       "symbol": "ABCL",
-      "score_pts": 722,
-      "triage": "Watch"
-    },
-    {
-      "signal_date": "2026-05-04",
-      "symbol": "U",
-      "score_pts": 755,
-      "triage": "Trade"
-    },
-    {
-      "signal_date": "2026-05-04",
-      "symbol": "PR",
-      "score_pts": 764,
-      "triage": "Trade"
-    },
-    {
-      "signal_date": "2026-05-01",
-      "symbol": "CGNX",
       "score_pts": 671,
       "triage": "Watch"
     },
     {
-      "signal_date": "2026-05-01",
-      "symbol": "ABCL",
-      "score_pts": 752,
-      "triage": "Trade"
+      "signal_date": "2026-04-20",
+      "symbol": "NVDA",
+      "score_pts": 652,
+      "triage": "Watch"
     },
     {
-      "signal_date": "2026-05-01",
-      "symbol": "PR",
-      "score_pts": 768,
-      "triage": "Trade"
-    },
-    {
-      "signal_date": "2026-05-01",
-      "symbol": "GDRX",
-      "score_pts": 796,
+      "signal_date": "2026-04-20",
+      "symbol": "VRT",
+      "score_pts": 766,
       "triage": "Trade"
     }
   ]
