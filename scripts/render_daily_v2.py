@@ -102,21 +102,22 @@ def find_market_row(market: dict, candidates: list[str]) -> dict:
     return {}
 
 
+def flat_no_data_points() -> list[float]:
+    return [50.0 for _ in range(21)]
 
-def normalize_render_points(points: Any) -> list[float]:
-    if not isinstance(points, list):
+
+def valid_points(v: Any) -> list[float]:
+    if not isinstance(v, list):
         return []
-    out: list[float] = []
-    for x in points:
-        v = to_float(x, None)
-        if v is not None:
-            out.append(round(v, 4))
-    return out if len(out) >= 2 else []
-
-
-def no_data_flatline() -> list[float]:
-    # Intentional visual placeholder; returns are still displayed as —.
-    return [100.0, 100.0]
+    pts: list[float] = []
+    for x in v:
+        try:
+            f = float(x)
+            if math.isfinite(f):
+                pts.append(round(max(0.0, min(100.0, f)), 3))
+        except Exception:
+            continue
+    return pts if len(pts) >= 2 else []
 
 def build_hero_index_lines(market: dict) -> dict:
     market = ensure_dict(market)
@@ -124,40 +125,44 @@ def build_hero_index_lines(market: dict) -> dict:
         "sp500": {
             "label": "S&P 500",
             "symbol": "SPY",
-            "keys": ["spy", "sp500", "s&p 500", "spx", "^gspc"],
+            "keys": ["sp500", "s&p 500", "spy", "spx", "^gspc"],
         },
         "nasdaq": {
             "label": "NASDAQ",
             "symbol": "QQQ",
-            "keys": ["qqq", "nasdaq", "ndx", "^ixic", "^ndx"],
+            "keys": ["nasdaq", "qqq", "ndx", "^ixic", "^ndx"],
         },
         "russell": {
             "label": "Russell 2000",
             "symbol": "IWM",
-            "keys": ["iwm", "russell", "russell 2000", "^rut"],
+            "keys": ["russell", "iwm", "russell 2000", "^rut"],
         },
     }
 
     out: dict[str, dict[str, Any]] = {}
     for key, cfg in spec.items():
         row = ensure_dict(find_market_row(market, cfg["keys"]))
-        points = normalize_render_points(row.get("points"))
-        has_data = bool(points)
+        points = valid_points(row.get("points"))
+        has_real_points = len(points) >= 2 and str(row.get("data_status", "ok")).lower() != "missing"
+        change_1m = to_float(row.get("ret_20d_pct"), None)
+        if change_1m is None:
+            change_1m = to_float(row.get("change_1m"), None)
+        ret_5d = to_float(row.get("ret_5d_pct"), None)
+        ret_1d = to_float(row.get("ret_1d_pct"), None)
         out[key] = {
             "label": row.get("label") or row.get("name") or cfg["label"],
             "symbol": row.get("symbol") or cfg["symbol"],
-            "regime": row.get("regime") or row.get("state") or ("—" if not has_data else "Unknown"),
-            "ret_20d_pct": to_float(row.get("ret_20d_pct"), None),
-            "ret_5d_pct": to_float(row.get("ret_5d_pct"), None),
-            "ret_1d_pct": to_float(row.get("ret_1d_pct"), None),
-            "above_sma20": row.get("above_sma20"),
-            "points": points if has_data else no_data_flatline(),
-            "has_data": has_data,
-            "points_mode": row.get("points_mode") or ("actual_close_day0_100" if has_data else "no_data"),
-            "points_days": row.get("points_days") or 21,
+            "regime": row.get("regime") or row.get("state") or "—",
+            "change_1m": change_1m,
+            "ret_5d_pct": ret_5d,
+            "ret_1d_pct": ret_1d,
+            "points": points if has_real_points else flat_no_data_points(),
+            "data_status": row.get("data_status") or ("ok" if has_real_points else "missing"),
+            "has_real_points": has_real_points,
+            "pulse_window": row.get("pulse_window") or "1M",
+            "pulse_days": row.get("pulse_days") or len(points) or 21,
         }
     return out
-
 
 def summarize_quality(items: list[dict]) -> dict:
     total = len(items)
