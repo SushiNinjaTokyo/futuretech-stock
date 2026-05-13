@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-05-13 04:42:24Z",
+  "total_signals": 58,
+  "entered_signals": 57,
+  "pending_entries": 1,
+  "avg_return_1d": -0.57,
+  "avg_return_3d": 2.23,
+  "avg_return_5d": 0.29,
+  "avg_return_10d": 0.49,
+  "avg_return_20d": null,
+  "avg_spy_alpha_5d": -1.63,
+  "avg_qqq_alpha_5d": -3.83,
+  "follow_through_rate": 0.4035,
+  "stop_hit_5_rate": 0.5614,
+  "avg_mfe": 10.35,
+  "avg_mae": -7.14,
+  "mfe_mae_ratio": 1.45
+}
