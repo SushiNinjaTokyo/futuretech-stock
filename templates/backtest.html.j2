@@ -2,403 +2,114 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <title>FutureTech Stock — Filtered Signal Backtest</title>
+  <title>FutureTech Stock — Daily Event Signal Lab</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="stylesheet" href="/assets/backtest.css">
 </head>
-
 <body>
 <div class="page">
   <div class="ambient ambient-a"></div>
   <div class="ambient ambient-b"></div>
   <div class="grid"></div>
-
   <main class="wrap">
-    {% macro pct(v) -%}
-      {% if v is none %}
-        —
-      {% else %}
-        {% if v > 0 %}+{% endif %}{{ v | round(2) }}%
-      {% endif %}
-    {%- endmacro %}
-
-    {% macro rate(v) -%}
-      {% if v is none %}
-        —
-      {% else %}
-        {{ (v * 100) | round(1) }}%
-      {% endif %}
-    {%- endmacro %}
-
-    {% macro tone(v) -%}
-      {% if v is none %}
-        neutral
-      {% elif v > 0 %}
-        up
-      {% elif v < 0 %}
-        down
-      {% else %}
-        neutral
-      {% endif %}
-    {%- endmacro %}
-
-    {% macro score_tone(v) -%}
-      {% if v is none %}
-        score-neutral
-      {% elif v >= 850 %}
-        score-elite
-      {% elif v >= 800 %}
-        score-strong
-      {% elif v >= 750 %}
-        score-good
-      {% elif v >= 700 %}
-        score-watch
-      {% else %}
-        score-weak
-      {% endif %}
-    {%- endmacro %}
-
-    {% macro status_text(v) -%}
-      {{ v | default('pending_entry', true) | replace('_', ' ') }}
+    {% macro pct(v) -%}{% if v is none or v is undefined %}—{% else %}{% if v > 0 %}+{% endif %}{{ v|round(2) }}%{% endif %}{%- endmacro %}
+    {% macro rate(v) -%}{% if v is none or v is undefined %}—{% else %}{{ (v*100)|round(1) }}%{% endif %}{%- endmacro %}
+    {% macro num(v, d=2) -%}{% if v is none or v is undefined %}—{% else %}{{ v|round(d) }}{% endif %}{%- endmacro %}
+    {% macro tone(v) -%}{% if v is none or v is undefined %}neutral{% elif v > 0 %}up{% elif v < 0 %}down{% else %}neutral{% endif %}{%- endmacro %}
+    {% macro score_tone(v) -%}{% if v is none or v is undefined %}score-neutral{% elif v >= 850 %}score-elite{% elif v >= 800 %}score-strong{% elif v >= 750 %}score-good{% elif v >= 700 %}score-watch{% else %}score-weak{% endif %}{%- endmacro %}
+    {% macro status_text(v) -%}{{ v|default('pending_entry', true)|replace('_',' ') }}{%- endmacro %}
+    {% macro metric_bar(label, value, maxv=50, cls='') -%}
+      {% set vv = value if value is not none and value is not undefined else 0 %}
+      {% set width = [100, ((vv|abs) / maxv * 100)]|min %}
+      <div class="metric-bar {{ cls }}"><span>{{ label }}</span><div><i style="width:{{ width }}%"></i></div><strong class="{{ tone(value) }}">{{ pct(value) }}</strong></div>
     {%- endmacro %}
 
     <header class="hero">
       <div class="hero-main">
         <a class="back-link" href="/">← Home</a>
-
-        <div class="kicker">Signal Outcome Tracker</div>
-        <h1>Filtered Signal Backtest</h1>
-
-        <p>
-          Tracks only qualified daily signals instead of forcing weak-market Top 3 entries.
-          Entry is the next trading day’s open. Performance is fixed at 1W, 1M, and 3M,
-          while current performance updates until 3M completion.
-        </p>
-
+        <div class="link-row"><a href="/daily/">Daily</a><a href="/weekly/">Weekly</a><a href="/weekly-backtest/">Weekly Backtest</a><a href="/weekly-simulation/">Weekly Simulation</a></div>
+        <div class="kicker">Daily Event Signal Lab</div>
+        <h1>Daily Event<br/>Backtest</h1>
+        <p>Tests whether daily score, volume, news, and trend signals actually follow through after next-open entry. Designed for short-term event validation, not long-term trend holding.</p>
         <div class="policy-row">
-          <span>Rank ≤ 3 & Score ≥ 750</span>
-          <span>Score ≥ 700 & Volume ≥ 0.55</span>
-          <span>Any Rank & Score ≥ 800</span>
-          <span>Entry: Next Open</span>
-          <span>Stop after 3M</span>
+          <span>Entry: Next Open</span><span>Horizons: 1D / 3D / 5D / 10D / 20D</span><span>{{ summary.primary_benchmark|default('SPY',true) }} + {{ summary.secondary_benchmark|default('QQQ',true) }} Alpha</span><span>Follow-through: +5% within 3D</span><span>Stops: -3% / -5% / -8%</span>
         </div>
       </div>
-
       <div class="status-card">
-        <div class="status-label">Filtered Signals</div>
-        <div class="status-value">
-          {{ summary.total_signals | default(0, true) }}
-        </div>
-        <div class="status-sub">tracked signals</div>
-
-        <div class="status-meta">
-          <div>
-            <span>Active</span>
-            <strong>{{ summary.active_signals | default(0, true) }}</strong>
-          </div>
-          <div>
-            <span>As of</span>
-            <strong>{{ summary.as_of | default('—', true) }}</strong>
-          </div>
-          <div>
-            <span>Raw Registry</span>
-            <strong>{{ summary.raw_total_signals_in_registry | default(summary.total_signals, true) }}</strong>
-          </div>
-          <div>
-            <span>Hidden Legacy</span>
-            <strong>{{ summary.hidden_legacy_signals | default(0, true) }}</strong>
-          </div>
-        </div>
+        <div class="status-label">Filtered Signals</div><div class="status-value">{{ summary.total_signals|default(0,true) }}</div><div class="status-sub">event candidates</div>
+        <div class="status-meta"><div><span>As of</span><strong>{{ summary.as_of|default('—',true) }}</strong></div><div><span>Active</span><strong>{{ summary.active_signals|default(0,true) }}</strong></div><div><span>Completed 5D</span><strong>{{ summary.completed_5d|default(0,true) }}</strong></div><div><span>Generated</span><strong>{{ (summary.generated_at|default(generated_at,true))[:10] }}</strong></div></div>
       </div>
     </header>
 
-    <section class="kpi-grid">
-      <article class="kpi-card">
-        <div class="kpi-label">Current Avg</div>
-        <div class="kpi-value {{ tone(summary.avg_current_return) }}">
-          {{ pct(summary.avg_current_return) }}
-        </div>
-        <div class="kpi-note">active until 3M completion</div>
-      </article>
-
-      <article class="kpi-card">
-        <div class="kpi-label">1W Avg Return</div>
-        <div class="kpi-value {{ tone(summary.avg_return_1w) }}">
-          {{ pct(summary.avg_return_1w) }}
-        </div>
-        <div class="kpi-note">5 trading days</div>
-      </article>
-
-      <article class="kpi-card">
-        <div class="kpi-label">1M Avg Return</div>
-        <div class="kpi-value {{ tone(summary.avg_return_1m) }}">
-          {{ pct(summary.avg_return_1m) }}
-        </div>
-        <div class="kpi-note">20 trading days</div>
-      </article>
-
-      <article class="kpi-card">
-        <div class="kpi-label">3M Win Rate</div>
-        <div class="kpi-value">
-          {{ rate(summary.win_rate_3m) }}
-        </div>
-        <div class="kpi-note">completed 3M signals</div>
-      </article>
+    <section class="kpi-grid kpi-grid-6">
+      <article class="kpi-card"><div class="kpi-label">1D Avg</div><div class="kpi-value {{ tone(summary.avg_return_1d) }}">{{ pct(summary.avg_return_1d) }}</div><div class="kpi-note">first reaction</div></article>
+      <article class="kpi-card"><div class="kpi-label">3D Avg</div><div class="kpi-value {{ tone(summary.avg_return_3d) }}">{{ pct(summary.avg_return_3d) }}</div><div class="kpi-note">early follow-through</div></article>
+      <article class="kpi-card"><div class="kpi-label">5D Avg</div><div class="kpi-value {{ tone(summary.avg_return_5d) }}">{{ pct(summary.avg_return_5d) }}</div><div class="kpi-note">1 trading week</div></article>
+      <article class="kpi-card"><div class="kpi-label">20D Avg</div><div class="kpi-value {{ tone(summary.avg_return_20d) }}">{{ pct(summary.avg_return_20d) }}</div><div class="kpi-note">event horizon</div></article>
+      <article class="kpi-card"><div class="kpi-label">Follow-through</div><div class="kpi-value">{{ rate(summary.follow_through_rate) }}</div><div class="kpi-note">+5% within 3D</div></article>
+      <article class="kpi-card"><div class="kpi-label">Stop Hit -5%</div><div class="kpi-value {{ tone(-1 if summary.stop_hit_5pct_rate else 0) }}">{{ rate(summary.stop_hit_5pct_rate) }}</div><div class="kpi-note">event risk</div></article>
+      <article class="kpi-card"><div class="kpi-label">{{ summary.primary_benchmark|default('SPY',true) }} Alpha 5D</div><div class="kpi-value {{ tone(summary['avg_' ~ (summary.primary_benchmark|default('SPY',true)|lower) ~ '_alpha_5d']) }}">{{ pct(summary['avg_' ~ (summary.primary_benchmark|default('SPY',true)|lower) ~ '_alpha_5d']) }}</div><div class="kpi-note">market-adjusted</div></article>
+      <article class="kpi-card"><div class="kpi-label">{{ summary.secondary_benchmark|default('QQQ',true) }} Alpha 5D</div><div class="kpi-value {{ tone(summary['avg_' ~ (summary.secondary_benchmark|default('QQQ',true)|lower) ~ '_alpha_5d']) }}">{{ pct(summary['avg_' ~ (summary.secondary_benchmark|default('QQQ',true)|lower) ~ '_alpha_5d']) }}</div><div class="kpi-note">growth benchmark</div></article>
+      <article class="kpi-card"><div class="kpi-label">Avg MFE</div><div class="kpi-value {{ tone(summary.avg_mfe) }}">{{ pct(summary.avg_mfe) }}</div><div class="kpi-note">max favorable move</div></article>
+      <article class="kpi-card"><div class="kpi-label">Avg MAE</div><div class="kpi-value {{ tone(summary.avg_mae) }}">{{ pct(summary.avg_mae) }}</div><div class="kpi-note">max adverse move</div></article>
+      <article class="kpi-card"><div class="kpi-label">MFE / MAE</div><div class="kpi-value">{{ num(summary.mfe_mae_ratio,2) }}x</div><div class="kpi-note">payoff quality</div></article>
+      <article class="kpi-card"><div class="kpi-label">Avg Peak Day</div><div class="kpi-value">D{{ num(summary.avg_peak_day,1) }}</div><div class="kpi-note">timing of high</div></article>
     </section>
 
-    <section class="panel coverage-panel">
-      <div class="section-head">
-        <div>
-          <div class="section-kicker">Progress</div>
-          <h2>Completion & Risk</h2>
-        </div>
-      </div>
-
-      <div class="coverage-grid">
-        <div class="coverage-card">
-          <span>Completed 1W</span>
-          <strong>{{ summary.completed_1w | default(0, true) }}</strong>
-        </div>
-        <div class="coverage-card">
-          <span>Completed 1M</span>
-          <strong>{{ summary.completed_1m | default(0, true) }}</strong>
-        </div>
-        <div class="coverage-card">
-          <span>Completed 3M</span>
-          <strong>{{ summary.completed_3m | default(0, true) }}</strong>
-        </div>
-        <div class="coverage-card">
-          <span>Avg Max Gain</span>
-          <strong class="{{ tone(summary.avg_max_gain) }}">{{ pct(summary.avg_max_gain) }}</strong>
-        </div>
-        <div class="coverage-card">
-          <span>Avg Max DD</span>
-          <strong class="{{ tone(summary.avg_max_drawdown) }}">{{ pct(summary.avg_max_drawdown) }}</strong>
-        </div>
-      </div>
+    <section class="panel chart-panel">
+      <div class="section-head"><div><div class="section-kicker">Path</div><h2>Average Signal Path</h2></div></div>
+      <div class="chart-card"><svg class="line-chart" viewBox="0 0 900 260" data-series='{{ summary.signal_path|tojson }}'></svg><div class="legend"><span class="sig">Signal</span><span class="spy">SPY</span><span class="qqq">QQQ</span></div></div>
     </section>
-
-    {% if summary.score_buckets %}
-    <section class="panel">
-      <div class="section-head">
-        <div>
-          <div class="section-kicker">Score Quality</div>
-          <h2>Performance by Score Band</h2>
-        </div>
-      </div>
-
-      <div class="bucket-grid score-bucket-grid">
-        {% for b in summary.score_buckets %}
-        <article class="bucket-card">
-          <div class="bucket-label">{{ b.label }}</div>
-          <div class="bucket-main {{ tone(b.avg_current_return) }}">
-            {{ pct(b.avg_current_return) }}
-          </div>
-          <div class="bucket-sub">Current Avg</div>
-
-          <div class="bucket-stats">
-            <div>
-              <span>1W</span>
-              <strong class="{{ tone(b.avg_return_1w) }}">{{ pct(b.avg_return_1w) }}</strong>
-            </div>
-            <div>
-              <span>1M</span>
-              <strong class="{{ tone(b.avg_return_1m) }}">{{ pct(b.avg_return_1m) }}</strong>
-            </div>
-            <div>
-              <span>Count</span>
-              <strong>{{ b.count }}</strong>
-            </div>
-          </div>
-        </article>
-        {% endfor %}
-      </div>
-    </section>
-    {% endif %}
-
-    {% if summary.rule_buckets %}
-    <section class="panel">
-      <div class="section-head">
-        <div>
-          <div class="section-kicker">Eligibility Logic</div>
-          <h2>Performance by Signal Rule</h2>
-        </div>
-      </div>
-
-      <div class="rule-grid">
-        {% for b in summary.rule_buckets %}
-        <article class="rule-card">
-          <div class="rule-label">{{ b.label | replace('_', ' ') }}</div>
-          <div class="rule-main {{ tone(b.avg_current_return) }}">
-            {{ pct(b.avg_current_return) }}
-          </div>
-          <div class="rule-stats">
-            <div>
-              <span>1M</span>
-              <strong class="{{ tone(b.avg_return_1m) }}">{{ pct(b.avg_return_1m) }}</strong>
-            </div>
-            <div>
-              <span>3M</span>
-              <strong class="{{ tone(b.avg_return_3m) }}">{{ pct(b.avg_return_3m) }}</strong>
-            </div>
-            <div>
-              <span>Count</span>
-              <strong>{{ b.count }}</strong>
-            </div>
-          </div>
-        </article>
-        {% endfor %}
-      </div>
-    </section>
-    {% endif %}
-
-    {% if summary.rank_buckets %}
-    <section class="panel">
-      <div class="section-head">
-        <div>
-          <div class="section-kicker">Rank Context</div>
-          <h2>Performance by Rank Bucket</h2>
-        </div>
-      </div>
-
-      <div class="bucket-grid">
-        {% for b in summary.rank_buckets %}
-        <article class="bucket-card">
-          <div class="bucket-label">{{ b.label }}</div>
-          <div class="bucket-main {{ tone(b.avg_current_return) }}">
-            {{ pct(b.avg_current_return) }}
-          </div>
-          <div class="bucket-sub">Current Avg</div>
-
-          <div class="bucket-stats">
-            <div>
-              <span>1M</span>
-              <strong class="{{ tone(b.avg_return_1m) }}">{{ pct(b.avg_return_1m) }}</strong>
-            </div>
-            <div>
-              <span>3M</span>
-              <strong class="{{ tone(b.avg_return_3m) }}">{{ pct(b.avg_return_3m) }}</strong>
-            </div>
-            <div>
-              <span>Count</span>
-              <strong>{{ b.count }}</strong>
-            </div>
-          </div>
-        </article>
-        {% endfor %}
-      </div>
-    </section>
-    {% endif %}
 
     <section class="panel">
-      <div class="section-head">
-        <div>
-          <div class="section-kicker">Signals</div>
-          <h2>Qualified Signal History</h2>
-        </div>
+      <div class="section-head"><div><div class="section-kicker">Strategy</div><h2>Event Strategy Comparison</h2></div></div>
+      <div class="tabs" data-tabs="strategy-tabs"><button class="active" data-tab="strat-table">Table</button><button data-tab="strat-return">Return</button><button data-tab="strat-risk">Risk</button><button data-tab="strat-win">Win Rate</button></div>
+      <div class="tab-panel active" id="strat-table"><div class="table-wrap compact"><table><thead><tr><th>Strategy</th><th>Avg Return</th><th>Worst Result</th><th>Return/DD</th><th>Win Rate</th><th>Trades</th><th>Stop Hits</th></tr></thead><tbody>{% for s in summary.strategy_comparison %}<tr><td><strong>{{ s.name }}</strong></td><td class="{{ tone(s.avg_return) }}">{{ pct(s.avg_return) }}</td><td class="{{ tone(s.max_adverse_result) }}">{{ pct(s.max_adverse_result) }}</td><td>{{ num(s.return_dd_ratio,2) }}x</td><td>{{ rate(s.win_rate) }}</td><td>{{ s.trades }}</td><td>{{ s.stop_hit_count|default(0,true) }}</td></tr>{% endfor %}</tbody></table></div></div>
+      <div class="tab-panel" id="strat-return"><div class="bar-list">{% for s in summary.strategy_comparison %}{{ metric_bar(s.name, s.avg_return, 50, 'return') }}{% endfor %}</div></div>
+      <div class="tab-panel" id="strat-risk"><div class="bar-list">{% for s in summary.strategy_comparison %}{{ metric_bar(s.name ~ ' worst', s.max_adverse_result, 20, 'risk') }}{% endfor %}</div></div>
+      <div class="tab-panel" id="strat-win"><div class="bar-list">{% for s in summary.strategy_comparison %}<div class="metric-bar win"><span>{{ s.name }}</span><div><i style="width:{{ ((s.win_rate or 0)*100)|round(1) }}%"></i></div><strong>{{ rate(s.win_rate) }}</strong></div>{% endfor %}</div></div>
+    </section>
+
+    <section class="panel split-panel">
+      <div>
+        <div class="section-head"><div><div class="section-kicker">Quality Matrix</div><h2>Score × Volume Heatmap</h2></div></div>
+        <div class="heatmap">{% for cell in summary.quality_matrix %}<div class="heat-cell {{ tone(cell.avg_return_5d) }}"><span>{{ cell.score_bucket }}<br>{{ cell.volume_bucket }}</span><strong>{{ pct(cell.avg_return_5d) }}</strong><em>n={{ cell.count }}</em></div>{% endfor %}</div>
       </div>
-
-      {% if recent %}
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Rank</th>
-              <th>Score</th>
-              <th>Symbol</th>
-              <th>Rule</th>
-              <th>Entry</th>
-              <th>1W</th>
-              <th>1M</th>
-              <th>3M</th>
-              <th>Current</th>
-              <th>Max Gain</th>
-              <th>Max DD</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for row in recent %}
-            <tr>
-              <td>{{ row.signal_date | default('—', true) }}</td>
-
-              <td>
-                <span class="rank-pill">#{{ row.rank | default('—', true) }}</span>
-              </td>
-
-              <td>
-                <span class="score-pill {{ score_tone(row.score_pts) }}">
-                  {{ row.score_pts | default('—', true) }}
-                </span>
-              </td>
-
-              <td>
-                <div class="symbol-cell">
-                  <strong>{{ row.symbol | default('—', true) }}</strong>
-                  <span>{{ row.profile | default('—', true) }}</span>
-                </div>
-              </td>
-
-              <td>
-                <div class="rule-cell">
-                  <strong>{{ row.signal_quality | default('Signal', true) }}</strong>
-                  <span>{{ row.eligibility_rule | default('—', true) | replace('_', ' ') }}</span>
-                </div>
-              </td>
-
-              <td>
-                {% if row.entry_price is none %}
-                  —
-                {% else %}
-                  <div class="entry-cell">
-                    <strong>{{ row.entry_price | round(2) }}</strong>
-                    <span>{{ row.entry_date | default('', true) }}</span>
-                  </div>
-                {% endif %}
-              </td>
-
-              <td class="{{ tone(row.return_1w_pct) }}">{{ pct(row.return_1w_pct) }}</td>
-              <td class="{{ tone(row.return_1m_pct) }}">{{ pct(row.return_1m_pct) }}</td>
-              <td class="{{ tone(row.return_3m_pct) }}">{{ pct(row.return_3m_pct) }}</td>
-              <td class="{{ tone(row.current_return_pct) }}">{{ pct(row.current_return_pct) }}</td>
-              <td class="{{ tone(row.max_gain_since_entry_pct) }}">{{ pct(row.max_gain_since_entry_pct) }}</td>
-              <td class="{{ tone(row.max_drawdown_since_entry_pct) }}">{{ pct(row.max_drawdown_since_entry_pct) }}</td>
-
-              <td>
-                <span class="status-pill {{ row.status | default('pending_entry', true) }}">
-                  {{ status_text(row.status) }}
-                </span>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+      <div>
+        <div class="section-head"><div><div class="section-kicker">Timing</div><h2>Peak Day Distribution</h2></div></div>
+        <div class="bar-list peak">{% for p in summary.peak_distribution %}<div class="metric-bar"><span>{{ p.label }}</span><div><i style="width:{{ ((p.share or 0)*100)|round(1) }}%"></i></div><strong>{{ rate(p.share) }}</strong></div>{% endfor %}</div>
       </div>
-      {% else %}
-      <div class="empty">
-        <h3>No qualified signals yet</h3>
-        <p>
-          Signals will appear only when they meet the filtered eligibility rules.
-          Weak-market forced rankings are intentionally excluded from this backtest view.
-        </p>
-      </div>
+    </section>
+
+    {% for block in [('Rules', summary.rule_buckets), ('Profiles', summary.profiles), ('Archetypes', summary.archetypes), ('Regime', summary.regime_buckets), ('Score Bands', summary.score_buckets), ('Rank', summary.rank_buckets)] %}
+      {% set title, buckets = block %}
+      {% if buckets %}
+      <section class="panel"><div class="section-head"><div><div class="section-kicker">Diagnostics</div><h2>{{ title }}</h2></div></div><div class="bucket-grid">{% for b in buckets[:12] %}<article class="bucket-card"><div class="bucket-label">{{ b.label|replace('_',' ') }}</div><div class="bucket-main {{ tone(b.avg_return_5d) }}">{{ pct(b.avg_return_5d) }}</div><div class="bucket-sub">{{ b.count }} signals · FT {{ rate(b.follow_through_rate) }}</div><div class="bucket-stats"><div><span>1D</span><strong class="{{ tone(b.avg_return_1d) }}">{{ pct(b.avg_return_1d) }}</strong></div><div><span>10D</span><strong class="{{ tone(b.avg_return_10d) }}">{{ pct(b.avg_return_10d) }}</strong></div><div><span>Stop</span><strong>{{ rate(b.stop_hit_5pct_rate) }}</strong></div></div></article>{% endfor %}</div></section>
       {% endif %}
-    </section>
+    {% endfor %}
 
-    <footer class="footer">
-      <div>
-        <strong>Policy</strong>
-        <span>
-          Existing registry history is preserved. This view focuses on score-filtered signals.
-          Legacy entries below the configured threshold may be hidden from the main summary.
-        </span>
-      </div>
-      <div>
-        Generated at {{ generated_at }}
-      </div>
-    </footer>
+    <section class="panel diagnostics-panel"><div class="section-head"><div><div class="section-kicker">Loser Diagnostics</div><h2>Bad Signal Clues</h2></div></div><div class="diag-grid"><div><span>Losers</span><strong>{{ summary.diagnostics.loser_count|default(0,true) }}</strong></div><div><span>Loser Avg Gap</span><strong>{{ pct(summary.diagnostics.loser_avg_gap) }}</strong></div><div><span>Loser Avg Volume</span><strong>{{ num(summary.diagnostics.loser_avg_volume,2) }}</strong></div><div><span>Loser Stop Hit</span><strong>{{ rate(summary.diagnostics.loser_stop_hit_5pct) }}</strong></div><div><span>Winner Follow-through</span><strong>{{ rate(summary.diagnostics.winner_follow_through) }}</strong></div></div></section>
+
+    <section class="panel"><div class="section-head"><div><div class="section-kicker">Signals</div><h2>Daily Event Signal History</h2></div></div>{% if recent %}<div class="table-wrap"><table><thead><tr><th>Date</th><th>Rank</th><th>Score</th><th>Symbol</th><th>Rule</th><th>Entry</th><th>1D</th><th>3D</th><th>5D</th><th>10D</th><th>20D</th><th>SPY α 5D</th><th>QQQ α 5D</th><th>MFE</th><th>MAE</th><th>Peak</th><th>Status</th></tr></thead><tbody>{% for row in recent %}<tr><td>{{ row.signal_date|default('—',true) }}</td><td><span class="rank-pill">#{{ row.rank|default('—',true) }}</span></td><td><span class="score-pill {{ score_tone(row.score_pts) }}">{{ row.score_pts|default('—',true) }}</span></td><td><div class="symbol-cell"><strong>{{ row.symbol|default('—',true) }}</strong><span>{{ row.event_archetype|default(row.profile,true) }}</span></div></td><td><div class="rule-cell"><strong>{{ row.signal_quality|default('Signal',true) }}</strong><span>{{ row.eligibility_rule|default('—',true)|replace('_',' ') }}</span></div></td><td>{% if row.entry_price is none %}—{% else %}<div class="entry-cell"><strong>{{ row.entry_price|round(2) }}</strong><span>{{ row.entry_date }}</span></div>{% endif %}</td><td class="{{ tone(row.return_1d_pct) }}">{{ pct(row.return_1d_pct) }}</td><td class="{{ tone(row.return_3d_pct) }}">{{ pct(row.return_3d_pct) }}</td><td class="{{ tone(row.return_5d_pct) }}">{{ pct(row.return_5d_pct) }}</td><td class="{{ tone(row.return_10d_pct) }}">{{ pct(row.return_10d_pct) }}</td><td class="{{ tone(row.return_20d_pct) }}">{{ pct(row.return_20d_pct) }}</td><td class="{{ tone(row.spy_alpha_5d_pct) }}">{{ pct(row.spy_alpha_5d_pct) }}</td><td class="{{ tone(row.qqq_alpha_5d_pct) }}">{{ pct(row.qqq_alpha_5d_pct) }}</td><td class="{{ tone(row.mfe_pct) }}">{{ pct(row.mfe_pct) }}</td><td class="{{ tone(row.mae_pct) }}">{{ pct(row.mae_pct) }}</td><td>D{{ row.peak_day|default('—',true) }}</td><td><span class="status-pill {{ row.status|default('pending_entry',true) }}">{{ status_text(row.status) }}</span></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty"><h3>No qualified signals yet</h3><p>Daily Event Lab will populate after filtered signal outcomes are rebuilt.</p></div>{% endif %}</section>
+
+    <footer class="footer"><div><strong>Policy</strong><span>Daily Event Lab focuses on short-term event follow-through. Current return freezes after 20 trading days. Legacy 1W/1M/3M fields are preserved for compatibility.</span></div><div>Generated at {{ generated_at }}</div></footer>
   </main>
 </div>
+<script>
+function linePath(points, key, w=900, h=260){
+  const vals = points.map(p => Number(p[key])).filter(v => Number.isFinite(v));
+  if(!vals.length) return '';
+  const min = Math.min(-10, ...vals), max = Math.max(10, ...vals);
+  const xs = points.map((p,i)=> i/(points.length-1 || 1)*w);
+  const ys = points.map(p => h - ((Number(p[key] ?? 0)-min)/(max-min || 1))*(h-30)-15);
+  return xs.map((x,i)=>(i?'L':'M')+x.toFixed(1)+' '+ys[i].toFixed(1)).join(' ');
+}
+document.querySelectorAll('.line-chart').forEach(svg=>{
+  const data = JSON.parse(svg.getAttribute('data-series')||'[]');
+  const mk = (cls,key)=>{ const p=document.createElementNS('http://www.w3.org/2000/svg','path'); p.setAttribute('class',cls); p.setAttribute('d',linePath(data,key)); svg.appendChild(p); };
+  ['signal_avg','spy_avg','qqq_avg'].forEach((k,i)=>mk(['line-sig','line-spy','line-qqq'][i],k));
+});
+document.querySelectorAll('[data-tabs]').forEach(root=>{root.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>{const id=btn.dataset.tab; root.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===btn)); document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id===id));}));});
+</script>
 </body>
 </html>
