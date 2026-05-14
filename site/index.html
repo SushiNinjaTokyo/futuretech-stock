@@ -4,31 +4,55 @@
   <meta charset="utf-8"/>
   <title>FutureTech Stock Intelligence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <link rel="stylesheet" href="/assets/index.css?v=20260513-daily-v2">
+  <link rel="stylesheet" href="/assets/index.css?v=20260514-daily-simulation-pulse">
 </head>
 
 <body>
 <div class="page">
   <div class="ambient ambient-a"></div>
   <div class="ambient ambient-b"></div>
+  <div class="ambient ambient-c"></div>
   <div class="grid"></div>
 
   <main class="wrap">
     <section class="hero">
       <div class="hero-copy">
-        <div class="kicker">FutureTech Stock Intelligence</div>
-        <h1>Market first.<br/>Signals second.</h1>
+        <div class="kicker">
+          <span class="kicker-dot"></span>
+          FutureTech Stock Intelligence
+        </div>
+
+        <h1>
+          Market first.<br/>
+          Signals second.
+        </h1>
+
         <p>
-          A focused dashboard for finding early, tradable momentum in future technology stocks.
-          Market context comes first; individual signals only matter when timing, volume, setup quality,
-          and risk-reward align.
+          A focused cockpit for finding early, tradable momentum in future technology stocks.
+          Market context comes first; individual signals only matter when timing, volume,
+          setup quality, relative strength, and risk-reward align.
         </p>
+
+        <div class="hero-actions">
+          <a class="hero-button primary" href="/daily/">Open Daily Top 10</a>
+          <a class="hero-button" href="/daily-simulation/">View Daily Simulation</a>
+        </div>
       </div>
 
       <div class="regime-card risk-on">
+        <div class="regime-orbit">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
         <div class="regime-label">Market Regime</div>
         <div class="regime-value">Risk-On</div>
         <div class="regime-date">As of 2026-05-13</div>
+
+        <div class="regime-pulse">
+          <div class="pulse-bar"></div>
+        </div>
       </div>
     </section>
 
@@ -37,130 +61,196 @@
         <div>
           <div class="section-kicker">Market Pulse</div>
           <h2>Index Performance</h2>
+          <p>
+            Normalized momentum paths for the major risk proxies. The line is not just decoration:
+            it shows where each index sits within its recent market rhythm.
+          </p>
+        </div>
+
+        <div class="pulse-legend">
+          <span class="legend-chip">Spark path</span>
+          <span class="legend-chip">20D trend</span>
+          <span class="legend-chip">Risk state</span>
         </div>
       </div>
 
-      <div class="index-grid">
-        <article class="index-card sp500">
-          <div class="index-top">
-            <div>
-              <div class="index-label">S&P 500</div>
-              <div class="index-symbol">SPY</div>
-            </div>
-            <div class="index-status up">
-                Above 20D
-            </div>
-          </div>
+      <div class="market-stage">
+        <div class="stage-scan"></div>
+        <div class="stage-lightning"></div>
 
-          <div class="spark-wrap">
-            <svg class="spark" viewBox="0 0 520 120" preserveAspectRatio="none" data-points="26.699,25.222,15.044,21.216,19.222,22.521,11.891,1.921,0.0,16.649,21.089,21.624,24.434,24.696,39.913,43.448,43.04,49.057,56.634,61.601,63.159,70.845,69.558,65.353,71.814,69.313,74.289,75.403,72.249,72.15,78.566,80.37,77.977,83.197,92.315,90.276,95.75,97.272,96.257,100.0">
-              <path class="spark-track" d=""></path>
-              <path class="spark-line" d=""></path>
-              <circle class="spark-dot" cx="0" cy="0" r="4"></circle>
-            </svg>
-          </div>
+        <div class="index-grid">
+          <article class="index-card sp500">
+            <div class="index-glow"></div>
 
-          <div class="perf-row">
-              <div class="perf-chip up">
-                <span>1D</span>
-                <strong>
+            <div class="index-top">
+              <div>
+                <div class="index-label">S&P 500</div>
+                <div class="index-symbol">SPY</div>
+              </div>
+
+              <div class="index-status up">
+                  Above 20D
+              </div>
+            </div>
+
+            <div class="spark-wrap">
+              <div class="spark-scan"></div>
+
+              <svg class="spark"
+                   viewBox="0 0 520 140"
+                   preserveAspectRatio="none"
+                   data-points="26.699,25.222,15.044,21.216,19.222,22.521,11.891,1.921,0.0,16.649,21.089,21.624,24.434,24.696,39.913,43.448,43.04,49.057,56.634,61.601,63.159,70.845,69.558,65.353,71.814,69.313,74.289,75.403,72.249,72.15,78.566,80.37,77.977,83.197,92.315,90.276,95.75,97.272,96.257,100.0">
+                <defs>
+                  <linearGradient id="sparkGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgba(125, 249, 255, 0.10)"></stop>
+                    <stop offset="45%" stop-color="rgba(125, 249, 255, 0.85)"></stop>
+                    <stop offset="100%" stop-color="rgba(183, 121, 255, 0.95)"></stop>
+                  </linearGradient>
+                </defs>
+
+                <path class="spark-track" d=""></path>
+                <path class="spark-line" d="" stroke="url(#sparkGradient1)"></path>
+                <path class="spark-bolt" d=""></path>
+                <circle class="spark-dot" cx="0" cy="0" r="4"></circle>
+              </svg>
+            </div>
+
+            <div class="perf-row">
+                <div class="perf-chip up">
+                  <span>1D</span>
+                  <strong>
 +0.56%
-                </strong>
-              </div>
-              <div class="perf-chip up">
-                <span>5D</span>
-                <strong>
+                  </strong>
+                </div>
+                <div class="perf-chip up">
+                  <span>5D</span>
+                  <strong>
 +1.16%
-                </strong>
-              </div>
-              <div class="perf-chip up">
-                <span>20D</span>
-                <strong>
+                  </strong>
+                </div>
+                <div class="perf-chip up">
+                  <span>20D</span>
+                  <strong>
 +6.05%
-                </strong>
+                  </strong>
+                </div>
+            </div>
+          </article>
+          <article class="index-card nasdaq">
+            <div class="index-glow"></div>
+
+            <div class="index-top">
+              <div>
+                <div class="index-label">NASDAQ</div>
+                <div class="index-symbol">QQQ</div>
               </div>
-          </div>
-        </article>
-        <article class="index-card nasdaq">
-          <div class="index-top">
-            <div>
-              <div class="index-label">NASDAQ</div>
-              <div class="index-symbol">QQQ</div>
-            </div>
-            <div class="index-status up">
-                Above 20D
-            </div>
-          </div>
 
-          <div class="spark-wrap">
-            <svg class="spark" viewBox="0 0 520 120" preserveAspectRatio="none" data-points="23.41,22.208,15.202,18.999,16.429,18.884,9.915,2.749,0.0,12.082,16.64,17.068,19.319,19.376,30.563,33.184,33.747,37.787,44.953,50.579,52.541,57.898,56.581,55.009,61.9,59.541,67.506,67.73,63.46,66.03,69.974,74.071,73.26,78.84,87.892,87.362,97.775,99.092,95.225,100.0">
-              <path class="spark-track" d=""></path>
-              <path class="spark-line" d=""></path>
-              <circle class="spark-dot" cx="0" cy="0" r="4"></circle>
-            </svg>
-          </div>
+              <div class="index-status up">
+                  Above 20D
+              </div>
+            </div>
 
-          <div class="perf-row">
-              <div class="perf-chip up">
-                <span>1D</span>
-                <strong>
+            <div class="spark-wrap">
+              <div class="spark-scan"></div>
+
+              <svg class="spark"
+                   viewBox="0 0 520 140"
+                   preserveAspectRatio="none"
+                   data-points="23.41,22.208,15.202,18.999,16.429,18.884,9.915,2.749,0.0,12.082,16.64,17.068,19.319,19.376,30.563,33.184,33.747,37.787,44.953,50.579,52.541,57.898,56.581,55.009,61.9,59.541,67.506,67.73,63.46,66.03,69.974,74.071,73.26,78.84,87.892,87.362,97.775,99.092,95.225,100.0">
+                <defs>
+                  <linearGradient id="sparkGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgba(125, 249, 255, 0.10)"></stop>
+                    <stop offset="45%" stop-color="rgba(125, 249, 255, 0.85)"></stop>
+                    <stop offset="100%" stop-color="rgba(183, 121, 255, 0.95)"></stop>
+                  </linearGradient>
+                </defs>
+
+                <path class="spark-track" d=""></path>
+                <path class="spark-line" d="" stroke="url(#sparkGradient2)"></path>
+                <path class="spark-bolt" d=""></path>
+                <circle class="spark-dot" cx="0" cy="0" r="4"></circle>
+              </svg>
+            </div>
+
+            <div class="perf-row">
+                <div class="perf-chip up">
+                  <span>1D</span>
+                  <strong>
 +1.06%
-                </strong>
-              </div>
-              <div class="perf-chip up">
-                <span>5D</span>
-                <strong>
+                  </strong>
+                </div>
+                <div class="perf-chip up">
+                  <span>5D</span>
+                  <strong>
 +2.72%
-                </strong>
-              </div>
-              <div class="perf-chip up">
-                <span>20D</span>
-                <strong>
+                  </strong>
+                </div>
+                <div class="perf-chip up">
+                  <span>20D</span>
+                  <strong>
 +12.13%
-                </strong>
+                  </strong>
+                </div>
+            </div>
+          </article>
+          <article class="index-card russell">
+            <div class="index-glow"></div>
+
+            <div class="index-top">
+              <div>
+                <div class="index-label">Russell 2000</div>
+                <div class="index-symbol">IWM</div>
               </div>
-          </div>
-        </article>
-        <article class="index-card russell">
-          <div class="index-top">
-            <div>
-              <div class="index-label">Russell 2000</div>
-              <div class="index-symbol">IWM</div>
-            </div>
-            <div class="index-status up">
-                Above 20D
-            </div>
-          </div>
 
-          <div class="spark-wrap">
-            <svg class="spark" viewBox="0 0 520 120" preserveAspectRatio="none" data-points="13.583,16.995,5.531,16.614,19.432,25.874,16.593,7.396,0.0,17.779,21.085,24.751,27.018,28.184,44.204,47.362,45.963,53.952,61.687,63.107,64.293,76.648,79.975,73.956,78.131,76.097,78.491,79.53,72.685,68.807,81.288,84.064,81.098,91.015,100.0,90.379,94.427,96.885,91.036,91.248">
-              <path class="spark-track" d=""></path>
-              <path class="spark-line" d=""></path>
-              <circle class="spark-dot" cx="0" cy="0" r="4"></circle>
-            </svg>
-          </div>
+              <div class="index-status up">
+                  Above 20D
+              </div>
+            </div>
 
-          <div class="perf-row">
-              <div class="perf-chip up">
-                <span>1D</span>
-                <strong>
+            <div class="spark-wrap">
+              <div class="spark-scan"></div>
+
+              <svg class="spark"
+                   viewBox="0 0 520 140"
+                   preserveAspectRatio="none"
+                   data-points="13.583,16.995,5.531,16.614,19.432,25.874,16.593,7.396,0.0,17.779,21.085,24.751,27.018,28.184,44.204,47.362,45.963,53.952,61.687,63.107,64.293,76.648,79.975,73.956,78.131,76.097,78.491,79.53,72.685,68.807,81.288,84.064,81.098,91.015,100.0,90.379,94.427,96.885,91.036,91.248">
+                <defs>
+                  <linearGradient id="sparkGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgba(125, 249, 255, 0.10)"></stop>
+                    <stop offset="45%" stop-color="rgba(125, 249, 255, 0.85)"></stop>
+                    <stop offset="100%" stop-color="rgba(183, 121, 255, 0.95)"></stop>
+                  </linearGradient>
+                </defs>
+
+                <path class="spark-track" d=""></path>
+                <path class="spark-line" d="" stroke="url(#sparkGradient3)"></path>
+                <path class="spark-bolt" d=""></path>
+                <circle class="spark-dot" cx="0" cy="0" r="4"></circle>
+              </svg>
+            </div>
+
+            <div class="perf-row">
+                <div class="perf-chip up">
+                  <span>1D</span>
+                  <strong>
 +0.04%
-                </strong>
-              </div>
-              <div class="perf-chip down">
-                <span>5D</span>
-                <strong>
+                  </strong>
+                </div>
+                <div class="perf-chip down">
+                  <span>5D</span>
+                  <strong>
 -1.44%
-                </strong>
-              </div>
-              <div class="perf-chip up">
-                <span>20D</span>
-                <strong>
+                  </strong>
+                </div>
+                <div class="perf-chip up">
+                  <span>20D</span>
+                  <strong>
 +4.93%
-                </strong>
-              </div>
-          </div>
-        </article>
+                  </strong>
+                </div>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -169,24 +259,14 @@
         <div class="nav-kicker">Today</div>
         <h3>Daily Top 10</h3>
         <p>
-          Open the latest ranked setups built around timing, volume expansion, compression release,
-          relative strength, and entry risk.
+          Open the latest ranked setups built around timing, volume expansion,
+          compression release, relative strength, and entry-risk discipline.
         </p>
         <div class="nav-meta">
             #1 OII
               / 660 pts
             · Watch
         </div>
-      </a>
-
-      <a class="nav-card" href="/weekly/">
-        <div class="nav-kicker">Medium-Term Screening</div>
-        <h3>Weekly Screening</h3>
-        <p>
-          Review weekly candidates based on trend quality, relative strength,
-          breakout freshness, setup quality, and accumulation.
-        </p>
-        <div class="nav-meta">Stage 2 / RS / Breakout / VCP</div>
       </a>
 
       <a class="nav-card" href="/backtest/">
@@ -197,6 +277,26 @@
           including short-horizon returns, alpha, stop behavior, and signal archetypes.
         </p>
         <div class="nav-meta">Event Signal Lab</div>
+      </a>
+
+      <a class="nav-card accent" href="/daily-simulation/">
+        <div class="nav-kicker">Daily Portfolio Simulation</div>
+        <h3>Daily Simulation</h3>
+        <p>
+          Simulate Daily signals as a real capital process with compounding,
+          exit rules, QQQ/SPY benchmark comparison, drawdown, and open-position exposure.
+        </p>
+        <div class="nav-meta">Compounding / QQQ Alpha / Exit Rules</div>
+      </a>
+
+      <a class="nav-card" href="/weekly/">
+        <div class="nav-kicker">Medium-Term Screening</div>
+        <h3>Weekly Screening</h3>
+        <p>
+          Review weekly candidates based on trend quality, relative strength,
+          breakout freshness, setup quality, and accumulation.
+        </p>
+        <div class="nav-meta">Stage 2 / RS / Breakout / VCP</div>
       </a>
 
       <a class="nav-card" href="/weekly-backtest/">
@@ -221,21 +321,23 @@
     </section>
 
     <footer class="footer">
-      Generated at 2026-05-14 00:31:20Z · Informational only, not investment advice.
+      Generated at 2026-05-14 01:07:50Z · Informational only, not investment advice.
     </footer>
   </main>
 </div>
 
 <script>
-function buildPath(points, width = 520, height = 120){
+function buildPath(points, width = 520, height = 140){
   if (!points || points.length < 2) return "";
+
   const coords = points.map((p, i) => {
     const x = (i / (points.length - 1)) * width;
-    const y = height - (Math.max(0, Math.min(100, Number(p))) / 100) * (height - 16) - 8;
+    const y = height - (Math.max(0, Math.min(100, Number(p))) / 100) * (height - 18) - 9;
     return [x, y];
   });
 
   let d = `M ${coords[0][0].toFixed(2)} ${coords[0][1].toFixed(2)}`;
+
   for (let i = 1; i < coords.length; i++) {
     const prev = coords[i - 1];
     const curr = coords[i];
@@ -243,24 +345,46 @@ function buildPath(points, width = 520, height = 120){
     const cx2 = (prev[0] + curr[0]) / 2;
     d += ` C ${cx1.toFixed(2)} ${prev[1].toFixed(2)}, ${cx2.toFixed(2)} ${curr[1].toFixed(2)}, ${curr[0].toFixed(2)} ${curr[1].toFixed(2)}`;
   }
+
+  return d;
+}
+
+function buildBoltPath(points, width = 520, height = 140){
+  if (!points || points.length < 2) return "";
+
+  const step = width / (points.length - 1);
+  let d = "";
+
+  points.forEach((p, i) => {
+    const x = i * step;
+    const baseY = height - (Math.max(0, Math.min(100, Number(p))) / 100) * (height - 18) - 9;
+    const y = baseY + (i % 2 === 0 ? -2 : 2);
+    d += i === 0 ? `M ${x.toFixed(2)} ${y.toFixed(2)}` : ` L ${x.toFixed(2)} ${y.toFixed(2)}`;
+  });
+
   return d;
 }
 
 document.querySelectorAll(".spark").forEach(svg => {
   const raw = svg.getAttribute("data-points") || "";
   const points = raw.split(",").map(Number).filter(v => Number.isFinite(v));
-  const d = buildPath(points);
+
+  const smoothPath = buildPath(points);
+  const boltPath = buildBoltPath(points);
+
   const track = svg.querySelector(".spark-track");
   const line = svg.querySelector(".spark-line");
+  const bolt = svg.querySelector(".spark-bolt");
   const dot = svg.querySelector(".spark-dot");
 
-  if (track) track.setAttribute("d", d);
-  if (line) line.setAttribute("d", d);
+  if (track) track.setAttribute("d", smoothPath);
+  if (line) line.setAttribute("d", smoothPath);
+  if (bolt) bolt.setAttribute("d", boltPath);
 
   if (dot && points.length >= 2) {
     const last = points[points.length - 1];
     const x = 520;
-    const y = 120 - (Math.max(0, Math.min(100, Number(last))) / 100) * (120 - 16) - 8;
+    const y = 140 - (Math.max(0, Math.min(100, Number(last))) / 100) * (140 - 18) - 9;
     dot.setAttribute("cx", x.toFixed(2));
     dot.setAttribute("cy", y.toFixed(2));
   }
