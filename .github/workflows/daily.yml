@@ -26,12 +26,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
@@ -55,11 +55,6 @@ jobs:
           REPORT_DATE="$(python scripts/et_market_date.py)"
           echo "REPORT_DATE=${REPORT_DATE}" >> "$GITHUB_OUTPUT"
           echo "Resolved REPORT_DATE=${REPORT_DATE}"
-
-      - name: Archive legacy daily v1 data
-        run: |
-          set -euo pipefail
-          python scripts/archive_daily_v1.py || true
 
       - name: Fetch Compression Release
         env:
@@ -147,7 +142,7 @@ jobs:
           test -f "site/backtest/index.html"
 
           grep -q "Daily Event Signal Lab" site/backtest/index.html
-          grep -q "href=\"/daily/\"" site/index.html
+          grep -q 'href="/daily/"' site/index.html
 
       - name: Commit outputs
         run: |
@@ -156,8 +151,8 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
 
-          git add \
-            site/data/daily-v1 \
+          # Add only paths that actually exist.
+          for path in \
             site/data/daily-v2 \
             site/data/signals-v2 \
             site/data/compression \
@@ -170,6 +165,13 @@ jobs:
             site/assets/daily.css \
             site/assets/backtest.css \
             site/assets/index.css
+          do
+            if [ -e "$path" ]; then
+              git add "$path"
+            else
+              echo "Skip missing path: $path"
+            fi
+          done
 
           if git diff --cached --quiet; then
             echo "No daily changes to commit."
