@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <title>FutureTech Stock Intelligence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <link rel="stylesheet" href="/assets/index.css?v=20260514-signal-strike-neon">
+  <link rel="stylesheet" href="/assets/index.css?v=20260514-pulse-noise-top">
 </head>
 
 <body>
@@ -15,64 +15,10 @@
   <div class="grid"></div>
 
   <main class="wrap">
-    <section class="hero">
-      <div class="hero-copy">
-        <div class="kicker">
-          <span class="kicker-dot"></span>
-          FutureTech Stock Intelligence
-        </div>
-
-        <h1 class="hero-signal-title" id="heroSignalTitle" data-text="Signal strike" data-tone="cyan">
-          Signal strike
-        </h1>
-      </div>
-
-      <div class="signal-card">
-        <div class="signal-card-glow"></div>
-
-        <div class="signal-label">Today’s Signal Cockpit</div>
-
-        <div class="signal-main">
-          {% if top10.top_symbol %}
-            <span class="signal-symbol">{{ top10.top_symbol }}</span>
-            <span class="signal-rank">Current #1 Setup</span>
-          {% else %}
-            <span class="signal-symbol">No Signal</span>
-            <span class="signal-rank">Waiting for latest ranking</span>
-          {% endif %}
-        </div>
-
-        <div class="signal-score-row">
-          <div class="signal-score-box">
-            <div class="signal-score-label">Score</div>
-            <div class="signal-score-value">
-              {% if top10.top_score is not none %}
-                {{ top10.top_score | round(0) | int }}
-              {% else %}
-                —
-              {% endif %}
-            </div>
-          </div>
-
-          <div class="signal-score-box">
-            <div class="signal-score-label">Action</div>
-            <div class="signal-score-value compact">
-              {{ top10.top_classification | default('Latest', true) }}
-            </div>
-          </div>
-        </div>
-
-        <div class="signal-foot">
-          <span>As of {{ market.date }}</span>
-          <span>Daily timing signal</span>
-        </div>
-      </div>
-    </section>
-
     <section class="market-panel cinematic">
       <div class="pulse-stage" id="pulseStage">
         <div class="pulse-bg-grid"></div>
-        <div class="pulse-bg-word" id="pulseBgWord">S&amp;P 500</div>
+        <div class="pulse-bg-word" id="pulseBgWord" data-text="S&amp;P 500">S&amp;P 500</div>
         <div class="pulse-scan"></div>
 
         <div class="pulse-chart-wrap">
@@ -233,6 +179,7 @@ function activatePulse(i) {
 
   stage.dataset.tone = item.tone || "";
   bgWord.textContent = item.label;
+  bgWord.setAttribute("data-text", item.label);
 
   paths.forEach(p => p.classList.remove("active"));
   item.path.classList.add("active");
@@ -248,32 +195,21 @@ setInterval(() => {
   activatePulse(activeIndex);
 }, 2600);
 
-const heroSignalTitle = document.getElementById("heroSignalTitle");
+if (bgWord) {
+  function triggerPulseNoise() {
+    bgWord.classList.add("is-noisy");
 
-if (heroSignalTitle) {
-  const neonTones = ["cyan", "violet", "green", "amber"];
-  let toneIndex = 0;
-
-  function switchHeroTone() {
-    toneIndex = (toneIndex + 1) % neonTones.length;
-    heroSignalTitle.dataset.tone = neonTones[toneIndex];
-  }
-
-  function triggerHeroNoise() {
-    heroSignalTitle.classList.add("is-noisy");
-
-    const noiseDuration = 90 + Math.random() * 180;
+    const noiseDuration = 90 + Math.random() * 210;
 
     setTimeout(() => {
-      heroSignalTitle.classList.remove("is-noisy");
+      bgWord.classList.remove("is-noisy");
     }, noiseDuration);
 
-    const nextNoise = 700 + Math.random() * 2600;
-    setTimeout(triggerHeroNoise, nextNoise);
+    const nextNoise = 520 + Math.random() * 2300;
+    setTimeout(triggerPulseNoise, nextNoise);
   }
 
-  setInterval(switchHeroTone, 1800);
-  setTimeout(triggerHeroNoise, 600 + Math.random() * 1200);
+  setTimeout(triggerPulseNoise, 500 + Math.random() * 900);
 }
 </script>
 </body>
