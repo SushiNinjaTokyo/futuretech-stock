@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <title>FutureTech Stock Intelligence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <link rel="stylesheet" href="/assets/index.css?v=20260514-market-pulse-lightning-v3">
+  <link rel="stylesheet" href="/assets/index.css?v=20260514-market-pulse-final">
 </head>
 
 <body>
@@ -26,32 +26,46 @@
           Market first.<br/>
           Signals second.
         </h1>
-
-        <p>
-          A focused cockpit for finding early, tradable momentum in future technology stocks.
-          Market context comes first; individual signals only matter when timing, volume,
-          setup quality, relative strength, and risk-reward align.
-        </p>
-
-        <div class="hero-actions">
-          <a class="hero-button primary" href="/daily/">Open Daily Top 10</a>
-          <a class="hero-button" href="/daily-simulation/">View Daily Simulation</a>
-        </div>
       </div>
 
-      <div class="regime-card {{ market.regime_tone | default('neutral', true) }}">
-        <div class="regime-orbit">
-          <span></span>
-          <span></span>
-          <span></span>
+      <div class="signal-card">
+        <div class="signal-card-glow"></div>
+
+        <div class="signal-label">Today’s Signal Cockpit</div>
+
+        <div class="signal-main">
+          {% if top10.top_symbol %}
+            <span class="signal-symbol">{{ top10.top_symbol }}</span>
+            <span class="signal-rank">Current #1 Setup</span>
+          {% else %}
+            <span class="signal-symbol">No Signal</span>
+            <span class="signal-rank">Waiting for latest ranking</span>
+          {% endif %}
         </div>
 
-        <div class="regime-label">Market Regime</div>
-        <div class="regime-value">{{ market.regime | default('Unknown', true) }}</div>
-        <div class="regime-date">As of {{ market.date }}</div>
+        <div class="signal-score-row">
+          <div class="signal-score-box">
+            <div class="signal-score-label">Score</div>
+            <div class="signal-score-value">
+              {% if top10.top_score is not none %}
+                {{ top10.top_score | round(0) | int }}
+              {% else %}
+                —
+              {% endif %}
+            </div>
+          </div>
 
-        <div class="regime-pulse">
-          <div class="pulse-bar"></div>
+          <div class="signal-score-box">
+            <div class="signal-score-label">Action</div>
+            <div class="signal-score-value compact">
+              {{ top10.top_classification | default('Latest', true) }}
+            </div>
+          </div>
+        </div>
+
+        <div class="signal-foot">
+          <span>As of {{ market.date }}</span>
+          <span>Daily timing signal</span>
         </div>
       </div>
     </section>
