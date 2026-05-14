@@ -146,10 +146,167 @@ a{ color: inherit; text-decoration: none; }
 
 h1{
   margin: 0;
-  font-size: clamp(46px, 8vw, 92px);
-  line-height: .88;
-  letter-spacing: -.075em;
-  font-weight: 900;
+}
+
+.hero-signal-title{
+  position: relative;
+  display: inline-block;
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  font-size: clamp(58px, 9.8vw, 132px);
+  line-height: .82;
+  letter-spacing: -.09em;
+  font-weight: 950;
+  color: rgba(125,249,255,.92);
+  text-transform: none;
+  text-shadow:
+    0 0 8px rgba(255,255,255,.50),
+    0 0 18px rgba(125,249,255,.95),
+    0 0 46px rgba(125,249,255,.72),
+    0 0 96px rgba(125,249,255,.46),
+    0 0 170px rgba(125,249,255,.28);
+  filter: saturate(1.35) brightness(1.08);
+  animation: heroNeonBreath 2.8s ease-in-out infinite;
+}
+
+.hero-signal-title::before,
+.hero-signal-title::after{
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.hero-signal-title::before{
+  color: rgba(255, 68, 132, .86);
+  transform: translateX(-2px);
+  text-shadow:
+    0 0 10px rgba(255,68,132,.80),
+    0 0 32px rgba(255,68,132,.46);
+  clip-path: inset(0 0 58% 0);
+}
+
+.hero-signal-title::after{
+  color: rgba(72, 255, 214, .86);
+  transform: translateX(2px);
+  text-shadow:
+    0 0 10px rgba(72,255,214,.80),
+    0 0 32px rgba(72,255,214,.46);
+  clip-path: inset(48% 0 0 0);
+}
+
+.hero-signal-title[data-tone="cyan"]{
+  color: rgba(125,249,255,.94);
+  text-shadow:
+    0 0 8px rgba(255,255,255,.50),
+    0 0 18px rgba(125,249,255,.98),
+    0 0 46px rgba(125,249,255,.74),
+    0 0 96px rgba(125,249,255,.46),
+    0 0 170px rgba(125,249,255,.30);
+}
+
+.hero-signal-title[data-tone="violet"]{
+  color: rgba(190,121,255,.95);
+  text-shadow:
+    0 0 8px rgba(255,255,255,.48),
+    0 0 18px rgba(190,121,255,1),
+    0 0 48px rgba(190,121,255,.78),
+    0 0 100px rgba(190,121,255,.50),
+    0 0 176px rgba(190,121,255,.32);
+}
+
+.hero-signal-title[data-tone="green"]{
+  color: rgba(93,255,177,.95);
+  text-shadow:
+    0 0 8px rgba(255,255,255,.46),
+    0 0 18px rgba(93,255,177,.98),
+    0 0 48px rgba(93,255,177,.74),
+    0 0 100px rgba(93,255,177,.48),
+    0 0 176px rgba(93,255,177,.30);
+}
+
+.hero-signal-title[data-tone="amber"]{
+  color: rgba(255,209,102,.95);
+  text-shadow:
+    0 0 8px rgba(255,255,255,.42),
+    0 0 18px rgba(255,209,102,.96),
+    0 0 48px rgba(255,209,102,.70),
+    0 0 100px rgba(255,209,102,.44),
+    0 0 176px rgba(255,209,102,.28);
+}
+
+.hero-signal-title.is-noisy{
+  animation:
+    heroNeonBreath 2.8s ease-in-out infinite,
+    heroNoiseJitter 115ms steps(2, end) infinite;
+}
+
+.hero-signal-title.is-noisy::before,
+.hero-signal-title.is-noisy::after{
+  opacity: .92;
+  animation: heroGlitchSlice 95ms steps(2, end) infinite;
+}
+
+@keyframes heroNeonBreath{
+  0%, 100%{
+    opacity: .82;
+    filter: saturate(1.25) brightness(1.00);
+  }
+  44%{
+    opacity: 1;
+    filter: saturate(2.2) brightness(1.55);
+  }
+  52%{
+    opacity: .72;
+    filter: saturate(1.1) brightness(.88);
+  }
+  56%{
+    opacity: 1;
+    filter: saturate(2.8) brightness(1.9);
+  }
+}
+
+@keyframes heroNoiseJitter{
+  0%{
+    transform: translate(0,0) skewX(0deg);
+  }
+  25%{
+    transform: translate(-1px,1px) skewX(-1deg);
+  }
+  50%{
+    transform: translate(2px,-1px) skewX(1deg);
+  }
+  75%{
+    transform: translate(-2px,0) skewX(-1.4deg);
+  }
+  100%{
+    transform: translate(1px,1px) skewX(.8deg);
+  }
+}
+
+@keyframes heroGlitchSlice{
+  0%{
+    clip-path: inset(0 0 72% 0);
+    transform: translateX(-4px);
+  }
+  25%{
+    clip-path: inset(34% 0 42% 0);
+    transform: translateX(4px);
+  }
+  50%{
+    clip-path: inset(58% 0 18% 0);
+    transform: translateX(-3px);
+  }
+  75%{
+    clip-path: inset(12% 0 64% 0);
+    transform: translateX(3px);
+  }
+  100%{
+    clip-path: inset(44% 0 34% 0);
+    transform: translateX(-2px);
+  }
 }
 
 .signal-card{
@@ -439,30 +596,6 @@ h1{
   100%{ transform: translateX(130%); opacity: 0; }
 }
 
-.pulse-flash{
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at 50% 50%, rgba(125,249,255,.64), transparent 46%);
-  opacity: 0;
-  animation: pulseFlash 2.6s ease-in-out infinite;
-}
-
-.pulse-stage[data-tone="nasdaq"] .pulse-flash{
-  background: radial-gradient(circle at 50% 50%, rgba(183,121,255,.68), transparent 46%);
-}
-
-.pulse-stage[data-tone="russell"] .pulse-flash{
-  background: radial-gradient(circle at 50% 50%, rgba(93,255,177,.58), transparent 46%);
-}
-
-@keyframes pulseFlash{
-  0%, 60%, 100%{ opacity: 0; }
-  68%{ opacity: .88; }
-  74%{ opacity: 1; }
-  82%{ opacity: .20; }
-}
-
 .pulse-chart-wrap{
   position: absolute;
   left: 30px;
@@ -672,7 +805,11 @@ h1{
   }
 
   .hero-copy{ min-height: 240px; }
-  h1{ font-size: 48px; }
+
+  .hero-signal-title{
+    font-size: clamp(54px, 18vw, 92px);
+    letter-spacing: -.085em;
+  }
 
   .signal-score-row{
     grid-template-columns: 1fr;
