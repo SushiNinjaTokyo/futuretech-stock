@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <title>FutureTech Stock Intelligence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <link rel="stylesheet" href="/assets/index.css?v=20260514-market-pulse-final">
+  <link rel="stylesheet" href="/assets/index.css?v=20260514-signal-strike-neon">
 </head>
 
 <body>
@@ -22,9 +22,8 @@
           FutureTech Stock Intelligence
         </div>
 
-        <h1>
-          Market first.<br/>
-          Signals second.
+        <h1 class="hero-signal-title" id="heroSignalTitle" data-text="Signal strike" data-tone="cyan">
+          Signal strike
         </h1>
       </div>
 
@@ -75,7 +74,6 @@
         <div class="pulse-bg-grid"></div>
         <div class="pulse-bg-word" id="pulseBgWord">S&amp;P 500</div>
         <div class="pulse-scan"></div>
-        <div class="pulse-flash"></div>
 
         <div class="pulse-chart-wrap">
           <svg class="pulse-chart" viewBox="0 0 1000 360" preserveAspectRatio="none">
@@ -249,6 +247,34 @@ setInterval(() => {
   activeIndex = (activeIndex + 1) % Math.max(1, pulseData.length);
   activatePulse(activeIndex);
 }, 2600);
+
+const heroSignalTitle = document.getElementById("heroSignalTitle");
+
+if (heroSignalTitle) {
+  const neonTones = ["cyan", "violet", "green", "amber"];
+  let toneIndex = 0;
+
+  function switchHeroTone() {
+    toneIndex = (toneIndex + 1) % neonTones.length;
+    heroSignalTitle.dataset.tone = neonTones[toneIndex];
+  }
+
+  function triggerHeroNoise() {
+    heroSignalTitle.classList.add("is-noisy");
+
+    const noiseDuration = 90 + Math.random() * 180;
+
+    setTimeout(() => {
+      heroSignalTitle.classList.remove("is-noisy");
+    }, noiseDuration);
+
+    const nextNoise = 700 + Math.random() * 2600;
+    setTimeout(triggerHeroNoise, nextNoise);
+  }
+
+  setInterval(switchHeroTone, 1800);
+  setTimeout(triggerHeroNoise, 600 + Math.random() * 1200);
+}
 </script>
 </body>
 </html>
