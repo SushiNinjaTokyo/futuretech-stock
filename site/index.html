@@ -124,7 +124,7 @@
     </section>
 
     <footer class="footer">
-      Generated at 2026-05-14 04:34:57Z · Informational only, not investment advice.
+      Generated at 2026-05-14 04:43:17Z · Informational only, not investment advice.
     </footer>
   </main>
 </div>
@@ -187,9 +187,27 @@ function activatePulse(i) {
 
   const item = pulseData[i % pulseData.length];
 
+  let displayLabel = item.label;
+
+  if (
+    displayLabel === "S&P 500" ||
+    displayLabel === "S&P500" ||
+    displayLabel === "SPY"
+  ) {
+    displayLabel = "S&P";
+  }
+
+  if (
+    displayLabel === "Russell 2000" ||
+    displayLabel === "Russell2000" ||
+    displayLabel === "IWM"
+  ) {
+    displayLabel = "Russell";
+  }
+
   stage.dataset.tone = item.tone || "";
-  bgWord.textContent = item.label;
-  bgWord.setAttribute("data-text", item.label);
+  bgWord.textContent = displayLabel;
+  bgWord.setAttribute("data-text", displayLabel);
 
   paths.forEach(p => p.classList.remove("active"));
   item.path.classList.add("active");
