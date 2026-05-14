@@ -2,6 +2,12 @@
   "version": "daily_event_score_v2",
   "signals": [
     {
+      "signal_date": "2026-05-13",
+      "symbol": "OII",
+      "score_pts": 660,
+      "triage": "Watch"
+    },
+    {
       "signal_date": "2026-05-12",
       "symbol": "PRCT",
       "score_pts": 668,

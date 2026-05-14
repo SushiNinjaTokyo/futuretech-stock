@@ -1,14 +1,14 @@
 {
-  "date": "2026-05-12",
+  "date": "2026-05-13",
   "items": [
     {
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.955585,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 3,
-      "deduped_headline_count": 3,
-      "today_count": 0,
+      "headline_count_relevant": 4,
+      "deduped_headline_count": 4,
+      "today_count": 4,
       "prev1_count": 0,
       "prev3_daily_counts": [
         0,
@@ -18,20 +18,26 @@
       "avg_prev_3d_excl_today": 0.0,
       "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 0.0,
-      "ratio_vs_prev3avg": 0.0,
-      "raw_news_strength": 0.0,
+      "ratio_vs_prev1": 8.0,
+      "ratio_vs_prev3avg": 8.0,
+      "raw_news_strength": 1.87394191,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 4
       },
       "headlines": [
         {
+          "title": "Nvidia CEO's foundation buys $108 million of AI computing from CoreWeave, donates it to researchers",
+          "link": "https://finance.yahoo.com/sectors/technology/articles/nvidia-ceos-foundation-buys-108-235709596.html?.tsrc=rss",
+          "published_at": "2026-05-13T23:57:09+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
           "title": "Dow Jones Futures Rise, Cisco Soars On AI Orders After Google, Nvidia, Tesla Lead S&P 500, Nasdaq To Highs",
           "link": "https://finance.yahoo.com/m/2bbeed6b-f614-3af5-aeb5-c5470d5bd3b6/dow-jones-futures-rise%2C-cisco.html?.tsrc=rss",
-          "published_at": "2026-05-13T22:10:17+00:00",
+          "published_at": "2026-05-13T23:49:29+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -51,11 +57,11 @@
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
-      "score_0_1": 0.369565,
+      "score_0_1": 1.0,
       "headline_count_fetched": 20,
       "headline_count_relevant": 6,
       "deduped_headline_count": 6,
-      "today_count": 0,
+      "today_count": 6,
       "prev1_count": 0,
       "prev3_daily_counts": [
         0,
@@ -65,14 +71,14 @@
       "avg_prev_3d_excl_today": 0.0,
       "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 0.0,
-      "ratio_vs_prev3avg": 0.0,
-      "raw_news_strength": 0.0,
+      "ratio_vs_prev1": 12.0,
+      "ratio_vs_prev3avg": 12.0,
+      "raw_news_strength": 2.22447779,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 6
       },
       "headlines": [
         {
@@ -116,28 +122,28 @@
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies Inc.",
-      "score_0_1": 0.755605,
+      "score_0_1": 0.78686,
       "headline_count_fetched": 20,
       "headline_count_relevant": 3,
       "deduped_headline_count": 3,
-      "today_count": 1,
-      "prev1_count": 0,
+      "today_count": 2,
+      "prev1_count": 1,
       "prev3_daily_counts": [
         0,
         0,
-        0
+        1
       ],
-      "avg_prev_3d_excl_today": 0.0,
-      "baseline_prev1_used": 0.5,
+      "avg_prev_3d_excl_today": 0.3333,
+      "baseline_prev1_used": 1.0,
       "baseline_prev3_used": 0.5,
       "ratio_vs_prev1": 2.0,
-      "ratio_vs_prev3avg": 2.0,
-      "raw_news_strength": 0.87560648,
+      "ratio_vs_prev3avg": 4.0,
+      "raw_news_strength": 1.22631869,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 2
       },
       "headlines": [
         {
@@ -163,28 +169,28 @@
     {
       "symbol": "AI",
       "name": "C3.ai, Inc.",
-      "score_0_1": 0.644735,
+      "score_0_1": 0.901427,
       "headline_count_fetched": 20,
       "headline_count_relevant": 10,
       "deduped_headline_count": 10,
-      "today_count": 1,
+      "today_count": 3,
       "prev1_count": 1,
       "prev3_daily_counts": [
         0,
-        0,
+        1,
         1
       ],
-      "avg_prev_3d_excl_today": 0.3333,
+      "avg_prev_3d_excl_today": 0.6667,
       "baseline_prev1_used": 1.0,
-      "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 1.0,
-      "ratio_vs_prev3avg": 2.0,
-      "raw_news_strength": 0.79451346,
+      "baseline_prev3_used": 0.6667,
+      "ratio_vs_prev1": 3.0,
+      "ratio_vs_prev3avg": 4.499775,
+      "raw_news_strength": 1.46589757,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 1,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 3
       },
       "headlines": [
         {
@@ -252,28 +258,28 @@
     {
       "symbol": "ISRG",
       "name": "Intuitive Surgical, Inc.",
-      "score_0_1": 0.478431,
+      "score_0_1": 0.731425,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
-      "today_count": 1,
-      "prev1_count": 3,
+      "today_count": 2,
+      "prev1_count": 1,
       "prev3_daily_counts": [
-        1,
         0,
-        3
+        3,
+        1
       ],
       "avg_prev_3d_excl_today": 1.3333,
-      "baseline_prev1_used": 3.0,
+      "baseline_prev1_used": 1.0,
       "baseline_prev3_used": 1.3333,
-      "ratio_vs_prev1": 0.333333,
-      "ratio_vs_prev3avg": 0.750019,
-      "raw_news_strength": 0.57867399,
+      "ratio_vs_prev1": 2.0,
+      "ratio_vs_prev3avg": 1.500038,
+      "raw_news_strength": 1.05303565,
       "day_counts": {
-        "2026-05-09": 1,
         "2026-05-10": 0,
         "2026-05-11": 3,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 2
       },
       "headlines": [
         {
@@ -365,28 +371,28 @@
     {
       "symbol": "TER",
       "name": "Teradyne, Inc.",
-      "score_0_1": 0.570822,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 17,
       "deduped_headline_count": 17,
-      "today_count": 1,
-      "prev1_count": 2,
+      "today_count": 0,
+      "prev1_count": 1,
       "prev3_daily_counts": [
         0,
-        0,
-        2
+        2,
+        1
       ],
-      "avg_prev_3d_excl_today": 0.6667,
-      "baseline_prev1_used": 2.0,
-      "baseline_prev3_used": 0.6667,
-      "ratio_vs_prev1": 0.5,
-      "ratio_vs_prev3avg": 1.499925,
-      "raw_news_strength": 0.69138915,
+      "avg_prev_3d_excl_today": 1.0,
+      "baseline_prev1_used": 1.0,
+      "baseline_prev3_used": 1.0,
+      "ratio_vs_prev1": 0.0,
+      "ratio_vs_prev3avg": 0.0,
+      "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 2,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -496,34 +502,40 @@
     {
       "symbol": "SYM",
       "name": "Symbotic Inc.",
-      "score_0_1": 0.755605,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 15,
-      "deduped_headline_count": 15,
-      "today_count": 1,
-      "prev1_count": 0,
+      "headline_count_relevant": 16,
+      "deduped_headline_count": 16,
+      "today_count": 0,
+      "prev1_count": 1,
       "prev3_daily_counts": [
         0,
-        0,
-        0
+        1,
+        1
       ],
-      "avg_prev_3d_excl_today": 0.0,
-      "baseline_prev1_used": 0.5,
-      "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 2.0,
-      "ratio_vs_prev3avg": 2.0,
-      "raw_news_strength": 0.87560648,
+      "avg_prev_3d_excl_today": 0.6667,
+      "baseline_prev1_used": 1.0,
+      "baseline_prev3_used": 0.6667,
+      "ratio_vs_prev1": 0.0,
+      "ratio_vs_prev3avg": 0.0,
+      "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
-        "2026-05-11": 0,
-        "2026-05-12": 1
+        "2026-05-11": 1,
+        "2026-05-12": 1,
+        "2026-05-13": 0
       },
       "headlines": [
         {
           "title": "Symbotic Stock Declines 15.5% Since Q2 Earnings Release",
           "link": "https://finance.yahoo.com/markets/stocks/articles/symbotic-stock-declines-15-5-134700009.html?.tsrc=rss",
           "published_at": "2026-05-12T13:47:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "AMADY vs. SYM: Which Stock Should Value Investors Buy Now?",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/amady-vs-sym-stock-value-154003158.html?.tsrc=rss",
+          "published_at": "2026-05-11T15:40:03+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -615,28 +627,28 @@
     {
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.805338,
       "headline_count_fetched": 20,
       "headline_count_relevant": 4,
       "deduped_headline_count": 4,
-      "today_count": 0,
-      "prev1_count": 2,
+      "today_count": 2,
+      "prev1_count": 0,
       "prev3_daily_counts": [
         0,
-        0,
-        2
+        2,
+        0
       ],
       "avg_prev_3d_excl_today": 0.6667,
-      "baseline_prev1_used": 2.0,
+      "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.6667,
-      "ratio_vs_prev1": 0.0,
-      "ratio_vs_prev3avg": 0.0,
-      "raw_news_strength": 0.0,
+      "ratio_vs_prev1": 4.0,
+      "ratio_vs_prev3avg": 2.99985,
+      "raw_news_strength": 1.27268856,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 2,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 2
       },
       "headlines": [
         {
@@ -668,7 +680,7 @@
     {
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 12,
       "deduped_headline_count": 12,
@@ -686,10 +698,10 @@
       "ratio_vs_prev3avg": 0.0,
       "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -769,7 +781,7 @@
     {
       "symbol": "VSAT",
       "name": "Viasat, Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
@@ -787,10 +799,10 @@
       "ratio_vs_prev3avg": 0.0,
       "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -876,28 +888,28 @@
     {
       "symbol": "INOD",
       "name": "Innodata Inc.",
-      "score_0_1": 0.823817,
+      "score_0_1": 0.515388,
       "headline_count_fetched": 20,
       "headline_count_relevant": 20,
       "deduped_headline_count": 20,
-      "today_count": 2,
-      "prev1_count": 1,
+      "today_count": 1,
+      "prev1_count": 2,
       "prev3_daily_counts": [
-        1,
         0,
-        1
+        1,
+        2
       ],
-      "avg_prev_3d_excl_today": 0.6667,
-      "baseline_prev1_used": 1.0,
-      "baseline_prev3_used": 0.6667,
-      "ratio_vs_prev1": 2.0,
-      "ratio_vs_prev3avg": 2.99985,
-      "raw_news_strength": 1.17052343,
+      "avg_prev_3d_excl_today": 1.0,
+      "baseline_prev1_used": 2.0,
+      "baseline_prev3_used": 1.0,
+      "ratio_vs_prev1": 0.5,
+      "ratio_vs_prev3avg": 1.0,
+      "raw_news_strength": 0.63561077,
       "day_counts": {
-        "2026-05-09": 1,
         "2026-05-10": 0,
         "2026-05-11": 1,
-        "2026-05-12": 2
+        "2026-05-12": 2,
+        "2026-05-13": 1
       },
       "headlines": [
         {
@@ -1025,28 +1037,28 @@
     {
       "symbol": "SOUN",
       "name": "SoundHound AI, Inc.",
-      "score_0_1": 0.882949,
+      "score_0_1": 0.478431,
       "headline_count_fetched": 20,
       "headline_count_relevant": 11,
       "deduped_headline_count": 11,
-      "today_count": 3,
-      "prev1_count": 1,
+      "today_count": 1,
+      "prev1_count": 3,
       "prev3_daily_counts": [
-        1,
         0,
-        1
+        1,
+        3
       ],
-      "avg_prev_3d_excl_today": 0.6667,
-      "baseline_prev1_used": 1.0,
-      "baseline_prev3_used": 0.6667,
-      "ratio_vs_prev1": 3.0,
-      "ratio_vs_prev3avg": 4.499775,
-      "raw_news_strength": 1.46589757,
+      "avg_prev_3d_excl_today": 1.3333,
+      "baseline_prev1_used": 3.0,
+      "baseline_prev3_used": 1.3333,
+      "ratio_vs_prev1": 0.333333,
+      "ratio_vs_prev3avg": 0.750019,
+      "raw_news_strength": 0.57867399,
       "day_counts": {
-        "2026-05-09": 1,
         "2026-05-10": 0,
         "2026-05-11": 1,
-        "2026-05-12": 3
+        "2026-05-12": 3,
+        "2026-05-13": 1
       },
       "headlines": [
         {
@@ -1120,28 +1132,28 @@
     {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
-      "score_0_1": 0.441475,
+      "score_0_1": 0.712947,
       "headline_count_fetched": 20,
       "headline_count_relevant": 12,
       "deduped_headline_count": 12,
-      "today_count": 1,
-      "prev1_count": 9,
+      "today_count": 2,
+      "prev1_count": 1,
       "prev3_daily_counts": [
         0,
-        0,
-        9
+        9,
+        1
       ],
-      "avg_prev_3d_excl_today": 3.0,
-      "baseline_prev1_used": 9.0,
-      "baseline_prev3_used": 3.0,
-      "ratio_vs_prev1": 0.111111,
-      "ratio_vs_prev3avg": 0.333333,
-      "raw_news_strength": 0.47422357,
+      "avg_prev_3d_excl_today": 3.3333,
+      "baseline_prev1_used": 1.0,
+      "baseline_prev3_used": 3.3333,
+      "ratio_vs_prev1": 2.0,
+      "ratio_vs_prev3avg": 0.600006,
+      "raw_news_strength": 0.94146106,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 9,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 2
       },
       "headlines": [
         {
@@ -1221,28 +1233,28 @@
     {
       "symbol": "AVAV",
       "name": "AeroVironment, Inc.",
-      "score_0_1": 0.570822,
+      "score_0_1": 0.937107,
       "headline_count_fetched": 20,
       "headline_count_relevant": 12,
       "deduped_headline_count": 12,
-      "today_count": 1,
-      "prev1_count": 2,
+      "today_count": 4,
+      "prev1_count": 1,
       "prev3_daily_counts": [
         0,
-        0,
-        2
+        2,
+        1
       ],
-      "avg_prev_3d_excl_today": 0.6667,
-      "baseline_prev1_used": 2.0,
-      "baseline_prev3_used": 0.6667,
-      "ratio_vs_prev1": 0.5,
-      "ratio_vs_prev3avg": 1.499925,
-      "raw_news_strength": 0.69138915,
+      "avg_prev_3d_excl_today": 1.0,
+      "baseline_prev1_used": 1.0,
+      "baseline_prev3_used": 1.0,
+      "ratio_vs_prev1": 4.0,
+      "ratio_vs_prev3avg": 4.0,
+      "raw_news_strength": 1.60943791,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 2,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 4
       },
       "headlines": [
         {
@@ -1322,11 +1334,11 @@
     {
       "symbol": "PERF",
       "name": "Perfect Corp.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.860773,
       "headline_count_fetched": 20,
       "headline_count_relevant": 19,
       "deduped_headline_count": 19,
-      "today_count": 0,
+      "today_count": 2,
       "prev1_count": 0,
       "prev3_daily_counts": [
         0,
@@ -1336,16 +1348,22 @@
       "avg_prev_3d_excl_today": 0.0,
       "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 0.0,
-      "ratio_vs_prev3avg": 0.0,
-      "raw_news_strength": 0.0,
+      "ratio_vs_prev1": 4.0,
+      "ratio_vs_prev3avg": 4.0,
+      "raw_news_strength": 1.32848382,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 2
       },
       "headlines": [
+        {
+          "title": "How The Take Private Bid And Valuation Cuts Are Reframing The Story For Perfect (PERF)",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/private-bid-valuation-cuts-reframing-231817248.html?.tsrc=rss",
+          "published_at": "2026-05-13T23:18:17+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Perfect Corp. Integrates Free AI Assistant \"Ask AI\" into YouCam API Platform",
           "link": "https://finance.yahoo.com/news/perfect-corp-integrates-free-ai-203000765.html?.tsrc=rss",
@@ -1453,19 +1471,13 @@
           "link": "https://finance.yahoo.com/news/perfect-corp-partners-true-beauty-133500097.html?.tsrc=rss",
           "published_at": "2026-02-26T13:35:00+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "PERF: Perfect Corp. Trades at a Negative Enterprise Value Despite Growth and Profits",
-          "link": "https://finance.yahoo.com/news/perf-perfect-corp-trades-negative-160700376.html?.tsrc=rss",
-          "published_at": "2026-02-24T16:07:00+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "GDRX",
       "name": "GoodRx Holdings, Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 8,
       "deduped_headline_count": 8,
@@ -1483,10 +1495,10 @@
       "ratio_vs_prev3avg": 0.0,
       "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -1542,28 +1554,28 @@
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
-      "score_0_1": 0.496909,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
-      "today_count": 1,
-      "prev1_count": 3,
+      "today_count": 0,
+      "prev1_count": 1,
       "prev3_daily_counts": [
         0,
-        0,
-        3
+        3,
+        1
       ],
-      "avg_prev_3d_excl_today": 1.0,
-      "baseline_prev1_used": 3.0,
-      "baseline_prev3_used": 1.0,
-      "ratio_vs_prev1": 0.333333,
-      "ratio_vs_prev3avg": 1.0,
-      "raw_news_strength": 0.61205416,
+      "avg_prev_3d_excl_today": 1.3333,
+      "baseline_prev1_used": 1.0,
+      "baseline_prev3_used": 1.3333,
+      "ratio_vs_prev1": 0.0,
+      "ratio_vs_prev3avg": 0.0,
+      "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 3,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -1649,28 +1661,28 @@
     {
       "symbol": "U",
       "name": "Unity Software Inc.",
-      "score_0_1": 0.755605,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 12,
       "deduped_headline_count": 12,
-      "today_count": 1,
-      "prev1_count": 0,
+      "today_count": 0,
+      "prev1_count": 1,
       "prev3_daily_counts": [
-        0,
         1,
-        0
+        0,
+        1
       ],
-      "avg_prev_3d_excl_today": 0.3333,
-      "baseline_prev1_used": 0.5,
-      "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 2.0,
-      "ratio_vs_prev3avg": 2.0,
-      "raw_news_strength": 0.87560648,
+      "avg_prev_3d_excl_today": 0.6667,
+      "baseline_prev1_used": 1.0,
+      "baseline_prev3_used": 0.6667,
+      "ratio_vs_prev1": 0.0,
+      "ratio_vs_prev3avg": 0.0,
+      "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 1,
         "2026-05-11": 0,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -1750,7 +1762,7 @@
     {
       "symbol": "TEM",
       "name": "Tempus AI, Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 15,
       "deduped_headline_count": 15,
@@ -1758,20 +1770,20 @@
       "prev1_count": 0,
       "prev3_daily_counts": [
         1,
-        1,
+        0,
         0
       ],
-      "avg_prev_3d_excl_today": 0.6667,
+      "avg_prev_3d_excl_today": 0.3333,
       "baseline_prev1_used": 0.5,
-      "baseline_prev3_used": 0.6667,
+      "baseline_prev3_used": 0.5,
       "ratio_vs_prev1": 0.0,
       "ratio_vs_prev3avg": 0.0,
       "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 1,
         "2026-05-10": 1,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -1869,28 +1881,28 @@
     {
       "symbol": "VRT",
       "name": "Vertiv Holdings Co",
-      "score_0_1": 0.918628,
+      "score_0_1": 0.863194,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
       "today_count": 4,
-      "prev1_count": 2,
+      "prev1_count": 4,
       "prev3_daily_counts": [
-        1,
         0,
-        2
+        2,
+        4
       ],
-      "avg_prev_3d_excl_today": 1.0,
-      "baseline_prev1_used": 2.0,
-      "baseline_prev3_used": 1.0,
-      "ratio_vs_prev1": 2.0,
-      "ratio_vs_prev3avg": 4.0,
-      "raw_news_strength": 1.50727279,
+      "avg_prev_3d_excl_today": 2.0,
+      "baseline_prev1_used": 4.0,
+      "baseline_prev3_used": 2.0,
+      "ratio_vs_prev1": 1.0,
+      "ratio_vs_prev3avg": 2.0,
+      "raw_news_strength": 1.29847336,
       "day_counts": {
-        "2026-05-09": 1,
         "2026-05-10": 0,
         "2026-05-11": 2,
-        "2026-05-12": 4
+        "2026-05-12": 4,
+        "2026-05-13": 4
       },
       "headlines": [
         {
@@ -1976,7 +1988,7 @@
     {
       "symbol": "OII",
       "name": "Oceaneering International Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
@@ -1994,10 +2006,10 @@
       "ratio_vs_prev3avg": 0.0,
       "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -2089,28 +2101,28 @@
     {
       "symbol": "CGNX",
       "name": "Cognex Corporation",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.663214,
       "headline_count_fetched": 20,
       "headline_count_relevant": 17,
       "deduped_headline_count": 17,
-      "today_count": 0,
+      "today_count": 1,
       "prev1_count": 0,
       "prev3_daily_counts": [
-        1,
+        0,
         0,
         0
       ],
-      "avg_prev_3d_excl_today": 0.3333,
+      "avg_prev_3d_excl_today": 0.0,
       "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 0.0,
-      "ratio_vs_prev3avg": 0.0,
-      "raw_news_strength": 0.0,
+      "ratio_vs_prev1": 2.0,
+      "ratio_vs_prev3avg": 2.0,
+      "raw_news_strength": 0.87560648,
       "day_counts": {
-        "2026-05-09": 1,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 1
       },
       "headlines": [
         {
@@ -2220,28 +2232,28 @@
     {
       "symbol": "KTOS",
       "name": "Kratos Defense & Security Solutions Inc.",
-      "score_0_1": 0.755605,
+      "score_0_1": 0.78686,
       "headline_count_fetched": 20,
       "headline_count_relevant": 9,
       "deduped_headline_count": 9,
-      "today_count": 1,
-      "prev1_count": 0,
+      "today_count": 2,
+      "prev1_count": 1,
       "prev3_daily_counts": [
-        1,
         0,
-        0
+        0,
+        1
       ],
       "avg_prev_3d_excl_today": 0.3333,
-      "baseline_prev1_used": 0.5,
+      "baseline_prev1_used": 1.0,
       "baseline_prev3_used": 0.5,
       "ratio_vs_prev1": 2.0,
-      "ratio_vs_prev3avg": 2.0,
-      "raw_news_strength": 0.87560648,
+      "ratio_vs_prev3avg": 4.0,
+      "raw_news_strength": 1.22631869,
       "day_counts": {
-        "2026-05-09": 1,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 2
       },
       "headlines": [
         {
@@ -2303,28 +2315,28 @@
     {
       "symbol": "OUST",
       "name": "Ouster Inc.",
-      "score_0_1": 0.842295,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
-      "today_count": 2,
-      "prev1_count": 0,
+      "today_count": 0,
+      "prev1_count": 2,
       "prev3_daily_counts": [
         0,
         0,
-        0
+        2
       ],
-      "avg_prev_3d_excl_today": 0.0,
-      "baseline_prev1_used": 0.5,
-      "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 4.0,
-      "ratio_vs_prev3avg": 4.0,
-      "raw_news_strength": 1.32848382,
+      "avg_prev_3d_excl_today": 0.6667,
+      "baseline_prev1_used": 2.0,
+      "baseline_prev3_used": 0.6667,
+      "ratio_vs_prev1": 0.0,
+      "ratio_vs_prev3avg": 0.0,
+      "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 2
+        "2026-05-12": 2,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -2416,7 +2428,7 @@
     {
       "symbol": "FTI",
       "name": "TechnipFMC plc",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
@@ -2434,10 +2446,10 @@
       "ratio_vs_prev3avg": 0.0,
       "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -2529,28 +2541,28 @@
     {
       "symbol": "LNG",
       "name": "Cheniere Energy Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.663214,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
-      "today_count": 0,
-      "prev1_count": 1,
+      "today_count": 1,
+      "prev1_count": 0,
       "prev3_daily_counts": [
-        1,
         0,
-        1
+        1,
+        0
       ],
-      "avg_prev_3d_excl_today": 0.6667,
-      "baseline_prev1_used": 1.0,
-      "baseline_prev3_used": 0.6667,
-      "ratio_vs_prev1": 0.0,
-      "ratio_vs_prev3avg": 0.0,
-      "raw_news_strength": 0.0,
+      "avg_prev_3d_excl_today": 0.3333,
+      "baseline_prev1_used": 0.5,
+      "baseline_prev3_used": 0.5,
+      "ratio_vs_prev1": 2.0,
+      "ratio_vs_prev3avg": 2.0,
+      "raw_news_strength": 0.87560648,
       "day_counts": {
-        "2026-05-09": 1,
         "2026-05-10": 0,
         "2026-05-11": 1,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 1
       },
       "headlines": [
         {
@@ -2642,28 +2654,28 @@
     {
       "symbol": "PR",
       "name": "Permian Resources Corporation",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.589301,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
-      "today_count": 0,
-      "prev1_count": 2,
+      "today_count": 1,
+      "prev1_count": 0,
       "prev3_daily_counts": [
         0,
-        0,
-        2
+        2,
+        0
       ],
       "avg_prev_3d_excl_today": 0.6667,
-      "baseline_prev1_used": 2.0,
+      "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.6667,
-      "ratio_vs_prev1": 0.0,
-      "ratio_vs_prev3avg": 0.0,
-      "raw_news_strength": 0.0,
+      "ratio_vs_prev1": 2.0,
+      "ratio_vs_prev3avg": 1.499925,
+      "raw_news_strength": 0.83001859,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 2,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 1
       },
       "headlines": [
         {
@@ -2749,28 +2761,28 @@
     {
       "symbol": "MTDR",
       "name": "Matador Resources Company",
-      "score_0_1": 0.570822,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 10,
       "deduped_headline_count": 10,
-      "today_count": 1,
-      "prev1_count": 2,
+      "today_count": 0,
+      "prev1_count": 1,
       "prev3_daily_counts": [
         0,
-        0,
-        2
+        2,
+        1
       ],
-      "avg_prev_3d_excl_today": 0.6667,
-      "baseline_prev1_used": 2.0,
-      "baseline_prev3_used": 0.6667,
-      "ratio_vs_prev1": 0.5,
-      "ratio_vs_prev3avg": 1.499925,
-      "raw_news_strength": 0.69138915,
+      "avg_prev_3d_excl_today": 1.0,
+      "baseline_prev1_used": 1.0,
+      "baseline_prev3_used": 1.0,
+      "ratio_vs_prev1": 0.0,
+      "ratio_vs_prev3avg": 0.0,
+      "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 2,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -2838,28 +2850,28 @@
     {
       "symbol": "ROK",
       "name": "Rockwell Automation Inc.",
-      "score_0_1": 0.515388,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 17,
       "deduped_headline_count": 17,
-      "today_count": 1,
-      "prev1_count": 2,
+      "today_count": 0,
+      "prev1_count": 1,
       "prev3_daily_counts": [
-        1,
         0,
-        2
+        2,
+        1
       ],
       "avg_prev_3d_excl_today": 1.0,
-      "baseline_prev1_used": 2.0,
+      "baseline_prev1_used": 1.0,
       "baseline_prev3_used": 1.0,
-      "ratio_vs_prev1": 0.5,
-      "ratio_vs_prev3avg": 1.0,
-      "raw_news_strength": 0.63561077,
+      "ratio_vs_prev1": 0.0,
+      "ratio_vs_prev3avg": 0.0,
+      "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 1,
         "2026-05-10": 0,
         "2026-05-11": 2,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -2969,28 +2981,28 @@
     {
       "symbol": "IONQ",
       "name": "IonQ Inc.",
-      "score_0_1": 0.981522,
+      "score_0_1": 0.789281,
       "headline_count_fetched": 20,
       "headline_count_relevant": 11,
       "deduped_headline_count": 11,
-      "today_count": 7,
-      "prev1_count": 0,
+      "today_count": 4,
+      "prev1_count": 7,
       "prev3_daily_counts": [
         0,
         0,
-        0
+        7
       ],
-      "avg_prev_3d_excl_today": 0.0,
-      "baseline_prev1_used": 0.5,
-      "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 14.0,
-      "ratio_vs_prev3avg": 14.0,
-      "raw_news_strength": 2.36231544,
+      "avg_prev_3d_excl_today": 2.3333,
+      "baseline_prev1_used": 7.0,
+      "baseline_prev3_used": 2.3333,
+      "ratio_vs_prev1": 0.571429,
+      "ratio_vs_prev3avg": 1.71431,
+      "raw_news_strength": 1.22522234,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 7
+        "2026-05-12": 7,
+        "2026-05-13": 4
       },
       "headlines": [
         {
@@ -3064,28 +3076,28 @@
     {
       "symbol": "OXY",
       "name": "Occidental Petroleum Corporation",
-      "score_0_1": 0.805338,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 11,
       "deduped_headline_count": 11,
-      "today_count": 2,
+      "today_count": 0,
       "prev1_count": 2,
       "prev3_daily_counts": [
         0,
-        0,
+        2,
         2
       ],
-      "avg_prev_3d_excl_today": 0.6667,
+      "avg_prev_3d_excl_today": 1.3333,
       "baseline_prev1_used": 2.0,
-      "baseline_prev3_used": 0.6667,
-      "ratio_vs_prev1": 1.0,
-      "ratio_vs_prev3avg": 2.99985,
-      "raw_news_strength": 1.08943041,
+      "baseline_prev3_used": 1.3333,
+      "ratio_vs_prev1": 0.0,
+      "ratio_vs_prev3avg": 0.0,
+      "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 2,
-        "2026-05-12": 2
+        "2026-05-12": 2,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -3159,28 +3171,28 @@
     {
       "symbol": "RCAT",
       "name": "Red Cat Holdings Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.663214,
       "headline_count_fetched": 20,
       "headline_count_relevant": 7,
       "deduped_headline_count": 7,
-      "today_count": 0,
-      "prev1_count": 1,
+      "today_count": 1,
+      "prev1_count": 0,
       "prev3_daily_counts": [
         0,
-        0,
-        1
+        1,
+        0
       ],
       "avg_prev_3d_excl_today": 0.3333,
-      "baseline_prev1_used": 1.0,
+      "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 0.0,
-      "ratio_vs_prev3avg": 0.0,
-      "raw_news_strength": 0.0,
+      "ratio_vs_prev1": 2.0,
+      "ratio_vs_prev3avg": 2.0,
+      "raw_news_strength": 0.87560648,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 1,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 1
       },
       "headlines": [
         {
@@ -3230,28 +3242,28 @@
     {
       "symbol": "HIMS",
       "name": "Hims & Hers Health Inc.",
-      "score_0_1": 1.0,
+      "score_0_1": 0.583599,
       "headline_count_fetched": 20,
       "headline_count_relevant": 12,
       "deduped_headline_count": 12,
-      "today_count": 10,
-      "prev1_count": 0,
+      "today_count": 2,
+      "prev1_count": 10,
       "prev3_daily_counts": [
         0,
         0,
-        0
+        10
       ],
-      "avg_prev_3d_excl_today": 0.0,
-      "baseline_prev1_used": 0.5,
-      "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 20.0,
-      "ratio_vs_prev3avg": 20.0,
-      "raw_news_strength": 2.6888775,
+      "avg_prev_3d_excl_today": 3.3333,
+      "baseline_prev1_used": 10.0,
+      "baseline_prev3_used": 3.3333,
+      "ratio_vs_prev1": 0.2,
+      "ratio_vs_prev3avg": 0.600006,
+      "raw_news_strength": 0.75820291,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 10
+        "2026-05-12": 10,
+        "2026-05-13": 2
       },
       "headlines": [
         {
@@ -3331,7 +3343,7 @@
     {
       "symbol": "RBRK",
       "name": "Rubrik Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -3349,10 +3361,10 @@
       "ratio_vs_prev3avg": 0.0,
       "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -3456,7 +3468,7 @@
     {
       "symbol": "CRDO",
       "name": "Credo Technology Group Holding Ltd",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 4,
       "deduped_headline_count": 4,
@@ -3474,10 +3486,10 @@
       "ratio_vs_prev3avg": 0.0,
       "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -3509,28 +3521,28 @@
     {
       "symbol": "ALAB",
       "name": "Astera Labs Inc.",
-      "score_0_1": 0.459953,
+      "score_0_1": 0.496909,
       "headline_count_fetched": 20,
       "headline_count_relevant": 8,
       "deduped_headline_count": 8,
       "today_count": 1,
-      "prev1_count": 4,
+      "prev1_count": 1,
       "prev3_daily_counts": [
-        0,
         1,
-        4
+        4,
+        1
       ],
-      "avg_prev_3d_excl_today": 1.6667,
-      "baseline_prev1_used": 4.0,
-      "baseline_prev3_used": 1.6667,
-      "ratio_vs_prev1": 0.25,
-      "ratio_vs_prev3avg": 0.599988,
-      "raw_news_strength": 0.54335869,
+      "avg_prev_3d_excl_today": 2.0,
+      "baseline_prev1_used": 1.0,
+      "baseline_prev3_used": 2.0,
+      "ratio_vs_prev1": 1.0,
+      "ratio_vs_prev3avg": 0.5,
+      "raw_news_strength": 0.62122666,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 1,
         "2026-05-11": 4,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 1
       },
       "headlines": [
         {
@@ -3586,28 +3598,28 @@
     {
       "symbol": "SERV",
       "name": "Serve Robotics Inc.",
-      "score_0_1": 0.589301,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
-      "today_count": 1,
-      "prev1_count": 0,
+      "today_count": 0,
+      "prev1_count": 1,
       "prev3_daily_counts": [
-        3,
         1,
-        0
+        0,
+        1
       ],
-      "avg_prev_3d_excl_today": 1.3333,
-      "baseline_prev1_used": 0.5,
-      "baseline_prev3_used": 1.3333,
-      "ratio_vs_prev1": 2.0,
-      "ratio_vs_prev3avg": 0.750019,
-      "raw_news_strength": 0.74086003,
+      "avg_prev_3d_excl_today": 0.6667,
+      "baseline_prev1_used": 1.0,
+      "baseline_prev3_used": 0.6667,
+      "ratio_vs_prev1": 0.0,
+      "ratio_vs_prev3avg": 0.0,
+      "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 3,
         "2026-05-10": 1,
         "2026-05-11": 0,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -3699,28 +3711,28 @@
     {
       "symbol": "PDYN",
       "name": "Palladyne AI Corp.",
-      "score_0_1": 0.663214,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 15,
       "deduped_headline_count": 15,
-      "today_count": 1,
-      "prev1_count": 0,
+      "today_count": 0,
+      "prev1_count": 1,
       "prev3_daily_counts": [
-        2,
         0,
-        0
+        0,
+        1
       ],
-      "avg_prev_3d_excl_today": 0.6667,
-      "baseline_prev1_used": 0.5,
-      "baseline_prev3_used": 0.6667,
-      "ratio_vs_prev1": 2.0,
-      "ratio_vs_prev3avg": 1.499925,
-      "raw_news_strength": 0.83001859,
+      "avg_prev_3d_excl_today": 0.3333,
+      "baseline_prev1_used": 1.0,
+      "baseline_prev3_used": 0.5,
+      "ratio_vs_prev1": 0.0,
+      "ratio_vs_prev3avg": 0.0,
+      "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 2,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -3818,28 +3830,28 @@
     {
       "symbol": "AEVA",
       "name": "Aeva Technologies Inc.",
-      "score_0_1": 0.607779,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 17,
       "deduped_headline_count": 17,
-      "today_count": 1,
+      "today_count": 0,
       "prev1_count": 1,
       "prev3_daily_counts": [
-        1,
         0,
+        1,
         1
       ],
       "avg_prev_3d_excl_today": 0.6667,
       "baseline_prev1_used": 1.0,
       "baseline_prev3_used": 0.6667,
-      "ratio_vs_prev1": 1.0,
-      "ratio_vs_prev3avg": 1.499925,
-      "raw_news_strength": 0.74892557,
+      "ratio_vs_prev1": 0.0,
+      "ratio_vs_prev3avg": 0.0,
+      "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 1,
         "2026-05-10": 0,
         "2026-05-11": 1,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -3949,28 +3961,28 @@
     {
       "symbol": "PRCT",
       "name": "PROCEPT BioRobotics Corporation",
-      "score_0_1": 0.755605,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 17,
       "deduped_headline_count": 17,
-      "today_count": 1,
-      "prev1_count": 0,
+      "today_count": 0,
+      "prev1_count": 1,
       "prev3_daily_counts": [
         0,
         0,
-        0
+        1
       ],
-      "avg_prev_3d_excl_today": 0.0,
-      "baseline_prev1_used": 0.5,
+      "avg_prev_3d_excl_today": 0.3333,
+      "baseline_prev1_used": 1.0,
       "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 2.0,
-      "ratio_vs_prev3avg": 2.0,
-      "raw_news_strength": 0.87560648,
+      "ratio_vs_prev1": 0.0,
+      "ratio_vs_prev3avg": 0.0,
+      "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -4080,28 +4092,28 @@
     {
       "symbol": "LUNR",
       "name": "Intuitive Machines Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.570822,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
-      "today_count": 0,
+      "today_count": 1,
       "prev1_count": 0,
       "prev3_daily_counts": [
-        0,
         3,
+        0,
         0
       ],
       "avg_prev_3d_excl_today": 1.0,
       "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 1.0,
-      "ratio_vs_prev1": 0.0,
-      "ratio_vs_prev3avg": 0.0,
-      "raw_news_strength": 0.0,
+      "ratio_vs_prev1": 2.0,
+      "ratio_vs_prev3avg": 1.0,
+      "raw_news_strength": 0.7742402,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 3,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 1
       },
       "headlines": [
         {
@@ -4187,28 +4199,28 @@
     {
       "symbol": "ASTS",
       "name": "AST SpaceMobile Inc.",
-      "score_0_1": 0.963043,
+      "score_0_1": 0.459953,
       "headline_count_fetched": 20,
       "headline_count_relevant": 15,
       "deduped_headline_count": 15,
-      "today_count": 9,
-      "prev1_count": 5,
+      "today_count": 1,
+      "prev1_count": 9,
       "prev3_daily_counts": [
         0,
-        0,
-        5
+        5,
+        9
       ],
-      "avg_prev_3d_excl_today": 1.6667,
-      "baseline_prev1_used": 5.0,
-      "baseline_prev3_used": 1.6667,
-      "ratio_vs_prev1": 1.8,
-      "ratio_vs_prev3avg": 5.399892,
-      "raw_news_strength": 1.93641596,
+      "avg_prev_3d_excl_today": 4.6667,
+      "baseline_prev1_used": 9.0,
+      "baseline_prev3_used": 4.6667,
+      "ratio_vs_prev1": 0.111111,
+      "ratio_vs_prev3avg": 0.214284,
+      "raw_news_strength": 0.45084174,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 5,
-        "2026-05-12": 9
+        "2026-05-12": 9,
+        "2026-05-13": 1
       },
       "headlines": [
         {
@@ -4306,11 +4318,11 @@
     {
       "symbol": "NBIS",
       "name": "Nebius Group N.V.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.860773,
       "headline_count_fetched": 20,
       "headline_count_relevant": 2,
       "deduped_headline_count": 2,
-      "today_count": 0,
+      "today_count": 2,
       "prev1_count": 0,
       "prev3_daily_counts": [
         0,
@@ -4320,14 +4332,14 @@
       "avg_prev_3d_excl_today": 0.0,
       "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 0.0,
-      "ratio_vs_prev3avg": 0.0,
-      "raw_news_strength": 0.0,
+      "ratio_vs_prev1": 4.0,
+      "ratio_vs_prev3avg": 4.0,
+      "raw_news_strength": 1.32848382,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 2
       },
       "headlines": [
         {
@@ -4347,7 +4359,7 @@
     {
       "symbol": "S",
       "name": "SentinelOne Inc.",
-      "score_0_1": 0.644735,
+      "score_0_1": 0.533866,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
@@ -4355,20 +4367,20 @@
       "prev1_count": 1,
       "prev3_daily_counts": [
         0,
-        0,
+        1,
         1
       ],
-      "avg_prev_3d_excl_today": 0.3333,
+      "avg_prev_3d_excl_today": 0.6667,
       "baseline_prev1_used": 1.0,
-      "baseline_prev3_used": 0.5,
+      "baseline_prev3_used": 0.6667,
       "ratio_vs_prev1": 1.0,
-      "ratio_vs_prev3avg": 2.0,
-      "raw_news_strength": 0.79451346,
+      "ratio_vs_prev3avg": 1.499925,
+      "raw_news_strength": 0.74892557,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 1,
-        "2026-05-12": 1
+        "2026-05-12": 1,
+        "2026-05-13": 1
       },
       "headlines": [
         {
@@ -4454,28 +4466,28 @@
     {
       "symbol": "ESTC",
       "name": "Elastic N.V.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.663214,
       "headline_count_fetched": 20,
       "headline_count_relevant": 5,
       "deduped_headline_count": 5,
-      "today_count": 0,
-      "prev1_count": 1,
+      "today_count": 1,
+      "prev1_count": 0,
       "prev3_daily_counts": [
         0,
-        0,
-        1
+        1,
+        0
       ],
       "avg_prev_3d_excl_today": 0.3333,
-      "baseline_prev1_used": 1.0,
+      "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 0.0,
-      "ratio_vs_prev3avg": 0.0,
-      "raw_news_strength": 0.0,
+      "ratio_vs_prev1": 2.0,
+      "ratio_vs_prev3avg": 2.0,
+      "raw_news_strength": 0.87560648,
       "day_counts": {
-        "2026-05-09": 0,
         "2026-05-10": 0,
         "2026-05-11": 1,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 1
       },
       "headlines": [
         {
@@ -4513,28 +4525,28 @@
     {
       "symbol": "RXRX",
       "name": "Recursion Pharmaceuticals Inc.",
-      "score_0_1": 0.369565,
+      "score_0_1": 0.388043,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
       "today_count": 0,
       "prev1_count": 0,
       "prev3_daily_counts": [
-        1,
+        0,
         0,
         0
       ],
-      "avg_prev_3d_excl_today": 0.3333,
+      "avg_prev_3d_excl_today": 0.0,
       "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.5,
       "ratio_vs_prev1": 0.0,
       "ratio_vs_prev3avg": 0.0,
       "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 1,
         "2026-05-10": 0,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 0
       },
       "headlines": [
         {
@@ -4626,30 +4638,103 @@
     {
       "symbol": "TMDX",
       "name": "TransMedics Group Inc.",
-      "score_0_1": 0.369565,
-      "headline_count_fetched": 0,
-      "headline_count_relevant": 0,
-      "deduped_headline_count": 0,
+      "score_0_1": 0.388043,
+      "headline_count_fetched": 20,
+      "headline_count_relevant": 12,
+      "deduped_headline_count": 12,
       "today_count": 0,
       "prev1_count": 0,
       "prev3_daily_counts": [
-        0,
+        1,
         0,
         0
       ],
-      "avg_prev_3d_excl_today": 0.0,
+      "avg_prev_3d_excl_today": 0.3333,
       "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.5,
       "ratio_vs_prev1": 0.0,
       "ratio_vs_prev3avg": 0.0,
       "raw_news_strength": 0.0,
       "day_counts": {
-        "2026-05-09": 0,
-        "2026-05-10": 0,
+        "2026-05-10": 1,
         "2026-05-11": 0,
-        "2026-05-12": 0
+        "2026-05-12": 0,
+        "2026-05-13": 0
       },
-      "headlines": []
+      "headlines": [
+        {
+          "title": "Assessing TransMedics Group (TMDX) Valuation After A Sharp One Year Share Price Decline",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/assessing-transmedics-group-tmdx-valuation-051518498.html?.tsrc=rss",
+          "published_at": "2026-05-10T05:15:18+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "TransMedics Group Inc (TMDX) Q1 2026 Earnings Call Highlights: Strong Revenue Growth Amid ...",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/transmedics-group-inc-tmdx-q1-150026287.html?.tsrc=rss",
+          "published_at": "2026-05-08T15:00:26+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "TMDX Dips After Posting Q1 Earnings & Revenue Miss, Margins Fall",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tmdx-dips-posting-q1-earnings-155400492.html?.tsrc=rss",
+          "published_at": "2026-05-06T15:54:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "TransMedics (TMDX) Q1 2026 Earnings Transcript",
+          "link": "https://www.fool.com/earnings/call-transcripts/2026/05/06/transmedics-tmdx-q1-2026-earnings-transcript/?.tsrc=rss",
+          "published_at": "2026-05-06T14:41:47+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "TransMedics Group, Inc. Q1 2026 Earnings Call Summary",
+          "link": "https://app.moby.co/home/research/tools/earningsCalendar/earnings-transmedics-group-inc-q1-2026-earnings-call-summary?utm_source=yahoo_finance&utm_medium=rss&.tsrc=rss",
+          "published_at": "2026-05-06T12:30:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "TransMedics Group Q1 Earnings Call Highlights",
+          "link": "https://www.marketbeat.com/instant-alerts/transmedics-group-q1-earnings-call-highlights-2026-05-05/?utm_source=yahoofinance&utm_medium=yahoofinance&.tsrc=rss",
+          "published_at": "2026-05-06T03:09:11+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "TransMedics (TMDX) Reports Q1 Earnings: What Key Metrics Have to Say",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/transmedics-tmdx-reports-q1-earnings-230002697.html?.tsrc=rss",
+          "published_at": "2026-05-05T23:00:02+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "TransMedics (TMDX) Q1 Earnings and Revenues Miss Estimates",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/transmedics-tmdx-q1-earnings-revenues-220519394.html?.tsrc=rss",
+          "published_at": "2026-05-05T22:05:19+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "TransMedics Group Announces Intent to Create the First Dedicated European Transplant Logistics Network with Strategic Investment in PAD Aviation service GmbH",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/transmedics-group-announces-intent-create-132600195.html?.tsrc=rss",
+          "published_at": "2026-04-29T13:26:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Is TransMedics Group, Inc. (TMDX) A Good Stock To Buy Now?",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/transmedics-group-inc-tmdx-good-182414912.html?.tsrc=rss",
+          "published_at": "2026-04-24T18:24:14+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Does TransMedics Group's (TMDX) Cash Flow Turn and Fleet Expansion Reshape Its Capital Allocation Story?",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/does-transmedics-groups-tmdx-cash-120519746.html?.tsrc=rss",
+          "published_at": "2026-04-14T12:05:19+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "TransMedics Group (TMDX) Is Down 7.1% After Expanding Its National OCS Transplant Platform Ambitions",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/transmedics-group-tmdx-down-7-180801314.html?.tsrc=rss",
+          "published_at": "2026-03-26T18:08:01+00:00",
+          "source": "Yahoo Finance RSS"
+        }
+      ]
     }
   ]
 }
