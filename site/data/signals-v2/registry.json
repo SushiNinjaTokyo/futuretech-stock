@@ -2,6 +2,18 @@
   "version": "daily_event_score_v2",
   "signals": [
     {
+      "signal_date": "2026-05-14",
+      "symbol": "VRT",
+      "score_pts": 669,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-14",
+      "symbol": "VSAT",
+      "score_pts": 746,
+      "triage": "Watch"
+    },
+    {
       "signal_date": "2026-05-13",
       "symbol": "OII",
       "score_pts": 660,
