@@ -168,6 +168,8 @@ jobs:
           fi
 
       - name: Commit outputs
+        env:
+          REPORT_DATE: ${{ steps.set_date.outputs.REPORT_DATE }}
         run: |
           set -euo pipefail
 
@@ -177,6 +179,7 @@ jobs:
           # Add generated paths only.
           # Use git add -A so deletions are also staged.
           paths=(
+            "site/data/${REPORT_DATE}"
             "site/data/daily-v2"
             "site/data/signals-v2"
             "site/data/compression"
