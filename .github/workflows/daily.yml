@@ -119,6 +119,22 @@ jobs:
           python scripts/rebuild_signal_outcomes_v2.py --start-date "${START_DATE}" --end-date "${END_DATE}"
           python scripts/render_backtest.py
 
+      - name: Render daily simulation if available
+        run: |
+          set -euo pipefail
+
+          if [ -f "scripts/rebuild_daily_simulation.py" ]; then
+            python scripts/rebuild_daily_simulation.py
+          else
+            echo "Skip rebuild_daily_simulation.py: script not found"
+          fi
+
+          if [ -f "scripts/render_daily_simulation.py" ]; then
+            python scripts/render_daily_simulation.py
+          else
+            echo "Skip render_daily_simulation.py: script not found"
+          fi
+
       - name: Render index page
         run: |
           set -euo pipefail
@@ -144,6 +160,13 @@ jobs:
           grep -q "Daily Event Signal Lab" site/backtest/index.html
           grep -q 'href="/daily/"' site/index.html
 
+          if grep -q 'href="/daily-simulation/"' site/index.html; then
+            test -f "site/daily-simulation/index.html"
+            echo "Daily simulation link found and page exists."
+          else
+            echo "Daily simulation link not found on index; skip daily simulation page verification."
+          fi
+
       - name: Commit outputs
         run: |
           set -euo pipefail
@@ -151,27 +174,37 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
 
-          # Add only paths that actually exist.
-          for path in \
-            site/data/daily-v2 \
-            site/data/signals-v2 \
-            site/data/compression \
-            site/data/trends \
-            site/data/news \
-            site/data/index \
-            site/daily/index.html \
-            site/backtest/index.html \
-            site/index.html \
-            site/assets/daily.css \
-            site/assets/backtest.css \
-            site/assets/index.css
-          do
-            if [ -e "$path" ]; then
-              git add "$path"
+          # Add generated paths only.
+          # Use git add -A so deletions are also staged.
+          paths=(
+            "site/data/daily-v2"
+            "site/data/signals-v2"
+            "site/data/compression"
+            "site/data/trends"
+            "site/data/news"
+            "site/data/index"
+            "site/data/daily/simulation"
+            "site/daily/index.html"
+            "site/backtest/index.html"
+            "site/daily-simulation/index.html"
+            "site/index.html"
+            "site/assets/daily.css"
+            "site/assets/backtest.css"
+            "site/assets/daily_simulation.css"
+            "site/assets/daily-simulation.css"
+            "site/assets/index.css"
+          )
+
+          for path in "${paths[@]}"; do
+            if [ -e "$path" ] || [ -n "$(git ls-files -- "$path")" ]; then
+              git add -A -- "$path"
             else
-              echo "Skip missing path: $path"
+              echo "Skip missing and untracked path: $path"
             fi
           done
+
+          echo "Git status after staging generated outputs:"
+          git status --short
 
           if git diff --cached --quiet; then
             echo "No daily changes to commit."
@@ -179,6 +212,12 @@ jobs:
           fi
 
           git commit -m "chore: update daily v2 signals and backtest"
+
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::Working tree is still dirty after commit. Add the following generated paths to the Commit outputs path list, or stop generating them."
+            git status --short
+            exit 1
+          fi
 
           git pull --rebase origin main
           git push origin main
