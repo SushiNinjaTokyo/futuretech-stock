@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-19 03:02:49Z",
+  "generated_at": "2026-05-19 04:40:09Z",
   "policy": {
     "name": "Weekly B+ Add-on Reinvestment Simulation",
     "entry": "Buy every B-or-better weekly signal at the next trading day open.",
