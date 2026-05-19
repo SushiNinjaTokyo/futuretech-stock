@@ -1026,7 +1026,10 @@ def simulate_policy(policy: SimPolicy, snapshots: List[Dict[str, Any]], historie
         net_return = pct(portfolio_equity, total_new_capital) if total_new_capital else None
         spy_return_equity = pct(spy_equity, total_new_capital) if total_new_capital else None
         equity_multiple = ratio(portfolio_equity, total_new_capital) if total_new_capital else None
-        peak_multiple = max([e.get("equity_multiple", 0) for e in equity_curve] + ([equity_multiple] if equity_multiple is not None else [0]))
+        peak_multiple = max(
+            [to_float(e.get("equity_multiple")) or 0.0 for e in equity_curve]
+            + ([equity_multiple] if equity_multiple is not None else [0.0])
+        )
         dd = pct(equity_multiple, peak_multiple) if equity_multiple is not None and peak_multiple else None
         exposure = ratio(market_value, portfolio_equity)
         equity_curve.append({
