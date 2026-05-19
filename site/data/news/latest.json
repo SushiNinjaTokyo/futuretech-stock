@@ -31,7 +31,13 @@
         {
           "title": "Dow Jones Futures: Stocks Fall As Yields Jump; Micron, Sandisk, Astera Rise With Nvidia Earnings Due",
           "link": "https://finance.yahoo.com/m/1a78da30-53e1-396a-afe5-e4b0f2111416/dow-jones-futures%3A-stocks.html?.tsrc=rss",
-          "published_at": "2026-05-19T22:42:55+00:00",
+          "published_at": "2026-05-19T23:34:47+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Nvidia gets unexpected China opening as chip fight intensifies",
+          "link": "https://www.thestreet.com/technology/nvidia-gets-unexpected-china-opening-as-chip-fight-intensifies?.tsrc=rss",
+          "published_at": "2026-05-19T23:08:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -57,12 +63,6 @@
           "link": "https://finance.yahoo.com/m/2a86a6c5-f50c-3302-9006-7cbb1075e093/these-stocks-are-today%E2%80%99s.html?.tsrc=rss",
           "published_at": "2026-05-19T20:58:00+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Nvidia says “Physical AI is here”. Is Your Blue Collar Job in Danger?",
-          "link": "https://247wallst.com/investing/2026/05/19/nvidia-says-physical-ai-is-here-is-your-blue-collar-job-in-danger/?.tsrc=rss",
-          "published_at": "2026-05-19T20:32:06+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
@@ -71,8 +71,8 @@
       "name": "Microsoft Corporation",
       "score_0_1": 0.498913,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 5,
-      "deduped_headline_count": 5,
+      "headline_count_relevant": 6,
+      "deduped_headline_count": 6,
       "today_count": 0,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -118,9 +118,15 @@
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "Does Microsoft's Stock Belong in Your Retirement Portfolio?",
-          "link": "https://www.fool.com/investing/2026/05/19/does-microsofts-stock-belong-in-your-retirement-po/?.tsrc=rss",
-          "published_at": "2026-05-19T15:05:00+00:00",
+          "title": "Wall Street Is Loving the Layoffs at Microsoft. Buy the Dip.",
+          "link": "https://www.barchart.com/story/news/2021312/wall-street-is-loving-the-layoffs-at-microsoft-buy-the-dip?.tsrc=rss",
+          "published_at": "2026-05-19T17:16:39+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "3G Capital Exits Microsoft Stock in Major Portfolio Shift. MSFT Is Still One of the Best AI Plays Now.",
+          "link": "https://www.barchart.com/story/news/2021040/3g-capital-exits-microsoft-stock-in-major-portfolio-shift-msft-is-still-one-of-the-best-ai-plays-now?.tsrc=rss",
+          "published_at": "2026-05-19T17:02:02+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]

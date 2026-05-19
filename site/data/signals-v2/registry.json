@@ -2,6 +2,30 @@
   "version": "daily_event_score_v2",
   "signals": [
     {
+      "signal_date": "2026-05-18",
+      "symbol": "OXY",
+      "score_pts": 674,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-18",
+      "symbol": "S",
+      "score_pts": 727,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-18",
+      "symbol": "ESTC",
+      "score_pts": 734,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-18",
+      "symbol": "RBRK",
+      "score_pts": 747,
+      "triage": "Watch"
+    },
+    {
       "signal_date": "2026-05-15",
       "symbol": "MTDR",
       "score_pts": 655,
