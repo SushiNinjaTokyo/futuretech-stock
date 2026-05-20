@@ -6,8 +6,8 @@
       "name": "NVIDIA Corporation",
       "score_0_1": 0.498913,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 15,
-      "deduped_headline_count": 15,
+      "headline_count_relevant": 13,
+      "deduped_headline_count": 13,
       "today_count": 0,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -29,9 +29,15 @@
       },
       "headlines": [
         {
-          "title": "Dow Jones Futures Fall After Strong Nvidia Earnings; SpaceX Files For Huge IPO",
-          "link": "https://finance.yahoo.com/m/ceac2592-664b-3412-92e2-ff5aa640c81d/dow-jones-futures-fall-after.html?.tsrc=rss",
-          "published_at": "2026-05-20T23:09:44+00:00",
+          "title": "Nvidia-backed AI startup wants to solve AI’s ‘hard problem’",
+          "link": "https://www.thestreet.com/investing/nvidia-backed-ai-startup-wants-to-solve-ais-hard-problem?.tsrc=rss",
+          "published_at": "2026-05-20T23:37:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Stock market today: Dow, S&P 500, Nasdaq futures slip as Wall Street shrugs off Nvidia earnings",
+          "link": "https://finance.yahoo.com/economy/live/stock-market-today-dow-sp-500-nasdaq-futures-slip-as-wall-street-shrugs-off-nvidia-earnings-232311657.html?.tsrc=rss",
+          "published_at": "2026-05-20T23:23:11+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -65,7 +71,7 @@
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "Nvidia posts another record quarter, reveals $43 billion of holdings in startups",
+          "title": "Nvidia posts another record quarter, reveals $43B of holdings in startups",
           "link": "https://finance.yahoo.com/markets/stocks/articles/nvidia-posts-another-record-quarter-220351977.html?.tsrc=rss",
           "published_at": "2026-05-20T22:03:51+00:00",
           "source": "Yahoo Finance RSS"
@@ -98,24 +104,6 @@
           "title": "Nvidia Q1 FY2027 earnings: record revenue, dividend hike",
           "link": "https://qz.com/nvidia-record-revenue-ai-chips-dividend-buyback-052026?.tsrc=rss",
           "published_at": "2026-05-20T21:46:49+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Nvidia Can Outgrow Hyperscaler CapEx: Jensen Huang",
-          "link": "https://finance.yahoo.com/m/b32e2ccf-89ca-3992-8e9e-158278023f15/nvidia-can-outgrow.html?.tsrc=rss",
-          "published_at": "2026-05-20T21:44:57+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Nvidia (NVDA) Tops Q1 Earnings and Revenue Estimates",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/nvidia-nvda-tops-q1-earnings-213501976.html?.tsrc=rss",
-          "published_at": "2026-05-20T21:35:01+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Nvidia Q1 earnings results: Top takeaways",
-          "link": "https://finance.yahoo.com/video/nvidia-q1-earnings-results-top-takeaways-213230096.html?.tsrc=rss",
-          "published_at": "2026-05-20T21:32:30+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -522,8 +510,8 @@
       "name": "Symbotic Inc.",
       "score_0_1": 0.498913,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 13,
-      "deduped_headline_count": 13,
+      "headline_count_relevant": 14,
+      "deduped_headline_count": 14,
       "today_count": 0,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -554,6 +542,12 @@
           "title": "Symbotic Stock Declines 15.5% Since Q2 Earnings Release",
           "link": "https://finance.yahoo.com/markets/stocks/articles/symbotic-stock-declines-15-5-134700009.html?.tsrc=rss",
           "published_at": "2026-05-12T13:47:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "AMADY vs. SYM: Which Stock Should Value Investors Buy Now?",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/amady-vs-sym-stock-value-154003158.html?.tsrc=rss",
+          "published_at": "2026-05-11T15:40:03+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -2174,8 +2168,8 @@
       "name": "Kratos Defense & Security Solutions Inc.",
       "score_0_1": 0.498913,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 4,
-      "deduped_headline_count": 4,
+      "headline_count_relevant": 5,
+      "deduped_headline_count": 5,
       "today_count": 0,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -2196,6 +2190,12 @@
         "2026-05-19": 0
       },
       "headlines": [
+        {
+          "title": "Is Kratos Defense & Security Solutions (KTOS) Still Attractive After Recent Share Price Swings?",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/kratos-defense-security-solutions-ktos-231351107.html?.tsrc=rss",
+          "published_at": "2026-05-20T23:13:51+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "How Is KTOS Strengthening Revenue Visibility Through Its Backlog?",
           "link": "https://finance.yahoo.com/markets/stocks/articles/ktos-strengthening-revenue-visibility-backlog-142500983.html?.tsrc=rss",

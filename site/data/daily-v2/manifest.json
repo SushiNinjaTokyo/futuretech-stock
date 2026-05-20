@@ -138,12 +138,22 @@
       "trade": 0,
       "watch": 4,
       "ignore": 21
+    },
+    "2026-05-19": {
+      "status": "ok",
+      "generated_at": "2026-05-20 23:53:46Z",
+      "items": 25,
+      "all_items": 47,
+      "top10": 10,
+      "trade": 0,
+      "watch": 1,
+      "ignore": 24
     }
   },
-  "latest_date": "2026-05-18",
-  "updated_at": "2026-05-19 23:45:20Z",
-  "date_count": 34,
-  "latest_source": "site/data/daily-v2/2026-05-18/top10.json",
+  "latest_date": "2026-05-19",
+  "updated_at": "2026-05-20 23:53:46Z",
+  "date_count": 35,
+  "latest_source": "site/data/daily-v2/2026-05-19/top10.json",
   "available_dates": [
     "2026-04-01",
     "2026-04-02",
@@ -178,7 +188,8 @@
     "2026-05-13",
     "2026-05-14",
     "2026-05-15",
-    "2026-05-18"
+    "2026-05-18",
+    "2026-05-19"
   ],
   "date_records": {
     "2026-04-01": {
@@ -318,6 +329,16 @@
       "trade": 0,
       "watch": 4,
       "ignore": 21
+    },
+    "2026-05-19": {
+      "status": "ok",
+      "generated_at": "2026-05-20 23:53:46Z",
+      "items": 25,
+      "all_items": 47,
+      "top10": 10,
+      "trade": 0,
+      "watch": 1,
+      "ignore": 24
     }
   }
 }

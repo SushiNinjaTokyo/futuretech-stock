@@ -2,6 +2,12 @@
   "version": "daily_event_score_v2",
   "signals": [
     {
+      "signal_date": "2026-05-19",
+      "symbol": "OXY",
+      "score_pts": 653,
+      "triage": "Watch"
+    },
+    {
       "signal_date": "2026-05-18",
       "symbol": "OXY",
       "score_pts": 674,
