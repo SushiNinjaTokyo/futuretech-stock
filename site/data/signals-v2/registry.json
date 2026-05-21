@@ -2,6 +2,30 @@
   "version": "daily_event_score_v2",
   "signals": [
     {
+      "signal_date": "2026-05-20",
+      "symbol": "S",
+      "score_pts": 650,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-20",
+      "symbol": "RBRK",
+      "score_pts": 667,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-20",
+      "symbol": "IRDM",
+      "score_pts": 697,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-20",
+      "symbol": "VSAT",
+      "score_pts": 797,
+      "triage": "Trade"
+    },
+    {
       "signal_date": "2026-05-19",
       "symbol": "OXY",
       "score_pts": 653,
