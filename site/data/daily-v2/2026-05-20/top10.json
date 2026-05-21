@@ -1,7 +1,7 @@
 {
   "version": "daily_event_score_v2",
   "date": "2026-05-20",
-  "generated_at": "2026-05-21 00:44:20Z",
+  "generated_at": "2026-05-21 23:40:29Z",
   "methodology": {
     "name": "Daily Event Score",
     "objective": "Rank timing-sensitive event candidates by volume, compression release, setup quality, relative strength, entry risk, and penalty controls.",
@@ -149,19 +149,19 @@
       "symbol": "VSAT",
       "name": "Viasat, Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.797346,
-      "score_pts": 797,
+      "final_score_0_1": 0.769293,
+      "score_pts": 769,
       "triage": "Trade",
       "archetype": "Volume + Compression + Breakout",
       "regime": "Risk-on",
-      "reason": "RVOL 1.84x; compression release; breakout setup; relative strength",
+      "reason": "RVOL 1.85x; compression release; breakout setup; relative strength",
       "price": 75.27,
-      "volume": 3101204,
+      "volume": 3122000,
       "score_components": {
-        "volume_anomaly": 0.766846,
-        "compression_release": 0.664385,
-        "trends_breakout": 0.987894,
-        "news": 0.649593
+        "volume_anomaly": 0.76784,
+        "compression_release": 0.573074,
+        "trends_breakout": 0.960961,
+        "news": 0.575863
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -173,12 +173,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.766846,
-        "compression_release": 0.664385,
-        "breakout_setup_quality": 0.987894,
+        "volume_liquidity_shock": 0.76784,
+        "compression_release": 0.573074,
+        "breakout_setup_quality": 0.960961,
         "relative_strength": 0.841269,
         "entry_timing": 0.775199,
-        "catalyst_confirmation": 0.649593,
+        "catalyst_confirmation": 0.575863,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -187,14 +187,14 @@
         "ret_5d_pct": 6.64,
         "ret_20d_pct": 19.32,
         "ret_60d_pct": 57.07,
-        "rvol20": 1.84,
+        "rvol20": 1.85,
         "range_pos": 0.888,
         "close_pos20": 0.976,
         "atr_pct": 5.04,
         "extension_sma20_pct": 12.28,
         "extension_sma50_pct": 29.07,
-        "dollar_volume": 233427615.0,
-        "avg_dollar_volume20": 114025395.0,
+        "dollar_volume": 234992930.0,
+        "avg_dollar_volume20": 114103661.0,
         "rs_5d_vs_qqq": 6.86,
         "rs_20d_vs_qqq": 10.47,
         "rs_60d_vs_qqq": 39.75,
@@ -204,8 +204,8 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 797,
-        "volume_anomaly": 0.766846
+        "score_pts": 769,
+        "volume_anomaly": 0.76784
       },
       "rank": 1
     },
@@ -213,19 +213,19 @@
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.696831,
-      "score_pts": 697,
+      "final_score_0_1": 0.701825,
+      "score_pts": 702,
       "triage": "Watch",
       "archetype": "Volume + Compression + Breakout",
       "regime": "Risk-on",
-      "reason": "RVOL 0.97x; compression release; breakout setup; relative strength",
+      "reason": "RVOL 0.98x; compression release; breakout setup; relative strength",
       "price": 45.28,
-      "volume": 2153529,
+      "volume": 2161600,
       "score_components": {
-        "volume_anomaly": 0.674675,
-        "compression_release": 0.792857,
-        "trends_breakout": 0.947782,
-        "news": 0.552866
+        "volume_anomaly": 0.675132,
+        "compression_release": 0.78676,
+        "trends_breakout": 0.973428,
+        "news": 0.574253
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -237,12 +237,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.674675,
-        "compression_release": 0.792857,
-        "breakout_setup_quality": 0.947782,
+        "volume_liquidity_shock": 0.675132,
+        "compression_release": 0.78676,
+        "breakout_setup_quality": 0.973428,
         "relative_strength": 0.659071,
         "entry_timing": 0.811127,
-        "catalyst_confirmation": 0.552866,
+        "catalyst_confirmation": 0.574253,
         "market_regime": 1.0,
         "penalty": 0.07
       },
@@ -251,14 +251,14 @@
         "ret_5d_pct": 5.08,
         "ret_20d_pct": 12.08,
         "ret_60d_pct": 89.38,
-        "rvol20": 0.97,
+        "rvol20": 0.98,
         "range_pos": 0.901,
         "close_pos20": 0.974,
         "atr_pct": 5.28,
         "extension_sma20_pct": 10.97,
         "extension_sma50_pct": 28.39,
-        "dollar_volume": 97511790.0,
-        "avg_dollar_volume20": 90359972.0,
+        "dollar_volume": 97877245.0,
+        "avg_dollar_volume20": 90378245.0,
         "rs_5d_vs_qqq": 5.3,
         "rs_20d_vs_qqq": 3.22,
         "rs_60d_vs_qqq": 72.06,
@@ -268,8 +268,8 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 697,
-        "volume_anomaly": 0.674675
+        "score_pts": 702,
+        "volume_anomaly": 0.675132
       },
       "rank": 2
     },
@@ -277,19 +277,19 @@
       "symbol": "RBRK",
       "name": "Rubrik Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.667147,
-      "score_pts": 667,
+      "final_score_0_1": 0.652236,
+      "score_pts": 652,
       "triage": "Watch",
       "archetype": "Volume",
       "regime": "Risk-on",
       "reason": "RVOL 1.31x; relative strength",
       "price": 66.89,
-      "volume": 4015756,
+      "volume": 4024500,
       "score_components": {
-        "volume_anomaly": 0.722784,
-        "compression_release": 0.49623,
-        "trends_breakout": 0.572998,
-        "news": 0.502638
+        "volume_anomaly": 0.723085,
+        "compression_release": 0.453852,
+        "trends_breakout": 0.546385,
+        "news": 0.478189
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -301,12 +301,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.722784,
-        "compression_release": 0.49623,
-        "breakout_setup_quality": 0.572998,
+        "volume_liquidity_shock": 0.723085,
+        "compression_release": 0.453852,
+        "breakout_setup_quality": 0.546385,
         "relative_strength": 0.855843,
         "entry_timing": 0.747916,
-        "catalyst_confirmation": 0.502638,
+        "catalyst_confirmation": 0.478189,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -321,8 +321,8 @@
         "atr_pct": 4.74,
         "extension_sma20_pct": 13.89,
         "extension_sma50_pct": 24.31,
-        "dollar_volume": 268613916.0,
-        "avg_dollar_volume20": 181285015.0,
+        "dollar_volume": 269198803.0,
+        "avg_dollar_volume20": 181314260.0,
         "rs_5d_vs_qqq": 12.68,
         "rs_20d_vs_qqq": 12.23,
         "rs_60d_vs_qqq": 13.73,
@@ -332,8 +332,8 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 667,
-        "volume_anomaly": 0.722784
+        "score_pts": 652,
+        "volume_anomaly": 0.723085
       },
       "rank": 3
     },
@@ -341,19 +341,19 @@
       "symbol": "S",
       "name": "SentinelOne Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.650314,
-      "score_pts": 650,
+      "final_score_0_1": 0.651687,
+      "score_pts": 652,
       "triage": "Watch",
       "archetype": "Volume + Catalyst",
       "regime": "Risk-on",
-      "reason": "RVOL 1.02x; relative strength",
+      "reason": "RVOL 1.03x; relative strength",
       "price": 17.97,
-      "volume": 7073332,
+      "volume": 7146900,
       "score_components": {
-        "volume_anomaly": 0.685999,
-        "compression_release": 0.341171,
+        "volume_anomaly": 0.687466,
+        "compression_release": 0.342238,
         "trends_breakout": 0.545103,
-        "news": 0.729658
+        "news": 0.741382
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -365,12 +365,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.685999,
-        "compression_release": 0.341171,
+        "volume_liquidity_shock": 0.687466,
+        "compression_release": 0.342238,
         "breakout_setup_quality": 0.545103,
         "relative_strength": 0.933726,
-        "entry_timing": 0.746042,
-        "catalyst_confirmation": 0.729658,
+        "entry_timing": 0.746155,
+        "catalyst_confirmation": 0.741382,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -379,14 +379,14 @@
         "ret_5d_pct": 11.75,
         "ret_20d_pct": 22.83,
         "ret_60d_pct": 40.83,
-        "rvol20": 1.02,
-        "range_pos": 0.917,
+        "rvol20": 1.03,
+        "range_pos": 0.918,
         "close_pos20": 0.967,
         "atr_pct": 4.69,
         "extension_sma20_pct": 14.03,
         "extension_sma50_pct": 24.16,
-        "dollar_volume": 127107771.0,
-        "avg_dollar_volume20": 109995881.0,
+        "dollar_volume": 128429788.0,
+        "avg_dollar_volume20": 110061982.0,
         "rs_5d_vs_qqq": 11.97,
         "rs_20d_vs_qqq": 13.97,
         "rs_60d_vs_qqq": 23.51,
@@ -396,8 +396,8 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 650,
-        "volume_anomaly": 0.685999
+        "score_pts": 652,
+        "volume_anomaly": 0.687466
       },
       "rank": 4
     },
@@ -405,19 +405,19 @@
       "symbol": "ESTC",
       "name": "Elastic N.V.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.636253,
-      "score_pts": 636,
+      "final_score_0_1": 0.626707,
+      "score_pts": 627,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
       "reason": "RVOL 1.17x",
       "price": 55.28,
-      "volume": 2099348,
+      "volume": 2112400,
       "score_components": {
-        "volume_anomaly": 0.721937,
-        "compression_release": 0.549206,
+        "volume_anomaly": 0.722759,
+        "compression_release": 0.507743,
         "trends_breakout": 0.537239,
-        "news": 0.460911
+        "news": 0.440422
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -429,12 +429,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.721937,
-        "compression_release": 0.549206,
+        "volume_liquidity_shock": 0.722759,
+        "compression_release": 0.507743,
         "breakout_setup_quality": 0.537239,
         "relative_strength": 0.557434,
         "entry_timing": 0.833357,
-        "catalyst_confirmation": 0.460911,
+        "catalyst_confirmation": 0.440422,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -449,8 +449,8 @@
         "atr_pct": 5.07,
         "extension_sma20_pct": 11.01,
         "extension_sma50_pct": 10.78,
-        "dollar_volume": 116051955.0,
-        "avg_dollar_volume20": 89978146.0,
+        "dollar_volume": 116773469.0,
+        "avg_dollar_volume20": 90014222.0,
         "rs_5d_vs_qqq": 14.03,
         "rs_20d_vs_qqq": 3.43,
         "rs_60d_vs_qqq": -19.27,
@@ -460,8 +460,8 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 636,
-        "volume_anomaly": 0.721937
+        "score_pts": 627,
+        "volume_anomaly": 0.722759
       },
       "rank": 5
     },
@@ -469,19 +469,19 @@
       "symbol": "PRCT",
       "name": "PROCEPT BioRobotics Corporation",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.604177,
-      "score_pts": 604,
+      "final_score_0_1": 0.605948,
+      "score_pts": 606,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
       "reason": "RVOL 0.85x",
       "price": 28.11,
-      "volume": 1458909,
+      "volume": 1458900,
       "score_components": {
-        "volume_anomaly": 0.675925,
-        "compression_release": 0.469246,
+        "volume_anomaly": 0.675745,
+        "compression_release": 0.470771,
         "trends_breakout": 0.53101,
-        "news": 0.442377
+        "news": 0.464269
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -493,12 +493,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.675925,
-        "compression_release": 0.469246,
+        "volume_liquidity_shock": 0.675745,
+        "compression_release": 0.470771,
         "breakout_setup_quality": 0.53101,
         "relative_strength": 0.542227,
-        "entry_timing": 0.824946,
-        "catalyst_confirmation": 0.442377,
+        "entry_timing": 0.824766,
+        "catalyst_confirmation": 0.464269,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -508,13 +508,13 @@
         "ret_20d_pct": 11.95,
         "ret_60d_pct": 3.12,
         "rvol20": 0.85,
-        "range_pos": 0.99,
+        "range_pos": 0.989,
         "close_pos20": 0.873,
         "atr_pct": 6.11,
         "extension_sma20_pct": 11.3,
         "extension_sma50_pct": 11.2,
-        "dollar_volume": 41009933.0,
-        "avg_dollar_volume20": 43723373.0,
+        "dollar_volume": 41009680.0,
+        "avg_dollar_volume20": 43723360.0,
         "rs_5d_vs_qqq": 9.6,
         "rs_20d_vs_qqq": 3.09,
         "rs_60d_vs_qqq": -14.2,
@@ -524,92 +524,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 604,
-        "volume_anomaly": 0.675925
+        "score_pts": 606,
+        "volume_anomaly": 0.675745
       },
       "rank": 6
-    },
-    {
-      "symbol": "AI",
-      "name": "C3.ai, Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.587747,
-      "score_pts": 588,
-      "triage": "Ignore",
-      "archetype": "Volume",
-      "regime": "Risk-on",
-      "reason": "RVOL 1.11x",
-      "price": 9.28,
-      "volume": 4983885,
-      "score_components": {
-        "volume_anomaly": 0.704086,
-        "compression_release": 0.536508,
-        "trends_breakout": 0.500167,
-        "news": 0.445107
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.704086,
-        "compression_release": 0.536508,
-        "breakout_setup_quality": 0.500167,
-        "relative_strength": 0.260883,
-        "entry_timing": 0.901511,
-        "catalyst_confirmation": 0.445107,
-        "market_regime": 1.0,
-        "penalty": 0
-      },
-      "metrics": {
-        "ret_1d_pct": 5.1,
-        "ret_5d_pct": 7.28,
-        "ret_20d_pct": -1.17,
-        "ret_60d_pct": -8.3,
-        "rvol20": 1.11,
-        "range_pos": 0.966,
-        "close_pos20": 0.615,
-        "atr_pct": 5.22,
-        "extension_sma20_pct": 2.58,
-        "extension_sma50_pct": 4.96,
-        "dollar_volume": 46250451.0,
-        "avg_dollar_volume20": 40594072.0,
-        "rs_5d_vs_qqq": 7.5,
-        "rs_20d_vs_qqq": -10.03,
-        "rs_60d_vs_qqq": -25.62,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 588,
-        "volume_anomaly": 0.704086
-      },
-      "rank": 7
     },
     {
       "symbol": "IONQ",
       "name": "IonQ Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.566988,
-      "score_pts": 567,
+      "final_score_0_1": 0.597195,
+      "score_pts": 597,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
-      "reason": "RVOL 0.63x",
+      "reason": "RVOL 0.73x",
       "price": 52.47,
-      "volume": 19674474,
+      "volume": 22745900,
       "score_components": {
-        "volume_anomaly": 0.647194,
-        "compression_release": 0.340179,
-        "trends_breakout": 0.546631,
-        "news": 0.422113
+        "volume_anomaly": 0.661514,
+        "compression_release": 0.397038,
+        "trends_breakout": 0.594728,
+        "news": 0.522461
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -621,12 +557,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.647194,
-        "compression_release": 0.340179,
-        "breakout_setup_quality": 0.546631,
+        "volume_liquidity_shock": 0.661514,
+        "compression_release": 0.397038,
+        "breakout_setup_quality": 0.594728,
         "relative_strength": 0.429581,
-        "entry_timing": 0.894607,
-        "catalyst_confirmation": 0.422113,
+        "entry_timing": 0.894624,
+        "catalyst_confirmation": 0.522461,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -635,14 +571,14 @@
         "ret_5d_pct": -5.05,
         "ret_20d_pct": 10.79,
         "ret_60d_pct": 65.94,
-        "rvol20": 0.63,
+        "rvol20": 0.73,
         "range_pos": 0.938,
         "close_pos20": 0.655,
         "atr_pct": 9.5,
         "extension_sma20_pct": 7.35,
         "extension_sma50_pct": 31.66,
-        "dollar_volume": 1032319675.0,
-        "avg_dollar_volume20": 1547509080.0,
+        "dollar_volume": 1193477401.0,
+        "avg_dollar_volume20": 1555566967.0,
         "rs_5d_vs_qqq": -4.83,
         "rs_20d_vs_qqq": 1.93,
         "rs_60d_vs_qqq": 48.62,
@@ -652,28 +588,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 567,
-        "volume_anomaly": 0.647194
+        "score_pts": 597,
+        "volume_anomaly": 0.661514
       },
-      "rank": 8
+      "rank": 7
     },
     {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.565421,
-      "score_pts": 565,
+      "final_score_0_1": 0.569912,
+      "score_pts": 570,
       "triage": "Ignore",
       "archetype": "Volume + Catalyst",
       "regime": "Risk-on",
       "reason": "RVOL 0.69x",
       "price": 79.15,
-      "volume": 1414010,
+      "volume": 1430500,
       "score_components": {
-        "volume_anomaly": 0.661343,
+        "volume_anomaly": 0.662499,
         "compression_release": 0.162698,
-        "trends_breakout": 0.551419,
-        "news": 0.584081
+        "trends_breakout": 0.558961,
+        "news": 0.625219
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -685,12 +621,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.661343,
+        "volume_liquidity_shock": 0.662499,
         "compression_release": 0.162698,
-        "breakout_setup_quality": 0.551419,
+        "breakout_setup_quality": 0.558961,
         "relative_strength": 0.582512,
         "entry_timing": 0.865786,
-        "catalyst_confirmation": 0.584081,
+        "catalyst_confirmation": 0.625219,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -705,8 +641,8 @@
         "atr_pct": 7.91,
         "extension_sma20_pct": 9.77,
         "extension_sma50_pct": 12.6,
-        "dollar_volume": 111918894.0,
-        "avg_dollar_volume20": 151429472.0,
+        "dollar_volume": 113224077.0,
+        "avg_dollar_volume20": 151494731.0,
         "rs_5d_vs_qqq": 17.13,
         "rs_20d_vs_qqq": 4.63,
         "rs_60d_vs_qqq": -12.26,
@@ -716,28 +652,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 565,
-        "volume_anomaly": 0.661343
+        "score_pts": 570,
+        "volume_anomaly": 0.662499
       },
-      "rank": 9
+      "rank": 8
     },
     {
-      "symbol": "CGNX",
-      "name": "Cognex Corporation",
+      "symbol": "AI",
+      "name": "C3.ai, Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.546679,
-      "score_pts": 547,
+      "final_score_0_1": 0.569168,
+      "score_pts": 569,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
-      "reason": "RVOL 0.80x",
-      "price": 63.37,
-      "volume": 2196178,
+      "reason": "RVOL 1.11x",
+      "price": 9.28,
+      "volume": 5001800,
       "score_components": {
-        "volume_anomaly": 0.62848,
-        "compression_release": 0.252877,
-        "trends_breakout": 0.551576,
-        "news": 0.419415
+        "volume_anomaly": 0.704548,
+        "compression_release": 0.436508,
+        "trends_breakout": 0.517166,
+        "news": 0.42025
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -749,12 +685,76 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.62848,
-        "compression_release": 0.252877,
-        "breakout_setup_quality": 0.551576,
+        "volume_liquidity_shock": 0.704548,
+        "compression_release": 0.436508,
+        "breakout_setup_quality": 0.517166,
+        "relative_strength": 0.260883,
+        "entry_timing": 0.901508,
+        "catalyst_confirmation": 0.42025,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": 5.1,
+        "ret_5d_pct": 7.28,
+        "ret_20d_pct": -1.17,
+        "ret_60d_pct": -8.3,
+        "rvol20": 1.11,
+        "range_pos": 0.966,
+        "close_pos20": 0.615,
+        "atr_pct": 5.22,
+        "extension_sma20_pct": 2.58,
+        "extension_sma50_pct": 4.96,
+        "dollar_volume": 46416703.0,
+        "avg_dollar_volume20": 40602384.0,
+        "rs_5d_vs_qqq": 7.5,
+        "rs_20d_vs_qqq": -10.03,
+        "rs_60d_vs_qqq": -25.62,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 569,
+        "volume_anomaly": 0.704548
+      },
+      "rank": 9
+    },
+    {
+      "symbol": "CGNX",
+      "name": "Cognex Corporation",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.563105,
+      "score_pts": 563,
+      "triage": "Ignore",
+      "archetype": "Volume",
+      "regime": "Risk-on",
+      "reason": "RVOL 0.80x",
+      "price": 63.37,
+      "volume": 2198800,
+      "score_components": {
+        "volume_anomaly": 0.628567,
+        "compression_release": 0.298761,
+        "trends_breakout": 0.567592,
+        "news": 0.481605
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.628567,
+        "compression_release": 0.298761,
+        "breakout_setup_quality": 0.567592,
         "relative_strength": 0.468256,
-        "entry_timing": 0.859713,
-        "catalyst_confirmation": 0.419415,
+        "entry_timing": 0.85967,
+        "catalyst_confirmation": 0.481605,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -769,8 +769,8 @@
         "atr_pct": 5.25,
         "extension_sma20_pct": 5.27,
         "extension_sma50_pct": 15.42,
-        "dollar_volume": 139171798.0,
-        "avg_dollar_volume20": 169033708.0,
+        "dollar_volume": 139337954.0,
+        "avg_dollar_volume20": 169042016.0,
         "rs_5d_vs_qqq": -0.21,
         "rs_20d_vs_qqq": 8.43,
         "rs_60d_vs_qqq": -7.83,
@@ -780,92 +780,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 547,
-        "volume_anomaly": 0.62848
+        "score_pts": 563,
+        "volume_anomaly": 0.628567
       },
       "rank": 10
-    },
-    {
-      "symbol": "PLTR",
-      "name": "Palantir Technologies Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.538131,
-      "score_pts": 538,
-      "triage": "Ignore",
-      "archetype": "Volume + Compression + Catalyst",
-      "regime": "Risk-on",
-      "reason": "RVOL 0.70x; compression release",
-      "price": 137.15,
-      "volume": 29866980,
-      "score_components": {
-        "volume_anomaly": 0.667533,
-        "compression_release": 0.763988,
-        "trends_breakout": 0.088726,
-        "news": 0.630761
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.667533,
-        "compression_release": 0.763988,
-        "breakout_setup_quality": 0.088726,
-        "relative_strength": 0.213554,
-        "entry_timing": 0.775457,
-        "catalyst_confirmation": 0.630761,
-        "market_regime": 1.0,
-        "penalty": 0
-      },
-      "metrics": {
-        "ret_1d_pct": 1.4,
-        "ret_5d_pct": 5.46,
-        "ret_20d_pct": -10.14,
-        "ret_60d_pct": 6.45,
-        "rvol20": 0.7,
-        "range_pos": 0.981,
-        "close_pos20": 0.39,
-        "atr_pct": 4.16,
-        "extension_sma20_pct": -0.58,
-        "extension_sma50_pct": -4.26,
-        "dollar_volume": 4096256125.0,
-        "avg_dollar_volume20": 5908830835.0,
-        "rs_5d_vs_qqq": 5.68,
-        "rs_20d_vs_qqq": -19.0,
-        "rs_60d_vs_qqq": -10.87,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 538,
-        "volume_anomaly": 0.667533
-      },
-      "rank": 11
     },
     {
       "symbol": "OII",
       "name": "Oceaneering International Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.532885,
-      "score_pts": 533,
+      "final_score_0_1": 0.550576,
+      "score_pts": 551,
       "triage": "Ignore",
       "archetype": "Compression",
       "regime": "Risk-on",
       "reason": "compression release",
       "price": 38.4,
-      "volume": 555708,
+      "volume": 555900,
       "score_components": {
-        "volume_anomaly": 0.504152,
-        "compression_release": 0.631448,
-        "trends_breakout": 0.562321,
-        "news": 0.394216
+        "volume_anomaly": 0.501244,
+        "compression_release": 0.702942,
+        "trends_breakout": 0.571087,
+        "news": 0.435953
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -877,12 +813,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.504152,
-        "compression_release": 0.631448,
-        "breakout_setup_quality": 0.562321,
+        "volume_liquidity_shock": 0.501244,
+        "compression_release": 0.702942,
+        "breakout_setup_quality": 0.571087,
         "relative_strength": 0.095158,
-        "entry_timing": 0.817303,
-        "catalyst_confirmation": 0.394216,
+        "entry_timing": 0.814187,
+        "catalyst_confirmation": 0.435953,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -892,13 +828,13 @@
         "ret_20d_pct": -0.18,
         "ret_60d_pct": -1.08,
         "rvol20": 0.53,
-        "range_pos": 0.494,
+        "range_pos": 0.482,
         "close_pos20": 0.667,
-        "atr_pct": 3.59,
+        "atr_pct": 3.6,
         "extension_sma20_pct": 1.98,
         "extension_sma50_pct": 4.84,
-        "dollar_volume": 21339188.0,
-        "avg_dollar_volume20": 39389266.0,
+        "dollar_volume": 21346561.0,
+        "avg_dollar_volume20": 39389635.0,
         "rs_5d_vs_qqq": -0.99,
         "rs_20d_vs_qqq": -9.04,
         "rs_60d_vs_qqq": -18.4,
@@ -908,28 +844,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 533,
-        "volume_anomaly": 0.504152
+        "score_pts": 551,
+        "volume_anomaly": 0.501244
       },
-      "rank": 12
+      "rank": 11
     },
     {
-      "symbol": "ROK",
-      "name": "Rockwell Automation Inc.",
+      "symbol": "PLTR",
+      "name": "Palantir Technologies Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.528877,
-      "score_pts": 529,
+      "final_score_0_1": 0.547584,
+      "score_pts": 548,
       "triage": "Ignore",
-      "archetype": "Volume",
+      "archetype": "Volume + Compression + Catalyst",
       "regime": "Risk-on",
-      "reason": "RVOL 0.64x",
-      "price": 436.23,
-      "volume": 528362,
+      "reason": "RVOL 0.73x; compression release",
+      "price": 137.15,
+      "volume": 31307700,
       "score_components": {
-        "volume_anomaly": 0.628632,
-        "compression_release": 0.332143,
-        "trends_breakout": 0.561357,
-        "news": 0.433455
+        "volume_anomaly": 0.672325,
+        "compression_release": 0.795238,
+        "trends_breakout": 0.10039,
+        "news": 0.631476
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -941,12 +877,140 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.628632,
-        "compression_release": 0.332143,
-        "breakout_setup_quality": 0.561357,
+        "volume_liquidity_shock": 0.672325,
+        "compression_release": 0.795238,
+        "breakout_setup_quality": 0.10039,
+        "relative_strength": 0.213554,
+        "entry_timing": 0.775457,
+        "catalyst_confirmation": 0.631476,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": 1.4,
+        "ret_5d_pct": 5.46,
+        "ret_20d_pct": -10.14,
+        "ret_60d_pct": 6.45,
+        "rvol20": 0.73,
+        "range_pos": 0.981,
+        "close_pos20": 0.39,
+        "atr_pct": 4.16,
+        "extension_sma20_pct": -0.58,
+        "extension_sma50_pct": -4.26,
+        "dollar_volume": 4293850864.0,
+        "avg_dollar_volume20": 5918710572.0,
+        "rs_5d_vs_qqq": 5.68,
+        "rs_20d_vs_qqq": -19.0,
+        "rs_60d_vs_qqq": -10.87,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 548,
+        "volume_anomaly": 0.672325
+      },
+      "rank": 12
+    },
+    {
+      "symbol": "CRDO",
+      "name": "Credo Technology Group Holding Ltd",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.517545,
+      "score_pts": 518,
+      "triage": "Ignore",
+      "archetype": "Volume + Catalyst",
+      "regime": "Risk-on",
+      "reason": "RVOL 1.24x",
+      "price": 182.98,
+      "volume": 7487300,
+      "score_components": {
+        "volume_anomaly": 0.671479,
+        "compression_release": 0.522609,
+        "trends_breakout": 0.28231,
+        "news": 0.650303
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.671479,
+        "compression_release": 0.522609,
+        "breakout_setup_quality": 0.28231,
+        "relative_strength": 0.2384,
+        "entry_timing": 0.688005,
+        "catalyst_confirmation": 0.650303,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": 8.28,
+        "ret_5d_pct": -3.37,
+        "ret_20d_pct": -3.44,
+        "ret_60d_pct": 51.44,
+        "rvol20": 1.24,
+        "range_pos": 0.712,
+        "close_pos20": 0.549,
+        "atr_pct": 9.46,
+        "extension_sma20_pct": -0.36,
+        "extension_sma50_pct": 25.2,
+        "dollar_volume": 1370026122.0,
+        "avg_dollar_volume20": 1111447165.0,
+        "rs_5d_vs_qqq": -3.15,
+        "rs_20d_vs_qqq": -12.3,
+        "rs_60d_vs_qqq": 34.12,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 518,
+        "volume_anomaly": 0.671479
+      },
+      "rank": 13
+    },
+    {
+      "symbol": "ROK",
+      "name": "Rockwell Automation Inc.",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.516514,
+      "score_pts": 517,
+      "triage": "Ignore",
+      "archetype": "Volume",
+      "regime": "Risk-on",
+      "reason": "RVOL 0.87x",
+      "price": 436.23,
+      "volume": 725900,
+      "score_components": {
+        "volume_anomaly": 0.66204,
+        "compression_release": 0.279094,
+        "trends_breakout": 0.525804,
+        "news": 0.394837
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.66204,
+        "compression_release": 0.279094,
+        "breakout_setup_quality": 0.525804,
         "relative_strength": 0.174381,
-        "entry_timing": 0.910706,
-        "catalyst_confirmation": 0.433455,
+        "entry_timing": 0.910707,
+        "catalyst_confirmation": 0.394837,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -955,14 +1019,14 @@
         "ret_5d_pct": -4.12,
         "ret_20d_pct": 7.18,
         "ret_60d_pct": 7.63,
-        "rvol20": 0.64,
+        "rvol20": 0.87,
         "range_pos": 0.878,
         "close_pos20": 0.594,
         "atr_pct": 3.7,
         "extension_sma20_pct": 1.45,
         "extension_sma50_pct": 9.69,
-        "dollar_volume": 230487361.0,
-        "avg_dollar_volume20": 355225673.0,
+        "dollar_volume": 316659365.0,
+        "avg_dollar_volume20": 359534273.0,
         "rs_5d_vs_qqq": -3.9,
         "rs_20d_vs_qqq": -1.68,
         "rs_60d_vs_qqq": -9.69,
@@ -972,156 +1036,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 529,
-        "volume_anomaly": 0.628632
-      },
-      "rank": 13
-    },
-    {
-      "symbol": "MSFT",
-      "name": "Microsoft Corporation",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.517,
-      "score_pts": 517,
-      "triage": "Ignore",
-      "archetype": "Volume + Compression + Catalyst",
-      "regime": "Risk-on",
-      "reason": "RVOL 0.80x; compression release",
-      "price": 421.06,
-      "volume": 27738933,
-      "score_components": {
-        "volume_anomaly": 0.663262,
-        "compression_release": 0.594246,
-        "trends_breakout": 0.525378,
-        "news": 0.675946
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.663262,
-        "compression_release": 0.594246,
-        "breakout_setup_quality": 0.525378,
-        "relative_strength": 0.191527,
-        "entry_timing": 0.944131,
-        "catalyst_confirmation": 0.675946,
-        "market_regime": 1.0,
-        "penalty": 0.09
-      },
-      "metrics": {
-        "ret_1d_pct": 0.87,
-        "ret_5d_pct": 3.91,
-        "ret_20d_pct": -2.74,
-        "ret_60d_pct": 8.24,
-        "rvol20": 0.8,
-        "range_pos": 0.905,
-        "close_pos20": 0.664,
-        "atr_pct": 2.59,
-        "extension_sma20_pct": 1.03,
-        "extension_sma50_pct": 5.31,
-        "dollar_volume": 11679755061.0,
-        "avg_dollar_volume20": 14472456182.0,
-        "rs_5d_vs_qqq": 4.13,
-        "rs_20d_vs_qqq": -11.6,
-        "rs_60d_vs_qqq": -9.08,
-        "mature_penalty": 9.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
         "score_pts": 517,
-        "volume_anomaly": 0.663262
+        "volume_anomaly": 0.66204
       },
       "rank": 14
-    },
-    {
-      "symbol": "KTOS",
-      "name": "Kratos Defense & Security Solutions Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.509006,
-      "score_pts": 509,
-      "triage": "Ignore",
-      "archetype": "Volume + Compression + Catalyst",
-      "regime": "Risk-on",
-      "reason": "RVOL 0.83x; compression release",
-      "price": 55.82,
-      "volume": 3636356,
-      "score_components": {
-        "volume_anomaly": 0.680429,
-        "compression_release": 0.648016,
-        "trends_breakout": 0.060396,
-        "news": 0.58353
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.680429,
-        "compression_release": 0.648016,
-        "breakout_setup_quality": 0.060396,
-        "relative_strength": 0.231247,
-        "entry_timing": 0.755356,
-        "catalyst_confirmation": 0.58353,
-        "market_regime": 1.0,
-        "penalty": 0
-      },
-      "metrics": {
-        "ret_1d_pct": 4.39,
-        "ret_5d_pct": 6.34,
-        "ret_20d_pct": -18.64,
-        "ret_60d_pct": -38.44,
-        "rvol20": 0.83,
-        "range_pos": 0.981,
-        "close_pos20": 0.244,
-        "atr_pct": 5.98,
-        "extension_sma20_pct": -4.68,
-        "extension_sma50_pct": -19.93,
-        "dollar_volume": 202981391.0,
-        "avg_dollar_volume20": 253471871.0,
-        "rs_5d_vs_qqq": 6.56,
-        "rs_20d_vs_qqq": -27.5,
-        "rs_60d_vs_qqq": -55.76,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 509,
-        "volume_anomaly": 0.680429
-      },
-      "rank": 15
     },
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.499923,
-      "score_pts": 500,
+      "final_score_0_1": 0.512069,
+      "score_pts": 512,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
-      "reason": "RVOL 0.85x",
+      "reason": "RVOL 0.86x",
       "price": 4.57,
-      "volume": 8437255,
+      "volume": 8513100,
       "score_components": {
-        "volume_anomaly": 0.661991,
+        "volume_anomaly": 0.663011,
         "compression_release": 0.065873,
-        "trends_breakout": 0.524478,
-        "news": 0.401275
+        "trends_breakout": 0.553343,
+        "news": 0.497367
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -1133,12 +1069,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.661991,
+        "volume_liquidity_shock": 0.663011,
         "compression_release": 0.065873,
-        "breakout_setup_quality": 0.524478,
+        "breakout_setup_quality": 0.553343,
         "relative_strength": 0.44515,
         "entry_timing": 0.812282,
-        "catalyst_confirmation": 0.401275,
+        "catalyst_confirmation": 0.497367,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -1147,14 +1083,14 @@
         "ret_5d_pct": -4.19,
         "ret_20d_pct": 12.01,
         "ret_60d_pct": 41.93,
-        "rvol20": 0.85,
+        "rvol20": 0.86,
         "range_pos": 0.929,
         "close_pos20": 0.433,
         "atr_pct": 9.74,
         "extension_sma20_pct": 2.11,
         "extension_sma50_pct": 16.36,
-        "dollar_volume": 38558257.0,
-        "avg_dollar_volume20": 44544780.0,
+        "dollar_volume": 38904868.0,
+        "avg_dollar_volume20": 44562110.0,
         "rs_5d_vs_qqq": -3.97,
         "rs_20d_vs_qqq": 3.15,
         "rs_60d_vs_qqq": 24.61,
@@ -1164,92 +1100,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 500,
-        "volume_anomaly": 0.661991
+        "score_pts": 512,
+        "volume_anomaly": 0.663011
       },
-      "rank": 16
-    },
-    {
-      "symbol": "ASTS",
-      "name": "AST SpaceMobile Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.500156,
-      "score_pts": 500,
-      "triage": "Ignore",
-      "archetype": "Mixed",
-      "regime": "Risk-on",
-      "reason": "mixed signal",
-      "price": 89.58,
-      "volume": 18676823,
-      "score_components": {
-        "volume_anomaly": 0.584747,
-        "compression_release": 0.339385,
-        "trends_breakout": 0.534637,
-        "news": 0.455246
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.584747,
-        "compression_release": 0.339385,
-        "breakout_setup_quality": 0.534637,
-        "relative_strength": 0.42248,
-        "entry_timing": 0.547742,
-        "catalyst_confirmation": 0.455246,
-        "market_regime": 1.0,
-        "penalty": 0
-      },
-      "metrics": {
-        "ret_1d_pct": 1.68,
-        "ret_5d_pct": 19.74,
-        "ret_20d_pct": 5.81,
-        "ret_60d_pct": 4.38,
-        "rvol20": 0.95,
-        "range_pos": 0.509,
-        "close_pos20": 0.898,
-        "atr_pct": 9.0,
-        "extension_sma20_pct": 17.58,
-        "extension_sma50_pct": 7.07,
-        "dollar_volume": 1673069839.0,
-        "avg_dollar_volume20": 1518918278.0,
-        "rs_5d_vs_qqq": 19.96,
-        "rs_20d_vs_qqq": -3.05,
-        "rs_60d_vs_qqq": -12.94,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 500,
-        "volume_anomaly": 0.584747
-      },
-      "rank": 17
+      "rank": 15
     },
     {
       "symbol": "OUST",
       "name": "Ouster Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.498278,
-      "score_pts": 498,
+      "final_score_0_1": 0.50958,
+      "score_pts": 510,
       "triage": "Ignore",
       "archetype": "Mixed",
       "regime": "Risk-on",
       "reason": "mixed signal",
       "price": 30.87,
-      "volume": 4381434,
+      "volume": 4512300,
       "score_components": {
-        "volume_anomaly": 0.607381,
-        "compression_release": 0.099802,
-        "trends_breakout": 0.544617,
-        "news": 0.391098
+        "volume_anomaly": 0.61118,
+        "compression_release": 0.093399,
+        "trends_breakout": 0.572846,
+        "news": 0.485549
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -1261,12 +1133,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.607381,
-        "compression_release": 0.099802,
-        "breakout_setup_quality": 0.544617,
+        "volume_liquidity_shock": 0.61118,
+        "compression_release": 0.093399,
+        "breakout_setup_quality": 0.572846,
         "relative_strength": 0.434807,
-        "entry_timing": 0.8271,
-        "catalyst_confirmation": 0.391098,
+        "entry_timing": 0.827458,
+        "catalyst_confirmation": 0.485549,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -1275,14 +1147,14 @@
         "ret_5d_pct": -9.66,
         "ret_20d_pct": 11.2,
         "ret_60d_pct": 65.52,
-        "rvol20": 0.89,
-        "range_pos": 0.67,
+        "rvol20": 0.91,
+        "range_pos": 0.671,
         "close_pos20": 0.584,
         "atr_pct": 12.62,
         "extension_sma20_pct": 8.01,
         "extension_sma50_pct": 26.8,
-        "dollar_volume": 135254871.0,
-        "avg_dollar_volume20": 147668124.0,
+        "dollar_volume": 139294705.0,
+        "avg_dollar_volume20": 147870116.0,
         "rs_5d_vs_qqq": -9.44,
         "rs_20d_vs_qqq": 2.34,
         "rs_60d_vs_qqq": 48.2,
@@ -1292,28 +1164,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 498,
-        "volume_anomaly": 0.607381
+        "score_pts": 510,
+        "volume_anomaly": 0.61118
       },
-      "rank": 18
+      "rank": 16
     },
     {
-      "symbol": "U",
-      "name": "Unity Software Inc.",
+      "symbol": "ASTS",
+      "name": "AST SpaceMobile Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.484116,
-      "score_pts": 484,
+      "final_score_0_1": 0.501967,
+      "score_pts": 502,
       "triage": "Ignore",
       "archetype": "Mixed",
       "regime": "Risk-on",
       "reason": "mixed signal",
-      "price": 26.23,
-      "volume": 6188235,
+      "price": 89.58,
+      "volume": 20010000,
       "score_components": {
-        "volume_anomaly": 0.557448,
-        "compression_release": 0.491369,
-        "trends_breakout": 0.339579,
-        "news": 0.438227
+        "volume_anomaly": 0.593039,
+        "compression_release": 0.320635,
+        "trends_breakout": 0.534609,
+        "news": 0.508966
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -1325,59 +1197,59 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.557448,
-        "compression_release": 0.491369,
-        "breakout_setup_quality": 0.339579,
-        "relative_strength": 0.270227,
-        "entry_timing": 0.672463,
-        "catalyst_confirmation": 0.438227,
+        "volume_liquidity_shock": 0.593039,
+        "compression_release": 0.320635,
+        "breakout_setup_quality": 0.534609,
+        "relative_strength": 0.42248,
+        "entry_timing": 0.547617,
+        "catalyst_confirmation": 0.508966,
         "market_regime": 1.0,
         "penalty": 0
       },
       "metrics": {
-        "ret_1d_pct": 0.11,
-        "ret_5d_pct": -2.45,
-        "ret_20d_pct": 1.59,
-        "ret_60d_pct": 43.41,
-        "rvol20": 0.56,
-        "range_pos": 0.65,
-        "close_pos20": 0.346,
-        "atr_pct": 6.28,
-        "extension_sma20_pct": -1.88,
-        "extension_sma50_pct": 11.19,
-        "dollar_volume": 162317401.0,
-        "avg_dollar_volume20": 297024637.0,
-        "rs_5d_vs_qqq": -2.24,
-        "rs_20d_vs_qqq": -7.27,
-        "rs_60d_vs_qqq": 26.09,
+        "ret_1d_pct": 1.68,
+        "ret_5d_pct": 19.74,
+        "ret_20d_pct": 5.81,
+        "ret_60d_pct": 4.38,
+        "rvol20": 1.01,
+        "range_pos": 0.508,
+        "close_pos20": 0.897,
+        "atr_pct": 9.0,
+        "extension_sma20_pct": 17.58,
+        "extension_sma50_pct": 7.07,
+        "dollar_volume": 1792495837.0,
+        "avg_dollar_volume20": 1524889578.0,
+        "rs_5d_vs_qqq": 19.96,
+        "rs_20d_vs_qqq": -3.05,
+        "rs_60d_vs_qqq": -12.94,
         "mature_penalty": 0.0,
         "extension_penalty": 0.0,
         "weak_close_penalty": 0.0,
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 484,
-        "volume_anomaly": 0.557448
+        "score_pts": 502,
+        "volume_anomaly": 0.593039
       },
-      "rank": 19
+      "rank": 17
     },
     {
-      "symbol": "OXY",
-      "name": "Occidental Petroleum Corporation",
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.468531,
-      "score_pts": 469,
+      "final_score_0_1": 0.496531,
+      "score_pts": 497,
       "triage": "Ignore",
-      "archetype": "Compression",
+      "archetype": "Volume + Compression",
       "regime": "Risk-on",
-      "reason": "compression release",
-      "price": 58.87,
-      "volume": 11253038,
+      "reason": "RVOL 0.80x; compression release",
+      "price": 421.06,
+      "volume": 27864000,
       "score_components": {
-        "volume_anomaly": 0.257061,
-        "compression_release": 0.570536,
-        "trends_breakout": 0.520132,
-        "news": 0.343446
+        "volume_anomaly": 0.663334,
+        "compression_release": 0.565892,
+        "trends_breakout": 0.546926,
+        "news": 0.409828
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -1389,12 +1261,76 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.257061,
-        "compression_release": 0.570536,
-        "breakout_setup_quality": 0.520132,
+        "volume_liquidity_shock": 0.663334,
+        "compression_release": 0.565892,
+        "breakout_setup_quality": 0.546926,
+        "relative_strength": 0.191527,
+        "entry_timing": 0.943703,
+        "catalyst_confirmation": 0.409828,
+        "market_regime": 1.0,
+        "penalty": 0.09
+      },
+      "metrics": {
+        "ret_1d_pct": 0.87,
+        "ret_5d_pct": 3.91,
+        "ret_20d_pct": -2.74,
+        "ret_60d_pct": 8.24,
+        "rvol20": 0.8,
+        "range_pos": 0.904,
+        "close_pos20": 0.664,
+        "atr_pct": 2.59,
+        "extension_sma20_pct": 1.03,
+        "extension_sma50_pct": 5.31,
+        "dollar_volume": 11732415772.0,
+        "avg_dollar_volume20": 14475089217.0,
+        "rs_5d_vs_qqq": 4.13,
+        "rs_20d_vs_qqq": -11.6,
+        "rs_60d_vs_qqq": -9.08,
+        "mature_penalty": 9.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 497,
+        "volume_anomaly": 0.663334
+      },
+      "rank": 18
+    },
+    {
+      "symbol": "OXY",
+      "name": "Occidental Petroleum Corporation",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.489203,
+      "score_pts": 489,
+      "triage": "Ignore",
+      "archetype": "Compression",
+      "regime": "Risk-on",
+      "reason": "compression release",
+      "price": 58.87,
+      "volume": 12476300,
+      "score_components": {
+        "volume_anomaly": 0.269559,
+        "compression_release": 0.610627,
+        "trends_breakout": 0.530442,
+        "news": 0.458853
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.269559,
+        "compression_release": 0.610627,
+        "breakout_setup_quality": 0.530442,
         "relative_strength": 0.298004,
-        "entry_timing": 0.703367,
-        "catalyst_confirmation": 0.343446,
+        "entry_timing": 0.703167,
+        "catalyst_confirmation": 0.458853,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -1403,14 +1339,14 @@
         "ret_5d_pct": 4.79,
         "ret_20d_pct": 3.19,
         "ret_60d_pct": 13.32,
-        "rvol20": 0.93,
+        "rvol20": 1.02,
         "range_pos": 0.017,
-        "close_pos20": 0.716,
+        "close_pos20": 0.713,
         "atr_pct": 3.37,
         "extension_sma20_pct": 1.86,
         "extension_sma50_pct": 0.09,
-        "dollar_volume": 662466335.0,
-        "avg_dollar_volume20": 701354019.0,
+        "dollar_volume": 734479768.0,
+        "avg_dollar_volume20": 704954690.0,
         "rs_5d_vs_qqq": 5.01,
         "rs_20d_vs_qqq": -5.67,
         "rs_60d_vs_qqq": -4.0,
@@ -1420,156 +1356,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 469,
-        "volume_anomaly": 0.257061
+        "score_pts": 489,
+        "volume_anomaly": 0.269559
       },
-      "rank": 20
-    },
-    {
-      "symbol": "NVDA",
-      "name": "NVIDIA Corporation",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.463377,
-      "score_pts": 463,
-      "triage": "Ignore",
-      "archetype": "Catalyst",
-      "regime": "Risk-on",
-      "reason": "mixed signal",
-      "price": 223.47,
-      "volume": 171145403,
-      "score_components": {
-        "volume_anomaly": 0.605469,
-        "compression_release": 0.251587,
-        "trends_breakout": 0.602738,
-        "news": 0.80115
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.605469,
-        "compression_release": 0.251587,
-        "breakout_setup_quality": 0.602738,
-        "relative_strength": 0.343404,
-        "entry_timing": 0.825153,
-        "catalyst_confirmation": 0.80115,
-        "market_regime": 1.0,
-        "penalty": 0.09
-      },
-      "metrics": {
-        "ret_1d_pct": 1.3,
-        "ret_5d_pct": -1.05,
-        "ret_20d_pct": 10.36,
-        "ret_60d_pct": 15.88,
-        "rvol20": 1.07,
-        "range_pos": 0.528,
-        "close_pos20": 0.687,
-        "atr_pct": 3.62,
-        "extension_sma20_pct": 4.72,
-        "extension_sma50_pct": 14.31,
-        "dollar_volume": 38245863417.0,
-        "avg_dollar_volume20": 34175338005.0,
-        "rs_5d_vs_qqq": -0.83,
-        "rs_20d_vs_qqq": 1.5,
-        "rs_60d_vs_qqq": -1.44,
-        "mature_penalty": 9.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 463,
-        "volume_anomaly": 0.605469
-      },
-      "rank": 21
-    },
-    {
-      "symbol": "AVAV",
-      "name": "AeroVironment, Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.449612,
-      "score_pts": 450,
-      "triage": "Ignore",
-      "archetype": "Volume",
-      "regime": "Risk-on",
-      "reason": "RVOL 0.68x",
-      "price": 163.87,
-      "volume": 724646,
-      "score_components": {
-        "volume_anomaly": 0.642982,
-        "compression_release": 0.534722,
-        "trends_breakout": 0.032155,
-        "news": 0.474767
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.642982,
-        "compression_release": 0.534722,
-        "breakout_setup_quality": 0.032155,
-        "relative_strength": 0.140144,
-        "entry_timing": 0.741125,
-        "catalyst_confirmation": 0.474767,
-        "market_regime": 1.0,
-        "penalty": 0
-      },
-      "metrics": {
-        "ret_1d_pct": 2.27,
-        "ret_5d_pct": 1.79,
-        "ret_20d_pct": -22.0,
-        "ret_60d_pct": -37.51,
-        "rvol20": 0.68,
-        "range_pos": 0.924,
-        "close_pos20": 0.147,
-        "atr_pct": 5.54,
-        "extension_sma20_pct": -6.7,
-        "extension_sma50_pct": -13.09,
-        "dollar_volume": 118747736.0,
-        "avg_dollar_volume20": 185854883.0,
-        "rs_5d_vs_qqq": 2.01,
-        "rs_20d_vs_qqq": -30.86,
-        "rs_60d_vs_qqq": -54.83,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 450,
-        "volume_anomaly": 0.642982
-      },
-      "rank": 22
+      "rank": 19
     },
     {
       "symbol": "TER",
       "name": "Teradyne, Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.446126,
-      "score_pts": 446,
+      "final_score_0_1": 0.47671,
+      "score_pts": 477,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
       "reason": "RVOL 0.76x",
       "price": 344.34,
-      "volume": 3383226,
+      "volume": 3387500,
       "score_components": {
-        "volume_anomaly": 0.679913,
-        "compression_release": 0.393056,
-        "trends_breakout": 0.254737,
-        "news": 0.404648
+        "volume_anomaly": 0.680047,
+        "compression_release": 0.475068,
+        "trends_breakout": 0.29571,
+        "news": 0.501464
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -1581,12 +1389,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.679913,
-        "compression_release": 0.393056,
-        "breakout_setup_quality": 0.254737,
+        "volume_liquidity_shock": 0.680047,
+        "compression_release": 0.475068,
+        "breakout_setup_quality": 0.29571,
         "relative_strength": 0.0,
         "entry_timing": 0.758374,
-        "catalyst_confirmation": 0.404648,
+        "catalyst_confirmation": 0.501464,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -1601,8 +1409,8 @@
         "atr_pct": 6.01,
         "extension_sma20_pct": -3.78,
         "extension_sma50_pct": 1.45,
-        "dollar_volume": 1164980028.0,
-        "avg_dollar_volume20": 1561985779.0,
+        "dollar_volume": 1166451738.0,
+        "avg_dollar_volume20": 1562059365.0,
         "rs_5d_vs_qqq": -5.02,
         "rs_20d_vs_qqq": -19.46,
         "rs_60d_vs_qqq": -12.69,
@@ -1612,28 +1420,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 446,
-        "volume_anomaly": 0.679913
+        "score_pts": 477,
+        "volume_anomaly": 0.680047
       },
-      "rank": 23
+      "rank": 20
     },
     {
-      "symbol": "LUNR",
-      "name": "Intuitive Machines Inc.",
+      "symbol": "KTOS",
+      "name": "Kratos Defense & Security Solutions Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.446008,
-      "score_pts": 446,
+      "final_score_0_1": 0.470798,
+      "score_pts": 471,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
-      "reason": "RVOL 1.03x",
-      "price": 33.67,
-      "volume": 12601686,
+      "reason": "RVOL 0.90x",
+      "price": 55.82,
+      "volume": 3929400,
       "score_components": {
-        "volume_anomaly": 0.657828,
-        "compression_release": 0.069841,
-        "trends_breakout": 0.503671,
-        "news": 0.405229
+        "volume_anomaly": 0.68929,
+        "compression_release": 0.483991,
+        "trends_breakout": 0.0684,
+        "news": 0.457908
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -1645,12 +1453,140 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.657828,
-        "compression_release": 0.069841,
+        "volume_liquidity_shock": 0.68929,
+        "compression_release": 0.483991,
+        "breakout_setup_quality": 0.0684,
+        "relative_strength": 0.231247,
+        "entry_timing": 0.755356,
+        "catalyst_confirmation": 0.457908,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": 4.39,
+        "ret_5d_pct": 6.34,
+        "ret_20d_pct": -18.64,
+        "ret_60d_pct": -38.44,
+        "rvol20": 0.9,
+        "range_pos": 0.981,
+        "close_pos20": 0.244,
+        "atr_pct": 5.98,
+        "extension_sma20_pct": -4.68,
+        "extension_sma50_pct": -19.93,
+        "dollar_volume": 219339107.0,
+        "avg_dollar_volume20": 254289757.0,
+        "rs_5d_vs_qqq": 6.56,
+        "rs_20d_vs_qqq": -27.5,
+        "rs_60d_vs_qqq": -55.76,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 471,
+        "volume_anomaly": 0.68929
+      },
+      "rank": 21
+    },
+    {
+      "symbol": "U",
+      "name": "Unity Software Inc.",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.46799,
+      "score_pts": 468,
+      "triage": "Ignore",
+      "archetype": "Mixed",
+      "regime": "Risk-on",
+      "reason": "mixed signal",
+      "price": 26.23,
+      "volume": 6767300,
+      "score_components": {
+        "volume_anomaly": 0.56537,
+        "compression_release": 0.4964,
+        "trends_breakout": 0.284139,
+        "news": 0.311226
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.56537,
+        "compression_release": 0.4964,
+        "breakout_setup_quality": 0.284139,
+        "relative_strength": 0.270227,
+        "entry_timing": 0.672427,
+        "catalyst_confirmation": 0.311226,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": 0.11,
+        "ret_5d_pct": -2.45,
+        "ret_20d_pct": 1.59,
+        "ret_60d_pct": 43.41,
+        "rvol20": 0.61,
+        "range_pos": 0.65,
+        "close_pos20": 0.346,
+        "atr_pct": 6.28,
+        "extension_sma20_pct": -1.88,
+        "extension_sma50_pct": 11.19,
+        "dollar_volume": 177506276.0,
+        "avg_dollar_volume20": 297784080.0,
+        "rs_5d_vs_qqq": -2.24,
+        "rs_20d_vs_qqq": -7.27,
+        "rs_60d_vs_qqq": 26.09,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 468,
+        "volume_anomaly": 0.56537
+      },
+      "rank": 22
+    },
+    {
+      "symbol": "LUNR",
+      "name": "Intuitive Machines Inc.",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.451432,
+      "score_pts": 451,
+      "triage": "Ignore",
+      "archetype": "Volume",
+      "regime": "Risk-on",
+      "reason": "RVOL 1.05x",
+      "price": 33.67,
+      "volume": 12919800,
+      "score_components": {
+        "volume_anomaly": 0.660967,
+        "compression_release": 0.082036,
+        "trends_breakout": 0.503671,
+        "news": 0.438012
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.660967,
+        "compression_release": 0.082036,
         "breakout_setup_quality": 0.503671,
         "relative_strength": 0.460954,
         "entry_timing": 0.649824,
-        "catalyst_confirmation": 0.405229,
+        "catalyst_confirmation": 0.438012,
         "market_regime": 1.0,
         "penalty": 0.028326
       },
@@ -1659,14 +1595,14 @@
         "ret_5d_pct": -5.63,
         "ret_20d_pct": 12.46,
         "ret_60d_pct": 78.15,
-        "rvol20": 1.03,
+        "rvol20": 1.05,
         "range_pos": 0.779,
         "close_pos20": 0.691,
         "atr_pct": 11.18,
         "extension_sma20_pct": 16.2,
         "extension_sma50_pct": 37.32,
-        "dollar_volume": 424298745.0,
-        "avg_dollar_volume20": 366474540.0,
+        "dollar_volume": 435009642.0,
+        "avg_dollar_volume20": 367010085.0,
         "rs_5d_vs_qqq": -5.42,
         "rs_20d_vs_qqq": 3.6,
         "rs_60d_vs_qqq": 60.83,
@@ -1676,28 +1612,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 446,
-        "volume_anomaly": 0.657828
+        "score_pts": 451,
+        "volume_anomaly": 0.660967
       },
-      "rank": 24
+      "rank": 23
     },
     {
       "symbol": "GDRX",
       "name": "GoodRx Holdings, Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.428164,
-      "score_pts": 428,
+      "final_score_0_1": 0.446719,
+      "score_pts": 447,
       "triage": "Ignore",
       "archetype": "Mixed",
       "regime": "Risk-on",
       "reason": "mixed signal",
       "price": 2.52,
-      "volume": 1080160,
+      "volume": 1088000,
       "score_components": {
-        "volume_anomaly": 0.385297,
-        "compression_release": 0.180159,
-        "trends_breakout": 0.527832,
-        "news": 0.400819
+        "volume_anomaly": 0.385975,
+        "compression_release": 0.258207,
+        "trends_breakout": 0.532103,
+        "news": 0.429791
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -1709,12 +1645,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.385297,
-        "compression_release": 0.180159,
-        "breakout_setup_quality": 0.527832,
+        "volume_liquidity_shock": 0.385975,
+        "compression_release": 0.258207,
+        "breakout_setup_quality": 0.532103,
         "relative_strength": 0.168664,
         "entry_timing": 0.86,
-        "catalyst_confirmation": 0.400819,
+        "catalyst_confirmation": 0.429791,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -1729,8 +1665,8 @@
         "atr_pct": 6.53,
         "extension_sma20_pct": 0.0,
         "extension_sma50_pct": 9.59,
-        "dollar_volume": 2722003.0,
-        "avg_dollar_volume20": 4465307.0,
+        "dollar_volume": 2741760.0,
+        "avg_dollar_volume20": 4466295.0,
         "rs_5d_vs_qqq": -3.23,
         "rs_20d_vs_qqq": -2.53,
         "rs_60d_vs_qqq": -10.99,
@@ -1740,8 +1676,72 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 428,
-        "volume_anomaly": 0.385297
+        "score_pts": 447,
+        "volume_anomaly": 0.385975
+      },
+      "rank": 24
+    },
+    {
+      "symbol": "SERV",
+      "name": "Serve Robotics Inc.",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.440553,
+      "score_pts": 441,
+      "triage": "Ignore",
+      "archetype": "Volume",
+      "regime": "Risk-on",
+      "reason": "RVOL 0.82x",
+      "price": 8.38,
+      "volume": 3213900,
+      "score_components": {
+        "volume_anomaly": 0.644818,
+        "compression_release": 0.545161,
+        "trends_breakout": 0.038208,
+        "news": 0.51579
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.644818,
+        "compression_release": 0.545161,
+        "breakout_setup_quality": 0.038208,
+        "relative_strength": 0.046428,
+        "entry_timing": 0.731429,
+        "catalyst_confirmation": 0.51579,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": 3.46,
+        "ret_5d_pct": -2.9,
+        "ret_20d_pct": -14.66,
+        "ret_60d_pct": -13.34,
+        "rvol20": 0.82,
+        "range_pos": 0.886,
+        "close_pos20": 0.255,
+        "atr_pct": 6.6,
+        "extension_sma20_pct": -6.65,
+        "extension_sma50_pct": -7.07,
+        "dollar_volume": 26932482.0,
+        "avg_dollar_volume20": 35015000.0,
+        "rs_5d_vs_qqq": -2.68,
+        "rs_20d_vs_qqq": -23.52,
+        "rs_60d_vs_qqq": -30.66,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 441,
+        "volume_anomaly": 0.644818
       },
       "rank": 25
     }
@@ -1751,19 +1751,19 @@
       "symbol": "VSAT",
       "name": "Viasat, Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.797346,
-      "score_pts": 797,
+      "final_score_0_1": 0.769293,
+      "score_pts": 769,
       "triage": "Trade",
       "archetype": "Volume + Compression + Breakout",
       "regime": "Risk-on",
-      "reason": "RVOL 1.84x; compression release; breakout setup; relative strength",
+      "reason": "RVOL 1.85x; compression release; breakout setup; relative strength",
       "price": 75.27,
-      "volume": 3101204,
+      "volume": 3122000,
       "score_components": {
-        "volume_anomaly": 0.766846,
-        "compression_release": 0.664385,
-        "trends_breakout": 0.987894,
-        "news": 0.649593
+        "volume_anomaly": 0.76784,
+        "compression_release": 0.573074,
+        "trends_breakout": 0.960961,
+        "news": 0.575863
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -1775,12 +1775,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.766846,
-        "compression_release": 0.664385,
-        "breakout_setup_quality": 0.987894,
+        "volume_liquidity_shock": 0.76784,
+        "compression_release": 0.573074,
+        "breakout_setup_quality": 0.960961,
         "relative_strength": 0.841269,
         "entry_timing": 0.775199,
-        "catalyst_confirmation": 0.649593,
+        "catalyst_confirmation": 0.575863,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -1789,14 +1789,14 @@
         "ret_5d_pct": 6.64,
         "ret_20d_pct": 19.32,
         "ret_60d_pct": 57.07,
-        "rvol20": 1.84,
+        "rvol20": 1.85,
         "range_pos": 0.888,
         "close_pos20": 0.976,
         "atr_pct": 5.04,
         "extension_sma20_pct": 12.28,
         "extension_sma50_pct": 29.07,
-        "dollar_volume": 233427615.0,
-        "avg_dollar_volume20": 114025395.0,
+        "dollar_volume": 234992930.0,
+        "avg_dollar_volume20": 114103661.0,
         "rs_5d_vs_qqq": 6.86,
         "rs_20d_vs_qqq": 10.47,
         "rs_60d_vs_qqq": 39.75,
@@ -1806,8 +1806,8 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 797,
-        "volume_anomaly": 0.766846
+        "score_pts": 769,
+        "volume_anomaly": 0.76784
       },
       "rank": 1
     },
@@ -1815,19 +1815,19 @@
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.696831,
-      "score_pts": 697,
+      "final_score_0_1": 0.701825,
+      "score_pts": 702,
       "triage": "Watch",
       "archetype": "Volume + Compression + Breakout",
       "regime": "Risk-on",
-      "reason": "RVOL 0.97x; compression release; breakout setup; relative strength",
+      "reason": "RVOL 0.98x; compression release; breakout setup; relative strength",
       "price": 45.28,
-      "volume": 2153529,
+      "volume": 2161600,
       "score_components": {
-        "volume_anomaly": 0.674675,
-        "compression_release": 0.792857,
-        "trends_breakout": 0.947782,
-        "news": 0.552866
+        "volume_anomaly": 0.675132,
+        "compression_release": 0.78676,
+        "trends_breakout": 0.973428,
+        "news": 0.574253
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -1839,12 +1839,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.674675,
-        "compression_release": 0.792857,
-        "breakout_setup_quality": 0.947782,
+        "volume_liquidity_shock": 0.675132,
+        "compression_release": 0.78676,
+        "breakout_setup_quality": 0.973428,
         "relative_strength": 0.659071,
         "entry_timing": 0.811127,
-        "catalyst_confirmation": 0.552866,
+        "catalyst_confirmation": 0.574253,
         "market_regime": 1.0,
         "penalty": 0.07
       },
@@ -1853,14 +1853,14 @@
         "ret_5d_pct": 5.08,
         "ret_20d_pct": 12.08,
         "ret_60d_pct": 89.38,
-        "rvol20": 0.97,
+        "rvol20": 0.98,
         "range_pos": 0.901,
         "close_pos20": 0.974,
         "atr_pct": 5.28,
         "extension_sma20_pct": 10.97,
         "extension_sma50_pct": 28.39,
-        "dollar_volume": 97511790.0,
-        "avg_dollar_volume20": 90359972.0,
+        "dollar_volume": 97877245.0,
+        "avg_dollar_volume20": 90378245.0,
         "rs_5d_vs_qqq": 5.3,
         "rs_20d_vs_qqq": 3.22,
         "rs_60d_vs_qqq": 72.06,
@@ -1870,8 +1870,8 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 697,
-        "volume_anomaly": 0.674675
+        "score_pts": 702,
+        "volume_anomaly": 0.675132
       },
       "rank": 2
     },
@@ -1879,19 +1879,19 @@
       "symbol": "RBRK",
       "name": "Rubrik Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.667147,
-      "score_pts": 667,
+      "final_score_0_1": 0.652236,
+      "score_pts": 652,
       "triage": "Watch",
       "archetype": "Volume",
       "regime": "Risk-on",
       "reason": "RVOL 1.31x; relative strength",
       "price": 66.89,
-      "volume": 4015756,
+      "volume": 4024500,
       "score_components": {
-        "volume_anomaly": 0.722784,
-        "compression_release": 0.49623,
-        "trends_breakout": 0.572998,
-        "news": 0.502638
+        "volume_anomaly": 0.723085,
+        "compression_release": 0.453852,
+        "trends_breakout": 0.546385,
+        "news": 0.478189
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -1903,12 +1903,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.722784,
-        "compression_release": 0.49623,
-        "breakout_setup_quality": 0.572998,
+        "volume_liquidity_shock": 0.723085,
+        "compression_release": 0.453852,
+        "breakout_setup_quality": 0.546385,
         "relative_strength": 0.855843,
         "entry_timing": 0.747916,
-        "catalyst_confirmation": 0.502638,
+        "catalyst_confirmation": 0.478189,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -1923,8 +1923,8 @@
         "atr_pct": 4.74,
         "extension_sma20_pct": 13.89,
         "extension_sma50_pct": 24.31,
-        "dollar_volume": 268613916.0,
-        "avg_dollar_volume20": 181285015.0,
+        "dollar_volume": 269198803.0,
+        "avg_dollar_volume20": 181314260.0,
         "rs_5d_vs_qqq": 12.68,
         "rs_20d_vs_qqq": 12.23,
         "rs_60d_vs_qqq": 13.73,
@@ -1934,8 +1934,8 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 667,
-        "volume_anomaly": 0.722784
+        "score_pts": 652,
+        "volume_anomaly": 0.723085
       },
       "rank": 3
     },
@@ -1943,19 +1943,19 @@
       "symbol": "S",
       "name": "SentinelOne Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.650314,
-      "score_pts": 650,
+      "final_score_0_1": 0.651687,
+      "score_pts": 652,
       "triage": "Watch",
       "archetype": "Volume + Catalyst",
       "regime": "Risk-on",
-      "reason": "RVOL 1.02x; relative strength",
+      "reason": "RVOL 1.03x; relative strength",
       "price": 17.97,
-      "volume": 7073332,
+      "volume": 7146900,
       "score_components": {
-        "volume_anomaly": 0.685999,
-        "compression_release": 0.341171,
+        "volume_anomaly": 0.687466,
+        "compression_release": 0.342238,
         "trends_breakout": 0.545103,
-        "news": 0.729658
+        "news": 0.741382
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -1967,12 +1967,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.685999,
-        "compression_release": 0.341171,
+        "volume_liquidity_shock": 0.687466,
+        "compression_release": 0.342238,
         "breakout_setup_quality": 0.545103,
         "relative_strength": 0.933726,
-        "entry_timing": 0.746042,
-        "catalyst_confirmation": 0.729658,
+        "entry_timing": 0.746155,
+        "catalyst_confirmation": 0.741382,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -1981,14 +1981,14 @@
         "ret_5d_pct": 11.75,
         "ret_20d_pct": 22.83,
         "ret_60d_pct": 40.83,
-        "rvol20": 1.02,
-        "range_pos": 0.917,
+        "rvol20": 1.03,
+        "range_pos": 0.918,
         "close_pos20": 0.967,
         "atr_pct": 4.69,
         "extension_sma20_pct": 14.03,
         "extension_sma50_pct": 24.16,
-        "dollar_volume": 127107771.0,
-        "avg_dollar_volume20": 109995881.0,
+        "dollar_volume": 128429788.0,
+        "avg_dollar_volume20": 110061982.0,
         "rs_5d_vs_qqq": 11.97,
         "rs_20d_vs_qqq": 13.97,
         "rs_60d_vs_qqq": 23.51,
@@ -1998,8 +1998,8 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 650,
-        "volume_anomaly": 0.685999
+        "score_pts": 652,
+        "volume_anomaly": 0.687466
       },
       "rank": 4
     },
@@ -2007,19 +2007,19 @@
       "symbol": "ESTC",
       "name": "Elastic N.V.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.636253,
-      "score_pts": 636,
+      "final_score_0_1": 0.626707,
+      "score_pts": 627,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
       "reason": "RVOL 1.17x",
       "price": 55.28,
-      "volume": 2099348,
+      "volume": 2112400,
       "score_components": {
-        "volume_anomaly": 0.721937,
-        "compression_release": 0.549206,
+        "volume_anomaly": 0.722759,
+        "compression_release": 0.507743,
         "trends_breakout": 0.537239,
-        "news": 0.460911
+        "news": 0.440422
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -2031,12 +2031,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.721937,
-        "compression_release": 0.549206,
+        "volume_liquidity_shock": 0.722759,
+        "compression_release": 0.507743,
         "breakout_setup_quality": 0.537239,
         "relative_strength": 0.557434,
         "entry_timing": 0.833357,
-        "catalyst_confirmation": 0.460911,
+        "catalyst_confirmation": 0.440422,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -2051,8 +2051,8 @@
         "atr_pct": 5.07,
         "extension_sma20_pct": 11.01,
         "extension_sma50_pct": 10.78,
-        "dollar_volume": 116051955.0,
-        "avg_dollar_volume20": 89978146.0,
+        "dollar_volume": 116773469.0,
+        "avg_dollar_volume20": 90014222.0,
         "rs_5d_vs_qqq": 14.03,
         "rs_20d_vs_qqq": 3.43,
         "rs_60d_vs_qqq": -19.27,
@@ -2062,8 +2062,8 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 636,
-        "volume_anomaly": 0.721937
+        "score_pts": 627,
+        "volume_anomaly": 0.722759
       },
       "rank": 5
     },
@@ -2071,19 +2071,19 @@
       "symbol": "PRCT",
       "name": "PROCEPT BioRobotics Corporation",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.604177,
-      "score_pts": 604,
+      "final_score_0_1": 0.605948,
+      "score_pts": 606,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
       "reason": "RVOL 0.85x",
       "price": 28.11,
-      "volume": 1458909,
+      "volume": 1458900,
       "score_components": {
-        "volume_anomaly": 0.675925,
-        "compression_release": 0.469246,
+        "volume_anomaly": 0.675745,
+        "compression_release": 0.470771,
         "trends_breakout": 0.53101,
-        "news": 0.442377
+        "news": 0.464269
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -2095,12 +2095,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.675925,
-        "compression_release": 0.469246,
+        "volume_liquidity_shock": 0.675745,
+        "compression_release": 0.470771,
         "breakout_setup_quality": 0.53101,
         "relative_strength": 0.542227,
-        "entry_timing": 0.824946,
-        "catalyst_confirmation": 0.442377,
+        "entry_timing": 0.824766,
+        "catalyst_confirmation": 0.464269,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -2110,13 +2110,13 @@
         "ret_20d_pct": 11.95,
         "ret_60d_pct": 3.12,
         "rvol20": 0.85,
-        "range_pos": 0.99,
+        "range_pos": 0.989,
         "close_pos20": 0.873,
         "atr_pct": 6.11,
         "extension_sma20_pct": 11.3,
         "extension_sma50_pct": 11.2,
-        "dollar_volume": 41009933.0,
-        "avg_dollar_volume20": 43723373.0,
+        "dollar_volume": 41009680.0,
+        "avg_dollar_volume20": 43723360.0,
         "rs_5d_vs_qqq": 9.6,
         "rs_20d_vs_qqq": 3.09,
         "rs_60d_vs_qqq": -14.2,
@@ -2126,92 +2126,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 604,
-        "volume_anomaly": 0.675925
+        "score_pts": 606,
+        "volume_anomaly": 0.675745
       },
       "rank": 6
-    },
-    {
-      "symbol": "AI",
-      "name": "C3.ai, Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.587747,
-      "score_pts": 588,
-      "triage": "Ignore",
-      "archetype": "Volume",
-      "regime": "Risk-on",
-      "reason": "RVOL 1.11x",
-      "price": 9.28,
-      "volume": 4983885,
-      "score_components": {
-        "volume_anomaly": 0.704086,
-        "compression_release": 0.536508,
-        "trends_breakout": 0.500167,
-        "news": 0.445107
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.704086,
-        "compression_release": 0.536508,
-        "breakout_setup_quality": 0.500167,
-        "relative_strength": 0.260883,
-        "entry_timing": 0.901511,
-        "catalyst_confirmation": 0.445107,
-        "market_regime": 1.0,
-        "penalty": 0
-      },
-      "metrics": {
-        "ret_1d_pct": 5.1,
-        "ret_5d_pct": 7.28,
-        "ret_20d_pct": -1.17,
-        "ret_60d_pct": -8.3,
-        "rvol20": 1.11,
-        "range_pos": 0.966,
-        "close_pos20": 0.615,
-        "atr_pct": 5.22,
-        "extension_sma20_pct": 2.58,
-        "extension_sma50_pct": 4.96,
-        "dollar_volume": 46250451.0,
-        "avg_dollar_volume20": 40594072.0,
-        "rs_5d_vs_qqq": 7.5,
-        "rs_20d_vs_qqq": -10.03,
-        "rs_60d_vs_qqq": -25.62,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 588,
-        "volume_anomaly": 0.704086
-      },
-      "rank": 7
     },
     {
       "symbol": "IONQ",
       "name": "IonQ Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.566988,
-      "score_pts": 567,
+      "final_score_0_1": 0.597195,
+      "score_pts": 597,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
-      "reason": "RVOL 0.63x",
+      "reason": "RVOL 0.73x",
       "price": 52.47,
-      "volume": 19674474,
+      "volume": 22745900,
       "score_components": {
-        "volume_anomaly": 0.647194,
-        "compression_release": 0.340179,
-        "trends_breakout": 0.546631,
-        "news": 0.422113
+        "volume_anomaly": 0.661514,
+        "compression_release": 0.397038,
+        "trends_breakout": 0.594728,
+        "news": 0.522461
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -2223,12 +2159,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.647194,
-        "compression_release": 0.340179,
-        "breakout_setup_quality": 0.546631,
+        "volume_liquidity_shock": 0.661514,
+        "compression_release": 0.397038,
+        "breakout_setup_quality": 0.594728,
         "relative_strength": 0.429581,
-        "entry_timing": 0.894607,
-        "catalyst_confirmation": 0.422113,
+        "entry_timing": 0.894624,
+        "catalyst_confirmation": 0.522461,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -2237,14 +2173,14 @@
         "ret_5d_pct": -5.05,
         "ret_20d_pct": 10.79,
         "ret_60d_pct": 65.94,
-        "rvol20": 0.63,
+        "rvol20": 0.73,
         "range_pos": 0.938,
         "close_pos20": 0.655,
         "atr_pct": 9.5,
         "extension_sma20_pct": 7.35,
         "extension_sma50_pct": 31.66,
-        "dollar_volume": 1032319675.0,
-        "avg_dollar_volume20": 1547509080.0,
+        "dollar_volume": 1193477401.0,
+        "avg_dollar_volume20": 1555566967.0,
         "rs_5d_vs_qqq": -4.83,
         "rs_20d_vs_qqq": 1.93,
         "rs_60d_vs_qqq": 48.62,
@@ -2254,28 +2190,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 567,
-        "volume_anomaly": 0.647194
+        "score_pts": 597,
+        "volume_anomaly": 0.661514
       },
-      "rank": 8
+      "rank": 7
     },
     {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.565421,
-      "score_pts": 565,
+      "final_score_0_1": 0.569912,
+      "score_pts": 570,
       "triage": "Ignore",
       "archetype": "Volume + Catalyst",
       "regime": "Risk-on",
       "reason": "RVOL 0.69x",
       "price": 79.15,
-      "volume": 1414010,
+      "volume": 1430500,
       "score_components": {
-        "volume_anomaly": 0.661343,
+        "volume_anomaly": 0.662499,
         "compression_release": 0.162698,
-        "trends_breakout": 0.551419,
-        "news": 0.584081
+        "trends_breakout": 0.558961,
+        "news": 0.625219
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -2287,12 +2223,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.661343,
+        "volume_liquidity_shock": 0.662499,
         "compression_release": 0.162698,
-        "breakout_setup_quality": 0.551419,
+        "breakout_setup_quality": 0.558961,
         "relative_strength": 0.582512,
         "entry_timing": 0.865786,
-        "catalyst_confirmation": 0.584081,
+        "catalyst_confirmation": 0.625219,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -2307,8 +2243,8 @@
         "atr_pct": 7.91,
         "extension_sma20_pct": 9.77,
         "extension_sma50_pct": 12.6,
-        "dollar_volume": 111918894.0,
-        "avg_dollar_volume20": 151429472.0,
+        "dollar_volume": 113224077.0,
+        "avg_dollar_volume20": 151494731.0,
         "rs_5d_vs_qqq": 17.13,
         "rs_20d_vs_qqq": 4.63,
         "rs_60d_vs_qqq": -12.26,
@@ -2318,28 +2254,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 565,
-        "volume_anomaly": 0.661343
+        "score_pts": 570,
+        "volume_anomaly": 0.662499
       },
-      "rank": 9
+      "rank": 8
     },
     {
-      "symbol": "CGNX",
-      "name": "Cognex Corporation",
+      "symbol": "AI",
+      "name": "C3.ai, Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.546679,
-      "score_pts": 547,
+      "final_score_0_1": 0.569168,
+      "score_pts": 569,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
-      "reason": "RVOL 0.80x",
-      "price": 63.37,
-      "volume": 2196178,
+      "reason": "RVOL 1.11x",
+      "price": 9.28,
+      "volume": 5001800,
       "score_components": {
-        "volume_anomaly": 0.62848,
-        "compression_release": 0.252877,
-        "trends_breakout": 0.551576,
-        "news": 0.419415
+        "volume_anomaly": 0.704548,
+        "compression_release": 0.436508,
+        "trends_breakout": 0.517166,
+        "news": 0.42025
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -2351,12 +2287,76 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.62848,
-        "compression_release": 0.252877,
-        "breakout_setup_quality": 0.551576,
+        "volume_liquidity_shock": 0.704548,
+        "compression_release": 0.436508,
+        "breakout_setup_quality": 0.517166,
+        "relative_strength": 0.260883,
+        "entry_timing": 0.901508,
+        "catalyst_confirmation": 0.42025,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": 5.1,
+        "ret_5d_pct": 7.28,
+        "ret_20d_pct": -1.17,
+        "ret_60d_pct": -8.3,
+        "rvol20": 1.11,
+        "range_pos": 0.966,
+        "close_pos20": 0.615,
+        "atr_pct": 5.22,
+        "extension_sma20_pct": 2.58,
+        "extension_sma50_pct": 4.96,
+        "dollar_volume": 46416703.0,
+        "avg_dollar_volume20": 40602384.0,
+        "rs_5d_vs_qqq": 7.5,
+        "rs_20d_vs_qqq": -10.03,
+        "rs_60d_vs_qqq": -25.62,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 569,
+        "volume_anomaly": 0.704548
+      },
+      "rank": 9
+    },
+    {
+      "symbol": "CGNX",
+      "name": "Cognex Corporation",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.563105,
+      "score_pts": 563,
+      "triage": "Ignore",
+      "archetype": "Volume",
+      "regime": "Risk-on",
+      "reason": "RVOL 0.80x",
+      "price": 63.37,
+      "volume": 2198800,
+      "score_components": {
+        "volume_anomaly": 0.628567,
+        "compression_release": 0.298761,
+        "trends_breakout": 0.567592,
+        "news": 0.481605
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.628567,
+        "compression_release": 0.298761,
+        "breakout_setup_quality": 0.567592,
         "relative_strength": 0.468256,
-        "entry_timing": 0.859713,
-        "catalyst_confirmation": 0.419415,
+        "entry_timing": 0.85967,
+        "catalyst_confirmation": 0.481605,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -2371,8 +2371,8 @@
         "atr_pct": 5.25,
         "extension_sma20_pct": 5.27,
         "extension_sma50_pct": 15.42,
-        "dollar_volume": 139171798.0,
-        "avg_dollar_volume20": 169033708.0,
+        "dollar_volume": 139337954.0,
+        "avg_dollar_volume20": 169042016.0,
         "rs_5d_vs_qqq": -0.21,
         "rs_20d_vs_qqq": 8.43,
         "rs_60d_vs_qqq": -7.83,
@@ -2382,92 +2382,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 547,
-        "volume_anomaly": 0.62848
+        "score_pts": 563,
+        "volume_anomaly": 0.628567
       },
       "rank": 10
-    },
-    {
-      "symbol": "PLTR",
-      "name": "Palantir Technologies Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.538131,
-      "score_pts": 538,
-      "triage": "Ignore",
-      "archetype": "Volume + Compression + Catalyst",
-      "regime": "Risk-on",
-      "reason": "RVOL 0.70x; compression release",
-      "price": 137.15,
-      "volume": 29866980,
-      "score_components": {
-        "volume_anomaly": 0.667533,
-        "compression_release": 0.763988,
-        "trends_breakout": 0.088726,
-        "news": 0.630761
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.667533,
-        "compression_release": 0.763988,
-        "breakout_setup_quality": 0.088726,
-        "relative_strength": 0.213554,
-        "entry_timing": 0.775457,
-        "catalyst_confirmation": 0.630761,
-        "market_regime": 1.0,
-        "penalty": 0
-      },
-      "metrics": {
-        "ret_1d_pct": 1.4,
-        "ret_5d_pct": 5.46,
-        "ret_20d_pct": -10.14,
-        "ret_60d_pct": 6.45,
-        "rvol20": 0.7,
-        "range_pos": 0.981,
-        "close_pos20": 0.39,
-        "atr_pct": 4.16,
-        "extension_sma20_pct": -0.58,
-        "extension_sma50_pct": -4.26,
-        "dollar_volume": 4096256125.0,
-        "avg_dollar_volume20": 5908830835.0,
-        "rs_5d_vs_qqq": 5.68,
-        "rs_20d_vs_qqq": -19.0,
-        "rs_60d_vs_qqq": -10.87,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 538,
-        "volume_anomaly": 0.667533
-      },
-      "rank": 11
     },
     {
       "symbol": "OII",
       "name": "Oceaneering International Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.532885,
-      "score_pts": 533,
+      "final_score_0_1": 0.550576,
+      "score_pts": 551,
       "triage": "Ignore",
       "archetype": "Compression",
       "regime": "Risk-on",
       "reason": "compression release",
       "price": 38.4,
-      "volume": 555708,
+      "volume": 555900,
       "score_components": {
-        "volume_anomaly": 0.504152,
-        "compression_release": 0.631448,
-        "trends_breakout": 0.562321,
-        "news": 0.394216
+        "volume_anomaly": 0.501244,
+        "compression_release": 0.702942,
+        "trends_breakout": 0.571087,
+        "news": 0.435953
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -2479,12 +2415,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.504152,
-        "compression_release": 0.631448,
-        "breakout_setup_quality": 0.562321,
+        "volume_liquidity_shock": 0.501244,
+        "compression_release": 0.702942,
+        "breakout_setup_quality": 0.571087,
         "relative_strength": 0.095158,
-        "entry_timing": 0.817303,
-        "catalyst_confirmation": 0.394216,
+        "entry_timing": 0.814187,
+        "catalyst_confirmation": 0.435953,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -2494,13 +2430,13 @@
         "ret_20d_pct": -0.18,
         "ret_60d_pct": -1.08,
         "rvol20": 0.53,
-        "range_pos": 0.494,
+        "range_pos": 0.482,
         "close_pos20": 0.667,
-        "atr_pct": 3.59,
+        "atr_pct": 3.6,
         "extension_sma20_pct": 1.98,
         "extension_sma50_pct": 4.84,
-        "dollar_volume": 21339188.0,
-        "avg_dollar_volume20": 39389266.0,
+        "dollar_volume": 21346561.0,
+        "avg_dollar_volume20": 39389635.0,
         "rs_5d_vs_qqq": -0.99,
         "rs_20d_vs_qqq": -9.04,
         "rs_60d_vs_qqq": -18.4,
@@ -2510,28 +2446,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 533,
-        "volume_anomaly": 0.504152
+        "score_pts": 551,
+        "volume_anomaly": 0.501244
       },
-      "rank": 12
+      "rank": 11
     },
     {
-      "symbol": "ROK",
-      "name": "Rockwell Automation Inc.",
+      "symbol": "PLTR",
+      "name": "Palantir Technologies Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.528877,
-      "score_pts": 529,
+      "final_score_0_1": 0.547584,
+      "score_pts": 548,
       "triage": "Ignore",
-      "archetype": "Volume",
+      "archetype": "Volume + Compression + Catalyst",
       "regime": "Risk-on",
-      "reason": "RVOL 0.64x",
-      "price": 436.23,
-      "volume": 528362,
+      "reason": "RVOL 0.73x; compression release",
+      "price": 137.15,
+      "volume": 31307700,
       "score_components": {
-        "volume_anomaly": 0.628632,
-        "compression_release": 0.332143,
-        "trends_breakout": 0.561357,
-        "news": 0.433455
+        "volume_anomaly": 0.672325,
+        "compression_release": 0.795238,
+        "trends_breakout": 0.10039,
+        "news": 0.631476
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -2543,12 +2479,140 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.628632,
-        "compression_release": 0.332143,
-        "breakout_setup_quality": 0.561357,
+        "volume_liquidity_shock": 0.672325,
+        "compression_release": 0.795238,
+        "breakout_setup_quality": 0.10039,
+        "relative_strength": 0.213554,
+        "entry_timing": 0.775457,
+        "catalyst_confirmation": 0.631476,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": 1.4,
+        "ret_5d_pct": 5.46,
+        "ret_20d_pct": -10.14,
+        "ret_60d_pct": 6.45,
+        "rvol20": 0.73,
+        "range_pos": 0.981,
+        "close_pos20": 0.39,
+        "atr_pct": 4.16,
+        "extension_sma20_pct": -0.58,
+        "extension_sma50_pct": -4.26,
+        "dollar_volume": 4293850864.0,
+        "avg_dollar_volume20": 5918710572.0,
+        "rs_5d_vs_qqq": 5.68,
+        "rs_20d_vs_qqq": -19.0,
+        "rs_60d_vs_qqq": -10.87,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 548,
+        "volume_anomaly": 0.672325
+      },
+      "rank": 12
+    },
+    {
+      "symbol": "CRDO",
+      "name": "Credo Technology Group Holding Ltd",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.517545,
+      "score_pts": 518,
+      "triage": "Ignore",
+      "archetype": "Volume + Catalyst",
+      "regime": "Risk-on",
+      "reason": "RVOL 1.24x",
+      "price": 182.98,
+      "volume": 7487300,
+      "score_components": {
+        "volume_anomaly": 0.671479,
+        "compression_release": 0.522609,
+        "trends_breakout": 0.28231,
+        "news": 0.650303
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.671479,
+        "compression_release": 0.522609,
+        "breakout_setup_quality": 0.28231,
+        "relative_strength": 0.2384,
+        "entry_timing": 0.688005,
+        "catalyst_confirmation": 0.650303,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": 8.28,
+        "ret_5d_pct": -3.37,
+        "ret_20d_pct": -3.44,
+        "ret_60d_pct": 51.44,
+        "rvol20": 1.24,
+        "range_pos": 0.712,
+        "close_pos20": 0.549,
+        "atr_pct": 9.46,
+        "extension_sma20_pct": -0.36,
+        "extension_sma50_pct": 25.2,
+        "dollar_volume": 1370026122.0,
+        "avg_dollar_volume20": 1111447165.0,
+        "rs_5d_vs_qqq": -3.15,
+        "rs_20d_vs_qqq": -12.3,
+        "rs_60d_vs_qqq": 34.12,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 518,
+        "volume_anomaly": 0.671479
+      },
+      "rank": 13
+    },
+    {
+      "symbol": "ROK",
+      "name": "Rockwell Automation Inc.",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.516514,
+      "score_pts": 517,
+      "triage": "Ignore",
+      "archetype": "Volume",
+      "regime": "Risk-on",
+      "reason": "RVOL 0.87x",
+      "price": 436.23,
+      "volume": 725900,
+      "score_components": {
+        "volume_anomaly": 0.66204,
+        "compression_release": 0.279094,
+        "trends_breakout": 0.525804,
+        "news": 0.394837
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.66204,
+        "compression_release": 0.279094,
+        "breakout_setup_quality": 0.525804,
         "relative_strength": 0.174381,
-        "entry_timing": 0.910706,
-        "catalyst_confirmation": 0.433455,
+        "entry_timing": 0.910707,
+        "catalyst_confirmation": 0.394837,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -2557,14 +2621,14 @@
         "ret_5d_pct": -4.12,
         "ret_20d_pct": 7.18,
         "ret_60d_pct": 7.63,
-        "rvol20": 0.64,
+        "rvol20": 0.87,
         "range_pos": 0.878,
         "close_pos20": 0.594,
         "atr_pct": 3.7,
         "extension_sma20_pct": 1.45,
         "extension_sma50_pct": 9.69,
-        "dollar_volume": 230487361.0,
-        "avg_dollar_volume20": 355225673.0,
+        "dollar_volume": 316659365.0,
+        "avg_dollar_volume20": 359534273.0,
         "rs_5d_vs_qqq": -3.9,
         "rs_20d_vs_qqq": -1.68,
         "rs_60d_vs_qqq": -9.69,
@@ -2574,156 +2638,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 529,
-        "volume_anomaly": 0.628632
-      },
-      "rank": 13
-    },
-    {
-      "symbol": "MSFT",
-      "name": "Microsoft Corporation",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.517,
-      "score_pts": 517,
-      "triage": "Ignore",
-      "archetype": "Volume + Compression + Catalyst",
-      "regime": "Risk-on",
-      "reason": "RVOL 0.80x; compression release",
-      "price": 421.06,
-      "volume": 27738933,
-      "score_components": {
-        "volume_anomaly": 0.663262,
-        "compression_release": 0.594246,
-        "trends_breakout": 0.525378,
-        "news": 0.675946
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.663262,
-        "compression_release": 0.594246,
-        "breakout_setup_quality": 0.525378,
-        "relative_strength": 0.191527,
-        "entry_timing": 0.944131,
-        "catalyst_confirmation": 0.675946,
-        "market_regime": 1.0,
-        "penalty": 0.09
-      },
-      "metrics": {
-        "ret_1d_pct": 0.87,
-        "ret_5d_pct": 3.91,
-        "ret_20d_pct": -2.74,
-        "ret_60d_pct": 8.24,
-        "rvol20": 0.8,
-        "range_pos": 0.905,
-        "close_pos20": 0.664,
-        "atr_pct": 2.59,
-        "extension_sma20_pct": 1.03,
-        "extension_sma50_pct": 5.31,
-        "dollar_volume": 11679755061.0,
-        "avg_dollar_volume20": 14472456182.0,
-        "rs_5d_vs_qqq": 4.13,
-        "rs_20d_vs_qqq": -11.6,
-        "rs_60d_vs_qqq": -9.08,
-        "mature_penalty": 9.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
         "score_pts": 517,
-        "volume_anomaly": 0.663262
+        "volume_anomaly": 0.66204
       },
       "rank": 14
-    },
-    {
-      "symbol": "KTOS",
-      "name": "Kratos Defense & Security Solutions Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.509006,
-      "score_pts": 509,
-      "triage": "Ignore",
-      "archetype": "Volume + Compression + Catalyst",
-      "regime": "Risk-on",
-      "reason": "RVOL 0.83x; compression release",
-      "price": 55.82,
-      "volume": 3636356,
-      "score_components": {
-        "volume_anomaly": 0.680429,
-        "compression_release": 0.648016,
-        "trends_breakout": 0.060396,
-        "news": 0.58353
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.680429,
-        "compression_release": 0.648016,
-        "breakout_setup_quality": 0.060396,
-        "relative_strength": 0.231247,
-        "entry_timing": 0.755356,
-        "catalyst_confirmation": 0.58353,
-        "market_regime": 1.0,
-        "penalty": 0
-      },
-      "metrics": {
-        "ret_1d_pct": 4.39,
-        "ret_5d_pct": 6.34,
-        "ret_20d_pct": -18.64,
-        "ret_60d_pct": -38.44,
-        "rvol20": 0.83,
-        "range_pos": 0.981,
-        "close_pos20": 0.244,
-        "atr_pct": 5.98,
-        "extension_sma20_pct": -4.68,
-        "extension_sma50_pct": -19.93,
-        "dollar_volume": 202981391.0,
-        "avg_dollar_volume20": 253471871.0,
-        "rs_5d_vs_qqq": 6.56,
-        "rs_20d_vs_qqq": -27.5,
-        "rs_60d_vs_qqq": -55.76,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 509,
-        "volume_anomaly": 0.680429
-      },
-      "rank": 15
     },
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.499923,
-      "score_pts": 500,
+      "final_score_0_1": 0.512069,
+      "score_pts": 512,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
-      "reason": "RVOL 0.85x",
+      "reason": "RVOL 0.86x",
       "price": 4.57,
-      "volume": 8437255,
+      "volume": 8513100,
       "score_components": {
-        "volume_anomaly": 0.661991,
+        "volume_anomaly": 0.663011,
         "compression_release": 0.065873,
-        "trends_breakout": 0.524478,
-        "news": 0.401275
+        "trends_breakout": 0.553343,
+        "news": 0.497367
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -2735,12 +2671,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.661991,
+        "volume_liquidity_shock": 0.663011,
         "compression_release": 0.065873,
-        "breakout_setup_quality": 0.524478,
+        "breakout_setup_quality": 0.553343,
         "relative_strength": 0.44515,
         "entry_timing": 0.812282,
-        "catalyst_confirmation": 0.401275,
+        "catalyst_confirmation": 0.497367,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -2749,14 +2685,14 @@
         "ret_5d_pct": -4.19,
         "ret_20d_pct": 12.01,
         "ret_60d_pct": 41.93,
-        "rvol20": 0.85,
+        "rvol20": 0.86,
         "range_pos": 0.929,
         "close_pos20": 0.433,
         "atr_pct": 9.74,
         "extension_sma20_pct": 2.11,
         "extension_sma50_pct": 16.36,
-        "dollar_volume": 38558257.0,
-        "avg_dollar_volume20": 44544780.0,
+        "dollar_volume": 38904868.0,
+        "avg_dollar_volume20": 44562110.0,
         "rs_5d_vs_qqq": -3.97,
         "rs_20d_vs_qqq": 3.15,
         "rs_60d_vs_qqq": 24.61,
@@ -2766,92 +2702,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 500,
-        "volume_anomaly": 0.661991
+        "score_pts": 512,
+        "volume_anomaly": 0.663011
       },
-      "rank": 16
-    },
-    {
-      "symbol": "ASTS",
-      "name": "AST SpaceMobile Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.500156,
-      "score_pts": 500,
-      "triage": "Ignore",
-      "archetype": "Mixed",
-      "regime": "Risk-on",
-      "reason": "mixed signal",
-      "price": 89.58,
-      "volume": 18676823,
-      "score_components": {
-        "volume_anomaly": 0.584747,
-        "compression_release": 0.339385,
-        "trends_breakout": 0.534637,
-        "news": 0.455246
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.584747,
-        "compression_release": 0.339385,
-        "breakout_setup_quality": 0.534637,
-        "relative_strength": 0.42248,
-        "entry_timing": 0.547742,
-        "catalyst_confirmation": 0.455246,
-        "market_regime": 1.0,
-        "penalty": 0
-      },
-      "metrics": {
-        "ret_1d_pct": 1.68,
-        "ret_5d_pct": 19.74,
-        "ret_20d_pct": 5.81,
-        "ret_60d_pct": 4.38,
-        "rvol20": 0.95,
-        "range_pos": 0.509,
-        "close_pos20": 0.898,
-        "atr_pct": 9.0,
-        "extension_sma20_pct": 17.58,
-        "extension_sma50_pct": 7.07,
-        "dollar_volume": 1673069839.0,
-        "avg_dollar_volume20": 1518918278.0,
-        "rs_5d_vs_qqq": 19.96,
-        "rs_20d_vs_qqq": -3.05,
-        "rs_60d_vs_qqq": -12.94,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 500,
-        "volume_anomaly": 0.584747
-      },
-      "rank": 17
+      "rank": 15
     },
     {
       "symbol": "OUST",
       "name": "Ouster Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.498278,
-      "score_pts": 498,
+      "final_score_0_1": 0.50958,
+      "score_pts": 510,
       "triage": "Ignore",
       "archetype": "Mixed",
       "regime": "Risk-on",
       "reason": "mixed signal",
       "price": 30.87,
-      "volume": 4381434,
+      "volume": 4512300,
       "score_components": {
-        "volume_anomaly": 0.607381,
-        "compression_release": 0.099802,
-        "trends_breakout": 0.544617,
-        "news": 0.391098
+        "volume_anomaly": 0.61118,
+        "compression_release": 0.093399,
+        "trends_breakout": 0.572846,
+        "news": 0.485549
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -2863,12 +2735,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.607381,
-        "compression_release": 0.099802,
-        "breakout_setup_quality": 0.544617,
+        "volume_liquidity_shock": 0.61118,
+        "compression_release": 0.093399,
+        "breakout_setup_quality": 0.572846,
         "relative_strength": 0.434807,
-        "entry_timing": 0.8271,
-        "catalyst_confirmation": 0.391098,
+        "entry_timing": 0.827458,
+        "catalyst_confirmation": 0.485549,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -2877,14 +2749,14 @@
         "ret_5d_pct": -9.66,
         "ret_20d_pct": 11.2,
         "ret_60d_pct": 65.52,
-        "rvol20": 0.89,
-        "range_pos": 0.67,
+        "rvol20": 0.91,
+        "range_pos": 0.671,
         "close_pos20": 0.584,
         "atr_pct": 12.62,
         "extension_sma20_pct": 8.01,
         "extension_sma50_pct": 26.8,
-        "dollar_volume": 135254871.0,
-        "avg_dollar_volume20": 147668124.0,
+        "dollar_volume": 139294705.0,
+        "avg_dollar_volume20": 147870116.0,
         "rs_5d_vs_qqq": -9.44,
         "rs_20d_vs_qqq": 2.34,
         "rs_60d_vs_qqq": 48.2,
@@ -2894,28 +2766,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 498,
-        "volume_anomaly": 0.607381
+        "score_pts": 510,
+        "volume_anomaly": 0.61118
       },
-      "rank": 18
+      "rank": 16
     },
     {
-      "symbol": "U",
-      "name": "Unity Software Inc.",
+      "symbol": "ASTS",
+      "name": "AST SpaceMobile Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.484116,
-      "score_pts": 484,
+      "final_score_0_1": 0.501967,
+      "score_pts": 502,
       "triage": "Ignore",
       "archetype": "Mixed",
       "regime": "Risk-on",
       "reason": "mixed signal",
-      "price": 26.23,
-      "volume": 6188235,
+      "price": 89.58,
+      "volume": 20010000,
       "score_components": {
-        "volume_anomaly": 0.557448,
-        "compression_release": 0.491369,
-        "trends_breakout": 0.339579,
-        "news": 0.438227
+        "volume_anomaly": 0.593039,
+        "compression_release": 0.320635,
+        "trends_breakout": 0.534609,
+        "news": 0.508966
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -2927,59 +2799,59 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.557448,
-        "compression_release": 0.491369,
-        "breakout_setup_quality": 0.339579,
-        "relative_strength": 0.270227,
-        "entry_timing": 0.672463,
-        "catalyst_confirmation": 0.438227,
+        "volume_liquidity_shock": 0.593039,
+        "compression_release": 0.320635,
+        "breakout_setup_quality": 0.534609,
+        "relative_strength": 0.42248,
+        "entry_timing": 0.547617,
+        "catalyst_confirmation": 0.508966,
         "market_regime": 1.0,
         "penalty": 0
       },
       "metrics": {
-        "ret_1d_pct": 0.11,
-        "ret_5d_pct": -2.45,
-        "ret_20d_pct": 1.59,
-        "ret_60d_pct": 43.41,
-        "rvol20": 0.56,
-        "range_pos": 0.65,
-        "close_pos20": 0.346,
-        "atr_pct": 6.28,
-        "extension_sma20_pct": -1.88,
-        "extension_sma50_pct": 11.19,
-        "dollar_volume": 162317401.0,
-        "avg_dollar_volume20": 297024637.0,
-        "rs_5d_vs_qqq": -2.24,
-        "rs_20d_vs_qqq": -7.27,
-        "rs_60d_vs_qqq": 26.09,
+        "ret_1d_pct": 1.68,
+        "ret_5d_pct": 19.74,
+        "ret_20d_pct": 5.81,
+        "ret_60d_pct": 4.38,
+        "rvol20": 1.01,
+        "range_pos": 0.508,
+        "close_pos20": 0.897,
+        "atr_pct": 9.0,
+        "extension_sma20_pct": 17.58,
+        "extension_sma50_pct": 7.07,
+        "dollar_volume": 1792495837.0,
+        "avg_dollar_volume20": 1524889578.0,
+        "rs_5d_vs_qqq": 19.96,
+        "rs_20d_vs_qqq": -3.05,
+        "rs_60d_vs_qqq": -12.94,
         "mature_penalty": 0.0,
         "extension_penalty": 0.0,
         "weak_close_penalty": 0.0,
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 484,
-        "volume_anomaly": 0.557448
+        "score_pts": 502,
+        "volume_anomaly": 0.593039
       },
-      "rank": 19
+      "rank": 17
     },
     {
-      "symbol": "OXY",
-      "name": "Occidental Petroleum Corporation",
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.468531,
-      "score_pts": 469,
+      "final_score_0_1": 0.496531,
+      "score_pts": 497,
       "triage": "Ignore",
-      "archetype": "Compression",
+      "archetype": "Volume + Compression",
       "regime": "Risk-on",
-      "reason": "compression release",
-      "price": 58.87,
-      "volume": 11253038,
+      "reason": "RVOL 0.80x; compression release",
+      "price": 421.06,
+      "volume": 27864000,
       "score_components": {
-        "volume_anomaly": 0.257061,
-        "compression_release": 0.570536,
-        "trends_breakout": 0.520132,
-        "news": 0.343446
+        "volume_anomaly": 0.663334,
+        "compression_release": 0.565892,
+        "trends_breakout": 0.546926,
+        "news": 0.409828
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -2991,12 +2863,76 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.257061,
-        "compression_release": 0.570536,
-        "breakout_setup_quality": 0.520132,
+        "volume_liquidity_shock": 0.663334,
+        "compression_release": 0.565892,
+        "breakout_setup_quality": 0.546926,
+        "relative_strength": 0.191527,
+        "entry_timing": 0.943703,
+        "catalyst_confirmation": 0.409828,
+        "market_regime": 1.0,
+        "penalty": 0.09
+      },
+      "metrics": {
+        "ret_1d_pct": 0.87,
+        "ret_5d_pct": 3.91,
+        "ret_20d_pct": -2.74,
+        "ret_60d_pct": 8.24,
+        "rvol20": 0.8,
+        "range_pos": 0.904,
+        "close_pos20": 0.664,
+        "atr_pct": 2.59,
+        "extension_sma20_pct": 1.03,
+        "extension_sma50_pct": 5.31,
+        "dollar_volume": 11732415772.0,
+        "avg_dollar_volume20": 14475089217.0,
+        "rs_5d_vs_qqq": 4.13,
+        "rs_20d_vs_qqq": -11.6,
+        "rs_60d_vs_qqq": -9.08,
+        "mature_penalty": 9.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 497,
+        "volume_anomaly": 0.663334
+      },
+      "rank": 18
+    },
+    {
+      "symbol": "OXY",
+      "name": "Occidental Petroleum Corporation",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.489203,
+      "score_pts": 489,
+      "triage": "Ignore",
+      "archetype": "Compression",
+      "regime": "Risk-on",
+      "reason": "compression release",
+      "price": 58.87,
+      "volume": 12476300,
+      "score_components": {
+        "volume_anomaly": 0.269559,
+        "compression_release": 0.610627,
+        "trends_breakout": 0.530442,
+        "news": 0.458853
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.269559,
+        "compression_release": 0.610627,
+        "breakout_setup_quality": 0.530442,
         "relative_strength": 0.298004,
-        "entry_timing": 0.703367,
-        "catalyst_confirmation": 0.343446,
+        "entry_timing": 0.703167,
+        "catalyst_confirmation": 0.458853,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -3005,14 +2941,14 @@
         "ret_5d_pct": 4.79,
         "ret_20d_pct": 3.19,
         "ret_60d_pct": 13.32,
-        "rvol20": 0.93,
+        "rvol20": 1.02,
         "range_pos": 0.017,
-        "close_pos20": 0.716,
+        "close_pos20": 0.713,
         "atr_pct": 3.37,
         "extension_sma20_pct": 1.86,
         "extension_sma50_pct": 0.09,
-        "dollar_volume": 662466335.0,
-        "avg_dollar_volume20": 701354019.0,
+        "dollar_volume": 734479768.0,
+        "avg_dollar_volume20": 704954690.0,
         "rs_5d_vs_qqq": 5.01,
         "rs_20d_vs_qqq": -5.67,
         "rs_60d_vs_qqq": -4.0,
@@ -3022,156 +2958,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 469,
-        "volume_anomaly": 0.257061
+        "score_pts": 489,
+        "volume_anomaly": 0.269559
       },
-      "rank": 20
-    },
-    {
-      "symbol": "NVDA",
-      "name": "NVIDIA Corporation",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.463377,
-      "score_pts": 463,
-      "triage": "Ignore",
-      "archetype": "Catalyst",
-      "regime": "Risk-on",
-      "reason": "mixed signal",
-      "price": 223.47,
-      "volume": 171145403,
-      "score_components": {
-        "volume_anomaly": 0.605469,
-        "compression_release": 0.251587,
-        "trends_breakout": 0.602738,
-        "news": 0.80115
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.605469,
-        "compression_release": 0.251587,
-        "breakout_setup_quality": 0.602738,
-        "relative_strength": 0.343404,
-        "entry_timing": 0.825153,
-        "catalyst_confirmation": 0.80115,
-        "market_regime": 1.0,
-        "penalty": 0.09
-      },
-      "metrics": {
-        "ret_1d_pct": 1.3,
-        "ret_5d_pct": -1.05,
-        "ret_20d_pct": 10.36,
-        "ret_60d_pct": 15.88,
-        "rvol20": 1.07,
-        "range_pos": 0.528,
-        "close_pos20": 0.687,
-        "atr_pct": 3.62,
-        "extension_sma20_pct": 4.72,
-        "extension_sma50_pct": 14.31,
-        "dollar_volume": 38245863417.0,
-        "avg_dollar_volume20": 34175338005.0,
-        "rs_5d_vs_qqq": -0.83,
-        "rs_20d_vs_qqq": 1.5,
-        "rs_60d_vs_qqq": -1.44,
-        "mature_penalty": 9.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 463,
-        "volume_anomaly": 0.605469
-      },
-      "rank": 21
-    },
-    {
-      "symbol": "AVAV",
-      "name": "AeroVironment, Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.449612,
-      "score_pts": 450,
-      "triage": "Ignore",
-      "archetype": "Volume",
-      "regime": "Risk-on",
-      "reason": "RVOL 0.68x",
-      "price": 163.87,
-      "volume": 724646,
-      "score_components": {
-        "volume_anomaly": 0.642982,
-        "compression_release": 0.534722,
-        "trends_breakout": 0.032155,
-        "news": 0.474767
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.642982,
-        "compression_release": 0.534722,
-        "breakout_setup_quality": 0.032155,
-        "relative_strength": 0.140144,
-        "entry_timing": 0.741125,
-        "catalyst_confirmation": 0.474767,
-        "market_regime": 1.0,
-        "penalty": 0
-      },
-      "metrics": {
-        "ret_1d_pct": 2.27,
-        "ret_5d_pct": 1.79,
-        "ret_20d_pct": -22.0,
-        "ret_60d_pct": -37.51,
-        "rvol20": 0.68,
-        "range_pos": 0.924,
-        "close_pos20": 0.147,
-        "atr_pct": 5.54,
-        "extension_sma20_pct": -6.7,
-        "extension_sma50_pct": -13.09,
-        "dollar_volume": 118747736.0,
-        "avg_dollar_volume20": 185854883.0,
-        "rs_5d_vs_qqq": 2.01,
-        "rs_20d_vs_qqq": -30.86,
-        "rs_60d_vs_qqq": -54.83,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 450,
-        "volume_anomaly": 0.642982
-      },
-      "rank": 22
+      "rank": 19
     },
     {
       "symbol": "TER",
       "name": "Teradyne, Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.446126,
-      "score_pts": 446,
+      "final_score_0_1": 0.47671,
+      "score_pts": 477,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
       "reason": "RVOL 0.76x",
       "price": 344.34,
-      "volume": 3383226,
+      "volume": 3387500,
       "score_components": {
-        "volume_anomaly": 0.679913,
-        "compression_release": 0.393056,
-        "trends_breakout": 0.254737,
-        "news": 0.404648
+        "volume_anomaly": 0.680047,
+        "compression_release": 0.475068,
+        "trends_breakout": 0.29571,
+        "news": 0.501464
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -3183,12 +2991,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.679913,
-        "compression_release": 0.393056,
-        "breakout_setup_quality": 0.254737,
+        "volume_liquidity_shock": 0.680047,
+        "compression_release": 0.475068,
+        "breakout_setup_quality": 0.29571,
         "relative_strength": 0.0,
         "entry_timing": 0.758374,
-        "catalyst_confirmation": 0.404648,
+        "catalyst_confirmation": 0.501464,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -3203,8 +3011,8 @@
         "atr_pct": 6.01,
         "extension_sma20_pct": -3.78,
         "extension_sma50_pct": 1.45,
-        "dollar_volume": 1164980028.0,
-        "avg_dollar_volume20": 1561985779.0,
+        "dollar_volume": 1166451738.0,
+        "avg_dollar_volume20": 1562059365.0,
         "rs_5d_vs_qqq": -5.02,
         "rs_20d_vs_qqq": -19.46,
         "rs_60d_vs_qqq": -12.69,
@@ -3214,28 +3022,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 446,
-        "volume_anomaly": 0.679913
+        "score_pts": 477,
+        "volume_anomaly": 0.680047
       },
-      "rank": 23
+      "rank": 20
     },
     {
-      "symbol": "LUNR",
-      "name": "Intuitive Machines Inc.",
+      "symbol": "KTOS",
+      "name": "Kratos Defense & Security Solutions Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.446008,
-      "score_pts": 446,
+      "final_score_0_1": 0.470798,
+      "score_pts": 471,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
-      "reason": "RVOL 1.03x",
-      "price": 33.67,
-      "volume": 12601686,
+      "reason": "RVOL 0.90x",
+      "price": 55.82,
+      "volume": 3929400,
       "score_components": {
-        "volume_anomaly": 0.657828,
-        "compression_release": 0.069841,
-        "trends_breakout": 0.503671,
-        "news": 0.405229
+        "volume_anomaly": 0.68929,
+        "compression_release": 0.483991,
+        "trends_breakout": 0.0684,
+        "news": 0.457908
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -3247,12 +3055,140 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.657828,
-        "compression_release": 0.069841,
+        "volume_liquidity_shock": 0.68929,
+        "compression_release": 0.483991,
+        "breakout_setup_quality": 0.0684,
+        "relative_strength": 0.231247,
+        "entry_timing": 0.755356,
+        "catalyst_confirmation": 0.457908,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": 4.39,
+        "ret_5d_pct": 6.34,
+        "ret_20d_pct": -18.64,
+        "ret_60d_pct": -38.44,
+        "rvol20": 0.9,
+        "range_pos": 0.981,
+        "close_pos20": 0.244,
+        "atr_pct": 5.98,
+        "extension_sma20_pct": -4.68,
+        "extension_sma50_pct": -19.93,
+        "dollar_volume": 219339107.0,
+        "avg_dollar_volume20": 254289757.0,
+        "rs_5d_vs_qqq": 6.56,
+        "rs_20d_vs_qqq": -27.5,
+        "rs_60d_vs_qqq": -55.76,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 471,
+        "volume_anomaly": 0.68929
+      },
+      "rank": 21
+    },
+    {
+      "symbol": "U",
+      "name": "Unity Software Inc.",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.46799,
+      "score_pts": 468,
+      "triage": "Ignore",
+      "archetype": "Mixed",
+      "regime": "Risk-on",
+      "reason": "mixed signal",
+      "price": 26.23,
+      "volume": 6767300,
+      "score_components": {
+        "volume_anomaly": 0.56537,
+        "compression_release": 0.4964,
+        "trends_breakout": 0.284139,
+        "news": 0.311226
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.56537,
+        "compression_release": 0.4964,
+        "breakout_setup_quality": 0.284139,
+        "relative_strength": 0.270227,
+        "entry_timing": 0.672427,
+        "catalyst_confirmation": 0.311226,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": 0.11,
+        "ret_5d_pct": -2.45,
+        "ret_20d_pct": 1.59,
+        "ret_60d_pct": 43.41,
+        "rvol20": 0.61,
+        "range_pos": 0.65,
+        "close_pos20": 0.346,
+        "atr_pct": 6.28,
+        "extension_sma20_pct": -1.88,
+        "extension_sma50_pct": 11.19,
+        "dollar_volume": 177506276.0,
+        "avg_dollar_volume20": 297784080.0,
+        "rs_5d_vs_qqq": -2.24,
+        "rs_20d_vs_qqq": -7.27,
+        "rs_60d_vs_qqq": 26.09,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 468,
+        "volume_anomaly": 0.56537
+      },
+      "rank": 22
+    },
+    {
+      "symbol": "LUNR",
+      "name": "Intuitive Machines Inc.",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.451432,
+      "score_pts": 451,
+      "triage": "Ignore",
+      "archetype": "Volume",
+      "regime": "Risk-on",
+      "reason": "RVOL 1.05x",
+      "price": 33.67,
+      "volume": 12919800,
+      "score_components": {
+        "volume_anomaly": 0.660967,
+        "compression_release": 0.082036,
+        "trends_breakout": 0.503671,
+        "news": 0.438012
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.660967,
+        "compression_release": 0.082036,
         "breakout_setup_quality": 0.503671,
         "relative_strength": 0.460954,
         "entry_timing": 0.649824,
-        "catalyst_confirmation": 0.405229,
+        "catalyst_confirmation": 0.438012,
         "market_regime": 1.0,
         "penalty": 0.028326
       },
@@ -3261,14 +3197,14 @@
         "ret_5d_pct": -5.63,
         "ret_20d_pct": 12.46,
         "ret_60d_pct": 78.15,
-        "rvol20": 1.03,
+        "rvol20": 1.05,
         "range_pos": 0.779,
         "close_pos20": 0.691,
         "atr_pct": 11.18,
         "extension_sma20_pct": 16.2,
         "extension_sma50_pct": 37.32,
-        "dollar_volume": 424298745.0,
-        "avg_dollar_volume20": 366474540.0,
+        "dollar_volume": 435009642.0,
+        "avg_dollar_volume20": 367010085.0,
         "rs_5d_vs_qqq": -5.42,
         "rs_20d_vs_qqq": 3.6,
         "rs_60d_vs_qqq": 60.83,
@@ -3278,28 +3214,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 446,
-        "volume_anomaly": 0.657828
+        "score_pts": 451,
+        "volume_anomaly": 0.660967
       },
-      "rank": 24
+      "rank": 23
     },
     {
       "symbol": "GDRX",
       "name": "GoodRx Holdings, Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.428164,
-      "score_pts": 428,
+      "final_score_0_1": 0.446719,
+      "score_pts": 447,
       "triage": "Ignore",
       "archetype": "Mixed",
       "regime": "Risk-on",
       "reason": "mixed signal",
       "price": 2.52,
-      "volume": 1080160,
+      "volume": 1088000,
       "score_components": {
-        "volume_anomaly": 0.385297,
-        "compression_release": 0.180159,
-        "trends_breakout": 0.527832,
-        "news": 0.400819
+        "volume_anomaly": 0.385975,
+        "compression_release": 0.258207,
+        "trends_breakout": 0.532103,
+        "news": 0.429791
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -3311,12 +3247,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.385297,
-        "compression_release": 0.180159,
-        "breakout_setup_quality": 0.527832,
+        "volume_liquidity_shock": 0.385975,
+        "compression_release": 0.258207,
+        "breakout_setup_quality": 0.532103,
         "relative_strength": 0.168664,
         "entry_timing": 0.86,
-        "catalyst_confirmation": 0.400819,
+        "catalyst_confirmation": 0.429791,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -3331,8 +3267,8 @@
         "atr_pct": 6.53,
         "extension_sma20_pct": 0.0,
         "extension_sma50_pct": 9.59,
-        "dollar_volume": 2722003.0,
-        "avg_dollar_volume20": 4465307.0,
+        "dollar_volume": 2741760.0,
+        "avg_dollar_volume20": 4466295.0,
         "rs_5d_vs_qqq": -3.23,
         "rs_20d_vs_qqq": -2.53,
         "rs_60d_vs_qqq": -10.99,
@@ -3342,28 +3278,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 428,
-        "volume_anomaly": 0.385297
+        "score_pts": 447,
+        "volume_anomaly": 0.385975
       },
-      "rank": 25
+      "rank": 24
     },
     {
-      "symbol": "ISRG",
-      "name": "Intuitive Surgical, Inc.",
+      "symbol": "SERV",
+      "name": "Serve Robotics Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.412631,
-      "score_pts": 413,
+      "final_score_0_1": 0.440553,
+      "score_pts": 441,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
-      "reason": "RVOL 0.77x",
-      "price": 449.03,
-      "volume": 1736547,
+      "reason": "RVOL 0.82x",
+      "price": 8.38,
+      "volume": 3213900,
       "score_components": {
-        "volume_anomaly": 0.670512,
-        "compression_release": 0.224901,
-        "trends_breakout": 0.110018,
-        "news": 0.336882
+        "volume_anomaly": 0.644818,
+        "compression_release": 0.545161,
+        "trends_breakout": 0.038208,
+        "news": 0.51579
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -3375,12 +3311,204 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.670512,
-        "compression_release": 0.224901,
-        "breakout_setup_quality": 0.110018,
+        "volume_liquidity_shock": 0.644818,
+        "compression_release": 0.545161,
+        "breakout_setup_quality": 0.038208,
+        "relative_strength": 0.046428,
+        "entry_timing": 0.731429,
+        "catalyst_confirmation": 0.51579,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": 3.46,
+        "ret_5d_pct": -2.9,
+        "ret_20d_pct": -14.66,
+        "ret_60d_pct": -13.34,
+        "rvol20": 0.82,
+        "range_pos": 0.886,
+        "close_pos20": 0.255,
+        "atr_pct": 6.6,
+        "extension_sma20_pct": -6.65,
+        "extension_sma50_pct": -7.07,
+        "dollar_volume": 26932482.0,
+        "avg_dollar_volume20": 35015000.0,
+        "rs_5d_vs_qqq": -2.68,
+        "rs_20d_vs_qqq": -23.52,
+        "rs_60d_vs_qqq": -30.66,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 441,
+        "volume_anomaly": 0.644818
+      },
+      "rank": 25
+    },
+    {
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.435502,
+      "score_pts": 436,
+      "triage": "Ignore",
+      "archetype": "Mixed",
+      "regime": "Risk-on",
+      "reason": "mixed signal",
+      "price": 223.47,
+      "volume": 184201600,
+      "score_components": {
+        "volume_anomaly": 0.614879,
+        "compression_release": 0.205246,
+        "trends_breakout": 0.598942,
+        "news": 0.515735
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.614879,
+        "compression_release": 0.205246,
+        "breakout_setup_quality": 0.598942,
+        "relative_strength": 0.343404,
+        "entry_timing": 0.825052,
+        "catalyst_confirmation": 0.515735,
+        "market_regime": 1.0,
+        "penalty": 0.09
+      },
+      "metrics": {
+        "ret_1d_pct": 1.3,
+        "ret_5d_pct": -1.05,
+        "ret_20d_pct": 10.36,
+        "ret_60d_pct": 15.88,
+        "rvol20": 1.15,
+        "range_pos": 0.528,
+        "close_pos20": 0.687,
+        "atr_pct": 3.62,
+        "extension_sma20_pct": 4.72,
+        "extension_sma50_pct": 14.31,
+        "dollar_volume": 41163531777.0,
+        "avg_dollar_volume20": 34321221423.0,
+        "rs_5d_vs_qqq": -0.83,
+        "rs_20d_vs_qqq": 1.5,
+        "rs_60d_vs_qqq": -1.44,
+        "mature_penalty": 9.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 436,
+        "volume_anomaly": 0.614879
+      },
+      "rank": 26
+    },
+    {
+      "symbol": "TEM",
+      "name": "Tempus AI, Inc.",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.412889,
+      "score_pts": 413,
+      "triage": "Ignore",
+      "archetype": "Volume",
+      "regime": "Risk-on",
+      "reason": "RVOL 0.72x",
+      "price": 45.88,
+      "volume": 4379400,
+      "score_components": {
+        "volume_anomaly": 0.661741,
+        "compression_release": 0.369686,
+        "trends_breakout": 0.042959,
+        "news": 0.389454
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.661741,
+        "compression_release": 0.369686,
+        "breakout_setup_quality": 0.042959,
+        "relative_strength": 0.103494,
+        "entry_timing": 0.752331,
+        "catalyst_confirmation": 0.389454,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": 0.77,
+        "ret_5d_pct": -0.04,
+        "ret_20d_pct": -17.35,
+        "ret_60d_pct": -20.83,
+        "rvol20": 0.72,
+        "range_pos": 0.969,
+        "close_pos20": 0.236,
+        "atr_pct": 6.25,
+        "extension_sma20_pct": -7.9,
+        "extension_sma50_pct": -7.04,
+        "dollar_volume": 200926877.0,
+        "avg_dollar_volume20": 303416508.0,
+        "rs_5d_vs_qqq": 0.17,
+        "rs_20d_vs_qqq": -26.21,
+        "rs_60d_vs_qqq": -38.15,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 413,
+        "volume_anomaly": 0.661741
+      },
+      "rank": 27
+    },
+    {
+      "symbol": "ISRG",
+      "name": "Intuitive Surgical, Inc.",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.411796,
+      "score_pts": 412,
+      "triage": "Ignore",
+      "archetype": "Volume",
+      "regime": "Risk-on",
+      "reason": "RVOL 0.77x",
+      "price": 449.03,
+      "volume": 1737900,
+      "score_components": {
+        "volume_anomaly": 0.670595,
+        "compression_release": 0.191212,
+        "trends_breakout": 0.126668,
+        "news": 0.378142
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.670595,
+        "compression_release": 0.191212,
+        "breakout_setup_quality": 0.126668,
         "relative_strength": 0.18191,
         "entry_timing": 0.796443,
-        "catalyst_confirmation": 0.336882,
+        "catalyst_confirmation": 0.378142,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -3395,8 +3523,8 @@
         "atr_pct": 2.98,
         "extension_sma20_pct": -0.11,
         "extension_sma50_pct": -2.4,
-        "dollar_volume": 779761697.0,
-        "avg_dollar_volume20": 1013879497.0,
+        "dollar_volume": 780369235.0,
+        "avg_dollar_volume20": 1013909874.0,
         "rs_5d_vs_qqq": 4.1,
         "rs_20d_vs_qqq": -16.01,
         "rs_60d_vs_qqq": -26.43,
@@ -3406,220 +3534,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 413,
-        "volume_anomaly": 0.670512
-      },
-      "rank": 26
-    },
-    {
-      "symbol": "CRDO",
-      "name": "Credo Technology Group Holding Ltd",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.403505,
-      "score_pts": 404,
-      "triage": "Ignore",
-      "archetype": "Volume + Catalyst",
-      "regime": "Risk-on",
-      "reason": "RVOL 1.20x",
-      "price": 182.98,
-      "volume": 7239136,
-      "score_components": {
-        "volume_anomaly": 0.666947,
-        "compression_release": 0.414683,
-        "trends_breakout": 0.341685,
-        "news": 0.619654
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.666947,
-        "compression_release": 0.414683,
-        "breakout_setup_quality": 0.341685,
-        "relative_strength": 0.2384,
-        "entry_timing": 0.688005,
-        "catalyst_confirmation": 0.619654,
-        "market_regime": 1.0,
-        "penalty": 0.1
-      },
-      "metrics": {
-        "ret_1d_pct": 8.28,
-        "ret_5d_pct": -3.37,
-        "ret_20d_pct": -3.44,
-        "ret_60d_pct": 51.44,
-        "rvol20": 1.2,
-        "range_pos": 0.712,
-        "close_pos20": 0.549,
-        "atr_pct": 9.46,
-        "extension_sma20_pct": -0.36,
-        "extension_sma50_pct": 25.2,
-        "dollar_volume": 1324617074.0,
-        "avg_dollar_volume20": 1109176712.0,
-        "rs_5d_vs_qqq": -3.15,
-        "rs_20d_vs_qqq": -12.3,
-        "rs_60d_vs_qqq": 34.12,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 10.0
-      },
-      "legacy": {
-        "score_pts": 404,
-        "volume_anomaly": 0.666947
-      },
-      "rank": 27
-    },
-    {
-      "symbol": "ALAB",
-      "name": "Astera Labs Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.401532,
-      "score_pts": 402,
-      "triage": "Ignore",
-      "archetype": "Volume + Compression + Breakout",
-      "regime": "Risk-on",
-      "reason": "RVOL 1.65x; compression release; breakout setup; relative strength; penalty: extended/mature",
-      "price": 287.48,
-      "volume": 10102085,
-      "score_components": {
-        "volume_anomaly": 0.78622,
-        "compression_release": 0.568552,
-        "trends_breakout": 0.899695,
-        "news": 0.773274
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.78622,
-        "compression_release": 0.568552,
-        "breakout_setup_quality": 0.899695,
-        "relative_strength": 1.0,
-        "entry_timing": 0.458525,
-        "catalyst_confirmation": 0.773274,
-        "market_regime": 1.0,
-        "penalty": 0.35
-      },
-      "metrics": {
-        "ret_1d_pct": 17.69,
-        "ret_5d_pct": 28.29,
-        "ret_20d_pct": 48.14,
-        "ret_60d_pct": 123.89,
-        "rvol20": 1.65,
-        "range_pos": 0.994,
-        "close_pos20": 0.998,
-        "atr_pct": 7.97,
-        "extension_sma20_pct": 35.11,
-        "extension_sma50_pct": 72.63,
-        "dollar_volume": 2904147507.0,
-        "avg_dollar_volume20": 1327703785.0,
-        "rs_5d_vs_qqq": 28.51,
-        "rs_20d_vs_qqq": 39.28,
-        "rs_60d_vs_qqq": 106.57,
-        "mature_penalty": 7.0,
-        "extension_penalty": 100.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 402,
-        "volume_anomaly": 0.78622
+        "score_pts": 412,
+        "volume_anomaly": 0.670595
       },
       "rank": 28
-    },
-    {
-      "symbol": "AEVA",
-      "name": "Aeva Technologies Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.396981,
-      "score_pts": 397,
-      "triage": "Ignore",
-      "archetype": "Volume",
-      "regime": "Risk-on",
-      "reason": "RVOL 0.84x; relative strength",
-      "price": 21.11,
-      "volume": 1872748,
-      "score_components": {
-        "volume_anomaly": 0.668735,
-        "compression_release": 0.025397,
-        "trends_breakout": 0.533636,
-        "news": 0.25435
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.668735,
-        "compression_release": 0.025397,
-        "breakout_setup_quality": 0.533636,
-        "relative_strength": 0.888275,
-        "entry_timing": 0.479958,
-        "catalyst_confirmation": 0.25435,
-        "market_regime": 1.0,
-        "penalty": 0.104314
-      },
-      "metrics": {
-        "ret_1d_pct": 11.11,
-        "ret_5d_pct": 4.2,
-        "ret_20d_pct": 29.35,
-        "ret_60d_pct": 61.64,
-        "rvol20": 0.84,
-        "range_pos": 0.968,
-        "close_pos20": 0.891,
-        "atr_pct": 11.43,
-        "extension_sma20_pct": 23.64,
-        "extension_sma50_pct": 36.28,
-        "dollar_volume": 39533711.0,
-        "avg_dollar_volume20": 38779397.0,
-        "rs_5d_vs_qqq": 4.41,
-        "rs_20d_vs_qqq": 20.49,
-        "rs_60d_vs_qqq": 44.32,
-        "mature_penalty": 0.0,
-        "extension_penalty": 18.97,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 397,
-        "volume_anomaly": 0.668735
-      },
-      "rank": 29
     },
     {
       "symbol": "PDYN",
       "name": "Palladyne AI Corp.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.374184,
-      "score_pts": 374,
+      "final_score_0_1": 0.406677,
+      "score_pts": 407,
       "triage": "Ignore",
-      "archetype": "Mixed",
+      "archetype": "Compression",
       "regime": "Risk-on",
-      "reason": "mixed signal",
+      "reason": "compression release",
       "price": 5.97,
-      "volume": 941977,
+      "volume": 972700,
       "score_components": {
-        "volume_anomaly": 0.571057,
-        "compression_release": 0.459722,
+        "volume_anomaly": 0.57435,
+        "compression_release": 0.573442,
         "trends_breakout": 0.030738,
-        "news": 0.27249
+        "news": 0.401419
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -3631,12 +3567,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.571057,
-        "compression_release": 0.459722,
+        "volume_liquidity_shock": 0.57435,
+        "compression_release": 0.573442,
         "breakout_setup_quality": 0.030738,
         "relative_strength": 0.0,
         "entry_timing": 0.68,
-        "catalyst_confirmation": 0.27249,
+        "catalyst_confirmation": 0.401419,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -3645,14 +3581,14 @@
         "ret_5d_pct": -10.23,
         "ret_20d_pct": -12.59,
         "ret_60d_pct": -17.54,
-        "rvol20": 0.71,
+        "rvol20": 0.73,
         "range_pos": 0.68,
         "close_pos20": 0.205,
         "atr_pct": 7.84,
         "extension_sma20_pct": -5.19,
         "extension_sma50_pct": -6.94,
-        "dollar_volume": 5623602.0,
-        "avg_dollar_volume20": 8408511.0,
+        "dollar_volume": 5807019.0,
+        "avg_dollar_volume20": 8417682.0,
         "rs_5d_vs_qqq": -10.01,
         "rs_20d_vs_qqq": -21.45,
         "rs_60d_vs_qqq": -34.86,
@@ -3662,28 +3598,92 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 374,
-        "volume_anomaly": 0.571057
+        "score_pts": 407,
+        "volume_anomaly": 0.57435
+      },
+      "rank": 29
+    },
+    {
+      "symbol": "ALAB",
+      "name": "Astera Labs Inc.",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.401082,
+      "score_pts": 401,
+      "triage": "Ignore",
+      "archetype": "Volume + Compression + Breakout",
+      "regime": "Risk-on",
+      "reason": "RVOL 1.68x; compression release; breakout setup; relative strength; penalty: extended/mature",
+      "price": 287.48,
+      "volume": 10294600,
+      "score_components": {
+        "volume_anomaly": 0.788985,
+        "compression_release": 0.558033,
+        "trends_breakout": 0.899695,
+        "news": 0.788206
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.788985,
+        "compression_release": 0.558033,
+        "breakout_setup_quality": 0.899695,
+        "relative_strength": 1.0,
+        "entry_timing": 0.458524,
+        "catalyst_confirmation": 0.788206,
+        "market_regime": 1.0,
+        "penalty": 0.35
+      },
+      "metrics": {
+        "ret_1d_pct": 17.69,
+        "ret_5d_pct": 28.29,
+        "ret_20d_pct": 48.14,
+        "ret_60d_pct": 123.89,
+        "rvol20": 1.68,
+        "range_pos": 0.994,
+        "close_pos20": 0.998,
+        "atr_pct": 7.97,
+        "extension_sma20_pct": 35.11,
+        "extension_sma50_pct": 72.63,
+        "dollar_volume": 2959491721.0,
+        "avg_dollar_volume20": 1330470995.0,
+        "rs_5d_vs_qqq": 28.51,
+        "rs_20d_vs_qqq": 39.28,
+        "rs_60d_vs_qqq": 106.57,
+        "mature_penalty": 7.0,
+        "extension_penalty": 100.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 401,
+        "volume_anomaly": 0.788985
       },
       "rank": 30
     },
     {
-      "symbol": "PERF",
-      "name": "Perfect Corp.",
+      "symbol": "AEVA",
+      "name": "Aeva Technologies Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.372541,
-      "score_pts": 373,
+      "final_score_0_1": 0.398944,
+      "score_pts": 399,
       "triage": "Ignore",
-      "archetype": "Compression",
+      "archetype": "Volume",
       "regime": "Risk-on",
-      "reason": "compression release",
-      "price": 1.68,
-      "volume": 15247,
+      "reason": "RVOL 0.85x; relative strength",
+      "price": 21.11,
+      "volume": 1912200,
       "score_components": {
-        "volume_anomaly": 0.29874,
-        "compression_release": 0.821726,
-        "trends_breakout": 0.257385,
-        "news": 0.410966
+        "volume_anomaly": 0.671091,
+        "compression_release": 0.025397,
+        "trends_breakout": 0.533636,
+        "news": 0.274992
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -3695,59 +3695,59 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.29874,
-        "compression_release": 0.821726,
-        "breakout_setup_quality": 0.257385,
-        "relative_strength": 0.21292,
-        "entry_timing": 0.569592,
-        "catalyst_confirmation": 0.410966,
+        "volume_liquidity_shock": 0.671091,
+        "compression_release": 0.025397,
+        "breakout_setup_quality": 0.533636,
+        "relative_strength": 0.888275,
+        "entry_timing": 0.479958,
+        "catalyst_confirmation": 0.274992,
         "market_regime": 1.0,
-        "penalty": 0.08
+        "penalty": 0.104314
       },
       "metrics": {
-        "ret_1d_pct": 1.2,
-        "ret_5d_pct": -0.59,
-        "ret_20d_pct": -1.18,
-        "ret_60d_pct": 29.23,
-        "rvol20": 0.22,
-        "range_pos": 0.0,
-        "close_pos20": 0.333,
-        "atr_pct": 2.52,
-        "extension_sma20_pct": -0.0,
-        "extension_sma50_pct": 1.86,
-        "dollar_volume": 25615.0,
-        "avg_dollar_volume20": 117718.0,
-        "rs_5d_vs_qqq": -0.37,
-        "rs_20d_vs_qqq": -10.04,
-        "rs_60d_vs_qqq": 11.91,
+        "ret_1d_pct": 11.11,
+        "ret_5d_pct": 4.2,
+        "ret_20d_pct": 29.35,
+        "ret_60d_pct": 61.64,
+        "rvol20": 0.85,
+        "range_pos": 0.968,
+        "close_pos20": 0.891,
+        "atr_pct": 11.43,
+        "extension_sma20_pct": 23.64,
+        "extension_sma50_pct": 36.28,
+        "dollar_volume": 40366543.0,
+        "avg_dollar_volume20": 38821039.0,
+        "rs_5d_vs_qqq": 4.41,
+        "rs_20d_vs_qqq": 20.49,
+        "rs_60d_vs_qqq": 44.32,
         "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
+        "extension_penalty": 18.97,
         "weak_close_penalty": 0.0,
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 373,
-        "volume_anomaly": 0.29874
+        "score_pts": 399,
+        "volume_anomaly": 0.671091
       },
       "rank": 31
     },
     {
-      "symbol": "PR",
-      "name": "Permian Resources Corporation",
+      "symbol": "NBIS",
+      "name": "Nebius Group N.V.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.368277,
-      "score_pts": 368,
+      "final_score_0_1": 0.390529,
+      "score_pts": 391,
       "triage": "Ignore",
       "archetype": "Mixed",
       "regime": "Risk-on",
-      "reason": "mixed signal",
-      "price": 20.89,
-      "volume": 8963885,
+      "reason": "relative strength",
+      "price": 191.82,
+      "volume": 13064000,
       "score_components": {
-        "volume_anomaly": 0.252694,
-        "compression_release": 0.413095,
-        "trends_breakout": 0.267422,
-        "news": 0.300557
+        "volume_anomaly": 0.247476,
+        "compression_release": 0.285676,
+        "trends_breakout": 0.487776,
+        "news": 0.448142
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -3759,39 +3759,39 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.252694,
-        "compression_release": 0.413095,
-        "breakout_setup_quality": 0.267422,
-        "relative_strength": 0.278972,
-        "entry_timing": 0.593632,
-        "catalyst_confirmation": 0.300557,
+        "volume_liquidity_shock": 0.247476,
+        "compression_release": 0.285676,
+        "breakout_setup_quality": 0.487776,
+        "relative_strength": 0.666528,
+        "entry_timing": 0.665332,
+        "catalyst_confirmation": 0.448142,
         "market_regime": 1.0,
-        "penalty": 0
+        "penalty": 0.07
       },
       "metrics": {
-        "ret_1d_pct": -1.56,
-        "ret_5d_pct": 3.21,
-        "ret_20d_pct": 2.81,
-        "ret_60d_pct": 17.43,
-        "rvol20": 0.66,
-        "range_pos": 0.17,
-        "close_pos20": 0.419,
-        "atr_pct": 3.28,
-        "extension_sma20_pct": -0.25,
-        "extension_sma50_pct": 1.54,
-        "dollar_volume": 187255552.0,
-        "avg_dollar_volume20": 285691025.0,
-        "rs_5d_vs_qqq": 3.43,
-        "rs_20d_vs_qqq": -6.05,
-        "rs_60d_vs_qqq": 0.11,
-        "mature_penalty": 0.0,
+        "ret_1d_pct": -2.99,
+        "ret_5d_pct": -7.45,
+        "ret_20d_pct": 22.85,
+        "ret_60d_pct": 87.0,
+        "rvol20": 0.72,
+        "range_pos": 0.087,
+        "close_pos20": 0.585,
+        "atr_pct": 10.64,
+        "extension_sma20_pct": 8.65,
+        "extension_sma50_pct": 30.68,
+        "dollar_volume": 2505936576.0,
+        "avg_dollar_volume20": 3295036180.0,
+        "rs_5d_vs_qqq": -7.24,
+        "rs_20d_vs_qqq": 13.99,
+        "rs_60d_vs_qqq": 69.68,
+        "mature_penalty": 7.0,
         "extension_penalty": 0.0,
         "weak_close_penalty": 0.0,
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 368,
-        "volume_anomaly": 0.252694
+        "score_pts": 391,
+        "volume_anomaly": 0.247476
       },
       "rank": 32
     },
@@ -3799,19 +3799,19 @@
       "symbol": "TMDX",
       "name": "TransMedics Group Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.365822,
-      "score_pts": 366,
+      "final_score_0_1": 0.378893,
+      "score_pts": 379,
       "triage": "Ignore",
       "archetype": "Mixed",
       "regime": "Risk-on",
       "reason": "mixed signal",
       "price": 68.0,
-      "volume": 1304157,
+      "volume": 1313300,
       "score_components": {
-        "volume_anomaly": 0.553952,
-        "compression_release": 0.262798,
+        "volume_anomaly": 0.554645,
+        "compression_release": 0.306853,
         "trends_breakout": 0.02006,
-        "news": 0.375531
+        "news": 0.434215
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -3823,12 +3823,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.553952,
-        "compression_release": 0.262798,
+        "volume_liquidity_shock": 0.554645,
+        "compression_release": 0.306853,
         "breakout_setup_quality": 0.02006,
         "relative_strength": 0.223406,
         "entry_timing": 0.653225,
-        "catalyst_confirmation": 0.375531,
+        "catalyst_confirmation": 0.434215,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -3837,14 +3837,14 @@
         "ret_5d_pct": 5.95,
         "ret_20d_pct": -40.69,
         "ret_60d_pct": -50.65,
-        "rvol20": 0.68,
+        "rvol20": 0.69,
         "range_pos": 0.573,
         "close_pos20": 0.134,
         "atr_pct": 8.86,
         "extension_sma20_pct": -18.01,
         "extension_sma50_pct": -31.95,
-        "dollar_volume": 88682676.0,
-        "avg_dollar_volume20": 148137331.0,
+        "dollar_volume": 89304400.0,
+        "avg_dollar_volume20": 148168417.0,
         "rs_5d_vs_qqq": 6.17,
         "rs_20d_vs_qqq": -49.55,
         "rs_60d_vs_qqq": -67.97,
@@ -3854,92 +3854,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 366,
-        "volume_anomaly": 0.553952
+        "score_pts": 379,
+        "volume_anomaly": 0.554645
       },
       "rank": 33
-    },
-    {
-      "symbol": "TEM",
-      "name": "Tempus AI, Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.36508,
-      "score_pts": 365,
-      "triage": "Ignore",
-      "archetype": "Volume",
-      "regime": "Risk-on",
-      "reason": "RVOL 0.71x",
-      "price": 45.88,
-      "volume": 4339833,
-      "score_components": {
-        "volume_anomaly": 0.660816,
-        "compression_release": 0.199107,
-        "trends_breakout": 0.039344,
-        "news": 0.206046
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.660816,
-        "compression_release": 0.199107,
-        "breakout_setup_quality": 0.039344,
-        "relative_strength": 0.103494,
-        "entry_timing": 0.752331,
-        "catalyst_confirmation": 0.206046,
-        "market_regime": 1.0,
-        "penalty": 0
-      },
-      "metrics": {
-        "ret_1d_pct": 0.77,
-        "ret_5d_pct": -0.04,
-        "ret_20d_pct": -17.35,
-        "ret_60d_pct": -20.83,
-        "rvol20": 0.71,
-        "range_pos": 0.969,
-        "close_pos20": 0.236,
-        "atr_pct": 6.25,
-        "extension_sma20_pct": -7.9,
-        "extension_sma50_pct": -7.04,
-        "dollar_volume": 199111543.0,
-        "avg_dollar_volume20": 303325741.0,
-        "rs_5d_vs_qqq": 0.17,
-        "rs_20d_vs_qqq": -26.21,
-        "rs_60d_vs_qqq": -38.15,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 365,
-        "volume_anomaly": 0.660816
-      },
-      "rank": 34
     },
     {
       "symbol": "MTDR",
       "name": "Matador Resources Company",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.359885,
-      "score_pts": 360,
+      "final_score_0_1": 0.373735,
+      "score_pts": 374,
       "triage": "Ignore",
       "archetype": "Mixed",
       "regime": "Risk-on",
       "reason": "mixed signal",
       "price": 59.52,
-      "volume": 1190226,
+      "volume": 1420400,
       "score_components": {
-        "volume_anomaly": 0.23996,
-        "compression_release": 0.53125,
-        "trends_breakout": 0.151173,
-        "news": 0.331113
+        "volume_anomaly": 0.259648,
+        "compression_release": 0.535366,
+        "trends_breakout": 0.172152,
+        "news": 0.401485
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -3951,12 +3887,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.23996,
-        "compression_release": 0.53125,
-        "breakout_setup_quality": 0.151173,
+        "volume_liquidity_shock": 0.259648,
+        "compression_release": 0.535366,
+        "breakout_setup_quality": 0.172152,
         "relative_strength": 0.243513,
-        "entry_timing": 0.559519,
-        "catalyst_confirmation": 0.331113,
+        "entry_timing": 0.559473,
+        "catalyst_confirmation": 0.401485,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -3965,14 +3901,14 @@
         "ret_5d_pct": 3.86,
         "ret_20d_pct": -1.46,
         "ret_60d_pct": 17.79,
-        "rvol20": 0.76,
+        "rvol20": 0.9,
         "range_pos": 0.08,
         "close_pos20": 0.553,
         "atr_pct": 3.77,
         "extension_sma20_pct": -0.68,
         "extension_sma50_pct": -0.48,
-        "dollar_volume": 70842252.0,
-        "avg_dollar_volume20": 93288031.0,
+        "dollar_volume": 84542209.0,
+        "avg_dollar_volume20": 93973029.0,
         "rs_5d_vs_qqq": 4.07,
         "rs_20d_vs_qqq": -10.32,
         "rs_60d_vs_qqq": 0.47,
@@ -3982,156 +3918,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 360,
-        "volume_anomaly": 0.23996
+        "score_pts": 374,
+        "volume_anomaly": 0.259648
       },
-      "rank": 35
-    },
-    {
-      "symbol": "FTI",
-      "name": "TechnipFMC plc",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.357143,
-      "score_pts": 357,
-      "triage": "Ignore",
-      "archetype": "Mixed",
-      "regime": "Risk-on",
-      "reason": "mixed signal",
-      "price": 72.25,
-      "volume": 3141113,
-      "score_components": {
-        "volume_anomaly": 0.238806,
-        "compression_release": 0.504861,
-        "trends_breakout": 0.256217,
-        "news": 0.348536
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.238806,
-        "compression_release": 0.504861,
-        "breakout_setup_quality": 0.256217,
-        "relative_strength": 0.124155,
-        "entry_timing": 0.563293,
-        "catalyst_confirmation": 0.348536,
-        "market_regime": 1.0,
-        "penalty": 0
-      },
-      "metrics": {
-        "ret_1d_pct": -2.21,
-        "ret_5d_pct": -0.59,
-        "ret_20d_pct": 0.03,
-        "ret_60d_pct": 10.47,
-        "rvol20": 0.79,
-        "range_pos": 0.039,
-        "close_pos20": 0.296,
-        "atr_pct": 3.18,
-        "extension_sma20_pct": -1.82,
-        "extension_sma50_pct": 1.58,
-        "dollar_volume": 226945414.0,
-        "avg_dollar_volume20": 295212731.0,
-        "rs_5d_vs_qqq": -0.37,
-        "rs_20d_vs_qqq": -8.83,
-        "rs_60d_vs_qqq": -6.85,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 357,
-        "volume_anomaly": 0.238806
-      },
-      "rank": 36
-    },
-    {
-      "symbol": "RXRX",
-      "name": "Recursion Pharmaceuticals Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.354675,
-      "score_pts": 355,
-      "triage": "Ignore",
-      "archetype": "Volume",
-      "regime": "Risk-on",
-      "reason": "RVOL 0.97x",
-      "price": 2.96,
-      "volume": 13024151,
-      "score_components": {
-        "volume_anomaly": 0.642757,
-        "compression_release": 0.237202,
-        "trends_breakout": 0.030319,
-        "news": 0.249472
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.642757,
-        "compression_release": 0.237202,
-        "breakout_setup_quality": 0.030319,
-        "relative_strength": 0.045349,
-        "entry_timing": 0.707368,
-        "catalyst_confirmation": 0.249472,
-        "market_regime": 1.0,
-        "penalty": 0
-      },
-      "metrics": {
-        "ret_1d_pct": 3.86,
-        "ret_5d_pct": -2.95,
-        "ret_20d_pct": -20.64,
-        "ret_60d_pct": -16.15,
-        "rvol20": 0.97,
-        "range_pos": 0.789,
-        "close_pos20": 0.202,
-        "atr_pct": 6.03,
-        "extension_sma20_pct": -9.05,
-        "extension_sma50_pct": -10.37,
-        "dollar_volume": 38551487.0,
-        "avg_dollar_volume20": 43266939.0,
-        "rs_5d_vs_qqq": -2.73,
-        "rs_20d_vs_qqq": -29.5,
-        "rs_60d_vs_qqq": -33.47,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 355,
-        "volume_anomaly": 0.642757
-      },
-      "rank": 37
+      "rank": 34
     },
     {
       "symbol": "SOUN",
       "name": "SoundHound AI, Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.353845,
-      "score_pts": 354,
+      "final_score_0_1": 0.368344,
+      "score_pts": 368,
       "triage": "Ignore",
       "archetype": "Mixed",
       "regime": "Risk-on",
       "reason": "mixed signal",
       "price": 8.45,
-      "volume": 19005430,
+      "volume": 19378800,
       "score_components": {
-        "volume_anomaly": 0.322427,
-        "compression_release": 0.321032,
-        "trends_breakout": 0.281954,
-        "news": 0.257821
+        "volume_anomaly": 0.324246,
+        "compression_release": 0.35091,
+        "trends_breakout": 0.301389,
+        "news": 0.323882
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -4143,12 +3951,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.322427,
-        "compression_release": 0.321032,
-        "breakout_setup_quality": 0.281954,
+        "volume_liquidity_shock": 0.324246,
+        "compression_release": 0.35091,
+        "breakout_setup_quality": 0.301389,
         "relative_strength": 0.171192,
         "entry_timing": 0.628182,
-        "catalyst_confirmation": 0.257821,
+        "catalyst_confirmation": 0.323882,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -4157,14 +3965,14 @@
         "ret_5d_pct": 0.36,
         "ret_20d_pct": 2.8,
         "ret_60d_pct": 1.08,
-        "rvol20": 0.62,
+        "rvol20": 0.63,
         "range_pos": 0.473,
         "close_pos20": 0.353,
         "atr_pct": 7.74,
         "extension_sma20_pct": -1.2,
         "extension_sma50_pct": 10.36,
-        "dollar_volume": 160595880.0,
-        "avg_dollar_volume20": 267682392.0,
+        "dollar_volume": 163750856.0,
+        "avg_dollar_volume20": 267840141.0,
         "rs_5d_vs_qqq": 0.57,
         "rs_20d_vs_qqq": -6.06,
         "rs_60d_vs_qqq": -16.24,
@@ -4174,28 +3982,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 354,
-        "volume_anomaly": 0.322427
+        "score_pts": 368,
+        "volume_anomaly": 0.324246
       },
-      "rank": 38
+      "rank": 35
     },
     {
       "symbol": "SYM",
       "name": "Symbotic Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.352251,
-      "score_pts": 352,
+      "final_score_0_1": 0.363089,
+      "score_pts": 363,
       "triage": "Ignore",
       "archetype": "Volume",
       "regime": "Risk-on",
       "reason": "RVOL 0.96x",
       "price": 49.96,
-      "volume": 1783225,
+      "volume": 1788600,
       "score_components": {
-        "volume_anomaly": 0.682834,
-        "compression_release": 0.064286,
-        "trends_breakout": 0.066919,
-        "news": 0.261457
+        "volume_anomaly": 0.683198,
+        "compression_release": 0.088676,
+        "trends_breakout": 0.079967,
+        "news": 0.311914
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -4207,12 +4015,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.682834,
-        "compression_release": 0.064286,
-        "breakout_setup_quality": 0.066919,
+        "volume_liquidity_shock": 0.683198,
+        "compression_release": 0.088676,
+        "breakout_setup_quality": 0.079967,
         "relative_strength": 0.113615,
         "entry_timing": 0.745202,
-        "catalyst_confirmation": 0.261457,
+        "catalyst_confirmation": 0.311914,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -4227,8 +4035,8 @@
         "atr_pct": 6.89,
         "extension_sma20_pct": -8.55,
         "extension_sma50_pct": -8.14,
-        "dollar_volume": 89089919.0,
-        "avg_dollar_volume20": 100442526.0,
+        "dollar_volume": 89358454.0,
+        "avg_dollar_volume20": 100455953.0,
         "rs_5d_vs_qqq": 0.68,
         "rs_20d_vs_qqq": -29.83,
         "rs_60d_vs_qqq": -28.58,
@@ -4238,28 +4046,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 352,
-        "volume_anomaly": 0.682834
+        "score_pts": 363,
+        "volume_anomaly": 0.683198
       },
-      "rank": 39
+      "rank": 36
     },
     {
-      "symbol": "NBIS",
-      "name": "Nebius Group N.V.",
+      "symbol": "FTI",
+      "name": "TechnipFMC plc",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.342316,
-      "score_pts": 342,
+      "final_score_0_1": 0.354696,
+      "score_pts": 355,
       "triage": "Ignore",
       "archetype": "Mixed",
       "regime": "Risk-on",
-      "reason": "relative strength",
-      "price": 191.82,
-      "volume": 12288240,
+      "reason": "mixed signal",
+      "price": 72.25,
+      "volume": 3209600,
       "score_components": {
-        "volume_anomaly": 0.241321,
-        "compression_release": 0.116468,
-        "trends_breakout": 0.487776,
-        "news": 0.262192
+        "volume_anomaly": 0.241153,
+        "compression_release": 0.453794,
+        "trends_breakout": 0.285487,
+        "news": 0.376833
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -4271,59 +4079,59 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.241321,
-        "compression_release": 0.116468,
-        "breakout_setup_quality": 0.487776,
-        "relative_strength": 0.666528,
-        "entry_timing": 0.665332,
-        "catalyst_confirmation": 0.262192,
+        "volume_liquidity_shock": 0.241153,
+        "compression_release": 0.453794,
+        "breakout_setup_quality": 0.285487,
+        "relative_strength": 0.124155,
+        "entry_timing": 0.563293,
+        "catalyst_confirmation": 0.376833,
         "market_regime": 1.0,
-        "penalty": 0.07
+        "penalty": 0
       },
       "metrics": {
-        "ret_1d_pct": -2.99,
-        "ret_5d_pct": -7.45,
-        "ret_20d_pct": 22.85,
-        "ret_60d_pct": 87.0,
-        "rvol20": 0.68,
-        "range_pos": 0.087,
-        "close_pos20": 0.585,
-        "atr_pct": 10.64,
-        "extension_sma20_pct": 8.65,
-        "extension_sma50_pct": 30.68,
-        "dollar_volume": 2357130287.0,
-        "avg_dollar_volume20": 3287595865.0,
-        "rs_5d_vs_qqq": -7.24,
-        "rs_20d_vs_qqq": 13.99,
-        "rs_60d_vs_qqq": 69.68,
-        "mature_penalty": 7.0,
+        "ret_1d_pct": -2.21,
+        "ret_5d_pct": -0.59,
+        "ret_20d_pct": 0.03,
+        "ret_60d_pct": 10.47,
+        "rvol20": 0.8,
+        "range_pos": 0.039,
+        "close_pos20": 0.296,
+        "atr_pct": 3.18,
+        "extension_sma20_pct": -1.82,
+        "extension_sma50_pct": 1.58,
+        "dollar_volume": 231893600.0,
+        "avg_dollar_volume20": 295460141.0,
+        "rs_5d_vs_qqq": -0.37,
+        "rs_20d_vs_qqq": -8.83,
+        "rs_60d_vs_qqq": -6.85,
+        "mature_penalty": 0.0,
         "extension_penalty": 0.0,
         "weak_close_penalty": 0.0,
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 342,
-        "volume_anomaly": 0.241321
+        "score_pts": 355,
+        "volume_anomaly": 0.241153
       },
-      "rank": 40
+      "rank": 37
     },
     {
-      "symbol": "LNG",
-      "name": "Cheniere Energy Inc.",
+      "symbol": "RXRX",
+      "name": "Recursion Pharmaceuticals Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.322762,
-      "score_pts": 323,
+      "final_score_0_1": 0.349096,
+      "score_pts": 349,
       "triage": "Ignore",
-      "archetype": "Mixed",
+      "archetype": "Volume",
       "regime": "Risk-on",
-      "reason": "mixed signal",
-      "price": 243.66,
-      "volume": 1996531,
+      "reason": "RVOL 0.98x",
+      "price": 2.96,
+      "volume": 13162500,
       "score_components": {
-        "volume_anomaly": 0.273095,
-        "compression_release": 0.471528,
-        "trends_breakout": 0.039475,
-        "news": 0.295338
+        "volume_anomaly": 0.644047,
+        "compression_release": 0.21144,
+        "trends_breakout": 0.030319,
+        "news": 0.239329
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -4335,12 +4143,332 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.273095,
-        "compression_release": 0.471528,
-        "breakout_setup_quality": 0.039475,
+        "volume_liquidity_shock": 0.644047,
+        "compression_release": 0.21144,
+        "breakout_setup_quality": 0.030319,
+        "relative_strength": 0.045349,
+        "entry_timing": 0.707368,
+        "catalyst_confirmation": 0.239329,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": 3.86,
+        "ret_5d_pct": -2.95,
+        "ret_20d_pct": -20.64,
+        "ret_60d_pct": -16.15,
+        "rvol20": 0.98,
+        "range_pos": 0.789,
+        "close_pos20": 0.202,
+        "atr_pct": 6.03,
+        "extension_sma20_pct": -9.05,
+        "extension_sma50_pct": -10.37,
+        "dollar_volume": 38961001.0,
+        "avg_dollar_volume20": 43287414.0,
+        "rs_5d_vs_qqq": -2.73,
+        "rs_20d_vs_qqq": -29.5,
+        "rs_60d_vs_qqq": -33.47,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 349,
+        "volume_anomaly": 0.644047
+      },
+      "rank": 38
+    },
+    {
+      "symbol": "PR",
+      "name": "Permian Resources Corporation",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.345602,
+      "score_pts": 346,
+      "triage": "Ignore",
+      "archetype": "Mixed",
+      "regime": "Risk-on",
+      "reason": "mixed signal",
+      "price": 20.89,
+      "volume": 10391200,
+      "score_components": {
+        "volume_anomaly": 0.267658,
+        "compression_release": 0.306388,
+        "trends_breakout": 0.273466,
+        "news": 0.218924
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.267658,
+        "compression_release": 0.306388,
+        "breakout_setup_quality": 0.273466,
+        "relative_strength": 0.278972,
+        "entry_timing": 0.593632,
+        "catalyst_confirmation": 0.218924,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": -1.56,
+        "ret_5d_pct": 3.21,
+        "ret_20d_pct": 2.81,
+        "ret_60d_pct": 17.43,
+        "rvol20": 0.76,
+        "range_pos": 0.17,
+        "close_pos20": 0.419,
+        "atr_pct": 3.28,
+        "extension_sma20_pct": -0.25,
+        "extension_sma50_pct": 1.54,
+        "dollar_volume": 217072162.0,
+        "avg_dollar_volume20": 287181855.0,
+        "rs_5d_vs_qqq": 3.43,
+        "rs_20d_vs_qqq": -6.05,
+        "rs_60d_vs_qqq": 0.11,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 346,
+        "volume_anomaly": 0.267658
+      },
+      "rank": 39
+    },
+    {
+      "symbol": "PERF",
+      "name": "Perfect Corp.",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.342725,
+      "score_pts": 343,
+      "triage": "Ignore",
+      "archetype": "Compression",
+      "regime": "Risk-on",
+      "reason": "compression release",
+      "price": 1.68,
+      "volume": 15800,
+      "score_components": {
+        "volume_anomaly": 0.300185,
+        "compression_release": 0.700232,
+        "trends_breakout": 0.266126,
+        "news": 0.305119
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.300185,
+        "compression_release": 0.700232,
+        "breakout_setup_quality": 0.266126,
+        "relative_strength": 0.21292,
+        "entry_timing": 0.569592,
+        "catalyst_confirmation": 0.305119,
+        "market_regime": 1.0,
+        "penalty": 0.08
+      },
+      "metrics": {
+        "ret_1d_pct": 1.2,
+        "ret_5d_pct": -0.59,
+        "ret_20d_pct": -1.18,
+        "ret_60d_pct": 29.23,
+        "rvol20": 0.23,
+        "range_pos": 0.0,
+        "close_pos20": 0.333,
+        "atr_pct": 2.52,
+        "extension_sma20_pct": -0.0,
+        "extension_sma50_pct": 1.86,
+        "dollar_volume": 26544.0,
+        "avg_dollar_volume20": 117764.0,
+        "rs_5d_vs_qqq": -0.37,
+        "rs_20d_vs_qqq": -10.04,
+        "rs_60d_vs_qqq": 11.91,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 343,
+        "volume_anomaly": 0.300185
+      },
+      "rank": 40
+    },
+    {
+      "symbol": "AVAV",
+      "name": "AeroVironment, Inc.",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.321104,
+      "score_pts": 321,
+      "triage": "Ignore",
+      "archetype": "Volume",
+      "regime": "Risk-on",
+      "reason": "RVOL 0.69x",
+      "price": 163.87,
+      "volume": 727900,
+      "score_components": {
+        "volume_anomaly": 0.644419,
+        "compression_release": 0.409717,
+        "trends_breakout": 0.052765,
+        "news": 0.365022
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.644419,
+        "compression_release": 0.409717,
+        "breakout_setup_quality": 0.052765,
+        "relative_strength": 0.140144,
+        "entry_timing": 0.742117,
+        "catalyst_confirmation": 0.365022,
+        "market_regime": 1.0,
+        "penalty": 0.1
+      },
+      "metrics": {
+        "ret_1d_pct": 2.27,
+        "ret_5d_pct": 1.79,
+        "ret_20d_pct": -22.0,
+        "ret_60d_pct": -37.51,
+        "rvol20": 0.69,
+        "range_pos": 0.928,
+        "close_pos20": 0.147,
+        "atr_pct": 5.56,
+        "extension_sma20_pct": -6.7,
+        "extension_sma50_pct": -13.09,
+        "dollar_volume": 119280969.0,
+        "avg_dollar_volume20": 185881544.0,
+        "rs_5d_vs_qqq": 2.01,
+        "rs_20d_vs_qqq": -30.86,
+        "rs_60d_vs_qqq": -54.83,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 10.0
+      },
+      "legacy": {
+        "score_pts": 321,
+        "volume_anomaly": 0.644419
+      },
+      "rank": 41
+    },
+    {
+      "symbol": "VRT",
+      "name": "Vertiv Holdings Co",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.318363,
+      "score_pts": 318,
+      "triage": "Ignore",
+      "archetype": "Mixed",
+      "regime": "Risk-on",
+      "reason": "mixed signal",
+      "price": 315.67,
+      "volume": 6014000,
+      "score_components": {
+        "volume_anomaly": 0.29177,
+        "compression_release": 0.205962,
+        "trends_breakout": 0.293639,
+        "news": 0.372715
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.29177,
+        "compression_release": 0.205962,
+        "breakout_setup_quality": 0.293639,
+        "relative_strength": 0.160188,
+        "entry_timing": 0.533386,
+        "catalyst_confirmation": 0.372715,
+        "market_regime": 1.0,
+        "penalty": 0
+      },
+      "metrics": {
+        "ret_1d_pct": -2.16,
+        "ret_5d_pct": -14.68,
+        "ret_20d_pct": 3.45,
+        "ret_60d_pct": 24.7,
+        "rvol20": 1.03,
+        "range_pos": 0.094,
+        "close_pos20": 0.253,
+        "atr_pct": 6.07,
+        "extension_sma20_pct": -6.84,
+        "extension_sma50_pct": 4.98,
+        "dollar_volume": 1898439461.0,
+        "avg_dollar_volume20": 1967058904.0,
+        "rs_5d_vs_qqq": -14.46,
+        "rs_20d_vs_qqq": -5.41,
+        "rs_60d_vs_qqq": 7.38,
+        "mature_penalty": 0.0,
+        "extension_penalty": 0.0,
+        "weak_close_penalty": 0.0,
+        "news_hype_penalty": 0.0
+      },
+      "legacy": {
+        "score_pts": 318,
+        "volume_anomaly": 0.29177
+      },
+      "rank": 42
+    },
+    {
+      "symbol": "LNG",
+      "name": "Cheniere Energy Inc.",
+      "as_of": "2026-05-20",
+      "final_score_0_1": 0.316463,
+      "score_pts": 316,
+      "triage": "Ignore",
+      "archetype": "Mixed",
+      "regime": "Risk-on",
+      "reason": "mixed signal",
+      "price": 243.66,
+      "volume": 2008500,
+      "score_components": {
+        "volume_anomaly": 0.273773,
+        "compression_release": 0.443632,
+        "trends_breakout": 0.040686,
+        "news": 0.279804
+      },
+      "score_weights": {
+        "volume_anomaly": 0.22,
+        "compression_release": 0.2,
+        "trends_breakout": 0.18,
+        "relative_strength": 0.15,
+        "entry_timing": 0.15,
+        "news": 0.07,
+        "market_regime": 0.03
+      },
+      "v2_components": {
+        "volume_liquidity_shock": 0.273773,
+        "compression_release": 0.443632,
+        "breakout_setup_quality": 0.040686,
         "relative_strength": 0.154894,
         "entry_timing": 0.582417,
-        "catalyst_confirmation": 0.295338,
+        "catalyst_confirmation": 0.279804,
         "market_regime": 1.0,
         "penalty": 0
       },
@@ -4355,8 +4483,8 @@
         "atr_pct": 3.29,
         "extension_sma20_pct": -4.3,
         "extension_sma50_pct": -7.73,
-        "dollar_volume": 486474751.0,
-        "avg_dollar_volume20": 597477230.0,
+        "dollar_volume": 489391117.0,
+        "avg_dollar_volume20": 597623048.0,
         "rs_5d_vs_qqq": 2.01,
         "rs_20d_vs_qqq": -14.23,
         "rs_60d_vs_qqq": -7.05,
@@ -4366,92 +4494,28 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 323,
-        "volume_anomaly": 0.273095
+        "score_pts": 316,
+        "volume_anomaly": 0.273773
       },
-      "rank": 41
-    },
-    {
-      "symbol": "SERV",
-      "name": "Serve Robotics Inc.",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.311596,
-      "score_pts": 312,
-      "triage": "Ignore",
-      "archetype": "Volume",
-      "regime": "Risk-on",
-      "reason": "RVOL 0.80x",
-      "price": 8.38,
-      "volume": 3136443,
-      "score_components": {
-        "volume_anomaly": 0.642135,
-        "compression_release": 0.444246,
-        "trends_breakout": 0.038208,
-        "news": 0.398869
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.642135,
-        "compression_release": 0.444246,
-        "breakout_setup_quality": 0.038208,
-        "relative_strength": 0.046428,
-        "entry_timing": 0.731429,
-        "catalyst_confirmation": 0.398869,
-        "market_regime": 1.0,
-        "penalty": 0.1
-      },
-      "metrics": {
-        "ret_1d_pct": 3.46,
-        "ret_5d_pct": -2.9,
-        "ret_20d_pct": -14.66,
-        "ret_60d_pct": -13.34,
-        "rvol20": 0.8,
-        "range_pos": 0.886,
-        "close_pos20": 0.255,
-        "atr_pct": 6.6,
-        "extension_sma20_pct": -6.65,
-        "extension_sma50_pct": -7.07,
-        "dollar_volume": 26283393.0,
-        "avg_dollar_volume20": 34982546.0,
-        "rs_5d_vs_qqq": -2.68,
-        "rs_20d_vs_qqq": -23.52,
-        "rs_60d_vs_qqq": -30.66,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 10.0
-      },
-      "legacy": {
-        "score_pts": 312,
-        "volume_anomaly": 0.642135
-      },
-      "rank": 42
+      "rank": 43
     },
     {
       "symbol": "HIMS",
       "name": "Hims & Hers Health Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.309899,
-      "score_pts": 310,
+      "final_score_0_1": 0.31122,
+      "score_pts": 311,
       "triage": "Ignore",
       "archetype": "Mixed",
       "regime": "Risk-on",
       "reason": "mixed signal",
       "price": 23.04,
-      "volume": 14943600,
+      "volume": 16686600,
       "score_components": {
-        "volume_anomaly": 0.591081,
-        "compression_release": 0.417659,
-        "trends_breakout": 0.032191,
-        "news": 0.334325
+        "volume_anomaly": 0.601038,
+        "compression_release": 0.416744,
+        "trends_breakout": 0.022856,
+        "news": 0.348528
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -4463,12 +4527,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.591081,
-        "compression_release": 0.417659,
-        "breakout_setup_quality": 0.032191,
+        "volume_liquidity_shock": 0.601038,
+        "compression_release": 0.416744,
+        "breakout_setup_quality": 0.022856,
         "relative_strength": 0.21323,
         "entry_timing": 0.700984,
-        "catalyst_confirmation": 0.334325,
+        "catalyst_confirmation": 0.348528,
         "market_regime": 1.0,
         "penalty": 0.1
       },
@@ -4477,14 +4541,14 @@
         "ret_5d_pct": -4.56,
         "ret_20d_pct": -20.58,
         "ret_60d_pct": 49.03,
-        "rvol20": 0.56,
+        "rvol20": 0.63,
         "range_pos": 0.764,
         "close_pos20": 0.152,
         "atr_pct": 8.49,
         "extension_sma20_pct": -12.51,
         "extension_sma50_pct": -5.15,
-        "dollar_volume": 344300558.0,
-        "avg_dollar_volume20": 705315468.0,
+        "dollar_volume": 384459279.0,
+        "avg_dollar_volume20": 707323404.0,
         "rs_5d_vs_qqq": -4.34,
         "rs_20d_vs_qqq": -29.44,
         "rs_60d_vs_qqq": 31.71,
@@ -4494,72 +4558,8 @@
         "news_hype_penalty": 10.0
       },
       "legacy": {
-        "score_pts": 310,
-        "volume_anomaly": 0.591081
-      },
-      "rank": 43
-    },
-    {
-      "symbol": "VRT",
-      "name": "Vertiv Holdings Co",
-      "as_of": "2026-05-20",
-      "final_score_0_1": 0.30235,
-      "score_pts": 302,
-      "triage": "Ignore",
-      "archetype": "Mixed",
-      "regime": "Risk-on",
-      "reason": "mixed signal",
-      "price": 315.67,
-      "volume": 5221142,
-      "score_components": {
-        "volume_anomaly": 0.274714,
-        "compression_release": 0.170139,
-        "trends_breakout": 0.281522,
-        "news": 0.330934
-      },
-      "score_weights": {
-        "volume_anomaly": 0.22,
-        "compression_release": 0.2,
-        "trends_breakout": 0.18,
-        "relative_strength": 0.15,
-        "entry_timing": 0.15,
-        "news": 0.07,
-        "market_regime": 0.03
-      },
-      "v2_components": {
-        "volume_liquidity_shock": 0.274714,
-        "compression_release": 0.170139,
-        "breakout_setup_quality": 0.281522,
-        "relative_strength": 0.160188,
-        "entry_timing": 0.533448,
-        "catalyst_confirmation": 0.330934,
-        "market_regime": 1.0,
-        "penalty": 0
-      },
-      "metrics": {
-        "ret_1d_pct": -2.16,
-        "ret_5d_pct": -14.68,
-        "ret_20d_pct": 3.45,
-        "ret_60d_pct": 24.7,
-        "rvol20": 0.9,
-        "range_pos": 0.094,
-        "close_pos20": 0.253,
-        "atr_pct": 6.07,
-        "extension_sma20_pct": -6.84,
-        "extension_sma50_pct": 4.98,
-        "dollar_volume": 1648157965.0,
-        "avg_dollar_volume20": 1954544829.0,
-        "rs_5d_vs_qqq": -14.46,
-        "rs_20d_vs_qqq": -5.41,
-        "rs_60d_vs_qqq": 7.38,
-        "mature_penalty": 0.0,
-        "extension_penalty": 0.0,
-        "weak_close_penalty": 0.0,
-        "news_hype_penalty": 0.0
-      },
-      "legacy": {
-        "score_pts": 302,
-        "volume_anomaly": 0.274714
+        "score_pts": 311,
+        "volume_anomaly": 0.601038
       },
       "rank": 44
     },
@@ -4567,19 +4567,19 @@
       "symbol": "RCAT",
       "name": "Red Cat Holdings Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.293269,
-      "score_pts": 293,
+      "final_score_0_1": 0.273554,
+      "score_pts": 274,
       "triage": "Ignore",
       "archetype": "Mixed",
       "regime": "Risk-on",
       "reason": "mixed signal",
       "price": 8.94,
-      "volume": 7244637,
+      "volume": 7514700,
       "score_components": {
-        "volume_anomaly": 0.611144,
-        "compression_release": 0.409425,
-        "trends_breakout": 0.047693,
-        "news": 0.438954
+        "volume_anomaly": 0.614828,
+        "compression_release": 0.326345,
+        "trends_breakout": 0.049342,
+        "news": 0.378852
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -4591,12 +4591,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.611144,
-        "compression_release": 0.409425,
-        "breakout_setup_quality": 0.047693,
+        "volume_liquidity_shock": 0.614828,
+        "compression_release": 0.326345,
+        "breakout_setup_quality": 0.049342,
         "relative_strength": 0.006493,
         "entry_timing": 0.71098,
-        "catalyst_confirmation": 0.438954,
+        "catalyst_confirmation": 0.378852,
         "market_regime": 1.0,
         "penalty": 0.1
       },
@@ -4605,14 +4605,14 @@
         "ret_5d_pct": -4.89,
         "ret_20d_pct": -34.02,
         "ret_60d_pct": -30.59,
-        "rvol20": 0.69,
+        "rvol20": 0.71,
         "range_pos": 0.804,
         "close_pos20": 0.116,
         "atr_pct": 9.12,
         "extension_sma20_pct": -15.46,
         "extension_sma50_pct": -28.74,
-        "dollar_volume": 64767052.0,
-        "avg_dollar_volume20": 109540899.0,
+        "dollar_volume": 67181415.0,
+        "avg_dollar_volume20": 109661618.0,
         "rs_5d_vs_qqq": -4.68,
         "rs_20d_vs_qqq": -42.88,
         "rs_60d_vs_qqq": -47.91,
@@ -4622,8 +4622,8 @@
         "news_hype_penalty": 10.0
       },
       "legacy": {
-        "score_pts": 293,
-        "volume_anomaly": 0.611144
+        "score_pts": 274,
+        "volume_anomaly": 0.614828
       },
       "rank": 45
     },
@@ -4631,19 +4631,19 @@
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.193622,
-      "score_pts": 194,
+      "final_score_0_1": 0.200328,
+      "score_pts": 200,
       "triage": "Ignore",
       "archetype": "Volume + Breakout",
       "regime": "Risk-on",
-      "reason": "RVOL 0.83x; breakout setup; relative strength; penalty: extended/mature",
+      "reason": "RVOL 0.91x; breakout setup; relative strength; penalty: extended/mature",
       "price": 134.28,
-      "volume": 22230434,
+      "volume": 24347700,
       "score_components": {
-        "volume_anomaly": 0.667601,
+        "volume_anomaly": 0.678109,
         "compression_release": 0.047619,
-        "trends_breakout": 0.627425,
-        "news": 0.48249
+        "trends_breakout": 0.635137,
+        "news": 0.525249
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -4655,12 +4655,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.667601,
+        "volume_liquidity_shock": 0.678109,
         "compression_release": 0.047619,
-        "breakout_setup_quality": 0.627425,
+        "breakout_setup_quality": 0.635137,
         "relative_strength": 0.967555,
-        "entry_timing": 0.435879,
-        "catalyst_confirmation": 0.48249,
+        "entry_timing": 0.435966,
+        "catalyst_confirmation": 0.525249,
         "market_regime": 1.0,
         "penalty": 0.35
       },
@@ -4669,14 +4669,14 @@
         "ret_5d_pct": 8.16,
         "ret_20d_pct": 49.13,
         "ret_60d_pct": 91.91,
-        "rvol20": 0.83,
+        "rvol20": 0.91,
         "range_pos": 0.904,
         "close_pos20": 0.936,
         "atr_pct": 8.5,
         "extension_sma20_pct": 34.25,
         "extension_sma50_pct": 62.0,
-        "dollar_volume": 2985102650.0,
-        "avg_dollar_volume20": 2801978344.0,
+        "dollar_volume": 3269409126.0,
+        "avg_dollar_volume20": 2816193668.0,
         "rs_5d_vs_qqq": 8.38,
         "rs_20d_vs_qqq": 40.27,
         "rs_60d_vs_qqq": 74.59,
@@ -4686,8 +4686,8 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 194,
-        "volume_anomaly": 0.667601
+        "score_pts": 200,
+        "volume_anomaly": 0.678109
       },
       "rank": 46
     },
@@ -4695,19 +4695,19 @@
       "symbol": "INOD",
       "name": "Innodata Inc.",
       "as_of": "2026-05-20",
-      "final_score_0_1": 0.168168,
-      "score_pts": 168,
+      "final_score_0_1": 0.191751,
+      "score_pts": 192,
       "triage": "Ignore",
       "archetype": "Volume + Catalyst",
       "regime": "Risk-on",
       "reason": "RVOL 0.63x; relative strength; penalty: extended/mature",
       "price": 94.71,
-      "volume": 1914114,
+      "volume": 1925100,
       "score_components": {
-        "volume_anomaly": 0.642296,
-        "compression_release": 0.009524,
-        "trends_breakout": 0.565755,
-        "news": 0.563671
+        "volume_anomaly": 0.642739,
+        "compression_release": 0.088792,
+        "trends_breakout": 0.582585,
+        "news": 0.629623
       },
       "score_weights": {
         "volume_anomaly": 0.22,
@@ -4719,12 +4719,12 @@
         "market_regime": 0.03
       },
       "v2_components": {
-        "volume_liquidity_shock": 0.642296,
-        "compression_release": 0.009524,
-        "breakout_setup_quality": 0.565755,
+        "volume_liquidity_shock": 0.642739,
+        "compression_release": 0.088792,
+        "breakout_setup_quality": 0.582585,
         "relative_strength": 0.910202,
-        "entry_timing": 0.447564,
-        "catalyst_confirmation": 0.563671,
+        "entry_timing": 0.44747,
+        "catalyst_confirmation": 0.629623,
         "market_regime": 1.0,
         "penalty": 0.35
       },
@@ -4739,8 +4739,8 @@
         "atr_pct": 13.02,
         "extension_sma20_pct": 44.17,
         "extension_sma50_pct": 84.08,
-        "dollar_volume": 181285735.0,
-        "avg_dollar_volume20": 250113603.0,
+        "dollar_volume": 182326219.0,
+        "avg_dollar_volume20": 250165627.0,
         "rs_5d_vs_qqq": 5.51,
         "rs_20d_vs_qqq": 91.25,
         "rs_60d_vs_qqq": 96.96,
@@ -4750,8 +4750,8 @@
         "news_hype_penalty": 0.0
       },
       "legacy": {
-        "score_pts": 168,
-        "volume_anomaly": 0.642296
+        "score_pts": 192,
+        "volume_anomaly": 0.642739
       },
       "rank": 47
     }

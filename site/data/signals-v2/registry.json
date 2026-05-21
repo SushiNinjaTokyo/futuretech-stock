@@ -3,26 +3,26 @@
   "signals": [
     {
       "signal_date": "2026-05-20",
-      "symbol": "S",
-      "score_pts": 650,
+      "symbol": "RBRK",
+      "score_pts": 652,
       "triage": "Watch"
     },
     {
       "signal_date": "2026-05-20",
-      "symbol": "RBRK",
-      "score_pts": 667,
+      "symbol": "S",
+      "score_pts": 652,
       "triage": "Watch"
     },
     {
       "signal_date": "2026-05-20",
       "symbol": "IRDM",
-      "score_pts": 697,
+      "score_pts": 702,
       "triage": "Watch"
     },
     {
       "signal_date": "2026-05-20",
       "symbol": "VSAT",
-      "score_pts": 797,
+      "score_pts": 769,
       "triage": "Trade"
     },
     {

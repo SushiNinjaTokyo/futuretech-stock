@@ -151,7 +151,7 @@
     },
     "2026-05-20": {
       "status": "ok",
-      "generated_at": "2026-05-21 00:44:20Z",
+      "generated_at": "2026-05-21 23:40:29Z",
       "items": 25,
       "all_items": 47,
       "top10": 10,
@@ -161,7 +161,7 @@
     }
   },
   "latest_date": "2026-05-20",
-  "updated_at": "2026-05-21 00:44:21Z",
+  "updated_at": "2026-05-21 23:40:29Z",
   "date_count": 36,
   "latest_source": "site/data/daily-v2/2026-05-20/top10.json",
   "available_dates": [
@@ -353,7 +353,7 @@
     },
     "2026-05-20": {
       "status": "ok",
-      "generated_at": "2026-05-21 00:44:20Z",
+      "generated_at": "2026-05-21 23:40:29Z",
       "items": 25,
       "all_items": 47,
       "top10": 10,
