@@ -4,10 +4,10 @@
     {
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 6,
-      "deduped_headline_count": 6,
+      "headline_count_relevant": 5,
+      "deduped_headline_count": 5,
       "today_count": 0,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -57,19 +57,13 @@
           "link": "https://finance.yahoo.com/markets/stocks/articles/alphabet-nvidia-biggest-mag-7-200100997.html?.tsrc=rss",
           "published_at": "2026-05-22T20:01:00+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Nvidia Has a Plan to Get the Stock Moving Again",
-          "link": "https://finance.yahoo.com/m/a59041fc-5f5e-3c23-a17b-62c6c7440181/nvidia-has-a-plan-to-get-the.html?.tsrc=rss",
-          "published_at": "2026-05-22T19:47:00+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 4,
       "deduped_headline_count": 4,
@@ -122,7 +116,7 @@
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies Inc.",
-      "score_0_1": 0.919906,
+      "score_0_1": 0.938384,
       "headline_count_fetched": 20,
       "headline_count_relevant": 6,
       "deduped_headline_count": 6,
@@ -371,7 +365,7 @@
     {
       "symbol": "TER",
       "name": "Teradyne, Inc.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 12,
       "deduped_headline_count": 12,
@@ -474,8 +468,8 @@
       "name": "Symbotic Inc.",
       "score_0_1": 0.681692,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 14,
-      "deduped_headline_count": 14,
+      "headline_count_relevant": 13,
+      "deduped_headline_count": 13,
       "today_count": 1,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -512,12 +506,6 @@
           "title": "Symbotic Stock Declines 15.5% Since Q2 Earnings Release",
           "link": "https://finance.yahoo.com/markets/stocks/articles/symbotic-stock-declines-15-5-134700009.html?.tsrc=rss",
           "published_at": "2026-05-12T13:47:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "AMADY vs. SYM: Which Stock Should Value Investors Buy Now?",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/amady-vs-sym-stock-value-154003158.html?.tsrc=rss",
-          "published_at": "2026-05-11T15:40:03+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -585,7 +573,7 @@
     {
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
-      "score_0_1": 0.919906,
+      "score_0_1": 0.938384,
       "headline_count_fetched": 20,
       "headline_count_relevant": 6,
       "deduped_headline_count": 6,
@@ -751,7 +739,7 @@
     {
       "symbol": "VSAT",
       "name": "Viasat, Inc.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 8,
       "deduped_headline_count": 8,
@@ -828,7 +816,7 @@
     {
       "symbol": "INOD",
       "name": "Innodata Inc.",
-      "score_0_1": 0.515388,
+      "score_0_1": 0.496909,
       "headline_count_fetched": 20,
       "headline_count_relevant": 18,
       "deduped_headline_count": 18,
@@ -965,7 +953,7 @@
     {
       "symbol": "SOUN",
       "name": "SoundHound AI, Inc.",
-      "score_0_1": 0.570822,
+      "score_0_1": 0.552344,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
@@ -1072,7 +1060,7 @@
     {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 17,
       "deduped_headline_count": 17,
@@ -1203,7 +1191,7 @@
     {
       "symbol": "AVAV",
       "name": "AeroVironment, Inc.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 7,
       "deduped_headline_count": 7,
@@ -1274,7 +1262,7 @@
     {
       "symbol": "PERF",
       "name": "Perfect Corp.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 19,
       "deduped_headline_count": 19,
@@ -1417,7 +1405,7 @@
     {
       "symbol": "GDRX",
       "name": "GoodRx Holdings, Inc.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 7,
       "deduped_headline_count": 7,
@@ -1488,7 +1476,7 @@
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
@@ -1601,7 +1589,7 @@
     {
       "symbol": "U",
       "name": "Unity Software Inc.",
-      "score_0_1": 0.552344,
+      "score_0_1": 0.533866,
       "headline_count_fetched": 20,
       "headline_count_relevant": 15,
       "deduped_headline_count": 15,
@@ -1720,11 +1708,11 @@
     {
       "symbol": "TEM",
       "name": "Tempus AI, Inc.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.607779,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 12,
-      "deduped_headline_count": 12,
-      "today_count": 0,
+      "headline_count_relevant": 14,
+      "deduped_headline_count": 14,
+      "today_count": 1,
       "prev1_count": 0,
       "prev3_daily_counts": [
         1,
@@ -1734,16 +1722,22 @@
       "avg_prev_3d_excl_today": 0.6667,
       "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.6667,
-      "ratio_vs_prev1": 0.0,
-      "ratio_vs_prev3avg": 0.0,
-      "raw_news_strength": 0.0,
+      "ratio_vs_prev1": 2.0,
+      "ratio_vs_prev3avg": 1.499925,
+      "raw_news_strength": 0.83001859,
       "day_counts": {
         "2026-05-18": 1,
         "2026-05-19": 1,
         "2026-05-20": 0,
-        "2026-05-21": 0
+        "2026-05-21": 1
       },
       "headlines": [
+        {
+          "title": "Tempus Launches ArteraAI Prostate Test for Metastatic Patients, Marking the First Prostate Digital Pathology Algorithm in the Tempus Ecosystem Available for Clinical Use",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-launches-arteraai-prostate-test-123000837.html?.tsrc=rss",
+          "published_at": "2026-05-21T12:30:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Assessing Tempus AI (TEM) Valuation After Recent Share Price Weakness",
           "link": "https://finance.yahoo.com/markets/stocks/articles/assessing-tempus-ai-tem-valuation-002159545.html?.tsrc=rss",
@@ -1754,6 +1748,12 @@
           "title": "Tempus AI And BMS Deepen AI Drug Development Ties As Losses Persist",
           "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-ai-bms-deepen-ai-181201034.html?.tsrc=rss",
           "published_at": "2026-05-18T18:12:01+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Tempus Expands Strategic Collaboration with Bristol Myers Squibb to Enhance the Probability of Success Across Clinical Development Programs In Oncology and Neuroscience",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-expands-strategic-collaboration-bristol-123000445.html?.tsrc=rss",
+          "published_at": "2026-05-14T12:30:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -1769,15 +1769,15 @@
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "Tempus AI, Inc. Announces Proposed Convertible Senior Notes Offering to Optimize Capital Structure and Reduce Interest Expense",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/tempus-ai-inc-announces-proposed-111100902.html?.tsrc=rss",
-          "published_at": "2026-05-07T11:11:00+00:00",
+          "title": "Tempus Announces Pricing of Upsized Offering of $400.0 Million of Convertible Senior Notes",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/tempus-announces-pricing-upsized-offering-045900038.html?.tsrc=rss",
+          "published_at": "2026-05-08T04:59:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "Why The Dip In TEM Stock Is A Buying Window",
-          "link": "https://www.trefis.com/articles/598465/why-the-dip-in-tem-stock-is-a-buying-window/2026-05-06?.tsrc=rss",
-          "published_at": "2026-05-06T13:31:10+00:00",
+          "title": "Tempus AI, Inc. Announces Proposed Convertible Senior Notes Offering to Optimize Capital Structure and Reduce Interest Expense",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/tempus-ai-inc-announces-proposed-111100902.html?.tsrc=rss",
+          "published_at": "2026-05-07T11:11:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -1916,7 +1916,7 @@
     {
       "symbol": "OII",
       "name": "Oceaneering International Inc.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 10,
       "deduped_headline_count": 10,
@@ -2005,7 +2005,7 @@
     {
       "symbol": "CGNX",
       "name": "Cognex Corporation",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -2130,7 +2130,7 @@
     {
       "symbol": "KTOS",
       "name": "Kratos Defense & Security Solutions Inc.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 5,
       "deduped_headline_count": 5,
@@ -2296,7 +2296,7 @@
     {
       "symbol": "FTI",
       "name": "TechnipFMC plc",
-      "score_0_1": 0.607779,
+      "score_0_1": 0.589301,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
@@ -2528,7 +2528,7 @@
     {
       "symbol": "PR",
       "name": "Permian Resources Corporation",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
@@ -2694,7 +2694,7 @@
     {
       "symbol": "ROK",
       "name": "Rockwell Automation Inc.",
-      "score_0_1": 0.955585,
+      "score_0_1": 0.974063,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -2819,11 +2819,11 @@
     {
       "symbol": "IONQ",
       "name": "IonQ Inc.",
-      "score_0_1": 0.974063,
+      "score_0_1": 0.938384,
       "headline_count_fetched": 20,
       "headline_count_relevant": 9,
       "deduped_headline_count": 9,
-      "today_count": 4,
+      "today_count": 3,
       "prev1_count": 0,
       "prev3_daily_counts": [
         0,
@@ -2833,16 +2833,22 @@
       "avg_prev_3d_excl_today": 0.0,
       "baseline_prev1_used": 0.5,
       "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 8.0,
-      "ratio_vs_prev3avg": 8.0,
-      "raw_news_strength": 1.87394191,
+      "ratio_vs_prev1": 6.0,
+      "ratio_vs_prev3avg": 6.0,
+      "raw_news_strength": 1.63812147,
       "day_counts": {
         "2026-05-18": 0,
         "2026-05-19": 0,
         "2026-05-20": 0,
-        "2026-05-21": 4
+        "2026-05-21": 3
       },
       "headlines": [
+        {
+          "title": "Why IonQ Stock Blasted Almost 23% Higher This Week",
+          "link": "https://www.fool.com/investing/2026/05/22/why-ionq-stock-blasted-almost-23-higher-this-week/?.tsrc=rss",
+          "published_at": "2026-05-22T23:16:19+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "IonQ stock spikes on massive quantum announcement",
           "link": "https://www.thestreet.com/investing/stocks/ionq-stock-spikes-on-massive-quantum-announcement?.tsrc=rss",
@@ -2890,19 +2896,13 @@
           "link": "https://www.fool.com/investing/2026/05/21/did-amazon-just-deliver-a-sweeping-blow-to-ionq/?.tsrc=rss",
           "published_at": "2026-05-21T16:49:00+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Why Did IonQ Stock Pop Today?",
-          "link": "https://www.fool.com/investing/2026/05/21/duplicate10-template/?.tsrc=rss",
-          "published_at": "2026-05-21T15:12:34+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "OXY",
       "name": "Occidental Petroleum Corporation",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 11,
       "deduped_headline_count": 11,
@@ -2997,7 +2997,7 @@
     {
       "symbol": "RCAT",
       "name": "Red Cat Holdings Inc.",
-      "score_0_1": 0.607779,
+      "score_0_1": 0.589301,
       "headline_count_fetched": 20,
       "headline_count_relevant": 5,
       "deduped_headline_count": 5,
@@ -3163,7 +3163,7 @@
     {
       "symbol": "RBRK",
       "name": "Rubrik Inc.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 15,
       "deduped_headline_count": 15,
@@ -3442,7 +3442,7 @@
     {
       "symbol": "SERV",
       "name": "Serve Robotics Inc.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -3567,7 +3567,7 @@
     {
       "symbol": "PDYN",
       "name": "Palladyne AI Corp.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -3692,7 +3692,7 @@
     {
       "symbol": "AEVA",
       "name": "Aeva Technologies Inc.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -3817,7 +3817,7 @@
     {
       "symbol": "PRCT",
       "name": "PROCEPT BioRobotics Corporation",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 15,
       "deduped_headline_count": 15,
@@ -3936,7 +3936,7 @@
     {
       "symbol": "LUNR",
       "name": "Intuitive Machines Inc.",
-      "score_0_1": 0.496909,
+      "score_0_1": 0.478431,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -4174,7 +4174,7 @@
     {
       "symbol": "NBIS",
       "name": "Nebius Group N.V.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 0,
       "deduped_headline_count": 0,
@@ -4202,7 +4202,7 @@
     {
       "symbol": "S",
       "name": "SentinelOne Inc.",
-      "score_0_1": 0.533866,
+      "score_0_1": 0.515388,
       "headline_count_fetched": 20,
       "headline_count_relevant": 12,
       "deduped_headline_count": 12,
@@ -4303,7 +4303,7 @@
     {
       "symbol": "ESTC",
       "name": "Elastic N.V.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 6,
       "deduped_headline_count": 6,
@@ -4368,7 +4368,7 @@
     {
       "symbol": "RXRX",
       "name": "Recursion Pharmaceuticals Inc.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 12,
       "deduped_headline_count": 12,
@@ -4469,7 +4469,7 @@
     {
       "symbol": "TMDX",
       "name": "TransMedics Group Inc.",
-      "score_0_1": 0.425,
+      "score_0_1": 0.406522,
       "headline_count_fetched": 20,
       "headline_count_relevant": 10,
       "deduped_headline_count": 10,
