@@ -4756,7 +4756,5 @@
       "rank": 47
     }
   ],
-  "failed": [],
-  "latest_synced_at": "2026-05-25 23:43:55Z",
-  "latest_source": "site/data/daily-v2/2026-05-22/top10.json"
+  "failed": []
 }
