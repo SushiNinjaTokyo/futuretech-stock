@@ -2,6 +2,18 @@
   "version": "daily_event_score_v2",
   "signals": [
     {
+      "signal_date": "2026-05-25",
+      "symbol": "IRDM",
+      "score_pts": 715,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-25",
+      "symbol": "S",
+      "score_pts": 732,
+      "triage": "Watch"
+    },
+    {
       "signal_date": "2026-05-22",
       "symbol": "IRDM",
       "score_pts": 717,

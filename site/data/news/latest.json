@@ -41,8 +41,8 @@
       "name": "Microsoft Corporation",
       "score_0_1": 0.609783,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 2,
-      "deduped_headline_count": 2,
+      "headline_count_relevant": 3,
+      "deduped_headline_count": 3,
       "today_count": 0,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -73,6 +73,12 @@
           "title": "Microsoft’s EY AI Alliance And Airia Deal Deepen Enterprise Cloud Ties",
           "link": "https://finance.yahoo.com/markets/stocks/articles/microsoft-ey-ai-alliance-airia-170759693.html?.tsrc=rss",
           "published_at": "2026-05-26T17:07:59+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Billionaire Dan Loeb Cashed Out of Microsoft Stock. Shares Are Down 14.2% YTD.",
+          "link": "https://www.barchart.com/story/news/2134271/billionaire-dan-loeb-cashed-out-of-microsoft-stock-shares-are-down-14-2-ytd?.tsrc=rss",
+          "published_at": "2026-05-26T17:06:49+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -1662,8 +1668,8 @@
       "name": "Tempus AI, Inc.",
       "score_0_1": 0.609783,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 16,
-      "deduped_headline_count": 16,
+      "headline_count_relevant": 15,
+      "deduped_headline_count": 15,
       "today_count": 0,
       "prev1_count": 1,
       "prev3_daily_counts": [
@@ -1748,12 +1754,6 @@
           "title": "Tempus AI, Inc. Announces Proposed Convertible Senior Notes Offering to Optimize Capital Structure and Reduce Interest Expense",
           "link": "https://finance.yahoo.com/markets/stocks/articles/tempus-ai-inc-announces-proposed-111100902.html?.tsrc=rss",
           "published_at": "2026-05-07T11:11:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Why The Dip In TEM Stock Is A Buying Window",
-          "link": "https://www.trefis.com/articles/598465/why-the-dip-in-tem-stock-is-a-buying-window/2026-05-06?.tsrc=rss",
-          "published_at": "2026-05-06T13:31:10+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
