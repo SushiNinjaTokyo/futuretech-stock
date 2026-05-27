@@ -474,8 +474,8 @@
       "name": "Symbotic Inc.",
       "score_0_1": 0.461957,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 13,
-      "deduped_headline_count": 13,
+      "headline_count_relevant": 14,
+      "deduped_headline_count": 14,
       "today_count": 0,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -512,6 +512,12 @@
           "title": "Symbotic Stock Declines 15.5% Since Q2 Earnings Release",
           "link": "https://finance.yahoo.com/markets/stocks/articles/symbotic-stock-declines-15-5-134700009.html?.tsrc=rss",
           "published_at": "2026-05-12T13:47:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "AMADY vs. SYM: Which Stock Should Value Investors Buy Now?",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/amady-vs-sym-stock-value-154003158.html?.tsrc=rss",
+          "published_at": "2026-05-11T15:40:03+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -1746,8 +1752,8 @@
       "name": "Tempus AI, Inc.",
       "score_0_1": 0.607779,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 17,
-      "deduped_headline_count": 17,
+      "headline_count_relevant": 16,
+      "deduped_headline_count": 16,
       "today_count": 1,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -1844,12 +1850,6 @@
           "title": "Tempus AI, Inc. Announces Proposed Convertible Senior Notes Offering to Optimize Capital Structure and Reduce Interest Expense",
           "link": "https://finance.yahoo.com/markets/stocks/articles/tempus-ai-inc-announces-proposed-111100902.html?.tsrc=rss",
           "published_at": "2026-05-07T11:11:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Why The Dip In TEM Stock Is A Buying Window",
-          "link": "https://www.trefis.com/articles/598465/why-the-dip-in-tem-stock-is-a-buying-window/2026-05-06?.tsrc=rss",
-          "published_at": "2026-05-06T13:31:10+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -2928,8 +2928,8 @@
       "name": "Occidental Petroleum Corporation",
       "score_0_1": 0.901427,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 9,
-      "deduped_headline_count": 9,
+      "headline_count_relevant": 8,
+      "deduped_headline_count": 8,
       "today_count": 3,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -2996,12 +2996,6 @@
           "title": "Prediction: This Will Be Occidental Petroleum’s Stock Price in 2030",
           "link": "https://247wallst.com/investing/2026/05/20/prediction-this-will-be-occidental-petroleums-stock-price-in-2030/?.tsrc=rss",
           "published_at": "2026-05-20T15:22:49+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Earnings Estimates Rising for Occidental (OXY): Will It Gain?",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/earnings-estimates-rising-occidental-oxy-162002749.html?.tsrc=rss",
-          "published_at": "2026-05-19T16:20:02+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -3076,8 +3070,8 @@
       "name": "Hims & Hers Health Inc.",
       "score_0_1": 0.78686,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 16,
-      "deduped_headline_count": 16,
+      "headline_count_relevant": 17,
+      "deduped_headline_count": 17,
       "today_count": 2,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -3192,6 +3186,12 @@
           "title": "Hims & Hers Prices Upsized $350 Million Convertible Notes Offering",
           "link": "https://finance.yahoo.com/markets/stocks/articles/hims-hers-prices-upsized-350-173346315.html?.tsrc=rss",
           "published_at": "2026-05-19T17:33:46+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Hims & Hers Health, Inc. Prices Upsized $350 Million Convertible Senior Notes Offering to Support International Expansion and Accelerate AI-Driven Platform Investment",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/hims-hers-health-inc-prices-035900408.html?.tsrc=rss",
+          "published_at": "2026-05-19T03:59:00+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]

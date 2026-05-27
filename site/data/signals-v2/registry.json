@@ -2,6 +2,30 @@
   "version": "daily_event_score_v2",
   "signals": [
     {
+      "signal_date": "2026-05-26",
+      "symbol": "GDRX",
+      "score_pts": 675,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-26",
+      "symbol": "RBRK",
+      "score_pts": 696,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-26",
+      "symbol": "PDYN",
+      "score_pts": 700,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-26",
+      "symbol": "VSAT",
+      "score_pts": 757,
+      "triage": "Trade"
+    },
+    {
       "signal_date": "2026-05-25",
       "symbol": "IRDM",
       "score_pts": 715,
