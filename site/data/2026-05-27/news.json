@@ -29,6 +29,12 @@
       },
       "headlines": [
         {
+          "title": "Is NVIDIA Corporation (NVDA) The Best 52-Week High Stock to Invest In According to Short Sellers?",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/nvidia-corporation-nvda-best-52-234027290.html?.tsrc=rss",
+          "published_at": "2026-05-28T23:40:27+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
           "title": "Nvidia Already is the GPU Giant. Now It's Aiming to Dominate in a New $200 Billion Market.",
           "link": "https://www.fool.com/investing/2026/05/28/nvidia-already-is-the-gpu-giant-now-its-aiming-to/?.tsrc=rss",
           "published_at": "2026-05-28T22:30:00+00:00",
@@ -44,12 +50,6 @@
           "title": "Nvidia's Next AI Wave Sparks Big Calls on Micron, Dell, Arm Stocks",
           "link": "https://finance.yahoo.com/sectors/technology/articles/nvidias-next-ai-wave-sparks-205612672.html?.tsrc=rss",
           "published_at": "2026-05-28T20:56:12+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Snowflake, Unusual Machines, Nvidia, and More Stocks That Explain the Market Today",
-          "link": "https://finance.yahoo.com/m/bf8a1a7c-7d2a-3ee4-96b7-c9c69a4e73e7/snowflake%2C-unusual-machines%2C.html?.tsrc=rss",
-          "published_at": "2026-05-28T20:39:00+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -1680,8 +1680,8 @@
       "name": "Tempus AI, Inc.",
       "score_0_1": 0.823817,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 16,
-      "deduped_headline_count": 16,
+      "headline_count_relevant": 17,
+      "deduped_headline_count": 17,
       "today_count": 2,
       "prev1_count": 1,
       "prev3_daily_counts": [
@@ -1784,6 +1784,12 @@
           "title": "Tempus AI, Inc. Announces Proposed Convertible Senior Notes Offering to Optimize Capital Structure and Reduce Interest Expense",
           "link": "https://finance.yahoo.com/markets/stocks/articles/tempus-ai-inc-announces-proposed-111100902.html?.tsrc=rss",
           "published_at": "2026-05-07T11:11:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Why The Dip In TEM Stock Is A Buying Window",
+          "link": "https://www.trefis.com/articles/598465/why-the-dip-in-tem-stock-is-a-buying-window/2026-05-06?.tsrc=rss",
+          "published_at": "2026-05-06T13:31:10+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -2267,6 +2273,12 @@
       },
       "headlines": [
         {
+          "title": "2 Reasons to Avoid FTI and 1 Stock to Buy Instead",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/2-reasons-avoid-fti-1-231000772.html?.tsrc=rss",
+          "published_at": "2026-05-28T23:10:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
           "title": "Helix Energy Solutions and TechnipFMC Shares Plummet, What You Need To Know",
           "link": "https://finance.yahoo.com/markets/stocks/articles/helix-energy-solutions-technipfmc-shares-214524089.html?.tsrc=rss",
           "published_at": "2026-05-27T21:45:24+00:00",
@@ -2318,12 +2330,6 @@
           "title": "TechnipFMC plc (FTI) Hits Fresh High: Is There Still Room to Run?",
           "link": "https://finance.yahoo.com/markets/stocks/articles/technipfmc-plc-fti-hits-fresh-131502699.html?.tsrc=rss",
           "published_at": "2026-05-01T13:15:02+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "TechnipFMC Q1 Earnings Call Highlights",
-          "link": "https://www.marketbeat.com/instant-alerts/technipfmc-q1-earnings-call-highlights-2026-05-01/?utm_source=yahoofinance&utm_medium=yahoofinance&.tsrc=rss",
-          "published_at": "2026-05-01T12:42:49+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]

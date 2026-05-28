@@ -2,6 +2,18 @@
   "version": "daily_event_score_v2",
   "signals": [
     {
+      "signal_date": "2026-05-27",
+      "symbol": "PDYN",
+      "score_pts": 650,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-27",
+      "symbol": "GDRX",
+      "score_pts": 666,
+      "triage": "Watch"
+    },
+    {
       "signal_date": "2026-05-26",
       "symbol": "GDRX",
       "score_pts": 675,
