@@ -4,7 +4,7 @@
     {
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 4,
       "deduped_headline_count": 4,
@@ -29,15 +29,21 @@
       },
       "headlines": [
         {
-          "title": "As Nvidia, Oracle And Amazon Pour Billions Into AI, Wall Street Is Quietly Hedging For Trouble",
-          "link": "https://finance.yahoo.com/markets/options/articles/nvidia-oracle-amazon-pour-billions-220125805.html?.tsrc=rss",
-          "published_at": "2026-05-29T22:01:25+00:00",
+          "title": "Nvidia Dropped a Cryptic Clue About Its Next Big Move Ahead of GTC Event",
+          "link": "https://finance.yahoo.com/m/f5a32c5f-3548-3659-81f4-93968d4fbad5/nvidia-dropped-a-cryptic-clue.html?.tsrc=rss",
+          "published_at": "2026-05-29T23:07:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "Nvidia Dropped a Cryptic Clue About Its Next Big Move Ahead of GTC Event",
-          "link": "https://finance.yahoo.com/m/f5a32c5f-3548-3659-81f4-93968d4fbad5/nvidia-dropped-a-cryptic-clue.html?.tsrc=rss",
-          "published_at": "2026-05-29T21:24:00+00:00",
+          "title": "Nvidia Continues to Be the Core Engine of AI, Says Analyst. Plus, Walmart and 4 More Stocks.",
+          "link": "https://finance.yahoo.com/m/2332a61a-93a9-3b27-b323-ad2fd2ca6eb8/nvidia-continues-to-be-the.html?.tsrc=rss",
+          "published_at": "2026-05-29T22:25:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "As Nvidia, Oracle And Amazon Pour Billions Into AI, Wall Street Is Quietly Hedging For Trouble",
+          "link": "https://finance.yahoo.com/markets/options/articles/nvidia-oracle-amazon-pour-billions-220125805.html?.tsrc=rss",
+          "published_at": "2026-05-29T22:01:25+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -45,19 +51,13 @@
           "link": "https://finance.yahoo.com/m/fd63b97c-c320-3202-b483-76d551ec4785/dow-jones-futures%3A-market.html?.tsrc=rss",
           "published_at": "2026-05-29T20:41:07+00:00",
           "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Nvidia, AMD, & other chip names in focus at Computex 2026",
-          "link": "https://finance.yahoo.com/video/nvidia-amd-other-chip-names-202249085.html?.tsrc=rss",
-          "published_at": "2026-05-29T20:22:49+00:00",
-          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 3,
       "deduped_headline_count": 3,
@@ -104,7 +104,7 @@
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 2,
       "deduped_headline_count": 2,
@@ -216,7 +216,7 @@
     {
       "symbol": "ISRG",
       "name": "Intuitive Surgical, Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 11,
       "deduped_headline_count": 11,
@@ -560,7 +560,7 @@
     {
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 9,
       "deduped_headline_count": 9,
@@ -645,24 +645,24 @@
       "name": "Viasat, Inc.",
       "score_0_1": 0.932683,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 16,
-      "deduped_headline_count": 16,
+      "headline_count_relevant": 17,
+      "deduped_headline_count": 17,
       "today_count": 5,
       "prev1_count": 3,
       "prev3_daily_counts": [
         0,
-        1,
+        2,
         3
       ],
-      "avg_prev_3d_excl_today": 1.3333,
+      "avg_prev_3d_excl_today": 1.6667,
       "baseline_prev1_used": 3.0,
-      "baseline_prev3_used": 1.3333,
+      "baseline_prev3_used": 1.6667,
       "ratio_vs_prev1": 1.666667,
-      "ratio_vs_prev3avg": 3.750094,
-      "raw_news_strength": 1.57117465,
+      "ratio_vs_prev3avg": 2.99994,
+      "raw_news_strength": 1.5282034,
       "day_counts": {
         "2026-05-25": 0,
-        "2026-05-26": 1,
+        "2026-05-26": 2,
         "2026-05-27": 3,
         "2026-05-28": 5
       },
@@ -762,13 +762,19 @@
           "link": "https://stocktwits.com/news-articles/markets/equity/vsat-stock-rips-10-today-after-hitting-key-milestone-viasat-expects-its-sb-s-to-be-deployed-in-over-1-200-airplanes-this-year/cZgOBpVReqF?.tsrc=rss",
           "published_at": "2026-05-26T17:25:18+00:00",
           "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Viasat’s next-gen cockpit service reaches milestone as airlines modernize communications to save fuel",
+          "link": "https://finance.yahoo.com/sectors/technology/articles/viasat-next-gen-cockpit-reaches-133600594.html?.tsrc=rss",
+          "published_at": "2026-05-26T13:36:00+00:00",
+          "source": "Yahoo Finance RSS"
         }
       ]
     },
     {
       "symbol": "INOD",
       "name": "Innodata Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -1127,8 +1133,8 @@
       "name": "AeroVironment, Inc.",
       "score_0_1": 0.938384,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 7,
-      "deduped_headline_count": 7,
+      "headline_count_relevant": 8,
+      "deduped_headline_count": 8,
       "today_count": 3,
       "prev1_count": 0,
       "prev3_daily_counts": [
@@ -1149,6 +1155,12 @@
         "2026-05-28": 3
       },
       "headlines": [
+        {
+          "title": "AeroVironment (AVAV) Stock Slides as Market Rises: Facts to Know Before You Trade",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/aerovironment-avav-stock-slides-market-221502699.html?.tsrc=rss",
+          "published_at": "2026-05-29T22:15:02+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "AeroVironment (AVAV) Moves 18.3% Higher: Will This Strength Last?",
           "link": "https://finance.yahoo.com/markets/stocks/articles/aerovironment-avav-moves-18-3-105900704.html?.tsrc=rss",
@@ -1410,7 +1422,7 @@
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 15,
       "deduped_headline_count": 15,
@@ -1654,34 +1666,64 @@
     {
       "symbol": "TEM",
       "name": "Tempus AI, Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.38604,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 9,
-      "deduped_headline_count": 9,
-      "today_count": 0,
-      "prev1_count": 1,
+      "headline_count_relevant": 17,
+      "deduped_headline_count": 17,
+      "today_count": 1,
+      "prev1_count": 2,
       "prev3_daily_counts": [
         0,
-        0,
-        1
+        1,
+        2
       ],
-      "avg_prev_3d_excl_today": 0.3333,
-      "baseline_prev1_used": 1.0,
-      "baseline_prev3_used": 0.5,
-      "ratio_vs_prev1": 0.0,
-      "ratio_vs_prev3avg": 0.0,
-      "raw_news_strength": 0.0,
+      "avg_prev_3d_excl_today": 1.0,
+      "baseline_prev1_used": 2.0,
+      "baseline_prev3_used": 1.0,
+      "ratio_vs_prev1": 0.5,
+      "ratio_vs_prev3avg": 1.0,
+      "raw_news_strength": 0.63561077,
       "day_counts": {
         "2026-05-25": 0,
-        "2026-05-26": 0,
-        "2026-05-27": 1,
-        "2026-05-28": 0
+        "2026-05-26": 1,
+        "2026-05-27": 2,
+        "2026-05-28": 1
       },
       "headlines": [
+        {
+          "title": "Tempus Announces Initial Results from its Multimodal Foundation Model Efforts for Novel and Scalable Insight Generation in Oncology",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-announces-initial-results-multimodal-131500667.html?.tsrc=rss",
+          "published_at": "2026-05-29T13:15:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Tempus Receives FDA Approval for Tumor Only xT CDx, Enabling Migration of its Entire DNA Solid Tumor Portfolio",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-receives-fda-approval-tumor-121500083.html?.tsrc=rss",
+          "published_at": "2026-05-29T12:15:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Tempus Expands Next Platform to Deliver Real-Time Clinical Intelligence and Close Critical Care Gaps Across Oncology",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-expands-next-platform-deliver-123000851.html?.tsrc=rss",
+          "published_at": "2026-05-28T12:30:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Tempus Upgrades Its Smart Physician Platform, Hub, with Next-Generation Agentic AI Architecture to Streamline Clinical Workflows",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-upgrades-smart-physician-platform-123300973.html?.tsrc=rss",
+          "published_at": "2026-05-27T12:33:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Tempus AI Expands Precision Oncology With New Prostate Test And ASCO Data",
           "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-ai-expands-precision-oncology-020622786.html?.tsrc=rss",
           "published_at": "2026-05-27T02:06:22+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Tempus Announces 37 Abstracts Accepted for Presentation at the 2026 American Society of Clinical Oncology Annual Meeting",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-announces-37-abstracts-accepted-123000550.html?.tsrc=rss",
+          "published_at": "2026-05-26T12:30:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -1697,6 +1739,12 @@
           "source": "Yahoo Finance RSS"
         },
         {
+          "title": "Tempus Launches ArteraAI Prostate Test for Metastatic Patients, Marking the First Prostate Digital Pathology Algorithm in the Tempus Ecosystem Available for Clinical Use",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-launches-arteraai-prostate-test-123000837.html?.tsrc=rss",
+          "published_at": "2026-05-21T12:30:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
           "title": "Assessing Tempus AI (TEM) Valuation After Recent Share Price Weakness",
           "link": "https://finance.yahoo.com/markets/stocks/articles/assessing-tempus-ai-tem-valuation-002159545.html?.tsrc=rss",
           "published_at": "2026-05-19T00:21:59+00:00",
@@ -1709,6 +1757,12 @@
           "source": "Yahoo Finance RSS"
         },
         {
+          "title": "Tempus Expands Strategic Collaboration with Bristol Myers Squibb to Enhance the Probability of Success Across Clinical Development Programs In Oncology and Neuroscience",
+          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-expands-strategic-collaboration-bristol-123000445.html?.tsrc=rss",
+          "published_at": "2026-05-14T12:30:00+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
           "title": "Is Tempus AI (TEM) The Best AI Healthcare Stock to Buy?",
           "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-ai-tem-best-ai-145909457.html?.tsrc=rss",
           "published_at": "2026-05-10T14:59:09+00:00",
@@ -1718,6 +1772,12 @@
           "title": "Tempus AI Expands Beyond Oncology With New Alzheimer’s Blood Test Alliance",
           "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-ai-expands-beyond-oncology-161649169.html?.tsrc=rss",
           "published_at": "2026-05-09T16:16:49+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
+          "title": "Tempus Announces Pricing of Upsized Offering of $400.0 Million of Convertible Senior Notes",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/tempus-announces-pricing-upsized-offering-045900038.html?.tsrc=rss",
+          "published_at": "2026-05-08T04:59:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -1820,7 +1880,7 @@
     {
       "symbol": "OII",
       "name": "Oceaneering International Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 9,
       "deduped_headline_count": 9,
@@ -2004,7 +2064,7 @@
     {
       "symbol": "KTOS",
       "name": "Kratos Defense & Security Solutions Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 2,
       "deduped_headline_count": 2,
@@ -2241,7 +2301,7 @@
     {
       "symbol": "LNG",
       "name": "Cheniere Energy Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 14,
       "deduped_headline_count": 14,
@@ -2354,7 +2414,7 @@
     {
       "symbol": "PR",
       "name": "Permian Resources Corporation",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
@@ -3197,7 +3257,7 @@
     {
       "symbol": "ALAB",
       "name": "Astera Labs Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 4,
       "deduped_headline_count": 4,
@@ -3375,7 +3435,7 @@
     {
       "symbol": "PDYN",
       "name": "Palladyne AI Corp.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -3500,7 +3560,7 @@
     {
       "symbol": "AEVA",
       "name": "Aeva Technologies Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -3851,7 +3911,7 @@
     {
       "symbol": "ASTS",
       "name": "AST SpaceMobile Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
@@ -3999,7 +4059,7 @@
     {
       "symbol": "S",
       "name": "SentinelOne Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
@@ -4207,7 +4267,7 @@
     {
       "symbol": "RXRX",
       "name": "Recursion Pharmaceuticals Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 13,
       "deduped_headline_count": 13,
@@ -4314,7 +4374,7 @@
     {
       "symbol": "TMDX",
       "name": "TransMedics Group Inc.",
-      "score_0_1": 0.332609,
+      "score_0_1": 0.31413,
       "headline_count_fetched": 20,
       "headline_count_relevant": 10,
       "deduped_headline_count": 10,

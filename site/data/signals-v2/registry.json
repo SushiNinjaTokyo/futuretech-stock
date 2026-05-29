@@ -2,6 +2,54 @@
   "version": "daily_event_score_v2",
   "signals": [
     {
+      "signal_date": "2026-05-28",
+      "symbol": "SERV",
+      "score_pts": 652,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-28",
+      "symbol": "TER",
+      "score_pts": 652,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-28",
+      "symbol": "KTOS",
+      "score_pts": 668,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-28",
+      "symbol": "AI",
+      "score_pts": 686,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-28",
+      "symbol": "ESTC",
+      "score_pts": 691,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-28",
+      "symbol": "U",
+      "score_pts": 696,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-28",
+      "symbol": "GDRX",
+      "score_pts": 702,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-28",
+      "symbol": "RBRK",
+      "score_pts": 741,
+      "triage": "Watch"
+    },
+    {
       "signal_date": "2026-05-27",
       "symbol": "PDYN",
       "score_pts": 650,
