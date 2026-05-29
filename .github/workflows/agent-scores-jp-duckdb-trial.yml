@@ -1,0 +1,259 @@
+name: Agent Scores JP DuckDB trial
+
+on:
+  workflow_dispatch:
+    inputs:
+      universe_limit:
+        description: "Equity universe size for this trial run"
+        required: false
+        default: "300"
+        type: string
+      lookback_days:
+        description: "Price lookback days"
+        required: false
+        default: "520"
+        type: string
+      request_sleep_seconds:
+        description: "Sleep seconds between ticker requests"
+        required: false
+        default: "0.20"
+        type: string
+      allow_legacy_fallback:
+        description: "Allow fallback to data/universe_jp.csv when data/universe/jp_index_universe.csv is missing. This is only for a small smoke test, not a real 300-ticker run."
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+      commit_outputs:
+        description: "Commit generated CSV / JSON outputs"
+        required: false
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  OUT_DIR: site
+  PRICE_DUCKDB_PATH: data/cache/neon_tokyo_jp.duckdb
+  PRICE_STORE_MODE: json_and_duckdb
+  PRICE_PUBLIC_JSON_MODE: summary
+  WRITE_DATED_PRICE_JSON: "false"
+  MIN_BARS_REQUIRED: "60"
+  MIN_ACCEPTABLE_BARS: "20"
+  AGENT_SCORE_TOP_N: "30"
+
+concurrency:
+  group: neon-tokyo-site-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-agent-scores:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements-render.txt
+          python -m pip install pymupdf
+
+      - name: Sync latest main before generation
+        run: |
+          set -euo pipefail
+          git pull --ff-only origin main
+
+      - name: Remove any local DuckDB before trial build
+        run: |
+          set -euo pipefail
+          rm -f "${PRICE_DUCKDB_PATH}"
+          rm -f data/cache/neon_tokyo_jp.duckdb.wal
+          mkdir -p data/cache
+          echo "Trial workflow will rebuild DuckDB from scratch. No actions/cache fallback is used."
+
+      - name: Validate Python scripts
+        run: |
+          set -euo pipefail
+          python -m compileall \
+            scripts/fetch_prices_jp.py \
+            scripts/build_jp_index_universe_csv.py \
+            scripts/build_universe_300_from_index_csv.py \
+            scripts/build_agent_scores_jp.py \
+            scripts/review_agent_scores_jp.py \
+            scripts/prune_prices_jp_heavy_json.py \
+            scripts/lib
+
+      - name: Build JP index universe
+        run: |
+          set -euo pipefail
+          python scripts/build_jp_index_universe_csv.py
+
+      - name: Build 300 ticker trial universe
+        env:
+          UNIVERSE_LIMIT: ${{ github.event.inputs.universe_limit || '300' }}
+          OUT_UNIVERSE_CSV: data/universe/jp_duckdb_trial_300.csv
+          STRICT_INDEX_UNIVERSE: ${{ (github.event.inputs.allow_legacy_fallback || 'false') != 'true' }}
+        run: |
+          set -euo pipefail
+          python scripts/build_universe_300_from_index_csv.py
+
+      - name: Fetch prices into JSON and fresh DuckDB
+        env:
+          UNIVERSE_CSV: data/universe/jp_duckdb_trial_300.csv
+          UNIVERSE_LIMIT: ${{ github.event.inputs.universe_limit || '300' }}
+          LOOKBACK_DAYS: ${{ github.event.inputs.lookback_days || '520' }}
+          REQUEST_SLEEP_SECONDS: ${{ github.event.inputs.request_sleep_seconds || '0.20' }}
+          PRICE_PUBLIC_JSON_MODE: summary
+          WRITE_DATED_PRICE_JSON: "false"
+        run: |
+          set -euo pipefail
+          python scripts/fetch_prices_jp.py
+
+      - name: Prune heavy prices-jp JSON snapshots
+        env:
+          DELETE_DATED_PRICES_JSON: "true"
+          MAX_PRICES_LATEST_MB: "25"
+        run: |
+          set -euo pipefail
+          python scripts/prune_prices_jp_heavy_json.py
+
+      - name: Build 7-agent scores from fresh DuckDB features
+        run: |
+          set -euo pipefail
+          test -f "${PRICE_DUCKDB_PATH}"
+          python scripts/build_agent_scores_jp.py
+
+      - name: Review agent score contents
+        run: |
+          set -euo pipefail
+          python scripts/review_agent_scores_jp.py
+
+      - name: Verify generated outputs
+        run: |
+          set -euo pipefail
+
+          test -f data/universe/jp_index_universe.csv
+          test -f site/data/japan/universe/jp_index_universe.csv
+          test -f site/data/japan/universe/jp_index_universe.json
+          test -f site/data/japan/universe/diagnostics.json
+          test -f data/universe/jp_duckdb_trial_300.csv
+          test -f site/data/prices-jp/latest.json
+          test -f site/data/prices-jp/manifest.json
+          test -f site/data/japan/agent-scores/latest.json
+          test -f site/data/japan/agent-scores/diagnostics.json
+          test -f site/data/japan/agent-scores/review.json
+          test -f site/data/japan/agent-scores/review.md
+          test -f site/data/prices-jp/prune-report.json
+          test -f "${PRICE_DUCKDB_PATH}"
+
+          if find site/data/prices-jp -maxdepth 1 -type f -name '20??-??-??.json' | grep -q .; then
+            echo "Dated prices-jp JSON still exists"
+            find site/data/prices-jp -maxdepth 1 -type f -name '20??-??-??.json' -print
+            exit 1
+          fi
+
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+          import duckdb
+
+          prices = json.loads(Path("site/data/prices-jp/latest.json").read_text(encoding="utf-8"))
+          scores = json.loads(Path("site/data/japan/agent-scores/latest.json").read_text(encoding="utf-8"))
+          diag = json.loads(Path("site/data/japan/agent-scores/diagnostics.json").read_text(encoding="utf-8"))
+          review = json.loads(Path("site/data/japan/agent-scores/review.json").read_text(encoding="utf-8"))
+          universe_rows = list(csv.DictReader(Path("data/universe/jp_duckdb_trial_300.csv").open(encoding="utf-8-sig")))
+
+          assert len(universe_rows) > 0
+          assert prices["schema_version"] == "prices-jp-v1"
+          assert prices["symbols_success"] > 0
+          assert prices.get("public_json_mode") == "summary", prices.get("public_json_mode")
+          assert prices.get("bars_omitted") is True
+          assert all(not x.get("bars") for x in prices.get("items", [])[:20])
+
+          assert scores["schema_version"] == "neon_tokyo_agent_scores_v1"
+          assert len(scores["agents"]) == 7, len(scores["agents"])
+
+          assert diag["price_rows"] > 0
+          assert diag["feature_diagnostics"]["feature_rows"] > 0
+          assert diag["agent_score_rows"] > 0
+          assert review["schema_version"] == "neon_tokyo_agent_score_review_v1"
+
+          con = duckdb.connect("data/cache/neon_tokyo_jp.duckdb", read_only=True)
+
+          price_rows = con.execute("SELECT COUNT(*) FROM prices_daily").fetchone()[0]
+          feature_rows = con.execute("SELECT COUNT(*) FROM features_daily").fetchone()[0]
+          agent_rows = con.execute("SELECT COUNT(*) FROM agent_scores_daily").fetchone()[0]
+
+          assert price_rows > 0
+          assert feature_rows > 0
+          assert agent_rows > 0
+
+          print("universe_rows=", len(universe_rows))
+          print("symbols_success=", prices["symbols_success"])
+          print("symbols_failed=", prices["symbols_failed"])
+          print("agents=", [a["name"] for a in scores["agents"]])
+          print("price_rows=", price_rows)
+          print("feature_rows=", feature_rows)
+          print("agent_rows=", agent_rows)
+          PY
+
+      - name: Commit generated trial outputs
+        if: ${{ github.event.inputs.commit_outputs != 'false' }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+
+          git add -A \
+            data/universe/jp_index_universe.csv \
+            data/universe/jp_duckdb_trial_300.csv \
+            site/data/japan/universe \
+            site/data/prices-jp \
+            site/data/japan/agent-scores
+
+          if git diff --cached --quiet; then
+            echo "No generated trial outputs to commit."
+            exit 0
+          fi
+
+          git commit -m "Build JP DuckDB agent score trial outputs"
+
+          for i in 1 2 3; do
+            if git push origin HEAD:main; then
+              echo "Push succeeded."
+              exit 0
+            fi
+
+            echo "Push rejected. Fetching origin/main and retrying ($i/3)..."
+            git fetch origin main
+
+            if ! git rebase origin/main; then
+              echo "Rebase failed. Aborting to avoid overwriting generated files."
+              git rebase --abort || true
+              exit 1
+            fi
+
+            sleep 5
+          done
+
+          echo "Push failed after retries."
+          exit 1

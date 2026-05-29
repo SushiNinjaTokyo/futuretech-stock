@@ -1,0 +1,235 @@
+name: AI Arena JP fundamentals refresh
+
+on:
+  workflow_dispatch:
+    inputs:
+      universe_limit:
+        description: "Number of equity tickers to refresh"
+        required: true
+        default: "300"
+      commit_outputs:
+        description: "Commit diagnostics and generated reports"
+        required: true
+        default: "true"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ai-arena-jp-canonical-db
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  OUT_DIR: site
+  PRICE_DUCKDB_PATH: data/cache/neon_tokyo_jp.duckdb
+  CANONICAL_DUCKDB_RELEASE_TAG: ai-arena-duckdb-latest
+  CANONICAL_DUCKDB_ASSET: neon_tokyo_jp_latest.duckdb.zst
+  CANONICAL_DUCKDB_MANIFEST_ASSET: neon_tokyo_jp_latest_manifest.json
+
+jobs:
+  refresh-fundamentals:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements-render.txt
+          sudo apt-get update
+          sudo apt-get install -y zstd
+
+      - name: Pull latest main
+        run: |
+          set -euo pipefail
+          git pull --ff-only origin main
+
+      - name: Download canonical DuckDB from Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p data/cache
+
+          if ! gh release view "${CANONICAL_DUCKDB_RELEASE_TAG}" >/dev/null 2>&1; then
+            echo "::error::Canonical DuckDB release not found: ${CANONICAL_DUCKDB_RELEASE_TAG}"
+            echo "::error::Run AI Arena JP season rebuild with price fetch first."
+            exit 1
+          fi
+
+          gh release download "${CANONICAL_DUCKDB_RELEASE_TAG}" \
+            --pattern "${CANONICAL_DUCKDB_ASSET}" \
+            --dir data/cache \
+            --clobber
+
+          gh release download "${CANONICAL_DUCKDB_RELEASE_TAG}" \
+            --pattern "${CANONICAL_DUCKDB_MANIFEST_ASSET}" \
+            --dir data/cache \
+            --clobber || true
+
+          test -f "data/cache/${CANONICAL_DUCKDB_ASSET}"
+
+          zstd -d -f "data/cache/${CANONICAL_DUCKDB_ASSET}" -o "${PRICE_DUCKDB_PATH}"
+
+          test -f "${PRICE_DUCKDB_PATH}"
+          ls -lh "${PRICE_DUCKDB_PATH}"
+
+      - name: Show DB before fundamentals refresh
+        run: |
+          set -euo pipefail
+          python scripts/show_duckdb_build_metadata.py \
+            --db-path "${PRICE_DUCKDB_PATH}" \
+            --fail-if-missing
+
+      - name: Compile scripts
+        run: |
+          set -euo pipefail
+          python -m compileall \
+            scripts/fetch_fundamentals_jp.py \
+            scripts/build_value_features_jp.py \
+            scripts/stamp_duckdb_build_metadata.py \
+            scripts/show_duckdb_build_metadata.py \
+            scripts/lib
+
+      - name: Refresh fundamentals
+        env:
+          FUNDAMENTALS_LIMIT: ${{ inputs.universe_limit }}
+          FUNDAMENTALS_REQUEST_SLEEP_SECONDS: "0.10"
+          BUILD_COMPAT_VALUE_FEATURE_LATEST: "true"
+        run: |
+          set -euo pipefail
+          test -f "${PRICE_DUCKDB_PATH}"
+          python scripts/fetch_fundamentals_jp.py
+
+      - name: Build value features from refreshed fundamentals
+        env:
+          VALUE_FEATURE_YEAR: auto
+          VALUE_FEATURE_START_DATE: auto
+          VALUE_FEATURE_END_DATE: auto
+        run: |
+          set -euo pipefail
+          test -f "${PRICE_DUCKDB_PATH}"
+          python scripts/build_value_features_jp.py
+
+      - name: Stamp canonical DuckDB metadata
+        run: |
+          set -euo pipefail
+          test -f "${PRICE_DUCKDB_PATH}"
+          python scripts/stamp_duckdb_build_metadata.py \
+            --db-path "${PRICE_DUCKDB_PATH}" \
+            --source-workflow "${GITHUB_WORKFLOW}" \
+            --source-run-id "${GITHUB_RUN_ID}" \
+            --source-run-attempt "${GITHUB_RUN_ATTEMPT}" \
+            --source-sha "${GITHUB_SHA}" \
+            --source-ref "${GITHUB_REF}" \
+            --release-tag "${CANONICAL_DUCKDB_RELEASE_TAG}" \
+            --asset-name "${CANONICAL_DUCKDB_ASSET}" \
+            --manifest-path "data/cache/${CANONICAL_DUCKDB_MANIFEST_ASSET}"
+
+      - name: Show DB after fundamentals refresh
+        run: |
+          set -euo pipefail
+          python scripts/show_duckdb_build_metadata.py \
+            --db-path "${PRICE_DUCKDB_PATH}" \
+            --fail-if-missing
+
+      - name: Validate fundamentals
+        run: |
+          set -euo pipefail
+          test -s site/data/japan/ai-arena/diagnostics/fundamentals-latest.json
+          test -f "${PRICE_DUCKDB_PATH}"
+
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import duckdb
+
+          diag = json.loads(Path("site/data/japan/ai-arena/diagnostics/fundamentals-latest.json").read_text(encoding="utf-8"))
+          print(diag.get("metric_coverage"))
+
+          con = duckdb.connect("data/cache/neon_tokyo_jp.duckdb", read_only=True)
+
+          tables = {r[0] for r in con.execute("SHOW TABLES").fetchall()}
+          assert "duckdb_build_metadata" in tables
+          assert "fundamentals_latest_jp" in tables
+          assert "value_features_daily" in tables
+
+          n = con.execute("SELECT COUNT(*) FROM fundamentals_latest_jp").fetchone()[0]
+          v = con.execute("SELECT COUNT(*) FROM value_features_daily").fetchone()[0]
+
+          print("fundamentals_latest_jp=", n)
+          print("value_features_daily=", v)
+
+          assert n > 0, "fundamentals_latest_jp is empty"
+          assert v > 0, "value_features_daily is empty"
+          PY
+
+      - name: Publish canonical DuckDB Release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -f "${PRICE_DUCKDB_PATH}"
+          test -f "data/cache/${CANONICAL_DUCKDB_MANIFEST_ASSET}"
+
+          zstd -T0 -19 -f "${PRICE_DUCKDB_PATH}" -o "data/cache/${CANONICAL_DUCKDB_ASSET}"
+
+          test -f "data/cache/${CANONICAL_DUCKDB_ASSET}"
+          ls -lh "data/cache/${CANONICAL_DUCKDB_ASSET}"
+          ls -lh "data/cache/${CANONICAL_DUCKDB_MANIFEST_ASSET}"
+
+          gh release upload "${CANONICAL_DUCKDB_RELEASE_TAG}" \
+            "data/cache/${CANONICAL_DUCKDB_ASSET}" \
+            "data/cache/${CANONICAL_DUCKDB_MANIFEST_ASSET}" \
+            --clobber
+
+      - name: Commit diagnostics
+        if: ${{ inputs.commit_outputs == 'true' }}
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+
+          git add -A \
+            site/data/japan/ai-arena/diagnostics/fundamentals-latest.json \
+            site/data/japan/ai-arena/diagnostics/value-features-latest.json
+
+          if git diff --cached --quiet; then
+            echo "No fundamentals diagnostics to commit."
+            exit 0
+          fi
+
+          git commit -m "Update AI Arena JP fundamentals diagnostics"
+
+          for i in 1 2 3; do
+            if git push origin HEAD:main; then
+              echo "Push succeeded."
+              exit 0
+            fi
+
+            echo "Push rejected. Fetching origin/main and retrying ($i/3)..."
+            git fetch origin main
+
+            if ! git rebase origin/main; then
+              echo "Rebase failed. Aborting to avoid overwriting generated files."
+              git rebase --abort || true
+              exit 1
+            fi
+
+            sleep 5
+          done
+
+          echo "Push failed after retries."
+          exit 1
