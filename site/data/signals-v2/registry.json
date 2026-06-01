@@ -2,6 +2,42 @@
   "version": "daily_event_score_v2",
   "signals": [
     {
+      "signal_date": "2026-05-29",
+      "symbol": "MSFT",
+      "score_pts": 654,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-29",
+      "symbol": "HIMS",
+      "score_pts": 657,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-29",
+      "symbol": "SOUN",
+      "score_pts": 658,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-29",
+      "symbol": "U",
+      "score_pts": 677,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-29",
+      "symbol": "AI",
+      "score_pts": 686,
+      "triage": "Watch"
+    },
+    {
+      "signal_date": "2026-05-29",
+      "symbol": "PLTR",
+      "score_pts": 708,
+      "triage": "Watch"
+    },
+    {
       "signal_date": "2026-05-28",
       "symbol": "SERV",
       "score_pts": 652,
