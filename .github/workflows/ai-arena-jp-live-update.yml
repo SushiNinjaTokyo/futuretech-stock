@@ -1,0 +1,370 @@
+name: AI Arena JP live update
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_price_fetch:
+        description: "Skip price fetch and use canonical DuckDB"
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+      universe_limit:
+        description: "Maximum AI Arena universe size including manual includes"
+        required: false
+        default: "1000"
+      price_refresh_mode:
+        description: "Price refresh mode: incremental for daily, missing for new tickers only, full for manual repair"
+        required: false
+        default: "incremental"
+        type: choice
+        options: ["incremental", "missing", "full"]
+      fetch_fundamentals:
+        description: "Fetch fundamentals during live update"
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+      skip_fundamentals_fetch:
+        description: "Skip fundamentals fetch and use canonical DuckDB"
+        required: false
+        default: "true"
+        type: choice
+        options: ["true", "false"]
+      commit_outputs:
+        description: "Commit generated live outputs"
+        required: false
+        default: "true"
+        type: choice
+        options: ["true", "false"]
+
+  schedule:
+    - cron: "30 9 * * 1-5"  # 18:30 JST weekdays
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: ai-arena-jp-canonical-db
+  cancel-in-progress: false
+
+jobs:
+  live-update:
+    runs-on: ubuntu-24.04
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+      OUT_DIR: site
+      PRICE_DUCKDB_PATH: data/cache/neon_tokyo_jp.duckdb
+      PRICE_STORE_MODE: json_and_duckdb
+      PRICE_PUBLIC_JSON_MODE: summary
+      WRITE_DATED_PRICE_JSON: "false"
+      UNIVERSE_LIMIT: ${{ github.event.inputs.universe_limit || '1000' }}
+      OUT_UNIVERSE_CSV: data/universe/jp_duckdb_trial_300.csv
+      MANUAL_THEME_INCLUDE_CSV: data/universe/jp_manual_theme_includes.csv
+      UNIVERSE_DIAGNOSTICS_JSON: site/data/japan/universe/jp_duckdb_trial_300_diagnostics.json
+      STRICT_INDEX_UNIVERSE: "true"
+      PRICE_REFRESH_MODE: ${{ github.event.inputs.price_refresh_mode || 'incremental' }}
+      PRICE_INCREMENTAL_OVERLAP_DAYS: "10"
+      PRICE_MAX_FAILURE_RATIO: "0.05"
+      LOOKBACK_DAYS: "520"
+      REQUEST_SLEEP_SECONDS: "0.20"
+      AGENT_SCORE_MIN_DATE_COVERAGE_PCT: "70"
+      MIN_BARS_REQUIRED: "60"
+      MIN_ACCEPTABLE_BARS: "20"
+      AGENT_SCORE_TOP_N: "30"
+      AI_ARENA_YEAR: "auto"
+      AI_ARENA_RUN_MODE: live
+      AI_ARENA_RESET_RUN: "true"
+      AI_ARENA_PROMOTE_DISPLAY_RUN: "true"
+      AI_ARENA_ENABLE_GPT_SIGNAL_NOTES: "false"
+      FORCE_FINALIZE_SEASON: "false"
+      VALUE_FEATURE_YEAR: auto
+      VALUE_FEATURE_START_DATE: ""
+      VALUE_FEATURE_END_DATE: ""
+      AGENT_SCORE_MODE: range
+      AGENT_SCORE_YEAR: auto
+      AGENT_SCORE_START_DATE: auto
+      AGENT_SCORE_END_DATE: auto
+      AGENT_SCORE_FAIL_IF_RANGE_TOO_SMALL: "true"
+      AI_ARENA_FAIL_IF_NO_ORDERS: "true"
+      CANONICAL_DUCKDB_RELEASE_TAG: ai-arena-duckdb-latest
+      CANONICAL_DUCKDB_ASSET: neon_tokyo_jp_latest.duckdb.zst
+      CANONICAL_DUCKDB_MANIFEST_ASSET: neon_tokyo_jp_latest_manifest.json
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements-render.txt
+          sudo apt-get update
+          sudo apt-get install -y zstd
+
+      - name: Pull latest main
+        run: |
+          set -euo pipefail
+          git pull --ff-only origin main
+
+      - name: Download canonical DuckDB from Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p data/cache
+          if ! gh release view "${CANONICAL_DUCKDB_RELEASE_TAG}" >/dev/null 2>&1; then
+            echo "::error::Canonical DuckDB release not found: ${CANONICAL_DUCKDB_RELEASE_TAG}"
+            echo "::error::Run AI Arena JP season rebuild first."
+            exit 1
+          fi
+          gh release download "${CANONICAL_DUCKDB_RELEASE_TAG}" --pattern "${CANONICAL_DUCKDB_ASSET}" --dir data/cache --clobber
+          gh release download "${CANONICAL_DUCKDB_RELEASE_TAG}" --pattern "${CANONICAL_DUCKDB_MANIFEST_ASSET}" --dir data/cache --clobber || true
+          test -f "data/cache/${CANONICAL_DUCKDB_ASSET}"
+          zstd -d -f "data/cache/${CANONICAL_DUCKDB_ASSET}" -o "${PRICE_DUCKDB_PATH}"
+          test -f "${PRICE_DUCKDB_PATH}"
+          ls -lh "${PRICE_DUCKDB_PATH}"
+
+      - name: Show DB before live update
+        run: |
+          set -euo pipefail
+          python scripts/show_duckdb_build_metadata.py --db-path "${PRICE_DUCKDB_PATH}" --fail-if-missing
+
+      - name: Compile scripts
+        run: |
+          set -euo pipefail
+          python -m compileall \
+            scripts/build_jp_index_universe_csv.py \
+            scripts/build_universe_300_from_index_csv.py \
+            scripts/fetch_prices_jp.py \
+            scripts/fetch_fundamentals_jp.py \
+            scripts/build_value_features_jp.py \
+            scripts/build_agent_scores_jp.py \
+            scripts/rebuild_ai_arena_season_from_duckdb_jp.py \
+            scripts/build_ai_arena_war_room_jp.py \
+            scripts/render_ai_arena_war_room_jp.py \
+            scripts/render_index.py \
+            scripts/stamp_duckdb_build_metadata.py \
+            scripts/show_duckdb_build_metadata.py \
+            scripts/lib
+
+      - name: Ensure JP index universe exists
+        run: |
+          set -euo pipefail
+          if [ ! -f data/universe/jp_index_universe.csv ]; then
+            python scripts/build_jp_index_universe_csv.py
+          fi
+          python scripts/build_universe_300_from_index_csv.py
+
+      - name: Fetch JP prices
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.skip_price_fetch != 'true' }}
+        env:
+          UNIVERSE_CSV: data/universe/jp_duckdb_trial_300.csv
+        run: |
+          set -euo pipefail
+          python scripts/fetch_prices_jp.py
+
+      - name: Fetch JP fundamentals
+        if: ${{ github.event.inputs.fetch_fundamentals == 'true' && github.event.inputs.skip_fundamentals_fetch != 'true' }}
+        env:
+          UNIVERSE_CSV: data/universe/jp_duckdb_trial_300.csv
+        run: |
+          set -euo pipefail
+          python scripts/fetch_fundamentals_jp.py
+
+      - name: Build value features
+        env:
+          VALUE_FEATURE_YEAR: auto
+          VALUE_FEATURE_START_DATE: ""
+          VALUE_FEATURE_END_DATE: ""
+          AGENT_SCORE_START_DATE: ""
+          AGENT_SCORE_END_DATE: ""
+          AI_ARENA_START_DATE: ""
+          AI_ARENA_END_DATE: ""
+        run: |
+          set -euo pipefail
+          python scripts/build_value_features_jp.py
+
+      - name: Build agent scores
+        run: |
+          set -euo pipefail
+          python scripts/build_agent_scores_jp.py
+
+      - name: Rebuild AI Arena live season
+        run: |
+          set -euo pipefail
+          python scripts/rebuild_ai_arena_season_from_duckdb_jp.py
+
+      - name: Build AI Arena Live Council payload
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AI_ARENA_WAR_ROOM_MODEL: ${{ vars.AI_ARENA_WAR_ROOM_MODEL || 'gpt-4o' }}
+          AI_ARENA_WAR_ROOM_MESSAGES: ${{ vars.AI_ARENA_WAR_ROOM_MESSAGES }}
+          AI_ARENA_WAR_ROOM_MIN_DELAY_SECONDS: '180'
+          AI_ARENA_WAR_ROOM_MAX_DELAY_SECONDS: '300'
+          AI_ARENA_WAR_ROOM_SESSION_TYPE: auto
+          AI_ARENA_WAR_ROOM_TEMPERATURE: ${{ vars.AI_ARENA_WAR_ROOM_TEMPERATURE || '0.82' }}
+        run: |
+          set -euo pipefail
+          python scripts/build_ai_arena_war_room_jp.py
+          test -s site/data/japan/ai-arena/war-room/latest.json
+
+      - name: Render Neon Tokyo static pages from AI Arena outputs
+        run: |
+          set -euo pipefail
+          test -s site/data/japan/ai-arena/hero/latest.json
+          test -s site/data/japan/ai-arena/summary/latest.json
+          test -s site/data/japan/ai-arena/ranking/latest.json
+          test -s site/data/japan/ai-arena/positions/latest.json
+          python scripts/render_all.py
+          test -s site/index.html
+          test -s site/assets/index.css
+          test -s site/japan/ai-arena/summary/index.html
+          test -s site/japan/ai-arena/ranking/index.html
+          test -s site/japan/ai-arena/positions/index.html
+          test -s site/japan/ai-arena/log/index.html
+          test -s site/assets/ai_arena_war_room_jp.css
+          test -s site/assets/ai_arena_war_room_jp.js
+          test -s site/assets/ai_arena_summary_jp.css
+          test -s site/assets/ai_arena_ranking_jp.css
+          test -s site/assets/ai_arena_positions_jp.css
+
+      - name: Stamp canonical DuckDB metadata
+        run: |
+          set -euo pipefail
+          python scripts/stamp_duckdb_build_metadata.py \
+            --db-path "${PRICE_DUCKDB_PATH}" \
+            --source-workflow "${GITHUB_WORKFLOW}" \
+            --source-run-id "${GITHUB_RUN_ID}" \
+            --source-run-attempt "${GITHUB_RUN_ATTEMPT}" \
+            --source-sha "${GITHUB_SHA}" \
+            --source-ref "${GITHUB_REF}" \
+            --release-tag "${CANONICAL_DUCKDB_RELEASE_TAG}" \
+            --asset-name "${CANONICAL_DUCKDB_ASSET}" \
+            --manifest-path "data/cache/${CANONICAL_DUCKDB_MANIFEST_ASSET}"
+
+      - name: Show DB after live update
+        run: |
+          set -euo pipefail
+          python scripts/show_duckdb_build_metadata.py --db-path "${PRICE_DUCKDB_PATH}" --fail-if-missing
+
+      - name: Validate live outputs
+        run: |
+          set -euo pipefail
+          test -f site/data/japan/ai-arena/live/latest.json
+          test -f site/data/japan/ai-arena/ranking/latest.json
+          test -f site/data/japan/ai-arena/summary/latest.json
+          test -f site/data/japan/ai-arena/hero/latest.json
+          test -f site/data/japan/ai-arena/signals/latest.json
+          test -f site/data/prices-jp/latest.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import duckdb
+          db_path = Path("data/cache/neon_tokyo_jp.duckdb")
+          assert db_path.exists()
+          live = json.loads(Path("site/data/japan/ai-arena/live/latest.json").read_text(encoding="utf-8"))
+          hero = json.loads(Path("site/data/japan/ai-arena/hero/latest.json").read_text(encoding="utf-8"))
+          assert hero.get("schema_version") == "neon_tokyo_ai_arena_hero_v1", hero.get("schema_version")
+          assert len(hero.get("agents", [])) == 7, len(hero.get("agents", []))
+          assert hero.get("ticker_tape"), "hero ticker_tape is empty"
+          assert "AI Arena" in Path("site/index.html").read_text(encoding="utf-8")
+          ranking_html = Path("site/japan/ai-arena/ranking/index.html").read_text(encoding="utf-8")
+          positions_html = Path("site/japan/ai-arena/positions/index.html").read_text(encoding="utf-8")
+          summary_html = Path("site/japan/ai-arena/summary/index.html").read_text(encoding="utf-8")
+          for agent_name in ["KYOU", "NAGARE", "MAMORU", "SAGURI", "MATSU", "KAESHI", "HIZUMI"]:
+              assert agent_name in ranking_html, f"ranking missing {agent_name}"
+              assert agent_name in positions_html, f"positions missing {agent_name}"
+              assert agent_name in summary_html, f"summary missing {agent_name}"
+          for legacy_name in ["SATORI", "KAKERU"]:
+              assert legacy_name not in ranking_html, f"ranking still contains legacy agent {legacy_name}"
+              assert legacy_name not in positions_html, f"positions still contains legacy agent {legacy_name}"
+          assert len(live.get("agents", [])) == 7
+          assert live.get("ranking") is not None
+          prices = json.loads(Path("site/data/prices-jp/latest.json").read_text(encoding="utf-8"))
+          assert prices.get("public_json_mode") == "summary"
+          assert prices.get("bars_omitted") is True
+          assert Path("site/data/prices-jp/latest.json").stat().st_size < 5 * 1024 * 1024
+          con = duckdb.connect(str(db_path), read_only=True)
+          tables = {r[0] for r in con.execute("SHOW TABLES").fetchall()}
+          assert "duckdb_build_metadata" in tables
+          rid = live.get("run_id")
+          assert rid, "live latest has no run_id"
+          counts = {}
+          for table in ["arena_orders", "arena_trades", "arena_open_positions", "arena_equity_curve"]:
+              assert table in tables, f"{table} missing"
+              counts[table] = con.execute(f"SELECT COUNT(*) FROM {table} WHERE run_id = ?", [rid]).fetchone()[0]
+              print(table, counts[table])
+          assert counts["arena_equity_curve"] > 0
+          assert counts["arena_orders"] > 0
+          assert counts["arena_open_positions"] + counts["arena_trades"] > 0
+          assert con.execute("SELECT COUNT(*) FROM value_features_daily").fetchone()[0] > 0
+          assert con.execute("SELECT COUNT(DISTINCT date) FROM agent_scores_daily").fetchone()[0] >= 2
+          print("live_update_validation_ok")
+          PY
+
+      - name: Publish canonical DuckDB Release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          zstd -T0 -19 -f "${PRICE_DUCKDB_PATH}" -o "data/cache/${CANONICAL_DUCKDB_ASSET}"
+          if gh release view "${CANONICAL_DUCKDB_RELEASE_TAG}" >/dev/null 2>&1; then
+            gh release upload "${CANONICAL_DUCKDB_RELEASE_TAG}" \
+              "data/cache/${CANONICAL_DUCKDB_ASSET}" \
+              "data/cache/${CANONICAL_DUCKDB_MANIFEST_ASSET}" \
+              --clobber
+          else
+            gh release create "${CANONICAL_DUCKDB_RELEASE_TAG}" \
+              "data/cache/${CANONICAL_DUCKDB_ASSET}" \
+              "data/cache/${CANONICAL_DUCKDB_MANIFEST_ASSET}" \
+              --title "AI Arena canonical DuckDB latest" \
+              --notes "Canonical DuckDB state for Neon Tokyo AI Arena. Updated by GitHub Actions."
+          fi
+
+      - name: Commit live outputs
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.commit_outputs != 'false' }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A \
+            data/universe/jp_duckdb_trial_300.csv \
+            data/universe/jp_manual_theme_includes.csv \
+            site/data/japan/universe \
+            site/data/prices-jp \
+            site/data/japan/agent-scores \
+            site/data/japan/ai-arena \
+            site/index.html \
+            site/japan/ai-arena \
+            site/assets
+          if git diff --cached --quiet; then
+            echo "No live outputs to commit."
+            exit 0
+          fi
+          git commit -m "Update AI Arena JP live outputs"
+          for i in 1 2 3; do
+            if git push origin HEAD:main; then
+              echo "Push succeeded."
+              exit 0
+            fi
+            echo "Push rejected. Fetching origin/main and retrying ($i/3)..."
+            git fetch origin main
+            if ! git rebase origin/main; then
+              echo "Rebase failed. Aborting to avoid overwriting live outputs."
+              git rebase --abort || true
+              exit 1
+            fi
+            sleep 5
+          done
+          echo "Push failed after retries."
+          exit 1
