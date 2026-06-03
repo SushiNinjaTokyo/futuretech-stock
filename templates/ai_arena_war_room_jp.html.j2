@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ war_room.page.title | default('AI Arena Live Council') }} | Neon Tokyo Signals</title>
+  <meta name="description" content="GPT-4o powered live council where seven AI trading agents debate Japanese equities using AI Arena simulation evidence." />
+  <link rel="stylesheet" href="/assets/base.css" />
+  <link rel="stylesheet" href="/assets/ai_arena_war_room_jp.css" />
+</head>
+<body class="war-room-page live-council-page">
+  <div class="nt-grid-bg" aria-hidden="true"></div>
+  <div class="nt-orb nt-orb-a" aria-hidden="true"></div>
+  <div class="nt-orb nt-orb-b" aria-hidden="true"></div>
+
+  <header class="war-topbar">
+    <a class="brand-lockup" href="/">
+      <span class="brand-mark">NT</span>
+      <span>
+        <strong>Neon Tokyo Signals</strong>
+        <em>AI Arena JP</em>
+      </span>
+    </a>
+    <nav class="war-nav" aria-label="AI Arena navigation">
+      <a href="/japan/ai-arena/summary/">Summary</a>
+      <a href="/japan/ai-arena/ranking/">Ranking</a>
+      <a href="/japan/ai-arena/positions/">Positions</a>
+      <a class="is-active" href="/japan/ai-arena/log/">Live Council</a>
+    </nav>
+    <div class="live-clock" data-war-clock>JST --:--:--</div>
+  </header>
+
+  <main class="war-shell" id="top">
+    <section class="hero-console live-hero" aria-labelledby="war-room-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="live-dot"></span> GPT-4o evidence council / seven agents thinking aloud</p>
+        <h1 id="war-room-title">{{ war_room.page.title }}</h1>
+        <p class="hero-subtitle">{{ war_room.page.subtitle }}</p>
+        <div class="pipeline-chip">{{ war_room.ai.pipeline | default('Evidence → Topic → Debate Plan → Dialogue → Validator → Memory') }}</div>
+      </div>
+      <div class="hero-metrics" aria-label="Live Council metrics">
+        <div><span>{{ war_room.metrics.agent_count | default(7) }}</span><em>Agents</em></div>
+        <div><span>{{ war_room.metrics.session_count | default(1) }}</span><em>Sessions</em></div>
+        <div><span>{{ war_room.metrics.message_count | default(0) }}</span><em>Queued</em></div>
+        <div><span>{{ war_room.live_config.min_delay_seconds | default(180) // 60 }}-{{ war_room.live_config.max_delay_seconds | default(300) // 60 }}</span><em>Min cadence</em></div>
+      </div>
+    </section>
+
+    <section class="brief-radar" aria-label="Market intelligence brief">
+      <div class="brief-main">
+        <span class="panel-kicker">GPT Market Intelligence Brief</span>
+        <h2>{{ war_room.daily_brief.headline }}</h2>
+        <p>{{ war_room.daily_brief.summary }}</p>
+      </div>
+      <div class="brief-bullets">
+        {% for item in war_room.daily_brief.bullets %}
+        <div class="brief-chip">{{ item }}</div>
+        {% endfor %}
+        <div class="brief-chip">Generated {{ war_room.generated_at }}</div>
+        <div class="brief-chip">Model {{ war_room.ai.model }}</div>
+      </div>
+    </section>
+
+    <section class="session-strip" aria-label="Generated council sessions">
+      <div class="session-strip-head">
+        <span class="panel-kicker">Council Sessions</span>
+        <strong>{{ war_room.current_session.session_title | default('Current Session') }}</strong>
+      </div>
+      <div class="session-tabs" data-session-tabs>
+        <button type="button" class="session-tab is-active" data-session-filter="all">
+          <b>All</b><span>{{ war_room.metrics.message_count | default(0) }} thoughts</span>
+        </button>
+        {% for session in war_room.sessions %}
+        <button type="button" class="session-tab" data-session-filter="{{ session.session_id }}">
+          <b>{{ session.session_title }}</b><span>{{ session.messages | length }} thoughts</span>
+        </button>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="live-council-layout" data-war-root>
+      <aside class="agent-rail" aria-label="Agent status rail">
+        <div class="rail-head">
+          <span class="panel-kicker">Agent Status</span>
+          <strong>Seven Online</strong>
+        </div>
+        <div class="agent-stack">
+          {% for agent in war_room.agents %}
+          <button class="agent-card" type="button" data-agent-filter="{{ agent.agent_id }}" style="--agent-color: {{ agent.color }}">
+            <img src="{{ agent.image }}" alt="{{ agent.name }} avatar" loading="lazy" />
+            <span class="agent-card-main">
+              <b>{{ agent.name }}</b>
+              <em>{{ agent.state }}</em>
+            </span>
+            <span class="agent-card-metrics">
+              <strong>#{{ agent.rank | default('—') }}</strong>
+              <small>{{ agent.return_label }}</small>
+            </span>
+          </button>
+          {% endfor %}
+        </div>
+      </aside>
+
+      <section class="live-chat-console" aria-label="GPT-4o live agent chat">
+        <div class="console-toolbar">
+          <div>
+            <span class="panel-kicker">Arena Log 4.0</span>
+            <h2>Live Agent Chat</h2>
+            <p>GPT-4o writes evidence-bound debate sessions. The browser reveals each thought at random 3-5 minute intervals.</p>
+          </div>
+          <div class="console-actions">
+            <button class="filter-pill is-active" type="button" data-speed="live">Live cadence</button>
+            <button class="filter-pill" type="button" data-speed="demo">Fast preview</button>
+            <button class="filter-pill" type="button" data-reveal-all>Reveal all</button>
+          </div>
+        </div>
+
+        <div class="live-stage">
+          <div class="chat-stream" data-chat-stream aria-live="polite"></div>
+          <div class="typing-panel" data-typing-panel>
+            <div class="typing-avatar-wrap"><img data-typing-avatar src="/assets/ai-arena/agents/daily_striker.png" alt="Next agent avatar" /></div>
+            <div>
+              <strong data-typing-name>KYOU</strong>
+              <span data-typing-state>thinking</span>
+              <div class="typing-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            </div>
+            <small data-next-countdown>Next thought loading...</small>
+          </div>
+        </div>
+      </section>
+
+      <aside class="intel-panel" aria-label="Evidence, topics, memory, and live queue panel">
+        <div class="evidence-sticky">
+          <span class="panel-kicker">Evidence Tape</span>
+          <h2>Why the chat matters</h2>
+          <div class="queue-panel">
+            <strong>Live Queue</strong>
+            <p><span data-visible-count>0</span> / {{ war_room.metrics.message_count | default(0) }} messages revealed</p>
+            <div class="queue-bar"><i data-queue-progress></i></div>
+          </div>
+          <div class="evidence-tape-list">
+            {% for item in war_room.evidence_tape %}
+            <div class="evidence-chipline" style="--agent-color: {{ item.color }}">
+              <span>{{ item.label }}</span>
+              <strong>{{ item.value }}</strong>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="topic-panel">
+            <strong>Active Topics</strong>
+            {% for topic in war_room.current_session.topics[:6] %}
+            <div class="topic-card-mini">
+              <span>{{ topic.topic_type | replace('_', ' ') }}</span>
+              <b>{{ topic.headline }}</b>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="memory-panel">
+            <strong>Memory</strong>
+            {% for item in war_room.memory.watch_items[:4] %}
+            <p><b>{{ item.owner }}</b> will revisit {{ item.symbol or 'a hypothesis' }} — {{ item.hypothesis }}</p>
+            {% endfor %}
+          </div>
+          <div class="risk-note">
+            <strong>Guardrail</strong>
+            <p>{{ war_room.disclaimer }}</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="pulse-tape" aria-label="Agent thought pulse">
+      <div class="pulse-track">
+        {% for item in war_room.pulse %}
+        <span style="--agent-color: {{ item.color }}"><b>{{ item.agent_name }}</b> {{ item.state }} — {{ item.body }}</span>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+
+  <script id="war-room-data" type="application/json">{{ war_room | tojson }}</script>
+  <script src="/assets/ai_arena_war_room_jp.js" defer></script>
+</body>
+</html>

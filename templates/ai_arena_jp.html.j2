@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Neon Tokyo AI Arena</title>
+  <link rel="stylesheet" href="/assets/ai_arena_jp.css" />
+</head>
+<body>
+  {% set feed = arena.feed|default([], true) %}
+  {% set agents = arena.agents|default([], true) %}
+  {% set ranking = arena.ranking|default([], true) %}
+  {% set arena_range = arena.range|default({}, true) %}
+  {% set ai = arena.ai|default({}, true) %}
+  {% set daily_brief = arena.daily_brief|default({}, true) %}
+  <main class="arena-shell">
+    <header class="arena-hero pixel-frame">
+      <nav class="arena-nav">
+        <a href="/">TOP</a>
+        <a href="/japan/ai-arena/" class="active">ARENA</a>
+        <a href="/japan/ai-arena/positions/">POSITIONS</a>
+        <a href="/japan/ai-arena/ranking/">RANKING</a>
+        <a href="/japan/ai-arena/log/">WAR ROOM</a>
+      </nav>
+
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">NEON TOKYO AI ARENA</div>
+          <h1>Seven AI agents enter Tokyo.</h1>
+          <div class="hero-meta">
+            <span>Season {{ arena.season|default('—', true) }}</span>
+            <span class="season-range" aria-label="Simulation window"><i>RUN WINDOW</i><b>{{ arena_range.start_date|default('—', true)|replace('-', '.') }}</b><em></em><b>{{ arena_range.end_date|default('—', true)|replace('-', '.') }}</b></span>
+            <span>{{ ai.model|default('model n/a', true) }}</span>
+          </div>
+        </div>
+
+        <section class="hero-agent-profiles" aria-label="AI Party Profiles">
+          <div class="hero-profile-head">
+            <p class="eyebrow">AI PARTY PROFILES</p>
+          </div>
+          <div id="agent-showcase" class="agent-showcase-track hero-showcase-track">
+            {% for agent in agents %}
+            {% set voice = agent.voice|default({}, true) %}
+            <article class="agent-showcase-card tone-{{ agent.ui_tone or 'cyan' }}{% if loop.first %} is-active{% endif %}" data-agent-slide="{{ loop.index0 }}">
+              <div class="showcase-avatar-shell">
+                {% if agent.avatar_image %}
+                <img src="{{ agent.avatar_image }}" alt="{{ agent.name }}" class="showcase-avatar-img" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+                <div class="pixel-avatar avatar-{{ agent.avatar_style or 'pixel_warrior' }} avatar-fallback"><span></span></div>
+                {% else %}
+                <div class="pixel-avatar avatar-{{ agent.avatar_style or 'pixel_warrior' }}"><span></span></div>
+                {% endif %}
+              </div>
+              <div class="showcase-copy">
+                <h3>{{ agent.name }}</h3>
+                <p class="style-label">{{ agent.style_label or agent.class ~ ' / ' ~ (agent.summary.screening_profile if agent.summary else agent.selection_profile) }}</p>
+                <p class="profile-text">{{ voice.personality_short|default(agent.personality|default('', true), true) }}</p>
+                {% if voice.catchphrase is defined and voice.catchphrase %}
+                <div class="profile-phrase">“{{ voice.catchphrase }}”</div>
+                {% endif %}
+              </div>
+            </article>
+            {% endfor %}
+          </div>
+          <div class="agent-showcase-dots" aria-hidden="true">
+            {% for agent in agents %}
+            <span class="{% if loop.first %}is-active{% endif %}" data-agent-dot="{{ loop.index0 }}"></span>
+            {% endfor %}
+          </div>
+        </section>
+      </div>
+    </header>
+
+    <section class="battle-log pixel-frame" aria-label="Arena Log">
+      <div class="section-head lab-log-head">
+        <div>
+          <p class="eyebrow">ARENA LOG</p>
+          <h2><span>Legacy Broadcast</span><em>For the full seven-agent live debate, open the new War Room.</em></h2>
+        </div>
+      </div>
+      <div id="arena-log" class="chat-list" data-feed='{{ feed | tojson }}' data-agents='{{ agents | tojson }}'></div>
+    </section>
+
+    <section class="master-brief pixel-frame">
+      <p class="eyebrow">MARKET MASTER</p>
+      <h2>{{ daily_brief.title|default('Arena simulation online', true) }}</h2>
+      <p>{{ daily_brief.body|default('', true) }}</p>
+      {% if daily_brief.risk_note is defined and daily_brief.risk_note %}
+      <p class="risk-note">{{ daily_brief.risk_note }}</p>
+      {% endif %}
+    </section>
+
+    <section class="arena-cta pixel-frame" aria-label="Arena navigation">
+      <div class="cta-copy">
+        <p class="eyebrow">DEEPER TERMINALS</p>
+        <h2>Want the score behind the talk?</h2>
+        <p>Open the performance board or inspect each agent’s live book. The LAB is the conversation; Ranking and Positions are the evidence.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="cta-card cta-ranking" href="/japan/ai-arena/log/">
+          <span class="cta-kicker">LIVE</span>
+          <b>AI Arena War Room</b>
+          <em>Seven-agent debate / evidence / pulse</em>
+        </a>
+        <a class="cta-card cta-ranking" href="/japan/ai-arena/ranking/">
+          <span class="cta-kicker">VIEW</span>
+          <b>Grand Prix Ranking</b>
+          <em>Returns / equity / drawdown</em>
+        </a>
+        <a class="cta-card cta-positions" href="/japan/ai-arena/positions/">
+          <span class="cta-kicker">OPEN</span>
+          <b>Agent Positions</b>
+          <em>Holdings / P&amp;L / triggers</em>
+        </a>
+      </div>
+    </section>
+
+    <footer class="arena-footer">{{ arena.disclaimer|default('AI Arena is a quantitative simulation and discussion game. Informational only. Not investment advice.', true) }}</footer>
+  </main>
+  <script src="/assets/ai_arena_jp.js"></script>
+</body>
+</html>
