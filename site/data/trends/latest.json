@@ -4,268 +4,268 @@
     {
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
-      "score_0_1": 0.322049,
-      "points_observed": 93,
-      "last_value": 16.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
-      "score_0_1": 0.307951,
-      "points_observed": 93,
-      "last_value": 22.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies Inc.",
-      "score_0_1": 0.30577,
+      "score_0_1": 0.620967,
       "points_observed": 93,
-      "last_value": 22.0
+      "last_value": 42.0
     },
     {
       "symbol": "AI",
       "name": "C3.ai, Inc.",
-      "score_0_1": 0.033136,
-      "points_observed": 93,
-      "last_value": 46.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "ISRG",
       "name": "Intuitive Surgical, Inc.",
-      "score_0_1": 0.114805,
+      "score_0_1": 0.815312,
       "points_observed": 93,
-      "last_value": 0.0
+      "last_value": 37.0
     },
     {
       "symbol": "TER",
       "name": "Teradyne, Inc.",
-      "score_0_1": 0.018715,
+      "score_0_1": 0.310314,
       "points_observed": 93,
-      "last_value": 55.0
+      "last_value": 70.0
     },
     {
       "symbol": "SYM",
       "name": "Symbotic Inc.",
-      "score_0_1": 0.006758,
+      "score_0_1": 0.286749,
       "points_observed": 93,
-      "last_value": 0.0
+      "last_value": 35.0
     },
     {
       "symbol": "RKLB",
       "name": "Rocket Lab USA, Inc.",
-      "score_0_1": 0.659002,
+      "score_0_1": 0.773626,
       "points_observed": 93,
-      "last_value": 32.0
+      "last_value": 45.0
     },
     {
       "symbol": "IRDM",
       "name": "Iridium Communications Inc.",
-      "score_0_1": 0.496984,
+      "score_0_1": 0.665769,
       "points_observed": 93,
-      "last_value": 0.0
+      "last_value": 49.0
     },
     {
       "symbol": "VSAT",
       "name": "Viasat, Inc.",
-      "score_0_1": 0.178245,
+      "score_0_1": 0.475003,
       "points_observed": 93,
-      "last_value": 0.0
+      "last_value": 39.0
     },
     {
       "symbol": "INOD",
       "name": "Innodata Inc.",
-      "score_0_1": 0.299269,
+      "score_0_1": 0.775537,
       "points_observed": 93,
-      "last_value": 0.0
+      "last_value": 17.0
     },
     {
       "symbol": "SOUN",
       "name": "SoundHound AI, Inc.",
-      "score_0_1": 0.252539,
+      "score_0_1": 0.525181,
       "points_observed": 93,
-      "last_value": 19.0
+      "last_value": 37.0
     },
     {
       "symbol": "MNDY",
       "name": "Monday.com Ltd.",
-      "score_0_1": 0.58815,
+      "score_0_1": 0.689452,
       "points_observed": 93,
-      "last_value": 0.0
+      "last_value": 9.0
     },
     {
       "symbol": "AVAV",
       "name": "AeroVironment, Inc.",
-      "score_0_1": 0.090125,
+      "score_0_1": 0.490528,
       "points_observed": 93,
-      "last_value": 0.0
+      "last_value": 25.0
     },
     {
       "symbol": "PERF",
       "name": "Perfect Corp.",
-      "score_0_1": 0.239838,
+      "score_0_1": 0.273596,
       "points_observed": 93,
-      "last_value": 40.0
+      "last_value": 41.0
     },
     {
       "symbol": "GDRX",
       "name": "GoodRx Holdings, Inc.",
-      "score_0_1": 0.732154,
+      "score_0_1": 0.914755,
       "points_observed": 93,
-      "last_value": 0.0
+      "last_value": 28.0
     },
     {
       "symbol": "ABCL",
       "name": "AbCellera Biologics Inc.",
-      "score_0_1": 0.559456,
+      "score_0_1": 0.863835,
       "points_observed": 93,
-      "last_value": 0.0
+      "last_value": 52.0
     },
     {
       "symbol": "U",
       "name": "Unity Software Inc.",
-      "score_0_1": 0.172543,
+      "score_0_1": 0.251692,
       "points_observed": 93,
       "last_value": 81.0
     },
     {
       "symbol": "TEM",
       "name": "Tempus AI, Inc.",
-      "score_0_1": 0.028691,
+      "score_0_1": 0.170537,
       "points_observed": 93,
-      "last_value": 58.0
+      "last_value": 67.0
     },
     {
       "symbol": "VRT",
       "name": "Vertiv Holdings Co",
-      "score_0_1": 0.324365,
+      "score_0_1": 0.544957,
       "points_observed": 93,
-      "last_value": 40.0
+      "last_value": 55.0
     },
     {
       "symbol": "OII",
       "name": "Oceaneering International Inc.",
-      "score_0_1": 0.593774,
+      "score_0_1": 0.804502,
       "points_observed": 93,
-      "last_value": 0.0
+      "last_value": 23.0
     },
     {
       "symbol": "CGNX",
       "name": "Cognex Corporation",
-      "score_0_1": 0.684874,
+      "score_0_1": 0.787632,
       "points_observed": 93,
-      "last_value": 0.0
+      "last_value": 16.0
     },
     {
       "symbol": "KTOS",
       "name": "Kratos Defense & Security Solutions Inc.",
-      "score_0_1": 0.067204,
-      "points_observed": 93,
-      "last_value": 0.0
-    },
-    {
-      "symbol": "OUST",
-      "name": "Ouster Inc.",
-      "score_0_1": 0.045708,
-      "points_observed": 93,
-      "last_value": 0.0
-    },
-    {
-      "symbol": "FTI",
-      "name": "TechnipFMC plc",
-      "score_0_1": 0.011842,
-      "points_observed": 93,
-      "last_value": 0.0
-    },
-    {
-      "symbol": "LNG",
-      "name": "Cheniere Energy Inc.",
-      "score_0_1": 0.095586,
-      "points_observed": 93,
-      "last_value": 8.0
-    },
-    {
-      "symbol": "PR",
-      "name": "Permian Resources Corporation",
-      "score_0_1": 0.050518,
+      "score_0_1": 0.640767,
       "points_observed": 93,
       "last_value": 53.0
     },
     {
-      "symbol": "MTDR",
-      "name": "Matador Resources Company",
-      "score_0_1": 0.711862,
-      "points_observed": 93,
-      "last_value": 0.0
-    },
-    {
-      "symbol": "ROK",
-      "name": "Rockwell Automation Inc.",
-      "score_0_1": 0.036605,
-      "points_observed": 93,
-      "last_value": 61.0
-    },
-    {
-      "symbol": "IONQ",
-      "name": "IonQ Inc.",
-      "score_0_1": 0.453564,
-      "points_observed": 93,
-      "last_value": 26.0
-    },
-    {
-      "symbol": "OXY",
-      "name": "Occidental Petroleum Corporation",
-      "score_0_1": 0.075047,
+      "symbol": "OUST",
+      "name": "Ouster Inc.",
+      "score_0_1": 0.685741,
       "points_observed": 93,
       "last_value": 51.0
     },
     {
+      "symbol": "FTI",
+      "name": "TechnipFMC plc",
+      "score_0_1": 0.322288,
+      "points_observed": 93,
+      "last_value": 35.0
+    },
+    {
+      "symbol": "LNG",
+      "name": "Cheniere Energy Inc.",
+      "score_0_1": 0.12687,
+      "points_observed": 93,
+      "last_value": 10.0
+    },
+    {
+      "symbol": "PR",
+      "name": "Permian Resources Corporation",
+      "score_0_1": 0.153532,
+      "points_observed": 93,
+      "last_value": 65.0
+    },
+    {
+      "symbol": "MTDR",
+      "name": "Matador Resources Company",
+      "score_0_1": 0.82367,
+      "points_observed": 93,
+      "last_value": 16.0
+    },
+    {
+      "symbol": "ROK",
+      "name": "Rockwell Automation Inc.",
+      "score_0_1": 0.032418,
+      "points_observed": 93,
+      "last_value": 60.0
+    },
+    {
+      "symbol": "IONQ",
+      "name": "IonQ Inc.",
+      "score_0_1": 0.623398,
+      "points_observed": 93,
+      "last_value": 41.0
+    },
+    {
+      "symbol": "OXY",
+      "name": "Occidental Petroleum Corporation",
+      "score_0_1": 0.175126,
+      "points_observed": 93,
+      "last_value": 58.0
+    },
+    {
       "symbol": "RCAT",
       "name": "Red Cat Holdings Inc.",
-      "score_0_1": 0.091187,
+      "score_0_1": 0.677688,
       "points_observed": 93,
-      "last_value": 0.0
+      "last_value": 38.0
     },
     {
       "symbol": "HIMS",
       "name": "Hims & Hers Health Inc.",
-      "score_0_1": 0.060872,
-      "points_observed": 93,
-      "last_value": 22.0
-    },
-    {
-      "symbol": "RBRK",
-      "name": "Rubrik Inc.",
-      "score_0_1": 0.247267,
-      "points_observed": 93,
-      "last_value": 0.0
-    },
-    {
-      "symbol": "CRDO",
-      "name": "Credo Technology Group Holding Ltd",
-      "score_0_1": 0.729824,
+      "score_0_1": 0.341843,
       "points_observed": 93,
       "last_value": 32.0
     },
     {
+      "symbol": "RBRK",
+      "name": "Rubrik Inc.",
+      "score_0_1": 0.988599,
+      "points_observed": 93,
+      "last_value": 83.0
+    },
+    {
+      "symbol": "CRDO",
+      "name": "Credo Technology Group Holding Ltd",
+      "score_0_1": 0.674665,
+      "points_observed": 93,
+      "last_value": 29.0
+    },
+    {
       "symbol": "ALAB",
       "name": "Astera Labs Inc.",
-      "score_0_1": 0.905856,
-      "points_observed": 93,
-      "last_value": 62.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "SERV",
       "name": "Serve Robotics Inc.",
-      "score_0_1": 0.345047,
-      "points_observed": 93,
-      "last_value": 57.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "PDYN",
       "name": "Palladyne AI Corp.",
-      "score_0_1": 0.574931,
-      "points_observed": 93,
-      "last_value": 0.0
+      "score_0_1": 0.0,
+      "points_observed": 0,
+      "last_value": null
     },
     {
       "symbol": "AEVA",

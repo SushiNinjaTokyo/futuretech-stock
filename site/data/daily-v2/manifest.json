@@ -241,17 +241,17 @@
     },
     "2026-06-03": {
       "status": "ok",
-      "generated_at": "2026-06-04 00:18:03Z",
+      "generated_at": "2026-06-04 23:50:08Z",
       "items": 25,
       "all_items": 47,
       "top10": 10,
       "trade": 0,
-      "watch": 0,
-      "ignore": 25
+      "watch": 1,
+      "ignore": 24
     }
   },
   "latest_date": "2026-06-03",
-  "updated_at": "2026-06-04 00:18:03Z",
+  "updated_at": "2026-06-04 23:50:08Z",
   "date_count": 45,
   "latest_source": "site/data/daily-v2/2026-06-03/top10.json",
   "available_dates": [
@@ -542,13 +542,13 @@
     },
     "2026-06-03": {
       "status": "ok",
-      "generated_at": "2026-06-04 00:18:03Z",
+      "generated_at": "2026-06-04 23:50:08Z",
       "items": 25,
       "all_items": 47,
       "top10": 10,
       "trade": 0,
-      "watch": 0,
-      "ignore": 25
+      "watch": 1,
+      "ignore": 24
     }
   }
 }

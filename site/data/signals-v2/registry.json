@@ -2,6 +2,12 @@
   "version": "daily_event_score_v2",
   "signals": [
     {
+      "signal_date": "2026-06-03",
+      "symbol": "TER",
+      "score_pts": 683,
+      "triage": "Watch"
+    },
+    {
       "signal_date": "2026-05-29",
       "symbol": "MSFT",
       "score_pts": 654,
