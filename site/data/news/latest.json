@@ -359,7 +359,7 @@
     {
       "symbol": "TER",
       "name": "Teradyne, Inc.",
-      "score_0_1": 0.422996,
+      "score_0_1": 0.404518,
       "headline_count_fetched": 20,
       "headline_count_relevant": 7,
       "deduped_headline_count": 7,
@@ -383,6 +383,12 @@
         "2026-06-04": 1
       },
       "headlines": [
+        {
+          "title": "Teradyne and Monolithic Power Systems Shares Plummet, What You Need To Know",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/teradyne-monolithic-power-systems-shares-232814850.html?.tsrc=rss",
+          "published_at": "2026-06-05T23:28:14+00:00",
+          "source": "Yahoo Finance RSS"
+        },
         {
           "title": "Zacks Industry Outlook Highlights Kla,Teradyne and Flex",
           "link": "https://finance.yahoo.com/markets/stocks/articles/zacks-industry-outlook-highlights-kla-091200293.html?.tsrc=rss",
@@ -417,12 +423,6 @@
           "title": "Teradyne (TER) Up 22.7% Since Last Earnings Report: Can It Continue?",
           "link": "https://finance.yahoo.com/markets/stocks/articles/teradyne-ter-22-7-since-153018887.html?.tsrc=rss",
           "published_at": "2026-05-28T15:30:18+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "If You Invested $1000 in Teradyne a Decade Ago, This is How Much It'd Be Worth Now",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/invested-1000-teradyne-decade-ago-123004397.html?.tsrc=rss",
-          "published_at": "2026-05-28T12:30:04+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -673,7 +673,7 @@
     {
       "symbol": "VSAT",
       "name": "Viasat, Inc.",
-      "score_0_1": 0.367562,
+      "score_0_1": 0.349083,
       "headline_count_fetched": 20,
       "headline_count_relevant": 16,
       "deduped_headline_count": 16,
@@ -823,6 +823,12 @@
       },
       "headlines": [
         {
+          "title": "Innodata’s Big Tech Win And New AI Platform Fuel Valuation Debate",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/innodata-big-tech-win-ai-231132619.html?.tsrc=rss",
+          "published_at": "2026-06-05T23:11:32+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
           "title": "INOD Stock Eyes Second Week Of Gains: Wedbush Says Innodata’s AI Growth Story Is Still Early",
           "link": "https://stocktwits.com/news-articles/markets/equity/inod-stock-eyes-second-week-gains-wedbush-innodata-ai-growth-story/cZ0F98iRezp?.tsrc=rss",
           "published_at": "2026-06-05T06:27:33+00:00",
@@ -898,12 +904,6 @@
           "title": "The Path to 10x (Part II): Innodata’s Core Engines",
           "link": "https://www.trefis.com/articles/599794/the-path-to-10x-part-ii-innodatas-core-engines/2026-05-20?.tsrc=rss",
           "published_at": "2026-05-20T18:21:24+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "A Look At Innodata (INOD) Valuation After Raised AI Growth Guidance And New Big Tech Contracts",
-          "link": "https://finance.yahoo.com/markets/stocks/articles/look-innodata-inod-valuation-raised-151856211.html?.tsrc=rss",
-          "published_at": "2026-05-20T15:18:56+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -1150,6 +1150,12 @@
       },
       "headlines": [
         {
+          "title": "Why AeroVironment (AVAV) Dipped More Than Broader Market Today",
+          "link": "https://finance.yahoo.com/markets/stocks/articles/why-aerovironment-avav-dipped-more-221501104.html?.tsrc=rss",
+          "published_at": "2026-06-05T22:15:01+00:00",
+          "source": "Yahoo Finance RSS"
+        },
+        {
           "title": "A Look At AeroVironment (AVAV) Valuation After Major New US Government Contracts And Expansion Plans",
           "link": "https://finance.yahoo.com/markets/stocks/articles/look-aerovironment-avav-valuation-major-160641033.html?.tsrc=rss",
           "published_at": "2026-06-01T16:06:41+00:00",
@@ -1171,12 +1177,6 @@
           "title": "AeroVironment (AVAV) Moves 18.3% Higher: Will This Strength Last?",
           "link": "https://finance.yahoo.com/markets/stocks/articles/aerovironment-avav-moves-18-3-105900704.html?.tsrc=rss",
           "published_at": "2026-05-29T10:59:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Why AeroVironment Stock Was Soaring This Week",
-          "link": "https://www.fool.com/investing/2026/05/29/why-aerovironment-stock-was-soaring-this-week/?.tsrc=rss",
-          "published_at": "2026-05-29T07:31:16+00:00",
           "source": "Yahoo Finance RSS"
         }
       ]
@@ -1600,36 +1600,30 @@
     {
       "symbol": "TEM",
       "name": "Tempus AI, Inc.",
-      "score_0_1": 0.349083,
+      "score_0_1": 0.441475,
       "headline_count_fetched": 20,
-      "headline_count_relevant": 20,
-      "deduped_headline_count": 20,
+      "headline_count_relevant": 9,
+      "deduped_headline_count": 9,
       "today_count": 1,
-      "prev1_count": 1,
+      "prev1_count": 0,
       "prev3_daily_counts": [
-        3,
+        2,
         1,
-        1
+        0
       ],
-      "avg_prev_3d_excl_today": 1.6667,
-      "baseline_prev1_used": 1.0,
-      "baseline_prev3_used": 1.6667,
-      "ratio_vs_prev1": 1.0,
-      "ratio_vs_prev3avg": 0.599988,
-      "raw_news_strength": 0.63735942,
+      "avg_prev_3d_excl_today": 1.0,
+      "baseline_prev1_used": 0.5,
+      "baseline_prev3_used": 1.0,
+      "ratio_vs_prev1": 2.0,
+      "ratio_vs_prev3avg": 1.0,
+      "raw_news_strength": 0.7742402,
       "day_counts": {
-        "2026-06-01": 3,
+        "2026-06-01": 2,
         "2026-06-02": 1,
-        "2026-06-03": 1,
+        "2026-06-03": 0,
         "2026-06-04": 1
       },
       "headlines": [
-        {
-          "title": "Tempus to Present at the Goldman Sachs 47th Annual Global Healthcare Conference",
-          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-present-goldman-sachs-47th-200100296.html?.tsrc=rss",
-          "published_at": "2026-06-05T20:01:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
         {
           "title": "Assessing Tempus AI (TEM) Valuation After Recent Share Price Rebound And Underpriced Growth Narrative",
           "link": "https://finance.yahoo.com/markets/stocks/articles/assessing-tempus-ai-tem-valuation-151507820.html?.tsrc=rss",
@@ -1649,21 +1643,9 @@
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "Tempus Launches Open-Source Digital Pathology Consortium, Names Yale New Haven Health and Leading Cancer Center as Founding Members",
-          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-launches-open-source-digital-123000510.html?.tsrc=rss",
-          "published_at": "2026-06-03T12:30:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
           "title": "H.C. Wainwright Maintains Buy Rating on Tempus AI (TEM) Following Strong Revenue Growth",
           "link": "https://finance.yahoo.com/sectors/technology/articles/h-c-wainwright-maintains-buy-093804409.html?.tsrc=rss",
           "published_at": "2026-06-02T09:38:04+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Tempus Announces the Upcoming Clinical Availability of Its First Whole-Genome Sequencing Assay, xH",
-          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-announces-upcoming-clinical-availability-123000413.html?.tsrc=rss",
-          "published_at": "2026-06-01T12:30:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -1679,63 +1661,15 @@
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "Tempus Unveils the Next-Generation of Lens, Expanding its Agentic AI Platform for Oncology Drug Development",
-          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-unveils-next-generation-lens-123000604.html?.tsrc=rss",
-          "published_at": "2026-05-31T12:30:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Tempus Launches the PRECISION Challenge, a National Program Opening Its Foundation Model Work to the Broader Research Community",
-          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-launches-precision-challenge-national-123000179.html?.tsrc=rss",
-          "published_at": "2026-05-30T12:30:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Tempus Introduces ‘Preview’: Bridging the Critical Time Gap Between Diagnostic Order and Definitive Results",
-          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-introduces-preview-bridging-critical-120000426.html?.tsrc=rss",
-          "published_at": "2026-05-30T12:00:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
           "title": "How The Tempus AI (TEM) Investment Story Is Shifting As Analysts Rework Their Models",
           "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-ai-tem-investment-story-050243283.html?.tsrc=rss",
           "published_at": "2026-05-30T05:02:43+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
-          "title": "Tempus Announces Initial Results from its Multimodal Foundation Model Efforts for Novel and Scalable Insight Generation in Oncology",
-          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-announces-initial-results-multimodal-131500667.html?.tsrc=rss",
-          "published_at": "2026-05-29T13:15:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Tempus Receives FDA Approval for Tumor Only xT CDx, Enabling Migration of its Entire DNA Solid Tumor Portfolio",
-          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-receives-fda-approval-tumor-121500083.html?.tsrc=rss",
-          "published_at": "2026-05-29T12:15:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Tempus Expands Next Platform to Deliver Real-Time Clinical Intelligence and Close Critical Care Gaps Across Oncology",
-          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-expands-next-platform-deliver-123000851.html?.tsrc=rss",
-          "published_at": "2026-05-28T12:30:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Tempus Upgrades Its Smart Physician Platform, Hub, with Next-Generation Agentic AI Architecture to Streamline Clinical Workflows",
-          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-upgrades-smart-physician-platform-123300973.html?.tsrc=rss",
-          "published_at": "2026-05-27T12:33:00+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
           "title": "Tempus AI Expands Precision Oncology With New Prostate Test And ASCO Data",
           "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-ai-expands-precision-oncology-020622786.html?.tsrc=rss",
           "published_at": "2026-05-27T02:06:22+00:00",
-          "source": "Yahoo Finance RSS"
-        },
-        {
-          "title": "Tempus Announces 37 Abstracts Accepted for Presentation at the 2026 American Society of Clinical Oncology Annual Meeting",
-          "link": "https://finance.yahoo.com/sectors/healthcare/articles/tempus-announces-37-abstracts-accepted-123000550.html?.tsrc=rss",
-          "published_at": "2026-05-26T12:30:00+00:00",
           "source": "Yahoo Finance RSS"
         },
         {
@@ -2081,7 +2015,7 @@
     {
       "symbol": "OUST",
       "name": "Ouster Inc.",
-      "score_0_1": 0.38604,
+      "score_0_1": 0.367562,
       "headline_count_fetched": 20,
       "headline_count_relevant": 15,
       "deduped_headline_count": 15,
@@ -2800,7 +2734,7 @@
     {
       "symbol": "OXY",
       "name": "Occidental Petroleum Corporation",
-      "score_0_1": 0.404518,
+      "score_0_1": 0.38604,
       "headline_count_fetched": 20,
       "headline_count_relevant": 10,
       "deduped_headline_count": 10,

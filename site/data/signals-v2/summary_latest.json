@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-06-04 23:50:35Z",
+  "generated_at": "2026-06-05 23:51:14Z",
   "total_signals": 122,
   "entered_signals": 122,
   "pending_entries": 0,
-  "avg_return_1d": 0.85,
+  "avg_return_1d": 0.76,
   "avg_return_3d": 1.35,
-  "avg_return_5d": 1.5,
-  "avg_return_10d": 3.58,
-  "avg_return_20d": 7.57,
-  "avg_spy_alpha_5d": -0.26,
-  "avg_qqq_alpha_5d": -1.66,
+  "avg_return_5d": 1.11,
+  "avg_return_10d": 3.38,
+  "avg_return_20d": 7.86,
+  "avg_spy_alpha_5d": -0.37,
+  "avg_qqq_alpha_5d": -1.53,
   "follow_through_rate": 0.5082,
-  "stop_hit_5_rate": 0.6967,
+  "stop_hit_5_rate": 0.7377,
   "avg_mfe": 17.95,
-  "avg_mae": -8.68,
-  "mfe_mae_ratio": 2.07
+  "avg_mae": -9.44,
+  "mfe_mae_ratio": 1.9
 }
